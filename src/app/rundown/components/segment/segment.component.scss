@@ -1,0 +1,32 @@
+.segment {
+  width: 100%;
+  padding: 0.5em;
+  border-top: solid 1px black;
+
+  .title {
+    font-size: 1.3em;
+  }
+
+  .parts {
+    display: flex;
+  }
+
+  .on-air {
+    background: lightgray;
+    border: solid 1px red;
+    color: red;
+    padding: 3px;
+  }
+
+  .next {
+    background: lightgray;
+    border: solid 1px green;
+    color: green;
+    padding: 3px;
+  }
+}
+
+.segment-on-air {
+  border: solid 1px red;
+}
+
