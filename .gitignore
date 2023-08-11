@@ -136,3 +136,5 @@ dist
 # Miscellaneous
 /.angular/cache
 .sass-cache/
+
+.idea/
