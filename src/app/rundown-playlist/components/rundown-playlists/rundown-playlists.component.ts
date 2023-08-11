@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router'
 import {Paths} from '../../../app-routing.module'
 import {Identifier} from '../../../core/models/identifier'
 import {RundownPlaylistService} from '../../../core/services/rundown-playlist.service';
+import {BasicRundown} from "../../../core/models/BasicRundown";
 
 @Component({
   selector: 'sofie-rundown-playlists',
@@ -11,7 +12,7 @@ import {RundownPlaylistService} from '../../../core/services/rundown-playlist.se
 })
 export class RundownPlaylistsComponent implements OnInit {
 
-  public rundownIdentifiers: Identifier[]
+  public basicRundowns: BasicRundown[]
 
   constructor(
     private route: ActivatedRoute,
@@ -20,12 +21,12 @@ export class RundownPlaylistsComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.rundownPlaylistService.fetchRundownPlaylistIdentifiers().subscribe((rundownIdentifiers: Identifier[]) => {
-      this.rundownIdentifiers = rundownIdentifiers
+    this.rundownPlaylistService.fetchBasicRundowns().subscribe((rundownIdentifiers: BasicRundown[]) => {
+      this.basicRundowns = rundownIdentifiers
     })
   }
 
-  public navigateToRundown(rundownIdentifier: Identifier): void {
-    this.router.navigate([Paths.RUNDOWNS, rundownIdentifier.id])
+  public navigateToRundown(basicRundown: BasicRundown): void {
+    this.router.navigate([Paths.RUNDOWNS, basicRundown.id])
   }
 }

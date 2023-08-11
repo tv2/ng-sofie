@@ -15,18 +15,18 @@ export class AdLibPieceComponent implements OnInit, OnDestroy {
   public adLibPiece: AdLibPiece
   public shouldShowPiece: boolean = true
 
-  private interval: any
+  private updateShouldShowPieceInterval: any
 
   constructor(private changeDetector: ChangeDetectorRef) { }
 
   public ngOnInit(): void {
-    this.interval = setInterval(() => {
+    this.updateShouldShowPieceInterval = setInterval(() => {
       const shouldBeShown: boolean = this.shouldBeShown()
       if (this.shouldShowPiece === shouldBeShown) {
         return
       }
       if (this.shouldShowPiece) {
-        clearInterval(this.interval)
+        clearInterval(this.updateShouldShowPieceInterval)
       }
       this.shouldShowPiece = shouldBeShown
       this.changeDetector.detectChanges()
@@ -41,6 +41,6 @@ export class AdLibPieceComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    clearInterval(this.interval)
+    clearInterval(this.updateShouldShowPieceInterval)
   }
 }

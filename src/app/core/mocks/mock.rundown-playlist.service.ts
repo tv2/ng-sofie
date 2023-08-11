@@ -1,19 +1,23 @@
 import {RundownPlaylistServiceInterface} from '../interfaces/rundown-playlist-service-interface';
 import {Observable, of} from 'rxjs';
-import {Identifier} from '../models/identifier';
+import {BasicRundown} from "../models/BasicRundown";
 
 export class MockRundownPlaylistService implements RundownPlaylistServiceInterface {
 
-  fetchRundownPlaylistIdentifiers(): Observable<Identifier[]> {
+  fetchBasicRundowns(): Observable<BasicRundown[]> {
     return of(
       [
         {
           id: 'R-1',
-          name: 'Rundown One'
+          name: 'Rundown One',
+          isActive: true,
+          modifiedAt: 0
         },
         {
           id: 'R-2',
-          name: 'Rundown Two'
+          name: 'Rundown Two',
+          isActive: false,
+          modifiedAt: 0
         }
       ]
     )

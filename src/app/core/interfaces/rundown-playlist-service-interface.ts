@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs';
-import {Identifier} from '../models/identifier';
+import {BasicRundown} from "../models/BasicRundown";
 
 export interface RundownPlaylistServiceInterface {
-  fetchRundownPlaylistIdentifiers(): Observable<Identifier[]>
+  fetchBasicRundowns(): Observable<BasicRundown[]>
 }

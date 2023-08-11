@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  title = 'NgSofie';
+  title = 'Sofie';
 
   constructor(private router: Router) { }
 

@@ -120,14 +120,14 @@ export class RundownComponent implements OnInit, OnDestroy {
     if (!this.rundown?.id) {
       return
     }
-    this.rundownService.activate(this.rundown?.id).subscribe()
+    this.rundownService.activate(this.rundown.id).subscribe()
   }
 
   public deactivateRundown(): void {
     if (!this.rundown?.id) {
       return
     }
-    this.rundownService.deactivate(this.rundown?.id).subscribe()
+    this.rundownService.deactivate(this.rundown.id).subscribe()
   }
 
   public resetRundown(): void {
@@ -141,13 +141,13 @@ export class RundownComponent implements OnInit, OnDestroy {
     if (!this.rundown?.id) {
       return
     }
-    this.rundownService.takeNext(this.rundown?.id).subscribe()
+    this.rundownService.takeNext(this.rundown.id).subscribe()
   }
 
   public setNext(event: { segmentId: string, partId: string }): void {
     if (!this.rundown?.id) {
       return
     }
-    this.rundownService.setNext(this.rundown?.id, event.segmentId, event.partId).subscribe()
+    this.rundownService.setNext(this.rundown.id, event.segmentId, event.partId).subscribe()
   }
 }
