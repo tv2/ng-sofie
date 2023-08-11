@@ -1,3 +1,7 @@
+# System files
+.DS_Store
+Thumbs.db
+
 # Logs
 logs
 *.log
@@ -132,3 +136,5 @@ dist
 # Miscellaneous
 /.angular/cache
 .sass-cache/
+
+.idea/

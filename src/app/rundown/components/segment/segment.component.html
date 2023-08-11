@@ -1,0 +1,14 @@
+<div class="segment" [ngClass]="{'segment-on-air': segment.isOnAir}">
+  <span class="title">
+    {{segment.name}}
+  </span>
+  <span *ngIf="segment.isOnAir" class="on-air">
+    ON AIR
+  </span>
+  <span *ngIf="segment.isNext" class="next">
+    NEXT
+  </span>
+  <div class="parts">
+    <sofie-part *ngFor="let part of segment.parts" [part]="part" [isRundownActive]="isRundownActive" (partSelectedAsNextEvent)="emitSetNextEvent($event)"></sofie-part>
+  </div>
+</div>
