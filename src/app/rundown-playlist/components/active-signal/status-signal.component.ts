@@ -6,7 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./status-signal.component.scss']
 })
 
-export class StatusSignalComponent implements OnInit {
+export class StatusSignalComponent {
 
   @Input()
   animationDurationSeconds: string = '3'
@@ -15,7 +15,4 @@ export class StatusSignalComponent implements OnInit {
   public color: string = 'red'
 
   constructor() { }
-
-  ngOnInit(): void {}
-
 }
