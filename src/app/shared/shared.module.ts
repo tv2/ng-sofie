@@ -8,6 +8,7 @@ import {CommonModule} from '@angular/common';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatButtonModule,
     MatGridListModule,
     MatCardModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatListModule
   ],
   exports: [
     CommonModule,
@@ -32,4 +34,4 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000, verticalPosition: 'top'}}
   ]
 })
-export class SharedModule { }
+export class SharedModule {}

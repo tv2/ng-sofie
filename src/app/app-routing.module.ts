@@ -9,11 +9,11 @@ export enum Paths {
 const routes: Routes = [
   {
     path: Paths.HOME,
-    loadChildren: () => import('./rundown-playlist/rundown-playlist.module').then(m => m.RundownPlaylistModule)
+    loadChildren: () => import('./rundown-playlist/rundown-overview.module').then(m => m.RundownOverviewModule)
   },
   {
     path: Paths.RUNDOWNS,
-    loadChildren: () => import('./rundown-playlist/rundown-playlist.module').then(m => m.RundownPlaylistModule)
+    loadChildren: () => import('./rundown-playlist/rundown-overview.module').then(m => m.RundownOverviewModule)
   },
   {
     path: `${Paths.RUNDOWNS}/:rundownId`,

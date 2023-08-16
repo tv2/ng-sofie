@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {RundownPlaylistsComponent} from './components/rundown-playlists/rundown-playlists.component';
+import {RundownOverviewComponent} from './components/rundown-playlists/rundown-overview.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: RundownPlaylistsComponent
+    component: RundownOverviewComponent
   }
 ]
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RundownPlaylistRoutingModule {}
+export class RundownOverviewRoutingModule {}

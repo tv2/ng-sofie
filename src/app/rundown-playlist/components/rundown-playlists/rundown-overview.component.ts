@@ -1,16 +1,15 @@
 import {Component, OnInit} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
 import {Paths} from '../../../app-routing.module'
-import {Identifier} from '../../../core/models/identifier'
 import {RundownPlaylistService} from '../../../core/services/rundown-playlist.service';
 import {BasicRundown} from "../../../core/models/BasicRundown";
 
 @Component({
   selector: 'sofie-rundown-playlists',
-  templateUrl: './rundown-playlists.component.html',
-  styleUrls: ['./rundown-playlists.component.scss']
+  templateUrl: './rundown-overview.component.html',
+  styleUrls: ['./rundown-overview.component.scss']
 })
-export class RundownPlaylistsComponent implements OnInit {
+export class RundownOverviewComponent implements OnInit {
 
   public basicRundowns: BasicRundown[]
 

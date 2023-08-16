@@ -1,0 +1,57 @@
+.mat-table {
+  margin: 3em;
+  width: 95%;
+}
+
+.mat-header-cell {
+  font-size: medium;
+  color: black;
+}
+
+.mat-row {
+  background: #f6f6f6;
+
+  &:hover {
+    background: white;
+  }
+
+}
+
+.mat-column-status {
+  flex: 0 0 30px;
+  padding-right: 1em;
+}
+
+.mat-column-delete {
+  flex: 30px 0 0;
+  padding-left: 1em;
+}
+
+.c-delete-rundown-cell {
+  border-left: black;
+}
+
+.c-delete-rundown-icon {
+  cursor: pointer;
+  color: darkgrey;
+
+  &:hover {
+    text-decoration: underline;
+    color: black;
+  }
+}
+
+.c-rundown-overview-title {
+  margin: 1em;
+  font-size: 3em;
+  font-weight: lighter;
+}
+
+.c-rundown-name {
+  color: blue;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

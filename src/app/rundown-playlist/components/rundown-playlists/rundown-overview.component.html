@@ -1,0 +1,33 @@
+<h1 class="c-rundown-overview-title">Rundowns:</h1>
+<table mat-table [dataSource]="basicRundowns">
+
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let row" >
+      <sofie-status-signal *ngIf="row.isRundownActive" color="red" animationDurationSeconds="3"></sofie-status-signal>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> Rundown </mat-header-cell>
+    <mat-cell *matCellDef="let row" class="c-rundown-name" (click)="navigateToRundown(row)">
+      {{row.name}}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="modifiedAt">
+    <mat-header-cell *matHeaderCellDef> Last updated </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      {{row.modifiedAt | date: 'HH:mm – d LLL YYYY'}}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell class="c-delete-rundown-cell" *matCellDef="let row">
+      <span class="material-icons c-delete-rundown-icon">delete</span></mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="['status', 'name', 'modifiedAt', 'delete']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: ['status','name', 'modifiedAt', 'delete']"></mat-row>
+</table>
