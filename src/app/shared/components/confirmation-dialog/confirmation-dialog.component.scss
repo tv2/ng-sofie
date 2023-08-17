@@ -1,3 +1,41 @@
+::ng-deep .mat-dialog-container {
+    padding: 0px;
+}
+
 .mat-dialog-content {
     white-space: pre-line;
+}
+
+.c-close-dialog-icon {
+    cursor: pointer;
+    user-select: none;
+}
+
+.c-dialog-header {
+    background-color: #1769ff;
+    color: white;
+    padding: 8px 24px;
+}
+
+.c-dialog-body {
+    padding: 24px;
+}
+
+.mat-dialog-title {
+    margin: unset;
+}
+
+.mat-dialog-actions {
+    margin-top: 12px;
+    margin-bottom: -12px;
+}
+
+.u-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.u-row__col--fill {
+    flex: 1;
 }

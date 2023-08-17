@@ -38,7 +38,7 @@ export class RundownOverviewComponent implements OnInit {
     this.dialog.open(ConfirmationDialogComponent, {
       data: {
         title: 'Delete rundown?',
-        message: `Are you sure you want to delete the "${basicRundown.name}" rundown?\nPlease note: This action is irreversible!`,
+        message: `Are you sure you want to delete the "${basicRundown.name}" rundown?\n\nPlease note: This action is irreversible!`,
         buttonText: {
           ok: 'Delete',
           cancel: 'Cancel'
