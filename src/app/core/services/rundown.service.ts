@@ -56,4 +56,11 @@ export class RundownService implements RundownServiceInterface {
         catchError((error) => this.httpErrorService.catchError(error))
       )
   }
+
+  public delete(rundownId: string): Observable<void> {
+    return this.http.delete<void>(`${RUNDOWN_URL}/${rundownId}`)
+      .pipe(
+        catchError((error) => this.httpErrorService.catchError(error))
+      )
+  }
 }

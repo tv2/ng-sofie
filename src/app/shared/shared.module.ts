@@ -9,11 +9,14 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatListModule} from "@angular/material/list";
+import {ConfirmationDialogComponent} from './components/confirmation-dialog/confirmation-dialog.component'
+import {MatDialogModule} from '@angular/material/dialog'
 
 
 @NgModule({
   declarations: [
-    HeaderComponent
+    HeaderComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +27,8 @@ import {MatListModule} from "@angular/material/list";
     MatGridListModule,
     MatCardModule,
     MatButtonToggleModule,
-    MatListModule
+    MatListModule,
+    MatDialogModule
   ],
   exports: [
     CommonModule,

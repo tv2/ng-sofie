@@ -25,7 +25,8 @@
   <ng-container matColumnDef="delete">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell class="c-delete-rundown-cell" *matCellDef="let row">
-      <span class="material-icons c-delete-rundown-icon">delete</span></mat-cell>
+      <span class="material-icons c-delete-rundown-icon" (click)="openDeletionDialog(row)">delete</span>
+    </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="['status', 'name', 'modifiedAt', 'delete']"></mat-header-row>
