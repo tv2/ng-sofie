@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {RundownOverviewComponent} from './components/rundown-playlists/rundown-overview.component';
+import {RundownOverviewComponent} from './components/rundown-overview/rundown-overview.component';
 
 const routes: Routes = [
   {

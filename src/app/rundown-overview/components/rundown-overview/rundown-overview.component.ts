@@ -5,7 +5,7 @@ import {RundownPlaylistService} from '../../../core/services/rundown-playlist.se
 import {BasicRundown} from "../../../core/models/BasicRundown";
 
 @Component({
-  selector: 'sofie-rundown-playlists',
+  selector: 'sofie-rundown-overview',
   templateUrl: './rundown-overview.component.html',
   styleUrls: ['./rundown-overview.component.scss']
 })
