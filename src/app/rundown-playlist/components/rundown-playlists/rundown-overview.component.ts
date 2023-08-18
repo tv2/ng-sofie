@@ -4,8 +4,7 @@ import {Paths} from '../../../app-routing.module'
 import {RundownPlaylistService} from '../../../core/services/rundown-playlist.service';
 import {BasicRundown} from "../../../core/models/BasicRundown";
 import { RundownService } from '../../../core/services/rundown.service';
-import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
-import { ConfirmationDialogService } from '../../../shared/services/confirmation-dialog.service';
+import { DialogService } from '../../../shared/services/dialog.service';
 
 @Component({
   selector: 'sofie-rundown-playlists',
@@ -21,7 +20,7 @@ export class RundownOverviewComponent implements OnInit {
     private router: Router,
     private rundownPlaylistService: RundownPlaylistService,
     private rundownService: RundownService,
-    private dialog: ConfirmationDialogService
+    private dialog: DialogService
   ) { }
 
   public ngOnInit(): void {
@@ -35,19 +34,7 @@ export class RundownOverviewComponent implements OnInit {
   }
 
   public openDeletionDialog(basicRundown: BasicRundown): void {
-    this.dialog.open(ConfirmationDialogComponent, {
-      data: {
-        title: 'Delete rundown?',
-        message: `Are you sure you want to delete the "${basicRundown.name}" rundown?\n\nPlease note: This action is irreversible!`,
-        buttonText: {
-          ok: 'Delete',
-          cancel: 'Cancel'
-        }
-      },
-    }).afterClosed().subscribe(result => {
-      if (!result) return
-      this.deleteRundown(basicRundown.id)
-    });
+    this.dialog.openDeletionDialog('rundown', basicRundown.name, () => this.deleteRundown(basicRundown.id))
   }
 
   private deleteRundown(rundownId: string): void {

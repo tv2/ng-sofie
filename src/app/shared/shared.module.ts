@@ -11,6 +11,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatListModule} from "@angular/material/list";
 import {ConfirmationDialogComponent} from './components/confirmation-dialog/confirmation-dialog.component'
 import {MatDialogModule} from '@angular/material/dialog'
+import {DialogService} from './services/dialog.service'
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {MatDialogModule} from '@angular/material/dialog'
     HeaderComponent
   ],
   providers: [
-    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000, verticalPosition: 'top'}}
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000, verticalPosition: 'top'}},
+    DialogService
   ]
 })
 export class SharedModule {}

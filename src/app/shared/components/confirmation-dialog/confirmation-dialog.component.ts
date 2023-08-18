@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { StronglyTypedDialog } from '../../services/confirmation-dialog.service';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { StronglyTypedDialog } from '../../services/dialog.service';
 
 export interface ConfirmationDialogData {
   title?: string
