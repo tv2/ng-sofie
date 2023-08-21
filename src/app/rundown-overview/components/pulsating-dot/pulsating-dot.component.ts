@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {PulsatingDotColor} from "../../../shared/enums/pulsating-dot-color";
 
 @Component({
-  selector: 'sofie-status-signal',
+  selector: 'sofie-pulsating-dot',
   templateUrl: './pulsating-dot.component.html',
   styleUrls: ['./pulsating-dot.component.scss']
 })
@@ -9,10 +10,10 @@ import {Component, Input, OnInit} from '@angular/core';
 export class PulsatingDotComponent {
 
   @Input()
-  public animationDurationSeconds: string = '3'
+  public animationDurationSeconds: number = 3
 
   @Input()
-  public color: string = 'red'
+  public color: PulsatingDotColor = PulsatingDotColor.RED
 
   constructor() { }
 }

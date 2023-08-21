@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router'
 import {Paths} from '../../../app-routing.module'
 import {RundownPlaylistService} from '../../../core/services/rundown-playlist.service';
 import {BasicRundown} from "../../../core/models/BasicRundown";
+import {PulsatingDotColor} from "../../../shared/enums/pulsating-dot-color";
 
 @Component({
   selector: 'sofie-rundown-overview',
@@ -28,4 +29,6 @@ export class RundownOverviewComponent implements OnInit {
   public navigateToRundown(basicRundown: BasicRundown): void {
     this.router.navigate([Paths.RUNDOWNS, basicRundown.id])
   }
+
+  protected readonly PulsatingDotColor = PulsatingDotColor;
 }
