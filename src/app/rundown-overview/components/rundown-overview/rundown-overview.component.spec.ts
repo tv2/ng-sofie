@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RundownPlaylistsComponent } from './rundown-playlists.component';
+import { RundownOverviewComponent } from './rundown-overview.component';
 
 describe('RundownOverviewComponent', () => {
-  let component: RundownPlaylistsComponent;
-  let fixture: ComponentFixture<RundownPlaylistsComponent>;
+  let component: RundownOverviewComponent;
+  let fixture: ComponentFixture<RundownOverviewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RundownPlaylistsComponent ]
+      declarations: [ RundownOverviewComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RundownPlaylistsComponent);
+    fixture = TestBed.createComponent(RundownOverviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
