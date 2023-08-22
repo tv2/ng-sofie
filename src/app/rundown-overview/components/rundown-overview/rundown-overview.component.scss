@@ -34,6 +34,7 @@
 .c-delete-rundown-icon {
   cursor: pointer;
   color: darkgrey;
+  user-select: none;
 
   &:hover {
     text-decoration: underline;

@@ -1,0 +1,48 @@
+@use '@angular/material' as mat;
+
+$sofie-blue: (
+    50 : #e3edff,
+    100 : #b9d2ff,
+    200 : #8bb4ff,
+    300 : #5d96ff,
+    400 : #3a80ff,
+    500 : #1769ff,
+    600 : #1461ff,
+    700 : #1156ff,
+    800 : #0d4cff,
+    900 : #073bff,
+    A100 : #ffffff,
+    A200 : #f4f6ff,
+    A400 : #c1cbff,
+    A700 : #a7b6ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+@include mat.core();
+
+$sofie-primary: mat.define-palette($sofie-blue, 500);
+$sofie-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+$sofie-theme: mat.define-light-theme((
+  color: (
+    primary: $sofie-primary,
+    accent: $sofie-accent,
+  ),
+  density: 0,
+));
+@include mat.button-theme($sofie-theme);
