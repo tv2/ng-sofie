@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http'
 import { RundownPlaylistService } from './services/rundown-playlist.service'
 import { RundownService } from './services/rundown.service'
 import { AdLibPieceService } from './services/ad-lib-piece.service'
+import { RundownStateService } from './services/rundown-state.service'
 
 @NgModule({
   declarations: [],
@@ -21,6 +22,7 @@ import { AdLibPieceService } from './services/ad-lib-piece.service'
     RundownPlaylistService,
     RundownService,
     AdLibPieceService,
+    RundownStateService,
   ]
 })
 export class CoreModule extends EnsureLoadedOnceGuard {

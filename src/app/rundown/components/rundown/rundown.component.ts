@@ -1,60 +1,43 @@
-import {Component, Inject, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 import {RundownService} from '../../../core/services/rundown.service'
 import {AdLibPieceService} from '../../../core/services/ad-lib-piece.service'
 import {Rundown} from '../../../core/models/rundown';
 import {Identifier} from '../../../core/models/identifier';
-import {RundownEventService} from '../../../core/services/rundown-event.service';
 import { RundownStateService } from '../../../core/services/rundown-state.service';
 
 @Component({
   selector: 'sofie-rundown',
   templateUrl: './rundown.component.html',
   styleUrls: ['./rundown.component.scss'],
-  providers: [
-    // {
-    //   provide: RundownStateService,
-    //   useFactory: (rundownService: RundownService, rundownEventService: RundownEventService, route: ActivatedRoute) => {
-    //     const rundownId = route.snapshot.paramMap.get('rundownId');
-    //     if (!rundownId) {
-    //       return
-    //     }
-    //     return new RundownStateService(rundownService, rundownEventService, rundownId);
-    //   },
-    //   deps: [RundownService, RundownEventService, ActivatedRoute],
-    // },
-    {
-      provide: 'rundownId',
-      useFactory: (route: ActivatedRoute) => {
-        console.log(route);
-        return route.snapshot.paramMap.get('rundownId')
-      },
-      deps: [ActivatedRoute]
-    },
-    RundownStateService,
-  ],
 })
-export class RundownComponent implements OnInit {
+export class RundownComponent implements OnInit, OnDestroy {
 
   public rundown?: Rundown
   public adLibPieceIdentifiers: Identifier[] = []
+  private unsubscribeFromRundown: () => void
 
   constructor(
+    private route: ActivatedRoute,
     private rundownService: RundownService,
     private adLibPieceService: AdLibPieceService,
-    private rundownStateService: RundownStateService,
-    @Inject('rundownId') private rundownId: string
+    private rundownStateService: RundownStateService
   ) { }
 
   public ngOnInit(): void {
-    if (!this.rundownId) {
+    const rundownId: string | null = this.route.snapshot.paramMap.get('rundownId')
+    if (!rundownId) {
       console.log('No rundownId found. Can\'t fetch Rundown')
       return
     }
-    this.fetchAdLibPieceIdentifiers(this.rundownId)
-    this.rundownStateService.rundown$.subscribe((rundown) => {
+    this.fetchAdLibPieceIdentifiers(rundownId)
+    this.unsubscribeFromRundown = this.rundownStateService.subscribeToRundown(rundownId, (rundown) => {
       this.rundown = rundown;
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.unsubscribeFromRundown()
   }
 
   private fetchAdLibPieceIdentifiers(rundownId: string): void {
