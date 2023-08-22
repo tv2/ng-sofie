@@ -1,10 +1,10 @@
-<h1 class="c-rundown-overview-title">Rundowns:</h1>
+<h1 class="c-rundown-overview-title">Rundowns</h1>
 <table mat-table [dataSource]="basicRundowns">
 
   <ng-container matColumnDef="status">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let row" >
-      <sofie-status-signal *ngIf="row.isRundownActive" color="red" animationDurationSeconds="3"></sofie-status-signal>
+      <sofie-pulsating-dot *ngIf="row.isRundownActive" [color]="Color.RED" [animationDurationSeconds]="3"></sofie-pulsating-dot>
     </mat-cell>
   </ng-container>
 

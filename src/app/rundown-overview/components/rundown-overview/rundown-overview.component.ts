@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core'
-import {Router} from '@angular/router'
-import {Paths} from '../../../app-routing.module'
-import {RundownPlaylistService} from '../../../core/services/rundown-playlist.service';
-import {BasicRundown} from "../../../core/models/BasicRundown";
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { Paths } from '../../../app-routing.module'
+import { RundownPlaylistService } from '../../../core/services/rundown-playlist.service';
+import { BasicRundown } from "../../../core/models/BasicRundown";
 import { RundownService } from '../../../core/services/rundown.service';
-import { DialogService } from '../../../shared/services/dialog.service';
 import { Rundown } from '../../../core/models/rundown';
+import { DialogService } from '../../../shared/services/dialog.service';
+import { Color } from "../../../shared/enums/color";
 
 @Component({
-  selector: 'sofie-rundown-playlists',
+  selector: 'sofie-rundown-overview',
   templateUrl: './rundown-overview.component.html',
   styleUrls: ['./rundown-overview.component.scss']
 })
@@ -40,4 +41,6 @@ export class RundownOverviewComponent implements OnInit {
   private deleteRundown(rundownId: string): void {
     this.rundownService.delete(rundownId).subscribe()
   }
+
+  protected readonly Color = Color;
 }

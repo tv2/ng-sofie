@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StatusSignalComponent } from './status-signal.component';
+import { PulsatingDotComponent } from './pulsating-dot.component';
 
 describe('ActiveSignalComponent', () => {
-  let component: StatusSignalComponent;
-  let fixture: ComponentFixture<StatusSignalComponent>;
+  let component: PulsatingDotComponent;
+  let fixture: ComponentFixture<PulsatingDotComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StatusSignalComponent ]
+      declarations: [ PulsatingDotComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(StatusSignalComponent);
+    fixture = TestBed.createComponent(PulsatingDotComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -18,6 +18,9 @@ import {RundownRoutesModule} from './rundown-routes.module';
     AdLibPieceComponent,
     AdLibPieceIdentifierComponent
   ],
+  exports: [
+    SegmentComponent
+  ],
   imports: [
     RundownRoutesModule,
     SharedModule
