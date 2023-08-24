@@ -7,6 +7,10 @@ import { HttpClientModule } from '@angular/common/http'
 import { RundownPlaylistService } from './services/rundown-playlist.service'
 import { RundownService } from './services/rundown.service'
 import { AdLibPieceService } from './services/ad-lib-piece.service'
+import { ConnectionStatusObserver } from './services/events/connection-status-observer.service'
+import { EventObserver } from './services/events/event-observer.service'
+import { WebSocketEventObserver } from './services/events/websocket-event-observer'
+import { RundownEventObserver } from './services/events/rundown-event-observer.service'
 
 @NgModule({
   declarations: [],
@@ -21,6 +25,9 @@ import { AdLibPieceService } from './services/ad-lib-piece.service'
     RundownPlaylistService,
     RundownService,
     AdLibPieceService,
+    { provide: EventObserver, useClass: WebSocketEventObserver },
+    ConnectionStatusObserver,
+    RundownEventObserver,
   ]
 })
 export class CoreModule extends EnsureLoadedOnceGuard {
