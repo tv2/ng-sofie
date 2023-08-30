@@ -11,6 +11,7 @@ import { ConnectionStatusObserver } from './services/events/connection-status-ob
 import { EventObserver } from './services/events/event-observer.service'
 import { WebSocketEventObserver } from './services/events/websocket-event-observer'
 import { RundownEventObserver } from './services/events/rundown-event-observer.service'
+import { RundownStateService } from './services/rundown-state.service'
 
 @NgModule({
   declarations: [],
@@ -28,6 +29,7 @@ import { RundownEventObserver } from './services/events/rundown-event-observer.s
     { provide: EventObserver, useClass: WebSocketEventObserver },
     ConnectionStatusObserver,
     RundownEventObserver,
+    RundownStateService,
   ]
 })
 export class CoreModule extends EnsureLoadedOnceGuard {
