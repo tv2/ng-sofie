@@ -1,16 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-
 import { DialogService } from './dialog.service';
+import { instance, mock } from '@typestrong/ts-mockito'
+import { MatDialog } from '@angular/material/dialog'
 
-describe('ConfirmationDialogService', () => {
-  let service: DialogService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(DialogService);
-  });
-
+describe('DialogService', () => {
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    const mockedMatDialog = mock<MatDialog>()
+    expect(new DialogService(instance(mockedMatDialog))).toBeTruthy();
   });
 });

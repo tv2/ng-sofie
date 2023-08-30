@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RundownOverviewComponent } from './rundown-overview.component';
+import { RouterModule } from '@angular/router'
 
 describe('RundownOverviewComponent', () => {
   let component: RundownOverviewComponent;
@@ -8,6 +9,7 @@ describe('RundownOverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RouterModule],
       declarations: [ RundownOverviewComponent ]
     })
     .compileComponents();

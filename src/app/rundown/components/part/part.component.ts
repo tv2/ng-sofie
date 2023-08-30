@@ -32,9 +32,9 @@ export class PartComponent {
   public part: Part
 
   @Output()
-  partSelectedAsNextEvent: EventEmitter<string> = new EventEmitter()
+  public readonly partSelectedAsNextEvent: EventEmitter<string> = new EventEmitter()
 
-  constructor() { }
+  public constructor() { return }
 
   public setPartAsNext(): void {
     this.partSelectedAsNextEvent.emit(this.part.id)

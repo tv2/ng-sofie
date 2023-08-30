@@ -1,16 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-
 import { RundownService } from './rundown.service';
+import { HttpErrorService } from './http-error.service'
+import { instance, mock } from '@typestrong/ts-mockito'
+import { HttpClient } from '@angular/common/http'
 
 describe('RundownService', () => {
-  let service: RundownService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(RundownService);
-  });
-
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    const mockedHttpClient = mock<HttpClient>()
+    const mockedHttpErrorService = mock<HttpErrorService>()
+    expect(new RundownService(instance(mockedHttpClient), instance(mockedHttpErrorService))).toBeTruthy();
   });
 });

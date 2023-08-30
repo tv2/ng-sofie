@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RundownComponent } from './rundown.component';
+import { RouterModule } from '@angular/router'
+import { RundownService } from '../../../core/services/rundown.service'
+import { RundownEventService } from '../../../core/services/rundown-event.service'
 
 describe('RundownComponent', () => {
   let component: RundownComponent;
@@ -8,7 +11,9 @@ describe('RundownComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RundownComponent ]
+      imports: [RouterModule.forRoot([])],
+      providers: [RundownService, RundownEventService],
+      declarations: [RundownComponent],
     })
     .compileComponents();
 

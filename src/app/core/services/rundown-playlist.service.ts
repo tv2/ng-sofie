@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {HttpErrorService} from './http-error.service';
 import {catchError, Observable} from 'rxjs';
-import {Identifier} from '../models/identifier';
 import {RundownPlaylistServiceInterface} from '../interfaces/rundown-playlist-service-interface';
 import {BasicRundown} from "../models/BasicRundown";
 
