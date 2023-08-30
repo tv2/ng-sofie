@@ -20,6 +20,7 @@ export class RobustWebSocket {
         if (this.socket) {
             this.socket.close()
         }
+        console.log('[info] Connecting to WebSocket...')
         const socket = new WebSocket(this.url)
         socket.addEventListener('open', this.openEventHandler.bind(this))
         socket.addEventListener('message', this.messageEventHandler.bind(this))
@@ -47,14 +48,8 @@ export class RobustWebSocket {
 
     private closeEventHandler(event: CloseEvent): void {
         console.error('[error]', 'WebSocket connection is closed.', event)
-        this.reconnectStrategy.disconnected()
-        this.reconnect()
+        this.reconnectStrategy.disconnected(this.connect.bind(this))
         this.closeConsumer?.(event)
-    }
-
-    private reconnect(): void {
-        const reconnectDelay = this.reconnectStrategy.reconnect(this.connect.bind(this))
-        console.log('[info]',`Attempting reconnecting to Websocket in ${reconnectDelay}ms.`)
     }
 
     public onMessage(consumer: MessageConsumer): void {
