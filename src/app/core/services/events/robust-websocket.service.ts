@@ -21,7 +21,7 @@ export class RobustWebSocket {
             this.socket.close()
         }
         console.log('[info] Connecting to WebSocket...')
-        const socket = new WebSocket(this.url)
+        const socket: WebSocket = new WebSocket(this.url)
         socket.addEventListener('open', this.openEventHandler.bind(this))
         socket.addEventListener('message', this.messageEventHandler.bind(this))
         socket.addEventListener('error', this.errorEventHandler.bind(this))

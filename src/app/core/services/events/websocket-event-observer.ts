@@ -23,7 +23,7 @@ export class WebSocketEventObserver implements EventObserver {
 
     private parseAndPublishEvent(message: MessageEvent): void {
         try {
-            const event = this.parseEvent(message.data)
+            const event: TypedEvent = this.parseEvent(message.data)
             this.publishEvent(event)
         } catch (error) {
             console.error('[error]', 'Failed to parse event.', error)
@@ -31,11 +31,11 @@ export class WebSocketEventObserver implements EventObserver {
     }
 
     private parseEvent(eventText: string): TypedEvent {
-        const maybeEvent = JSON.parse(eventText)
-        if (!this.isValidEvent(maybeEvent)) {
+        const event: unknown = JSON.parse(eventText)
+        if (!this.isValidEvent(event)) {
             throw new Error('Encountered a non-valid event')
         }
-        return maybeEvent
+        return event
     }
 
     private isValidEvent(maybeEvent: unknown): maybeEvent is TypedEvent {
@@ -44,7 +44,7 @@ export class WebSocketEventObserver implements EventObserver {
     }
 
     private publishEvent(event: TypedEvent): void {
-        const consumers = this.getConsumersOfSubject(event.type)
+        const consumers: EventConsumer[] = this.getConsumersOfSubject(event.type)
         consumers.map(consumer => consumer(event))
     }
 

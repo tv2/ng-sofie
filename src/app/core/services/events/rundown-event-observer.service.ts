@@ -16,8 +16,8 @@ export class RundownEventObserver {
     constructor(private readonly eventObserver: EventObserver) {}
 
     public subscribeToRundownActivation(consumer: (event: ActivationEvent) => void): Unsubscribe {
-        const unsubscribeRundownActivate = this.eventObserver.subscribe(RundownEventType.ACTIVATED, this.createRundownActivationConsumer(consumer))
-        const unsubscribeRundownDeactivate = this.eventObserver.subscribe(RundownEventType.DEACTIVATED, this.createRundownActivationConsumer(consumer))
+        const unsubscribeRundownActivate: Unsubscribe = this.eventObserver.subscribe(RundownEventType.ACTIVATED, this.createRundownActivationConsumer(consumer))
+        const unsubscribeRundownDeactivate: Unsubscribe = this.eventObserver.subscribe(RundownEventType.DEACTIVATED, this.createRundownActivationConsumer(consumer))
         return () => {
             unsubscribeRundownActivate()
             unsubscribeRundownDeactivate()
@@ -27,7 +27,7 @@ export class RundownEventObserver {
     private createRundownActivationConsumer(consumer: (event: ActivationEvent) => void): EventConsumer {
         return (event: TypedEvent) => {
             try {
-                const activationEvent = this.parseActivationEvent(event)
+                const activationEvent: ActivationEvent = this.parseActivationEvent(event)
                 consumer(activationEvent)
             } catch (error) {
                 console.error('Failed to parse activation event', error, event)
@@ -36,12 +36,12 @@ export class RundownEventObserver {
     }
 
     private parseActivationEvent(event: TypedEvent): ActivationEvent {
-        const isActive = event.type === RundownEventType.ACTIVATED
         if (!('rundownId' in event)) {
             throw new Error('rundownId is missing from rundown activation event.')
         }
         return {
-            isActive,
+            isActive: event.type === RundownEventType.ACTIVATED,
+            // TODO: Add better schema validation (e.g. with zod).
             rundownId: (event as any).rundownId
         }
     }
