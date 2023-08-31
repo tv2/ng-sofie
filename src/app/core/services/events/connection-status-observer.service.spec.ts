@@ -4,7 +4,7 @@ import { anyString, anything, instance, mock, verify, when } from '@typestrong/t
 
 describe(ConnectionStatusObserver.name, () => {
     describe(ConnectionStatusObserver.prototype.subscribeToConnectionStatus.name, () => {
-        it('subscribes to CONNECTION_OPENED event', () => {
+        it('subscribes to CONNECTION_OPENED events', () => {
             const mockedEventObserver = mock<EventObserver>()
             const subject = 'CONNECTION_OPENED'
             const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
@@ -14,7 +14,7 @@ describe(ConnectionStatusObserver.name, () => {
             verify(mockedEventObserver.subscribe(subject, anything())).once()
         })
 
-        it('subscribes to CONNECTION_CLOSED event', () => {
+        it('subscribes to CONNECTION_CLOSED events', () => {
             const mockedEventObserver = mock<EventObserver>()
             const subject = 'CONNECTION_CLOSED'
             const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
@@ -24,7 +24,7 @@ describe(ConnectionStatusObserver.name, () => {
             verify(mockedEventObserver.subscribe(subject, anything())).once()
         })
 
-        it('calling return value unsubscribes from CONNECTION_OPENED event', () => {
+        it('calls the return value and unsubscribes from CONNECTION_OPENED events', () => {
             const mockedEventObserver = mock<EventObserver>()
             const subject = 'CONNECTION_OPENED'
             const mockedUnsubscribe = configureUnsubscribeMock(subject, mockedEventObserver)
@@ -36,7 +36,7 @@ describe(ConnectionStatusObserver.name, () => {
             verify(mockedUnsubscribe()).once()
         })
 
-        it('calling return value unsubscribes from CONNECTION_CLOSED event', () => {
+        it('calls the return value and unsubscribes from CONNECTION_CLOSED events', () => {
             const mockedEventObserver = mock<EventObserver>()
             const subject = 'CONNECTION_CLOSED'
             const mockedUnsubscribe = configureUnsubscribeMock(subject, mockedEventObserver)

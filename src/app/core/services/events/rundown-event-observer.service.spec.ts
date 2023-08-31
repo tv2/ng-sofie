@@ -4,7 +4,7 @@ import { EventObserver } from './event-observer.service'
 
 describe(RundownEventObserver.name, () => {
     describe(RundownEventObserver.prototype.subscribeToRundownActivation.name, () => {
-        it('subscribes to ACTIVATE event', () => {
+        it('subscribes to ACTIVATE events', () => {
             const mockedEventObserver = mock<EventObserver>()
             const subject = 'ACTIVATE'
             const testee = new RundownEventObserver(instance(mockedEventObserver))
@@ -14,7 +14,7 @@ describe(RundownEventObserver.name, () => {
             verify(mockedEventObserver.subscribe(subject, anything())).once()
         })
 
-        it('subscribes to DEACTIVATE event', () => {
+        it('subscribes to DEACTIVATE events', () => {
             const mockedEventObserver = mock<EventObserver>()
             const subject = 'DEACTIVATE'
             const testee = new RundownEventObserver(instance(mockedEventObserver))
@@ -24,7 +24,7 @@ describe(RundownEventObserver.name, () => {
             verify(mockedEventObserver.subscribe(subject, anything())).once()
         })
 
-        it('calling return value unsubscribes from ACTIVATE event', () => {
+        it('calls the return value and unsubscribes from ACTIVATE events', () => {
             const mockedEventObserver = mock<EventObserver>()
             const subject = 'ACTIVATE'
             const mockedUnsubscribe = configureUnsubscribeMock(subject, mockedEventObserver)
@@ -36,7 +36,7 @@ describe(RundownEventObserver.name, () => {
             verify(mockedUnsubscribe()).once()
         })
 
-        it('calling return value unsubscribes from DEACTIVATE event', () => {
+        it('calls the return value and unsubscribes from DEACTIVATE events', () => {
             const mockedEventObserver = mock<EventObserver>()
             const subject = 'DEACTIVATE'
             const mockedUnsubscribe = configureUnsubscribeMock(subject, mockedEventObserver)
