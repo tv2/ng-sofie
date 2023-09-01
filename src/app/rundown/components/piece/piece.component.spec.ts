@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PieceComponent } from './piece.component';
+import { Piece } from '../../../core/models/piece'
+import { instance, mock } from '@typestrong/ts-mockito'
 
 describe('PieceComponent', () => {
   let component: PieceComponent;
@@ -14,10 +16,11 @@ describe('PieceComponent', () => {
 
     fixture = TestBed.createComponent(PieceComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    const mockedPiece = mock<Piece>()
+    component.piece = instance(mockedPiece)
     expect(component).toBeTruthy();
   });
 });
