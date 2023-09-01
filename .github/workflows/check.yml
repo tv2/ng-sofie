@@ -6,7 +6,7 @@ jobs:
 
   test:
     runs-on: 'ubuntu-latest'
-    name: 'Checking'
+    name: 'Checking code and dependencies'
     steps:
       - uses: 'actions/checkout@v3'
 
