@@ -1,18 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-
 import { HttpErrorService } from './http-error.service';
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { instance, mock } from '@typestrong/ts-mockito'
 
 describe('HttpErrorService', () => {
-  let service: HttpErrorService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [HttpErrorService]
-    });
-    service = TestBed.inject(HttpErrorService);
-  });
-
   it('should be created', () => {
+    const mockedMatSnackBar = mock<MatSnackBar>()
+    const service = new HttpErrorService(instance(mockedMatSnackBar))
     expect(service).toBeTruthy();
   });
 });
