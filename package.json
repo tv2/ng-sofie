@@ -4,9 +4,12 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:ci": "ng test --browsers=ChromeHeadless --watch=false",
+    "lint": "echo \"No linting yet\"",
+    "validate": "yarn audit --level moderate --groups dependencies"
   },
   "private": true,
   "dependencies": {
