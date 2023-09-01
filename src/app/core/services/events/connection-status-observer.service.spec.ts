@@ -2,11 +2,16 @@ import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { EventObserver } from './event-observer.service'
 import { anyString, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
 
+enum ConnectionStatusEventType {
+    OPENED = 'CONNECTION_OPENED',
+    CLOSED = 'CONNECTION_CLOSED',
+}
+
 describe(ConnectionStatusObserver.name, () => {
     describe(ConnectionStatusObserver.prototype.subscribeToConnectionStatus.name, () => {
-        it('subscribes to CONNECTION_OPENED events', () => {
+        it('subscribes to connection opened events', () => {
             const mockedEventObserver = mock<EventObserver>()
-            const subject = 'CONNECTION_OPENED'
+            const subject = ConnectionStatusEventType.OPENED
             const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
 
             testee.subscribeToConnectionStatus(() => { return })
@@ -14,9 +19,9 @@ describe(ConnectionStatusObserver.name, () => {
             verify(mockedEventObserver.subscribe(subject, anything())).once()
         })
 
-        it('subscribes to CONNECTION_CLOSED events', () => {
+        it('subscribes to connection closed events', () => {
             const mockedEventObserver = mock<EventObserver>()
-            const subject = 'CONNECTION_CLOSED'
+            const subject = ConnectionStatusEventType.CLOSED
             const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
 
             testee.subscribeToConnectionStatus(() => { return })
@@ -24,9 +29,9 @@ describe(ConnectionStatusObserver.name, () => {
             verify(mockedEventObserver.subscribe(subject, anything())).once()
         })
 
-        it('calls the return value and unsubscribes from CONNECTION_OPENED events', () => {
+        it('calls the return value and unsubscribes from connection opened events', () => {
             const mockedEventObserver = mock<EventObserver>()
-            const subject = 'CONNECTION_OPENED'
+            const subject = ConnectionStatusEventType.OPENED
             const mockedUnsubscribe = configureUnsubscribeMock(subject, mockedEventObserver)
             const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
 
@@ -36,9 +41,9 @@ describe(ConnectionStatusObserver.name, () => {
             verify(mockedUnsubscribe()).once()
         })
 
-        it('calls the return value and unsubscribes from CONNECTION_CLOSED events', () => {
+        it('calls the return value and unsubscribes from connection closed events', () => {
             const mockedEventObserver = mock<EventObserver>()
-            const subject = 'CONNECTION_CLOSED'
+            const subject = ConnectionStatusEventType.CLOSED
             const mockedUnsubscribe = configureUnsubscribeMock(subject, mockedEventObserver)
             const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
 

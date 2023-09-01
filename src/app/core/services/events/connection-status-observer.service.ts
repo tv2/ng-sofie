@@ -1,7 +1,7 @@
 import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from './event-observer.service'
 import { Injectable } from '@angular/core'
 
-enum ConnectionEvent {
+enum ConnectionEventType {
     OPENED = 'CONNECTION_OPENED',
     CLOSED = 'CONNECTION_CLOSED',
 }
@@ -11,8 +11,8 @@ export class ConnectionStatusObserver {
     constructor(private readonly eventObserver: EventObserver) {}
 
     public subscribeToConnectionStatus(consumer: (isConnected: boolean) => void): Unsubscribe {
-        const unsubscribeConnectionOpened = this.eventObserver.subscribe(ConnectionEvent.OPENED, this.createConnectionStatusConsumer(consumer))
-        const unsubscribeConnectionClosed = this.eventObserver.subscribe(ConnectionEvent.CLOSED, this.createConnectionStatusConsumer(consumer))
+        const unsubscribeConnectionOpened = this.eventObserver.subscribe(ConnectionEventType.OPENED, this.createConnectionStatusConsumer(consumer))
+        const unsubscribeConnectionClosed = this.eventObserver.subscribe(ConnectionEventType.CLOSED, this.createConnectionStatusConsumer(consumer))
         return () => {
             unsubscribeConnectionOpened()
             unsubscribeConnectionClosed()
@@ -21,7 +21,7 @@ export class ConnectionStatusObserver {
 
     private createConnectionStatusConsumer(consumer: (isConnected: boolean) => void): EventConsumer {
         return (event: TypedEvent) => {
-            const isConnected = event.type === ConnectionEvent.OPENED
+            const isConnected = event.type === ConnectionEventType.OPENED
             consumer(isConnected)
         }
     }
