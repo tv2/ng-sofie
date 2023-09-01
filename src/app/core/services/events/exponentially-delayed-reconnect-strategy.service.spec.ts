@@ -1,5 +1,6 @@
 import { ExponentiallyDelayedReconnectStrategy } from './exponentially-delayed-reconnect-strategy.service'
 import { ReconnectStrategy } from './reconnect-strategy.service'
+import { instance, mock, verify, when } from '@typestrong/ts-mockito'
 
 describe(ExponentiallyDelayedReconnectStrategy.name, () => {
     beforeEach(() => jasmine.clock().install())
@@ -136,4 +137,26 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
             expect(connectTries).toBe(2)
         })
     })
+
+    describe('overlapping reconnect attempts', () => {
+        it('only triggers first attempt', () => {
+            const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+            const mockedFirstConnectObject = createObservableConnectObject()
+            const mockedSecondConnectObject = createObservableConnectObject()
+
+            testee.disconnected(instance(mockedFirstConnectObject).connect)
+            jasmine.clock().tick(500)
+            testee.disconnected(instance(mockedSecondConnectObject).connect)
+            jasmine.clock().tick(4000)
+
+            verify(mockedFirstConnectObject.connect()).once()
+            verify(mockedSecondConnectObject.connect()).never()
+        })
+    })
 })
+
+function createObservableConnectObject(): { connect: () => void } {
+    const observableFunctionObject = mock<{ connect: () => void }>()
+    when(observableFunctionObject.connect()).thenReturn(undefined)
+    return observableFunctionObject
+}
