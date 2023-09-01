@@ -1,0 +1,26 @@
+name: 'Check'
+run-name: 'Test, build, lint and validate'
+on:
+  pull_request:
+jobs:
+
+  test:
+    runs-on: 'ubuntu-latest'
+    name: 'Checking'
+    steps:
+      - uses: 'actions/checkout@v3'
+
+      - name: 'Install dependencies'
+        run: 'yarn install'
+
+      - name: 'Build'
+        run: 'yarn build'
+
+      - name: 'Test'
+        run: 'yarn test:ci'
+
+      - name: 'Lint'
+        run: 'yarn lint'
+
+      - name: 'Validate dependencies'
+        run: 'yarn validate'
