@@ -1,20 +1,19 @@
 import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from './event-observer.service'
 import { RobustWebSocket } from './robust-websocket.service'
-import { ExponentiallyDelayedReconnectStrategy } from './exponentially-delayed-reconnect-strategy.service'
 import { Injectable } from '@angular/core'
+import { RobustWebSocketFactory } from './robust-websocket.factory'
 
 @Injectable()
 export class WebSocketEventObserver implements EventObserver {
     private readonly subscriptions: Record<string, Set<EventConsumer>> = {}
     private readonly socket: RobustWebSocket
-    private readonly socketUrl = 'ws://localhost:3006'
 
-    constructor() {
+    constructor(private readonly robustWebSocketFactory: RobustWebSocketFactory) {
         this.socket = this.getSocket()
     }
 
     private getSocket(): RobustWebSocket {
-        const socket = new RobustWebSocket(this.socketUrl, new ExponentiallyDelayedReconnectStrategy())
+        const socket = this.robustWebSocketFactory.createRobustWebSocket()
         socket.onMessage(this.parseAndPublishEvent.bind(this))
         socket.onOpen(this.publishOpenEvent.bind(this))
         socket.onClose(this.publishCloseEvent.bind(this))
