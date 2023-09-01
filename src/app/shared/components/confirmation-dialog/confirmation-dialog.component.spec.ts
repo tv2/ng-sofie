@@ -1,25 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfirmationDialogComponent } from './confirmation-dialog.component';
-import { MatDialogModule } from '@angular/material/dialog'
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog'
 
 describe('ConfirmationDialogComponent', () => {
-  let component: ConfirmationDialogComponent;
-  let fixture: ComponentFixture<ConfirmationDialogComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [MatDialogModule],
-      declarations: [ConfirmationDialogComponent],
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(ConfirmationDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
+  it('should create', async () => {
+    const component = await configureTestBed()
     expect(component).toBeTruthy();
   });
 });
+async function configureTestBed(): Promise<ConfirmationDialogComponent> {
+  await TestBed
+      .configureTestingModule({
+        imports: [MatDialogModule],
+        providers: [
+            { provide: MAT_DIALOG_DATA, useValue: {} },
+            { provide: MatDialogRef, useValue: {} },
+        ],
+        declarations: [ConfirmationDialogComponent]
+      })
+      .compileComponents()
+
+  const fixture: ComponentFixture<ConfirmationDialogComponent> = TestBed.createComponent(ConfirmationDialogComponent)
+  return fixture.componentInstance
+}
