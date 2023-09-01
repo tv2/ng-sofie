@@ -1,4 +1,5 @@
 import { ExponentiallyDelayedReconnectStrategy } from './exponentially-delayed-reconnect-strategy.service'
+import { ReconnectStrategy } from './reconnect-strategy.service'
 
 describe(ExponentiallyDelayedReconnectStrategy.name, () => {
     beforeEach(() => jasmine.clock().install())
@@ -7,43 +8,43 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
 
     describe('first retry attempt', () => {
         it('does not fire after 0ms', () => {
-            const reconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+            const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
             let connectTries = 0
             const connect = () => connectTries++
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
 
             expect(connectTries).toBe(0)
         })
 
         it('does not fire after 999ms', () => {
-            const reconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+            const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
             let connectTries = 0
             const connect = () => connectTries++
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(999)
 
             expect(connectTries).toBe(0)
         })
 
         it('does fire after 1000ms', () => {
-            const reconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+            const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
             let connectTries = 0
             const connect = () => connectTries++
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(1000)
 
             expect(connectTries).toBe(1)
         })
 
         it('does fire after 1023ms', () => {
-            const reconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+            const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
             let connectTries = 0
             const connect = () => connectTries++
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(1023)
 
             expect(connectTries).toBe(1)
@@ -52,38 +53,38 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
 
     describe('second retry attempt', () => {
         it('does not fire after 0ms', () => {
-            const reconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+            const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
             let connectTries = 0
             const connect = () => connectTries++
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(1000)
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
 
             expect(connectTries).toBe(1)
         })
 
         it('does not fire after 3999ms', () => {
-            const reconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+            const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
             let connectTries = 0
             const connect = () => connectTries++
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(1000)
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(3999)
 
             expect(connectTries).toBe(1)
         })
 
         it('does fire after 4000ms', () => {
-            const reconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+            const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
             let connectTries = 0
             const connect = () => connectTries++
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(1000)
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(4000)
 
             expect(connectTries).toBe(2)
@@ -92,44 +93,44 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
 
     describe('first retry attempt after connected', () => {
         it('does not fire after 0ms', () => {
-            const reconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+            const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
             let connectTries = 0
             const connect = () => connectTries++
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(2000)
-            reconnectStrategy.connected()
+            testee.connected()
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
 
             expect(connectTries).toBe(1)
         })
 
         it('does not fire after 999ms', () => {
-            const reconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+            const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
             let connectTries = 0
             const connect = () => connectTries++
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(2000)
-            reconnectStrategy.connected()
+            testee.connected()
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(999)
 
             expect(connectTries).toBe(1)
         })
 
         it('does fire after 1000ms', () => {
-            const reconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+            const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
             let connectTries = 0
             const connect = () => connectTries++
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(2000)
-            reconnectStrategy.connected()
+            testee.connected()
 
-            reconnectStrategy.disconnected(connect)
+            testee.disconnected(connect)
             jasmine.clock().tick(1000)
 
             expect(connectTries).toBe(2)
