@@ -11,12 +11,12 @@ describe('AdLibPieceIdentifierComponent', () => {
   })
 })
 
-async function configureTestBed(params: { maybeAdLibPieceServiceMock?: AdLibPieceService } = {}): Promise<AdLibPieceIdentifierComponent> {
-  const adLibPieceServiceMock = params.maybeAdLibPieceServiceMock ?? createMockOfAdLibPieceService()
+async function configureTestBed(params: { mockedAdLibPieceServiceMock?: AdLibPieceService } = {}): Promise<AdLibPieceIdentifierComponent> {
+  const mockedAdLibPieceService = params.mockedAdLibPieceServiceMock ?? createMockOfAdLibPieceService()
   await TestBed
     .configureTestingModule({
       providers: [
-        { provide: AdLibPieceService, useValue: instance(adLibPieceServiceMock) }
+        { provide: AdLibPieceService, useValue: instance(mockedAdLibPieceService) }
       ],
       declarations: [AdLibPieceIdentifierComponent]
     })
