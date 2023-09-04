@@ -1,18 +1,8 @@
-import { ComponentType } from '@angular/cdk/overlay';
-import { Directive, Inject, Injectable } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '../components/confirmation-dialog/confirmation-dialog.component';
-
-@Directive()
-export abstract class StronglyTypedDialog<DialogData, DialogResult> {
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public dialogRef: MatDialogRef<
-      StronglyTypedDialog<DialogData, DialogResult>,
-      DialogResult
-    >
-  ) {}
-}
+import { ComponentType } from '@angular/cdk/overlay'
+import { Injectable } from '@angular/core'
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
+import { ConfirmationDialogComponent } from '../components/confirmation-dialog/confirmation-dialog.component'
+import { StronglyTypedDialog } from '../directives/strongly-typed-dialog.directive'
 
 @Injectable()
 export class DialogService {
