@@ -29,7 +29,7 @@ import {DialogService} from './services/dialog.service'
     MatCardModule,
     MatButtonToggleModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   exports: [
     CommonModule,

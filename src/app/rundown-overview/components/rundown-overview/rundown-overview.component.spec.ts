@@ -1,23 +1,34 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RundownOverviewComponent } from './rundown-overview.component';
+import { RundownPlaylistService } from '../../../core/services/rundown-playlist.service'
+import { instance, mock } from '@typestrong/ts-mockito'
+import { RundownService } from '../../../core/services/rundown.service'
+import { DialogService } from '../../../shared/services/dialog.service'
+import { MockRundownPlaylistService } from '../../../core/mocks/mock.rundown-playlist.service'
 
 describe('RundownOverviewComponent', () => {
-  let component: RundownOverviewComponent;
-  let fixture: ComponentFixture<RundownOverviewComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ RundownOverviewComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(RundownOverviewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
+  it('should create', async () => {
+    const component = await configureTestBed()
     expect(component).toBeTruthy();
   });
 });
+
+async function configureTestBed(params: { mockedRundownPlaylistService?: RundownPlaylistService, mockedRundownService?: RundownService, mockedDialogService?: DialogService } = {}): Promise<RundownOverviewComponent> {
+  const mockedRundownPlaylistService = params.mockedRundownPlaylistService ?? mock<RundownPlaylistService>()
+  const mockedRundownService = params.mockedRundownService ?? mock<RundownService>()
+  const mockedDialogService = params.mockedDialogService ?? mock<DialogService>()
+  await TestBed
+      .configureTestingModule({
+        providers: [
+          { provide: RundownPlaylistService, useValue: instance(mockedRundownPlaylistService) },
+          { provide: RundownService, useValue: instance(mockedRundownService) },
+          { provide: DialogService, useValue: instance(mockedDialogService) },
+        ],
+        declarations: [RundownOverviewComponent]
+      })
+      .compileComponents()
+
+  const fixture: ComponentFixture<RundownOverviewComponent> = TestBed.createComponent(RundownOverviewComponent)
+  return fixture.componentInstance
+}

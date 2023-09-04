@@ -1,16 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-
 import { RundownEventService } from './rundown-event.service';
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { instance, mock } from '@typestrong/ts-mockito'
 
 describe('RundownEventService', () => {
-  let service: RundownEventService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(RundownEventService);
-  });
-
   it('should be created', () => {
+    const mockedSnackbar = mock(MatSnackBar)
+    const service = new RundownEventService(instance(mockedSnackbar))
     expect(service).toBeTruthy();
   });
 });

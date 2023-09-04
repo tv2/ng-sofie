@@ -1,16 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-
 import { RundownPlaylistService } from './rundown-playlist.service';
+import { HttpClient } from '@angular/common/http'
+import { HttpErrorService } from './http-error.service'
+import { instance, mock } from '@typestrong/ts-mockito'
 
 describe('RundownPlaylistService', () => {
-  let service: RundownPlaylistService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(RundownPlaylistService);
-  });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    const mockedHttpClient = mock<HttpClient>()
+    const mockedHttpErrorService = mock<HttpErrorService>()
+    expect(new RundownPlaylistService(instance(mockedHttpClient), instance(mockedHttpErrorService))).toBeTruthy();
   });
 });

@@ -1,23 +1,27 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { AdLibPieceIdentifierComponent } from './ad-lib-piece-identifier.component';
+import { instance, mock } from '@typestrong/ts-mockito'
+import { AdLibPieceService } from '../../../core/services/ad-lib-piece.service'
 
 describe('AdLibPieceIdentifierComponent', () => {
-  let component: AdLibPieceIdentifierComponent;
-  let fixture: ComponentFixture<AdLibPieceIdentifierComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AdLibPieceIdentifierComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(AdLibPieceIdentifierComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
+  it('should create', async () => {
+    const component = await configureTestBed()
     expect(component).toBeTruthy();
-  });
-});
+  })
+})
+
+async function configureTestBed(params: { mockedAdLibPieceServiceMock?: AdLibPieceService } = {}): Promise<AdLibPieceIdentifierComponent> {
+  const mockedAdLibPieceService = params.mockedAdLibPieceServiceMock ?? mock<AdLibPieceService>()
+  await TestBed
+    .configureTestingModule({
+      providers: [
+        { provide: AdLibPieceService, useValue: instance(mockedAdLibPieceService) }
+      ],
+      declarations: [AdLibPieceIdentifierComponent]
+    })
+    .compileComponents()
+
+  const fixture: ComponentFixture<AdLibPieceIdentifierComponent> = TestBed.createComponent(AdLibPieceIdentifierComponent)
+  return fixture.componentInstance
+}

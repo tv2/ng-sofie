@@ -1,16 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-
-import { RundownStateService } from './rundown-state.service';
+import { RundownStateService } from './rundown-state.service'
+import { instance, mock } from '@typestrong/ts-mockito'
+import { RundownService } from './rundown.service'
+import { RundownEventService } from './rundown-event.service'
 
 describe('RundownStateService', () => {
-  let service: RundownStateService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(RundownStateService);
-  });
-
   it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+    const mockedRundownService = mock<RundownService>()
+    const mockedRundownEventService = mock<RundownEventService>()
+    const service = new RundownStateService(instance(mockedRundownService), instance(mockedRundownEventService))
+    expect(service).toBeTruthy()
+  })
+})

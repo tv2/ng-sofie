@@ -10,12 +10,12 @@ export interface PartInterface {
 }
 
 export class Part {
-  id: string
-  segmentId: string
-  isOnAir: boolean
-  isNext: boolean
-  pieces: Piece[]
-  adLibPieces: AdLibPiece[]
+  public id: string
+  public segmentId: string
+  public isOnAir: boolean
+  public isNext: boolean
+  public pieces: Piece[]
+  public adLibPieces: AdLibPiece[]
 
   constructor(part: PartInterface) {
     this.id = part.id
