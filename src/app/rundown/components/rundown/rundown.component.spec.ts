@@ -16,7 +16,7 @@ describe('RundownComponent', () => {
 })
 
 async function configureTestBed(params: { mockedRundownService?: RundownService, mockedRundownStateService?: RundownStateService, mockedAdLibPieceService?: AdLibPieceService } = {}): Promise<RundownComponent> {
-  const mockedRundownService = params.mockedRundownService ?? createMockOfRundownService()
+  const mockedRundownService = params.mockedRundownService ?? mock<RundownService>()
   const mockedRundownStateService = params.mockedRundownStateService ?? createMockOfRundownStateService()
   const mockedAdLibPieceService = params.mockedAdLibPieceService ?? createMockOfAdLibPieceService()
   await TestBed
@@ -36,10 +36,6 @@ async function configureTestBed(params: { mockedRundownService?: RundownService,
   const component = fixture.componentInstance
   component.ngOnInit()
   return component
-}
-
-function createMockOfRundownService(): RundownService {
-  return mock<RundownService>()
 }
 
 function createMockOfRundownStateService(): RundownStateService {

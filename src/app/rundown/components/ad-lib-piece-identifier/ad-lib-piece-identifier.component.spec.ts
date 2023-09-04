@@ -12,7 +12,7 @@ describe('AdLibPieceIdentifierComponent', () => {
 })
 
 async function configureTestBed(params: { mockedAdLibPieceServiceMock?: AdLibPieceService } = {}): Promise<AdLibPieceIdentifierComponent> {
-  const mockedAdLibPieceService = params.mockedAdLibPieceServiceMock ?? createMockOfAdLibPieceService()
+  const mockedAdLibPieceService = params.mockedAdLibPieceServiceMock ?? mock<AdLibPieceService>()
   await TestBed
     .configureTestingModule({
       providers: [
@@ -24,8 +24,4 @@ async function configureTestBed(params: { mockedAdLibPieceServiceMock?: AdLibPie
 
   const fixture: ComponentFixture<AdLibPieceIdentifierComponent> = TestBed.createComponent(AdLibPieceIdentifierComponent)
   return fixture.componentInstance
-}
-
-function createMockOfAdLibPieceService(): AdLibPieceService {
-  return mock<AdLibPieceService>()
 }
