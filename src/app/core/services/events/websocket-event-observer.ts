@@ -23,6 +23,7 @@ export class WebSocketEventObserver implements EventObserver {
     private parseAndPublishEvent(message: MessageEvent): void {
         try {
             const event: TypedEvent = this.parseEvent(message.data)
+            console.log('[debug]', '[WebSocketEventObserver] Received an event:', message)
             this.publishEvent(event)
         } catch (error) {
             console.error('[error]', 'Failed to parse event.', error)
