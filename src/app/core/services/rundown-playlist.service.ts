@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {HttpErrorService} from './http-error.service';
 import {catchError, Observable} from 'rxjs';
 import {RundownPlaylistServiceInterface} from '../interfaces/rundown-playlist-service-interface';
-import {BasicRundown} from "../models/BasicRundown";
+import {BasicRundown} from "../models/basic-rundown";
 
 // TODO: Change when we get RundownPlaylists endpoint
 const RUNDOWN_URL: string = 'http://localhost:3005/api/rundowns'

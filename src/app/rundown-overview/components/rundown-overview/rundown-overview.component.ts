@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Paths } from '../../../app-routing.module'
 import { RundownPlaylistService } from '../../../core/services/rundown-playlist.service';
-import { BasicRundown } from "../../../core/models/BasicRundown";
+import { BasicRundown } from "../../../core/models/basic-rundown";
 import { RundownService } from '../../../core/services/rundown.service';
 import { Rundown } from '../../../core/models/rundown';
 import { DialogService } from '../../../shared/services/dialog.service';

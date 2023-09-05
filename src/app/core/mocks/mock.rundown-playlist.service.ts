@@ -1,6 +1,6 @@
 import {RundownPlaylistServiceInterface} from '../interfaces/rundown-playlist-service-interface';
 import {Observable, of} from 'rxjs';
-import {BasicRundown} from "../models/BasicRundown";
+import {BasicRundown} from "../models/basic-rundown";
 
 export class MockRundownPlaylistService implements RundownPlaylistServiceInterface {
 
