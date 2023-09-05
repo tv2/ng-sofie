@@ -42,7 +42,7 @@ export class Part {
     this.isNext = true
   }
 
-  public insetAdLibPiece(adLibPiece: AdLibPiece): void {
+  public insertAdLibPiece(adLibPiece: AdLibPiece): void {
     this.adLibPieces.push(adLibPiece)
   }
 }

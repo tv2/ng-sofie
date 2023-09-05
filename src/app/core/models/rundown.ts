@@ -1,5 +1,5 @@
 import { Segment, SegmentInterface } from './segment'
-import { RundownEvent } from './rundown-event'
+import { PartEvent } from './rundown-event'
 import { Piece } from './piece'
 
 export interface RundownInterface {
@@ -27,7 +27,7 @@ export class Rundown {
   }
 
 
-  public activate(activateEvent: RundownEvent): void {
+  public activate(activateEvent: { segmentId: string, partId: string }): void {
     this.isActive = true
     const segment: Segment | undefined = this.segments.find(segment => segment.id === activateEvent.segmentId)
     if (!segment) {
@@ -48,7 +48,7 @@ export class Rundown {
     this.segments.find(segment => segment.isNext)?.removeAsNextSegment()
   }
 
-  public takeNext(takeEvent: RundownEvent): void {
+  public takeNext(takeEvent: { segmentId: string, partId: string }): void {
     this.takeAllSegmentsOffAir()
     const segmentToComeOnAir: Segment | undefined = this.segments.find(segment => segment.id === takeEvent.segmentId)
     if (!segmentToComeOnAir) {
@@ -58,7 +58,7 @@ export class Rundown {
     segmentToComeOnAir.putOnAir(takeEvent)
   }
 
-  public setNext(setNextEvent: RundownEvent): void {
+  public setNext(setNextEvent: PartEvent): void {
     this.segments.find(segment => segment.isNext)?.removeAsNextSegment()
     this.segments.find(segment => segment.id === setNextEvent.segmentId)?.setAsNextSegment(setNextEvent)
   }

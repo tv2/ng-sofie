@@ -1,5 +1,5 @@
 import { Part, PartInterface } from './part'
-import { RundownEvent } from './rundown-event'
+import { PartEvent } from './rundown-event'
 
 export interface SegmentInterface {
   id: string
@@ -27,7 +27,7 @@ export class Segment {
     this.parts = segment.parts.map(part => new Part(part))
   }
 
-  public putOnAir(activateEvent: RundownEvent): void {
+  public putOnAir(activateEvent: { partId: string }): void {
     this.isOnAir = true
     const part: Part | undefined = this.parts.find(part => part.id === activateEvent.partId)
     if (!part) {
@@ -47,7 +47,7 @@ export class Segment {
     this.parts.find(part => part.isNext)?.removeAsNextPart()
   }
 
-  public setAsNextSegment(setNextEvent: RundownEvent): void {
+  public setAsNextSegment(setNextEvent: PartEvent): void {
     this.isNext = true
     this.parts.find(part => part.id === setNextEvent.partId)?.setAsNextPart()
   }
