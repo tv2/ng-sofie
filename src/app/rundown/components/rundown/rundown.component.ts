@@ -5,6 +5,7 @@ import {AdLibPieceService} from '../../../core/services/ad-lib-piece.service'
 import {Rundown} from '../../../core/models/rundown';
 import {Identifier} from '../../../core/models/identifier';
 import { RundownStateService } from '../../../core/services/rundown-state.service';
+import { SubscriptionLike } from 'rxjs'
 
 @Component({
   selector: 'sofie-rundown',
@@ -15,7 +16,7 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   public rundown?: Rundown
   public adLibPieceIdentifiers: Identifier[] = []
-  private unsubscribeFromRundown: () => void
+  private rundownSubscription?: SubscriptionLike
 
   constructor(
     private route: ActivatedRoute,
@@ -31,13 +32,13 @@ export class RundownComponent implements OnInit, OnDestroy {
       return
     }
     this.fetchAdLibPieceIdentifiers(rundownId)
-    this.unsubscribeFromRundown = this.rundownStateService.subscribeToRundown(rundownId, (rundown) => {
-      this.rundown = rundown;
-    });
+    this.rundownStateService
+        .subscribeToRundown(rundownId, (rundown) => { this.rundown = rundown })
+        .then(unsubscribeFromRundown => { this.rundownSubscription = unsubscribeFromRundown })
   }
 
   public ngOnDestroy(): void {
-    this.unsubscribeFromRundown()
+    this.rundownSubscription?.unsubscribe()
   }
 
   private fetchAdLibPieceIdentifiers(rundownId: string): void {

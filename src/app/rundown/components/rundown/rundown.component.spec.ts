@@ -6,7 +6,7 @@ import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockit
 import { ActivatedRoute, ActivatedRouteSnapshot, convertToParamMap, ParamMap, RouterModule } from '@angular/router'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { AdLibPieceService } from '../../../core/services/ad-lib-piece.service'
-import { of } from 'rxjs'
+import { of, Subscription, SubscriptionLike } from 'rxjs'
 
 describe('RundownComponent', () => {
   it('should create', async () => {
@@ -40,7 +40,8 @@ async function configureTestBed(params: { mockedRundownService?: RundownService,
 
 function createMockOfRundownStateService(): RundownStateService {
     const mockedRundownStateService = mock<RundownStateService>()
-    when(mockedRundownStateService.subscribeToRundown(anyString(), anything())).thenReturn(() => {})
+    const mockedSubscription = mock<Subscription>()
+    when(mockedRundownStateService.subscribeToRundown(anyString(), anything())).thenResolve(instance(mockedSubscription))
     return mockedRundownStateService
 }
 
