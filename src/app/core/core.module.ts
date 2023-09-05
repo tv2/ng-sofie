@@ -2,7 +2,6 @@ import { NgModule, Optional, SkipSelf } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { EnsureLoadedOnceGuard } from './ensure-loaded-once.guard'
 import { HttpErrorService } from './services/http-error.service'
-import { RundownEventService } from './services/rundown-event.service'
 import { HttpClientModule } from '@angular/common/http'
 import { RundownPlaylistService } from './services/rundown-playlist.service'
 import { RundownService } from './services/rundown.service'
@@ -12,6 +11,8 @@ import { EventObserver } from './services/events/event-observer.service'
 import { WebSocketEventObserver } from './services/events/websocket-event-observer'
 import { RundownEventObserver } from './services/events/rundown-event-observer.service'
 import { RundownStateService } from './services/rundown-state.service'
+import { RobustWebSocketFactory } from './services/events/robust-websocket.factory'
+import { RundownEventParser } from './services/events/rundown-event-parser.service'
 
 @NgModule({
   declarations: [],
@@ -22,13 +23,14 @@ import { RundownStateService } from './services/rundown-state.service'
   providers: [
     HttpErrorService,
     HttpClientModule,
-    RundownEventService,
+    RobustWebSocketFactory,
     RundownPlaylistService,
     RundownService,
     AdLibPieceService,
     { provide: EventObserver, useClass: WebSocketEventObserver },
     ConnectionStatusObserver,
     RundownEventObserver,
+    RundownEventParser,
     RundownStateService,
   ]
 })
