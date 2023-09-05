@@ -25,7 +25,7 @@ export class MockRundownService implements RundownServiceInterface {
     this.dataService.currentSegment = rundown.segments[0];
     this.dataService.currentPart = this.dataService.currentSegment.parts[0]
     this.eventService.doMockEvent({
-      type: RundownEventType.ACTIVATE,
+      type: RundownEventType.ACTIVATED,
       rundownId,
       segmentId: this.dataService.currentSegment.id,
       partId: this.dataService.currentPart.id
@@ -42,7 +42,7 @@ export class MockRundownService implements RundownServiceInterface {
 
   public deactivate(rundownId: string): Observable<void> {
     this.eventService.doMockEvent({
-      type: RundownEventType.DEACTIVATE,
+      type: RundownEventType.DEACTIVATED,
       rundownId
     } as RundownEvent)
     return of();
@@ -75,7 +75,7 @@ export class MockRundownService implements RundownServiceInterface {
     this.dataService.currentPart = this.dataService.nextPart
 
     this.eventService.doMockEvent({
-      type: RundownEventType.TAKE,
+      type: RundownEventType.TAKEN,
       rundownId,
       segmentId: this.dataService.currentSegment.id,
       partId: this.dataService.currentPart.id

@@ -3,7 +3,7 @@ import {Observable, of} from 'rxjs';
 import {Identifier} from '../models/identifier';
 import {AdLibPiece} from '../models/ad-lib-piece';
 import {MockRundownEventService} from './mock.rundown-event.service';
-import {AdLibPieceInsertedRundownEvent} from '../models/rundown-event';
+import {RundownAdLibPieceInserted} from '../models/rundown-event';
 import {RundownEventType} from '../models/rundown-event-type';
 import {Injectable} from '@angular/core';
 import {MockDataService} from './mock.data.service';
@@ -49,7 +49,7 @@ export class MockAdLibPieceService implements AdLibPieceServiceInterface {
       rundownId,
       segmentId: this.dataService.currentSegment.id,
       partId: this.dataService.currentPart.id
-    } as AdLibPieceInsertedRundownEvent)
+    } as RundownAdLibPieceInserted)
     return of()
   }
 
