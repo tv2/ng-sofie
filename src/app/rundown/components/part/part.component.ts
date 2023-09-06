@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { Part } from '../../../core/models/part'
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
