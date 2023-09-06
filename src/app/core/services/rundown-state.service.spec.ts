@@ -1,7 +1,7 @@
 import { RundownStateService } from './rundown-state.service'
 import { instance, mock } from '@typestrong/ts-mockito'
 import { HttpRundownService } from './http-rundown.service'
-import { RundownEventObserver } from './events/rundown-event-observer.service'
+import { RundownEventObserver } from './rundown-event-observer.service'
 import { ConnectionStatusObserver } from '../../event-system/services/connection-status-observer.service'
 
 describe('RundownStateService', () => {

@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core'
 import { BehaviorSubject, lastValueFrom, SubscriptionLike } from 'rxjs'
-import { RundownEventObserver } from './events/rundown-event-observer.service'
+import { RundownEventObserver } from './rundown-event-observer.service'
 import { Unsubscribe } from '../../event-system/interfaces/event-observer.interface'
 import { ConnectionStatusObserver } from '../../event-system/services/connection-status-observer.service'
 import { BasicRundown } from '../models/basic-rundown'

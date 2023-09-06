@@ -1,8 +1,8 @@
 import { RundownEventObserver } from './rundown-event-observer.service'
 import { anyString, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
-import { EventObserver } from '../../../event-system/interfaces/event-observer.interface'
-import { RundownEventParser } from '../../interfaces/rundown-event-parser.interface'
-import { RundownEventType } from '../../models/rundown-event-type'
+import { EventObserver } from '../../event-system/interfaces/event-observer.interface'
+import { RundownEventParser } from '../interfaces/rundown-event-parser.interface'
+import { RundownEventType } from '../models/rundown-event-type'
 
 describe(RundownEventObserver.name, () => {
     describe(RundownEventObserver.prototype.subscribeToRundownActivation.name, () => {
