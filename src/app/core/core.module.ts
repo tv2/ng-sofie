@@ -3,16 +3,21 @@ import { CommonModule } from '@angular/common'
 import { EnsureLoadedOnceGuard } from './ensure-loaded-once.guard'
 import { HttpErrorService } from './services/http-error.service'
 import { HttpClientModule } from '@angular/common/http'
-import { RundownPlaylistService } from './services/rundown-playlist.service'
-import { RundownService } from './services/rundown.service'
+import { HttpBasicRundownService } from './services/http-basic-rundown.service'
+import { HttpRundownService } from './services/http-rundown.service'
 import { AdLibPieceService } from './services/ad-lib-piece.service'
 import { ConnectionStatusObserver } from './services/events/connection-status-observer.service'
-import { EventObserver } from './services/events/event-observer.service'
+import { EventObserver } from './services/events/event-observer.interface'
 import { WebSocketEventObserver } from './services/events/websocket-event-observer.service'
 import { RundownEventObserver } from './services/events/rundown-event-observer.service'
 import { RundownStateService } from './services/rundown-state.service'
 import { RobustWebSocketFactory } from './services/events/robust-websocket.factory'
-import { RundownEventParser } from './services/events/rundown-event-parser.service'
+import { RundownEventParser } from './services/events/rundown-event-parser.interface'
+import { BasicRundownStateService } from './services/basic-rundown-state.service'
+import { BasicRundownService } from './interfaces/basic-rundown-service'
+import { EntityParser } from './services/entity-parser.interface'
+import { ZodEntityParser } from './services/zod-entity-parser.service'
+import { ZodRundownEventParser } from './services/events/zod-rundown-event-parser.service'
 
 @NgModule({
   declarations: [],
@@ -24,14 +29,17 @@ import { RundownEventParser } from './services/events/rundown-event-parser.servi
     HttpErrorService,
     HttpClientModule,
     RobustWebSocketFactory,
-    RundownPlaylistService,
-    RundownService,
+    HttpBasicRundownService,
+    HttpRundownService,
     AdLibPieceService,
     { provide: EventObserver, useClass: WebSocketEventObserver },
     ConnectionStatusObserver,
     RundownEventObserver,
-    RundownEventParser,
+    { provide: BasicRundownService, useClass: HttpBasicRundownService },
     RundownStateService,
+    BasicRundownStateService,
+    { provide: RundownEventParser, useClass: ZodRundownEventParser },
+    { provide: EntityParser, useClass: ZodEntityParser },
   ]
 })
 export class CoreModule extends EnsureLoadedOnceGuard {
