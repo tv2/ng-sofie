@@ -1,4 +1,4 @@
-import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from './event-observer.interface'
+import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from '../../../event-system/services/event-observer.interface'
 import { Injectable } from '@angular/core'
 import { RundownEventParser } from './rundown-event-parser.interface'
 import { RundownEventType } from '../../models/rundown-event-type'
