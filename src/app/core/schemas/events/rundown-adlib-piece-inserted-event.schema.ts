@@ -1,11 +1,7 @@
 import * as zod from 'zod'
-import { RundownEventType } from '../models/rundown-event-type'
-import { pieceSchema } from './rundown-piece.schema'
+import { RundownEventType } from '../../models/rundown-event-type'
+import { adLibPieceSchema } from '../ad-lib-piece.schema'
 
-const adLibPieceSchema = pieceSchema.extend({
-    start: zod.number(),
-    duration: zod.number(),
-})
 
 export const rundownAdLibPieceInsertedEventSchema = zod.object({
     type: zod.literal(RundownEventType.AD_LIB_PIECE_INSERTED),
