@@ -1,4 +1,4 @@
-import { RundownEventParser } from './rundown-event-parser.service'
+import { ZodRundownEventParser } from './zod-rundown-event-parser.service'
 import { RundownEventType } from '../../models/rundown-event-type'
 import {
     RundownActivatedEvent, RundownAdLibPieceInserted,
@@ -7,10 +7,10 @@ import {
     RundownTakenEvent
 } from '../../models/rundown-event'
 
-describe(RundownEventParser.name, () => {
-    describe(RundownEventParser.prototype.parseActivatedEvent.name, () => {
+describe(ZodRundownEventParser.name, () => {
+    describe(ZodRundownEventParser.prototype.parseActivatedEvent.name, () => {
         it('parses a rundown activated event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: RundownActivatedEvent = {
                 type: RundownEventType.ACTIVATED,
                 rundownId: 'some-rundown-id',
@@ -24,7 +24,7 @@ describe(RundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown activated event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: Partial<RundownActivatedEvent> = {
                 type: RundownEventType.ACTIVATED,
                 rundownId: 'some-rundown-id',
@@ -36,9 +36,9 @@ describe(RundownEventParser.name, () => {
         })
     })
 
-    describe(RundownEventParser.prototype.parseDeactivatedEvent.name, () => {
+    describe(ZodRundownEventParser.prototype.parseDeactivatedEvent.name, () => {
         it('parses a rundown deactivated event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: RundownDeactivatedEvent = {
                 type: RundownEventType.DEACTIVATED,
                 rundownId: 'some-rundown-id',
@@ -50,7 +50,7 @@ describe(RundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown deactivated event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: Partial<RundownDeactivatedEvent> = {
                 type: RundownEventType.DEACTIVATED,
             }
@@ -61,9 +61,9 @@ describe(RundownEventParser.name, () => {
         })
     })
 
-    describe(RundownEventParser.prototype.parseResetEvent.name, () => {
+    describe(ZodRundownEventParser.prototype.parseResetEvent.name, () => {
         it('parses a rundown reset event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: RundownResetEvent = {
                 type: RundownEventType.RESET,
                 rundownId: 'some-rundown-id',
@@ -75,7 +75,7 @@ describe(RundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown reset event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: Partial<RundownResetEvent> = {
                 type: RundownEventType.RESET,
             }
@@ -86,9 +86,9 @@ describe(RundownEventParser.name, () => {
         })
     })
 
-    describe(RundownEventParser.prototype.parseTakenEvent.name, () => {
+    describe(ZodRundownEventParser.prototype.parseTakenEvent.name, () => {
         it('parses a rundown taken event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: RundownTakenEvent = {
                 type: RundownEventType.TAKEN,
                 rundownId: 'some-rundown-id',
@@ -102,7 +102,7 @@ describe(RundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown taken event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: Partial<RundownTakenEvent> = {
                 type: RundownEventType.TAKEN,
             }
@@ -113,9 +113,9 @@ describe(RundownEventParser.name, () => {
         })
     })
 
-    describe(RundownEventParser.prototype.parseSetNextEvent.name, () => {
+    describe(ZodRundownEventParser.prototype.parseSetNextEvent.name, () => {
         it('parses a rundown set next event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: RundownSetNextEvent = {
                 type: RundownEventType.SET_NEXT,
                 rundownId: 'some-rundown-id',
@@ -129,7 +129,7 @@ describe(RundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown set next event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: Partial<RundownSetNextEvent> = {
                 type: RundownEventType.SET_NEXT,
             }
@@ -140,9 +140,9 @@ describe(RundownEventParser.name, () => {
         })
     })
 
-    describe(RundownEventParser.prototype.parseAdLibPieceInserted.name, () => {
+    describe(ZodRundownEventParser.prototype.parseAdLibPieceInserted.name, () => {
         it('parses a rundown ad-lib piece inserted event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: RundownAdLibPieceInserted = {
                 type: RundownEventType.AD_LIB_PIECE_INSERTED,
                 rundownId: 'some-rundown-id',
@@ -164,7 +164,7 @@ describe(RundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown ad-lib piece inserted event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: Partial<RundownAdLibPieceInserted> = {
                 type: RundownEventType.AD_LIB_PIECE_INSERTED,
                 rundownId: 'some-rundown-id',
@@ -176,9 +176,9 @@ describe(RundownEventParser.name, () => {
         })
     })
 
-    describe(RundownEventParser.prototype.parseInfinitePieceAdded.name, () => {
+    describe(ZodRundownEventParser.prototype.parseInfinitePieceAdded.name, () => {
         it('parses a rundown infinite piece added event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: RundownInfinitePieceAddedEvent = {
                 type: RundownEventType.INFINITE_PIECE_ADDED,
                 rundownId: 'some-rundown-id',
@@ -198,7 +198,7 @@ describe(RundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown infinite piece added event', () => {
-            const testee = new RundownEventParser()
+            const testee = new ZodRundownEventParser()
             const event: Partial<RundownInfinitePieceAddedEvent> = {
                 type: RundownEventType.INFINITE_PIECE_ADDED,
                 rundownId: 'some-rundown-id',
