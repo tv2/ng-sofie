@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 import {HttpRundownService} from '../../../core/services/http-rundown.service'
-import {AdLibPieceService} from '../../../core/services/ad-lib-piece.service'
+import {AdLibPieceService} from '../../../core/services/ad-lib-piece-service.interface'
 import {Rundown} from '../../../core/models/rundown';
 import {Identifier} from '../../../core/models/identifier';
 import { RundownStateService } from '../../../core/services/rundown-state.service';

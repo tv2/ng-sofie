@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core'
 import {Identifier} from '../../../core/models/identifier'
-import {AdLibPieceService} from '../../../core/services/ad-lib-piece.service'
+import {AdLibPieceService} from '../../../core/services/ad-lib-piece-service.interface'
 
 @Component({
   selector: 'sofie-ad-lib-piece-identifier',

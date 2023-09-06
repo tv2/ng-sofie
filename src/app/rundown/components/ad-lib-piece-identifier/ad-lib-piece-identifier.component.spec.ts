@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { AdLibPieceIdentifierComponent } from './ad-lib-piece-identifier.component';
 import { instance, mock } from '@typestrong/ts-mockito'
-import { AdLibPieceService } from '../../../core/services/ad-lib-piece.service'
+import { AdLibPieceService } from '../../../core/services/ad-lib-piece-service.interface'
 
 describe('AdLibPieceIdentifierComponent', () => {
   it('should create', async () => {

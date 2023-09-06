@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http'
 import { catchError, Observable } from 'rxjs'
 import { Identifier } from '../models/identifier'
 import { HttpErrorService } from './http-error.service'
-import {AdLibPieceServiceInterface} from '../interfaces/ad-lib-piece-service-interface';
+import { AdLibPieceService } from './ad-lib-piece-service.interface';
 
 const AD_LIB_PIECE_URL: string = 'http://localhost:3005/api/adLibPieces'
 
 @Injectable()
-export class AdLibPieceService implements AdLibPieceServiceInterface {
+export class HttpAdLibPieceService implements AdLibPieceService {
 
   constructor(private http: HttpClient, private httpErrorService: HttpErrorService) { }
 
