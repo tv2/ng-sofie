@@ -1,6 +1,7 @@
 export enum RundownEventType {
   ACTIVATED = 'ACTIVATE',
   DEACTIVATED = 'DEACTIVATE',
+  DELETED = 'DELETED',
   RESET = 'RESET',
   TAKEN = 'TAKE',
   SET_NEXT = 'SET_NEXT',

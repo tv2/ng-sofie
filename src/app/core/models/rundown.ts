@@ -1,11 +1,9 @@
 import { Segment, SegmentInterface } from './segment'
 import { PartEvent } from './rundown-event'
 import { Piece } from './piece'
+import { BasicRundown } from './basic-rundown'
 
-export interface RundownInterface {
-  id: string
-  name: string
-  isActive: boolean
+export interface RundownInterface extends BasicRundown {
   segments: SegmentInterface[]
   infinitePieces: Piece[]
 }
@@ -14,6 +12,7 @@ export class Rundown {
   id: string
   name: string
   isActive: boolean
+  modifiedAt: number
   segments: Segment[]
 
   private infinitePieces: Map<string, Piece> = new Map()
@@ -22,6 +21,7 @@ export class Rundown {
     this.id = rundown.id
     this.name = rundown.name
     this.isActive = rundown.isActive
+    this.modifiedAt = rundown.modifiedAt
     this.segments = rundown.segments.map(segment => new Segment(segment))
     rundown.infinitePieces.forEach(piece => this.infinitePieces.set(piece.layer, piece))
   }

@@ -20,6 +20,10 @@ export interface RundownDeactivatedEvent extends RundownEvent {
   type: RundownEventType.DEACTIVATED
 }
 
+export interface RundownDeletedEvent extends RundownEvent {
+  type: RundownEventType.DELETED
+}
+
 export interface RundownResetEvent extends RundownEvent {
   type: RundownEventType.RESET
 }
