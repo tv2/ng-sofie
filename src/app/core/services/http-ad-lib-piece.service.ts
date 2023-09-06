@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { catchError, Observable } from 'rxjs'
 import { Identifier } from '../models/identifier'
 import { HttpErrorService } from './http-error.service'
-import { AdLibPieceService } from './ad-lib-piece-service.interface';
+import { AdLibPieceService } from '../interfaces/ad-lib-piece-service.interface';
 
 const AD_LIB_PIECE_URL: string = 'http://localhost:3005/api/adLibPieces'
 

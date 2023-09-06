@@ -5,7 +5,7 @@ import { HttpRundownService } from '../../../core/services/http-rundown.service'
 import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockito'
 import { ActivatedRoute, ActivatedRouteSnapshot, convertToParamMap, ParamMap, RouterModule } from '@angular/router'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
-import { AdLibPieceService } from '../../../core/services/ad-lib-piece-service.interface'
+import { AdLibPieceService } from '../../../core/interfaces/ad-lib-piece-service.interface'
 import { of, Subscription } from 'rxjs'
 
 describe('RundownComponent', () => {

@@ -8,14 +8,14 @@ import { HttpRundownService } from './services/http-rundown.service'
 import { HttpAdLibPieceService } from './services/http-ad-lib-piece.service'
 import { RundownEventObserver } from './services/events/rundown-event-observer.service'
 import { RundownStateService } from './services/rundown-state.service'
-import { RundownEventParser } from './services/events/rundown-event-parser.interface'
+import { RundownEventParser } from './interfaces/rundown-event-parser.interface'
 import { BasicRundownStateService } from './services/basic-rundown-state.service'
 import { BasicRundownService } from './interfaces/basic-rundown-service.interface'
-import { EntityParser } from './services/entity-parser.interface'
+import { EntityParser } from './interfaces/entity-parser.interface'
 import { ZodEntityParser } from './services/zod-entity-parser.service'
 import { ZodRundownEventParser } from './services/events/zod-rundown-event-parser.service'
 import { EventSystemModule } from '../event-system/event-system.module'
-import { AdLibPieceService } from './services/ad-lib-piece-service.interface'
+import { AdLibPieceService } from './interfaces/ad-lib-piece-service.interface'
 
 @NgModule({
   declarations: [],

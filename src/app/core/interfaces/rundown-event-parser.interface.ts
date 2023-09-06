@@ -6,7 +6,7 @@ import {
     RundownResetEvent,
     RundownSetNextEvent,
     RundownTakenEvent, RundownAdLibPieceInserted, RundownDeletedEvent
-} from '../../models/rundown-event'
+} from '../models/rundown-event'
 
 @Injectable()
 export abstract class RundownEventParser {

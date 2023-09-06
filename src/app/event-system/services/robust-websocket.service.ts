@@ -1,4 +1,4 @@
-import { ReconnectStrategy } from './reconnect-strategy.service'
+import { ReconnectStrategy } from '../interfaces/reconnect-strategy.interface'
 
 type MessageConsumer = (event: MessageEvent) => void
 type ErrorConsumer = (event: Event) => void

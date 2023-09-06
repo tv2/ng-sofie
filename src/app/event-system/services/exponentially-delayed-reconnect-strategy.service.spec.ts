@@ -1,5 +1,5 @@
 import { ExponentiallyDelayedReconnectStrategy } from './exponentially-delayed-reconnect-strategy.service'
-import { ReconnectStrategy } from './reconnect-strategy.service'
+import { ReconnectStrategy } from '../interfaces/reconnect-strategy.interface'
 import { instance, mock, verify, when } from '@typestrong/ts-mockito'
 
 describe(ExponentiallyDelayedReconnectStrategy.name, () => {

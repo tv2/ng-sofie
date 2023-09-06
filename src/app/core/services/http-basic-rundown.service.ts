@@ -4,7 +4,7 @@ import { HttpErrorService } from './http-error.service';
 import { catchError, map, Observable } from 'rxjs'
 import { BasicRundownService } from '../interfaces/basic-rundown-service.interface';
 import { BasicRundown } from "../models/basic-rundown";
-import { EntityParser } from './entity-parser.interface'
+import { EntityParser } from '../interfaces/entity-parser.interface'
 
 // TODO: Change when we get RundownPlaylists endpoint
 const RUNDOWN_URL: string = 'http://localhost:3005/api/rundowns'

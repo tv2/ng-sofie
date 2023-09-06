@@ -1,4 +1,4 @@
-import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from './event-observer.interface'
+import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from '../interfaces/event-observer.interface'
 import { Injectable } from '@angular/core'
 
 enum ConnectionEventType {

@@ -11,7 +11,7 @@ import { HttpRundownService } from './http-rundown.service';
 import { Segment } from '../models/segment';
 import { Part } from '../models/part';
 import { RundownEventObserver } from './events/rundown-event-observer.service'
-import { Unsubscribe } from '../../event-system/services/event-observer.interface'
+import { Unsubscribe } from '../../event-system/interfaces/event-observer.interface'
 import { ManagedSubscription } from './managed-subscription.service'
 import { ConnectionStatusObserver } from '../../event-system/services/connection-status-observer.service'
 
