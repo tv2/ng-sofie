@@ -4,7 +4,7 @@ import { RundownEventParser } from './rundown-event-parser.service'
 import { RundownEventType } from '../../models/rundown-event-type'
 import {
     RundownActivatedEvent, RundownAdLibPieceInserted,
-    RundownDeactivatedEvent, RundownInfinitePieceAddedEvent,
+    RundownDeactivatedEvent, RundownDeletedEvent, RundownInfinitePieceAddedEvent,
     RundownResetEvent, RundownSetNextEvent,
     RundownTakenEvent
 } from '../../models/rundown-event'
@@ -24,6 +24,13 @@ export class RundownEventObserver {
         return this.eventObserver.subscribe(
             RundownEventType.DEACTIVATED,
             this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseDeactivatedEvent)
+        )
+    }
+
+    public subscribeToRundownDeletion(consumer: (event: RundownDeletedEvent) => void): Unsubscribe {
+        return this.eventObserver.subscribe(
+            RundownEventType.DELETED,
+            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseDeletedEvent)
         )
     }
 

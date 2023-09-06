@@ -1,6 +1,6 @@
 import * as zod from 'zod'
 
-export const pieceSchema = zod.object({
+export const PIECE_PARSER = zod.object({
     id: zod.string().nonempty(),
     partId: zod.string().nonempty(),
     name: zod.string().nonempty(),

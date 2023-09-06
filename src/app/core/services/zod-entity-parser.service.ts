@@ -5,39 +5,39 @@ import { Part } from '../models/part'
 import { Piece } from '../models/piece'
 import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
-import { adLibPieceSchema } from '../schemas/ad-lib-piece.schema'
-import { basicRundownSchema, basicRundownsSchema } from '../schemas/basic-rundown'
-import { partSchema } from '../schemas/part.schema'
-import { rundownSchema } from '../schemas/rundown.schema'
-import { segmentSchema } from '../schemas/segment.schema'
-import { pieceSchema } from '../schemas/piece.schema'
+import { AD_LIB_PIECE_PARSER } from '../parsers/ad-lib-piece.schema'
+import { BASIC_RUNDOWN_PARSER, BASIC_RUNDOWNS_PARSER } from '../parsers/basic-rundown.schema'
+import { PART_PARSER } from '../parsers/part.schema'
+import { RUNDOWN_PARSER } from '../parsers/rundown.schema'
+import { SEGMENT_PARSER } from '../parsers/segment.schema'
+import { PIECE_PARSER } from '../parsers/piece.schema'
 
 export class ZodEntityParser implements EntityParser {
     public parseBasicRundown(basicRundown: unknown): BasicRundown {
-        return basicRundownSchema.parse(basicRundown)
+        return BASIC_RUNDOWN_PARSER.parse(basicRundown)
     }
 
     public parseBasicRundowns(basicRundowns: unknown): BasicRundown[] {
-        return basicRundownsSchema.parse(basicRundowns)
+        return BASIC_RUNDOWNS_PARSER.parse(basicRundowns)
     }
 
     public parseRundown(rundown: unknown): Rundown {
-        return new Rundown(rundownSchema.parse(rundown))
+        return new Rundown(RUNDOWN_PARSER.parse(rundown))
     }
 
     public parseSegment(segment: unknown): Segment {
-        return new Segment(segmentSchema.parse(segment))
+        return new Segment(SEGMENT_PARSER.parse(segment))
     }
 
     public parsePart(part: unknown): Part {
-        return new Part(partSchema.parse(part))
+        return new Part(PART_PARSER.parse(part))
     }
 
     public parsePiece(piece: unknown): Piece {
-        return pieceSchema.parse(piece)
+        return PIECE_PARSER.parse(piece)
     }
 
     public parseAdLibPiece(adLibPiece: unknown): AdLibPiece {
-        return adLibPieceSchema.parse(adLibPiece)
+        return AD_LIB_PIECE_PARSER.parse(adLibPiece)
     }
 }

@@ -1,11 +1,9 @@
 import * as zod from 'zod'
 import { RundownEventType } from '../../models/rundown-event-type'
-import { pieceSchema } from '../piece.schema'
 
-export const rundownInfinitePieceAddedEventSchema = zod.object({
-    type: zod.literal(RundownEventType.INFINITE_PIECE_ADDED),
+export const RUNDOWN_TAKEN_EVENT_PARSER = zod.object({
+    type: zod.literal(RundownEventType.TAKEN),
     rundownId: zod.string().nonempty(),
     segmentId: zod.string().nonempty(),
     partId: zod.string().nonempty(),
-    infinitePiece: pieceSchema,
 })

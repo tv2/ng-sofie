@@ -1,10 +1,10 @@
 import * as zod from 'zod'
-import { pieceSchema } from './piece.schema'
+import { PIECE_PARSER } from './piece.schema'
 
-export const partSchema = zod.object({
+export const PART_PARSER = zod.object({
     id: zod.string().nonempty(),
     segmentId: zod.string().nonempty(),
     isOnAir: zod.boolean(),
     isNext: zod.boolean(),
-    pieces: zod.array(pieceSchema)
+    pieces: zod.array(PIECE_PARSER)
 })
