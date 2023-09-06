@@ -7,11 +7,11 @@ import {
 } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
 import { Rundown } from '../models/rundown';
-import { RundownService } from './rundown.service';
+import { HttpRundownService } from './http-rundown.service';
 import { Segment } from '../models/segment';
 import { Part } from '../models/part';
 import { RundownEventObserver } from './events/rundown-event-observer.service'
-import { Unsubscribe } from './events/event-observer.service'
+import { Unsubscribe } from './events/event-observer.interface'
 import { ManagedSubscription } from './managed-subscription.service'
 import { ConnectionStatusObserver } from './events/connection-status-observer.service'
 
@@ -21,7 +21,7 @@ export class RundownStateService implements OnDestroy {
   private unsubscribeFromEvents: Unsubscribe
 
   constructor(
-      private readonly rundownService: RundownService,
+      private readonly rundownService: HttpRundownService,
       private readonly rundownEventObserver: RundownEventObserver,
       private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {

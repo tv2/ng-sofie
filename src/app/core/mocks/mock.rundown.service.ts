@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {RundownServiceInterface} from '../interfaces/rundown-service-interface';
-import {MockRundownEventService} from './mock.rundown-event.service';
+import {RundownServiceInterface} from '../interfaces/rundown-service.interface';
 import {RundownEvent} from '../models/rundown-event';
 import {RundownEventType} from '../models/rundown-event-type';
 import {Rundown} from '../models/rundown';

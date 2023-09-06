@@ -1,4 +1,4 @@
-import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from './event-observer.service'
+import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from './event-observer.interface'
 import { RobustWebSocket } from './robust-websocket.service'
 import { Injectable } from '@angular/core'
 import { RobustWebSocketFactory } from './robust-websocket.factory'

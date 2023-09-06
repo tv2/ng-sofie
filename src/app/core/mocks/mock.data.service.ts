@@ -27,6 +27,7 @@ export class MockDataService {
       id: rundownId,
       name: `Rundown ${rundownId}`,
       segments,
+      modifiedAt: 0,
       isActive: false,
       infinitePieces: []
     })
