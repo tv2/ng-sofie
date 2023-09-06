@@ -1,11 +1,11 @@
 import { ZodRundownEventParser } from './zod-rundown-event-parser.service'
-import { RundownEventType } from '../../models/rundown-event-type'
+import { RundownEventType } from '../models/rundown-event-type'
 import {
     RundownActivatedEvent, RundownAdLibPieceInserted,
     RundownDeactivatedEvent, RundownInfinitePieceAddedEvent,
     RundownResetEvent, RundownSetNextEvent,
     RundownTakenEvent
-} from '../../models/rundown-event'
+} from '../models/rundown-event'
 
 describe(ZodRundownEventParser.name, () => {
     describe(ZodRundownEventParser.prototype.parseActivatedEvent.name, () => {
