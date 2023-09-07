@@ -43,7 +43,6 @@ export class BasicRundownStateService implements OnDestroy {
   }
 
   private resetBasicRundownSubject(): void {
-    console.log('[debug][RundownStateService]', 'Resetting basic rundowns')
     this.fetchBasicRundowns()
         .then(basicRundowns => this.basicRundownsSubject.next(basicRundowns))
         .catch(error => console.error('[error]', 'Encountered error while fetching basic rundowns:', error))
