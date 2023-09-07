@@ -1,9 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core'
 import {
-  RundownAdLibPieceInserted,
+  RundownAdLibPieceInsertedEvent,
   RundownInfinitePieceAddedEvent,
-  RundownSetNextEvent,
-  RundownResetEvent, RundownTakenEvent, RundownActivatedEvent, RundownDeactivatedEvent
+  PartSetAsNextEvent,
+  RundownResetEvent, PartTakenEvent, RundownActivatedEvent, RundownDeactivatedEvent
 } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
 import { Rundown } from '../models/rundown';
@@ -95,7 +95,7 @@ export class RundownStateService implements OnDestroy {
     this.resetRundownSubject(rundownSubject, event.rundownId)
   }
 
-  private takePartInRundownFromEvent(event: RundownTakenEvent): void {
+  private takePartInRundownFromEvent(event: PartTakenEvent): void {
     const rundownSubject = this.rundownSubjects.get(event.rundownId)
     if (!rundownSubject) {
       return
@@ -103,7 +103,7 @@ export class RundownStateService implements OnDestroy {
     rundownSubject.value.takeNext(event)
   }
 
-  private setNextPartInRundownFromEvent(event: RundownSetNextEvent): void {
+  private setNextPartInRundownFromEvent(event: PartSetAsNextEvent): void {
     const rundownSubject = this.rundownSubjects.get(event.rundownId)
     if (!rundownSubject) {
       return
@@ -111,7 +111,7 @@ export class RundownStateService implements OnDestroy {
     rundownSubject.value.setNext(event)
   }
 
-  private insertAdLibPieceInRundownFromEvent(event: RundownAdLibPieceInserted): void {
+  private insertAdLibPieceInRundownFromEvent(event: RundownAdLibPieceInsertedEvent): void {
     const rundownSubject = this.rundownSubjects.get(event.rundownId)
     if (!rundownSubject) {
       return

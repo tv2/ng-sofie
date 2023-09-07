@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core'
 import { RundownEventParser } from './rundown-event-parser.interface'
 import { RundownEventType } from '../../models/rundown-event-type'
 import {
-    RundownActivatedEvent, RundownAdLibPieceInserted,
+    RundownActivatedEvent, RundownAdLibPieceInsertedEvent,
     RundownDeactivatedEvent, RundownDeletedEvent, RundownInfinitePieceAddedEvent,
-    RundownResetEvent, RundownSetNextEvent,
-    RundownTakenEvent
+    RundownResetEvent, PartSetAsNextEvent,
+    PartTakenEvent
 } from '../../models/rundown-event'
 
 @Injectable()
@@ -41,21 +41,21 @@ export class RundownEventObserver {
         )
     }
 
-    public subscribeToRundownTake(consumer: (event: RundownTakenEvent) => void): Unsubscribe {
+    public subscribeToRundownTake(consumer: (event: PartTakenEvent) => void): Unsubscribe {
         return this.eventObserver.subscribe(
             RundownEventType.TAKEN,
             this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseTakenEvent)
         )
     }
 
-    public subscribeToRundownSetNext(consumer: (event: RundownSetNextEvent) => void): Unsubscribe {
+    public subscribeToRundownSetNext(consumer: (event: PartSetAsNextEvent) => void): Unsubscribe {
         return this.eventObserver.subscribe(
-            RundownEventType.SET_NEXT,
+            RundownEventType.SET_AS_NEXT,
             this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseSetNextEvent)
         )
     }
 
-    public subscribeToRundownAdLibPieceInserted(consumer: (event: RundownAdLibPieceInserted) => void): Unsubscribe {
+    public subscribeToRundownAdLibPieceInserted(consumer: (event: RundownAdLibPieceInsertedEvent) => void): Unsubscribe {
         return this.eventObserver.subscribe(
             RundownEventType.AD_LIB_PIECE_INSERTED,
             this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseAdLibPieceInserted)

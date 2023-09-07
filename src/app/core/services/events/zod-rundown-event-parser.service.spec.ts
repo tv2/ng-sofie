@@ -1,10 +1,10 @@
 import { ZodRundownEventParser } from './zod-rundown-event-parser.service'
 import { RundownEventType } from '../../models/rundown-event-type'
 import {
-    RundownActivatedEvent, RundownAdLibPieceInserted,
+    RundownActivatedEvent, RundownAdLibPieceInsertedEvent,
     RundownDeactivatedEvent, RundownInfinitePieceAddedEvent,
-    RundownResetEvent, RundownSetNextEvent,
-    RundownTakenEvent
+    RundownResetEvent, PartSetAsNextEvent,
+    PartTakenEvent
 } from '../../models/rundown-event'
 
 describe(ZodRundownEventParser.name, () => {
@@ -89,7 +89,7 @@ describe(ZodRundownEventParser.name, () => {
     describe(ZodRundownEventParser.prototype.parseTakenEvent.name, () => {
         it('parses a rundown taken event', () => {
             const testee = new ZodRundownEventParser()
-            const event: RundownTakenEvent = {
+            const event: PartTakenEvent = {
                 type: RundownEventType.TAKEN,
                 rundownId: 'some-rundown-id',
                 segmentId: 'some-segment-id',
@@ -103,7 +103,7 @@ describe(ZodRundownEventParser.name, () => {
 
         it('does not parse a partial rundown taken event', () => {
             const testee = new ZodRundownEventParser()
-            const event: Partial<RundownTakenEvent> = {
+            const event: Partial<PartTakenEvent> = {
                 type: RundownEventType.TAKEN,
             }
 
@@ -116,8 +116,8 @@ describe(ZodRundownEventParser.name, () => {
     describe(ZodRundownEventParser.prototype.parseSetNextEvent.name, () => {
         it('parses a rundown set next event', () => {
             const testee = new ZodRundownEventParser()
-            const event: RundownSetNextEvent = {
-                type: RundownEventType.SET_NEXT,
+            const event: PartSetAsNextEvent = {
+                type: RundownEventType.SET_AS_NEXT,
                 rundownId: 'some-rundown-id',
                 segmentId: 'some-segment-id',
                 partId: 'some-part-id',
@@ -130,8 +130,8 @@ describe(ZodRundownEventParser.name, () => {
 
         it('does not parse a partial rundown set next event', () => {
             const testee = new ZodRundownEventParser()
-            const event: Partial<RundownSetNextEvent> = {
-                type: RundownEventType.SET_NEXT,
+            const event: Partial<PartSetAsNextEvent> = {
+                type: RundownEventType.SET_AS_NEXT,
             }
 
             const result = () => testee.parseSetNextEvent(event)
@@ -143,7 +143,7 @@ describe(ZodRundownEventParser.name, () => {
     describe(ZodRundownEventParser.prototype.parseAdLibPieceInserted.name, () => {
         it('parses a rundown ad-lib piece inserted event', () => {
             const testee = new ZodRundownEventParser()
-            const event: RundownAdLibPieceInserted = {
+            const event: RundownAdLibPieceInsertedEvent = {
                 type: RundownEventType.AD_LIB_PIECE_INSERTED,
                 rundownId: 'some-rundown-id',
                 segmentId: 'some-segment-id',
@@ -165,7 +165,7 @@ describe(ZodRundownEventParser.name, () => {
 
         it('does not parse a partial rundown ad-lib piece inserted event', () => {
             const testee = new ZodRundownEventParser()
-            const event: Partial<RundownAdLibPieceInserted> = {
+            const event: Partial<RundownAdLibPieceInsertedEvent> = {
                 type: RundownEventType.AD_LIB_PIECE_INSERTED,
                 rundownId: 'some-rundown-id',
             }
@@ -182,8 +182,6 @@ describe(ZodRundownEventParser.name, () => {
             const event: RundownInfinitePieceAddedEvent = {
                 type: RundownEventType.INFINITE_PIECE_ADDED,
                 rundownId: 'some-rundown-id',
-                segmentId: 'some-segment-id',
-                partId: 'some-part-id',
                 infinitePiece: {
                     id: 'some-piece-id',
                     name: 'some-piece',

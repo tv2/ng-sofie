@@ -6,8 +6,8 @@ import {
     RundownActivatedEvent,
     RundownDeactivatedEvent,
     RundownResetEvent,
-    RundownSetNextEvent,
-    RundownTakenEvent, RundownAdLibPieceInserted, RundownDeletedEvent
+    PartSetAsNextEvent,
+    PartTakenEvent, RundownAdLibPieceInsertedEvent, RundownDeletedEvent
 } from '../../models/rundown-event'
 import { RUNDOWN_DEACTIVATED_EVENT_PARSER } from '../../parsers/events/rundown-deactivated-event.schema'
 import { RUNDOWN_RESET_EVENT_PARSER } from '../../parsers/events/rundown-reset-event.schema'
@@ -34,15 +34,15 @@ export class ZodRundownEventParser {
         return RUNDOWN_RESET_EVENT_PARSER.parse(maybeEvent)
     }
 
-    public parseTakenEvent(maybeEvent: unknown): RundownTakenEvent {
+    public parseTakenEvent(maybeEvent: unknown): PartTakenEvent {
         return RUNDOWN_TAKEN_EVENT_PARSER.parse(maybeEvent)
     }
 
-    public parseSetNextEvent(maybeEvent: unknown): RundownSetNextEvent {
+    public parseSetNextEvent(maybeEvent: unknown): PartSetAsNextEvent {
         return RUNDOWN_SET_NEXT_EVENT_PARSER.parse(maybeEvent)
     }
 
-    public parseAdLibPieceInserted(maybeEvent: unknown): RundownAdLibPieceInserted {
+    public parseAdLibPieceInserted(maybeEvent: unknown): RundownAdLibPieceInsertedEvent {
         return RUNDOWN_AD_LIB_PIECE_INSERTED_EVENT_PARSER.parse(maybeEvent)
     }
 

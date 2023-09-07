@@ -12,8 +12,10 @@ export interface PartEvent extends RundownEvent {
   partId: string
 }
 
-export interface RundownActivatedEvent extends PartEvent {
+export interface RundownActivatedEvent extends RundownEvent {
   type: RundownEventType.ACTIVATED
+  segmentId: string
+  partId: string
 }
 
 export interface RundownDeactivatedEvent extends RundownEvent {
@@ -28,20 +30,22 @@ export interface RundownResetEvent extends RundownEvent {
   type: RundownEventType.RESET
 }
 
-export interface RundownTakenEvent extends PartEvent {
+export interface PartTakenEvent extends PartEvent {
   type: RundownEventType.TAKEN
 }
 
-export interface RundownSetNextEvent extends PartEvent {
-  type: RundownEventType.SET_NEXT
+export interface PartSetAsNextEvent extends PartEvent {
+  type: RundownEventType.SET_AS_NEXT
 }
 
-export interface RundownAdLibPieceInserted extends PartEvent {
+export interface RundownAdLibPieceInsertedEvent extends RundownEvent {
   type: RundownEventType.AD_LIB_PIECE_INSERTED,
+  segmentId: string
+  partId: string
   adLibPiece: AdLibPiece
 }
 
-export interface RundownInfinitePieceAddedEvent extends PartEvent {
+export interface RundownInfinitePieceAddedEvent extends RundownEvent {
   type: RundownEventType.INFINITE_PIECE_ADDED,
   infinitePiece: Piece
 }
