@@ -3,7 +3,7 @@ import {
   RundownAdLibPieceInserted,
   RundownInfinitePieceAddedEvent,
   RundownSetNextEvent,
-  RundownResetEvent, RundownTakenEvent, RundownActivatedEvent
+  RundownResetEvent, RundownTakenEvent, RundownActivatedEvent, RundownDeactivatedEvent
 } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
 import { Rundown } from '../models/rundown';
@@ -39,11 +39,11 @@ export class RundownStateService implements OnDestroy {
 
   private registerConnectionStatusConsumers(): Unsubscribe[] {
     return [
-      this.connectionStatusObserver.subscribeToConnectionStatus(this.connectionStatusHandler.bind(this))
+      this.connectionStatusObserver.subscribeToConnectionStatus(this.resetRundownSubjectsIfConnected.bind(this))
     ]
   }
 
-  private connectionStatusHandler(isConnected: boolean): void {
+  private resetRundownSubjectsIfConnected(isConnected: boolean): void {
     if (!isConnected) {
       return
     }
@@ -61,47 +61,61 @@ export class RundownStateService implements OnDestroy {
 
   private registerRundownEventConsumers(): Unsubscribe[] {
     return [
-      this.rundownEventObserver.subscribeToRundownActivation(this.createRundownEventHandler(this.rundownActivationHandler.bind(this))),
-      this.rundownEventObserver.subscribeToRundownDeactivation(this.createRundownEventHandler(this.rundownDeactivationHandler.bind(this))),
-      this.rundownEventObserver.subscribeToRundownReset(this.createRundownEventHandler(this.rundownResetHandler.bind(this))),
-      this.rundownEventObserver.subscribeToRundownTake(this.createRundownEventHandler(this.rundownTakenHandler.bind(this))),
-      this.rundownEventObserver.subscribeToRundownSetNext(this.createRundownEventHandler(this.rundownSetNextHandler.bind(this))),
-      this.rundownEventObserver.subscribeToRundownAdLibPieceInserted(this.createRundownEventHandler(this.rundownAdLibPieceInsertedHandler.bind(this))),
-      this.rundownEventObserver.subscribeToRundownInfinitePieceAdded(this.createRundownEventHandler(this.rundownInfinitePieceAddedHandler.bind(this))),
+      this.rundownEventObserver.subscribeToRundownActivation(this.activateRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownDeactivation(this.deactivateRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownReset(this.resetRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownTake(this.takePartInRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownSetNext(this.setNextPartInRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownAdLibPieceInserted(this.insertAdLibPieceInRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownInfinitePieceAdded(this.addInfinitePieceToRundownFromEvent.bind(this)),
     ]
   }
 
-  private createRundownEventHandler<EventType extends { rundownId: string }>(handler: (subject: BehaviorSubject<Rundown>, event: EventType) => void): (event: EventType) => void {
-    return (event: EventType) => {
+  private activateRundownFromEvent(event: RundownActivatedEvent): void {
       const rundownSubject = this.rundownSubjects.get(event.rundownId)
       if (!rundownSubject) {
         return
       }
-      handler(rundownSubject, event)
-    }
-  }
-
-  private rundownActivationHandler(rundownSubject: BehaviorSubject<Rundown>, event: RundownActivatedEvent): void {
       rundownSubject.value.activate(event)
   }
 
-  private rundownDeactivationHandler(rundownSubject: BehaviorSubject<Rundown>): void {
+  private deactivateRundownFromEvent(event: RundownDeactivatedEvent): void {
+    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
     rundownSubject.value.deactivate()
   }
 
-  private rundownResetHandler(rundownSubject: BehaviorSubject<Rundown>, event: RundownResetEvent): void {
+  private resetRundownFromEvent(event: RundownResetEvent): void {
+    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
     this.resetRundownSubject(rundownSubject, event.rundownId)
   }
 
-  private rundownTakenHandler(rundownSubject: BehaviorSubject<Rundown>, event: RundownTakenEvent): void {
+  private takePartInRundownFromEvent(event: RundownTakenEvent): void {
+    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
     rundownSubject.value.takeNext(event)
   }
 
-  private rundownSetNextHandler(rundownSubject: BehaviorSubject<Rundown>, event: RundownSetNextEvent): void {
+  private setNextPartInRundownFromEvent(event: RundownSetNextEvent): void {
+    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
     rundownSubject.value.setNext(event)
   }
 
-  private rundownAdLibPieceInsertedHandler(rundownSubject: BehaviorSubject<Rundown>, event: RundownAdLibPieceInserted): void {
+  private insertAdLibPieceInRundownFromEvent(event: RundownAdLibPieceInserted): void {
+    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
     const segment: Segment | undefined = rundownSubject.value.segments.find(segment => segment.id === event.segmentId)
     if (!segment) {
       console.warn('[warn] Failed finding segment for AD_LIB_PIECE_INSERTED for event:', event)
@@ -117,7 +131,11 @@ export class RundownStateService implements OnDestroy {
     part.insertAdLibPiece(event.adLibPiece)
   }
 
-  private rundownInfinitePieceAddedHandler(rundownSubject: BehaviorSubject<Rundown>, event: RundownInfinitePieceAddedEvent): void {
+  private addInfinitePieceToRundownFromEvent(event: RundownInfinitePieceAddedEvent): void {
+    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
     rundownSubject.value.addInfinitePiece(event.infinitePiece)
   }
 
