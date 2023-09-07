@@ -6,7 +6,7 @@ import { BasicRundownService } from '../interfaces/basic-rundown-service';
 import { BasicRundown } from "../models/basic-rundown";
 import { EntityParser } from './entity-parser.interface'
 
-// TODO: Change when we get RundownPlaylists endpoint
+// TODO: Change when we get a setup for handling configurations.
 const RUNDOWN_URL: string = 'http://localhost:3005/api/rundowns'
 
 @Injectable()
