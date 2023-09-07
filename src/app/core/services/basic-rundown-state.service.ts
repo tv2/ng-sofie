@@ -5,6 +5,7 @@ import { Unsubscribe } from './events/event-observer.interface'
 import { ConnectionStatusObserver } from './events/connection-status-observer.service'
 import { BasicRundown } from '../models/basic-rundown'
 import { BasicRundownService } from '../interfaces/basic-rundown-service'
+import { RundownEvent } from '../models/rundown-event'
 
 @Injectable()
 export class BasicRundownStateService implements OnDestroy {
@@ -30,11 +31,11 @@ export class BasicRundownStateService implements OnDestroy {
 
   private registerConnectionStatusConsumers(): Unsubscribe[] {
     return [
-      this.connectionStatusObserver.subscribeToConnectionStatus(this.connectionStatusHandler.bind(this))
+      this.connectionStatusObserver.subscribeToConnectionStatus(this.resetBasicRundownSubjectIfConnected.bind(this))
     ]
   }
 
-  private connectionStatusHandler(isConnected: boolean): void {
+  private resetBasicRundownSubjectIfConnected(isConnected: boolean): void {
     if (!isConnected) {
       return
     }
@@ -50,55 +51,43 @@ export class BasicRundownStateService implements OnDestroy {
 
   private registerBasicRundownEventConsumers(): Unsubscribe[] {
     return [
-      this.rundownEventObserver.subscribeToRundownActivation(this.createBasicRundownEventHandler(this.rundownActivationHandler.bind(this))),
-      this.rundownEventObserver.subscribeToRundownDeactivation(this.createBasicRundownEventHandler(this.rundownDeactivationHandler.bind(this))),
-      this.rundownEventObserver.subscribeToRundownDeletion(this.createBasicRundownEventHandler(this.rundownDeletionHandler.bind(this))),
+      this.rundownEventObserver.subscribeToRundownActivation(this.activateBasicRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownDeactivation(this.deactivateBasicRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownDeletion(this.deleteBasicRundownFromEvent.bind(this)),
       // TODO: Add listener(s) for updating the modifiedAt attribute when we implement modifiedAt.
       // TODO: Add listener(s) for when a rundown is created.
     ]
   }
 
-  private createBasicRundownEventHandler<EventType extends { rundownId: string }>(
-      handler: (basicRundown: BasicRundown, event: EventType) => BasicRundown[]
-  ): (event: EventType) => void {
-    return (event: EventType) => {
-      const basicRundowns = this.basicRundownsSubject.value
-      const newBasicRundowns: BasicRundown[] = basicRundowns.reduce(this.createBasicRundownReducer(handler, event), [])
-      this.basicRundownsSubject.next(newBasicRundowns)
-    }
-  }
-
-  private createBasicRundownReducer<EventType extends { rundownId: string }>(
-      handler: (basicRundown: BasicRundown, event: EventType) => BasicRundown[],
-      event: EventType
-  ): (basicRundowns: BasicRundown[], basicRundown: BasicRundown) => BasicRundown[] {
-    return (basicRundowns: BasicRundown[], basicRundown: BasicRundown) => {
+  private activateBasicRundownFromEvent(event: RundownEvent): void {
+    const updatedBasicRundowns = this.basicRundownsSubject.value.map(basicRundown => {
       if (basicRundown.id !== event.rundownId) {
-        return [...basicRundowns, basicRundown]
+        return basicRundown
       }
-      return [
-          ...basicRundowns,
-          ...handler(basicRundown, event)
-      ]
-    }
+      return {
+        ...basicRundown,
+        isActive: true,
+      }
+    })
+    this.basicRundownsSubject.next(updatedBasicRundowns)
   }
 
-  private rundownActivationHandler(basicRundown: BasicRundown): BasicRundown[] {
-    return [{
-      ...basicRundown,
-      isActive: true
-    }]
+  private deactivateBasicRundownFromEvent(event: RundownEvent): void {
+    const updatedBasicRundowns = this.basicRundownsSubject.value.map(basicRundown => {
+      if (basicRundown.id !== event.rundownId) {
+        return basicRundown
+      }
+      return {
+        ...basicRundown,
+        isActive: false,
+      }
+    })
+    this.basicRundownsSubject.next(updatedBasicRundowns)
   }
 
-  private rundownDeactivationHandler(basicRundown: BasicRundown): BasicRundown[] {
-    return [{
-      ...basicRundown,
-      isActive: false
-    }]
-  }
-
-  private rundownDeletionHandler(): BasicRundown[] {
-    return []
+  private deleteBasicRundownFromEvent(event: RundownEvent): void {
+    const updatedBasicRundowns = this.basicRundownsSubject.value.filter(basicRundown => basicRundown.id !== event.rundownId)
+    this.basicRundownsSubject.next(updatedBasicRundowns)
   }
 
   public subscribeToBasicRundowns(consumer: (basicRundowns: BasicRundown[]) => void): SubscriptionLike {
