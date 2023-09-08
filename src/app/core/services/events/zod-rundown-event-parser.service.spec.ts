@@ -117,7 +117,7 @@ describe(ZodRundownEventParser.name, () => {
         it('parses a rundown set next event', () => {
             const testee = new ZodRundownEventParser()
             const event: PartSetAsNextEvent = {
-                type: RundownEventType.SET_AS_NEXT,
+                type: RundownEventType.SET_NEXT,
                 rundownId: 'some-rundown-id',
                 segmentId: 'some-segment-id',
                 partId: 'some-part-id',
@@ -131,7 +131,7 @@ describe(ZodRundownEventParser.name, () => {
         it('does not parse a partial rundown set next event', () => {
             const testee = new ZodRundownEventParser()
             const event: Partial<PartSetAsNextEvent> = {
-                type: RundownEventType.SET_AS_NEXT,
+                type: RundownEventType.SET_NEXT,
             }
 
             const result = () => testee.parseSetNextEvent(event)

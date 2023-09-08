@@ -35,7 +35,7 @@ export interface PartTakenEvent extends PartEvent {
 }
 
 export interface PartSetAsNextEvent extends PartEvent {
-  type: RundownEventType.SET_AS_NEXT
+  type: RundownEventType.SET_NEXT
 }
 
 export interface RundownAdLibPieceInsertedEvent extends RundownEvent {

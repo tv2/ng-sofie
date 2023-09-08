@@ -50,7 +50,7 @@ export class RundownEventObserver {
 
     public subscribeToRundownSetNext(consumer: (event: PartSetAsNextEvent) => void): Unsubscribe {
         return this.eventObserver.subscribe(
-            RundownEventType.SET_AS_NEXT,
+            RundownEventType.SET_NEXT,
             this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseSetNextEvent)
         )
     }
