@@ -9,7 +9,8 @@ import { RundownEvent } from '../models/rundown-event'
 
 @Injectable()
 export class BasicRundownStateService implements OnDestroy {
-  private readonly basicRundownsSubject: BehaviorSubject<BasicRundown[]> = new BehaviorSubject<BasicRundown[]>([])
+  private readonly basicRundownsSubject: BehaviorSubject<BasicRundown[]>
+  private basicRundowns: BasicRundown[] = []
   private unsubscribeFromEvents?: Unsubscribe
 
   constructor(
@@ -17,6 +18,7 @@ export class BasicRundownStateService implements OnDestroy {
       private readonly rundownEventObserver: RundownEventObserver,
       private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {
+    this.basicRundownsSubject = new BehaviorSubject<BasicRundown[]>(this.basicRundowns)
     this.registerEventConsumers()
   }
 
@@ -44,7 +46,8 @@ export class BasicRundownStateService implements OnDestroy {
 
   private resetBasicRundownSubject(): void {
     this.fetchBasicRundowns()
-        .then(basicRundowns => this.basicRundownsSubject.next(basicRundowns))
+        .then(basicRundowns => this.basicRundowns = basicRundowns)
+        .then(() => this.basicRundownsSubject.next(this.basicRundowns))
         .catch(error => console.error('[error]', 'Encountered error while fetching basic rundowns:', error))
   }
 
@@ -59,34 +62,28 @@ export class BasicRundownStateService implements OnDestroy {
   }
 
   private activateBasicRundownFromEvent(event: RundownEvent): void {
-    const updatedBasicRundowns = this.basicRundownsSubject.value.map(basicRundown => {
-      if (basicRundown.id !== event.rundownId) {
-        return basicRundown
+    this.basicRundowns = this.basicRundowns.map(basicRundown => {
+      if (basicRundown.id === event.rundownId) {
+        basicRundown.isActive = true
       }
-      return {
-        ...basicRundown,
-        isActive: true,
-      }
+      return basicRundown
     })
-    this.basicRundownsSubject.next(updatedBasicRundowns)
+    this.basicRundownsSubject.next(this.basicRundowns)
   }
 
   private deactivateBasicRundownFromEvent(event: RundownEvent): void {
-    const updatedBasicRundowns = this.basicRundownsSubject.value.map(basicRundown => {
-      if (basicRundown.id !== event.rundownId) {
-        return basicRundown
+    this.basicRundowns = this.basicRundowns.map(basicRundown => {
+      if (basicRundown.id === event.rundownId) {
+        basicRundown.isActive = true
       }
-      return {
-        ...basicRundown,
-        isActive: false,
-      }
+      return basicRundown
     })
-    this.basicRundownsSubject.next(updatedBasicRundowns)
+    this.basicRundownsSubject.next(this.basicRundowns)
   }
 
   private deleteBasicRundownFromEvent(event: RundownEvent): void {
-    const updatedBasicRundowns = this.basicRundownsSubject.value.filter(basicRundown => basicRundown.id !== event.rundownId)
-    this.basicRundownsSubject.next(updatedBasicRundowns)
+    this.basicRundowns = this.basicRundowns.filter(basicRundown => basicRundown.id !== event.rundownId)
+    this.basicRundownsSubject.next(this.basicRundowns)
   }
 
   public subscribeToBasicRundowns(consumer: (basicRundowns: BasicRundown[]) => void): SubscriptionLike {
