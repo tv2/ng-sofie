@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
 import {catchError, map, Observable} from 'rxjs'
-import {RundownService} from '../interfaces/rundown-service.interface';
+import {RundownService} from '../abstractions/rundown-service.interface';
 import {HttpErrorService} from './http-error.service';
 import {Rundown} from '../models/rundown';
 import { EntityParser } from './entity-parser.interface'

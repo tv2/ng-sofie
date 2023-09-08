@@ -4,7 +4,7 @@ import { RundownEventObserver } from './events/rundown-event-observer.service'
 import { Unsubscribe } from './events/event-observer.interface'
 import { ConnectionStatusObserver } from './events/connection-status-observer.service'
 import { BasicRundown } from '../models/basic-rundown'
-import { BasicRundownService } from '../interfaces/basic-rundown-service'
+import { BasicRundownService } from '../abstractions/basic-rundown-service'
 import { RundownEvent } from '../models/rundown-event'
 
 @Injectable()

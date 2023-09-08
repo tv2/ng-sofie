@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { HttpErrorService } from './http-error.service';
 import { catchError, map, Observable } from 'rxjs'
-import { BasicRundownService } from '../interfaces/basic-rundown-service';
+import { BasicRundownService } from '../abstractions/basic-rundown-service';
 import { BasicRundown } from "../models/basic-rundown";
 import { EntityParser } from './entity-parser.interface'
 
