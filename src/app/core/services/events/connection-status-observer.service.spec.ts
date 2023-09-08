@@ -77,11 +77,3 @@ describe(ConnectionStatusObserver.name, () => {
         })
     })
 })
-
-function configureUnsubscribeMock(subject: string, mockedEventObserver: EventObserver): () => void {
-    const mockedUnsubscribeObject = mock<{ unsubscribeFromSubject: () => void }>()
-    when(mockedEventObserver.subscribe(anyString(), anything())).thenReturn(() => {})
-    when(mockedEventObserver.subscribe(subject, anything()))
-        .thenReturn(instance(mockedUnsubscribeObject).unsubscribeFromSubject)
-    return mockedUnsubscribeObject.unsubscribeFromSubject
-}
