@@ -39,14 +39,11 @@ export class RundownStateService implements OnDestroy {
 
   private registerConnectionStatusConsumers(): Unsubscribe[] {
     return [
-      this.connectionStatusObserver.subscribeToConnectionStatus(this.resetRundownSubjectsIfConnected.bind(this))
+      this.connectionStatusObserver.subscribeToReconnect(this.resetRundownSubjects.bind(this))
     ]
   }
 
-  private resetRundownSubjectsIfConnected(isConnected: boolean): void {
-    if (!isConnected) {
-      return
-    }
+  private resetRundownSubjects(): void {
     for (const [rundownId, rundownSubject] of this.rundownSubjects.entries()) {
       this.resetRundownSubject(rundownSubject, rundownId)
     }

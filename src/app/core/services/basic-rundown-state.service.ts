@@ -20,6 +20,7 @@ export class BasicRundownStateService implements OnDestroy {
   ) {
     this.basicRundownsSubject = new BehaviorSubject<BasicRundown[]>(this.basicRundowns)
     this.registerEventConsumers()
+    this.resetBasicRundownSubject()
   }
 
   private registerEventConsumers(): void {
@@ -33,15 +34,8 @@ export class BasicRundownStateService implements OnDestroy {
 
   private registerConnectionStatusConsumers(): Unsubscribe[] {
     return [
-      this.connectionStatusObserver.subscribeToConnectionStatus(this.resetBasicRundownSubjectIfConnected.bind(this))
+      this.connectionStatusObserver.subscribeToReconnect(this.resetBasicRundownSubject.bind(this))
     ]
-  }
-
-  private resetBasicRundownSubjectIfConnected(isConnected: boolean): void {
-    if (!isConnected) {
-      return
-    }
-    this.resetBasicRundownSubject()
   }
 
   private resetBasicRundownSubject(): void {
