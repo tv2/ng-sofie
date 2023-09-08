@@ -47,7 +47,7 @@ export class RundownStateService implements OnDestroy {
     if (!isConnected) {
       return
     }
-    for (let [rundownId, rundownSubject] of this.rundownSubjects.entries()) {
+    for (const [rundownId, rundownSubject] of this.rundownSubjects.entries()) {
       this.resetRundownSubject(rundownSubject, rundownId)
     }
   }
