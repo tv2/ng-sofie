@@ -4,17 +4,19 @@ import {RundownOverviewComponent} from './components/rundown-overview/rundown-ov
 import {RundownOverviewRoutingModule} from './rundown-overview-routing.module';
 import {MatTableModule} from "@angular/material/table";
 import { PulsatingDotComponent } from './components/pulsating-dot/pulsating-dot.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
   declarations: [
     RundownOverviewComponent,
-    PulsatingDotComponent
+    PulsatingDotComponent,
   ],
-  imports: [
-    RundownOverviewRoutingModule,
-    SharedModule,
-    MatTableModule
-  ]
+    imports: [
+        RundownOverviewRoutingModule,
+        SharedModule,
+        MatTableModule,
+        MatCardModule
+    ]
 })
 export class RundownOverviewModule { }
