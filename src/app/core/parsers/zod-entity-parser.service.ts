@@ -5,39 +5,71 @@ import { Part } from '../models/part'
 import { Piece } from '../models/piece'
 import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
-import { AD_LIB_PIECE_PARSER } from '../parsers/ad-lib-piece.schema'
-import { BASIC_RUNDOWN_PARSER, BASIC_RUNDOWNS_PARSER } from '../parsers/basic-rundown.schema'
-import { PART_PARSER } from '../parsers/part.schema'
-import { RUNDOWN_PARSER } from '../parsers/rundown.schema'
-import { SEGMENT_PARSER } from '../parsers/segment.schema'
-import { PIECE_PARSER } from '../parsers/piece.schema'
+import * as zod from 'zod'
+
 
 export class ZodEntityParser implements EntityParser {
-    public parseBasicRundown(basicRundown: unknown): BasicRundown {
-        return BASIC_RUNDOWN_PARSER.parse(basicRundown)
-    }
-
-    public parseBasicRundowns(basicRundowns: unknown): BasicRundown[] {
-        return BASIC_RUNDOWNS_PARSER.parse(basicRundowns)
-    }
-
-    public parseRundown(rundown: unknown): Rundown {
-        return new Rundown(RUNDOWN_PARSER.parse(rundown))
-    }
-
-    public parseSegment(segment: unknown): Segment {
-        return new Segment(SEGMENT_PARSER.parse(segment))
-    }
-
-    public parsePart(part: unknown): Part {
-        return new Part(PART_PARSER.parse(part))
-    }
-
+    private PIECE_PARSER = zod.object({
+        id: zod.string().nonempty(),
+        partId: zod.string().nonempty(),
+        name: zod.string().nonempty(),
+        layer: zod.string().nonempty(),
+    })
     public parsePiece(piece: unknown): Piece {
-        return PIECE_PARSER.parse(piece)
+        return this.PIECE_PARSER.parse(piece)
     }
 
+    private AD_LIB_PIECE_PARSER = this.PIECE_PARSER.extend({
+        start: zod.number(),
+        duration: zod.number(),
+    })
     public parseAdLibPiece(adLibPiece: unknown): AdLibPiece {
-        return AD_LIB_PIECE_PARSER.parse(adLibPiece)
+        return this.AD_LIB_PIECE_PARSER.parse(adLibPiece)
+    }
+
+    private PART_PARSER = zod.object({
+        id: zod.string().nonempty(),
+        segmentId: zod.string().nonempty(),
+        isOnAir: zod.boolean(),
+        isNext: zod.boolean(),
+        pieces: this.PIECE_PARSER.array()
+    })
+    public parsePart(part: unknown): Part {
+        return new Part(this.PART_PARSER.parse(part))
+    }
+
+    private SEGMENT_PARSER = zod.object({
+        id: zod.string().nonempty(),
+        rundownId: zod.string().nonempty(),
+        name: zod.string().nonempty(),
+        isOnAir: zod.boolean(),
+        isNext: zod.boolean(),
+        parts: this.PART_PARSER.array(),
+    })
+    public parseSegment(segment: unknown): Segment {
+        return new Segment(this.SEGMENT_PARSER.parse(segment))
+    }
+
+    private BASIC_RUNDOWN_PARSER = zod.object({
+        id: zod.string().nonempty(),
+        name: zod.string().nonempty(),
+        isActive: zod.boolean(),
+        modifiedAt: zod.number(),
+    })
+    public parseBasicRundown(basicRundown: unknown): BasicRundown {
+        return this.BASIC_RUNDOWN_PARSER.parse(basicRundown)
+    }
+
+    private BASIC_RUNDOWNS_PARSER = this.BASIC_RUNDOWN_PARSER.array()
+    public parseBasicRundowns(basicRundowns: unknown): BasicRundown[] {
+        return this.BASIC_RUNDOWNS_PARSER.parse(basicRundowns)
+    }
+
+    private RUNDOWN_PARSER = this.BASIC_RUNDOWN_PARSER.extend({
+        segments: zod.array(this.SEGMENT_PARSER),
+        infinitePieces: zod.array(this.PIECE_PARSER),
+    })
+    public parseRundown(rundown: unknown): Rundown {
+        return new Rundown(this.RUNDOWN_PARSER.parse(rundown))
     }
 }
