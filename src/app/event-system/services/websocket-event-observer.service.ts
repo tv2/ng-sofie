@@ -1,4 +1,4 @@
-import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from '../abstractions/event-observer.service'
+import { EventConsumer, EventObserver, TypedEvent, EventSubscription } from '../abstractions/event-observer.service'
 import { RobustWebSocket } from './robust-websocket.service'
 import { Injectable } from '@angular/core'
 import { RobustWebSocketFactory } from '../factories/robust-websocket.factory'
@@ -63,7 +63,7 @@ export class WebSocketEventObserver implements EventObserver {
         this.publishEvent(event)
     }
 
-    public subscribe(subject: string, consumer: EventConsumer): Unsubscribe {
+    public subscribe(subject: string, consumer: EventConsumer): EventSubscription {
         this.ensureSubject(subject)
         this.subscriptions[subject].add(consumer)
         return () => this.unsubscribe(subject, consumer)

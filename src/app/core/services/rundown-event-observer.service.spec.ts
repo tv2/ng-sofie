@@ -1,6 +1,6 @@
 import { RundownEventObserver } from './rundown-event-observer.service'
 import { anyString, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
-import { EventObserver } from '../../event-system/abstractions/event-observer.service'
+import { EventObserver, EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { RundownEventParser } from '../abstractions/rundown-event.parser'
 import { RundownEventType } from '../models/rundown-event-type'
 
@@ -32,26 +32,26 @@ describe(RundownEventObserver.name, () => {
             const mockedEventObserver = mock<EventObserver>()
             const mockedRundownEventParser = createMockOfRundownEventParser()
             const subject = RundownEventType.ACTIVATED
-            const mockedUnsubscribe = configureUnsubscribeMock(subject, mockedEventObserver)
+            const mockedEventSubscription = configureEventSubscriptionMock(subject, mockedEventObserver)
             const testee = new RundownEventObserver(instance(mockedEventObserver), instance(mockedRundownEventParser))
 
-            const unsubscribe = testee.subscribeToRundownActivation(() => { return })
-            unsubscribe()
+            const eventSubscription = testee.subscribeToRundownActivation(() => { return })
+            eventSubscription.unsubscribe()
 
-            verify(mockedUnsubscribe()).once()
+            verify(mockedEventSubscription.unsubscribe()).once()
         })
 
         it('calls the return value and unsubscribes from rundown deactivated events', () => {
             const mockedEventObserver = mock<EventObserver>()
             const mockedRundownEventParser = createMockOfRundownEventParser()
             const subject = RundownEventType.DEACTIVATED
-            const mockedUnsubscribe = configureUnsubscribeMock(subject, mockedEventObserver)
+            const mockedEventSubscription = configureEventSubscriptionMock(subject, mockedEventObserver)
             const testee = new RundownEventObserver(instance(mockedEventObserver), instance(mockedRundownEventParser))
 
-            const unsubscribe = testee.subscribeToRundownDeactivation(() => { return })
-            unsubscribe()
+            const eventSubscription = testee.subscribeToRundownDeactivation(() => { return })
+            eventSubscription.unsubscribe()
 
-            verify(mockedUnsubscribe()).once()
+            verify(mockedEventSubscription.unsubscribe()).once()
         })
     })
 })
@@ -68,10 +68,10 @@ function createMockOfRundownEventParser(): RundownEventParser {
     return mockedRundownEventParser
 }
 
-function configureUnsubscribeMock(subject: string, mockedEventObserver: EventObserver): () => void {
-    const mockedUnsubscribeObject = mock<{ unsubscribeFromSubject: () => void }>()
-    when(mockedEventObserver.subscribe(anyString(), anything())).thenReturn(() => {})
+function configureEventSubscriptionMock(subject: string, mockedEventObserver: EventObserver): EventSubscription {
+    const mockedUnsubscribeObject = mock<EventSubscription>()
+    when(mockedEventObserver.subscribe(anyString(), anything())).thenReturn({ unsubscribe: () => {} })
     when(mockedEventObserver.subscribe(subject, anything()))
-        .thenReturn(instance(mockedUnsubscribeObject).unsubscribeFromSubject)
-    return mockedUnsubscribeObject.unsubscribeFromSubject
+        .thenReturn(instance(mockedUnsubscribeObject))
+    return mockedUnsubscribeObject
 }
