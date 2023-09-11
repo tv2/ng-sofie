@@ -21,3 +21,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: black;
   }
 }
+
+.snackbar-success {
+  background: green;
+  color: white;
+
+  .mat-button-wrapper {
+    color: white;
+  }
+}
