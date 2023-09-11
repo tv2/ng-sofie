@@ -12,8 +12,8 @@ import { RundownStateService } from './services/rundown-state.service'
 import { RundownEventParser } from './abstractions/rundown-event-parser.interface'
 import { BasicRundownStateService } from './services/basic-rundown-state.service'
 import { BasicRundownService } from './abstractions/basic-rundown-service'
-import { EntityParser } from './services/entity-parser.interface'
-import { ZodEntityParser } from './services/zod-entity-parser.service'
+import { EntityParser } from './abstractions/entity-parser.interface'
+import { ZodEntityParser } from './parsers/zod-entity-parser.service'
 import { ZodRundownEventParser } from './parsers/zod-rundown-event-parser.service'
 
 @NgModule({

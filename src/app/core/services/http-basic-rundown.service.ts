@@ -4,7 +4,7 @@ import { HttpErrorService } from './http-error.service';
 import { catchError, map, Observable } from 'rxjs'
 import { BasicRundownService } from '../abstractions/basic-rundown-service';
 import { BasicRundown } from "../models/basic-rundown";
-import { EntityParser } from './entity-parser.interface'
+import { EntityParser } from '../abstractions/entity-parser.interface'
 
 // TODO: Change when we get a setup for handling configurations.
 const RUNDOWN_URL: string = 'http://localhost:3005/api/rundowns'
