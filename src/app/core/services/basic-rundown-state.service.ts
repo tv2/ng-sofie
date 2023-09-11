@@ -19,20 +19,20 @@ export class BasicRundownStateService implements OnDestroy {
       private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {
     this.basicRundownsSubject = new BehaviorSubject<BasicRundown[]>(this.basicRundowns)
-    this.registerEventConsumers()
+    this.subscribeToEvents()
     this.resetBasicRundownSubject()
   }
 
-  private registerEventConsumers(): void {
-    const unsubscribeFromConnectionStatusEvents = this.registerConnectionStatusConsumers()
-    const unsubscribesFromRundownEvents = this.registerBasicRundownEventConsumers()
+  private subscribeToEvents(): void {
+    const connectionStatusSubscriptions = this.subscribeToConnectionStatus()
+    const rundownEventSubscriptions = this.subscribeToRundownEvents()
     this.eventSubscriptions = [
-        ...unsubscribesFromRundownEvents,
-        ...unsubscribeFromConnectionStatusEvents
+        ...rundownEventSubscriptions,
+        ...connectionStatusSubscriptions
       ]
   }
 
-  private registerConnectionStatusConsumers(): EventSubscription[] {
+  private subscribeToConnectionStatus(): EventSubscription[] {
     return [
       this.connectionStatusObserver.subscribeToReconnect(this.resetBasicRundownSubject.bind(this))
     ]
@@ -45,7 +45,7 @@ export class BasicRundownStateService implements OnDestroy {
         .catch(error => console.error('[error]', 'Encountered error while fetching basic rundowns:', error))
   }
 
-  private registerBasicRundownEventConsumers(): EventSubscription[] {
+  private subscribeToRundownEvents(): EventSubscription[] {
     return [
       this.rundownEventObserver.subscribeToRundownActivation(this.activateBasicRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownDeactivation(this.deactivateBasicRundownFromEvent.bind(this)),

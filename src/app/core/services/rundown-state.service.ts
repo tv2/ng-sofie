@@ -25,19 +25,19 @@ export class RundownStateService implements OnDestroy {
       private readonly rundownEventObserver: RundownEventObserver,
       private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {
-    this.registerEventConsumers()
+    this.subscribeToEvents()
   }
 
-  private registerEventConsumers(): void {
-    const unsubscribeFromConnectionStatusEvents = this.registerConnectionStatusConsumers()
-    const unsubscribesFromRundownEvents = this.registerRundownEventConsumers()
+  private subscribeToEvents(): void {
+    const connectionStatusSubscriptions = this.subscribeToConnectionStatus()
+    const rundownEventSubscriptions = this.subscribeToRundownEvents()
     this.eventSubscriptions = [
-        ...unsubscribesFromRundownEvents,
-        ...unsubscribeFromConnectionStatusEvents
+        ...rundownEventSubscriptions,
+        ...connectionStatusSubscriptions
       ]
   }
 
-  private registerConnectionStatusConsumers(): EventSubscription[] {
+  private subscribeToConnectionStatus(): EventSubscription[] {
     return [
       this.connectionStatusObserver.subscribeToReconnect(this.resetRundownSubjects.bind(this))
     ]
@@ -56,7 +56,7 @@ export class RundownStateService implements OnDestroy {
         .catch(error => console.error('[error]', `Encountered error while fetching rundown with id '${rundownId}':`, error))
   }
 
-  private registerRundownEventConsumers(): EventSubscription[] {
+  private subscribeToRundownEvents(): EventSubscription[] {
     return [
       this.rundownEventObserver.subscribeToRundownActivation(this.activateRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownDeactivation(this.deactivateRundownFromEvent.bind(this)),
