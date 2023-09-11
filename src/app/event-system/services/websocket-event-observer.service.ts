@@ -1,7 +1,7 @@
-import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from './event-observer.service'
+import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from '../abstractions/event-observer.service'
 import { RobustWebSocket } from './robust-websocket.service'
 import { Injectable } from '@angular/core'
-import { RobustWebSocketFactory } from './robust-websocket.factory'
+import { RobustWebSocketFactory } from '../factories/robust-websocket.factory'
 
 @Injectable()
 export class WebSocketEventObserver implements EventObserver {
