@@ -7,6 +7,3 @@ export type Unsubscribe = () => void
 export abstract class EventObserver {
     public abstract subscribe(subject: string, consumer: EventConsumer): Unsubscribe
 }
-
-
-
