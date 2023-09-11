@@ -25,6 +25,10 @@ export class ConnectionStatusObserver implements OnDestroy {
         })
     }
 
+    public subscribeToClosed(consumer: () => void): EventSubscription {
+        return this.eventObserver.subscribe(ConnectionEventType.CLOSED, consumer)
+    }
+
     public ngOnDestroy() {
         this.closedEventSubscription.unsubscribe
     }
