@@ -68,7 +68,7 @@ export class BasicRundownStateService implements OnDestroy {
   private deactivateBasicRundownFromEvent(event: RundownEvent): void {
     this.basicRundowns = this.basicRundowns.map(basicRundown => {
       if (basicRundown.id === event.rundownId) {
-        basicRundown.isActive = true
+        basicRundown.isActive = false
       }
       return basicRundown
     })

@@ -20,7 +20,7 @@ export class HttpRundownService implements RundownService {
   public fetchRundown(rundownId: string): Observable<Rundown> {
     return this.http.get<unknown>(`${RUNDOWN_URL}/${rundownId}`).pipe(
       catchError((error) => this.httpErrorService.catchError(error)),
-      map(this.entityParser.parseRundown)
+      map(this.entityParser.parseRundown.bind(this.entityParser))
     )
   }
 
