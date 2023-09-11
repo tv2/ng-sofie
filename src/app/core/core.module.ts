@@ -16,12 +16,14 @@ import { BasicRundownService } from './abstractions/basic-rundown.service'
 import { EntityParserService } from './abstractions/entity-parser.service'
 import { ZodEntityParser } from './parsers/zod-entity-parser.service'
 import { ZodRundownEventParser } from './parsers/zod-rundown-event-parser.service'
+import { EventSystemModule } from '../event-system/event-system.module'
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    EventSystemModule,
   ],
   providers: [
     HttpErrorService,

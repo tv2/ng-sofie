@@ -66,7 +66,7 @@ export class WebSocketEventObserver implements EventObserver {
     public subscribe(subject: string, consumer: EventConsumer): EventSubscription {
         this.ensureSubject(subject)
         this.subscriptions[subject].add(consumer)
-        return () => this.unsubscribe(subject, consumer)
+        return { unsubscribe: () => this.unsubscribe(subject, consumer) }
     }
 
     private ensureSubject(subject: string): void {
