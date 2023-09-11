@@ -7,7 +7,7 @@ import {
     PartTakenEvent
 } from '../models/rundown-event'
 import { anything, instance, mock, when } from '@typestrong/ts-mockito'
-import { EntityParser } from '../abstractions/entity.parser'
+import { EntityParserService } from '../abstractions/entity-parser.service'
 
 describe(ZodRundownEventParser.name, () => {
     describe(ZodRundownEventParser.prototype.parseActivatedEvent.name, () => {
@@ -225,8 +225,8 @@ describe(ZodRundownEventParser.name, () => {
     })
 })
 
-function createMockOfEntityParser(): EntityParser {
-    const mockedEntityParser = mock<EntityParser>()
+function createMockOfEntityParser(): EntityParserService {
+    const mockedEntityParser = mock<EntityParserService>()
     when(mockedEntityParser.parseAdLibPiece(anything())).thenCall(adLibPiece => adLibPiece)
     when(mockedEntityParser.parsePiece(anything())).thenCall(piece => piece)
     return mockedEntityParser
