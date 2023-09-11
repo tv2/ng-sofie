@@ -1,4 +1,4 @@
-import { ReconnectStrategy } from './reconnect-strategy.service'
+import { ReconnectStrategy } from '../abstractions/reconnect-strategy.service'
 
 export class ExponentiallyDelayedReconnectStrategy implements ReconnectStrategy {
     private connectAttempts: number = 0

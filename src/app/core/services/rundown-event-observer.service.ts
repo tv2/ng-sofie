@@ -1,13 +1,13 @@
-import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from './event-observer.interface'
+import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from '../../event-system/abstractions/event-observer.interface'
 import { Injectable } from '@angular/core'
-import { RundownEventParser } from './rundown-event-parser.interface'
-import { RundownEventType } from '../../models/rundown-event-type'
+import { RundownEventParser } from '../abstractions/rundown-event-parser.interface'
+import { RundownEventType } from '../models/rundown-event-type'
 import {
     RundownActivatedEvent, RundownAdLibPieceInsertedEvent,
     RundownDeactivatedEvent, RundownDeletedEvent, RundownInfinitePieceAddedEvent,
     RundownResetEvent, PartSetAsNextEvent,
     PartTakenEvent
-} from '../../models/rundown-event'
+} from '../models/rundown-event'
 
 @Injectable()
 export class RundownEventObserver {
