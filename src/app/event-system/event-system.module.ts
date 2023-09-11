@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { EventObserver } from './abstractions/event-observer.interface'
+import { EventObserver } from './abstractions/event-observer.service'
 import { WebSocketEventObserver } from './services/websocket-event-observer.service'
 import { RobustWebSocketFactory } from './factories/robust-websocket.factory'
 

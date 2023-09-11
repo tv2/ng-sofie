@@ -1,4 +1,4 @@
-import { EventObserver, Unsubscribe } from '../../event-system/abstractions/event-observer.interface'
+import { EventObserver, Unsubscribe } from '../../event-system/abstractions/event-observer.service'
 import { Injectable, OnDestroy } from '@angular/core'
 
 enum ConnectionEventType {

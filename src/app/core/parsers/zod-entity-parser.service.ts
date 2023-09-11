@@ -1,4 +1,4 @@
-import { EntityParser } from '../abstractions/entity-parser.interface'
+import { EntityParser } from '../abstractions/entity.parser'
 import { AdLibPiece } from '../models/ad-lib-piece'
 import { BasicRundown } from '../models/basic-rundown'
 import { Part } from '../models/part'

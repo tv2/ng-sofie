@@ -1,5 +1,5 @@
 import { ConnectionStatusObserver } from './connection-status-observer.service'
-import { EventObserver } from '../../event-system/abstractions/event-observer.interface'
+import { EventObserver } from '../../event-system/abstractions/event-observer.service'
 import { anything, capture, instance, mock, verify } from '@typestrong/ts-mockito'
 
 enum ConnectionStatusEventType {
