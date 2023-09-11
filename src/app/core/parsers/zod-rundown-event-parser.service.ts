@@ -10,6 +10,7 @@ import {
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
 import { EntityParser } from '../abstractions/entity.parser'
+import { AdLibPiece } from '../models/ad-lib-piece'
 
 @Injectable()
 export class ZodRundownEventParser {
@@ -76,7 +77,8 @@ export class ZodRundownEventParser {
         segmentId: zod.string().nonempty(),
         partId: zod.string().nonempty(),
         adLibPiece: zod.object({})
-            .transform(adLibPiece => this.entityParser.parseAdLibPiece(adLibPiece)),
+            .nonstrict()
+            .transform((adLibPiece: unknown): AdLibPiece => this.entityParser.parseAdLibPiece(adLibPiece)),
     })
     public parseAdLibPieceInserted(maybeEvent: unknown): RundownAdLibPieceInsertedEvent {
         return this.RUNDOWN_AD_LIB_PIECE_INSERTED_EVENT_PARSER.parse(maybeEvent)
@@ -86,7 +88,8 @@ export class ZodRundownEventParser {
         type: zod.literal(RundownEventType.INFINITE_PIECE_ADDED),
         rundownId: zod.string().nonempty(),
         infinitePiece: zod.object({})
-            .transform(piece => this.entityParser.parsePiece(piece)),
+            .nonstrict()
+            .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
     })
     public parseInfinitePieceAdded(maybeEvent: unknown): RundownInfinitePieceAddedEvent {
         return this.RUNDOWN_INFINITE_PIECE_ADDED_EVENT_PARSER.parse(maybeEvent)
