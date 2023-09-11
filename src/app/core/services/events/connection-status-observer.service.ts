@@ -1,5 +1,5 @@
-import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from './event-observer.service'
-import { Injectable } from '@angular/core'
+import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from './event-observer.interface'
+import { Injectable, OnDestroy } from '@angular/core'
 
 enum ConnectionEventType {
     OPENED = 'CONNECTION_OPENED',
@@ -7,22 +7,25 @@ enum ConnectionEventType {
 }
 
 @Injectable()
-export class ConnectionStatusObserver {
-    constructor(private readonly eventObserver: EventObserver) {}
+export class ConnectionStatusObserver implements OnDestroy {
+    private readonly unsubscribeFromClosedEvent: Unsubscribe
+    private hasHadOpenConnection: boolean = false
 
-    public subscribeToConnectionStatus(consumer: (isConnected: boolean) => void): Unsubscribe {
-        const unsubscribeConnectionOpened = this.eventObserver.subscribe(ConnectionEventType.OPENED, this.createConnectionStatusConsumer(consumer))
-        const unsubscribeConnectionClosed = this.eventObserver.subscribe(ConnectionEventType.CLOSED, this.createConnectionStatusConsumer(consumer))
-        return () => {
-            unsubscribeConnectionOpened()
-            unsubscribeConnectionClosed()
-        }
+    constructor(private readonly eventObserver: EventObserver) {
+        this.unsubscribeFromClosedEvent = eventObserver.subscribe(ConnectionEventType.CLOSED, () => this.hasHadOpenConnection = true)
     }
 
-    private createConnectionStatusConsumer(consumer: (isConnected: boolean) => void): EventConsumer {
-        return (event: TypedEvent) => {
-            const isConnected = event.type === ConnectionEventType.OPENED
-            consumer(isConnected)
-        }
+    public subscribeToReconnect(consumer: () => void): Unsubscribe {
+        return this.eventObserver.subscribe(ConnectionEventType.OPENED, () => {
+            if (!this.hasHadOpenConnection) {
+                this.hasHadOpenConnection = true
+                return
+            }
+            consumer()
+        })
+    }
+
+    public ngOnDestroy() {
+        this.unsubscribeFromClosedEvent()
     }
 }

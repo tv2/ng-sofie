@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
-import {RundownService} from '../../../core/services/rundown.service'
+import {HttpRundownService} from '../../../core/services/http-rundown.service'
 import {AdLibPieceService} from '../../../core/services/ad-lib-piece.service'
 import {Rundown} from '../../../core/models/rundown';
 import {Identifier} from '../../../core/models/identifier';
 import { RundownStateService } from '../../../core/services/rundown-state.service';
+import { SubscriptionLike } from 'rxjs'
 
 @Component({
   selector: 'sofie-rundown',
@@ -15,11 +16,11 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   public rundown?: Rundown
   public adLibPieceIdentifiers: Identifier[] = []
-  private unsubscribeFromRundown: () => void
+  private rundownSubscription?: SubscriptionLike
 
   constructor(
     private route: ActivatedRoute,
-    private rundownService: RundownService,
+    private rundownService: HttpRundownService,
     private adLibPieceService: AdLibPieceService,
     private rundownStateService: RundownStateService
   ) { }
@@ -27,17 +28,17 @@ export class RundownComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const rundownId: string | null = this.route.snapshot.paramMap.get('rundownId')
     if (!rundownId) {
-      console.log('No rundownId found. Can\'t fetch Rundown')
+      console.error('[error]: No rundownId found. Can\'t fetch Rundown')
       return
     }
     this.fetchAdLibPieceIdentifiers(rundownId)
-    this.unsubscribeFromRundown = this.rundownStateService.subscribeToRundown(rundownId, (rundown) => {
-      this.rundown = rundown;
-    });
+    this.rundownStateService
+        .subscribeToRundown(rundownId, (rundown) => { this.rundown = rundown })
+        .then(unsubscribeFromRundown => { this.rundownSubscription = unsubscribeFromRundown })
   }
 
   public ngOnDestroy(): void {
-    this.unsubscribeFromRundown()
+    this.rundownSubscription?.unsubscribe()
   }
 
   private fetchAdLibPieceIdentifiers(rundownId: string): void {

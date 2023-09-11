@@ -1,11 +1,9 @@
 import { Segment, SegmentInterface } from './segment'
-import { RundownEvent } from './rundown-event'
 import { Piece } from './piece'
+import { BasicRundown } from './basic-rundown'
+import { RundownCursor } from './rundown-cursor'
 
-export interface RundownInterface {
-  id: string
-  name: string
-  isActive: boolean
+export interface RundownInterface extends BasicRundown {
   segments: SegmentInterface[]
   infinitePieces: Piece[]
 }
@@ -14,6 +12,7 @@ export class Rundown {
   id: string
   name: string
   isActive: boolean
+  modifiedAt: number
   segments: Segment[]
 
   private infinitePieces: Map<string, Piece> = new Map()
@@ -22,19 +21,19 @@ export class Rundown {
     this.id = rundown.id
     this.name = rundown.name
     this.isActive = rundown.isActive
+    this.modifiedAt = rundown.modifiedAt
     this.segments = rundown.segments.map(segment => new Segment(segment))
     rundown.infinitePieces.forEach(piece => this.infinitePieces.set(piece.layer, piece))
   }
 
-
-  public activate(activateEvent: RundownEvent): void {
+  public activate(rundownCursor: RundownCursor): void {
     this.isActive = true
-    const segment: Segment | undefined = this.segments.find(segment => segment.id === activateEvent.segmentId)
+    const segment: Segment | undefined = this.segments.find(segment => segment.id === rundownCursor.segmentId)
     if (!segment) {
       // Handle unable to activate
       return
     }
-    segment.putOnAir(activateEvent)
+    segment.putOnAir(rundownCursor.partId)
   }
 
   public deactivate(): void {
@@ -48,19 +47,19 @@ export class Rundown {
     this.segments.find(segment => segment.isNext)?.removeAsNextSegment()
   }
 
-  public takeNext(takeEvent: RundownEvent): void {
+  public takeNext(rundownCursor: RundownCursor): void {
     this.takeAllSegmentsOffAir()
-    const segmentToComeOnAir: Segment | undefined = this.segments.find(segment => segment.id === takeEvent.segmentId)
+    const segmentToComeOnAir: Segment | undefined = this.segments.find(segment => segment.id === rundownCursor.segmentId)
     if (!segmentToComeOnAir) {
       // TODO: Handle no segment
       return
     }
-    segmentToComeOnAir.putOnAir(takeEvent)
+    segmentToComeOnAir.putOnAir(rundownCursor.partId)
   }
 
-  public setNext(setNextEvent: RundownEvent): void {
+  public setNext(rundownCursor: RundownCursor): void {
     this.segments.find(segment => segment.isNext)?.removeAsNextSegment()
-    this.segments.find(segment => segment.id === setNextEvent.segmentId)?.setAsNextSegment(setNextEvent)
+    this.segments.find(segment => segment.id === rundownCursor.segmentId)?.setAsNextSegment(rundownCursor.partId)
   }
 
   public addInfinitePiece(infinitePiece: Piece): void {

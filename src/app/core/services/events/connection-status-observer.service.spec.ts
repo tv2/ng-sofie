@@ -1,6 +1,6 @@
 import { ConnectionStatusObserver } from './connection-status-observer.service'
-import { EventObserver } from './event-observer.service'
-import { anyString, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
+import { EventObserver } from './event-observer.interface'
+import { anyFunction, anyString, anything, capture, instance, mock, verify, when } from '@typestrong/ts-mockito'
 
 enum ConnectionStatusEventType {
     OPENED = 'CONNECTION_OPENED',
@@ -8,57 +8,72 @@ enum ConnectionStatusEventType {
 }
 
 describe(ConnectionStatusObserver.name, () => {
-    describe(ConnectionStatusObserver.prototype.subscribeToConnectionStatus.name, () => {
+    describe(ConnectionStatusObserver.prototype.subscribeToReconnect.name, () => {
         it('subscribes to connection opened events', () => {
             const mockedEventObserver = mock<EventObserver>()
             const subject = ConnectionStatusEventType.OPENED
             const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
 
-            testee.subscribeToConnectionStatus(() => { return })
+            testee.subscribeToReconnect(() => { return })
 
             verify(mockedEventObserver.subscribe(subject, anything())).once()
         })
 
-        it('subscribes to connection closed events', () => {
+        it('does not trigger the consumer if the only event is open', () => {
             const mockedEventObserver = mock<EventObserver>()
-            const subject = ConnectionStatusEventType.CLOSED
             const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
+            let numberOfReconnects = 0
+            testee.subscribeToReconnect(() => numberOfReconnects++)
+            const openedConsumer = capture<string, () => void>(mockedEventObserver.subscribe).last()[1]
 
-            testee.subscribeToConnectionStatus(() => { return })
+            openedConsumer()
 
-            verify(mockedEventObserver.subscribe(subject, anything())).once()
+            expect(numberOfReconnects).toBe(0)
         })
 
-        it('calls the return value and unsubscribes from connection opened events', () => {
+        it('triggers the consumer if two opened events occurrs', () => {
             const mockedEventObserver = mock<EventObserver>()
-            const subject = ConnectionStatusEventType.OPENED
-            const mockedUnsubscribe = configureUnsubscribeMock(subject, mockedEventObserver)
             const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
 
-            const unsubscribe = testee.subscribeToConnectionStatus(() => { return })
-            unsubscribe()
+            let numberOfReconnects = 0
+            testee.subscribeToReconnect(() => numberOfReconnects++)
+            const openedConsumer = capture<string, () => void>(mockedEventObserver.subscribe).last()[1]
 
-            verify(mockedUnsubscribe()).once()
+            openedConsumer()
+            openedConsumer()
+
+            expect(numberOfReconnects).toBe(1)
         })
 
-        it('calls the return value and unsubscribes from connection closed events', () => {
+        it('triggers the consumer if a closed followed by an opened events occurs', () => {
             const mockedEventObserver = mock<EventObserver>()
-            const subject = ConnectionStatusEventType.CLOSED
-            const mockedUnsubscribe = configureUnsubscribeMock(subject, mockedEventObserver)
             const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
 
-            const unsubscribe = testee.subscribeToConnectionStatus(() => { return })
-            unsubscribe()
+            let numberOfReconnects = 0
+            testee.subscribeToReconnect(() => numberOfReconnects++)
+            const closedConsumer = capture<string, () => void>(mockedEventObserver.subscribe).first()[1]
+            const openedConsumer = capture<string, () => void>(mockedEventObserver.subscribe).last()[1]
 
-            verify(mockedUnsubscribe()).once()
+            closedConsumer()
+            openedConsumer()
+
+            expect(numberOfReconnects).toBe(1)
+        })
+
+        it('triggers the consumer twice if a closed followed by two opened events occurs', () => {
+            const mockedEventObserver = mock<EventObserver>()
+            const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
+
+            let numberOfReconnects = 0
+            testee.subscribeToReconnect(() => numberOfReconnects++)
+            const closedConsumer = capture<string, () => void>(mockedEventObserver.subscribe).first()[1]
+            const openedConsumer = capture<string, () => void>(mockedEventObserver.subscribe).last()[1]
+
+            closedConsumer()
+            openedConsumer()
+            openedConsumer()
+
+            expect(numberOfReconnects).toBe(2)
         })
     })
 })
-
-function configureUnsubscribeMock(subject: string, mockedEventObserver: EventObserver): () => void {
-    const mockedUnsubscribeObject = mock<{ unsubscribeFromSubject: () => void }>()
-    when(mockedEventObserver.subscribe(anyString(), anything())).thenReturn(() => {})
-    when(mockedEventObserver.subscribe(subject, anything()))
-        .thenReturn(instance(mockedUnsubscribeObject).unsubscribeFromSubject)
-    return mockedUnsubscribeObject.unsubscribeFromSubject
-}

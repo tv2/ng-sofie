@@ -1,4 +1,4 @@
-import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from './event-observer.service'
+import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from './event-observer.interface'
 import { RobustWebSocket } from './robust-websocket.service'
 import { Injectable } from '@angular/core'
 import { RobustWebSocketFactory } from './robust-websocket.factory'
@@ -23,6 +23,7 @@ export class WebSocketEventObserver implements EventObserver {
     private parseAndPublishEvent(message: MessageEvent): void {
         try {
             const event: TypedEvent = this.parseEvent(message.data)
+            console.log('[debug]', '[WebSocketEventObserver] Received an event:', message)
             this.publishEvent(event)
         } catch (error) {
             console.error('[error]', 'Failed to parse event.', error)

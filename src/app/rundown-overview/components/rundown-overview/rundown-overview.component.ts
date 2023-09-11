@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { Router } from '@angular/router'
 import { Paths } from '../../../app-routing.module'
-import { RundownPlaylistService } from '../../../core/services/rundown-playlist.service';
-import { BasicRundown } from "../../../core/models/BasicRundown";
-import { RundownService } from '../../../core/services/rundown.service';
+import { BasicRundown } from "../../../core/models/basic-rundown";
+import { HttpRundownService } from '../../../core/services/http-rundown.service';
 import { Rundown } from '../../../core/models/rundown';
 import { DialogService } from '../../../shared/services/dialog.service';
 import { Color } from "../../../shared/enums/color";
+import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
 
 @Component({
   selector: 'sofie-rundown-overview',
@@ -18,15 +18,16 @@ export class RundownOverviewComponent implements OnInit {
   public basicRundowns: BasicRundown[]
 
   constructor(
-    private router: Router,
-    private rundownPlaylistService: RundownPlaylistService,
-    private rundownService: RundownService,
-    private dialogService: DialogService
-  ) { }
+    private readonly router: Router,
+    private readonly basicRundownStateService: BasicRundownStateService,
+    private readonly rundownService: HttpRundownService,
+    private readonly dialogService: DialogService
+  ) {}
 
   public ngOnInit(): void {
-    this.rundownPlaylistService.fetchBasicRundowns().subscribe((rundownIdentifiers: BasicRundown[]) => {
-      this.basicRundowns = rundownIdentifiers
+    this.basicRundownStateService.subscribeToBasicRundowns(basicRundowns => {
+      console.log('[debug]: Updates basicRundowns for rundown overview', basicRundowns)
+      this.basicRundowns = basicRundowns
     })
   }
 
@@ -42,5 +43,5 @@ export class RundownOverviewComponent implements OnInit {
     this.rundownService.delete(rundownId).subscribe()
   }
 
-  protected readonly Color = Color;
+  public readonly Color = Color;
 }

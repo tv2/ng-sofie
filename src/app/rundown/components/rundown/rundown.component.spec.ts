@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RundownComponent } from './rundown.component';
-import { RundownService } from '../../../core/services/rundown.service'
+import { HttpRundownService } from '../../../core/services/http-rundown.service'
 import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockito'
 import { ActivatedRoute, ActivatedRouteSnapshot, convertToParamMap, ParamMap, RouterModule } from '@angular/router'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { AdLibPieceService } from '../../../core/services/ad-lib-piece.service'
-import { of } from 'rxjs'
+import { of, Subscription, SubscriptionLike } from 'rxjs'
 
 describe('RundownComponent', () => {
   it('should create', async () => {
@@ -15,8 +15,8 @@ describe('RundownComponent', () => {
   })
 })
 
-async function configureTestBed(params: { mockedRundownService?: RundownService, mockedRundownStateService?: RundownStateService, mockedAdLibPieceService?: AdLibPieceService } = {}): Promise<RundownComponent> {
-  const mockedRundownService = params.mockedRundownService ?? mock<RundownService>()
+async function configureTestBed(params: { mockedRundownService?: HttpRundownService, mockedRundownStateService?: RundownStateService, mockedAdLibPieceService?: AdLibPieceService } = {}): Promise<RundownComponent> {
+  const mockedRundownService = params.mockedRundownService ?? mock<HttpRundownService>()
   const mockedRundownStateService = params.mockedRundownStateService ?? createMockOfRundownStateService()
   const mockedAdLibPieceService = params.mockedAdLibPieceService ?? createMockOfAdLibPieceService()
   await TestBed
@@ -24,7 +24,7 @@ async function configureTestBed(params: { mockedRundownService?: RundownService,
         imports: [RouterModule.forRoot([])],
         providers: [
           { provide: ActivatedRoute, useValue: instance(createMockOfActivatedRoute()) },
-          { provide: RundownService, useValue: instance(mockedRundownService) },
+          { provide: HttpRundownService, useValue: instance(mockedRundownService) },
           { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
           { provide: AdLibPieceService, useValue: instance(mockedAdLibPieceService) },
         ],
@@ -40,7 +40,8 @@ async function configureTestBed(params: { mockedRundownService?: RundownService,
 
 function createMockOfRundownStateService(): RundownStateService {
     const mockedRundownStateService = mock<RundownStateService>()
-    when(mockedRundownStateService.subscribeToRundown(anyString(), anything())).thenReturn(() => {})
+    const mockedSubscription = mock<Subscription>()
+    when(mockedRundownStateService.subscribeToRundown(anyString(), anything())).thenResolve(instance(mockedSubscription))
     return mockedRundownStateService
 }
 
