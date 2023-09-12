@@ -14,15 +14,16 @@ describe('AppComponent', () => {
         AppComponent,
       ],
     }).compileComponents()
-  });
+  })
 
   it('should create the app', async () => {
     await configureTestBed()
     const fixture = TestBed.createComponent(AppComponent)
     const app = fixture.componentInstance
-    expect(app).toBeTruthy();
+    expect(app).toBeTruthy()
   })
 })
+
 async function configureTestBed(): Promise<void> {
   const mockedConnectionErrorService: ConnectionErrorService = mock<ConnectionErrorService>()
   await TestBed
