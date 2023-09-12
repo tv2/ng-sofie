@@ -13,7 +13,7 @@ import { RundownStateService } from './services/rundown-state.service'
 import { RundownEventParser } from './abstractions/rundown-event.parser'
 import { BasicRundownStateService } from './services/basic-rundown-state.service'
 import { BasicRundownService } from './abstractions/basic-rundown.service'
-import { EntityParserService } from './abstractions/entity-parser.service'
+import { EntityParser } from './abstractions/entity-parser.service'
 import { ZodEntityParser } from './parsers/zod-entity-parser.service'
 import { ZodRundownEventParser } from './parsers/zod-rundown-event-parser.service'
 import { EventSystemModule } from '../event-system/event-system.module'
@@ -37,7 +37,7 @@ import { EventSystemModule } from '../event-system/event-system.module'
     RundownStateService,
     BasicRundownStateService,
     { provide: RundownEventParser, useClass: ZodRundownEventParser },
-    { provide: EntityParserService, useClass: ZodEntityParser },
+    { provide: EntityParser, useClass: ZodEntityParser },
   ]
 })
 export class CoreModule extends EnsureLoadedOnceGuard {

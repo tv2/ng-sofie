@@ -1,4 +1,4 @@
-import { EntityParserService } from '../abstractions/entity-parser.service'
+import { EntityParser } from '../abstractions/entity-parser.service'
 import { AdLibPiece } from '../models/ad-lib-piece'
 import { BasicRundown } from '../models/basic-rundown'
 import { Part } from '../models/part'
@@ -8,7 +8,7 @@ import { Segment } from '../models/segment'
 import * as zod from 'zod'
 
 
-export class ZodEntityParser implements EntityParserService {
+export class ZodEntityParser implements EntityParser {
     private PIECE_PARSER = zod.object({
         id: zod.string().nonempty(),
         partId: zod.string().nonempty(),

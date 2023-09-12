@@ -9,13 +9,13 @@ import {
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
-import { EntityParserService } from '../abstractions/entity-parser.service'
+import { EntityParser } from '../abstractions/entity-parser.service'
 import { AdLibPiece } from '../models/ad-lib-piece'
 
 @Injectable()
 export class ZodRundownEventParser {
 
-    constructor(private readonly entityParser: EntityParserService) {}
+    constructor(private readonly entityParser: EntityParser) {}
 
     private RUNDOWN_ACTIVATED_EVENT_PARSER = zod.object({
         type: zod.literal(RundownEventType.ACTIVATED),
