@@ -4,7 +4,7 @@ import {
     RundownActivatedEvent, RundownAdLibPieceInsertedEvent,
     RundownDeactivatedEvent, RundownInfinitePieceAddedEvent,
     RundownResetEvent, PartSetAsNextEvent,
-    PartTakenEvent
+    PartTakenEvent, RundownDeletedEvent
 } from '../models/rundown-event'
 import { anything, instance, mock, when } from '@typestrong/ts-mockito'
 import { EntityParser } from '../abstractions/entity-parser.service'
@@ -62,6 +62,33 @@ describe(ZodRundownEventParser.name, () => {
             }
 
             const result = () => testee.parseDeactivatedEvent(event)
+
+            expect(result).toThrow()
+        })
+    })
+
+    describe(ZodRundownEventParser.prototype.parseDeletedEvent.name, () => {
+        it('parses a rundown deleted event', () => {
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
+            const event: RundownDeletedEvent = {
+                type: RundownEventType.DELETED,
+                rundownId: 'some-rundown-id',
+            }
+
+            const result = testee.parseDeletedEvent(event)
+
+            expect(result).toEqual(event)
+        })
+
+        it('does not parse a partial rundown deleted event', () => {
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
+            const event: Partial<RundownDeletedEvent> = {
+                type: RundownEventType.DELETED,
+            }
+
+            const result = () => testee.parseDeletedEvent(event)
 
             expect(result).toThrow()
         })
