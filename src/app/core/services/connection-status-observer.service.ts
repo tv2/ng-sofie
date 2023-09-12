@@ -15,18 +15,18 @@ export class ConnectionStatusObserver implements OnDestroy {
         this.closedEventSubscription = eventObserver.subscribe(ConnectionEventType.CLOSED, () => this.hasHadOpenConnection = true)
     }
 
-    public subscribeToReconnect(consumer: () => void): EventSubscription {
+    public subscribeToReconnect(onReconnected: () => void): EventSubscription {
         return this.eventObserver.subscribe(ConnectionEventType.OPENED, () => {
             if (!this.hasHadOpenConnection) {
                 this.hasHadOpenConnection = true
                 return
             }
-            consumer()
+            onReconnected()
         })
     }
 
-    public subscribeToClosed(consumer: () => void): EventSubscription {
-        return this.eventObserver.subscribe(ConnectionEventType.CLOSED, consumer)
+    public subscribeToClosed(onClosed: () => void): EventSubscription {
+        return this.eventObserver.subscribe(ConnectionEventType.CLOSED, onClosed)
     }
 
     public ngOnDestroy() {
