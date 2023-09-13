@@ -30,7 +30,7 @@ const Y_TEXT_COORDINATE: number = 16
   styleUrls: ['./timeline.component.scss']
 })
 
-export class TimelineComponent implements AfterViewInit, OnDestroy, OnInit {
+export class TimelineComponent implements AfterViewInit, OnDestroy {
   @Input()
   public segment: Segment
 
@@ -54,9 +54,6 @@ export class TimelineComponent implements AfterViewInit, OnDestroy, OnInit {
 
   constructor(private timestampPipe: TimestampPipe) {}
 
-  ngOnInit(): void {
-  }
-
   @HostListener('window:resize', ['$event'])
   onResize(): void {
     this.setCanvasSize()
@@ -66,7 +63,7 @@ export class TimelineComponent implements AfterViewInit, OnDestroy, OnInit {
   private setCanvasSize(): void {
     this.CANVAS_WIDTH = this.canvasContainer.nativeElement.offsetWidth
     this.timeline.nativeElement.width = this.CANVAS_WIDTH
-    this.timeline.nativeElement.height = 30
+    this.timeline.nativeElement.height = 30 // TODO: Move out into css
   }
 
   public ngAfterViewInit(): void {

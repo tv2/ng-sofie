@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { Part } from '../../../core/models/part'
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { Piece } from '../../../core/models/piece'
+import { PieceLayerService } from '../../../shared/services/piece-layer.service'
+
+const DEFAULT_PART_DURATION = 4000
 
 @Component({
   selector: 'sofie-part',
@@ -35,12 +38,16 @@ export class PartComponent implements OnChanges {
   @Input()
   public pieceLayers: string[]
 
+  @Input()
+  public pixelsPerSecond: number
+
   @Output()
   public readonly partSelectedAsNextEvent: EventEmitter<string> = new EventEmitter()
 
   public layeredPieces: Piece[][] = []
+  public partWidth: string = '0px'
 
-  public constructor() { return }
+  public constructor(private readonly pieceLayerService: PieceLayerService) { return }
 
   public setPartAsNext(): void {
     this.partSelectedAsNextEvent.emit(this.part.id)
@@ -53,7 +60,7 @@ export class PartComponent implements OnChanges {
 
   private getGroupedPiecesByLayer(): Record<string, Piece[]> {
     return this.part.pieces.reduce((groups: Record<string, Piece[]>, piece) => {
-      const pieceLayer = this.getPieceLayer(piece)
+      const pieceLayer = this.pieceLayerService.getPieceLayer(piece)
       if (!(pieceLayer in groups)) {
         groups[pieceLayer] = []
       }
@@ -62,18 +69,18 @@ export class PartComponent implements OnChanges {
     }, {})
   }
 
-  private getPieceLayer(piece: Piece): string {
-    if (piece.layer === 'studio0_script') {
-      return 'MANUS'
-    }
-    if (['studio0_pilotOverlay'].includes(piece.layer)) {
-      return 'OVERLAY'
-    }
-    return 'PGM'
+  private getPartWidthInPixels(): string {
+    const width = this.getPartWidth()
+    return `${width}px`
+  }
+
+  private getPartWidth(): number {
+    const expectedDuration = this.part.expectedDuration ?? DEFAULT_PART_DURATION
+    return Math.floor(this.pixelsPerSecond * expectedDuration / 1000)
   }
 
   public ngOnChanges(): void {
-    console.log('Part changes')
     this.layeredPieces = this.getPiecesOnLayers()
+    this.partWidth = this.getPartWidthInPixels()
   }
 }

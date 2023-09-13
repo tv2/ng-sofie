@@ -8,8 +8,6 @@ import {AdLibPieceIdentifierComponent} from './components/ad-lib-piece-identifie
 import {SharedModule} from '../shared/shared.module'
 import {RundownRoutesModule} from './rundown-routes.module';
 import { TimelineComponent } from './components/timeline/timeline.component'
-import { TimestampPipe } from '../shared/pipes/timestamp.pipe'
-
 
 @NgModule({
   declarations: [
@@ -23,9 +21,6 @@ import { TimestampPipe } from '../shared/pipes/timestamp.pipe'
   ],
   exports: [
     SegmentComponent
-  ],
-  providers: [
-      TimestampPipe, // TODO: Is this necessary?
   ],
   imports: [
     RundownRoutesModule,

@@ -1,6 +1,7 @@
 <div
   class="c-part"
   [@onAirTrigger]="part.isOnAir ? 'onAir' : part.isNext ? 'isNext' : 'offAir'"
+  [style.min-width]="partWidth"
 >
   <span *ngIf="part.isOnAir" class="is-on-air">
     ON AIR
