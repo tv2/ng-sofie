@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
 import {catchError, map, Observable} from 'rxjs'
-import {RundownService} from '../abstractions/rundown-service.interface';
+import {RundownService} from '../abstractions/rundown.service';
 import {HttpErrorService} from './http-error.service';
 import {Rundown} from '../models/rundown';
-import { EntityParser } from './entity-parser.interface'
+import { EntityParser } from '../abstractions/entity-parser.service'
 
 const RUNDOWN_URL: string = 'http://localhost:3005/api/rundowns'
 
@@ -20,7 +20,7 @@ export class HttpRundownService implements RundownService {
   public fetchRundown(rundownId: string): Observable<Rundown> {
     return this.http.get<unknown>(`${RUNDOWN_URL}/${rundownId}`).pipe(
       catchError((error) => this.httpErrorService.catchError(error)),
-      map(this.entityParser.parseRundown)
+      map(this.entityParser.parseRundown.bind(this.entityParser))
     )
   }
 

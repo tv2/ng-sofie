@@ -10,34 +10,34 @@ import { Rundown } from '../models/rundown';
 import { HttpRundownService } from './http-rundown.service';
 import { Segment } from '../models/segment';
 import { Part } from '../models/part';
-import { RundownEventObserver } from './events/rundown-event-observer.service'
-import { Unsubscribe } from './events/event-observer.interface'
+import { RundownEventObserver } from './rundown-event-observer.service'
+import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { ManagedSubscription } from './managed-subscription.service'
-import { ConnectionStatusObserver } from './events/connection-status-observer.service'
+import { ConnectionStatusObserver } from './connection-status-observer.service'
 
 @Injectable()
 export class RundownStateService implements OnDestroy {
   private readonly rundownSubjects: Map<string, BehaviorSubject<Rundown>> = new Map()
-  private unsubscribeFromEvents: Unsubscribe
+  private eventSubscriptions: EventSubscription[]
 
   constructor(
       private readonly rundownService: HttpRundownService,
       private readonly rundownEventObserver: RundownEventObserver,
       private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {
-    this.registerEventConsumers()
+    this.subscribeToEvents()
   }
 
-  private registerEventConsumers(): void {
-    const unsubscribeFromConnectionStatusEvents = this.registerConnectionStatusConsumers()
-    const unsubscribesFromRundownEvents = this.registerRundownEventConsumers()
-    this.unsubscribeFromEvents = () => [
-        ...unsubscribesFromRundownEvents,
-        ...unsubscribeFromConnectionStatusEvents
-      ].forEach(unsubscribe => unsubscribe())
+  private subscribeToEvents(): void {
+    const connectionStatusSubscriptions = this.subscribeToConnectionStatus()
+    const rundownEventSubscriptions = this.subscribeToRundownEvents()
+    this.eventSubscriptions = [
+        ...rundownEventSubscriptions,
+        ...connectionStatusSubscriptions
+      ]
   }
 
-  private registerConnectionStatusConsumers(): Unsubscribe[] {
+  private subscribeToConnectionStatus(): EventSubscription[] {
     return [
       this.connectionStatusObserver.subscribeToReconnect(this.resetRundownSubjects.bind(this))
     ]
@@ -56,7 +56,7 @@ export class RundownStateService implements OnDestroy {
         .catch(error => console.error('[error]', `Encountered error while fetching rundown with id '${rundownId}':`, error))
   }
 
-  private registerRundownEventConsumers(): Unsubscribe[] {
+  private subscribeToRundownEvents(): EventSubscription[] {
     return [
       this.rundownEventObserver.subscribeToRundownActivation(this.activateRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownDeactivation(this.deactivateRundownFromEvent.bind(this)),
@@ -178,6 +178,6 @@ export class RundownStateService implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.unsubscribeFromEvents()
+    this.eventSubscriptions.forEach(eventSubscription => eventSubscription.unsubscribe())
   }
 }

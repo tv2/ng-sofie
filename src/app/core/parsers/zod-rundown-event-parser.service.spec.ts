@@ -1,16 +1,19 @@
 import { ZodRundownEventParser } from './zod-rundown-event-parser.service'
-import { RundownEventType } from '../../models/rundown-event-type'
+import { RundownEventType } from '../models/rundown-event-type'
 import {
     RundownActivatedEvent, RundownAdLibPieceInsertedEvent,
     RundownDeactivatedEvent, RundownInfinitePieceAddedEvent,
     RundownResetEvent, PartSetAsNextEvent,
-    PartTakenEvent
-} from '../../models/rundown-event'
+    PartTakenEvent, RundownDeletedEvent
+} from '../models/rundown-event'
+import { anything, instance, mock, when } from '@typestrong/ts-mockito'
+import { EntityParser } from '../abstractions/entity-parser.service'
 
 describe(ZodRundownEventParser.name, () => {
     describe(ZodRundownEventParser.prototype.parseActivatedEvent.name, () => {
         it('parses a rundown activated event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: RundownActivatedEvent = {
                 type: RundownEventType.ACTIVATED,
                 rundownId: 'some-rundown-id',
@@ -24,7 +27,8 @@ describe(ZodRundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown activated event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: Partial<RundownActivatedEvent> = {
                 type: RundownEventType.ACTIVATED,
                 rundownId: 'some-rundown-id',
@@ -38,7 +42,8 @@ describe(ZodRundownEventParser.name, () => {
 
     describe(ZodRundownEventParser.prototype.parseDeactivatedEvent.name, () => {
         it('parses a rundown deactivated event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: RundownDeactivatedEvent = {
                 type: RundownEventType.DEACTIVATED,
                 rundownId: 'some-rundown-id',
@@ -50,7 +55,8 @@ describe(ZodRundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown deactivated event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: Partial<RundownDeactivatedEvent> = {
                 type: RundownEventType.DEACTIVATED,
             }
@@ -61,9 +67,37 @@ describe(ZodRundownEventParser.name, () => {
         })
     })
 
+    describe(ZodRundownEventParser.prototype.parseDeletedEvent.name, () => {
+        it('parses a rundown deleted event', () => {
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
+            const event: RundownDeletedEvent = {
+                type: RundownEventType.DELETED,
+                rundownId: 'some-rundown-id',
+            }
+
+            const result = testee.parseDeletedEvent(event)
+
+            expect(result).toEqual(event)
+        })
+
+        it('does not parse a partial rundown deleted event', () => {
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
+            const event: Partial<RundownDeletedEvent> = {
+                type: RundownEventType.DELETED,
+            }
+
+            const result = () => testee.parseDeletedEvent(event)
+
+            expect(result).toThrow()
+        })
+    })
+
     describe(ZodRundownEventParser.prototype.parseResetEvent.name, () => {
         it('parses a rundown reset event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: RundownResetEvent = {
                 type: RundownEventType.RESET,
                 rundownId: 'some-rundown-id',
@@ -75,7 +109,8 @@ describe(ZodRundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown reset event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: Partial<RundownResetEvent> = {
                 type: RundownEventType.RESET,
             }
@@ -88,7 +123,8 @@ describe(ZodRundownEventParser.name, () => {
 
     describe(ZodRundownEventParser.prototype.parseTakenEvent.name, () => {
         it('parses a rundown taken event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: PartTakenEvent = {
                 type: RundownEventType.TAKEN,
                 rundownId: 'some-rundown-id',
@@ -102,7 +138,8 @@ describe(ZodRundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown taken event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: Partial<PartTakenEvent> = {
                 type: RundownEventType.TAKEN,
             }
@@ -115,7 +152,8 @@ describe(ZodRundownEventParser.name, () => {
 
     describe(ZodRundownEventParser.prototype.parseSetNextEvent.name, () => {
         it('parses a rundown set next event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: PartSetAsNextEvent = {
                 type: RundownEventType.SET_NEXT,
                 rundownId: 'some-rundown-id',
@@ -129,7 +167,8 @@ describe(ZodRundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown set next event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: Partial<PartSetAsNextEvent> = {
                 type: RundownEventType.SET_NEXT,
             }
@@ -142,7 +181,8 @@ describe(ZodRundownEventParser.name, () => {
 
     describe(ZodRundownEventParser.prototype.parseAdLibPieceInserted.name, () => {
         it('parses a rundown ad-lib piece inserted event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: RundownAdLibPieceInsertedEvent = {
                 type: RundownEventType.AD_LIB_PIECE_INSERTED,
                 rundownId: 'some-rundown-id',
@@ -164,7 +204,8 @@ describe(ZodRundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown ad-lib piece inserted event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: Partial<RundownAdLibPieceInsertedEvent> = {
                 type: RundownEventType.AD_LIB_PIECE_INSERTED,
                 rundownId: 'some-rundown-id',
@@ -178,7 +219,8 @@ describe(ZodRundownEventParser.name, () => {
 
     describe(ZodRundownEventParser.prototype.parseInfinitePieceAdded.name, () => {
         it('parses a rundown infinite piece added event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: RundownInfinitePieceAddedEvent = {
                 type: RundownEventType.INFINITE_PIECE_ADDED,
                 rundownId: 'some-rundown-id',
@@ -196,7 +238,8 @@ describe(ZodRundownEventParser.name, () => {
         })
 
         it('does not parse a partial rundown infinite piece added event', () => {
-            const testee = new ZodRundownEventParser()
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: Partial<RundownInfinitePieceAddedEvent> = {
                 type: RundownEventType.INFINITE_PIECE_ADDED,
                 rundownId: 'some-rundown-id',
@@ -208,3 +251,10 @@ describe(ZodRundownEventParser.name, () => {
         })
     })
 })
+
+function createMockOfEntityParser(): EntityParser {
+    const mockedEntityParser = mock<EntityParser>()
+    when(mockedEntityParser.parseAdLibPiece(anything())).thenCall(adLibPiece => adLibPiece)
+    when(mockedEntityParser.parsePiece(anything())).thenCall(piece => piece)
+    return mockedEntityParser
+}

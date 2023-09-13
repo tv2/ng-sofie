@@ -5,34 +5,32 @@ import { HttpErrorService } from './services/http-error.service'
 import { HttpClientModule } from '@angular/common/http'
 import { HttpBasicRundownService } from './services/http-basic-rundown.service'
 import { HttpRundownService } from './services/http-rundown.service'
-import { AdLibPieceService } from './services/ad-lib-piece.service'
-import { ConnectionStatusObserver } from './services/events/connection-status-observer.service'
-import { EventObserver } from './services/events/event-observer.interface'
-import { WebSocketEventObserver } from './services/events/websocket-event-observer.service'
-import { RundownEventObserver } from './services/events/rundown-event-observer.service'
+import { AdLibPieceService } from './abstractions/ad-lib-piece.service'
+import { HttpAdLibPieceService } from './services/http-ad-lib-piece.service'
+import { ConnectionStatusObserver } from './services/connection-status-observer.service'
+import { RundownEventObserver } from './services/rundown-event-observer.service'
 import { RundownStateService } from './services/rundown-state.service'
-import { RobustWebSocketFactory } from './services/events/robust-websocket.factory'
-import { RundownEventParser } from './services/events/rundown-event-parser.interface'
+import { RundownEventParser } from './abstractions/rundown-event.parser'
 import { BasicRundownStateService } from './services/basic-rundown-state.service'
-import { BasicRundownService } from './abstractions/basic-rundown-service'
-import { EntityParser } from './services/entity-parser.interface'
-import { ZodEntityParser } from './services/zod-entity-parser.service'
-import { ZodRundownEventParser } from './services/events/zod-rundown-event-parser.service'
+import { BasicRundownService } from './abstractions/basic-rundown.service'
+import { EntityParser } from './abstractions/entity-parser.service'
+import { ZodEntityParser } from './parsers/zod-entity-parser.service'
+import { ZodRundownEventParser } from './parsers/zod-rundown-event-parser.service'
+import { EventSystemModule } from '../event-system/event-system.module'
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    EventSystemModule,
   ],
   providers: [
     HttpErrorService,
     HttpClientModule,
-    RobustWebSocketFactory,
     HttpBasicRundownService,
     HttpRundownService,
-    AdLibPieceService,
-    { provide: EventObserver, useClass: WebSocketEventObserver },
+    { provide: AdLibPieceService, useClass: HttpAdLibPieceService },
     ConnectionStatusObserver,
     RundownEventObserver,
     { provide: BasicRundownService, useClass: HttpBasicRundownService },
