@@ -12,6 +12,7 @@ import {MatListModule} from "@angular/material/list";
 import {ConfirmationDialogComponent} from './components/confirmation-dialog/confirmation-dialog.component'
 import {MatDialogModule} from '@angular/material/dialog'
 import {DialogService} from './services/dialog.service'
+import { ConnectionErrorService } from './services/connection-error.service'
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import {DialogService} from './services/dialog.service'
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000, verticalPosition: 'top'}},
-    DialogService
+    DialogService,
+    ConnectionErrorService,
   ]
 })
 export class SharedModule {}
