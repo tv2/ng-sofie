@@ -1,4 +1,37 @@
-<div class="segment" [ngClass]="{'segment-on-air': segment.isOnAir}">
+<div class="c-segment" [ngClass]="{ 'c-segment--on-air': segment.isOnAir }">
+  <div class="c-segment__header">
+    <div class="c-segment__header-toolbar">
+      <span>123</span>
+      <span style="margin-left: 50px;">00:30</span>
+    </div>
+    <div class="c-segment__title">
+      {{ segment.name }}
+    </div>
+
+  </div>
+
+  <div class="c-segment__controls">
+    <div class="c-segment__controls-toolbar">Hello</div>
+    <div class="c-segment__piece-layers">
+      <div class="c-segment__piece-layer" *ngFor="let pieceLayer of pieceLayers">
+        {{ pieceLayer }}
+      </div>
+    </div>
+  </div>
+
+  <div class="c-segment__timeline">
+    <sofie-timeline [ngClass]="'c-segment__timeline-markers'" [segment]="segment" [pixelsPerSecond]="30"></sofie-timeline>
+    <div class="c-segment__timeline-parts">
+      <sofie-part
+        *ngFor="let part of segment.parts"
+        [isRundownActive]="isRundownActive"
+        [part]="part"
+        [pieceLayers]="pieceLayers"
+      ></sofie-part>
+    </div>
+  </div>
+</div>
+<!--<div class="c-segment" [ngClass]="{'segment-on-air': segment.isOnAir}">
   <span class="title">
     {{segment.name}}
   </span>
@@ -12,3 +45,5 @@
     <sofie-part *ngFor="let part of segment.parts" [part]="part" [isRundownActive]="isRundownActive" (partSelectedAsNextEvent)="emitSetNextEvent($event)"></sofie-part>
   </div>
 </div>
+
+-->

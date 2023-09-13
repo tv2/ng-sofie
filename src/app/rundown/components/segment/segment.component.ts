@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 
 @Component({
@@ -6,7 +6,7 @@ import { Segment } from '../../../core/models/segment'
   templateUrl: './segment.component.html',
   styleUrls: ['./segment.component.scss']
 })
-export class SegmentComponent {
+export class SegmentComponent implements OnChanges {
 
   @Input()
   public isRundownActive: boolean
@@ -17,9 +17,23 @@ export class SegmentComponent {
   @Output()
   setNextEvent: EventEmitter<{segmentId: string, partId: string}> = new EventEmitter()
 
+  public pieceLayers: string[] = []
+
   constructor() { }
 
   public emitSetNextEvent(partId: string): void {
     this.setNextEvent.emit({ segmentId: this.segment.id, partId})
+  }
+
+  public ngOnChanges(): void {
+    this.pieceLayers = this.getPieceLayers()
+  }
+
+  private getPieceLayers(): string[] {
+    return [
+      'OVERLAY',
+      'PGM',
+      'MANUS',
+    ]
   }
 }

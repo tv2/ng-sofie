@@ -1,24 +1,37 @@
-.part {
-  border: solid 1px black;
-  margin: 5px;
-  padding: 5px;
-}
+.c-part {
 
-.is-on-air {
-  background: lightgray;
-  border: solid 1px red;
-  color: red;
-  padding: 3px;
-}
+  &__piece-layers {
+    display: flex;
+    flex-direction: column;
+  }
 
-.is-next {
-  background: lightgray;
-  border: solid 1px green;
-  color: green;
-  padding: 3px;
+  &__piece-layer {
+    display: flex;
+    border-right: 2px solid yellow;
+    height: 22px;
+  }
 }
-
-.piece-container {
-  display: flex;
-  flex-direction: row;
-}
+//.part {
+//  border: solid 1px black;
+//  margin: 5px;
+//  padding: 5px;
+//}
+//
+//.is-on-air {
+//  background: lightgray;
+//  border: solid 1px red;
+//  color: red;
+//  padding: 3px;
+//}
+//
+//.is-next {
+//  background: lightgray;
+//  border: solid 1px green;
+//  color: green;
+//  padding: 3px;
+//}
+//
+//.piece-container {
+//  display: flex;
+//  flex-direction: row;
+//}

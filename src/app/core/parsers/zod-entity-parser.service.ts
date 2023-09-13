@@ -6,11 +6,13 @@ import { Piece } from '../models/piece'
 import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
 import * as zod from 'zod'
+import { PieceType } from '../enums/piece-type'
 
 
 export class ZodEntityParser implements EntityParserService {
     private PIECE_PARSER = zod.object({
         id: zod.string().nonempty(),
+        type: zod.nativeEnum(PieceType),
         partId: zod.string().nonempty(),
         name: zod.string().nonempty(),
         layer: zod.string().nonempty(),
@@ -32,7 +34,9 @@ export class ZodEntityParser implements EntityParserService {
         segmentId: zod.string().nonempty(),
         isOnAir: zod.boolean(),
         isNext: zod.boolean(),
-        pieces: this.PIECE_PARSER.array()
+        pieces: this.PIECE_PARSER.array(),
+        expectedDuration: zod.number().optional().or(zod.null()).transform(expectedDuration => expectedDuration ?? undefined), // TODO: Normalize the type to number | undefined
+        executedAt: zod.number(),
     })
     public parsePart(part: unknown): Part {
         return new Part(this.PART_PARSER.parse(part))

@@ -7,6 +7,8 @@ export interface PartInterface {
   isOnAir: boolean
   isNext: boolean
   pieces: Piece[]
+  expectedDuration?: number
+  executedAt: number
 }
 
 export class Part {
@@ -16,6 +18,8 @@ export class Part {
   public isNext: boolean
   public pieces: Piece[]
   public adLibPieces: AdLibPiece[]
+  public expectedDuration?: number
+  public executedAt: number
 
   constructor(part: PartInterface) {
     this.id = part.id
@@ -24,6 +28,8 @@ export class Part {
     this.isNext = part.isNext
     this.pieces = part.pieces
     this.adLibPieces = []
+    this.executedAt = part.executedAt
+    this.expectedDuration = part.expectedDuration
   }
 
   public putOnAir(): void {

@@ -1,8 +1,15 @@
+:host {
+  display: flex;
+}
 .piece {
+  height: 22px;
   border: solid 1px green;
   padding: 3px;
-  margin: 2px;
+  margin: 1px 0;
   background: blue;
   color: white;
-  font-style: italic;
+  font-weight: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

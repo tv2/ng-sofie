@@ -1,5 +1,5 @@
 <div
-  class="part"
+  class="c-part"
   [@onAirTrigger]="part.isOnAir ? 'onAir' : part.isNext ? 'isNext' : 'offAir'"
 >
   <span *ngIf="part.isOnAir" class="is-on-air">
@@ -8,10 +8,10 @@
   <span *ngIf="part.isNext" class="is-next">
     NEXT
   </span>
-  {{part.id}}
   <button *ngIf="isRundownActive && !part.isNext && !part.isOnAir" (click)="setPartAsNext()">Set Part as Next</button>
-  <div class="piece-container">
-    <sofie-piece *ngFor="let piece of part.pieces" [piece]="piece"></sofie-piece>
-    <sofie-ad-lib-piece *ngFor="let adLibPiece of part.adLibPieces" [adLibPiece]="adLibPiece"></sofie-ad-lib-piece>
+  <div class="c-part__piece-layers">
+    <div class="c-part__piece-layer" *ngFor="let pieces of layeredPieces">
+      <sofie-piece *ngFor="let piece of pieces" [piece]="piece"></sofie-piece>
+    <!--<sofie-ad-lib-piece *ngFor="let adLibPiece of part.adLibPieces" [adLibPiece]="adLibPiece"></sofie-ad-lib-piece>-->
   </div>
 </div>

@@ -13,12 +13,14 @@ import {ConfirmationDialogComponent} from './components/confirmation-dialog/conf
 import {MatDialogModule} from '@angular/material/dialog'
 import {DialogService} from './services/dialog.service'
 import { ConnectionErrorService } from './services/connection-error.service'
+import { TimestampPipe } from './pipes/timestamp.pipe'
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    TimestampPipe,
   ],
   imports: [
     CommonModule,
