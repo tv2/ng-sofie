@@ -1,4 +1,4 @@
-<div class="c-segment" [ngClass]="{ 'c-segment--on-air': segment.isOnAir }">
+<div class="c-segment" [class.c-segment--on-air]="segment.isOnAir" [class.c-segment--set-as-next]="segment.isNext">
   <div class="c-segment__header">
     <div class="c-segment__header-toolbar">
       <span>123</span>

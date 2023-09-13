@@ -19,8 +19,6 @@ export class SegmentComponent implements OnChanges {
 
   public pieceLayers: string[] = []
 
-  constructor() { }
-
   public emitSetNextEvent(partId: string): void {
     this.setNextEvent.emit({ segmentId: this.segment.id, partId})
   }
