@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core'
 import { BehaviorSubject, lastValueFrom, SubscriptionLike } from 'rxjs'
 import { RundownEventObserver } from './rundown-event-observer.service'
-import { Unsubscribe } from '../../event-system/abstractions/event-observer.service'
+import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { BasicRundown } from '../models/basic-rundown'
 import { BasicRundownService } from '../abstractions/basic-rundown.service'
@@ -11,7 +11,7 @@ import { RundownEvent } from '../models/rundown-event'
 export class BasicRundownStateService implements OnDestroy {
   private readonly basicRundownsSubject: BehaviorSubject<BasicRundown[]>
   private basicRundowns: BasicRundown[] = []
-  private unsubscribeFromEvents?: Unsubscribe
+  private eventSubscriptions: EventSubscription[]
 
   constructor(
       private readonly basicRundownService: BasicRundownService,
@@ -19,20 +19,20 @@ export class BasicRundownStateService implements OnDestroy {
       private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {
     this.basicRundownsSubject = new BehaviorSubject<BasicRundown[]>(this.basicRundowns)
-    this.registerEventConsumers()
+    this.subscribeToEvents()
     this.resetBasicRundownSubject()
   }
 
-  private registerEventConsumers(): void {
-    const unsubscribeFromConnectionStatusEvents = this.registerConnectionStatusConsumers()
-    const unsubscribesFromRundownEvents = this.registerBasicRundownEventConsumers()
-    this.unsubscribeFromEvents = () => [
-        ...unsubscribesFromRundownEvents,
-        ...unsubscribeFromConnectionStatusEvents
-      ].forEach(unsubscribe => unsubscribe())
+  private subscribeToEvents(): void {
+    const connectionStatusSubscriptions = this.subscribeToConnectionStatus()
+    const rundownEventSubscriptions = this.subscribeToRundownEvents()
+    this.eventSubscriptions = [
+        ...rundownEventSubscriptions,
+        ...connectionStatusSubscriptions
+      ]
   }
 
-  private registerConnectionStatusConsumers(): Unsubscribe[] {
+  private subscribeToConnectionStatus(): EventSubscription[] {
     return [
       this.connectionStatusObserver.subscribeToReconnect(this.resetBasicRundownSubject.bind(this))
     ]
@@ -45,7 +45,7 @@ export class BasicRundownStateService implements OnDestroy {
         .catch(error => console.error('[error]', 'Encountered error while fetching basic rundowns:', error))
   }
 
-  private registerBasicRundownEventConsumers(): Unsubscribe[] {
+  private subscribeToRundownEvents(): EventSubscription[] {
     return [
       this.rundownEventObserver.subscribeToRundownActivation(this.activateBasicRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownDeactivation(this.deactivateBasicRundownFromEvent.bind(this)),
@@ -68,7 +68,7 @@ export class BasicRundownStateService implements OnDestroy {
   private deactivateBasicRundownFromEvent(event: RundownEvent): void {
     this.basicRundowns = this.basicRundowns.map(basicRundown => {
       if (basicRundown.id === event.rundownId) {
-        basicRundown.isActive = true
+        basicRundown.isActive = false
       }
       return basicRundown
     })
@@ -89,6 +89,6 @@ export class BasicRundownStateService implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.unsubscribeFromEvents?.()
+    this.eventSubscriptions.forEach(eventSubscription => eventSubscription.unsubscribe())
   }
 }

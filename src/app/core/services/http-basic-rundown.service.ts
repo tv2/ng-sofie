@@ -21,7 +21,7 @@ export class HttpBasicRundownService implements BasicRundownService {
     return this.http.get<unknown>(`${RUNDOWN_URL}/basic`)
       .pipe(
         catchError((error) => this.httpErrorService.catchError(error)),
-        map(this.entityParser.parseBasicRundowns) // TODO: Catch this and display/log it
+        map(this.entityParser.parseBasicRundowns.bind(this.entityParser)) // TODO: Catch this and display/log it
       )
   }
 }

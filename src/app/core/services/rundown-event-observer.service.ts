@@ -1,4 +1,4 @@
-import { EventConsumer, EventObserver, TypedEvent, Unsubscribe } from '../../event-system/abstractions/event-observer.service'
+import { EventConsumer, EventObserver, TypedEvent, EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { Injectable } from '@angular/core'
 import { RundownEventParser } from '../abstractions/rundown-event.parser'
 import { RundownEventType } from '../models/rundown-event-type'
@@ -13,59 +13,59 @@ import {
 export class RundownEventObserver {
     constructor(private readonly eventObserver: EventObserver, private readonly rundownEventParser: RundownEventParser) {}
 
-    public subscribeToRundownActivation(consumer: (event: RundownActivatedEvent) => void): Unsubscribe {
+    public subscribeToRundownActivation(consumer: (event: RundownActivatedEvent) => void): EventSubscription {
         return this.eventObserver.subscribe(
             RundownEventType.ACTIVATED,
-            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseActivatedEvent)
+            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseActivatedEvent.bind(this.rundownEventParser))
         )
     }
 
-    public subscribeToRundownDeactivation(consumer: (event: RundownDeactivatedEvent) => void): Unsubscribe {
+    public subscribeToRundownDeactivation(consumer: (event: RundownDeactivatedEvent) => void): EventSubscription {
         return this.eventObserver.subscribe(
             RundownEventType.DEACTIVATED,
-            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseDeactivatedEvent)
+            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseDeactivatedEvent.bind(this.rundownEventParser))
         )
     }
 
-    public subscribeToRundownDeletion(consumer: (event: RundownDeletedEvent) => void): Unsubscribe {
+    public subscribeToRundownDeletion(consumer: (event: RundownDeletedEvent) => void): EventSubscription {
         return this.eventObserver.subscribe(
             RundownEventType.DELETED,
-            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseDeletedEvent)
+            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseDeletedEvent.bind(this.rundownEventParser))
         )
     }
 
-    public subscribeToRundownReset(consumer: (event: RundownResetEvent) => void): Unsubscribe {
+    public subscribeToRundownReset(consumer: (event: RundownResetEvent) => void): EventSubscription {
         return this.eventObserver.subscribe(
             RundownEventType.RESET,
-            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseResetEvent)
+            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseResetEvent.bind(this.rundownEventParser))
         )
     }
 
-    public subscribeToRundownTake(consumer: (event: PartTakenEvent) => void): Unsubscribe {
+    public subscribeToRundownTake(consumer: (event: PartTakenEvent) => void): EventSubscription {
         return this.eventObserver.subscribe(
             RundownEventType.TAKEN,
-            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseTakenEvent)
+            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseTakenEvent.bind(this.rundownEventParser))
         )
     }
 
-    public subscribeToRundownSetNext(consumer: (event: PartSetAsNextEvent) => void): Unsubscribe {
+    public subscribeToRundownSetNext(consumer: (event: PartSetAsNextEvent) => void): EventSubscription {
         return this.eventObserver.subscribe(
             RundownEventType.SET_NEXT,
-            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseSetNextEvent)
+            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseSetNextEvent.bind(this.rundownEventParser))
         )
     }
 
-    public subscribeToRundownAdLibPieceInserted(consumer: (event: RundownAdLibPieceInsertedEvent) => void): Unsubscribe {
+    public subscribeToRundownAdLibPieceInserted(consumer: (event: RundownAdLibPieceInsertedEvent) => void): EventSubscription {
         return this.eventObserver.subscribe(
             RundownEventType.AD_LIB_PIECE_INSERTED,
-            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseAdLibPieceInserted)
+            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseAdLibPieceInserted.bind(this.rundownEventParser))
         )
     }
 
-    public subscribeToRundownInfinitePieceAdded(consumer: (event: RundownInfinitePieceAddedEvent) => void): Unsubscribe {
+    public subscribeToRundownInfinitePieceAdded(consumer: (event: RundownInfinitePieceAddedEvent) => void): EventSubscription {
         return this.eventObserver.subscribe(
             RundownEventType.INFINITE_PIECE_ADDED,
-            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseInfinitePieceAdded)
+            this.createEventValidatingConsumer(consumer, this.rundownEventParser.parseInfinitePieceAdded.bind(this.rundownEventParser))
         )
     }
 

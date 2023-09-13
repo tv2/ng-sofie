@@ -1,4 +1,4 @@
-import { EventObserver, Unsubscribe } from '../../event-system/abstractions/event-observer.service'
+import { EventObserver, EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { Injectable, OnDestroy } from '@angular/core'
 
 enum ConnectionEventType {
@@ -8,14 +8,14 @@ enum ConnectionEventType {
 
 @Injectable()
 export class ConnectionStatusObserver implements OnDestroy {
-    private readonly unsubscribeFromClosedEvent: Unsubscribe
+    private readonly closedEventSubscription: EventSubscription
     private hasHadOpenConnection: boolean = false
 
     constructor(private readonly eventObserver: EventObserver) {
-        this.unsubscribeFromClosedEvent = eventObserver.subscribe(ConnectionEventType.CLOSED, () => this.hasHadOpenConnection = true)
+        this.closedEventSubscription = eventObserver.subscribe(ConnectionEventType.CLOSED, () => this.hasHadOpenConnection = true)
     }
 
-    public subscribeToReconnect(consumer: () => void): Unsubscribe {
+    public subscribeToReconnect(consumer: () => void): EventSubscription {
         return this.eventObserver.subscribe(ConnectionEventType.OPENED, () => {
             if (!this.hasHadOpenConnection) {
                 this.hasHadOpenConnection = true
@@ -26,6 +26,6 @@ export class ConnectionStatusObserver implements OnDestroy {
     }
 
     public ngOnDestroy() {
-        this.unsubscribeFromClosedEvent()
+        this.closedEventSubscription.unsubscribe()
     }
 }
