@@ -44,18 +44,26 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   }
 
   private getPieceLayers(): string[] {
-    //Make this list compare to the retrieved actual layers
-    // return [
-    //   'OVERLAY',
-    //   'PGM',
-    //   'JINGLE',
-    //   'MUSIK',
-    //   'MANUS',
-    //   'ADLIB',
-    //   'SEC',
-    //   'AUX',
-    // ]
-    return this.pieceLayerService.getPieceLayersForParts(this.segment.parts)
+    const usedPieceLayers = this.pieceLayerService.getPieceLayersForParts(this.segment.parts)
+    const availablePieceLayersInOrder: string [] = [
+      'OVERLAY',
+      'PGM',
+      'JINGLE',
+      'MUSIK',
+      'MANUS',
+      'ADLIB',
+      'SEC',
+      'AUX',
+    ]
+    const usedPieceLayersInOrder: string[] = []
+
+    availablePieceLayersInOrder.forEach(layer => {
+      if (usedPieceLayers.includes(layer)) {
+        usedPieceLayersInOrder.push(layer)
+      }
+    })
+
+    return usedPieceLayersInOrder
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
