@@ -3,6 +3,7 @@ import { Piece } from '../../../core/models/piece'
 import { offsetSegment } from '@angular/compiler-cli/src/ngtsc/sourcemaps/src/segment_marker'
 
 const DEFAULT_PIECE_DURATION = 4000
+const MAX_VISUAL_DURATION = 15000
 
 @Component({
   selector: 'sofie-piece',

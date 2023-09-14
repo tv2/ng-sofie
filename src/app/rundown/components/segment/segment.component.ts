@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
+import {PieceLayerService} from "../../../shared/services/piece-layer.service";
 
 @Component({
   selector: 'sofie-segment',
@@ -25,19 +26,28 @@ export class SegmentComponent implements OnChanges {
   public timeReference: number = 0
 
   public pieceLayers: string[] = []
+
   private animationFrameId?: number
+
+  constructor(private readonly pieceLayerService: PieceLayerService) {}
 
   public emitSetNextEvent(partId: string): void {
     this.setNextEvent.emit({ segmentId: this.segment.id, partId})
   }
 
-
   private getPieceLayers(): string[] {
-    return [
-      'OVERLAY',
-      'PGM',
-      'MANUS',
-    ]
+    //Make this list compare to the retrieved actual layers
+    // return [
+    //   'OVERLAY',
+    //   'PGM',
+    //   'JINGLE',
+    //   'MUSIK',
+    //   'MANUS',
+    //   'ADLIB',
+    //   'SEC',
+    //   'AUX',
+    // ]
+    return this.pieceLayerService.getPieceLayersForParts(this.segment.parts)
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

@@ -28,6 +28,7 @@
         [part]="part"
         [pieceLayers]="pieceLayers"
         [pixelsPerSecond]="30"
+        (partSelectedAsNextEvent)="emitSetNextEvent($event)"
       ></sofie-part>
     </div>
   </div>

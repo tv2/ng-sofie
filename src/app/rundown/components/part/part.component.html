@@ -11,9 +11,9 @@
   </span>
   <button *ngIf="isRundownActive && !part.isNext && !part.isOnAir" (click)="setPartAsNext()">Set Part as Next</button>
   <div class="c-part__piece-layers">
-    <div class="c-part__piece-layer" *ngFor="let pieces of layeredPieces">
-      <sofie-piece *ngFor="let piece of pieces" [piece]="piece" [pixelsPerSecond]="pixelsPerSecond"></sofie-piece>
+    <div class="c-part__piece-layer" [style.width]="getPartWidthInPixels()" *ngFor="let pieces of layeredPieces">
+      <sofie-piece *ngFor="let piece of pieces" [maxDuration]="this.part.expectedDuration ?? 0" [piece]="piece" [pixelsPerSecond]="pixelsPerSecond"></sofie-piece>
     <!--<sofie-ad-lib-piece *ngFor="let adLibPiece of part.adLibPieces" [adLibPiece]="adLibPiece"></sofie-ad-lib-piece>-->
+    </div>
   </div>
-</div>
 </div>
