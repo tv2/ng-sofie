@@ -69,7 +69,7 @@ export class PartComponent implements OnChanges {
     }, {})
   }
 
-  private getPartWidthInPixels(): string {
+  public getPartWidthInPixels(): string {
     const width = this.getPartWidth()
     return `${width}px`
   }

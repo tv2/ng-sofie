@@ -16,6 +16,8 @@ export class ZodEntityParser implements EntityParserService {
         partId: zod.string().nonempty(),
         name: zod.string().nonempty(),
         layer: zod.string().nonempty(),
+        start: zod.number(),
+        duration: zod.number().optional(),
     })
     public parsePiece(piece: unknown): Piece {
         return this.PIECE_PARSER.parse(piece)

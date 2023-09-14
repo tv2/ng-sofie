@@ -6,4 +6,6 @@ export interface Piece {
   partId: string
   name: string
   layer: string
+  start: number
+  duration?: number
 }

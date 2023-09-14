@@ -1,15 +1,40 @@
 :host {
   display: flex;
 }
+
 .piece {
   height: 22px;
-  border: solid 1px green;
   padding: 3px;
-  margin: 1px 0;
-  background: blue;
-  color: white;
-  font-weight: normal;
-  overflow: hidden;
+  font-style: italic;
   text-overflow: ellipsis;
+  margin: 1px 0;
   white-space: nowrap;
+  color: white;
+  overflow: hidden;
+  font-weight: normal;
+  background-color: rgba(255,255,255, 0.2);
+}
+
+.piece--camera {
+  background-color: #005919;
+}
+
+.piece--lower-third {
+  background-color: #ca9d00;
+}
+
+.piece--remote {
+  background-color: #ac29a5;
+}
+
+.piece--clip {
+  background-color: #1769ff;
+}
+
+.piece--live-speak {
+  background-color: #370020;
+}
+
+.piece--local {
+  background-color: #8d1010;
 }

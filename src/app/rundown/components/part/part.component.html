@@ -12,7 +12,8 @@
   <button *ngIf="isRundownActive && !part.isNext && !part.isOnAir" (click)="setPartAsNext()">Set Part as Next</button>
   <div class="c-part__piece-layers">
     <div class="c-part__piece-layer" *ngFor="let pieces of layeredPieces">
-      <sofie-piece *ngFor="let piece of pieces" [piece]="piece"></sofie-piece>
+      <sofie-piece *ngFor="let piece of pieces" [piece]="piece" [pixelsPerSecond]="pixelsPerSecond"></sofie-piece>
     <!--<sofie-ad-lib-piece *ngFor="let adLibPiece of part.adLibPieces" [adLibPiece]="adLibPiece"></sofie-ad-lib-piece>-->
   </div>
+</div>
 </div>
