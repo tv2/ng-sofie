@@ -5,7 +5,7 @@ export class PieceLayerService {
     public getPieceLayersForParts(parts: Part[]): string[] {
         const pieceLayers: string[] = []
         parts.forEach(part => {
-            part.pieces.forEach(piece => {
+            part.pieces.concat(part.adLibPieces).forEach(piece => {
                 const layer = this.getPieceLayer(piece)
                 if (!pieceLayers.includes(layer) && layer !== 'UNKNOWN') {
                     pieceLayers.push(layer)

@@ -67,7 +67,7 @@ export class PartComponent implements OnChanges {
   }
 
   private getGroupedPiecesByLayer(): Record<string, Piece[]> {
-    return this.part.pieces.reduce((groups: Record<string, Piece[]>, piece) => {
+    return this.part.pieces.concat(this.part.adLibPieces).reduce((groups: Record<string, Piece[]>, piece) => {
       const pieceLayer = this.pieceLayerService.getPieceLayer(piece)
       if (!(pieceLayer in groups)) {
         groups[pieceLayer] = []
