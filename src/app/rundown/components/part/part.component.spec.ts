@@ -4,23 +4,13 @@ import { PartComponent } from './part.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { instance, mock, when } from '@typestrong/ts-mockito'
 import { Part } from '../../../core/models/part'
+import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 
 describe('PartComponent', () => {
-  let component: PartComponent;
-  let fixture: ComponentFixture<PartComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
-      declarations: [ PartComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(PartComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('should create', () => {
+  it('should create', async () => {
+    await configureTestBed()
+    const fixture = TestBed.createComponent(PartComponent)
+    const component = fixture.componentInstance
     const mockedPart = getMockedPart()
     component.part = instance(mockedPart)
     fixture.detectChanges()
@@ -37,4 +27,15 @@ function getMockedPart(): Part {
   when(mockedPart.pieces).thenReturn([])
   when(mockedPart.adLibPieces).thenReturn([])
   return mockedPart
+}
+
+async function configureTestBed(): Promise<void> {
+  const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
+  await TestBed.configureTestingModule({
+    declarations: [PartComponent],
+    imports: [BrowserAnimationsModule],
+    providers: [
+      { provide: PieceLayerService, useValue: instance(mockedPieceLayerService) },
+    ]
+  }).compileComponents()
 }

@@ -1,13 +1,17 @@
 import { ZodRundownEventParser } from './zod-rundown-event-parser.service'
 import { RundownEventType } from '../models/rundown-event-type'
 import {
-    RundownActivatedEvent, RundownAdLibPieceInsertedEvent,
-    RundownDeactivatedEvent, RundownInfinitePieceAddedEvent,
-    RundownResetEvent, PartSetAsNextEvent,
-    PartTakenEvent
+    PartSetAsNextEvent,
+    PartTakenEvent,
+    RundownActivatedEvent,
+    RundownAdLibPieceInsertedEvent,
+    RundownDeactivatedEvent,
+    RundownInfinitePieceAddedEvent,
+    RundownResetEvent
 } from '../models/rundown-event'
 import { anything, instance, mock, when } from '@typestrong/ts-mockito'
 import { EntityParserService } from '../abstractions/entity-parser.service'
+import { PieceType } from '../enums/piece-type'
 
 describe(ZodRundownEventParser.name, () => {
     describe(ZodRundownEventParser.prototype.parseActivatedEvent.name, () => {
@@ -163,11 +167,13 @@ describe(ZodRundownEventParser.name, () => {
                 partId: 'some-part-id',
                 adLibPiece: {
                     id: 'some-piece-id',
+                    type: PieceType.UNKNOWN,
                     name: 'some-piece',
                     partId: 'some-part-id',
                     layer: 'some-layer',
                     start: 0,
                     duration: 1,
+
                 }
             }
 
@@ -199,9 +205,11 @@ describe(ZodRundownEventParser.name, () => {
                 rundownId: 'some-rundown-id',
                 infinitePiece: {
                     id: 'some-piece-id',
+                    type: PieceType.UNKNOWN,
                     name: 'some-piece',
                     partId: 'some-part-id',
                     layer: 'some-layer',
+                    start: 0,
                 }
             }
 
