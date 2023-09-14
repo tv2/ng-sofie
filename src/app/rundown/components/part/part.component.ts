@@ -32,7 +32,7 @@ export class PartComponent implements OnChanges {
   @Input()
   public isRundownActive: boolean
 
-  // TODO: USed for testing (triggering updates)
+  // TODO: Figure out how to "subscribe" to changes for this on the part property.
   @Input()
   public isOnAir: boolean
 
@@ -55,7 +55,7 @@ export class PartComponent implements OnChanges {
   public partWidthInPixels: string = '0px'
   public duration: number = 4000
 
-  public constructor(private readonly pieceLayerService: PieceLayerService) { return }
+  public constructor(private readonly pieceLayerService: PieceLayerService) {}
 
   public setPartAsNext(): void {
     this.partSelectedAsNextEvent.emit(this.part.id)

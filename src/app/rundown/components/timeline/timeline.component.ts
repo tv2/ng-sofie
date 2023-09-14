@@ -103,11 +103,11 @@ export class TimelineComponent implements AfterViewInit, OnChanges {
     const sectionCount = 1 + Math.ceil(this.canvasWidth / sectionWidth)
     const timeOffsetInPixels = this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
     for (let i = 0; i < sectionCount; i++) {
-      this.drawSection(i, sectionWidth, timeOffsetInPixels)
+      this.drawSectionFromIndex(i, sectionWidth, timeOffsetInPixels)
     }
   }
 
-  private drawSection(sectionIndex: number, sectionWidth: number, timeOffsetInPixels: number): void {
+  private drawSectionFromIndex(sectionIndex: number, sectionWidth: number, timeOffsetInPixels: number): void {
     const from: Point = {
       x: sectionIndex * sectionWidth - timeOffsetInPixels,
       y: 0,
@@ -123,27 +123,26 @@ export class TimelineComponent implements AfterViewInit, OnChanges {
     const sectionWidth = this.pixelsPerSecond * this.secondsPerSection
     const sectionCount = 1 + Math.ceil(this.canvasWidth / sectionWidth)
     for (let i = 0; i < sectionCount; i++) {
-      this.drawTimestamp(i, sectionWidth)
+      this.drawTimestampFromIndex(i, sectionWidth)
     }
   }
 
-  private drawTimestamp(sectionIndex: number, sectionWidth: number): void {
+  private drawTimestampFromIndex(sectionIndex: number, sectionWidth: number): void {
     const x = sectionIndex * sectionWidth + 5 - this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
     const sectionTimestampInSeconds = this.getSectionTimestampInSeconds(sectionIndex)
     const formattedTimestamp = this.timestampPipe.transform(sectionTimestampInSeconds)
-    this.drawText(formattedTimestamp, x)
+    this.drawText(formattedTimestamp, x, TEXT_MIDDLE_POSITION)
   }
 
   private getSectionTimestampInSeconds(sectionIndex: number): number {
-    const secondsPerSubsection = this.secondsPerSection / this.subsectionsPerSection
     const timeInSeconds = this.time / 1000
     return timeInSeconds - timeInSeconds % this.secondsPerSection + sectionIndex * this.secondsPerSection
   }
 
-  private drawText(text: string, x: number): void {
+  private drawText(text: string, x: number, y: number): void {
       this.canvasContext.font = TEXT_STYLE;
       this.canvasContext.fillStyle = '#5f6164'
-      this.canvasContext.fillText(text, x, TEXT_MIDDLE_POSITION)
+      this.canvasContext.fillText(text, x, y)
   }
 
   private clearCanvas(): void {

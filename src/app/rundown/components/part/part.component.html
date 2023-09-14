@@ -2,6 +2,7 @@
   class="c-part"
   [@onAirTrigger]="part.isOnAir ? 'onAir' : part.isNext ? 'isNext' : 'offAir'"
   [style.width]="partWidthInPixels"
+  (click)="setPartAsNext()"
 >
   <!--<span *ngIf="part.isOnAir" class="is-on-air">
     ON AIR
