@@ -110,8 +110,12 @@ export class SegmentComponent implements OnChanges, OnDestroy {
       console.warn(`Expected an active part in segment '${this.segment.name} (${this.segment.id})', but found none.`)
       return
     }
-    const partsUntilActivePart: Part[] = this.segment.parts.slice(0, activePartIndex + 1)
-    this.timeReference = partsUntilActivePart.reduce((timeSpend, part) => timeSpend + part.getDuration(), 0)
+    const activePart: Part = this.segment.parts[activePartIndex]
+    const partsUntilActivePart: Part[] = this.segment.parts.slice(0, activePartIndex)
+    const timeSpendUntilActivePart: number = partsUntilActivePart.reduce((duration, part) => duration + part.getDuration(), 0)
+    // TODO: Is this the right place to compute it or should it be the part that does it?
+    const timeSpendInActivePart: number = activePart.executedAt > 0 ? Date.now() - activePart.executedAt : 0
+    this.timeReference = timeSpendUntilActivePart + timeSpendInActivePart
   }
 
   public ngOnDestroy() {
