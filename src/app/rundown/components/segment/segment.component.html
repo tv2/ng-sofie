@@ -19,6 +19,7 @@
     </div>
   </div>
 
+  <!-- TODO: Should this be a separate component, such that we can easily swap it out. E.g. if we want to follow playhead or show full overview. -->
   <div class="c-segment__timeline">
     <sofie-timeline [ngClass]="'c-segment__timeline-markers'" [time]="timeReference" [pixelsPerSecond]="30"></sofie-timeline>
     <div class="c-segment__timeline-parts">
