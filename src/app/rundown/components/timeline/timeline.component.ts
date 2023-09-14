@@ -1,218 +1,167 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef, EventEmitter,
+  ElementRef,
   HostListener,
   Input,
-  OnDestroy,
-  OnInit,
-  Output,
   ViewChild
 } from '@angular/core'
 import { TimestampPipe} from "../../../shared/pipes/timestamp.pipe"
-import {Part} from "../../../core/models/part";
-import {Segment} from "../../../core/models/segment";
 
 interface Point {
   x: number,
   y: number
 }
 
-const Y_BOTTOM_COORDINATE: number = 25
-const Y_LONG_LINE_TOP_COORDINATE: number = 40
-const Y_SHORT_LINE_TOP_COORDINATE: number = 33
-const TEXT_FONT: string = '14px arial'
-const Y_TEXT_COORDINATE: number = 16
+const TEXT_STYLE: string = '15px arial'
+const TEXT_MIDDLE_POSITION: number = 13
+const SUBSECTION_TOP_POSITION: number = 20
 
 @Component({
   selector: 'sofie-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
-
-export class TimelineComponent implements AfterViewInit, OnDestroy {
+export class TimelineComponent implements AfterViewInit {
   @Input()
-  public segment: Segment
+  public time: number = 0
 
   @Input()
   public pixelsPerSecond: number
 
-  @ViewChild('canvasContainer')
-  public canvasContainer!: ElementRef
+  @ViewChild('containerElement')
+  public containerElement: ElementRef
 
-  @ViewChild('timeline')
-  public timeline!: ElementRef<HTMLCanvasElement>
+  @ViewChild('canvasElement')
+  public canvasElement: ElementRef<HTMLCanvasElement>
 
-  public context!: CanvasRenderingContext2D
+  private canvasContext!: CanvasRenderingContext2D
 
-  public SECONDS_PER_SECTION: number = 5
-  public SUBSECTIONS_PER_SECTION: number = 5
+  private canvasWidth: number = 0
+  private canvasHeight: number = 0
 
-  private CANVAS_WIDTH: number = 0
+  private secondsPerSection: number = 5
+  private subsectionsPerSection: number = 5
 
-  private animationFrameIdentifier: any = undefined
-
-  constructor(private timestampPipe: TimestampPipe) {}
+  public constructor(private readonly timestampPipe: TimestampPipe) {
+  }
 
   @HostListener('window:resize', ['$event'])
-  onResize(): void {
+  public onResize(): void {
     this.setCanvasSize()
-    this.draw(0)
+    this.draw()
   }
 
   private setCanvasSize(): void {
-    this.CANVAS_WIDTH = this.canvasContainer.nativeElement.offsetWidth
-    this.timeline.nativeElement.width = this.CANVAS_WIDTH
-    this.timeline.nativeElement.height = 30 // TODO: Move out into css
+    this.canvasWidth = this.containerElement.nativeElement.offsetWidth
+    this.canvasHeight = this.containerElement.nativeElement.offsetHeight
+    this.canvasElement.nativeElement.width = this.canvasWidth
+    this.canvasElement.nativeElement.height = this.canvasHeight
   }
 
-  public ngAfterViewInit(): void {
-    this.initializeCanvas()
-    this.setCanvasSize()
-    this.startAnimation()
+  private draw(): void {
+    this.clearCanvas()
+    this.drawSubsections()
+    this.drawSections()
+    this.drawTimestamps()
   }
 
-  private initializeCanvas(): void {
-    if (!this.canvasContainer) {
-      throw new Error('Canvas Container not loaded!')
-    }
-
-    if (!this.timeline) {
-      throw new Error('Canvas not loaded!')
-    }
-
-    const context = this.timeline.nativeElement.getContext('2d');
-    if (!context) {
-      throw new Error('Canvas Context not loaded!')
-    }
-    this.context = context
-  }
-  public startAnimation(): void {
-    if (!this.animationFrameIdentifier) {
-      this.clearCanvas()
-      this.draw(0)
-      this.animationFrameIdentifier = requestAnimationFrame(time => this.animationFrameCallback(time))
+  private drawSubsections(): void {
+    const subsectionWidth = this.pixelsPerSecond * this.secondsPerSection / this.subsectionsPerSection
+    const subsectionCount = Math.ceil(this.canvasWidth / subsectionWidth)
+    for (let i = 0; i < subsectionCount; i++) {
+      this.drawSubsectionIfNotCollidingWithSection(i, subsectionWidth)
     }
   }
 
-  public stopAnimation(): void {
-    if (this.animationFrameIdentifier) {
-      cancelAnimationFrame(this.animationFrameIdentifier)
-      this.animationFrameIdentifier = undefined
-    }
-  }
-
-  private animationFrameCallback(timestamp: number): void {
-    if (this.segment.isOnAir) {
-      this.redraw()
-    }
-    this.animationFrameIdentifier = requestAnimationFrame(time => this.animationFrameCallback(time))
-  }
-
-  private redraw(): void {
-    const activePartIndex: number = this.segment.parts.findIndex(part => part.isOnAir)
-    if (activePartIndex < 0) {
-      console.warn('No active part in timeline')
+  private drawSubsectionIfNotCollidingWithSection(subsectionIndex: number, subsectionWidth: number): void {
+    if (subsectionIndex % this.subsectionsPerSection === 0) {
       return
     }
-    const partsUntilOnAirPart: Part[] = this.segment.parts.slice(0, activePartIndex)
-    const offsetDuration: number = partsUntilOnAirPart.reduce((duration, part) => duration + (part.expectedDuration ?? 0), 0)
-
-    const activePart: Part = this.segment.parts[activePartIndex]
-    // TODO: How do we handle if the executedAt is 0 (not set)
-    const durationInActivePart = Date.now() - activePart.executedAt
-
-    const duration = offsetDuration + durationInActivePart
-    this.clearCanvas()
-    this.draw(duration)
-  }
-
-  public ngOnDestroy() {
-    this.stopAnimation()
-  }
-
-  private clearCanvas(): void {
-    this.context.clearRect(0, 0, this.timeline.nativeElement.width, this.timeline.nativeElement.height)
-  }
-
-  private draw(timestampInMilliseconds: number): void {
-    const sectionsInCanvas = Math.ceil(this.CANVAS_WIDTH / (this.pixelsPerSecond * this.SECONDS_PER_SECTION))
-
-    const pixelsPrSection: number = this.CANVAS_WIDTH / sectionsInCanvas
-    const millisecondsPrSection: number = this.SECONDS_PER_SECTION * 1000;
-    const pixelsPrMillisecond: number = pixelsPrSection / millisecondsPrSection
-    const timestampWithinSection: number = timestampInMilliseconds % millisecondsPrSection;
-
-    for (let i: number = 0; i <= sectionsInCanvas; i++) {
-      // Multiply with negative one to make the animation go from right to left.
-      const x: number = (timestampWithinSection * -1) * pixelsPrMillisecond + (i * pixelsPrSection);
-      const from: Point = {
-        x,
-        y: Y_BOTTOM_COORDINATE
-      }
-      this.drawLongVerticalLine(from)
-      this.drawTimestamp(timestampInMilliseconds, i, x)
-
-      const pixelsPrSubSection: number = pixelsPrSection / this.SUBSECTIONS_PER_SECTION
-      for (let j: number = 1; j < this.SUBSECTIONS_PER_SECTION; j++) {
-        from.x = x + (pixelsPrSubSection * j)
-        this.drawShortVerticalLine(from)
-      }
-    }
-    this.drawBottomLine()
-  }
-
-  private drawTimestamp(timestampSinceStartMilliseconds: number, index: number, xCoordinate: number): void {
-    let secondsSinceStart: number = Math.floor(timestampSinceStartMilliseconds / 1000)
-    const isInNumberTable: boolean = secondsSinceStart % this.SECONDS_PER_SECTION === 0;
-    if (!isInNumberTable) {
-      // The 'seconds since start' is not in the number table of the current 'seconds pr section' so we need to find the closest number in the table that already has been shown.
-      // E.g. 11 is not in the number table of 3, so we need to display 9. 7 is not in the number table of 2, so we need to display 6.
-      secondsSinceStart -= secondsSinceStart % this.SECONDS_PER_SECTION
-    }
-    const secondsToDisplay: number = secondsSinceStart + (index * this.SECONDS_PER_SECTION);
-    this.drawText(this.timestampPipe.transform(secondsToDisplay), xCoordinate)
-  }
-
-  private drawLongVerticalLine(from: Point): void {
-    const to: Point = {
-      x: from.x,
-      y: Y_LONG_LINE_TOP_COORDINATE
-    }
-    this.drawStraightLine(from, to)
-  }
-
-  private drawShortVerticalLine(from: Point): void {
-    const toUp: Point = {
-      x: from.x,
-      y: Y_SHORT_LINE_TOP_COORDINATE
-    }
-    this.drawStraightLine(from, toUp)
-  }
-
-  private drawBottomLine(): void {
     const from: Point = {
-      x: 0,
-      y: Y_BOTTOM_COORDINATE
-    };
+      x: subsectionIndex * subsectionWidth,
+      y: SUBSECTION_TOP_POSITION,
+    }
     const to: Point = {
-      x: this.CANVAS_WIDTH,
-      y: Y_BOTTOM_COORDINATE
-    };
-    this.drawStraightLine(from, to)
+      x: subsectionIndex * subsectionWidth,
+      y: this.canvasHeight,
+    }
+    this.drawLine(from, to, 1)
   }
 
-  private drawStraightLine(from: Point, to: Point): void {
-    this.context.beginPath()
-    this.context.moveTo(from.x, from.y)
-    this.context.lineTo(to.x, to.y)
-    this.context.stroke()
-    this.context.strokeStyle = '#5f6164'
+  private drawLine(from: Point, to: Point, lineWidth: number): void {
+    this.canvasContext.lineWidth = lineWidth
+    this.canvasContext.strokeStyle = '#5f6164'
+    this.canvasContext.beginPath()
+    this.canvasContext.moveTo(from.x, from.y)
+    this.canvasContext.lineTo(to.x, to.y)
+    this.canvasContext.stroke()
+  }
+
+  private drawSections(): void {
+    const sectionWidth = this.pixelsPerSecond * this.secondsPerSection
+    const sectionCount = Math.ceil(this.canvasWidth / sectionWidth)
+    for (let i = 0; i < sectionCount; i++) {
+      this.drawSection(i, sectionWidth)
+    }
+  }
+
+  private drawSection(sectionIndex: number, sectionWidth: number): void {
+    const from: Point = {
+      x: sectionIndex * sectionWidth,
+      y: 0,
+    }
+    const to: Point = {
+      x: sectionIndex * sectionWidth,
+      y: this.canvasHeight,
+    }
+    this.drawLine(from, to, 2)
+  }
+
+  private drawTimestamps(): void {
+    const sectionWidth = this.pixelsPerSecond * this.secondsPerSection
+    const sectionCount = Math.ceil(this.canvasWidth / sectionWidth)
+    for (let i = 0; i < sectionCount; i++) {
+      this.drawTimestamp(i, sectionWidth)
+    }
+  }
+
+  private drawTimestamp(sectionIndex: number, sectionWidth: number): void {
+    const x = sectionIndex * sectionWidth + 5
+    const timestampInSeconds = sectionIndex * sectionWidth / this.pixelsPerSecond
+    const formattedTimestamp = this.timestampPipe.transform(timestampInSeconds)
+    this.drawText(formattedTimestamp, x)
   }
 
   private drawText(text: string, x: number): void {
-    this.context.font = TEXT_FONT;
-    this.context.fillStyle = '#5f6164'
-    this.context.fillText(text, x, Y_TEXT_COORDINATE)
+      this.canvasContext.font = TEXT_STYLE;
+      this.canvasContext.fillStyle = '#5f6164'
+      this.canvasContext.fillText(text, x, TEXT_MIDDLE_POSITION)
+  }
+
+  private clearCanvas(): void {
+    this.canvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
+  }
+
+  public ngAfterViewInit(): void {
+    this.initializeCanvasContext()
+    this.setCanvasSize()
+    this.draw()
+  }
+
+  private initializeCanvasContext(): void {
+    if (!this.containerElement) {
+      throw new Error('Canvas Container not loaded!')
+    }
+
+    if (!this.canvasElement) {
+      throw new Error('Canvas not loaded!')
+    }
+
+    const canvasContext = this.canvasElement.nativeElement.getContext('2d');
+    if (!canvasContext) {
+      throw new Error('Canvas Context not loaded!')
+    }
+    this.canvasContext = canvasContext
   }
 }

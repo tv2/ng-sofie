@@ -8,7 +8,7 @@
       <button *ngIf="rundown?.isActive" (click)="deactivateRundown()">Deactivate Rundown</button>
     </div>
     <div class="segments">
-      <sofie-segment *ngFor="let segment of rundown?.segments" [segment]="segment" [isRundownActive]="rundown?.isActive ?? false" (setNextEvent)="setNext($event)"></sofie-segment>
+      <sofie-segment *ngFor="let segment of rundown?.segments" [segment]="segment" [isOnAir]="segment.isOnAir" [isRundownActive]="rundown?.isActive ?? false" (setNextEvent)="setNext($event)"></sofie-segment>
     </div>
   </div>
   <div>
