@@ -22,14 +22,18 @@
   <div class="c-segment__timeline">
     <sofie-timeline [ngClass]="'c-segment__timeline-markers'" [time]="timeReference" [pixelsPerSecond]="30"></sofie-timeline>
     <div class="c-segment__timeline-parts">
-      <sofie-part
-        *ngFor="let part of segment.parts"
-        [isRundownActive]="isRundownActive"
-        [part]="part"
-        [pieceLayers]="pieceLayers"
-        [pixelsPerSecond]="30"
-        (partSelectedAsNextEvent)="emitSetNextEvent($event)"
-      ></sofie-part>
+      <div class="c-segment__timeline-parts-wrapper">
+        <sofie-part
+          *ngFor="let part of segment.parts"
+          [isRundownActive]="isRundownActive"
+          [part]="part"
+          [pieceLayers]="pieceLayers"
+          [pixelsPerSecond]="30"
+          [isOnAir]="part.isOnAir"
+          [time]="part.isOnAir ? timeReference : 0"
+          (partSelectedAsNextEvent)="emitSetNextEvent($event)"
+        ></sofie-part>
+        </div>
     </div>
   </div>
 </div>

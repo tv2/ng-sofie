@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output,
+  SimpleChange,
+  SimpleChanges
+} from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
 import {PieceLayerService} from "../../../shared/services/piece-layer.service";
@@ -8,7 +17,7 @@ import {PieceLayerService} from "../../../shared/services/piece-layer.service";
   templateUrl: './segment.component.html',
   styleUrls: ['./segment.component.scss']
 })
-export class SegmentComponent implements OnChanges {
+export class SegmentComponent implements OnChanges, OnDestroy {
 
   @Input()
   public isRundownActive: boolean
@@ -22,7 +31,6 @@ export class SegmentComponent implements OnChanges {
   @Output()
   setNextEvent: EventEmitter<{segmentId: string, partId: string}> = new EventEmitter()
 
-  @Output()
   public timeReference: number = 0
 
   public pieceLayers: string[] = []
@@ -51,17 +59,15 @@ export class SegmentComponent implements OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    console.error('CHANGED')
     this.pieceLayers = this.getPieceLayers()
 
-    const segmentChange: SimpleChange | undefined = changes['segment']
-    if (segmentChange && this.didSegmentOnAirStatusChange(segmentChange)) {
+    const isOnAirChange: SimpleChange | undefined = changes['isOnAir']
+    if (isOnAirChange?.currentValue === false) {
+      this.stopAnimation()
+    }
+    if (isOnAirChange?.previousValue !== isOnAirChange?.currentValue) {
       this.startOrStopAnimation()
     }
-  }
-
-  private didSegmentOnAirStatusChange(segmentChange: SimpleChange): boolean {
-    return segmentChange.currentValue.isOnAir !== segmentChange.previousValue?.isOnAir
   }
 
   private startOrStopAnimation(): void {
@@ -83,7 +89,7 @@ export class SegmentComponent implements OnChanges {
   }
 
   private stopAnimation(): void {
-    if (!this.animationFrameId) {
+    if (this.animationFrameId === undefined) {
       return
     }
     window.cancelAnimationFrame(this.animationFrameId)
@@ -96,10 +102,11 @@ export class SegmentComponent implements OnChanges {
       console.warn(`Expected an active part in segment '${this.segment.name} (${this.segment.id})', but found none.`)
       return
     }
-    const activePart: Part = this.segment.parts[activePartIndex]
-    const partsUntilActivePart: Part[] = this.segment.parts.slice(0, activePartIndex)
-    const timeSpendUntilActivePart: number = partsUntilActivePart.reduce((duration, part) => duration + ((part as any).playedDuration ?? part.expectedDuration ?? 4000), 0)
-    const timeSpendInActivePart: number = activePart.executedAt > 0 ? Date.now() - activePart.executedAt : 0
-    this.timeReference = timeSpendUntilActivePart + timeSpendInActivePart
+    const partsUntilActivePart: Part[] = this.segment.parts.slice(0, activePartIndex + 1)
+    this.timeReference = partsUntilActivePart.reduce((timeSpend, part) => timeSpend + part.getDuration(), 0)
+  }
+
+  public ngOnDestroy() {
+    this.stopAnimation()
   }
 }

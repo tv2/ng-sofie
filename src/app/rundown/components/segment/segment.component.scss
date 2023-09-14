@@ -62,6 +62,9 @@
   }
 
   &__timeline-parts {
-    display: flex;
+  }
+
+  &__timeline-parts-wrapper {
+    display: inline-flex;
   }
 }

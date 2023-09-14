@@ -32,6 +32,13 @@ export class PartComponent implements OnChanges {
   @Input()
   public isRundownActive: boolean
 
+  // TODO: USed for testing (triggering updates)
+  @Input()
+  public isOnAir: boolean
+
+  @Input()
+  public time: number
+
   @Input()
   public part: Part
 
@@ -45,7 +52,8 @@ export class PartComponent implements OnChanges {
   public readonly partSelectedAsNextEvent: EventEmitter<string> = new EventEmitter()
 
   public layeredPieces: Piece[][] = []
-  public partWidth: string = '0px'
+  public partWidthInPixels: string = '0px'
+  public duration: number = 4000
 
   public constructor(private readonly pieceLayerService: PieceLayerService) { return }
 
@@ -69,18 +77,20 @@ export class PartComponent implements OnChanges {
     }, {})
   }
 
+  // TODO: Memoize this such that it is not computed 1000000 times a second.
   public getPartWidthInPixels(): string {
     const width = this.getPartWidth()
     return `${width}px`
   }
 
   private getPartWidth(): number {
-    const expectedDuration = this.part.expectedDuration ?? DEFAULT_PART_DURATION
-    return Math.floor(this.pixelsPerSecond * expectedDuration / 1000)
+    const duration = this.part.getDuration()
+    return Math.floor(this.pixelsPerSecond * duration / 1000)
   }
 
   public ngOnChanges(): void {
     this.layeredPieces = this.getPiecesOnLayers()
-    this.partWidth = this.getPartWidthInPixels()
+    this.partWidthInPixels = this.getPartWidthInPixels()
+    this.duration = this.part.getDuration()
   }
 }

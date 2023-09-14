@@ -48,13 +48,17 @@ export class Rundown {
   }
 
   public takeNext(rundownCursor: RundownCursor): void {
-    this.takeAllSegmentsOffAir()
+    this.takeCurrentSegmentOffAir()
     const segmentToComeOnAir: Segment | undefined = this.segments.find(segment => segment.id === rundownCursor.segmentId)
     if (!segmentToComeOnAir) {
       // TODO: Handle no segment
       return
     }
     segmentToComeOnAir.putOnAir(rundownCursor.partId)
+  }
+
+  private takeCurrentSegmentOffAir(): void {
+    this.segments.find(segment => segment.isOnAir)?.takeOffAir()
   }
 
   public setNext(rundownCursor: RundownCursor): void {

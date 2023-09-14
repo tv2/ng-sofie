@@ -3,10 +3,10 @@ import {
   Component,
   ElementRef,
   HostListener,
-  Input,
+  Input, OnChanges, SimpleChange, SimpleChanges,
   ViewChild
 } from '@angular/core'
-import { TimestampPipe} from "../../../shared/pipes/timestamp.pipe"
+import { TimestampPipe } from "../../../shared/pipes/timestamp.pipe"
 
 interface Point {
   x: number,
@@ -22,9 +22,9 @@ const SUBSECTION_TOP_POSITION: number = 20
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
-export class TimelineComponent implements AfterViewInit {
+export class TimelineComponent implements AfterViewInit, OnChanges {
   @Input()
-  public time: number = 0
+  public time: number
 
   @Input()
   public pixelsPerSecond: number
@@ -43,8 +43,7 @@ export class TimelineComponent implements AfterViewInit {
   private secondsPerSection: number = 5
   private subsectionsPerSection: number = 5
 
-  public constructor(private readonly timestampPipe: TimestampPipe) {
-  }
+  public constructor(private readonly timestampPipe: TimestampPipe) {}
 
   @HostListener('window:resize', ['$event'])
   public onResize(): void {
@@ -68,22 +67,23 @@ export class TimelineComponent implements AfterViewInit {
 
   private drawSubsections(): void {
     const subsectionWidth = this.pixelsPerSecond * this.secondsPerSection / this.subsectionsPerSection
-    const subsectionCount = Math.ceil(this.canvasWidth / subsectionWidth)
+    const subsectionCount = this.subsectionsPerSection + Math.ceil(this.canvasWidth / subsectionWidth)
+    const timeOffsetInPixels = this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
     for (let i = 0; i < subsectionCount; i++) {
-      this.drawSubsectionIfNotCollidingWithSection(i, subsectionWidth)
+      this.drawSubsectionIfNotCollidingWithSection(i, subsectionWidth, timeOffsetInPixels)
     }
   }
 
-  private drawSubsectionIfNotCollidingWithSection(subsectionIndex: number, subsectionWidth: number): void {
+  private drawSubsectionIfNotCollidingWithSection(subsectionIndex: number, subsectionWidth: number, timeOffsetInPixels: number): void {
     if (subsectionIndex % this.subsectionsPerSection === 0) {
       return
     }
     const from: Point = {
-      x: subsectionIndex * subsectionWidth,
+      x: subsectionIndex * subsectionWidth - timeOffsetInPixels,
       y: SUBSECTION_TOP_POSITION,
     }
     const to: Point = {
-      x: subsectionIndex * subsectionWidth,
+      x: subsectionIndex * subsectionWidth - timeOffsetInPixels,
       y: this.canvasHeight,
     }
     this.drawLine(from, to, 1)
@@ -100,19 +100,20 @@ export class TimelineComponent implements AfterViewInit {
 
   private drawSections(): void {
     const sectionWidth = this.pixelsPerSecond * this.secondsPerSection
-    const sectionCount = Math.ceil(this.canvasWidth / sectionWidth)
+    const sectionCount = 1 + Math.ceil(this.canvasWidth / sectionWidth)
+    const timeOffsetInPixels = this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
     for (let i = 0; i < sectionCount; i++) {
-      this.drawSection(i, sectionWidth)
+      this.drawSection(i, sectionWidth, timeOffsetInPixels)
     }
   }
 
-  private drawSection(sectionIndex: number, sectionWidth: number): void {
+  private drawSection(sectionIndex: number, sectionWidth: number, timeOffsetInPixels: number): void {
     const from: Point = {
-      x: sectionIndex * sectionWidth,
+      x: sectionIndex * sectionWidth - timeOffsetInPixels,
       y: 0,
     }
     const to: Point = {
-      x: sectionIndex * sectionWidth,
+      x: sectionIndex * sectionWidth - timeOffsetInPixels,
       y: this.canvasHeight,
     }
     this.drawLine(from, to, 2)
@@ -120,17 +121,23 @@ export class TimelineComponent implements AfterViewInit {
 
   private drawTimestamps(): void {
     const sectionWidth = this.pixelsPerSecond * this.secondsPerSection
-    const sectionCount = Math.ceil(this.canvasWidth / sectionWidth)
+    const sectionCount = 1 + Math.ceil(this.canvasWidth / sectionWidth)
     for (let i = 0; i < sectionCount; i++) {
       this.drawTimestamp(i, sectionWidth)
     }
   }
 
   private drawTimestamp(sectionIndex: number, sectionWidth: number): void {
-    const x = sectionIndex * sectionWidth + 5
-    const timestampInSeconds = sectionIndex * sectionWidth / this.pixelsPerSecond
-    const formattedTimestamp = this.timestampPipe.transform(timestampInSeconds)
+    const x = sectionIndex * sectionWidth + 5 - this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
+    const sectionTimestampInSeconds = this.getSectionTimestampInSeconds(sectionIndex)
+    const formattedTimestamp = this.timestampPipe.transform(sectionTimestampInSeconds)
     this.drawText(formattedTimestamp, x)
+  }
+
+  private getSectionTimestampInSeconds(sectionIndex: number): number {
+    const secondsPerSubsection = this.secondsPerSection / this.subsectionsPerSection
+    const timeInSeconds = this.time / 1000
+    return timeInSeconds - timeInSeconds % this.secondsPerSection + sectionIndex * this.secondsPerSection
   }
 
   private drawText(text: string, x: number): void {
@@ -163,5 +170,23 @@ export class TimelineComponent implements AfterViewInit {
       throw new Error('Canvas Context not loaded!')
     }
     this.canvasContext = canvasContext
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    const timeChange: SimpleChange | undefined = changes['time']
+    if (timeChange)  {
+      this.drawIfTimeHasChanged(timeChange.previousValue, timeChange.currentValue)
+    }
+  }
+
+  private drawIfTimeHasChanged(previousTime: number | undefined, currentTime: number): void {
+    if (!this.canvasContext) {
+      return
+    }
+
+    if (previousTime === currentTime) {
+      return
+    }
+    this.draw()
   }
 }
