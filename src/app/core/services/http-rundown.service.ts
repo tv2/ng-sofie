@@ -4,7 +4,7 @@ import {catchError, map, Observable} from 'rxjs'
 import {RundownService} from '../abstractions/rundown.service';
 import {HttpErrorService} from './http-error.service';
 import {Rundown} from '../models/rundown';
-import { EntityParserService } from '../abstractions/entity-parser.service'
+import { EntityParser } from '../abstractions/entity-parser.service'
 
 const RUNDOWN_URL: string = 'http://localhost:3005/api/rundowns'
 
@@ -14,7 +14,7 @@ export class HttpRundownService implements RundownService {
   constructor(
     private readonly http: HttpClient,
     private readonly httpErrorService: HttpErrorService,
-    private readonly entityParser: EntityParserService
+    private readonly entityParser: EntityParser
   ) {}
 
   public fetchRundown(rundownId: string): Observable<Rundown> {
