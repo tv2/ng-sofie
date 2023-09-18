@@ -47,9 +47,9 @@ export class PieceLayerService {
         }
         if ([
             'studio0_schema',
-            'studio0_design',
             'studio0_full_back',
             'studio0_dve_back',
+            'studio0_design',
         ].includes(piece.layer)) {
             return 'UNKNOWN'
         }

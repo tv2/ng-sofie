@@ -28,6 +28,7 @@
     color: white;
     padding: 8px;
   }
+
   &__title {
     padding: 7px;
     color: white;
@@ -53,6 +54,7 @@
   }
 
   &__timeline {
+    position: relative;
     width: 100%;
     background-color: black;
 

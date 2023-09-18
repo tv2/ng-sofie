@@ -1,6 +1,5 @@
 <div
   class="c-part"
-  [@onAirTrigger]="part.isOnAir ? 'onAir' : part.isNext ? 'isNext' : 'offAir'"
   [style.width]="partWidthInPixels"
   (click)="setPartAsNext()"
 >
@@ -13,7 +12,7 @@
   <button *ngIf="isRundownActive && !part.isNext && !part.isOnAir" (click)="setPartAsNext()">Set Part as Next</button>-->
   <div class="c-part__piece-layers">
     <div class="c-part__piece-layer" [style.width]="partWidthInPixels" *ngFor="let pieces of layeredPieces">
-      <sofie-piece *ngFor="let piece of pieces" [maxDuration]="duration" [piece]="piece" [pixelsPerSecond]="pixelsPerSecond"></sofie-piece>
+      <sofie-piece *ngFor="let piece of pieces" [expectedPartDuration]="part.expectedDuration ? part.expectedDuration : DEFAULT_PART_DURATION" [partDuration]="duration" [piece]="piece" [pixelsPerSecond]="pixelsPerSecond"></sofie-piece>
     <!--<sofie-ad-lib-piece *ngFor="let adLibPiece of part.adLibPieces" [adLibPiece]="adLibPiece"></sofie-ad-lib-piece>-->
     </div>
   </div>

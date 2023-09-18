@@ -5,15 +5,23 @@
 .piece {
   height: 22px;
   padding: 3px;
-  font-style: italic;
-  text-overflow: ellipsis;
   margin: 1px 0;
-  white-space: nowrap;
-  color: white;
-  overflow: hidden;
-  font-weight: normal;
   background-color: rgba(255,255,255, 0.2);
   position: absolute;
+  overflow: hidden;
+}
+
+.piece--text {
+  font-style: italic;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: white;
+  font-weight: normal;
+}
+
+.extend {
+  text-align: right;
+  margin-right: 5px;
 }
 
 .piece--camera {
@@ -22,6 +30,7 @@
 
 .piece--lower-third {
   background-color: #ca9d00;
+  overflow: visible;
 }
 
 .piece--remote {
