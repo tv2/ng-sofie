@@ -9,6 +9,7 @@ export interface PartInterface {
   pieces: Piece[]
   expectedDuration?: number
   executedAt: number
+  playedDuration: number
 }
 
 export class Part {
@@ -29,20 +30,22 @@ export class Part {
     this.isNext = part.isNext
     this.pieces = part.pieces
     this.adLibPieces = []
-    this.executedAt = 0 //part.executedAt
+    this.executedAt = part.executedAt
     this.expectedDuration = part.expectedDuration
-    this.playedDuration = 0 // TODO: Get this from backend.
+    this.playedDuration = part.playedDuration
   }
 
-  public putOnAir(): void {
+  public putOnAir(timestamp: number): void {
     this.isOnAir = true
-    this.executedAt = Date.now() // TODO: This should come from the backend.
+    this.executedAt = timestamp
+    this.playedDuration = 0
   }
 
-  public takeOffAir(): void {
+  public takeOffAir(timestamp: number): void {
     this.isOnAir = false
+    // TODO: Ensure that the data model and flow is sound enough such that this check is not needed.
     if (this.executedAt > 0 && this.playedDuration === 0) {
-      this.playedDuration = Date.now() - this.executedAt
+      this.playedDuration = timestamp - this.executedAt
     }
   }
 
@@ -66,5 +69,10 @@ export class Part {
       return this.playedDuration
     }
     return expectedDuration
+  }
+
+  public reset(): void {
+    this.playedDuration = 0
+    this.executedAt = 0
   }
 }

@@ -33,6 +33,7 @@ export class ZodEntityParser implements EntityParser {
         pieces: this.pieceParser.array(),
         expectedDuration: zod.number().optional().or(zod.null()).transform(expectedDuration => expectedDuration ?? undefined), // TODO: Normalize the type to number | undefined
         executedAt: zod.number(),
+        playedDuration: zod.number(),
     })
 
     private readonly segmentParser = zod.object({

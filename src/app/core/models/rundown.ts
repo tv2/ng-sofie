@@ -26,44 +26,63 @@ export class Rundown {
     rundown.infinitePieces.forEach(piece => this.infinitePieces.set(piece.layer, piece))
   }
 
-  public activate(rundownCursor: RundownCursor): void {
+  public activate(rundownCursor: RundownCursor, timestamp: number): void {
+    this.reset()
     this.isActive = true
     const segment: Segment | undefined = this.segments.find(segment => segment.id === rundownCursor.segmentId)
     if (!segment) {
       // Handle unable to activate
       return
     }
-    segment.putOnAir(rundownCursor.partId)
+    segment.putOnAir(rundownCursor.partId, timestamp)
   }
 
-  public deactivate(): void {
+  private reset(): void {
+    this.segments.forEach(segment => segment.reset())
+  }
+
+  public deactivate(timestamp: number): void {
     this.isActive = false
-    this.takeAllSegmentsOffAir()
+    this.takeAllSegmentsOffAir(timestamp)
     this.infinitePieces = new Map()
   }
 
-  private takeAllSegmentsOffAir(): void {
-    this.segments.forEach(segment => segment.takeOffAir())
+  private takeAllSegmentsOffAir(timestamp: number): void {
+    this.segments.forEach(segment => segment.takeOffAir(timestamp))
     this.segments.find(segment => segment.isNext)?.removeAsNextSegment()
   }
 
-  public takeNext(rundownCursor: RundownCursor): void {
-    this.takeCurrentSegmentOffAir()
+  public takeNext(rundownCursor: RundownCursor, timestamp: number): void {
+    this.takeOnAirSegmentOffAirIfIsNextSegment(rundownCursor.segmentId, timestamp)
     const segmentToComeOnAir: Segment | undefined = this.segments.find(segment => segment.id === rundownCursor.segmentId)
     if (!segmentToComeOnAir) {
       // TODO: Handle no segment
       return
     }
-    segmentToComeOnAir.putOnAir(rundownCursor.partId)
+    segmentToComeOnAir.putOnAir(rundownCursor.partId, timestamp)
   }
 
-  private takeCurrentSegmentOffAir(): void {
-    this.segments.find(segment => segment.isOnAir)?.takeOffAir()
+  private takeOnAirSegmentOffAirIfIsNextSegment(nextSegmentId: string, timestamp: number): void {
+    const activeSegment = this.segments.find(segment => segment.isOnAir)
+    if (!activeSegment || activeSegment.id === nextSegmentId) {
+      return
+    }
+    activeSegment.takeOffAir(timestamp)
   }
 
   public setNext(rundownCursor: RundownCursor): void {
-    this.segments.find(segment => segment.isNext)?.removeAsNextSegment()
-    this.segments.find(segment => segment.id === rundownCursor.segmentId)?.setAsNextSegment(rundownCursor.partId)
+    const oldNextSegment: Segment | undefined = this.segments.find(segment => segment.isNext)
+    const newNextSegment: Segment | undefined = this.segments.find(segment => segment.id === rundownCursor.segmentId)
+
+    if (this.isOffAirSegmentSetAsNext(newNextSegment)) {
+      newNextSegment!.reset()
+    }
+    oldNextSegment?.removeAsNextSegment()
+    newNextSegment?.setAsNextSegment(rundownCursor.partId)
+  }
+
+  private isOffAirSegmentSetAsNext(segment: Segment | undefined): boolean {
+    return segment === undefined || !segment.isOnAir
   }
 
   public addInfinitePiece(infinitePiece: Piece): void {

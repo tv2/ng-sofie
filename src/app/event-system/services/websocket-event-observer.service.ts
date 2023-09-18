@@ -40,7 +40,7 @@ export class WebSocketEventObserver implements EventObserver {
 
     private isValidEvent(maybeEvent: unknown): maybeEvent is TypedEvent {
         const isObject = typeof maybeEvent === 'object' && maybeEvent !== null
-        return isObject && 'type' in maybeEvent
+        return isObject && 'type' in maybeEvent && 'timestamp' in maybeEvent
     }
 
     private publishEvent(event: TypedEvent): void {
@@ -54,12 +54,12 @@ export class WebSocketEventObserver implements EventObserver {
     }
 
     private publishOpenEvent(): void {
-        const event: TypedEvent = { type: 'CONNECTION_OPENED' }
+        const event: TypedEvent = { type: 'CONNECTION_OPENED', timestamp: Date.now() }
         this.publishEvent(event)
     }
 
     private publishCloseEvent(): void {
-        const event: TypedEvent = { type: 'CONNECTION_CLOSED' }
+        const event: TypedEvent = { type: 'CONNECTION_CLOSED', timestamp: Date.now() }
         this.publishEvent(event)
     }
 
