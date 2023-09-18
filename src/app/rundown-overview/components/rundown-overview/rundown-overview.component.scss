@@ -42,7 +42,14 @@
   }
 }
 
-.c-rundown-overview-title {
+.c-rundown-overview {
+  &__no-rundowns,
+  &__loading-rundowns {
+    text-align: center;
+  }
+}
+
+.c-rundown-overview__title {
   margin: 1em;
   font-size: 3em;
   font-weight: lighter;
