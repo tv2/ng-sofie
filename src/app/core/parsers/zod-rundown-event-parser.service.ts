@@ -9,69 +9,49 @@ import {
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
-import { EntityParserService } from '../abstractions/entity-parser.service'
+import { EntityParser } from '../abstractions/entity-parser.service'
 import { AdLibPiece } from '../models/ad-lib-piece'
+
 
 @Injectable()
 export class ZodRundownEventParser {
-
-    constructor(private readonly entityParser: EntityParserService) {}
-
-    private RUNDOWN_ACTIVATED_EVENT_PARSER = zod.object({
+    private readonly rundownActivatedEventParser = zod.object({
         type: zod.literal(RundownEventType.ACTIVATED),
         rundownId: zod.string().nonempty(),
         segmentId: zod.string().nonempty(),
         partId: zod.string().nonempty(),
     })
-    public parseActivatedEvent(maybeEvent: unknown): RundownActivatedEvent {
-        return this.RUNDOWN_ACTIVATED_EVENT_PARSER.parse(maybeEvent)
-    }
 
-    private RUNDOWN_DEACTIVATED_EVENT_PARSER = zod.object({
+    private readonly rundownDeactivatedEventParser = zod.object({
         type: zod.literal(RundownEventType.DEACTIVATED),
         rundownId: zod.string().nonempty(),
     })
-    public parseDeactivatedEvent(maybeEvent: unknown): RundownDeactivatedEvent {
-        return this.RUNDOWN_DEACTIVATED_EVENT_PARSER.parse(maybeEvent)
-    }
 
-    private RUNDOWN_DELETED_EVENT_PARSER = zod.object({
+    private readonly rundownDeletedEventParser = zod.object({
         type: zod.literal(RundownEventType.DELETED),
         rundownId: zod.string().nonempty(),
     })
-    public parseDeletedEvent(maybeEvent: unknown): RundownDeletedEvent {
-        return this.RUNDOWN_DELETED_EVENT_PARSER.parse(maybeEvent)
-    }
 
-    private RUNDOWN_RESET_EVENT_PARSER = zod.object({
+    private readonly rundownResetEventParser = zod.object({
         type: zod.literal(RundownEventType.RESET),
         rundownId: zod.string().nonempty(),
     })
-    public parseResetEvent(maybeEvent: unknown): RundownResetEvent {
-        return this.RUNDOWN_RESET_EVENT_PARSER.parse(maybeEvent)
-    }
 
-    private RUNDOWN_TAKEN_EVENT_PARSER = zod.object({
+    private readonly rundownTakenEventParser = zod.object({
         type: zod.literal(RundownEventType.TAKEN),
         rundownId: zod.string().nonempty(),
         segmentId: zod.string().nonempty(),
         partId: zod.string().nonempty(),
     })
-    public parseTakenEvent(maybeEvent: unknown): PartTakenEvent {
-        return this.RUNDOWN_TAKEN_EVENT_PARSER.parse(maybeEvent)
-    }
 
-    private RUNDOWN_SET_NEXT_EVENT_PARSER = zod.object({
+    private readonly rundownSetNextEventParser = zod.object({
         type: zod.literal(RundownEventType.SET_NEXT),
         rundownId: zod.string().nonempty(),
         segmentId: zod.string().nonempty(),
         partId: zod.string().nonempty(),
     })
-    public parseSetNextEvent(maybeEvent: unknown): PartSetAsNextEvent {
-        return this.RUNDOWN_SET_NEXT_EVENT_PARSER.parse(maybeEvent)
-    }
 
-    private RUNDOWN_AD_LIB_PIECE_INSERTED_EVENT_PARSER = zod.object({
+    private readonly rundownAdLibPieceInsertedEventParser = zod.object({
         type: zod.literal(RundownEventType.AD_LIB_PIECE_INSERTED),
         rundownId: zod.string().nonempty(),
         segmentId: zod.string().nonempty(),
@@ -80,18 +60,46 @@ export class ZodRundownEventParser {
             .nonstrict()
             .transform((adLibPiece: unknown): AdLibPiece => this.entityParser.parseAdLibPiece(adLibPiece)),
     })
-    public parseAdLibPieceInserted(maybeEvent: unknown): RundownAdLibPieceInsertedEvent {
-        return this.RUNDOWN_AD_LIB_PIECE_INSERTED_EVENT_PARSER.parse(maybeEvent)
-    }
 
-    private RUNDOWN_INFINITE_PIECE_ADDED_EVENT_PARSER = zod.object({
+    private readonly rundownInfinitePieceAddedEventParser = zod.object({
         type: zod.literal(RundownEventType.INFINITE_PIECE_ADDED),
         rundownId: zod.string().nonempty(),
         infinitePiece: zod.object({})
             .nonstrict()
             .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
     })
+
+    constructor(private readonly entityParser: EntityParser) {}
+
+    public parseActivatedEvent(maybeEvent: unknown): RundownActivatedEvent {
+        return this.rundownActivatedEventParser.parse(maybeEvent)
+    }
+
+    public parseDeactivatedEvent(maybeEvent: unknown): RundownDeactivatedEvent {
+        return this.rundownDeactivatedEventParser.parse(maybeEvent)
+    }
+
+    public parseDeletedEvent(maybeEvent: unknown): RundownDeletedEvent {
+        return this.rundownDeletedEventParser.parse(maybeEvent)
+    }
+
+    public parseResetEvent(maybeEvent: unknown): RundownResetEvent {
+        return this.rundownResetEventParser.parse(maybeEvent)
+    }
+
+    public parseTakenEvent(maybeEvent: unknown): PartTakenEvent {
+        return this.rundownTakenEventParser.parse(maybeEvent)
+    }
+
+    public parseSetNextEvent(maybeEvent: unknown): PartSetAsNextEvent {
+        return this.rundownSetNextEventParser.parse(maybeEvent)
+    }
+
+    public parseAdLibPieceInserted(maybeEvent: unknown): RundownAdLibPieceInsertedEvent {
+        return this.rundownAdLibPieceInsertedEventParser.parse(maybeEvent)
+    }
+
     public parseInfinitePieceAdded(maybeEvent: unknown): RundownInfinitePieceAddedEvent {
-        return this.RUNDOWN_INFINITE_PIECE_ADDED_EVENT_PARSER.parse(maybeEvent)
+        return this.rundownInfinitePieceAddedEventParser.parse(maybeEvent)
     }
 }

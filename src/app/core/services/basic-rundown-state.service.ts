@@ -13,12 +13,16 @@ export class BasicRundownStateService implements OnDestroy {
   private basicRundowns: BasicRundown[] = []
   private eventSubscriptions: EventSubscription[]
 
+  private readonly isLoadingSubject: BehaviorSubject<boolean>
+  private isLoading = true
+
   constructor(
       private readonly basicRundownService: BasicRundownService,
       private readonly rundownEventObserver: RundownEventObserver,
       private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {
     this.basicRundownsSubject = new BehaviorSubject<BasicRundown[]>(this.basicRundowns)
+    this.isLoadingSubject = new BehaviorSubject<boolean>(this.isLoading)
     this.subscribeToEvents()
     this.resetBasicRundownSubject()
   }
@@ -39,10 +43,17 @@ export class BasicRundownStateService implements OnDestroy {
   }
 
   private resetBasicRundownSubject(): void {
+    this.setIsLoading(true)
     this.fetchBasicRundowns()
         .then(basicRundowns => this.basicRundowns = basicRundowns)
         .then(() => this.basicRundownsSubject.next(this.basicRundowns))
         .catch(error => console.error('[error]', 'Encountered error while fetching basic rundowns:', error))
+        .finally(() => this.setIsLoading(false))
+  }
+
+  private setIsLoading(isLoading: boolean): void {
+    this.isLoading = isLoading
+    this.isLoadingSubject.next(this.isLoading)
   }
 
   private subscribeToRundownEvents(): EventSubscription[] {
@@ -82,6 +93,10 @@ export class BasicRundownStateService implements OnDestroy {
 
   public subscribeToBasicRundowns(consumer: (basicRundowns: BasicRundown[]) => void): SubscriptionLike {
     return this.basicRundownsSubject.subscribe(consumer)
+  }
+
+  public subscribeToLoading(consumer: (isLoading: boolean) => void): SubscriptionLike {
+    return this.isLoadingSubject.subscribe(consumer)
   }
 
   private fetchBasicRundowns(): Promise<BasicRundown[]> {

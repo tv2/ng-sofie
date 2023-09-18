@@ -1,5 +1,8 @@
 import { ZodRundownEventParser } from './zod-rundown-event-parser.service'
 import { RundownEventType } from '../models/rundown-event-type'
+import { anything, instance, mock, when } from '@typestrong/ts-mockito'
+import { EntityParser } from '../abstractions/entity-parser.service'
+import { PieceType } from '../enums/piece-type'
 import {
     PartSetAsNextEvent,
     PartTakenEvent,
@@ -7,11 +10,9 @@ import {
     RundownAdLibPieceInsertedEvent,
     RundownDeactivatedEvent,
     RundownInfinitePieceAddedEvent,
-    RundownResetEvent
+    RundownResetEvent,
+    RundownDeletedEvent
 } from '../models/rundown-event'
-import { anything, instance, mock, when } from '@typestrong/ts-mockito'
-import { EntityParserService } from '../abstractions/entity-parser.service'
-import { PieceType } from '../enums/piece-type'
 
 describe(ZodRundownEventParser.name, () => {
     describe(ZodRundownEventParser.prototype.parseActivatedEvent.name, () => {
@@ -66,6 +67,33 @@ describe(ZodRundownEventParser.name, () => {
             }
 
             const result = () => testee.parseDeactivatedEvent(event)
+
+            expect(result).toThrow()
+        })
+    })
+
+    describe(ZodRundownEventParser.prototype.parseDeletedEvent.name, () => {
+        it('parses a rundown deleted event', () => {
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
+            const event: RundownDeletedEvent = {
+                type: RundownEventType.DELETED,
+                rundownId: 'some-rundown-id',
+            }
+
+            const result = testee.parseDeletedEvent(event)
+
+            expect(result).toEqual(event)
+        })
+
+        it('does not parse a partial rundown deleted event', () => {
+            const mockedEntityParser = createMockOfEntityParser()
+            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
+            const event: Partial<RundownDeletedEvent> = {
+                type: RundownEventType.DELETED,
+            }
+
+            const result = () => testee.parseDeletedEvent(event)
 
             expect(result).toThrow()
         })
@@ -233,8 +261,8 @@ describe(ZodRundownEventParser.name, () => {
     })
 })
 
-function createMockOfEntityParser(): EntityParserService {
-    const mockedEntityParser = mock<EntityParserService>()
+function createMockOfEntityParser(): EntityParser {
+    const mockedEntityParser = mock<EntityParser>()
     when(mockedEntityParser.parseAdLibPiece(anything())).thenCall(adLibPiece => adLibPiece)
     when(mockedEntityParser.parsePiece(anything())).thenCall(piece => piece)
     return mockedEntityParser
