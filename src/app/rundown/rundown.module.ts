@@ -8,7 +8,8 @@ import {AdLibPieceIdentifierComponent} from './components/ad-lib-piece-identifie
 import {SharedModule} from '../shared/shared.module'
 import {RundownRoutesModule} from './rundown-routes.module';
 import { TimelineComponent } from './components/timeline/timeline.component';
-import { TimelinePlayheadComponent } from '../timeline-playhead/timeline-playhead.component'
+import { TimelinePlayheadComponent } from './components/timeline-playhead/timeline-playhead.component';
+import { TimelineNextCursorComponent } from './components/timeline-next-cursor/timeline-next-cursor.component'
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TimelinePlayheadComponent } from '../timeline-playhead/timeline-playhea
     AdLibPieceIdentifierComponent,
     TimelineComponent,
     TimelinePlayheadComponent,
+    TimelineNextCursorComponent,
   ],
   exports: [
     SegmentComponent

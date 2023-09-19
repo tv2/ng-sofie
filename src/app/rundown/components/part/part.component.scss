@@ -1,8 +1,8 @@
 :host {
   display: inline-block;
   box-sizing: border-box;
-  border-right: 1px solid lightgray;
-  border-left: 1px solid lightgray;
+  border-left: 2px solid #a5a5a5;
+  border-right: 1px solid #a5a5a5;
   background-color: rgba(255,255,255,0.1);
   overflow: hidden;
 }
@@ -19,5 +19,14 @@
     display: flex;
     height: 22px;
     position: relative;
+  }
+
+  &::before {
+    content: ' ';
+    z-index: 1000000000;
+    position: absolute;
+    border-style: solid;
+    border-width: 4px 0 4px 8px;
+    border-color: transparent transparent transparent #a5a5a5;
   }
 }

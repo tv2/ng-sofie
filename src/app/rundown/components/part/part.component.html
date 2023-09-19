@@ -3,17 +3,11 @@
   [style.width]="partWidthInPixels"
   (click)="setPartAsNext()"
 >
-  <!--<span *ngIf="part.isOnAir" class="is-on-air">
-    ON AIR
-  </span>
-  <span *ngIf="part.isNext" class="is-next">
-    NEXT
-  </span>
-  <button *ngIf="isRundownActive && !part.isNext && !part.isOnAir" (click)="setPartAsNext()">Set Part as Next</button>-->
   <div class="c-part__piece-layers">
     <div class="c-part__piece-layer" [style.width]="partWidthInPixels" *ngFor="let pieces of layeredPieces">
       <sofie-piece *ngFor="let piece of pieces" [expectedPartDuration]="part.expectedDuration ? part.expectedDuration : DEFAULT_PART_DURATION" [partDuration]="duration" [piece]="piece" [pixelsPerSecond]="pixelsPerSecond"></sofie-piece>
     <!--<sofie-ad-lib-piece *ngFor="let adLibPiece of part.adLibPieces" [adLibPiece]="adLibPiece"></sofie-ad-lib-piece>-->
     </div>
   </div>
+  <sofie-timeline-next-cursor *ngIf="part.isNext"></sofie-timeline-next-cursor>
 </div>

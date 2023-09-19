@@ -1,8 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core'
 import { Piece } from '../../../core/models/piece'
 
-const DEFAULT_PIECE_DURATION = 4000
-
 @Component({
   selector: 'sofie-piece',
   templateUrl: './piece.component.html',
@@ -22,6 +20,8 @@ export class PieceComponent {
   @Input()
   public expectedPartDuration: number
 
+  public DEFAULT_PIECE_DURATION: number = 4000
+
   constructor() { }
 
   public getPieceWidthInPixels(): string {
@@ -32,7 +32,7 @@ export class PieceComponent {
   private getPieceWidth(): number {
     const duration = this.piece.duration ? this.piece.duration : this.partDuration
     const pieceDuration = duration ?? (this.partDuration - this.piece.start)
-    const effectivePieceDuration = Math.max(pieceDuration, DEFAULT_PIECE_DURATION)
+    const effectivePieceDuration = Math.max(pieceDuration, this.DEFAULT_PIECE_DURATION)
 
     return Math.floor(this.pixelsPerSecond * effectivePieceDuration / 1000)
   }
@@ -56,6 +56,8 @@ export class PieceComponent {
     switch (layerType) {
       case 'camera':
         return 'camera'
+      case 'script':
+        return 'manus'
       case 'graphicsLower':
       case 'graphicsIdent':
       case 'graphicsHeadline':
@@ -80,10 +82,11 @@ export class PieceComponent {
         return 'live-speak'
       case 'local':
         return 'local'
+      case 'dve':
+      case 'dve_adlib':
+        return 'dve'
       default:
         return 'unknown'
     }
   }
-
-  protected readonly DEFAULT_PIECE_DURATION = DEFAULT_PIECE_DURATION;
 }
