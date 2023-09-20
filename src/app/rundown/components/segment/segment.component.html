@@ -24,5 +24,6 @@
     [segment]="segment"
     [pieceLayers]="pieceLayers"
     [time]="timeReference"
+    (setNextEvent)="emitSetNextEvent($event.partId)"
   ></sofie-full-segment-timeline>
 </div>

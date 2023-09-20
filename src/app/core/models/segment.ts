@@ -1,5 +1,4 @@
 import { Part, PartInterface } from './part'
-import { PartEvent } from './rundown-event'
 
 export interface SegmentInterface {
   id: string

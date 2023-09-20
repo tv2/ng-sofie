@@ -9,7 +9,7 @@ import {SharedModule} from '../shared/shared.module'
 import {RundownRoutesModule} from './rundown-routes.module';
 import { TimelineMarkersComponent } from './components/timeline-markers/timeline-markers.component';
 import { TimelinePlayheadComponent } from './components/timeline-playhead/timeline-playhead.component';
-import { TimelineNextCursorComponent } from './components/timeline-next-cursor/timeline-next-cursor.component';
+import { TimelineNextIndicatorComponent } from './components/timeline-next-indicator/timeline-next-indicator.component';
 import { FullSegmentTimelineComponent } from './components/full-segment-timeline/full-segment-timeline.component'
 
 @NgModule({
@@ -22,7 +22,7 @@ import { FullSegmentTimelineComponent } from './components/full-segment-timeline
     AdLibPieceIdentifierComponent,
     TimelineMarkersComponent,
     TimelinePlayheadComponent,
-    TimelineNextCursorComponent,
+    TimelineNextIndicatorComponent,
     FullSegmentTimelineComponent,
   ],
   exports: [

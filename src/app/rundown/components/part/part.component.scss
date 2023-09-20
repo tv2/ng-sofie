@@ -1,34 +1,22 @@
 :host {
+  position: relative;
   display: inline-block;
   box-sizing: border-box;
-  border-left: 2px solid #a5a5a5;
-  border-right: 1px solid #a5a5a5;
-  background-color: rgba(255,255,255,0.1);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .c-part {
-  flex: 0 0;
-
   &__piece-layers {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
   &__piece-layer {
     display: flex;
+    margin-bottom: 2px;
     height: 22px;
     position: relative;
-  }
-
-  &::before {
-    top: 22px;
-    left: 0;
-    content: ' ';
-    z-index: 100;
-    position: absolute;
-    border-style: solid;
-    border-width: 4px 0 6px 8px;
-    border-color: transparent transparent transparent #a5a5a5;
+    background-color: rgb(26,26,26);
   }
 }

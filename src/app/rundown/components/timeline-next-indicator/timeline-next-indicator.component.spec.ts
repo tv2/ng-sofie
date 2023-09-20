@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TimelineNextCursorComponent } from './timeline-next-cursor.component';
+import { TimelineNextIndicatorComponent } from './timeline-next-indicator.component';
 
 describe('TimelineNextCursorComponent', () => {
-  let component: TimelineNextCursorComponent;
-  let fixture: ComponentFixture<TimelineNextCursorComponent>;
+  let component: TimelineNextIndicatorComponent;
+  let fixture: ComponentFixture<TimelineNextIndicatorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TimelineNextCursorComponent ]
+      declarations: [ TimelineNextIndicatorComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TimelineNextCursorComponent);
+    fixture = TestBed.createComponent(TimelineNextIndicatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
