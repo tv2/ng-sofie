@@ -1,6 +1,8 @@
 export interface TypedEvent {
     type: string
+    timestamp: number
 }
+
 export type EventConsumer = (event: TypedEvent) => void
 export interface EventSubscription {
     unsubscribe: () => void

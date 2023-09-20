@@ -4,28 +4,10 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import { Piece } from '../../../core/models/piece'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 
-const DEFAULT_PART_DURATION = 4000
-
 @Component({
   selector: 'sofie-part',
   templateUrl: './part.component.html',
-  styleUrls: ['./part.component.scss'],
-  animations: [
-    trigger('onAirTrigger', [
-      state('onAir', style({
-        backgroundColor: 'red'
-      })),
-      state('offAir', style({
-
-      })),
-      state('isNext', style({
-        backgroundColor: 'green'
-      })),
-      transition('offAir => onAir', animate(500)),
-      transition('offAir => isNext', animate(500)),
-      transition('onAir => isNext', animate(500))
-    ]),
-  ]
+  styleUrls: ['./part.component.scss']
 })
 export class PartComponent implements OnChanges {
 
@@ -54,8 +36,9 @@ export class PartComponent implements OnChanges {
   public layeredPieces: Piece[][] = []
   public partWidthInPixels: string = '0px'
   public duration: number = 4000
+  public DEFAULT_PART_DURATION = 4000
 
-  public constructor(private readonly pieceLayerService: PieceLayerService) {}
+  public constructor(public readonly pieceLayerService: PieceLayerService) {}
 
   public setPartAsNext(): void {
     this.partSelectedAsNextEvent.emit(this.part.id)

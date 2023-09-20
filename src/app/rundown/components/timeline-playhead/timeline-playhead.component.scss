@@ -1,0 +1,26 @@
+:host {
+  z-index: 300;
+  position: absolute;
+  top: 10px;
+  bottom: 0;
+}
+
+.c-timeline-playhead {
+  display: flex;
+
+  &__label {
+    color: white;
+    background-color: #c40000;
+    font-weight: bold;
+    line-height: 1em;
+    white-space: nowrap;
+    border-radius: 4px 8px 8px 0;
+    padding: 1.6px 8px 0 3.2px;
+  }
+
+  &__bar {
+    height: 100%;
+    width: 4px;
+    background-color: #c40000;
+  }
+}

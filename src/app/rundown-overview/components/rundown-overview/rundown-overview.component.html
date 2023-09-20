@@ -1,6 +1,15 @@
-<h1 class="c-rundown-overview-title">Rundowns</h1>
-<table mat-table [dataSource]="basicRundowns">
+<h1 class="c-rundown-overview__title">Rundowns</h1>
 
+<div class="c-rundown-overview__loading-rundowns" *ngIf="isLoading">
+  <mat-card-title>Loading rundowns...</mat-card-title>
+</div>
+
+<div class="c-rundown-overview__no-rundowns" *ngIf="!isLoading && basicRundowns.length === 0">
+  <h2>There are currently no rundowns available.</h2>
+  <p>Check your connection and if you have configured the Ingest Gateway.</p>
+</div>
+
+<table mat-table [dataSource]="basicRundowns" *ngIf="!isLoading && basicRundowns.length > 0">
   <ng-container matColumnDef="status">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let basicRundown" >
@@ -9,7 +18,7 @@
   </ng-container>
 
   <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Rundown </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef>Rundown</mat-header-cell>
     <mat-cell *matCellDef="let basicRundown" class="c-rundown-name" (click)="navigateToRundown(basicRundown)">
       {{basicRundown.name}}
     </mat-cell>

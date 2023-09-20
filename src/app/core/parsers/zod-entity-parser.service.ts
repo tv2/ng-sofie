@@ -30,9 +30,10 @@ export class ZodEntityParser implements EntityParser {
         segmentId: zod.string().nonempty(),
         isOnAir: zod.boolean(),
         isNext: zod.boolean(),
+        pieces: this.pieceParser.array(),
         expectedDuration: zod.number().optional().or(zod.null()).transform(expectedDuration => expectedDuration ?? undefined), // TODO: Normalize the type to number | undefined
         executedAt: zod.number(),
-        pieces: this.pieceParser.array(),
+        playedDuration: zod.number(),
     })
 
     private readonly segmentParser = zod.object({

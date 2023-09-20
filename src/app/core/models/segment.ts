@@ -27,19 +27,21 @@ export class Segment {
     this.parts = segment.parts.map(part => new Part(part))
   }
 
-  public putOnAir(partId: string): void {
+  public putOnAir(partId: string, timestamp: number): void {
     this.isOnAir = true
     const part: Part | undefined = this.parts.find(part => part.id === partId)
     if (!part) {
       // Handle unable to activate
       return
     }
-    part.putOnAir()
+    this.parts.find(part => part.isOnAir)?.takeOffAir(timestamp)
+    part.putOnAir(timestamp)
   }
 
-  public takeOffAir(): void {
+  public takeOffAir(timestamp: number): void {
     this.isOnAir = false
-    this.parts.forEach(part => part.takeOffAir())
+    // TODO: Should we take all parts off air?
+    this.parts.find(part => part.isOnAir)?.takeOffAir(timestamp)
   }
 
   public removeAsNextSegment(): void {
@@ -50,5 +52,9 @@ export class Segment {
   public setAsNextSegment(partId: string): void {
     this.isNext = true
     this.parts.find(part => part.id === partId)?.setAsNextPart()
+  }
+
+  public reset(): void {
+    this.parts.forEach(part => part.reset())
   }
 }

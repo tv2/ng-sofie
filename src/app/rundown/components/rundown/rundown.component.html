@@ -11,15 +11,15 @@
       <sofie-segment *ngFor="let segment of rundown?.segments" [segment]="segment" [isOnAir]="segment.isOnAir" [isRundownActive]="rundown?.isActive ?? false" (setNextEvent)="setNext($event)"></sofie-segment>
     </div>
   </div>
-  <div>
-    <div class="infinite-pieces">
-      <span class=subtitle>Infinite Pieces</span>
-      <sofie-piece *ngFor="let infinitePiece of rundown?.getInfinitePieces()" [piece]="infinitePiece"></sofie-piece>
-    </div>
-    <div class="ad-lib-pieces">
-      <span class=subtitle>Adlib Pieces</span>
-      <sofie-ad-lib-piece-identifier *ngFor="let identifier of adLibPieceIdentifiers" [adLibPieceIdentifier]="identifier" [rundownId]="rundown?.id ?? ''"></sofie-ad-lib-piece-identifier>
-    </div>
-  </div>
+<!--  <div>-->
+<!--    <div class="infinite-pieces">-->
+<!--      <span class=subtitle>Infinite Pieces</span>-->
+<!--      <sofie-piece *ngFor="let infinitePiece of rundown?.getInfinitePieces()" [piece]="infinitePiece"></sofie-piece>-->
+<!--    </div>-->
+<!--    <div class="ad-lib-pieces">-->
+<!--      <span class=subtitle>Adlib Pieces</span>-->
+<!--      <sofie-ad-lib-piece-identifier *ngFor="let identifier of adLibPieceIdentifiers" [adLibPieceIdentifier]="identifier" [rundownId]="rundown?.id ?? ''"></sofie-ad-lib-piece-identifier>-->
+<!--    </div>-->
+<!--  </div>-->
 </div>
 

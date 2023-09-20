@@ -1,9 +1,5 @@
-import {Component, Input} from '@angular/core'
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core'
 import { Piece } from '../../../core/models/piece'
-import { offsetSegment } from '@angular/compiler-cli/src/ngtsc/sourcemaps/src/segment_marker'
-
-const DEFAULT_PIECE_DURATION = 4000
-const MAX_VISUAL_DURATION = 15000
 
 @Component({
   selector: 'sofie-piece',
@@ -19,7 +15,12 @@ export class PieceComponent {
   public pixelsPerSecond: number
 
   @Input()
-  public maxDuration: number
+  public partDuration: number
+
+  @Input()
+  public expectedPartDuration: number
+
+  public DEFAULT_PIECE_DURATION: number = 4000
 
   constructor() { }
 
@@ -29,8 +30,9 @@ export class PieceComponent {
   }
 
   private getPieceWidth(): number {
-    const pieceDuration = this.piece.duration ?? (this.maxDuration - this.piece.start)
-    const effectivePieceDuration = Math.max(pieceDuration, DEFAULT_PIECE_DURATION)
+    const duration = this.piece.duration ? this.piece.duration : this.partDuration
+    const pieceDuration = duration ?? (this.partDuration - this.piece.start)
+    const effectivePieceDuration = Math.max(pieceDuration, this.DEFAULT_PIECE_DURATION)
 
     return Math.floor(this.pixelsPerSecond * effectivePieceDuration / 1000)
   }
@@ -54,6 +56,8 @@ export class PieceComponent {
     switch (layerType) {
       case 'camera':
         return 'camera'
+      case 'script':
+        return 'manus'
       case 'graphicsLower':
       case 'graphicsIdent':
       case 'graphicsHeadline':
@@ -78,6 +82,9 @@ export class PieceComponent {
         return 'live-speak'
       case 'local':
         return 'local'
+      case 'dve':
+      case 'dve_adlib':
+        return 'dve'
       default:
         return 'unknown'
     }

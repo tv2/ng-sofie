@@ -73,7 +73,7 @@ export class RundownStateService implements OnDestroy {
       if (!rundownSubject) {
         return
       }
-      rundownSubject.value.activate(event)
+      rundownSubject.value.activate(event, event.timestamp)
   }
 
   private deactivateRundownFromEvent(event: RundownDeactivatedEvent): void {
@@ -81,7 +81,7 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    rundownSubject.value.deactivate()
+    rundownSubject.value.deactivate(event.timestamp)
   }
 
   private resetRundownFromEvent(event: RundownResetEvent): void {
@@ -97,7 +97,7 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    rundownSubject.value.takeNext(event)
+    rundownSubject.value.takeNext(event, event.timestamp)
   }
 
   private setNextPartInRundownFromEvent(event: PartSetAsNextEvent): void {

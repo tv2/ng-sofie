@@ -1,17 +1,16 @@
 import { ZodRundownEventParser } from './zod-rundown-event-parser.service'
 import { RundownEventType } from '../models/rundown-event-type'
-import { EntityParser } from '../abstractions/entity-parser.service'
 import { anything, instance, mock, when } from '@typestrong/ts-mockito'
 import {
     PartSetAsNextEvent,
     PartTakenEvent,
-    RundownActivatedEvent,
-    RundownAdLibPieceInsertedEvent,
+    RundownActivatedEvent, RundownAdLibPieceInsertedEvent,
     RundownDeactivatedEvent,
-    RundownDeletedEvent,
-    RundownInfinitePieceAddedEvent, RundownResetEvent
+    RundownDeletedEvent, RundownInfinitePieceAddedEvent,
+    RundownResetEvent
 } from '../models/rundown-event'
 import { PieceType } from '../enums/piece-type'
+import { EntityParser } from '../abstractions/entity-parser.service'
 
 describe(ZodRundownEventParser.name, () => {
     describe(ZodRundownEventParser.prototype.parseActivatedEvent.name, () => {
@@ -20,6 +19,7 @@ describe(ZodRundownEventParser.name, () => {
             const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: RundownActivatedEvent = {
                 type: RundownEventType.ACTIVATED,
+                timestamp: Date.now(),
                 rundownId: 'some-rundown-id',
                 segmentId: 'some-segment-id',
                 partId: 'some-segment-id',
@@ -50,6 +50,7 @@ describe(ZodRundownEventParser.name, () => {
             const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: RundownDeactivatedEvent = {
                 type: RundownEventType.DEACTIVATED,
+                timestamp: Date.now(),
                 rundownId: 'some-rundown-id',
             }
 
@@ -77,6 +78,7 @@ describe(ZodRundownEventParser.name, () => {
             const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: RundownDeletedEvent = {
                 type: RundownEventType.DELETED,
+                timestamp: Date.now(),
                 rundownId: 'some-rundown-id',
             }
 
@@ -104,6 +106,7 @@ describe(ZodRundownEventParser.name, () => {
             const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: RundownResetEvent = {
                 type: RundownEventType.RESET,
+                timestamp: Date.now(),
                 rundownId: 'some-rundown-id',
             }
 
@@ -131,6 +134,7 @@ describe(ZodRundownEventParser.name, () => {
             const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: PartTakenEvent = {
                 type: RundownEventType.TAKEN,
+                timestamp: Date.now(),
                 rundownId: 'some-rundown-id',
                 segmentId: 'some-segment-id',
                 partId: 'some-part-id',
@@ -160,6 +164,7 @@ describe(ZodRundownEventParser.name, () => {
             const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: PartSetAsNextEvent = {
                 type: RundownEventType.SET_NEXT,
+                timestamp: Date.now(),
                 rundownId: 'some-rundown-id',
                 segmentId: 'some-segment-id',
                 partId: 'some-part-id',
@@ -189,6 +194,7 @@ describe(ZodRundownEventParser.name, () => {
             const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: RundownAdLibPieceInsertedEvent = {
                 type: RundownEventType.AD_LIB_PIECE_INSERTED,
+                timestamp: Date.now(),
                 rundownId: 'some-rundown-id',
                 segmentId: 'some-segment-id',
                 partId: 'some-part-id',
@@ -229,6 +235,7 @@ describe(ZodRundownEventParser.name, () => {
             const testee = new ZodRundownEventParser(instance(mockedEntityParser))
             const event: RundownInfinitePieceAddedEvent = {
                 type: RundownEventType.INFINITE_PIECE_ADDED,
+                timestamp: Date.now(),
                 rundownId: 'some-rundown-id',
                 infinitePiece: {
                     id: 'some-piece-id',
