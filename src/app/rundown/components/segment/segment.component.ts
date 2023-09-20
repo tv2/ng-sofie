@@ -22,6 +22,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   @Input()
   public isRundownActive: boolean
 
+  // TODO: Remove when we have change detection for reference values.
   @Input()
   public isOnAir: boolean
 

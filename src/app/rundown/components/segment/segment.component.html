@@ -13,7 +13,7 @@
   <div class="c-segment__controls">
     <div class="c-segment__controls-toolbar">Hello</div>
     <div class="c-segment__piece-layers">
-      <div class="c-segment__piece-layer" *ngFor="let pieceLayer of pieceLayers">
+      <div *ngFor="let pieceLayer of pieceLayers" class="c-segment__piece-layer">
         {{ pieceLayer }}
       </div>
     </div>
