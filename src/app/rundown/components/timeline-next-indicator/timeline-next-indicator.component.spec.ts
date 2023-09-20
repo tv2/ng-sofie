@@ -1,23 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { TimelineNextIndicatorComponent } from './timeline-next-indicator.component';
+import { TimelineNextIndicatorComponent } from './timeline-next-indicator.component'
+import { Part, PartInterface } from '../../../core/models/part'
 
-describe('TimelineNextCursorComponent', () => {
-  let component: TimelineNextIndicatorComponent;
-  let fixture: ComponentFixture<TimelineNextIndicatorComponent>;
+describe('TimelineNextIndicatorComponent', () => {
+  let component: TimelineNextIndicatorComponent
+  let fixture: ComponentFixture<TimelineNextIndicatorComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TimelineNextIndicatorComponent ]
     })
-    .compileComponents();
+    .compileComponents()
 
-    fixture = TestBed.createComponent(TimelineNextIndicatorComponent);
+    fixture = TestBed.createComponent(TimelineNextIndicatorComponent)
     component = fixture.componentInstance;
+    component.part = new Part({} as PartInterface)
     fixture.detectChanges();
-  });
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})
