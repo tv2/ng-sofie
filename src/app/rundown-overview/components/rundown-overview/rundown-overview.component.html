@@ -1,15 +1,15 @@
 <h1 class="c-rundown-overview__title">Rundowns</h1>
 
-<div class="c-rundown-overview__loading-rundowns" *ngIf="isLoading">
+<div *ngIf="isLoading" class="c-rundown-overview__loading-rundowns">
   <mat-card-title>Loading rundowns...</mat-card-title>
 </div>
 
-<div class="c-rundown-overview__no-rundowns" *ngIf="!isLoading && basicRundowns.length === 0">
+<div *ngIf="!isLoading && basicRundowns.length === 0" class="c-rundown-overview__no-rundowns">
   <h2>There are currently no rundowns available.</h2>
   <p>Check your connection and if you have configured the Ingest Gateway.</p>
 </div>
 
-<table mat-table [dataSource]="basicRundowns" *ngIf="!isLoading && basicRundowns.length > 0">
+<table *ngIf="!isLoading && basicRundowns.length > 0" mat-table [dataSource]="basicRundowns">
   <ng-container matColumnDef="status">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let basicRundown" >
