@@ -11,10 +11,6 @@ import { PieceLayer } from '../../../shared/enums/piece-layer'
   styleUrls: ['./part.component.scss']
 })
 export class PartComponent implements OnChanges {
-
-  @Input()
-  public isRundownActive: boolean
-
   // TODO: Figure out how to "subscribe" to changes for this on the part property.
   @Input()
   public isOnAir: boolean
@@ -37,6 +33,7 @@ export class PartComponent implements OnChanges {
   public layeredPieces: Piece[][] = []
   public partWidthInPixels: string = '0px'
   public duration: number = 4000
+  // TODO: Remove this.
   public DEFAULT_PART_DURATION = 4000
 
   public constructor(public readonly pieceLayerService: PieceLayerService) {}

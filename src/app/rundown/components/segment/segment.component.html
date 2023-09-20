@@ -19,21 +19,10 @@
     </div>
   </div>
 
-  <!-- TODO: Should this be a separate component, such that we can easily swap it out. E.g. if we want to follow playhead or show full overview. -->
-  <div class="c-segment__timeline">
-    <sofie-timeline [ngClass]="'c-segment__timeline-markers'" [time]="0" [pixelsPerSecond]="30"></sofie-timeline>
-    <div class="c-segment__timeline-parts">
-      <sofie-part
-        *ngFor="let part of segment.parts"
-        [isRundownActive]="isRundownActive"
-        [part]="part"
-        [pieceLayers]="pieceLayers"
-        [pixelsPerSecond]="30"
-        [isOnAir]="part.isOnAir"
-        [time]="part.isOnAir ? timeReference : 0"
-        (partSelectedAsNextEvent)="emitSetNextEvent($event)"
-      ></sofie-part>
-    </div>
-    <sofie-timeline-playhead *ngIf="segment.isOnAir" [pixelsPerSecond]="30" [time]="timeReference"></sofie-timeline-playhead>
-  </div>
+  <sofie-full-segment-timeline
+    class="c-segment__timeline"
+    [segment]="segment"
+    [pieceLayers]="pieceLayers"
+    [time]="timeReference"
+  ></sofie-full-segment-timeline>
 </div>

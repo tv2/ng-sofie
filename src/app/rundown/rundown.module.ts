@@ -7,9 +7,10 @@ import {AdLibPieceComponent} from './components/ad-lib-piece/ad-lib-piece.compon
 import {AdLibPieceIdentifierComponent} from './components/ad-lib-piece-identifier/ad-lib-piece-identifier.component'
 import {SharedModule} from '../shared/shared.module'
 import {RundownRoutesModule} from './rundown-routes.module';
-import { TimelineComponent } from './components/timeline/timeline.component';
+import { TimelineMarkersComponent } from './components/timeline-markers/timeline-markers.component';
 import { TimelinePlayheadComponent } from './components/timeline-playhead/timeline-playhead.component';
-import { TimelineNextCursorComponent } from './components/timeline-next-cursor/timeline-next-cursor.component'
+import { TimelineNextCursorComponent } from './components/timeline-next-cursor/timeline-next-cursor.component';
+import { FullSegmentTimelineComponent } from './components/full-segment-timeline/full-segment-timeline.component'
 
 @NgModule({
   declarations: [
@@ -19,9 +20,10 @@ import { TimelineNextCursorComponent } from './components/timeline-next-cursor/t
     PieceComponent,
     AdLibPieceComponent,
     AdLibPieceIdentifierComponent,
-    TimelineComponent,
+    TimelineMarkersComponent,
     TimelinePlayheadComponent,
     TimelineNextCursorComponent,
+    FullSegmentTimelineComponent,
   ],
   exports: [
     SegmentComponent

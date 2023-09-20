@@ -1,0 +1,17 @@
+:host {
+  position: relative;
+  width: 100%;
+  background-color: black;
+}
+
+.c-full-segment-timeline {
+  &__markers {
+    height: var(--toolbar-height);
+  }
+
+  &__parts {
+    display: inline-flex;
+  }
+}
+
+

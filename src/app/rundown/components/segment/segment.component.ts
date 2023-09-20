@@ -4,8 +4,7 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  Output,
-  SimpleChange,
+  Output, SimpleChange,
   SimpleChanges
 } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
@@ -19,10 +18,6 @@ import { PieceLayer } from '../../../shared/enums/piece-layer'
   styleUrls: ['./segment.component.scss']
 })
 export class SegmentComponent implements OnChanges, OnDestroy {
-
-  @Input()
-  public isRundownActive: boolean
-
   // TODO: Remove when we have change detection for reference values.
   @Input()
   public isOnAir: boolean

@@ -18,11 +18,11 @@ const TEXT_MIDDLE_POSITION: number = 13
 const SUBSECTION_TOP_POSITION: number = 20
 
 @Component({
-  selector: 'sofie-timeline',
-  templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.scss']
+  selector: 'sofie-timeline-markers',
+  templateUrl: './timeline-markers.component.html',
+  styleUrls: ['./timeline-markers.component.scss']
 })
-export class TimelineComponent implements AfterViewInit, OnChanges {
+export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   @Input()
   public time: number
 

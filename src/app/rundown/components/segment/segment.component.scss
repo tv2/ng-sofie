@@ -54,16 +54,7 @@
   }
 
   &__timeline {
-    position: relative;
-    width: 100%;
-    background-color: black;
-
-    sofie-timeline {
-      height: var(--toolbar-height);
-    }
-  }
-
-  &__timeline-parts {
-    display: inline-flex;
+    overflow: hidden;
   }
 }
+

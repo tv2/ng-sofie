@@ -1,0 +1,22 @@
+<sofie-timeline-markers
+    class="c-full-segment-timeline__markers"
+    [time]="0"
+    [pixelsPerSecond]="pixelsPerSecond"
+></sofie-timeline-markers>
+<div class="c-full-segment-timeline__parts">
+    <sofie-part
+            *ngFor="let part of segment.parts"
+            [part]="part"
+            [pieceLayers]="pieceLayers"
+            [pixelsPerSecond]="pixelsPerSecond"
+            [isOnAir]="part.isOnAir"
+            [time]="part.isOnAir ? time : 0"
+            (partSelectedAsNextEvent)="emitSetNextEvent($event)"
+    ></sofie-part>
+</div>
+<sofie-timeline-playhead
+    *ngIf="segment.isOnAir"
+    class="c-full-segment-timeline__playhead"
+    [pixelsPerSecond]="pixelsPerSecond"
+    [time]="time"
+></sofie-timeline-playhead>
