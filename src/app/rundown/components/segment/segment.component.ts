@@ -11,6 +11,7 @@ import {
 import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
 import {PieceLayerService} from "../../../shared/services/piece-layer.service";
+import { PieceLayer } from '../../../shared/enums/piece-layer'
 
 @Component({
   selector: 'sofie-segment',
@@ -44,31 +45,14 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     this.setNextEvent.emit({ segmentId: this.segment.id, partId})
   }
 
-  private getPieceLayers(): string[] {
+  private getUsedPieceLayersInOrder(): string[] {
+    const pieceLayersInOrder: PieceLayer[] = this.pieceLayerService.getPieceLayersInOrder()
     const usedPieceLayers = this.pieceLayerService.getPieceLayersForParts(this.segment.parts)
-    const availablePieceLayersInOrder: string [] = [
-      'OVERLAY',
-      'PGM',
-      'JINGLE',
-      'MUSIK',
-      'MANUS',
-      'ADLIB',
-      'SEC',
-      'AUX',
-    ]
-    const usedPieceLayersInOrder: string[] = []
-
-    availablePieceLayersInOrder.forEach(layer => {
-      if (usedPieceLayers.includes(layer)) {
-        usedPieceLayersInOrder.push(layer)
-      }
-    })
-
-    return usedPieceLayersInOrder
+    return pieceLayersInOrder.filter(layer => usedPieceLayers.includes(layer))
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    this.pieceLayers = this.getPieceLayers()
+    this.pieceLayers = this.getUsedPieceLayersInOrder()
 
     const isOnAirChange: SimpleChange | undefined = changes['isOnAir']
     if (isOnAirChange?.currentValue === false) {

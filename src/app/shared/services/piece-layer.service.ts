@@ -1,26 +1,20 @@
 import { Piece } from '../../core/models/piece'
 import {Part} from "../../core/models/part";
+import { PieceLayer } from '../enums/piece-layer'
 
 export class PieceLayerService {
     public getPieceLayersForParts(parts: Part[]): string[] {
-        const pieceLayers: string[] = []
-        parts.forEach(part => {
-            part.pieces.concat(part.adLibPieces).forEach(piece => {
-                const layer = this.getPieceLayer(piece)
-                if (!pieceLayers.includes(layer) && layer !== 'UNKNOWN') {
-                    pieceLayers.push(layer)
-                }
-            })
-        })
-
-        return pieceLayers
+        const pieces = parts.flatMap(part => part.pieces.concat(part.adLibPieces))
+        const pieceLayers = pieces.map(piece => this.getPieceLayer(piece))
+        return [...new Set(pieceLayers)]
     }
 
     //TODO: Does not account for the fact that a JINGLE should be PGM when in the KLAR ON AIR (if this is desired behaviour?)
+    // TODO: This should not use source layer to determine piece layers.
     public getPieceLayer(piece: Piece): string {
         if (piece.name.includes('CLEAR')) {
             piece.name = 'CLEAR'
-            return 'SEC'
+            return PieceLayer.SEC
         }
         if ([
             'studio0_pilotOverlay',
@@ -30,20 +24,20 @@ export class PieceLayerService {
             'studio0_graphicsLower',
             'studio0_graphicsIdent',
         ].includes(piece.layer)) {
-            return 'OVERLAY'
+            return PieceLayer.OVERLAY
         }
         if ([
             'studio0_jingle',
         ].includes(piece.layer)) {
-            return 'JINGLE'
+            return PieceLayer.JINGLE
         }
         if (piece.layer === 'studio0_script') {
-            return 'MANUS'
+            return PieceLayer.MANUS
         }
         if ([
             'studio0_robot_camera',
         ].includes(piece.layer)) {
-            return 'SEC'
+            return PieceLayer.SEC
         }
         if ([
             'studio0_schema',
@@ -51,8 +45,21 @@ export class PieceLayerService {
             'studio0_dve_back',
             'studio0_design',
         ].includes(piece.layer)) {
-            return 'UNKNOWN'
+            return PieceLayer.UNKNOWN
         }
-        return 'PGM'
+        return PieceLayer.PGM
+    }
+
+    public getPieceLayersInOrder(): PieceLayer[] {
+        return [
+            PieceLayer.OVERLAY,
+            PieceLayer.PGM,
+            PieceLayer.JINGLE,
+            PieceLayer.MUSIK,
+            PieceLayer.MANUS,
+            PieceLayer.ADLIB,
+            PieceLayer.SEC,
+            PieceLayer.AUX,
+        ]
     }
 }
