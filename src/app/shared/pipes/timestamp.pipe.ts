@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'timestamp'
 })
 export class TimestampPipe implements PipeTransform {
-  transform(timestampInSeconds: number,): string {
+  public transform(timestampInSeconds: number): string {
     const seconds: number = timestampInSeconds % 60
     let minutes: number = Math.floor(timestampInSeconds / 60)
     let hours: number = 0

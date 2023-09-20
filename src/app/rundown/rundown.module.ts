@@ -28,7 +28,7 @@ import { TimelineNextCursorComponent } from './components/timeline-next-cursor/t
   ],
   imports: [
     RundownRoutesModule,
-    SharedModule
+    SharedModule,
   ]
 })
 export class RundownModule { }
