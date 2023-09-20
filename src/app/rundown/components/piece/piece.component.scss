@@ -6,17 +6,17 @@
   height: 22px;
   padding: 3px;
   margin: 1px 0;
-  background-color: rgba(255,255,255, 0.2);
+  background-color: rgb(50,50,50);
   position: absolute;
   overflow: hidden;
 }
 
 .piece--text {
-  font-style: italic;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: white;
   font-weight: normal;
+  text-shadow: rgba(0,0,0, 0.8) 0 0 8px;
 }
 
 .extend {
@@ -29,6 +29,11 @@
 }
 
 .piece--lower-third {
+  background-color: #ca9d00;
+  overflow: visible;
+}
+
+.piece--graphics {
   background-color: #ca9d00;
   overflow: visible;
 }
@@ -50,6 +55,7 @@
 }
 
 .piece--manus {
+  font-style: italic;
   background-color: #370020;
 }
 

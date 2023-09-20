@@ -1,5 +1,5 @@
-<div [ngClass]="'piece ' + getPieceTypeModifierClass()" [style.width]="getPieceWidthInPixels()" [title]="piece.name + '(' + piece.layer + ')'" [style.left]="getOffsetInPixels()">
-  <div [ngClass]="'piece--text'" [class]="(partDuration > expectedPartDuration) ?  'extend' : ''">
+<div [ngClass]="'piece ' + getPieceTypeModifierClass()" [style.width]="getPieceWidthInPixels()" [title]="piece.name" [style.left]="getOffsetInPixels()">
+  <div class="piece--text" [ngClass]="{ extend: partDuration > expectedPartDuration }">
     {{piece.name}}
   </div>
 </div>

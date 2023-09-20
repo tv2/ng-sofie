@@ -12,7 +12,6 @@ import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
 import {PieceLayerService} from "../../../shared/services/piece-layer.service";
 import { PieceLayer } from '../../../shared/enums/piece-layer'
-import { Piece } from '../../../core/models/piece'
 
 @Component({
   selector: 'sofie-segment',
@@ -32,10 +31,9 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   public segment: Segment
 
   @Output()
-  setNextEvent: EventEmitter<{segmentId: string, partId: string}> = new EventEmitter()
+  public setNextEvent: EventEmitter<{segmentId: string, partId: string}> = new EventEmitter()
 
   public timeReference: number = 0
-
   public pieceLayers: PieceLayer[] = []
 
   private animationFrameId?: number
