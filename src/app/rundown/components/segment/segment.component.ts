@@ -12,6 +12,7 @@ import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
 import {PieceLayerService} from "../../../shared/services/piece-layer.service";
 import { PieceLayer } from '../../../shared/enums/piece-layer'
+import { Piece } from '../../../core/models/piece'
 
 @Component({
   selector: 'sofie-segment',
@@ -35,7 +36,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
 
   public timeReference: number = 0
 
-  public pieceLayers: string[] = []
+  public pieceLayers: PieceLayer[] = []
 
   private animationFrameId?: number
 
@@ -45,9 +46,9 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     this.setNextEvent.emit({ segmentId: this.segment.id, partId})
   }
 
-  private getUsedPieceLayersInOrder(): string[] {
+  private getUsedPieceLayersInOrder(): PieceLayer[] {
     const pieceLayersInOrder: PieceLayer[] = this.pieceLayerService.getPieceLayersInOrder()
-    const usedPieceLayers = this.pieceLayerService.getPieceLayersForParts(this.segment.parts)
+    const usedPieceLayers: PieceLayer[] = this.pieceLayerService.getPieceLayersForParts(this.segment.parts)
     return pieceLayersInOrder.filter(layer => usedPieceLayers.includes(layer))
   }
 

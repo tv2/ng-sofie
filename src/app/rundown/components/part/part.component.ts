@@ -3,6 +3,7 @@ import { Part } from '../../../core/models/part'
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { Piece } from '../../../core/models/piece'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
+import { PieceLayer } from '../../../shared/enums/piece-layer'
 
 @Component({
   selector: 'sofie-part',
@@ -25,7 +26,7 @@ export class PartComponent implements OnChanges {
   public part: Part
 
   @Input()
-  public pieceLayers: string[]
+  public pieceLayers: PieceLayer[]
 
   @Input()
   public pixelsPerSecond: number
@@ -45,19 +46,19 @@ export class PartComponent implements OnChanges {
   }
 
   public getPiecesOnLayers(): Piece[][] {
-    const groupedLayers = this.getGroupedPiecesByLayer()
-    return this.pieceLayers.map(layer => groupedLayers[layer] ?? [])
+    const piecesGroupedByLayer: Record<PieceLayer, Piece[]> = this.getGroupedPiecesByLayer()
+    return this.pieceLayers.map(layer => piecesGroupedByLayer[layer] ?? [])
   }
 
-  private getGroupedPiecesByLayer(): Record<string, Piece[]> {
-    return this.part.pieces.concat(this.part.adLibPieces).reduce((groups: Record<string, Piece[]>, piece) => {
-      const pieceLayer = this.pieceLayerService.getPieceLayer(piece)
+  private getGroupedPiecesByLayer(): Record<PieceLayer, Piece[]> {
+    return this.part.pieces.concat(this.part.adLibPieces).reduce((groups: Record<PieceLayer, Piece[]>, piece) => {
+      const pieceLayer: PieceLayer = this.pieceLayerService.getPieceLayer(piece)
       if (!(pieceLayer in groups)) {
         groups[pieceLayer] = []
       }
       groups[pieceLayer].push(piece)
       return groups
-    }, {})
+    }, {} as Record<PieceLayer, Piece[]>)
   }
 
   // TODO: Memoize this such that it is not computed 1000000 times a second.

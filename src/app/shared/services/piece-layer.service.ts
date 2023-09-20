@@ -3,15 +3,15 @@ import {Part} from "../../core/models/part";
 import { PieceLayer } from '../enums/piece-layer'
 
 export class PieceLayerService {
-    public getPieceLayersForParts(parts: Part[]): string[] {
-        const pieces = parts.flatMap(part => part.pieces.concat(part.adLibPieces))
-        const pieceLayers = pieces.map(piece => this.getPieceLayer(piece))
+    public getPieceLayersForParts(parts: Part[]): PieceLayer[] {
+        const pieces: Piece[] = parts.flatMap(part => part.pieces.concat(part.adLibPieces))
+        const pieceLayers: PieceLayer[] = pieces.map(piece => this.getPieceLayer(piece))
         return [...new Set(pieceLayers)]
     }
 
     //TODO: Does not account for the fact that a JINGLE should be PGM when in the KLAR ON AIR (if this is desired behaviour?)
     // TODO: This should not use source layer to determine piece layers.
-    public getPieceLayer(piece: Piece): string {
+    public getPieceLayer(piece: Piece): PieceLayer {
         if (piece.name.includes('CLEAR')) {
             piece.name = 'CLEAR'
             return PieceLayer.SEC
