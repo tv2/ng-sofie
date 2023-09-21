@@ -5,8 +5,7 @@ import {Component, HostBinding, Input, OnInit} from '@angular/core';
   templateUrl: './timeline-playhead.component.html',
   styleUrls: ['./timeline-playhead.component.scss']
 })
-export class TimelinePlayheadComponent implements OnInit {
-
+export class TimelinePlayheadComponent {
   @Input()
   public time: number
 
@@ -17,10 +16,4 @@ export class TimelinePlayheadComponent implements OnInit {
   get left() {
     return Math.floor(this.time * this.pixelsPerSecond / 1000)
   }
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

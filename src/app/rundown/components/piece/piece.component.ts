@@ -20,21 +20,14 @@ export class PieceComponent {
   @Input()
   public expectedPartDuration: number
 
-  public DEFAULT_PIECE_DURATION: number = 4000
-
-  constructor() { }
-
   public getPieceWidthInPixels(): string {
     const width = this.getPieceWidth()
     return `${width}px`
   }
 
   private getPieceWidth(): number {
-    const duration = this.piece.duration ? this.piece.duration : this.partDuration
-    const pieceDuration = duration ?? (this.partDuration - this.piece.start)
-    const effectivePieceDuration = Math.max(pieceDuration, this.DEFAULT_PIECE_DURATION)
-
-    return Math.floor(this.pixelsPerSecond * effectivePieceDuration / 1000)
+    const duration  = this.piece.duration ?? (this.partDuration - this.piece.start)
+    return Math.floor(this.pixelsPerSecond * duration / 1000)
   }
 
   public getOffsetInPixels(): string {
