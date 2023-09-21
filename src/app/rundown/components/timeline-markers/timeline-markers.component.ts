@@ -82,6 +82,10 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
     if (subsectionIndex % this.subsectionsPerSection === 0) {
       return
     }
+    this.drawSubsectionFromIndex(subsectionIndex, subsectionWidth, timeOffsetInPixels)
+  }
+
+  private drawSubsectionFromIndex(subsectionIndex: number, subsectionWidth: number, timeOffsetInPixels: number): void {
     const from: Point = {
       x: subsectionIndex * subsectionWidth - timeOffsetInPixels,
       y: SUBSECTION_TOP_POSITION,
