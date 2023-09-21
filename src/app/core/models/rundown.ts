@@ -74,15 +74,11 @@ export class Rundown {
     const oldNextSegment: Segment | undefined = this.segments.find(segment => segment.isNext)
     const newNextSegment: Segment | undefined = this.segments.find(segment => segment.id === rundownCursor.segmentId)
 
-    if (this.isOffAirSegmentSetAsNext(newNextSegment)) {
-      newNextSegment!.reset()
+    if (!newNextSegment?.isOnAir) {
+      newNextSegment?.reset()
     }
     oldNextSegment?.removeAsNextSegment()
     newNextSegment?.setAsNextSegment(rundownCursor.partId)
-  }
-
-  private isOffAirSegmentSetAsNext(segment: Segment | undefined): boolean {
-    return segment === undefined || !segment.isOnAir
   }
 
   public addInfinitePiece(infinitePiece: Piece): void {
