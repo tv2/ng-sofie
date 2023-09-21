@@ -16,7 +16,6 @@ export class TimelinePlayheadComponent implements OnInit {
   @HostBinding('style.left.px')
   get left() {
     return Math.floor(this.time * this.pixelsPerSecond / 1000)
-    // return '50px'
   }
 
   constructor() { }
