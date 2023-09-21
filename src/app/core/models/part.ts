@@ -12,6 +12,8 @@ export interface PartInterface {
   playedDuration: number
 }
 
+const DEFAULT_PART_DURATION: number = 4000
+
 export class Part {
   public id: string
   public segmentId: string
@@ -62,7 +64,7 @@ export class Part {
   }
 
   public getDuration(): number {
-    const expectedDuration = this.expectedDuration ?? 4000
+    const expectedDuration = this.expectedDuration ?? DEFAULT_PART_DURATION
     if (this.isOnAir && this.executedAt > 0) {
       return Math.max(expectedDuration, Date.now() - this.executedAt)
     } else if (this.playedDuration > 0) {
