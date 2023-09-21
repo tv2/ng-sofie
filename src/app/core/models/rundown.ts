@@ -53,7 +53,7 @@ export class Rundown {
   }
 
   public takeNext(rundownCursor: RundownCursor, timestamp: number): void {
-    this.takeOnAirSegmentOffAirIfIsNextSegment(rundownCursor.segmentId, timestamp)
+    this.takeOnAirSegmentOffAirIfNotSetAsNext(rundownCursor.segmentId, timestamp)
     const segmentToComeOnAir: Segment | undefined = this.segments.find(segment => segment.id === rundownCursor.segmentId)
     if (!segmentToComeOnAir) {
       // TODO: Handle no segment
@@ -62,12 +62,12 @@ export class Rundown {
     segmentToComeOnAir.putOnAir(rundownCursor.partId, timestamp)
   }
 
-  private takeOnAirSegmentOffAirIfIsNextSegment(nextSegmentId: string, timestamp: number): void {
-    const activeSegment = this.segments.find(segment => segment.isOnAir)
-    if (!activeSegment || activeSegment.id === nextSegmentId) {
+  private takeOnAirSegmentOffAirIfNotSetAsNext(nextSegmentId: string, timestamp: number): void {
+    const onAirSegment = this.segments.find(segment => segment.isOnAir)
+    if (!onAirSegment || onAirSegment.id === nextSegmentId) {
       return
     }
-    activeSegment.takeOffAir(timestamp)
+    onAirSegment.takeOffAir(timestamp)
   }
 
   public setNext(rundownCursor: RundownCursor): void {
