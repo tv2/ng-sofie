@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core'
 import { Part } from '../../../core/models/part'
-import {animate, state, style, transition, trigger} from '@angular/animations';
 import { Piece } from '../../../core/models/piece'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
