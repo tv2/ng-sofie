@@ -52,7 +52,7 @@ export class FullSegmentTimelineComponent implements AfterViewInit, OnChanges {
       return
     }
 
-    if (Date.now() - this.internalTimeReference < 20) {
+    if (Date.now() - this.internalTimeReference < 200) {
       return
     }
 
