@@ -59,6 +59,9 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   }
 
   private draw(): void {
+    if (!this.canvasContext) {
+      return
+    }
     this.clearCanvas()
     this.drawSubsections()
     this.drawSections()
@@ -174,18 +177,14 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     const timeChange: SimpleChange | undefined = changes['time']
     if (timeChange)  {
-      this.drawIfTimeHasChanged(timeChange.previousValue, timeChange.currentValue)
-    }
-  }
-
-  private drawIfTimeHasChanged(previousTime: number | undefined, currentTime: number): void {
-    if (!this.canvasContext) {
+      this.draw()
       return
     }
 
-    if (previousTime === currentTime) {
+    const pixelsPerSecondChange: SimpleChange | undefined = changes['pixelsPerSecond']
+    if (pixelsPerSecondChange) {
+      this.draw()
       return
     }
-    this.draw()
   }
 }

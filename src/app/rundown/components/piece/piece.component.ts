@@ -44,6 +44,7 @@ export class PieceComponent {
     return `piece--${pieceType}`
   }
 
+  // TODO: Use either piece.type or source layer types for determining style.
   public getPieceType(): string {
     const layerType = this.piece.layer.replace(/^studio\d+_/, '')
     switch (layerType) {
