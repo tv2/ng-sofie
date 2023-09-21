@@ -8,12 +8,13 @@
 
   --toolbar-height: 30px;
 
-  &--on-air &__header {
-    background-color: #c40000;
-  }
 
   &--set-as-next &__header {
     background-color: #00ac17;
+  }
+
+  &--on-air &__header {
+    background-color: #c40000;
   }
 
   &__header {
