@@ -34,7 +34,7 @@ export class PartComponent implements OnChanges {
   public partWidthInPixels: string = '0px'
   public duration: number = 4000
   // TODO: Remove this.
-  public DEFAULT_PART_DURATION = 4000
+  public DEFAULT_PART_DURATION_IN_MS = 4000
 
   public constructor(public readonly pieceLayerService: PieceLayerService) {}
 
