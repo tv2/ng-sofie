@@ -11,6 +11,7 @@ import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
 import {PieceLayerService} from "../../../shared/services/piece-layer.service";
 import { PieceLayer } from '../../../shared/enums/piece-layer'
+import { RundownCursor } from '../../../core/models/rundown-cursor'
 
 @Component({
   selector: 'sofie-segment',
@@ -26,7 +27,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   public segment: Segment
 
   @Output()
-  public setNextEvent: EventEmitter<{segmentId: string, partId: string}> = new EventEmitter()
+  public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
 
   public timeReference: number = 0
   public pieceLayers: PieceLayer[] = []

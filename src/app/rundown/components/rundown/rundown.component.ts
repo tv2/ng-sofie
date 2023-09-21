@@ -6,6 +6,7 @@ import {Rundown} from '../../../core/models/rundown';
 import {Identifier} from '../../../core/models/identifier';
 import { RundownStateService } from '../../../core/services/rundown-state.service';
 import { SubscriptionLike } from 'rxjs'
+import { RundownCursor } from '../../../core/models/rundown-cursor'
 
 @Component({
   selector: 'sofie-rundown',
@@ -75,7 +76,7 @@ export class RundownComponent implements OnInit, OnDestroy {
     this.rundownService.takeNext(this.rundown.id).subscribe()
   }
 
-  public setNext(event: { segmentId: string, partId: string }): void {
+  public setNext(event: RundownCursor): void {
     if (!this.rundown?.id) {
       return
     }

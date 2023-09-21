@@ -6,6 +6,7 @@ import {
 } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
+import { RundownCursor } from '../../../core/models/rundown-cursor'
 
 @Component({
   selector: 'sofie-full-segment-timeline',
@@ -23,7 +24,7 @@ export class FullSegmentTimelineComponent {
   public time: number
 
   @Output()
-  public setNextEvent: EventEmitter<{segmentId: string, partId: string}> = new EventEmitter()
+  public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
 
   public pixelsPerSecond: number = 30
 
