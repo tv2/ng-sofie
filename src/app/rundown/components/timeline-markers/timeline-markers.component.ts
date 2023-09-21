@@ -15,7 +15,8 @@ interface Point {
 
 const TEXT_STYLE: string = '15px arial'
 const TEXT_MIDDLE_POSITION: number = 13
-const SUBSECTION_TOP_POSITION: number = 20
+const SECTION_TOP_POSITION: number = 16
+const SUBSECTION_TOP_POSITION: number = 22
 
 @Component({
   selector: 'sofie-timeline-markers',
@@ -113,7 +114,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   private drawSectionFromIndex(sectionIndex: number, sectionWidth: number, timeOffsetInPixels: number): void {
     const from: Point = {
       x: sectionIndex * sectionWidth - timeOffsetInPixels,
-      y: 0,
+      y: SECTION_TOP_POSITION,
     }
     const to: Point = {
       x: sectionIndex * sectionWidth - timeOffsetInPixels,
@@ -131,7 +132,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   }
 
   private drawTimestampFromIndex(sectionIndex: number, sectionWidth: number): void {
-    const x = sectionIndex * sectionWidth + 5 - this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
+    const x = sectionIndex * sectionWidth - this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
     const sectionTimestampInSeconds = this.getSectionTimestampInSeconds(sectionIndex)
     const formattedTimestamp = this.timestampPipe.transform(sectionTimestampInSeconds)
     this.drawText(formattedTimestamp, x, TEXT_MIDDLE_POSITION)

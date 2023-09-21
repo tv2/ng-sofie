@@ -7,7 +7,7 @@
   padding: 2px 6px;
   background-color: rgb(50,50,50);
   position: absolute;
-  overflow: hidden;
+  overflow: visible;
 
   &__text {
     text-overflow: ellipsis;
@@ -28,12 +28,10 @@
 
   &--lower-third {
     background-color: #ca9d00;
-    overflow: visible;
   }
 
   &--graphics {
     background-color: #ca9d00;
-    overflow: visible;
   }
 
   &--remote {
