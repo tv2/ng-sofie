@@ -1,3 +1,8 @@
+:host {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 .container {
   background-color: #343434;
 }
