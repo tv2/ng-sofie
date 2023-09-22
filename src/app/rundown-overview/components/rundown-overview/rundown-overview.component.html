@@ -1,43 +1,47 @@
 <h1 class="c-rundown-overview__title">Rundowns</h1>
 
-<div *ngIf="isLoading" class="c-rundown-overview__loading-rundowns">
+<div *ngIf="isLoading; else doneLoading" class="c-rundown-overview__loading-rundowns">
   <mat-card-title>Loading rundowns...</mat-card-title>
 </div>
 
-<div *ngIf="!isLoading && basicRundowns.length === 0" class="c-rundown-overview__no-rundowns">
-  <h2>There are currently no rundowns available.</h2>
-  <p>Check your connection and if you have configured the Ingest Gateway.</p>
-</div>
+<ng-template #doneLoading>
+  <div *ngIf="basicRundowns.length === 0; else rundowns" class="c-rundown-overview__no-rundowns">
+    <h2>There are currently no rundowns available.</h2>
+    <p>Check your connection and if you have configured the Ingest Gateway.</p>
+  </div>
+</ng-template>
 
-<table *ngIf="!isLoading && basicRundowns.length > 0" mat-table [dataSource]="basicRundowns">
-  <ng-container matColumnDef="status">
-    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-    <mat-cell *matCellDef="let basicRundown" >
-      <sofie-pulsating-dot *ngIf="basicRundown.isActive" [color]="Color.RED" [animationDurationSeconds]="3"></sofie-pulsating-dot>
-    </mat-cell>
-  </ng-container>
+<ng-template #rundowns>
+  <table *ngIf="!isLoading && basicRundowns.length > 0" mat-table [dataSource]="basicRundowns">
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let basicRundown" >
+        <sofie-pulsating-dot *ngIf="basicRundown.isActive" [color]="Color.RED" [animationDurationSeconds]="3"></sofie-pulsating-dot>
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef>Rundown</mat-header-cell>
-    <mat-cell *matCellDef="let basicRundown" class="c-rundown-name" (click)="navigateToRundown(basicRundown)">
-      {{basicRundown.name}}
-    </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Rundown</mat-header-cell>
+      <mat-cell *matCellDef="let basicRundown" class="c-rundown-name" (click)="navigateToRundown(basicRundown)">
+        {{basicRundown.name}}
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="modifiedAt">
-    <mat-header-cell *matHeaderCellDef> Last updated </mat-header-cell>
-    <mat-cell *matCellDef="let basicRundown">
-      {{basicRundown.modifiedAt | date: 'HH:mm – d LLL YYYY'}}
-    </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="modifiedAt">
+      <mat-header-cell *matHeaderCellDef> Last updated </mat-header-cell>
+      <mat-cell *matCellDef="let basicRundown">
+        {{basicRundown.modifiedAt | date: 'HH:mm – d LLL YYYY'}}
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="delete">
-    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-    <mat-cell class="c-delete-rundown-cell" *matCellDef="let basicRundown">
-      <span class="material-icons c-delete-rundown-icon" (click)="openDeletionDialog(basicRundown)">delete</span>
-    </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell class="c-delete-rundown-cell" *matCellDef="let basicRundown">
+        <span class="material-icons c-delete-rundown-icon" (click)="openDeletionDialog(basicRundown)">delete</span>
+      </mat-cell>
+    </ng-container>
 
-  <mat-header-row *matHeaderRowDef="['status', 'name', 'modifiedAt', 'delete']"></mat-header-row>
-  <mat-row *matRowDef="let basicRundown; columns: ['status','name', 'modifiedAt', 'delete']"></mat-row>
-</table>
+    <mat-header-row *matHeaderRowDef="['status', 'name', 'modifiedAt', 'delete']"></mat-header-row>
+    <mat-row *matRowDef="let basicRundown; columns: ['status','name', 'modifiedAt', 'delete']"></mat-row>
+  </table>
+</ng-template>
