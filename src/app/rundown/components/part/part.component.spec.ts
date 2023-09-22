@@ -1,10 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { PartComponent } from './part.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { instance, mock, when } from '@typestrong/ts-mockito'
 import { Part } from '../../../core/models/part'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
+import { RundownService } from '../../../core/abstractions/rundown.service'
 
 describe('PartComponent', () => {
   it('should create', async () => {
@@ -31,11 +32,13 @@ function getMockedPart(): Part {
 
 async function configureTestBed(): Promise<void> {
   const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
+  const mockedRundownService: RundownService = mock<RundownService>()
   await TestBed.configureTestingModule({
     declarations: [PartComponent],
     imports: [BrowserAnimationsModule],
     providers: [
       { provide: PieceLayerService, useValue: instance(mockedPieceLayerService) },
+      { provide: RundownService, useValue: instance(mockedRundownService) },
     ]
   }).compileComponents()
 }
