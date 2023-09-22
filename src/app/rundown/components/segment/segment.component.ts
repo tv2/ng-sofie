@@ -35,8 +35,8 @@ export class SegmentComponent implements OnChanges, OnDestroy {
 
   private getUsedPieceLayersInOrder(): PieceLayer[] {
     const pieceLayersInOrder: PieceLayer[] = this.pieceLayerService.getPieceLayersInOrder()
-    const usedPieceLayers: PieceLayer[] = this.pieceLayerService.getPieceLayersForParts(this.segment.parts)
-    return pieceLayersInOrder.filter(layer => usedPieceLayers.includes(layer))
+    const usedPieceLayers: Set<PieceLayer> = this.pieceLayerService.getPieceLayersForParts(this.segment.parts)
+    return pieceLayersInOrder.filter(layer => usedPieceLayers.has(layer))
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

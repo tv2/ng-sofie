@@ -3,10 +3,10 @@ import {Part} from "../../core/models/part";
 import { PieceLayer } from '../enums/piece-layer'
 
 export class PieceLayerService {
-    public getPieceLayersForParts(parts: Part[]): PieceLayer[] {
+    public getPieceLayersForParts(parts: Part[]): Set<PieceLayer> {
         const pieces: Piece[] = parts.flatMap(part => part.pieces.concat(part.adLibPieces))
         const pieceLayers: PieceLayer[] = pieces.map(piece => this.getPieceLayer(piece))
-        return [...new Set(pieceLayers)]
+        return new Set(pieceLayers)
     }
 
     //TODO: Does not account for the fact that a JINGLE should be PGM when in the KLAR ON AIR (if this is desired behaviour?)
