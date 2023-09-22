@@ -1,5 +1,6 @@
 import { Piece } from './piece'
 import { AdLibPiece } from './ad-lib-piece'
+import { AutoNext } from '../models/auto-next'
 
 export interface PartInterface {
   id: string
@@ -10,6 +11,7 @@ export interface PartInterface {
   expectedDuration?: number
   executedAt: number
   playedDuration: number
+  autoNext?: AutoNext
 }
 
 const DEFAULT_PART_DURATION_IN_MS: number = 4000
@@ -24,6 +26,7 @@ export class Part {
   public expectedDuration?: number
   public executedAt: number
   public playedDuration: number
+  public autoNext: AutoNext | undefined
 
   constructor(part: PartInterface) {
     this.id = part.id
@@ -35,6 +38,7 @@ export class Part {
     this.executedAt = part.executedAt
     this.expectedDuration = part.expectedDuration
     this.playedDuration = part.playedDuration
+    this.autoNext = part.autoNext
   }
 
   public putOnAir(timestamp: number): void {
@@ -64,13 +68,17 @@ export class Part {
   }
 
   public getDuration(): number {
-    const expectedDuration = this.expectedDuration ?? DEFAULT_PART_DURATION_IN_MS
-    if (this.isOnAir && this.executedAt > 0) {
-      return Math.max(expectedDuration, Date.now() - this.executedAt)
-    } else if (this.playedDuration > 0) {
+    if (this.isOnAir) {
+      const minimumDuration: number = this.autoNext?.overlap ?? this.expectedDuration ?? DEFAULT_PART_DURATION_IN_MS
+      const playedDuration: number = Date.now() - this.executedAt
+      return Math.max(minimumDuration, playedDuration)
+    }
+
+    if (this.playedDuration) {
       return this.playedDuration
     }
-    return expectedDuration
+
+    return this.autoNext?.overlap ?? this.expectedDuration ?? DEFAULT_PART_DURATION_IN_MS
   }
 
   public reset(): void {
