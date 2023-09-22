@@ -6,12 +6,12 @@
 <div class="c-full-segment-timeline__parts">
     <sofie-part
             *ngFor="let part of segment.parts"
+            [rundownId]="segment.rundownId"
             [part]="part"
             [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [isOnAir]="part.isOnAir"
             [time]="part.isOnAir ? time : 0"
-            (partSelectedAsNextEvent)="emitSetNextEvent($event)"
     ></sofie-part>
 </div>
 <sofie-timeline-playhead

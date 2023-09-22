@@ -7,7 +7,7 @@ import {
 } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
 import { Rundown } from '../models/rundown';
-import { HttpRundownService } from './http-rundown.service';
+import { RundownService } from '../abstractions/rundown.service'
 import { Segment } from '../models/segment';
 import { Part } from '../models/part';
 import { RundownEventObserver } from './rundown-event-observer.service'
@@ -21,7 +21,7 @@ export class RundownStateService implements OnDestroy {
   private eventSubscriptions: EventSubscription[]
 
   constructor(
-      private readonly rundownService: HttpRundownService,
+      private readonly rundownService: RundownService,
       private readonly rundownEventObserver: RundownEventObserver,
       private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {

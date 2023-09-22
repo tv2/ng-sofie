@@ -26,19 +26,12 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   @Input()
   public segment: Segment
 
-  @Output()
-  public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
-
   public timeReference: number = 0
   public pieceLayers: PieceLayer[] = []
 
   private animationFrameId?: number
 
   constructor(private readonly pieceLayerService: PieceLayerService) {}
-
-  public emitSetNextEvent(partId: string): void {
-    this.setNextEvent.emit({ segmentId: this.segment.id, partId})
-  }
 
   private getUsedPieceLayersInOrder(): PieceLayer[] {
     const pieceLayersInOrder: PieceLayer[] = this.pieceLayerService.getPieceLayersInOrder()

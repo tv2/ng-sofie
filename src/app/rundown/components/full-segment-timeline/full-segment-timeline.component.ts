@@ -27,8 +27,4 @@ export class FullSegmentTimelineComponent {
   public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
 
   public pixelsPerSecond: number = 30
-
-  public emitSetNextEvent(partId: string): void {
-    this.setNextEvent.emit({ segmentId: this.segment.id, partId})
-  }
 }

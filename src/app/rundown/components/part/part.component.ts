@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core'
+import { Component, Input, OnChanges } from '@angular/core'
 import { Part } from '../../../core/models/part'
 import { Piece } from '../../../core/models/piece'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
+import { RundownService } from '../../../core/abstractions/rundown.service'
 
 @Component({
   selector: 'sofie-part',
@@ -18,6 +19,9 @@ export class PartComponent implements OnChanges {
   public time: number
 
   @Input()
+  public rundownId: string
+
+  @Input()
   public part: Part
 
   @Input()
@@ -26,19 +30,19 @@ export class PartComponent implements OnChanges {
   @Input()
   public pixelsPerSecond: number
 
-  @Output()
-  public readonly partSelectedAsNextEvent: EventEmitter<string> = new EventEmitter()
-
   public layeredPieces: Piece[][] = []
   public partWidthInPixels: string = '0px'
   public duration: number = 4000
   // TODO: Remove this.
   public DEFAULT_PART_DURATION_IN_MS = 4000
 
-  public constructor(public readonly pieceLayerService: PieceLayerService) {}
+  public constructor(
+    public readonly pieceLayerService: PieceLayerService,
+    private readonly rundownService: RundownService
+  ) {}
 
   public setPartAsNext(): void {
-    this.partSelectedAsNextEvent.emit(this.part.id)
+    this.rundownService.setNext(this.rundownId, this.part.segmentId, this.part.id).subscribe()
   }
 
   public getPiecesOnLayers(): Piece[][] {
