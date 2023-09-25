@@ -8,4 +8,5 @@ export abstract class RundownService {
   public abstract reset(rundownId: string): Observable<void>
   public abstract takeNext(rundownId: string): Observable<void>
   public abstract setNext(rundownId: string, segmentId: string, partId: string): Observable<void>
+  public abstract delete(rundownId: string): Observable<void>
 }

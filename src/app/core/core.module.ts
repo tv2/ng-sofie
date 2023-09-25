@@ -17,6 +17,7 @@ import { EntityParser } from './abstractions/entity-parser.service'
 import { ZodEntityParser } from './parsers/zod-entity-parser.service'
 import { ZodRundownEventParser } from './parsers/zod-rundown-event-parser.service'
 import { EventSystemModule } from '../event-system/event-system.module'
+import { RundownService } from './abstractions/rundown.service'
 
 @NgModule({
   declarations: [],
@@ -29,7 +30,7 @@ import { EventSystemModule } from '../event-system/event-system.module'
     HttpErrorService,
     HttpClientModule,
     HttpBasicRundownService,
-    HttpRundownService,
+    { provide: RundownService, useClass: HttpRundownService },
     { provide: AdLibPieceService, useClass: HttpAdLibPieceService },
     ConnectionStatusObserver,
     RundownEventObserver,

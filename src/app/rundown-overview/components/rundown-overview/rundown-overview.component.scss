@@ -1,6 +1,7 @@
 .mat-table {
-  margin: 3em;
-  width: 95%;
+  padding: 0 3em;
+  margin: 3em 0;
+  width: 100%;
 }
 
 .mat-header-cell {
@@ -18,13 +19,15 @@
 }
 
 .mat-column-status {
-  flex: 0 0 30px;
-  padding-right: 1em;
+  flex: 0 1;
+  min-width: 60px;
+  padding: 0 20px;
 }
 
 .mat-column-delete {
-  flex: 30px 0 0;
-  padding-left: 1em;
+  flex: 0 1;
+  min-width: 60px;
+  padding: 0 20px;
 }
 
 .c-delete-rundown-cell {

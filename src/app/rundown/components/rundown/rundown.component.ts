@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
-import {HttpRundownService} from '../../../core/services/http-rundown.service'
+import {RundownService} from '../../../core/abstractions/rundown.service'
 import {AdLibPieceService} from '../../../core/abstractions/ad-lib-piece.service'
 import {Rundown} from '../../../core/models/rundown';
 import {Identifier} from '../../../core/models/identifier';
@@ -20,7 +20,7 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private rundownService: HttpRundownService,
+    private rundownService: RundownService,
     private adLibPieceService: AdLibPieceService,
     private rundownStateService: RundownStateService
   ) { }
@@ -73,12 +73,5 @@ export class RundownComponent implements OnInit, OnDestroy {
       return
     }
     this.rundownService.takeNext(this.rundown.id).subscribe()
-  }
-
-  public setNext(event: { segmentId: string, partId: string }): void {
-    if (!this.rundown?.id) {
-      return
-    }
-    this.rundownService.setNext(this.rundown.id, event.segmentId, event.partId).subscribe()
   }
 }

@@ -3,25 +3,16 @@ import { Segment } from 'src/app/core/models/segment';
 
 import { SegmentComponent } from './segment.component';
 import { instance, mock, when } from '@typestrong/ts-mockito'
+import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 
 describe('SegmentComponent', () => {
-  let component: SegmentComponent;
-  let fixture: ComponentFixture<SegmentComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ SegmentComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(SegmentComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('should create', () => {
+  it('should create', async () => {
+    await configureTestBed()
+    const fixture = TestBed.createComponent(SegmentComponent)
+    const component = fixture.componentInstance
     const mockedSegment = getMockedSegment()
     component.segment = instance(mockedSegment)
-    expect(component).toBeTruthy();
+    expect(component).toBeTruthy()
   });
 });
 
@@ -35,4 +26,14 @@ function getMockedSegment(): Segment {
   when(mockedSegment.isNext).thenReturn(false)
   when(mockedSegment.parts).thenReturn([])
   return mockedSegment
+}
+
+async function configureTestBed(): Promise<void> {
+  const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
+  await TestBed.configureTestingModule({
+    declarations: [ SegmentComponent ],
+    providers: [
+      { provide: PieceLayerService, useValue: instance(mockedPieceLayerService) },
+    ]
+  }).compileComponents()
 }

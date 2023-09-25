@@ -7,7 +7,7 @@ import {
 } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
 import { Rundown } from '../models/rundown';
-import { HttpRundownService } from './http-rundown.service';
+import { RundownService } from '../abstractions/rundown.service'
 import { Segment } from '../models/segment';
 import { Part } from '../models/part';
 import { RundownEventObserver } from './rundown-event-observer.service'
@@ -21,7 +21,7 @@ export class RundownStateService implements OnDestroy {
   private eventSubscriptions: EventSubscription[]
 
   constructor(
-      private readonly rundownService: HttpRundownService,
+      private readonly rundownService: RundownService,
       private readonly rundownEventObserver: RundownEventObserver,
       private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {
@@ -73,7 +73,7 @@ export class RundownStateService implements OnDestroy {
       if (!rundownSubject) {
         return
       }
-      rundownSubject.value.activate(event)
+      rundownSubject.value.activate(event, event.timestamp)
   }
 
   private deactivateRundownFromEvent(event: RundownDeactivatedEvent): void {
@@ -81,7 +81,7 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    rundownSubject.value.deactivate()
+    rundownSubject.value.deactivate(event.timestamp)
   }
 
   private resetRundownFromEvent(event: RundownResetEvent): void {
@@ -97,7 +97,7 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    rundownSubject.value.takeNext(event)
+    rundownSubject.value.takeNext(event, event.timestamp)
   }
 
   private setNextPartInRundownFromEvent(event: PartSetAsNextEvent): void {

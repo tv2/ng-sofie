@@ -2,23 +2,19 @@
 <div class="container">
   <div>
     <div>
-      <button *ngIf="!rundown?.isActive" (click)="activateRundown()">Activate Rundown</button>
-      <button *ngIf="rundown?.isActive" (click)="takeNext()">Take Next</button>
-      <button *ngIf="rundown?.isActive" (click)="resetRundown()">Reset Rundown</button>
-      <button *ngIf="rundown?.isActive" (click)="deactivateRundown()">Deactivate Rundown</button>
+      <button *ngIf="!rundown?.isActive; else activeRundownButtons" (click)="activateRundown()">Activate Rundown</button>
+      <ng-template #activeRundownButtons>
+        <button (click)="takeNext()">Take Next</button>
+        <button (click)="resetRundown()">Reset Rundown</button>
+        <button (click)="deactivateRundown()">Deactivate Rundown</button>
+      </ng-template>
     </div>
     <div class="segments">
-      <sofie-segment *ngFor="let segment of rundown?.segments" [segment]="segment" [isRundownActive]="rundown?.isActive ?? false" (setNextEvent)="setNext($event)"></sofie-segment>
-    </div>
-  </div>
-  <div>
-    <div class="infinite-pieces">
-      <span class=subtitle>Infinite Pieces</span>
-      <sofie-piece *ngFor="let infinitePiece of rundown?.getInfinitePieces()" [piece]="infinitePiece"></sofie-piece>
-    </div>
-    <div class="ad-lib-pieces">
-      <span class=subtitle>Adlib Pieces</span>
-      <sofie-ad-lib-piece-identifier *ngFor="let identifier of adLibPieceIdentifiers" [adLibPieceIdentifier]="identifier" [rundownId]="rundown?.id ?? ''"></sofie-ad-lib-piece-identifier>
+      <sofie-segment
+        *ngFor="let segment of rundown?.segments"
+        [segment]="segment"
+        [isOnAir]="segment.isOnAir"
+      ></sofie-segment>
     </div>
   </div>
 </div>

@@ -2,12 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { Paths } from '../../../app-routing.module'
 import { BasicRundown } from "../../../core/models/basic-rundown";
-import { HttpRundownService } from '../../../core/services/http-rundown.service';
 import { Rundown } from '../../../core/models/rundown';
 import { DialogService } from '../../../shared/services/dialog.service';
 import { Color } from "../../../shared/enums/color";
 import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
 import { SubscriptionLike } from 'rxjs'
+import { RundownService } from '../../../core/abstractions/rundown.service'
 
 @Component({
   selector: 'sofie-rundown-overview',
@@ -22,7 +22,7 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly basicRundownStateService: BasicRundownStateService,
-    private readonly rundownService: HttpRundownService,
+    private readonly rundownService: RundownService,
     private readonly dialogService: DialogService
   ) {}
 

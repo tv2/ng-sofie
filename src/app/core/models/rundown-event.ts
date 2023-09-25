@@ -1,8 +1,9 @@
 import { RundownEventType } from './rundown-event-type'
 import { AdLibPiece } from './ad-lib-piece'
 import { Piece } from './piece'
+import { TypedEvent } from '../../event-system/abstractions/event-observer.service'
 
-export interface RundownEvent {
+export interface RundownEvent extends TypedEvent {
   type: RundownEventType
   rundownId: string
 }

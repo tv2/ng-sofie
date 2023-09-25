@@ -1,24 +1,21 @@
-.part {
-  border: solid 1px black;
-  margin: 5px;
-  padding: 5px;
+:host {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
 }
 
-.is-on-air {
-  background: lightgray;
-  border: solid 1px red;
-  color: red;
-  padding: 3px;
-}
+.c-part {
+  &__piece-layers {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
 
-.is-next {
-  background: lightgray;
-  border: solid 1px green;
-  color: green;
-  padding: 3px;
-}
-
-.piece-container {
-  display: flex;
-  flex-direction: row;
+  &__piece-layer {
+    display: flex;
+    margin-bottom: 2px;
+    height: 22px;
+    position: relative;
+    background-color: rgb(26,26,26);
+  }
 }

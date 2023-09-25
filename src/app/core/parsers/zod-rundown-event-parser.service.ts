@@ -17,6 +17,7 @@ import { AdLibPiece } from '../models/ad-lib-piece'
 export class ZodRundownEventParser {
     private readonly rundownActivatedEventParser = zod.object({
         type: zod.literal(RundownEventType.ACTIVATED),
+        timestamp: zod.number(),
         rundownId: zod.string().nonempty(),
         segmentId: zod.string().nonempty(),
         partId: zod.string().nonempty(),
@@ -24,21 +25,25 @@ export class ZodRundownEventParser {
 
     private readonly rundownDeactivatedEventParser = zod.object({
         type: zod.literal(RundownEventType.DEACTIVATED),
+        timestamp: zod.number(),
         rundownId: zod.string().nonempty(),
     })
 
     private readonly rundownDeletedEventParser = zod.object({
         type: zod.literal(RundownEventType.DELETED),
+        timestamp: zod.number(),
         rundownId: zod.string().nonempty(),
     })
 
     private readonly rundownResetEventParser = zod.object({
         type: zod.literal(RundownEventType.RESET),
+        timestamp: zod.number(),
         rundownId: zod.string().nonempty(),
     })
 
     private readonly rundownTakenEventParser = zod.object({
         type: zod.literal(RundownEventType.TAKEN),
+        timestamp: zod.number(),
         rundownId: zod.string().nonempty(),
         segmentId: zod.string().nonempty(),
         partId: zod.string().nonempty(),
@@ -46,6 +51,7 @@ export class ZodRundownEventParser {
 
     private readonly rundownSetNextEventParser = zod.object({
         type: zod.literal(RundownEventType.SET_NEXT),
+        timestamp: zod.number(),
         rundownId: zod.string().nonempty(),
         segmentId: zod.string().nonempty(),
         partId: zod.string().nonempty(),
@@ -53,6 +59,7 @@ export class ZodRundownEventParser {
 
     private readonly rundownAdLibPieceInsertedEventParser = zod.object({
         type: zod.literal(RundownEventType.AD_LIB_PIECE_INSERTED),
+        timestamp: zod.number(),
         rundownId: zod.string().nonempty(),
         segmentId: zod.string().nonempty(),
         partId: zod.string().nonempty(),
@@ -63,6 +70,7 @@ export class ZodRundownEventParser {
 
     private readonly rundownInfinitePieceAddedEventParser = zod.object({
         type: zod.literal(RundownEventType.INFINITE_PIECE_ADDED),
+        timestamp: zod.number(),
         rundownId: zod.string().nonempty(),
         infinitePiece: zod.object({})
             .nonstrict()
