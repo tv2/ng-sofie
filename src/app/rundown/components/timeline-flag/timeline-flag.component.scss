@@ -1,0 +1,92 @@
+:host {
+  position: absolute;
+  display: flex;
+  display-direction: row;
+  top: -20px;
+  bottom: 0;
+  z-index: 200;
+
+  overflow: hidden;
+  pointer-events: none;
+  padding-right: 20px;
+
+  transition: border-radius .2s;
+
+  --flag-label-color: black;
+  --flag-label-background-color: #a5a5a5;
+  --flag-bar-background-color: #a5a5a5;
+}
+
+.c-timeline-flag {
+  &__label {
+    position: relative;
+    padding: 2px 4px;
+    height: 20px;
+
+    background-color: var(--flag-label-background-color);
+    color: var(--flag-label-color);
+    font-size: 0.9rem;
+    font-weight: bold;
+    lin-height: 0.9rem;
+
+    transition: padding .2s, color .2s, background-color .2s, font-size .2s;
+
+    &::after {
+      position: absolute;
+      content: '';
+      top: 0;
+      bottom: 0;
+      left: 100%;
+      border-width: 10px;
+      border-style: solid;
+      border-color: transparent transparent transparent var(--flag-label-background-color);
+      transition: border-width .2s, border-color .2s;
+    }
+  }
+
+  &__bar {
+    width: 2px;
+    background-color: var(--flag-bar-background-color);
+  }
+}
+
+:host.c-timeline-flag--turned-on {
+  border-top-left-radius: 6px;
+  --flag-label-background-color: #00ac17;
+  --flag-bar-background-color: #00ac17;
+}
+
+:host.c-timeline-flag--no-label {
+  border-top-left-radius: 0;
+
+  .c-timeline-flag {
+    &__label {
+      padding: 0;
+      height: 18px;
+      font-size: 0;
+
+      &::after {
+        border-width: 9px;
+      }
+    }
+  }
+}
+
+:host.c-timeline-flag--dimmed {
+  border-top-left-radius: 0;
+  transition: all 0;
+
+  .c-timeline-flag {
+    &__label {
+      padding: 0 0 0 14px;
+      height: 18px;
+      color: var(--flag-bar-background-color);
+      background-color: transparent;
+
+      &::after {
+        left: 0;
+        border-width: 9px;
+      }
+    }
+  }
+}
