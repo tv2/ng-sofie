@@ -17,14 +17,18 @@ import { ConnectionStatusObserver } from './connection-status-observer.service'
 
 @Injectable()
 export class RundownStateService implements OnDestroy {
+  private readonly isLoadingSubject: BehaviorSubject<boolean>
   private readonly rundownSubjects: Map<string, BehaviorSubject<Rundown>> = new Map()
   private eventSubscriptions: EventSubscription[]
+
+  private isLoading = true
 
   constructor(
       private readonly rundownService: RundownService,
       private readonly rundownEventObserver: RundownEventObserver,
       private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {
+    this.isLoadingSubject = new BehaviorSubject<boolean>(this.isLoading)
     this.subscribeToEvents()
   }
 
@@ -54,6 +58,11 @@ export class RundownStateService implements OnDestroy {
     this.fetchRundown(rundownId)
         .then(rundown => rundownSubject.next(rundown))
         .catch(error => console.error('[error]', `Encountered error while fetching rundown with id '${rundownId}':`, error))
+  }
+
+  private setIsLoading(isLoading: boolean): void {
+    this.isLoading = isLoading
+    this.isLoadingSubject.next(this.isLoading)
   }
 
   private subscribeToRundownEvents(): EventSubscription[] {
@@ -143,18 +152,24 @@ export class RundownStateService implements OnDestroy {
   }
 
   private async getRundownSubject(rundownId: string): Promise<BehaviorSubject<Rundown>> {
+    this.setIsLoading(true)
     const rundownSubject: BehaviorSubject<Rundown> | undefined = this.rundownSubjects.get(rundownId)
     if (rundownSubject) {
       return rundownSubject
     }
     const cleanRundownSubject = await this.getCleanRundownSubject(rundownId)
     this.rundownSubjects.set(rundownId, cleanRundownSubject)
+    this.setIsLoading(false)
     return cleanRundownSubject
   }
 
   private async getCleanRundownSubject(rundownId: string): Promise<BehaviorSubject<Rundown>> {
     const rundown: Rundown = await this.fetchRundown(rundownId)
     return new BehaviorSubject<Rundown>(rundown)
+  }
+
+  public subscribeToLoading(consumer: (isLoading: boolean) => void): SubscriptionLike {
+    return this.isLoadingSubject.subscribe(consumer)
   }
 
   private fetchRundown(rundownId: string): Promise<Rundown> {

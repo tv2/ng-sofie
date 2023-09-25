@@ -16,7 +16,10 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   public rundown?: Rundown
   public adLibPieceIdentifiers: Identifier[] = []
+  public isLoading: boolean = true
   private rundownSubscription?: SubscriptionLike
+  private isLoadingSubscription?: SubscriptionLike
+  private subscriptions: SubscriptionLike[] = []
 
   constructor(
     private route: ActivatedRoute,
@@ -35,10 +38,12 @@ export class RundownComponent implements OnInit, OnDestroy {
     this.rundownStateService
         .subscribeToRundown(rundownId, (rundown) => { this.rundown = rundown })
         .then(unsubscribeFromRundown => { this.rundownSubscription = unsubscribeFromRundown })
+    this.isLoadingSubscription = this.rundownStateService.subscribeToLoading(isLoading => this.isLoading = isLoading)
   }
 
   public ngOnDestroy(): void {
     this.rundownSubscription?.unsubscribe()
+    this.isLoadingSubscription?.unsubscribe()
   }
 
   private fetchAdLibPieceIdentifiers(rundownId: string): void {

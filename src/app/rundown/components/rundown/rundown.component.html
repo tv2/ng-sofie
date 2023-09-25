@@ -1,21 +1,28 @@
 <div class="title">{{rundown?.name}}</div>
-<div class="container">
-  <div>
+
+<div *ngIf="isLoading; else loadedRundown" class='c-loading-rundown'>
+  <mat-card-title>Loading the rundown...</mat-card-title>
+</div>
+
+<ng-template #loadedRundown>
+    <div class="container">
     <div>
-      <button *ngIf="!rundown?.isActive; else activeRundownButtons" (click)="activateRundown()">Activate Rundown</button>
-      <ng-template #activeRundownButtons>
-        <button (click)="takeNext()">Take Next</button>
-        <button (click)="resetRundown()">Reset Rundown</button>
-        <button (click)="deactivateRundown()">Deactivate Rundown</button>
-      </ng-template>
-    </div>
-    <div class="segments">
-      <sofie-segment
-        *ngFor="let segment of rundown?.segments"
-        [segment]="segment"
-        [isOnAir]="segment.isOnAir"
-      ></sofie-segment>
+      <div>
+        <button *ngIf="!rundown?.isActive; else activeRundownButtons" (click)="activateRundown()">Activate Rundown</button>
+        <ng-template #activeRundownButtons>
+          <button (click)="takeNext()">Take Next</button>
+          <button (click)="resetRundown()">Reset Rundown</button>
+          <button (click)="deactivateRundown()">Deactivate Rundown</button>
+        </ng-template>
+      </div>
+      <div class="segments">
+        <sofie-segment
+          *ngFor="let segment of rundown?.segments"
+          [segment]="segment"
+          [isOnAir]="segment.isOnAir"
+        ></sofie-segment>
+      </div>
     </div>
   </div>
-</div>
+</ng-template>
 
