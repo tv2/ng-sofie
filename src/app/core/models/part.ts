@@ -26,7 +26,7 @@ export class Part {
   public expectedDuration?: number
   public executedAt: number
   public playedDuration: number
-  public autoNext: AutoNext | undefined
+  public autoNext?: AutoNext
 
   constructor(part: PartInterface) {
     this.id = part.id
