@@ -10,7 +10,9 @@ import {RundownRoutesModule} from './rundown-routes.module';
 import { TimelineMarkersComponent } from './components/timeline-markers/timeline-markers.component';
 import { TimelinePlayheadComponent } from './components/timeline-playhead/timeline-playhead.component';
 import { TimelineNextIndicatorComponent } from './components/timeline-next-indicator/timeline-next-indicator.component';
-import { FullSegmentTimelineComponent } from './components/full-segment-timeline/full-segment-timeline.component'
+import { FullSegmentTimelineComponent } from './components/full-segment-timeline/full-segment-timeline.component';
+import { RundownViewHeaderComponent } from '../rundown-view-header/rundown-view-header.component'
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { FullSegmentTimelineComponent } from './components/full-segment-timeline
     TimelinePlayheadComponent,
     TimelineNextIndicatorComponent,
     FullSegmentTimelineComponent,
+    RundownViewHeaderComponent,
   ],
   exports: [
     SegmentComponent
@@ -31,6 +34,7 @@ import { FullSegmentTimelineComponent } from './components/full-segment-timeline
   imports: [
     RundownRoutesModule,
     SharedModule,
+    MatCardModule,
   ]
 })
 export class RundownModule { }
