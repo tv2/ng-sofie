@@ -1,6 +1,6 @@
 <div class="title">{{rundown?.name}}</div>
 
-<div *ngIf="isLoading; else loadedRundown" class='c-loading-rundown'>
+<div *ngIf="!rundown; else loadedRundown" class='c-loading-rundown'>
   <mat-card-title>Loading the rundown...</mat-card-title>
 </div>
 

@@ -1,6 +1,6 @@
 import {
   Component,
-  EventEmitter,
+  EventEmitter, HostBinding,
   Input,
   OnChanges,
   OnDestroy,
@@ -8,7 +8,7 @@ import {
   SimpleChanges
 } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
-import { Part } from '../../../core/models/part'
+import {Part, PartInterface} from '../../../core/models/part'
 import {PieceLayerService} from "../../../shared/services/piece-layer.service";
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { RundownCursor } from '../../../core/models/rundown-cursor'
