@@ -1,7 +1,7 @@
 import { Part } from '../../_models/part'
 
 
-export class PartService {
+export class PartEntityService {
     public readonly defaultPartDurationInMs: number = 4000
 
     public putOnAir(part: Part, executedAt: number): Part {

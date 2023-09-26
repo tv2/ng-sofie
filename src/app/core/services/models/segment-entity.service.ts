@@ -1,11 +1,11 @@
 import { Segment } from '../../_models/segment'
 import { Part } from '../../_models/part'
 import { Injectable } from '@angular/core'
-import { PartService } from './part.service'
+import { PartEntityService } from './part-entity.service'
 
 @Injectable()
-export class SegmentService {
-    constructor(private readonly partService: PartService) {}
+export class SegmentEntityService {
+    constructor(private readonly partService: PartEntityService) {}
 
     public putOnAir(segment: Segment, partId: string, timestamp: number): Segment {
         return {

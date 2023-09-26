@@ -1,13 +1,11 @@
 import { Rundown } from '../../_models/rundown'
-import { SegmentService } from './segment.service'
+import { SegmentEntityService } from './segment-entity.service'
 import { Segment } from '../../_models/segment'
 import { Part } from '../../_models/part'
 import { RundownCursor } from '../../_models/rundown-cursor'
-import { RundownInterface } from '../../models/rundown'
-import { timestamp } from 'rxjs'
 
-export class RundownService {
-    constructor(private readonly segmentService: SegmentService) {}
+export class RundownEntityService {
+    constructor(private readonly segmentService: SegmentEntityService) {}
 
     public activate(rundown: Rundown, activatedAt: number): Rundown {
         const resetRundown: Rundown = this.reset(rundown)

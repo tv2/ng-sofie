@@ -1,20 +1,20 @@
-import { PartService } from './part.service'
+import { PartEntityService } from './part-entity.service'
 import { Part } from '../../_models/part'
 import { TestEntityFactory } from './test-entity.factory'
 
-describe(PartService.name, () => {
+describe(PartEntityService.name, () => {
     beforeEach(() => {
         jasmine.clock().install()
         jasmine.clock().mockDate()
     })
     afterEach(() => jasmine.clock().uninstall())
 
-    describe(PartService.prototype.putOnAir.name, () => {
+    describe(PartEntityService.prototype.putOnAir.name, () => {
         describe('given an off-air part', () => {
             it('resets played duration', () => {
                 const testEntityFactory: TestEntityFactory = new TestEntityFactory()
                 const part: Part = testEntityFactory.createPart({ playedDuration: 1234 })
-                const testee: PartService = new PartService()
+                const testee: PartEntityService = new PartEntityService()
 
                 const result: Part = testee.putOnAir(part, Date.now())
 
@@ -24,7 +24,7 @@ describe(PartService.name, () => {
             it('marks part as on-air', () => {
                 const testEntityFactory: TestEntityFactory = new TestEntityFactory()
                 const part: Part = testEntityFactory.createPart()
-                const testee: PartService = new PartService()
+                const testee: PartEntityService = new PartEntityService()
 
                 const result: Part = testee.putOnAir(part, Date.now())
 
@@ -34,7 +34,7 @@ describe(PartService.name, () => {
             it('set when part was executed', () => {
                 const testEntityFactory: TestEntityFactory = new TestEntityFactory()
                 const part: Part = testEntityFactory.createPart()
-                const testee: PartService = new PartService()
+                const testee: PartEntityService = new PartEntityService()
                 const executedAt: number = Date.now()
 
                 const result: Part = testee.putOnAir(part, executedAt)
@@ -44,13 +44,13 @@ describe(PartService.name, () => {
         })
     })
 
-    describe(PartService.prototype.takeOffAir.name, () => {
+    describe(PartEntityService.prototype.takeOffAir.name, () => {
         describe('when given an on-air part', () => {
             it('marks part as off-air', () => {
                 const executedAt: number = Date.now()
                 const testEntityFactory: TestEntityFactory = new TestEntityFactory()
                 const part: Part = testEntityFactory.createPart({ isOnAir: true, executedAt })
-                const testee: PartService = new PartService()
+                const testee: PartEntityService = new PartEntityService()
 
                 const result: Part = testee.takeOffAir(part, Date.now())
 
@@ -61,7 +61,7 @@ describe(PartService.name, () => {
                 const executedAt: number = Date.now()
                 const testEntityFactory: TestEntityFactory = new TestEntityFactory()
                 const part: Part = testEntityFactory.createPart({ isOnAir: true, executedAt })
-                const testee: PartService = new PartService()
+                const testee: PartEntityService = new PartEntityService()
                 const expectedPlayedDuration: number = 6000
 
                 jasmine.clock().tick(expectedPlayedDuration)
@@ -74,11 +74,11 @@ describe(PartService.name, () => {
         })
     })
 
-    describe(PartService.prototype.setAsNextPart.name, () => {
+    describe(PartEntityService.prototype.setAsNextPart.name, () => {
         it('marks part as next', () => {
             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
             const part: Part = testEntityFactory.createPart()
-            const testee: PartService = new PartService()
+            const testee: PartEntityService = new PartEntityService()
 
             const result: Part = testee.setAsNextPart(part)
 
@@ -86,11 +86,11 @@ describe(PartService.name, () => {
         })
     })
 
-    describe(PartService.prototype.removeAsNextPart.name, () => {
+    describe(PartEntityService.prototype.removeAsNextPart.name, () => {
         it('unmarks part as next', () => {
             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
             const part: Part = testEntityFactory.createPart({ isNext: true })
-            const testee: PartService = new PartService()
+            const testee: PartEntityService = new PartEntityService()
 
             const result: Part = testee.removeAsNextPart(part)
 
@@ -98,11 +98,11 @@ describe(PartService.name, () => {
         })
     })
 
-    describe(PartService.prototype.reset.name, () => {
+    describe(PartEntityService.prototype.reset.name, () => {
         it('resets played duration', () => {
             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
             const part: Part = testEntityFactory.createPart({ playedDuration: 1234 })
-            const testee: PartService = new PartService()
+            const testee: PartEntityService = new PartEntityService()
 
             const result: Part = testee.reset(part)
 
@@ -112,7 +112,7 @@ describe(PartService.name, () => {
         it('resets when part was taken', () => {
             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
             const part: Part = testEntityFactory.createPart({ executedAt: 1234 })
-            const testee: PartService = new PartService()
+            const testee: PartEntityService = new PartEntityService()
 
             const result: Part = testee.reset(part)
 
@@ -120,7 +120,7 @@ describe(PartService.name, () => {
         })
     })
 
-    describe(PartService.prototype.getDuration.name, () => {
+    describe(PartEntityService.prototype.getDuration.name, () => {
         describe('part is on-air', () => {
             describe('part has auto-next', () => {
                 describe('auto-next overlap duration is longer than the time since part was taken', () => {
@@ -133,7 +133,7 @@ describe(PartService.name, () => {
                             executedAt: Date.now()
                         })
                         jasmine.clock().tick(100)
-                        const testee: PartService = new PartService()
+                        const testee: PartEntityService = new PartEntityService()
 
                         const result: number = testee.getDuration(part)
 
@@ -152,7 +152,7 @@ describe(PartService.name, () => {
                             executedAt: Date.now()
                         })
                         jasmine.clock().tick(playedDuration)
-                        const testee: PartService = new PartService()
+                        const testee: PartEntityService = new PartEntityService()
 
                         const result: number = testee.getDuration(part)
 
@@ -174,7 +174,7 @@ describe(PartService.name, () => {
                                 executedAt: Date.now()
                             })
                             jasmine.clock().tick(playedDuration)
-                            const testee: PartService = new PartService()
+                            const testee: PartEntityService = new PartEntityService()
 
                             const result: number = testee.getDuration(part)
 
@@ -193,7 +193,7 @@ describe(PartService.name, () => {
                                 executedAt: Date.now()
                             })
                             jasmine.clock().tick(playedDuration)
-                            const testee: PartService = new PartService()
+                            const testee: PartEntityService = new PartEntityService()
 
                             const result: number = testee.getDuration(part)
 
@@ -205,7 +205,7 @@ describe(PartService.name, () => {
                 describe('part has no expected duration', () => {
                     describe('default part duration is longer than the time since part was taken', () => {
                         it('returns the default part duration', () => {
-                            const testee: PartService = new PartService()
+                            const testee: PartEntityService = new PartEntityService()
                             const playedDuration: number = testee.defaultPartDurationInMs / 2
                             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
                             const part: Part = testEntityFactory.createPart({
@@ -222,7 +222,7 @@ describe(PartService.name, () => {
 
                     describe('default part duration is shorter than the time since part was taken', () => {
                         it('returns the time since part was taken', () => {
-                            const testee: PartService = new PartService()
+                            const testee: PartEntityService = new PartEntityService()
                             const playedDuration: number = testee.defaultPartDurationInMs + 5000
                             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
                             const part: Part = testEntityFactory.createPart({
@@ -254,7 +254,7 @@ describe(PartService.name, () => {
                             executedAt: Date.now()
                         })
                         jasmine.clock().tick(playedDuration)
-                        const testee: PartService = new PartService()
+                        const testee: PartEntityService = new PartEntityService()
 
                         const result: number = testee.getDuration(part)
 
@@ -270,7 +270,7 @@ describe(PartService.name, () => {
                             isOnAir: false,
                             autoNext: { overlap: autoNextOverlapDuration },
                         })
-                        const testee: PartService = new PartService()
+                        const testee: PartEntityService = new PartEntityService()
 
                         const result: number = testee.getDuration(part)
 
@@ -289,7 +289,7 @@ describe(PartService.name, () => {
                             playedDuration,
                         })
                         jasmine.clock().tick(playedDuration)
-                        const testee: PartService = new PartService()
+                        const testee: PartEntityService = new PartEntityService()
 
                         const result: number = testee.getDuration(part)
 
@@ -307,7 +307,7 @@ describe(PartService.name, () => {
                                 playedDuration: expectedDuration,
                             })
                             jasmine.clock().tick(expectedDuration)
-                            const testee: PartService = new PartService()
+                            const testee: PartEntityService = new PartEntityService()
 
                             const result: number = testee.getDuration(part)
 
@@ -319,7 +319,7 @@ describe(PartService.name, () => {
                         it('returns the default part duration', () => {
                             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
                             const part: Part = testEntityFactory.createPart({ isOnAir: false })
-                            const testee: PartService = new PartService()
+                            const testee: PartEntityService = new PartEntityService()
 
                             const result: number = testee.getDuration(part)
 
