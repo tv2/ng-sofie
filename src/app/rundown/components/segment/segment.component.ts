@@ -95,6 +95,10 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   }
 
   public setFirstPartAsNext(): void {
+    const part: Part = this.segment.parts[0]
+    if (!part || part.pieces.length <= 0) {
+      return
+    }
     const firstPart: Part = this.segment.parts[0]
     this.rundownService.setNext(this.segment.rundownId, this.segment.id, firstPart.id).subscribe()
   }
