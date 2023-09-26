@@ -1,17 +1,15 @@
 import {
   Component,
-  EventEmitter, HostBinding,
   Input,
   OnChanges,
   OnDestroy,
-  Output, SimpleChange,
+  SimpleChange,
   SimpleChanges
 } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
-import {Part, PartInterface} from '../../../core/models/part'
-import {PieceLayerService} from "../../../shared/services/piece-layer.service";
+import { Part } from '../../../core/models/part'
+import { PieceLayerService } from "../../../shared/services/piece-layer.service";
 import { PieceLayer } from '../../../shared/enums/piece-layer'
-import { RundownCursor } from '../../../core/models/rundown-cursor'
 
 @Component({
   selector: 'sofie-segment',
