@@ -19,6 +19,12 @@ export class PartComponent implements OnChanges {
   public time: number
 
   @Input()
+  public timeOffset: number = 0
+
+  @Input()
+  public minimumDisplayDuration: number = 0
+
+  @Input()
   public rundownId: string
 
   @Input()
@@ -69,7 +75,8 @@ export class PartComponent implements OnChanges {
 
   private getPartWidth(): number {
     const duration = this.part.getDuration()
-    return Math.floor(this.pixelsPerSecond * duration / 1000)
+    const displayDuration = Math.max(duration - this.timeOffset, this.minimumDisplayDuration)
+    return Math.floor(this.pixelsPerSecond * displayDuration / 1000)
   }
 
   public ngOnChanges(): void {

@@ -1,0 +1,47 @@
+<sofie-timeline-markers
+    [time]="time - playheadInsetDuration | maximum: 0"
+    [pixelsPerSecond]="pixelsPerSecond"
+></sofie-timeline-markers>
+
+<div style="display: inline-flex;">
+    <sofie-part
+        *ngIf="previousPart"
+        [rundownId]="segment.rundownId"
+        [part]="previousPart"
+        [isOnAir]="false"
+        [pieceLayers]="pieceLayers"
+        [pixelsPerSecond]="pixelsPerSecond"
+        [time]="previousPart.isOnAir ? time : 0"
+        [minimumDisplayDuration]="0"
+        [timeOffset]="getPartTimeOffset(previousPart)"
+    ></sofie-part>
+    <sofie-part
+        *ngIf="onAirPart"
+        [rundownId]="segment.rundownId"
+        [part]="onAirPart"
+        [isOnAir]="onAirPart.isOnAir"
+        [pieceLayers]="pieceLayers"
+        [pixelsPerSecond]="pixelsPerSecond"
+        [time]="0"
+        [minimumDisplayDuration]="this.playheadInsetDuration + this.playheadPostDisplayDuration"
+        [timeOffset]="onAirPartTimeOffset"
+    ></sofie-part>
+    <sofie-part
+        *ngFor="let part of futureParts"
+        class="c-follow-playhead-timeline-component"
+        [rundownId]="segment.rundownId"
+        [part]="part"
+        [isOnAir]="false"
+        [pieceLayers]="pieceLayers"
+        [pixelsPerSecond]="pixelsPerSecond"
+        [time]="0"
+    ></sofie-part>
+    <sofie-segment-end-indicator
+            [lastPartInSegment]="segment.parts[segment.parts.length - 1]"
+    ></sofie-segment-end-indicator>
+</div>
+
+<sofie-timeline-playhead
+    [time]="time | minimum: playheadInsetDuration"
+    [pixelsPerSecond]="pixelsPerSecond"
+></sofie-timeline-playhead>

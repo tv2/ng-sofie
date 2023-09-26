@@ -20,9 +20,17 @@
   </div>
 
   <sofie-full-segment-timeline
+    *ngIf="!segment.isOnAir"
     class="c-segment__timeline"
     [segment]="segment"
     [pieceLayers]="pieceLayers"
     [time]="timeReference"
   ></sofie-full-segment-timeline>
+  <sofie-follow-playhead-timeline
+    *ngIf="segment.isOnAir"
+    class="c-segment__timeline"
+    [time]="timeReference"
+    [segment]="segment"
+    [pieceLayers]="pieceLayers"
+  ></sofie-follow-playhead-timeline>
 </div>

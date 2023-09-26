@@ -12,6 +12,7 @@ import { TimelinePlayheadComponent } from './components/timeline-playhead/timeli
 import { FullSegmentTimelineComponent } from './components/full-segment-timeline/full-segment-timeline.component';
 import { SegmentEndIndicatorComponent } from './components/segment-end-indicator/segment-end-indicator.component';
 import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.component';
+import { FollowPlayheadTimelineComponent } from './components/follow-playhead-timeline/follow-playhead-timeline.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.
     FullSegmentTimelineComponent,
     SegmentEndIndicatorComponent,
     TimelineFlagComponent,
+    FollowPlayheadTimelineComponent,
   ],
   exports: [
     SegmentComponent

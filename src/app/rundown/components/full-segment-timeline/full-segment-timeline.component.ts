@@ -26,5 +26,5 @@ export class FullSegmentTimelineComponent {
   @Output()
   public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
 
-  public pixelsPerSecond: number = 30
+  public pixelsPerSecond: number = 60
 }
