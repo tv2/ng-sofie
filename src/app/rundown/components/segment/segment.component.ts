@@ -12,6 +12,7 @@ import { Part } from '../../../core/models/part'
 import {PieceLayerService} from "../../../shared/services/piece-layer.service";
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { RundownCursor } from '../../../core/models/rundown-cursor'
+import {RundownService} from "../../../core/abstractions/rundown.service";
 
 @Component({
   selector: 'sofie-segment',
@@ -31,7 +32,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
 
   private animationFrameId?: number
 
-  constructor(private readonly pieceLayerService: PieceLayerService) {}
+  constructor(private readonly pieceLayerService: PieceLayerService, private readonly rundownService: RundownService) {}
 
   private getUsedPieceLayersInOrder(): PieceLayer[] {
     const pieceLayersInOrder: PieceLayer[] = this.pieceLayerService.getPieceLayersInOrder()
@@ -89,6 +90,11 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     // TODO: Is this the right place to compute it or should it be the part that does it?
     const timeSpendInActivePart: number = activePart.executedAt > 0 ? Date.now() - activePart.executedAt : 0
     this.timeReference = timeSpendUntilActivePart + timeSpendInActivePart
+  }
+
+  public setFirstPartAsNext(): void {
+    const firstPart: Part = this.segment.parts[0]
+    this.rundownService.setNext(this.segment.rundownId, this.segment.id, firstPart.id).subscribe()
   }
 
   public ngOnDestroy() {
