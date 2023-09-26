@@ -4,6 +4,7 @@ import { Segment } from 'src/app/core/models/segment';
 import { SegmentComponent } from './segment.component';
 import { instance, mock, when } from '@typestrong/ts-mockito'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
+import {RundownService} from "../../../core/abstractions/rundown.service";
 
 describe('SegmentComponent', () => {
   it('should create', async () => {
@@ -30,10 +31,12 @@ function getMockedSegment(): Segment {
 
 async function configureTestBed(): Promise<void> {
   const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
+  const mockedRundownService: RundownService = mock<RundownService>()
   await TestBed.configureTestingModule({
     declarations: [ SegmentComponent ],
     providers: [
       { provide: PieceLayerService, useValue: instance(mockedPieceLayerService) },
+      { provide: RundownService, useValue: instance(mockedRundownService) },
     ]
   }).compileComponents()
 }
