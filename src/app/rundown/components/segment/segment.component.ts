@@ -94,13 +94,12 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     this.timeReference = timeSpendUntilActivePart + timeSpendInActivePart
   }
 
-  public setFirstPartAsNext(): void {
-    const part: Part = this.segment.parts[0]
-    if (!part || part.pieces.length <= 0) {
+  public setFirstValidPartAsNext(): void {
+    const firstValidPart: Part | undefined = this.segment.parts.find( (part) => part.pieces.length > 0)
+    if (!firstValidPart) {
       return
     }
-    const firstPart: Part = this.segment.parts[0]
-    this.rundownService.setNext(this.segment.rundownId, this.segment.id, firstPart.id).subscribe()
+    this.rundownService.setNext(this.segment.rundownId, this.segment.id, firstValidPart.id).subscribe()
   }
 
   public ngOnDestroy() {
