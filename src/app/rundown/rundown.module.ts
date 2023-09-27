@@ -14,6 +14,7 @@ import { SegmentEndIndicatorComponent } from './components/segment-end-indicator
 import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.component';
 import { FollowPlayheadTimelineComponent } from './components/follow-playhead-timeline/follow-playhead-timeline.component';
 import { MatCardModule } from "@angular/material/card";
+import { OffsetablePartComponent } from './components/offsetable-part/offsetable-part.component'
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MatCardModule } from "@angular/material/card";
     SegmentEndIndicatorComponent,
     TimelineFlagComponent,
     FollowPlayheadTimelineComponent,
+    OffsetablePartComponent
   ],
   exports: [
     SegmentComponent

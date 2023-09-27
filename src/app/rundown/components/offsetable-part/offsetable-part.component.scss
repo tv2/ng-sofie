@@ -1,0 +1,9 @@
+:host.offsetable-part {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+
+  background-color: red;
+  border-right: 2px solid yellow;
+  height: 24px;
+}

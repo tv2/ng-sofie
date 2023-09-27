@@ -1,0 +1,18 @@
+<div
+  class="c-part"
+  [style.width]="partWidthInPixels"
+  (click)="setPartAsNext()"
+>
+  <div class="c-part__piece-layers">
+    <div *ngFor="let pieces of layeredPieces" class="c-part__piece-layer" [style.width]="partWidthInPixels">
+      <sofie-piece
+        *ngFor="let piece of pieces"
+        [expectedPartDuration]="part.expectedDuration ? part.expectedDuration : DEFAULT_PART_DURATION_IN_MS"
+        [partDuration]="duration"
+        [piece]="piece"
+        [pixelsPerSecond]="pixelsPerSecond"
+      ></sofie-piece>
+    </div>
+  </div>
+  <sofie-timeline-flag [label]="part.isNext ? 'NEXT' : undefined" [turnedOn]="part.isNext"></sofie-timeline-flag>
+</div>

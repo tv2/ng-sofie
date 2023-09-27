@@ -2,4 +2,8 @@
   position: relative;
   width: 100%;
   background-color: black;
+
+  .parts {
+    display: inline-flex;
+  }
 }
