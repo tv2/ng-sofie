@@ -3,8 +3,19 @@
   -ms-user-select: none;
   user-select: none;
 }
+
 .container {
   background-color: #343434;
+  min-height: 100%;
+}
+
+.c-loading-rundown {
+  text-align: center;
+  background-color: #343434;
+  height: 100%;
+  width: 100%;
+  padding: 100px;
+  color: white;
 }
 
 .segments {
@@ -19,6 +30,8 @@ sofie-segment {
 
 .title {
   font-size: 2em;
+  background-color: #343434;
+  color: white;
 }
 
 .title, .subtitle {
