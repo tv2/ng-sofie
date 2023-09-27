@@ -1,12 +1,16 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
-  Input, OnChanges, SimpleChange, SimpleChanges,
+  Input,
+  OnChanges,
+  SimpleChange,
+  SimpleChanges,
   ViewChild
 } from '@angular/core'
-import { TimestampPipe } from "../../../shared/pipes/timestamp.pipe"
+import { TimestampPipe } from '../../../shared/pipes/timestamp.pipe'
 
 interface Point {
   x: number,
@@ -21,7 +25,8 @@ const SUBSECTION_TOP_POSITION: number = 22
 @Component({
   selector: 'sofie-timeline-markers',
   templateUrl: './timeline-markers.component.html',
-  styleUrls: ['./timeline-markers.component.scss']
+  styleUrls: ['./timeline-markers.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   @Input()
@@ -29,9 +34,6 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   @Input()
   public pixelsPerSecond: number
-
-  @ViewChild('containerElement')
-  public containerElement: ElementRef
 
   @ViewChild('canvasElement')
   public canvasElement: ElementRef<HTMLCanvasElement>
@@ -44,7 +46,10 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   private secondsPerSection: number = 5
   private subsectionsPerSection: number = 5
 
-  public constructor(private readonly timestampPipe: TimestampPipe) {}
+  public constructor(
+      private readonly containerElement: ElementRef,
+      private readonly timestampPipe: TimestampPipe
+  ) {}
 
   @HostListener('window:resize', ['$event'])
   public onResize(): void {

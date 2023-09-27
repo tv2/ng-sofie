@@ -19,17 +19,20 @@
     </div>
   </div>
 
+
   <sofie-full-segment-timeline
-    *ngIf="!segment.isOnAir"
+    *ngIf="!segment.isOnAir; else onAirTimeline"
     class="c-segment__timeline"
     [segment]="segment"
     [pieceLayers]="pieceLayers"
     [time]="timeReference"
   ></sofie-full-segment-timeline>
-  <sofie-follow-playhead-timeline
-    *ngIf="segment.isOnAir"
-    class="c-segment__timeline"
-    [time]="timeReference"
-    [segment]="segment"
-  ></sofie-follow-playhead-timeline>
+
+  <ng-template #onAirTimeline>
+    <sofie-follow-playhead-timeline
+      class="c-segment__timeline"
+      [time]="timeReference"
+      [segment]="segment"
+    ></sofie-follow-playhead-timeline>
+  </ng-template>
 </div>

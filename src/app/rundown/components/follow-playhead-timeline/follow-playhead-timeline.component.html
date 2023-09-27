@@ -17,7 +17,7 @@
             *ngIf="onAirPart"
             [part]="onAirPart"
             [pixelsPerSecond]="pixelsPerSecond"
-            [offsetDurationInMs]="time - playheadInAnimationDurationInMs | maximum: 0"
+            [offsetDurationInMs]="getOnAirPartOffsetInMs()"
             [minimumDisplayDurationInMs]="playheadInAnimationDurationInMs + postPlayheadDurationInMs"
     ></sofie-offsetable-part>
 

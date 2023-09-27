@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core'
 import { Part } from '../../../core/models/part'
 import { Segment } from '../../../core/models/segment'
-import { PieceLayer } from '../../../shared/enums/piece-layer'
 
 @Component({
   selector: 'sofie-follow-playhead-timeline',
@@ -50,6 +49,13 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
 
   private getFutureParts(onAirPartIndex: number): Part[] {
     return this.segment.parts.slice(onAirPartIndex + 1)
+  }
+
+  public getOnAirPartOffsetInMs(): number {
+    if (!this.onAirPart) {
+      return 0
+    }
+    return Math.max(0, Date.now() - this.onAirPart.executedAt - this.playheadInAnimationDurationInMs)
   }
 
   public getPreviousPartOffsetInMs(part: Part): number {
