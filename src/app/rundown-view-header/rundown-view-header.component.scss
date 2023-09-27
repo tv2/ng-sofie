@@ -52,3 +52,15 @@
   }
 }
 
+.c-panel-card {
+  color: white;
+
+  &__description {
+    font-weight: bold;
+  }
+
+  &__rundown-property {
+    font-weight: normal;
+  }
+}
+
