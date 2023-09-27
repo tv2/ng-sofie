@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core'
 import { Part } from '../../../core/models/part'
 import { Piece } from '../../../core/models/piece'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
@@ -9,13 +9,10 @@ import { PartEntityService } from '../../../core/services/models/part-entity.ser
 @Component({
   selector: 'sofie-part',
   templateUrl: './part.component.html',
-  styleUrls: ['./part.component.scss']
+  styleUrls: ['./part.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PartComponent implements OnChanges {
-  // TODO: Figure out how to "subscribe" to changes for this on the part property.
-  @Input()
-  public isOnAir: boolean
-
   @Input()
   public time: number
 

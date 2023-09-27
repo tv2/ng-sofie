@@ -1,27 +1,16 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnDestroy,
-  SimpleChange,
-  SimpleChanges
-} from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
-import {PieceLayerService} from "../../../shared/services/piece-layer.service";
+import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
 @Component({
   selector: 'sofie-segment',
   templateUrl: './segment.component.html',
-  styleUrls: ['./segment.component.scss']
+  styleUrls: ['./segment.component.scss'],
 })
 export class SegmentComponent implements OnChanges, OnDestroy {
-  // TODO: Removdetection for reference values.
-  @Input()
-  public isOnAir: boolean
-
   @Input()
   public segment: Segment
 
@@ -41,24 +30,23 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     return pieceLayersInOrder.filter(layer => usedPieceLayers.has(layer))
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(): void {
     this.pieceLayers = this.getUsedPieceLayersInOrder()
 
-    const isOnAirChange: SimpleChange | undefined = changes['isOnAir']
-    if (isOnAirChange?.currentValue === false) {
-      this.stopAnimation()
+    if(this.isGoingOnAir()) {
+      this.startAnimation()
     }
-    if (isOnAirChange?.previousValue !== isOnAirChange?.currentValue) {
-      this.startOrStopAnimation()
+    if (this.isGoingOffAir()) {
+      this.stopAnimation()
     }
   }
 
-  private startOrStopAnimation(): void {
-    if (this.segment.isOnAir) {
-      this.startAnimation()
-      return
-    }
-    this.stopAnimation()
+  private isGoingOnAir(): boolean {
+    return this.segment.isOnAir && this.animationFrameId === undefined
+  }
+
+  private isGoingOffAir(): boolean {
+    return !this.segment.isOnAir && this.animationFrameId !== undefined
   }
 
   private startAnimation(): void {
