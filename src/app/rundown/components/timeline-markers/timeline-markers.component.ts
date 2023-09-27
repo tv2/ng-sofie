@@ -11,6 +11,7 @@ import {
   ViewChild
 } from '@angular/core'
 import { TimestampPipe } from '../../../shared/pipes/timestamp.pipe'
+import { debounceTime, Subject } from 'rxjs'
 
 interface Point {
   x: number,
@@ -22,6 +23,8 @@ const TEXT_MIDDLE_POSITION: number = 13
 const SECTION_TOP_POSITION: number = 16
 const SUBSECTION_TOP_POSITION: number = 22
 
+const RESIZE_DEBOUNCE_DURATION_IN_MS: number = 10
+
 @Component({
   selector: 'sofie-timeline-markers',
   templateUrl: './timeline-markers.component.html',
@@ -31,6 +34,9 @@ const SUBSECTION_TOP_POSITION: number = 22
 export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   @Input()
   public time: number
+
+  @Input()
+  public minimumTime: number
 
   @Input()
   public pixelsPerSecond: number
@@ -46,6 +52,8 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   private secondsPerSection: number = 5
   private subsectionsPerSection: number = 5
 
+  private resizeSubject: Subject<void> = new Subject<void>()
+
   public constructor(
       private readonly containerElement: ElementRef,
       private readonly timestampPipe: TimestampPipe
@@ -53,8 +61,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   @HostListener('window:resize', ['$event'])
   public onResize(): void {
-    this.setCanvasSize()
-    this.draw()
+    this.resizeSubject.next()
   }
 
   private setCanvasSize(): void {
@@ -87,8 +94,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
     if (subsectionIndex % this.subsectionsPerSection === 0) {
       return
     }
-    this.drawSubsectionFromIndex(subsectionIndex, subsectionWidth, timeOffsetInPixels)
-  }
+    this.drawSubsectionFromIndex(subsectionIndex, subsectionWidth, timeOffsetInPixels)}
 
   private drawSubsectionFromIndex(subsectionIndex: number, subsectionWidth: number, timeOffsetInPixels: number): void {
     const from: Point = {
@@ -163,9 +169,14 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   }
 
   public ngAfterViewInit(): void {
+    this.resizeSubject
+        .pipe(debounceTime(RESIZE_DEBOUNCE_DURATION_IN_MS))
+        .subscribe(() => {
+          this.setCanvasSize()
+          this.draw()
+        })
     this.initializeCanvasContext()
-    this.setCanvasSize()
-    this.draw()
+    this.resizeSubject.next()
   }
 
   private initializeCanvasContext(): void {
