@@ -4,6 +4,7 @@ import { Piece } from '../../../core/models/piece'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { RundownService } from '../../../core/abstractions/rundown.service'
+import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
 @Component({
   selector: 'sofie-part',
@@ -38,6 +39,7 @@ export class PartComponent implements OnChanges {
 
   public constructor(
     public readonly pieceLayerService: PieceLayerService,
+    private readonly partEntityService: PartEntityService,
     private readonly rundownService: RundownService
   ) {}
 
@@ -51,7 +53,7 @@ export class PartComponent implements OnChanges {
   }
 
   private getGroupedPiecesByLayer(): Record<PieceLayer, Piece[]> {
-    return this.part.pieces.concat(this.part.adLibPieces).reduce((groups: Record<PieceLayer, Piece[]>, piece) => {
+    return this.part.pieces.reduce((groups: Record<PieceLayer, Piece[]>, piece) => {
       const pieceLayer: PieceLayer = this.pieceLayerService.getPieceLayer(piece)
       if (!(pieceLayer in groups)) {
         groups[pieceLayer] = []
@@ -68,13 +70,13 @@ export class PartComponent implements OnChanges {
   }
 
   private getPartWidth(): number {
-    const duration = this.part.getDuration()
+    const duration = this.partEntityService.getDuration(this.part)
     return Math.floor(this.pixelsPerSecond * duration / 1000)
   }
 
   public ngOnChanges(): void {
     this.layeredPieces = this.getPiecesOnLayers()
     this.partWidthInPixels = this.getPartWidthInPixels()
-    this.duration = this.part.getDuration()
+    this.duration = this.partEntityService.getDuration(this.part)
   }
 }

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { TimelineNextIndicatorComponent } from './timeline-next-indicator.component'
-import { Part, PartInterface } from '../../../core/models/part'
+import { Part } from '../../../core/models/part'
 
 describe('TimelineNextIndicatorComponent', () => {
   let component: TimelineNextIndicatorComponent
@@ -15,7 +15,7 @@ describe('TimelineNextIndicatorComponent', () => {
 
     fixture = TestBed.createComponent(TimelineNextIndicatorComponent)
     component = fixture.componentInstance;
-    component.part = new Part({} as PartInterface)
+    component.part = {} as Part
     fixture.detectChanges();
   })
 

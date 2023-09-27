@@ -1,9 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Segment } from 'src/app/core/models/segment';
 
 import { SegmentComponent } from './segment.component';
 import { instance, mock, when } from '@typestrong/ts-mockito'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
+import { SegmentEntityService } from '../../../core/services/models/segment-entity.service'
+import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
 describe('SegmentComponent', () => {
   it('should create', async () => {
@@ -30,10 +32,14 @@ function getMockedSegment(): Segment {
 
 async function configureTestBed(): Promise<void> {
   const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
+  const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
+  const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
   await TestBed.configureTestingModule({
     declarations: [ SegmentComponent ],
     providers: [
       { provide: PieceLayerService, useValue: instance(mockedPieceLayerService) },
+      { provide: SegmentEntityService, useValue: instance(mockedSegmentEntityService) },
+      { provide: PartEntityService, useValue: instance(mockedPartEntityService) },
     ]
   }).compileComponents()
 }

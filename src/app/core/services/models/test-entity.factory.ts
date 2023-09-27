@@ -1,7 +1,7 @@
-import { Part } from '../../_models/part'
-import { Segment } from '../../_models/segment'
-import { Rundown } from '../../_models/rundown'
-import { Piece } from '../../_models/piece'
+import { Part } from '../../models/part'
+import { Segment } from '../../models/segment'
+import { Rundown } from '../../models/rundown'
+import { Piece } from '../../models/piece'
 import { PieceType } from '../../enums/piece-type'
 
 export class TestEntityFactory {
@@ -11,7 +11,7 @@ export class TestEntityFactory {
             name: 'Rundown',
             isActive: false,
             segments: [],
-            infinitePieces: {},
+            infinitePieces: [],
             modifiedAt: 0,
             ...rundown
         }

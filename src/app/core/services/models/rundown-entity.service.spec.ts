@@ -1,12 +1,12 @@
 import { RundownEntityService } from './rundown-entity.service'
 import { SegmentEntityService } from './segment-entity.service'
 import { anyNumber, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
-import { Rundown } from '../../_models/rundown'
+import { Rundown } from '../../models/rundown'
 import { TestEntityFactory } from './test-entity.factory'
-import { Segment } from '../../_models/segment'
-import { Part } from '../../_models/part'
-import { Piece } from '../../_models/piece'
-import { RundownCursor } from '../../_models/rundown-cursor'
+import { Segment } from '../../models/segment'
+import { Part } from '../../models/part'
+import { Piece } from '../../models/piece'
+import { RundownCursor } from '../../models/rundown-cursor'
 
 describe(RundownEntityService.name, () => {
     describe(RundownEntityService.prototype.activate.name, () => {
@@ -85,18 +85,18 @@ describe(RundownEntityService.name, () => {
 
         it('clears infinite pieces', () => {
             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-            const infinitePieces: Record<string, Piece> = {
-                layer1: testEntityFactory.createPiece(),
-                layer2: testEntityFactory.createPiece(),
-                layer3: testEntityFactory.createPiece(),
-            }
+            const infinitePieces: Piece[] = [
+                testEntityFactory.createPiece(),
+                testEntityFactory.createPiece(),
+                testEntityFactory.createPiece(),
+            ]
             const rundown: Rundown = testEntityFactory.createRundown({ infinitePieces })
             const testee: RundownEntityService = createTestee()
 
             const result: Rundown = testee.deactivate(rundown, Date.now())
 
             expect(rundown.infinitePieces).toBe(infinitePieces)
-            expect(result.infinitePieces).toEqual({})
+            expect(result.infinitePieces).toEqual([])
         })
     })
 

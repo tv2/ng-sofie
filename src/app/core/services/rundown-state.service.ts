@@ -14,6 +14,7 @@ import { RundownEventObserver } from './rundown-event-observer.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { ManagedSubscription } from './managed-subscription.service'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
+import { RundownEntityService } from './models/rundown-entity.service'
 
 @Injectable()
 export class RundownStateService implements OnDestroy {
@@ -23,7 +24,8 @@ export class RundownStateService implements OnDestroy {
   constructor(
       private readonly rundownService: RundownService,
       private readonly rundownEventObserver: RundownEventObserver,
-      private readonly connectionStatusObserver: ConnectionStatusObserver
+      private readonly connectionStatusObserver: ConnectionStatusObserver,
+      private readonly rundownEntityService: RundownEntityService
   ) {
     this.subscribeToEvents()
   }
@@ -73,7 +75,8 @@ export class RundownStateService implements OnDestroy {
       if (!rundownSubject) {
         return
       }
-      rundownSubject.value.activate(event, event.timestamp)
+      const activeRundown: Rundown = this.rundownEntityService.activate(rundownSubject.value, event.timestamp)
+      rundownSubject.next(activeRundown)
   }
 
   private deactivateRundownFromEvent(event: RundownDeactivatedEvent): void {
@@ -81,7 +84,8 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    rundownSubject.value.deactivate(event.timestamp)
+    const inactiveRundown: Rundown = this.rundownEntityService.deactivate(rundownSubject.value, event.timestamp)
+    rundownSubject.next(inactiveRundown)
   }
 
   private resetRundownFromEvent(event: RundownResetEvent): void {
@@ -97,7 +101,9 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    rundownSubject.value.takeNext(event, event.timestamp)
+    const { timestamp, ...rundownCursor } = event
+    const progressedRundown: Rundown = this.rundownEntityService.takeNext(rundownSubject.value, rundownCursor, timestamp)
+    rundownSubject.next(progressedRundown)
   }
 
   private setNextPartInRundownFromEvent(event: PartSetAsNextEvent): void {
@@ -105,7 +111,8 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    rundownSubject.value.setNext(event)
+    const progressedRundown: Rundown = this.rundownEntityService.setNext(rundownSubject.value, event)
+    rundownSubject.next(progressedRundown)
   }
 
   private insertAdLibPieceInRundownFromEvent(event: RundownAdLibPieceInsertedEvent): void {
@@ -125,7 +132,8 @@ export class RundownStateService implements OnDestroy {
       return
     }
 
-    part.insertAdLibPiece(event.adLibPiece)
+    // TODO: Out-commented due to current changes in AdLib API. Wait until that is somewhat stable.
+    //part.insertAdLibPiece(event.adLibPiece)
   }
 
   private addInfinitePieceToRundownFromEvent(event: RundownInfinitePieceAddedEvent): void {
@@ -133,7 +141,8 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    rundownSubject.value.addInfinitePiece(event.infinitePiece)
+    // TODO: Out-commented due to current changes in AdLib API. Wait until that is somewhat stable.
+    //rundownSubject.value.addInfinitePiece(event.infinitePiece)
   }
 
   public async subscribeToRundown(rundownId: string, consumer: (rundown: Rundown) => void): Promise<SubscriptionLike> {

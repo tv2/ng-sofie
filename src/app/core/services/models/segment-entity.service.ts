@@ -1,5 +1,5 @@
-import { Segment } from '../../_models/segment'
-import { Part } from '../../_models/part'
+import { Segment } from '../../models/segment'
+import { Part } from '../../models/part'
 import { Injectable } from '@angular/core'
 import { PartEntityService } from './part-entity.service'
 

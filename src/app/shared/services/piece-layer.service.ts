@@ -1,10 +1,10 @@
 import { Piece } from '../../core/models/piece'
-import {Part} from "../../core/models/part";
+import { Part } from "../../core/models/part";
 import { PieceLayer } from '../enums/piece-layer'
 
 export class PieceLayerService {
     public getPieceLayersForParts(parts: Part[]): Set<PieceLayer> {
-        const pieces: Piece[] = parts.flatMap(part => part.pieces.concat(part.adLibPieces))
+        const pieces: Piece[] = parts.flatMap(part => part.pieces)
         const pieceLayers: PieceLayer[] = pieces.map(piece => this.getPieceLayer(piece))
         return new Set(pieceLayers)
     }
@@ -13,7 +13,6 @@ export class PieceLayerService {
     // TODO: This should not use source layer to determine piece layers.
     public getPieceLayer(piece: Piece): PieceLayer {
         if (piece.name.includes('CLEAR')) {
-            piece.name = 'CLEAR'
             return PieceLayer.SEC
         }
         if ([

@@ -1,6 +1,6 @@
 export interface BasicRundown {
-    id: string
-    name: string
-    isActive: boolean
-    modifiedAt: number
+  readonly id: string
+  readonly name: string
+  readonly isActive: boolean
+  readonly modifiedAt: number
 }

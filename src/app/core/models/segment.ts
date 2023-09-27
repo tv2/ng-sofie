@@ -1,59 +1,10 @@
-import { Part, PartInterface } from './part'
+import { Part } from './part'
 
-export interface SegmentInterface {
-  id: string
-  rundownId: string
-  name: string
-  isOnAir: boolean
-  isNext: boolean
-  parts: PartInterface[]
-}
-
-export class Segment {
-  id: string
-  rundownId: string
-  name: string
-  isOnAir: boolean
-  isNext: boolean
-  parts: Part[]
-
-  constructor(segment: SegmentInterface) {
-    this.id = segment.id
-    this.rundownId = segment.rundownId
-    this.name = segment.name
-    this.isOnAir = segment.isOnAir
-    this.isNext = segment.isNext
-    this.parts = segment.parts.map(part => new Part(part))
-  }
-
-  public putOnAir(partId: string, timestamp: number): void {
-    this.isOnAir = true
-    const part: Part | undefined = this.parts.find(part => part.id === partId)
-    if (!part) {
-      // Handle unable to activate
-      return
-    }
-    this.parts.find(part => part.isOnAir)?.takeOffAir(timestamp)
-    part.putOnAir(timestamp)
-  }
-
-  public takeOffAir(timestamp: number): void {
-    this.isOnAir = false
-    // TODO: Should we take all parts off air?
-    this.parts.find(part => part.isOnAir)?.takeOffAir(timestamp)
-  }
-
-  public removeAsNextSegment(): void {
-    this.isNext = false
-    this.parts.find(part => part.isNext)?.removeAsNextPart()
-  }
-
-  public setAsNextSegment(partId: string): void {
-    this.isNext = true
-    this.parts.find(part => part.id === partId)?.setAsNextPart()
-  }
-
-  public reset(): void {
-    this.parts.forEach(part => part.reset())
-  }
+export interface Segment {
+    readonly id: string
+    readonly rundownId: string
+    readonly name: string
+    readonly isOnAir: boolean
+    readonly isNext: boolean
+    readonly parts: Part[]
 }

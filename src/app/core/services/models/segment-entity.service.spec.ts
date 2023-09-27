@@ -1,9 +1,9 @@
 import { SegmentEntityService } from './segment-entity.service'
 import { TestEntityFactory } from './test-entity.factory'
-import { Segment } from '../../_models/segment'
+import { Segment } from '../../models/segment'
 import { PartEntityService } from './part-entity.service'
 import { instance, mock, verify } from '@typestrong/ts-mockito'
-import { Part } from '../../_models/part'
+import { Part } from '../../models/part'
 
 describe(SegmentEntityService.name, () => {
     describe(SegmentEntityService.prototype.putOnAir.name, () => {

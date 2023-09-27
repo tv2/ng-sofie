@@ -6,6 +6,7 @@ import { instance, mock, when } from '@typestrong/ts-mockito'
 import { Part } from '../../../core/models/part'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
+import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
 describe('PartComponent', () => {
   it('should create', async () => {
@@ -26,19 +27,20 @@ function getMockedPart(): Part {
   when(mockedPart.isOnAir).thenReturn(false)
   when(mockedPart.isNext).thenReturn(false)
   when(mockedPart.pieces).thenReturn([])
-  when(mockedPart.adLibPieces).thenReturn([])
   return mockedPart
 }
 
 async function configureTestBed(): Promise<void> {
   const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
   const mockedRundownService: RundownService = mock<RundownService>()
+  const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
   await TestBed.configureTestingModule({
     declarations: [PartComponent],
     imports: [BrowserAnimationsModule],
     providers: [
       { provide: PieceLayerService, useValue: instance(mockedPieceLayerService) },
       { provide: RundownService, useValue: instance(mockedRundownService) },
+      { provide: PartEntityService, useValue: instance(mockedPartEntityService) },
     ]
   }).compileComponents()
 }

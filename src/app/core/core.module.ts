@@ -21,6 +21,7 @@ import { RundownService } from './abstractions/rundown.service'
 import { RundownEntityService } from './services/models/rundown-entity.service'
 import { SegmentEntityService } from './services/models/segment-entity.service'
 import { PartEntityService } from './services/models/part-entity.service'
+import { BasicRundownEntityService } from './services/models/basic-rundown-entity.service'
 
 @NgModule({
   declarations: [],
@@ -43,6 +44,7 @@ import { PartEntityService } from './services/models/part-entity.service'
     { provide: RundownEventParser, useClass: ZodRundownEventParser },
     { provide: EntityParser, useClass: ZodEntityParser },
     RundownEntityService,
+    BasicRundownEntityService,
     SegmentEntityService,
     PartEntityService,
   ]

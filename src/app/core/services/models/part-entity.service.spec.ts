@@ -1,5 +1,5 @@
 import { PartEntityService } from './part-entity.service'
-import { Part } from '../../_models/part'
+import { Part } from '../../models/part'
 import { TestEntityFactory } from './test-entity.factory'
 
 describe(PartEntityService.name, () => {

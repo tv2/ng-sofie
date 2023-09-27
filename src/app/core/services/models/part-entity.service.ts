@@ -1,4 +1,4 @@
-import { Part } from '../../_models/part'
+import { Part } from '../../models/part'
 
 
 export class PartEntityService {

@@ -1,9 +1,11 @@
-import { Rundown } from '../../_models/rundown'
+import { Rundown } from '../../models/rundown'
 import { SegmentEntityService } from './segment-entity.service'
-import { Segment } from '../../_models/segment'
-import { Part } from '../../_models/part'
-import { RundownCursor } from '../../_models/rundown-cursor'
+import { Segment } from '../../models/segment'
+import { Part } from '../../models/part'
+import { RundownCursor } from '../../models/rundown-cursor'
+import { Injectable } from '@angular/core'
 
+@Injectable()
 export class RundownEntityService {
     constructor(private readonly segmentService: SegmentEntityService) {}
 
@@ -46,7 +48,7 @@ export class RundownEntityService {
             ...rundown,
             isActive: false,
             segments: this.takeAllSegmentsOffAir(rundown, deactivatedAt),
-            infinitePieces: {},
+            infinitePieces: [],
         }
     }
 
