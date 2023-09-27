@@ -1,0 +1,19 @@
+:host {
+  position: relative;
+  display: inline-block;
+}
+
+.c-segment-end-indicator {
+  &__end-indicator {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 10px;
+  }
+}
+
+:host.c-segment-end-indicator {
+  &--active path {
+    stroke: #00ac17;
+  }
+}

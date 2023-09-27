@@ -9,8 +9,10 @@ import {SharedModule} from '../shared/shared.module'
 import {RundownRoutesModule} from './rundown-routes.module';
 import { TimelineMarkersComponent } from './components/timeline-markers/timeline-markers.component';
 import { TimelinePlayheadComponent } from './components/timeline-playhead/timeline-playhead.component';
-import { TimelineNextIndicatorComponent } from './components/timeline-next-indicator/timeline-next-indicator.component';
-import { FullSegmentTimelineComponent } from './components/full-segment-timeline/full-segment-timeline.component'
+import { FullSegmentTimelineComponent } from './components/full-segment-timeline/full-segment-timeline.component';
+import { SegmentEndIndicatorComponent } from './components/segment-end-indicator/segment-end-indicator.component';
+import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.component';
+import { MatCardModule } from "@angular/material/card";
 import {EditorialLineComponent} from "./components/editorial-line/editorial-line.component";
 
 @NgModule({
@@ -23,9 +25,10 @@ import {EditorialLineComponent} from "./components/editorial-line/editorial-line
     AdLibPieceIdentifierComponent,
     TimelineMarkersComponent,
     TimelinePlayheadComponent,
-    TimelineNextIndicatorComponent,
     FullSegmentTimelineComponent,
     EditorialLineComponent,
+    SegmentEndIndicatorComponent,
+    TimelineFlagComponent,
   ],
   exports: [
     SegmentComponent
@@ -33,6 +36,7 @@ import {EditorialLineComponent} from "./components/editorial-line/editorial-line
   imports: [
     RundownRoutesModule,
     SharedModule,
+    MatCardModule,
   ]
 })
 export class RundownModule { }
