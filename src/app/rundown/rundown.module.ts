@@ -13,6 +13,7 @@ import { FullSegmentTimelineComponent } from './components/full-segment-timeline
 import { SegmentEndIndicatorComponent } from './components/segment-end-indicator/segment-end-indicator.component';
 import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.component';
 import { FollowPlayheadTimelineComponent } from './components/follow-playhead-timeline/follow-playhead-timeline.component';
+import { MatCardModule } from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { FollowPlayheadTimelineComponent } from './components/follow-playhead-ti
   imports: [
     RundownRoutesModule,
     SharedModule,
+    MatCardModule,
   ]
 })
 export class RundownModule { }

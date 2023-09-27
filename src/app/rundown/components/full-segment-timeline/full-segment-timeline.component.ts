@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core'
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { RundownCursor } from '../../../core/models/rundown-cursor'
@@ -12,6 +7,7 @@ import { RundownCursor } from '../../../core/models/rundown-cursor'
   selector: 'sofie-full-segment-timeline',
   templateUrl: './full-segment-timeline.component.html',
   styleUrls: ['./full-segment-timeline.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FullSegmentTimelineComponent {
   @Input()
