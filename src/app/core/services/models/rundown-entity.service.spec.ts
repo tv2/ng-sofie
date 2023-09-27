@@ -19,6 +19,7 @@ describe(RundownEntityService.name, () => {
             ]
             const rundown: Rundown = testEntityFactory.createRundown({ segments })
             const mockedSegmentService = mock<SegmentEntityService>()
+            when(mockedSegmentService.reset(anything())).thenCall(segment => segment)
             const testee: RundownEntityService = createTestee(instance(mockedSegmentService))
 
             testee.activate(rundown, Date.now())
@@ -45,6 +46,7 @@ describe(RundownEntityService.name, () => {
             const firstSegment: Segment = testEntityFactory.createSegment({ id: firstSegmentId, parts: [firstPart] })
             const rundown: Rundown = testEntityFactory.createRundown({ segments: [firstSegment] })
             const mockedSegmentService = mock<SegmentEntityService>()
+            when(mockedSegmentService.reset(anything())).thenCall(segment => segment)
             const testee: RundownEntityService = createTestee(instance(mockedSegmentService))
             const activatedAt: number = Date.now()
 
