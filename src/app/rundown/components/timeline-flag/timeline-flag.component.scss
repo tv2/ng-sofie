@@ -74,7 +74,7 @@
 
 :host.c-timeline-flag--dimmed {
   border-top-left-radius: 0;
-  transition: all 0;
+  transition: all 0s;
 
   .c-timeline-flag {
     &__label {
