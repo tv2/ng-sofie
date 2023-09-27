@@ -8,11 +8,16 @@ import {Rundown} from "../core/models/rundown";
 })
 export class RundownViewHeaderComponent implements OnInit {
   @Input()
-  public rundownName: string
+  public rundown?: Rundown
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  public getShortenedRundownName(name: string): string {
+    const rundownPathStrings: string[] = name.split('.')
+    return rundownPathStrings[rundownPathStrings.length - 1]
   }
 
 }

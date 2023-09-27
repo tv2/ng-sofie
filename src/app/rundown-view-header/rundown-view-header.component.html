@@ -1,28 +1,27 @@
-<div class="c-header">
+<div class="c-header" [class.c-header--active]="rundown?.isActive">
     <div class="c-information-row">
+
         <div class="c-information-row-left">
             <img class="c-information-row-left__logo" src="assets/sofie-logo.svg" style="width: 32px;" routerLink="/rundowns">
-            <div class="c-information-row-left__card">
-                <h4>{{rundownName.split('.')[2]}}</h4>
-                <span>{{rundownName}}</span>
+            <div class="c-information-row-left__rundown-name">
+                <h4>{{this.getShortenedRundownName(rundown?.name ?? '')}}</h4>
             </div>
         </div>
 
-
         <div class="c-information-row-right">
-            <div class="c-information-row-right__card">
-                <h4>Show Style Variant</h4>
-                <span>variant here</span>
+            <div class="c-information-row-right__panel-card">
+                <span>Variant</span>
+                <p>Variant name here</p>
             </div>
 
-            <div class="c-information-row-right__card">
-                <h4>Schema</h4>
-                <span>schema here</span>
+            <div class="c-information-row-right__panel-card">
+                <span>Schema</span>
+                <p>Schema name here</p>
             </div>
 
-            <div class="c-information-row-right__card">
-                <h4>Design</h4>
-                <span>design here</span>
+            <div class="c-information-row-right__panel-card">
+                <span>Design</span>
+                <p>Design name here</p>
             </div>
 
             <a class="c-information-row-right__exit" title="Exit" routerLink="/rundowns">
