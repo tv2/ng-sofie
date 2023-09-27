@@ -57,15 +57,15 @@ export class RundownEntityService {
     }
 
     public takeNext(rundown: Rundown, rundownCursor: RundownCursor, putOnAirAt: number): Rundown {
-        const segmentsPossiblyWithoutSegmentOnAir: Segment[] = this.takeOnAirSegmentOffAirIfNotSetAsNext(rundown.segments, rundownCursor.segmentId, putOnAirAt)
+        const segmentsPossiblyWithoutSegmentOnAir: Segment[] = this.takeOnAirSegmentsOffAir(rundown.segments, putOnAirAt)
         return {
             ...rundown,
             segments: this.putSegmentOnAir(segmentsPossiblyWithoutSegmentOnAir, rundownCursor, putOnAirAt)
         }
     }
 
-    private takeOnAirSegmentOffAirIfNotSetAsNext(segments: Segment[], nextSegmentId: string, takenOffAirAt: number): Segment[] {
-        return segments.map(segment => segment.isOnAir && segment.id !== nextSegmentId ? this.segmentService.takeOffAir(segment, takenOffAirAt) : segment)
+    private takeOnAirSegmentsOffAir(segments: Segment[], takenOffAirAt: number): Segment[] {
+        return segments.map(segment => segment.isOnAir ? this.segmentService.takeOffAir(segment, takenOffAirAt) : segment)
     }
 
     private putSegmentOnAir(segments: Segment[], rundownCursor: RundownCursor, takenAt: number): Segment[] {
