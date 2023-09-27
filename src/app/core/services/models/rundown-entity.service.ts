@@ -47,7 +47,7 @@ export class RundownEntityService {
         return {
             ...rundown,
             isActive: false,
-            segments: this.takeAllSegmentsOffAir(rundown, deactivatedAt),
+            segments: this.unmarkSegmentsSetAsNext(this.takeAllSegmentsOffAir(rundown, deactivatedAt)),
             infinitePieces: [],
         }
     }
