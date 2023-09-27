@@ -5,9 +5,9 @@
 
 <div class="parts">
     <sofie-offsetable-part
-            style="background-color: blue;"
             *ngFor="let previousPart of previousParts"
             [part]="previousPart"
+            [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="getPreviousPartOffsetInMs(previousPart)"
             [minimumDisplayDurationInMs]="0"
@@ -16,6 +16,7 @@
     <sofie-offsetable-part
             *ngIf="onAirPart"
             [part]="onAirPart"
+            [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="getOnAirPartOffsetInMs()"
             [minimumDisplayDurationInMs]="playheadInAnimationDurationInMs + postPlayheadDurationInMs"
@@ -24,10 +25,15 @@
     <sofie-offsetable-part
             *ngFor="let futurePart of futureParts"
             [part]="futurePart"
+            [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="0"
             [minimumDisplayDurationInMs]="3000"
     ></sofie-offsetable-part>
+
+    <sofie-segment-end-indicator
+            [lastPartInSegment]="segment.parts[segment.parts.length - 1]"
+    ></sofie-segment-end-indicator>
 </div>
 
 <sofie-timeline-playhead

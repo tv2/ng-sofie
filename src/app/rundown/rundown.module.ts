@@ -15,6 +15,7 @@ import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.
 import { FollowPlayheadTimelineComponent } from './components/follow-playhead-timeline/follow-playhead-timeline.component';
 import { MatCardModule } from "@angular/material/card";
 import { OffsetablePartComponent } from './components/offsetable-part/offsetable-part.component'
+import { PieceGrouper } from './services/piece-grouper.service'
 
 @NgModule({
   declarations: [
@@ -39,6 +40,9 @@ import { OffsetablePartComponent } from './components/offsetable-part/offsetable
     RundownRoutesModule,
     SharedModule,
     MatCardModule,
+  ],
+  providers: [
+    PieceGrouper,
   ]
 })
 export class RundownModule { }

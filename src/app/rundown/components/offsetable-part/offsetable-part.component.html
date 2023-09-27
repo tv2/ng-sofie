@@ -1,0 +1,17 @@
+<div class="full-part">
+    <div class="piece-layers">
+        <div
+            *ngFor="let pieceLayer of pieceLayers"
+            class="piece-layer"
+        >
+            <sofie-piece
+                    *ngFor="let piece of piecesGroupedByPieceLayer[pieceLayer]; trackBy: trackPiece"
+                    [piece]="piece"
+                    [pixelsPerSecond]="pixelsPerSecond"
+                    [partDuration]="partDurationInMs"
+                    [expectedPartDuration]="4000"
+            ></sofie-piece>
+        </div>
+    </div>
+</div>
+<sofie-timeline-flag [label]="part.isNext ? 'NEXT' : undefined" [turnedOn]="part.isNext"></sofie-timeline-flag>

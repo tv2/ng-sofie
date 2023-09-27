@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core'
 import { Part } from '../../../core/models/part'
 import { Segment } from '../../../core/models/segment'
+import { PieceLayer } from '../../../shared/enums/piece-layer'
 
 @Component({
   selector: 'sofie-follow-playhead-timeline',
@@ -14,6 +15,9 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
 
   @Input()
   public segment: Segment
+
+  @Input()
+  public pieceLayers: PieceLayer[]
 
   public readonly pixelsPerSecond: number = 60
 

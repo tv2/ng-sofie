@@ -3,7 +3,19 @@
   display: inline-block;
   overflow: visible;
 
-  background-color: red;
-  border-right: 2px solid yellow;
-  height: 24px;
+  .full-part {
+    .piece-layers {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      .piece-layer {
+        display: flex;
+        margin-bottom: 2px;
+        height: 22px;
+        position: relative;
+        background-color: rgba(26,26,26, .8);
+      }
+    }
+  }
 }
