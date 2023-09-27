@@ -102,7 +102,7 @@ describe(RundownEntityService.name, () => {
 
     describe(RundownEntityService.prototype.takeNext.name, () => {
         describe('when given a rundown cursor that points to an already on-air segment', () => {
-            it('does not take off-air the segment', () => {
+            it('marks the segment as off-air', () => {
                 const rundownCursor: RundownCursor = {
                     segmentId: 'segment-id',
                     partId: 'part-id',
@@ -111,12 +111,13 @@ describe(RundownEntityService.name, () => {
                 const segment: Segment = testEntityFactory.createSegment({ id: rundownCursor.segmentId, isOnAir: true, isNext: true })
                 const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments: [segment] })
                 const mockedSegmentService: SegmentEntityService = mock<SegmentEntityService>()
+                when(mockedSegmentService.takeOffAir(anything(), anyNumber())).thenCall(segment => segment)
                 const testee: RundownEntityService = createTestee(instance(mockedSegmentService))
                 const takenAt: number = Date.now()
 
                 testee.takeNext(rundown, rundownCursor, takenAt)
 
-                verify(mockedSegmentService.takeOffAir(segment, takenAt)).never()
+                verify(mockedSegmentService.takeOffAir(segment, takenAt)).once()
             })
 
             it('puts segment on-air', () => {
@@ -128,6 +129,7 @@ describe(RundownEntityService.name, () => {
                 const segment: Segment = testEntityFactory.createSegment({ id: rundownCursor.segmentId, isOnAir: true, isNext: true })
                 const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments: [segment] })
                 const mockedSegmentService: SegmentEntityService = mock<SegmentEntityService>()
+                when(mockedSegmentService.takeOffAir(anything(), anyNumber())).thenCall(segment => segment)
                 const testee: RundownEntityService = createTestee(instance(mockedSegmentService))
                 const takenAt: number = Date.now()
 
