@@ -6,6 +6,7 @@ import {Rundown} from '../../../core/models/rundown';
 import {Identifier} from '../../../core/models/identifier';
 import { RundownStateService } from '../../../core/services/rundown-state.service';
 import { SubscriptionLike } from 'rxjs'
+import { Segment } from '../../../core/models/segment'
 
 @Component({
   selector: 'sofie-rundown',
@@ -73,5 +74,9 @@ export class RundownComponent implements OnInit, OnDestroy {
       return
     }
     this.rundownService.takeNext(this.rundown.id).subscribe()
+  }
+
+  public trackSegment(_: number, segment: Segment): string {
+    return segment.id
   }
 }
