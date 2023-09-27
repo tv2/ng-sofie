@@ -11,6 +11,7 @@ import { TimelineMarkersComponent } from './components/timeline-markers/timeline
 import { TimelinePlayheadComponent } from './components/timeline-playhead/timeline-playhead.component';
 import { TimelineNextIndicatorComponent } from './components/timeline-next-indicator/timeline-next-indicator.component';
 import { FullSegmentTimelineComponent } from './components/full-segment-timeline/full-segment-timeline.component'
+import {EditorialLineComponent} from "./components/editorial-line/editorial-line.component";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { FullSegmentTimelineComponent } from './components/full-segment-timeline
     TimelinePlayheadComponent,
     TimelineNextIndicatorComponent,
     FullSegmentTimelineComponent,
+    EditorialLineComponent,
   ],
   exports: [
     SegmentComponent

@@ -18,10 +18,11 @@ import { PieceLayerService } from './services/piece-layer.service'
 
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    ConfirmationDialogComponent,
-  ],
+    declarations: [
+     HeaderComponent,
+     ConfirmationDialogComponent,
+     TimestampPipe,
+    ],
   imports: [
     CommonModule,
     MatSnackBarModule,
@@ -34,10 +35,11 @@ import { PieceLayerService } from './services/piece-layer.service'
     MatListModule,
     MatDialogModule,
   ],
-  exports: [
-    CommonModule,
-    HeaderComponent
-  ],
+    exports: [
+     CommonModule,
+     HeaderComponent,
+     TimestampPipe
+    ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000, verticalPosition: 'top'}},
     DialogService,

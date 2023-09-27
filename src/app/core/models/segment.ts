@@ -7,6 +7,7 @@ export interface SegmentInterface {
   isOnAir: boolean
   isNext: boolean
   parts: PartInterface[]
+  budgetDuration?: number
 }
 
 export class Segment {
@@ -16,6 +17,7 @@ export class Segment {
   isOnAir: boolean
   isNext: boolean
   parts: Part[]
+  budgetDuration?: number
 
   constructor(segment: SegmentInterface) {
     this.id = segment.id
@@ -24,6 +26,7 @@ export class Segment {
     this.isOnAir = segment.isOnAir
     this.isNext = segment.isNext
     this.parts = segment.parts.map(part => new Part(part))
+    this.budgetDuration = segment.budgetDuration
   }
 
   public putOnAir(partId: string, timestamp: number): void {

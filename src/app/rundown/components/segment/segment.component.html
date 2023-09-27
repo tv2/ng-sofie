@@ -2,7 +2,7 @@
   <div class="c-segment__header">
     <div class="c-segment__header-toolbar">
       <span>123</span>
-      <span style="margin-left: 50px;">00:30</span>
+      <span style="margin-left: 50px;" *ngIf="segment.budgetDuration !== undefined">{{segment.budgetDuration / 1000 | timestamp}}</span>
     </div>
     <div class="c-segment__title">
       {{ segment.name }}
