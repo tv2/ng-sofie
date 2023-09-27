@@ -86,7 +86,7 @@ describe(Part.name, () => {
                 describe('part has no expected duration', () => {
                     describe('default part duration is longer than the time since part was taken', () => {
                         it('returns the default part duration', () => {
-                            const playedDuration: number = 3000
+                            const playedDuration: number = DEFAULT_PART_DURATION_IN_MS / 2
                             const testee = createPart({
                                 isOnAir: true,
                                 executedAt: Date.now()
@@ -101,7 +101,7 @@ describe(Part.name, () => {
 
                     describe('default part duration is shorter than the time since part was taken', () => {
                         it('returns the time since part was taken', () => {
-                            const playedDuration: number = 5000
+                            const playedDuration: number = DEFAULT_PART_DURATION_IN_MS + 5000
                             const testee = createPart({
                                 isOnAir: true,
                                 executedAt: Date.now()
