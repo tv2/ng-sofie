@@ -1,15 +1,14 @@
 import {
   Component,
-  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
-  Output, SimpleChange,
+  SimpleChange,
   SimpleChanges
 } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
-import {PieceLayerService} from "../../../shared/services/piece-layer.service";
+import { PieceLayerService } from "../../../shared/services/piece-layer.service";
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import {RundownService} from "../../../core/abstractions/rundown.service";
 
