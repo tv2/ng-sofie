@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, } from
 import { Segment } from '../../../core/models/segment'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { RundownCursor } from '../../../core/models/rundown-cursor'
+import { Part } from '../../../core/models/part'
 
 @Component({
   selector: 'sofie-full-segment-timeline',
@@ -23,4 +24,8 @@ export class FullSegmentTimelineComponent {
   public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
 
   public pixelsPerSecond: number = 60
+
+  public trackPart(_: number, part: Part): string {
+    return part.id
+  }
 }

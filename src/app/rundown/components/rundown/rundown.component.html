@@ -19,7 +19,7 @@
     </div>
     <div class="segments">
       <sofie-segment
-        *ngFor="let segment of rundown?.segments"
+        *ngFor="let segment of rundown?.segments; trackBy: trackSegment"
         [segment]="segment"
       ></sofie-segment>
     </div>

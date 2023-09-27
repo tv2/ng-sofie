@@ -5,7 +5,7 @@
 ></sofie-timeline-markers>
 <div class="c-full-segment-timeline__parts">
     <sofie-part
-            *ngFor="let part of segment.parts"
+            *ngFor="let part of segment.parts; trackBy: trackPart"
             [rundownId]="segment.rundownId"
             [part]="part"
             [pieceLayers]="pieceLayers"
