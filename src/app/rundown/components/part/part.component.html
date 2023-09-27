@@ -8,5 +8,5 @@
       <sofie-piece *ngFor="let piece of pieces" [expectedPartDuration]="part.expectedDuration ? part.expectedDuration : DEFAULT_PART_DURATION_IN_MS" [partDuration]="duration" [piece]="piece" [pixelsPerSecond]="pixelsPerSecond"></sofie-piece>
     </div>
   </div>
-  <sofie-timeline-next-indicator [part]="part"></sofie-timeline-next-indicator>
+  <sofie-timeline-flag [label]="part.isNext ? 'NEXT' : undefined" [turnedOn]="part.isNext"></sofie-timeline-flag>
 </div>
