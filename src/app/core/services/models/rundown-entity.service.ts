@@ -14,7 +14,7 @@ export class RundownEntityService {
         return {
             ...resetRundown,
             isActive: true,
-            segments: this.putFirstSegmentOnAir(rundown, activatedAt)
+            segments: this.putFirstSegmentOnAir(resetRundown, activatedAt)
         }
     }
 
