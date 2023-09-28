@@ -1,14 +1,15 @@
- <sofie-rundown-view-header class="c-rundown-header" [rundown]="rundown"></sofie-rundown-view-header>
- <div>
-   <button mat-raised-button *ngIf="!rundown?.isActive; else activeRundownButtons"  color="primary" style="margin-left: 20px" (click)="activateRundown()">Activate Rundown</button>
-   <ng-template #activeRundownButtons>
-     <button mat-raised-button color="primary" style="margin-left: 20px" (click)="takeNext()">Take Next</button>
-     <button mat-raised-button color="basic" style="margin-left: 2px" (click)="resetRundown()">Reset Rundown</button>
-     <button mat-raised-button color="warn" style="margin-left: 2px" (click)="deactivateRundown()">Deactivate Rundown</button>
-   </ng-template>
- </div>
+<sofie-rundown-view-header class="c-rundown-header" [rundown]="rundown"></sofie-rundown-view-header>
 
-  <div class="c-rundown">
+<div style="padding-bottom: 5px">
+    <button mat-raised-button *ngIf="!rundown?.isActive; else activeRundownButtons"  color="primary" style="margin-left: 20px" (click)="activateRundown()">Activate Rundown</button>
+    <ng-template #activeRundownButtons>
+         <button mat-raised-button color="primary" style="margin-left: 20px" (click)="takeNext()">Take Next</button>
+         <button mat-raised-button color="basic" style="margin-left: 2px" (click)="resetRundown()">Reset Rundown</button>
+         <button mat-raised-button color="warn" style="margin-left: 2px" (click)="deactivateRundown()">Deactivate Rundown</button>
+    </ng-template>
+</div>
+
+<div class="c-rundown">
     <div>
       <div class="c-rundown__segments">
         <sofie-segment
@@ -17,5 +18,4 @@
           [isOnAir]="segment.isOnAir"
         ></sofie-segment>
       </div>
-    </div>
-  </div>
+</div>
