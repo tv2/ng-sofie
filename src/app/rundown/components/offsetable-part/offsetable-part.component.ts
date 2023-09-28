@@ -39,10 +39,16 @@ export class OffsetablePartComponent implements OnChanges {
   ) {}
 
   @HostBinding('style.width.px')
-  public get hostWidthInPixels(): number {
-    const realDurationInMs: number = Math.max(0, this.partDurationInMs() - Math.max(0, this.offsetDurationInMs))
-    const displayDurationInMs: number = this.part.autoNext ? realDurationInMs : Math.max(realDurationInMs, this.prePlayheadDurationInMs + this.postPlayheadDurationInMs)
-    return this.pixelsPerSecond * displayDurationInMs / 1000
+  public get displayDurationInPixels(): number {
+    return this.pixelsPerSecond * this.getDisplayDurationInMs() / 1000
+  }
+
+  public getDisplayDurationInMs(): number {
+    const visibleDurationInMs: number = Math.max(0, this.partDurationInMs() - Math.max(0, this.offsetDurationInMs))
+    if (this.part.autoNext) {
+      return visibleDurationInMs
+    }
+    return Math.max(visibleDurationInMs, this.prePlayheadDurationInMs + this.postPlayheadDurationInMs)
   }
 
   public get playedDurationInMs(): number {
