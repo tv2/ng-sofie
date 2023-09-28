@@ -16,6 +16,7 @@ import { FollowPlayheadTimelineComponent } from './components/follow-playhead-ti
 import { MatCardModule } from "@angular/material/card";
 import { OffsetablePartComponent } from './components/offsetable-part/offsetable-part.component'
 import { PieceGrouper } from './services/piece-grouper.service'
+import { OffsetablePieceComponent } from './components/offsetable-piece/offsetable-piece.component'
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { PieceGrouper } from './services/piece-grouper.service'
     SegmentEndIndicatorComponent,
     TimelineFlagComponent,
     FollowPlayheadTimelineComponent,
-    OffsetablePartComponent
+    OffsetablePartComponent,
+    OffsetablePieceComponent,
   ],
   exports: [
     SegmentComponent

@@ -28,6 +28,9 @@ export class OffsetablePartComponent implements OnChanges {
   @Input()
   public minimumDisplayDurationInMs: number = 0
 
+  @Input()
+  public prePlayheadDurationInMs: number = 0
+
   public piecesGroupedByPieceLayer: Record<PieceLayer, Piece[]> = {} as Record<PieceLayer, Piece[]>
 
   public constructor(
@@ -37,8 +40,16 @@ export class OffsetablePartComponent implements OnChanges {
 
   @HostBinding('style.width.px')
   public get hostWidthInPixels(): number {
-    const displayDurationInMs: number = Math.max(this.partDurationInMs - this.offsetDurationInMs, this.minimumDisplayDurationInMs)
+    const realDurationInMs: number = Math.max(0, this.partDurationInMs - Math.max(0, this.offsetDurationInMs))
+    const displayDurationInMs: number = this.part.autoNext ? realDurationInMs : Math.max(realDurationInMs, this.minimumDisplayDurationInMs)
     return this.pixelsPerSecond * displayDurationInMs / 1000
+  }
+
+  public get playedDurationInMs(): number {
+    if (!this.part.isOnAir) {
+      return 0
+    }
+    return Date.now() - this.part.executedAt
   }
 
   public get partDurationInMs(): number {

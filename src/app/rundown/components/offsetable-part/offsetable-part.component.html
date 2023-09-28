@@ -1,16 +1,20 @@
-<div class="full-part">
+<div
+    class="full-part"
+    [style.width.px]="pixelsPerSecond * partDurationInMs / 1000"
+>
     <div class="piece-layers">
         <div
             *ngFor="let pieceLayer of pieceLayers"
             class="piece-layer"
         >
-            <sofie-piece
+            <sofie-offsetable-piece
                     *ngFor="let piece of piecesGroupedByPieceLayer[pieceLayer]; trackBy: trackPiece"
                     [piece]="piece"
                     [pixelsPerSecond]="pixelsPerSecond"
                     [partDuration]="partDurationInMs"
-                    [expectedPartDuration]="4000"
-            ></sofie-piece>
+                    [playedDurationForPartInMs]="playedDurationInMs"
+                    [prePlayheadDurationInMs]="prePlayheadDurationInMs"
+            ></sofie-offsetable-piece>
         </div>
     </div>
 </div>

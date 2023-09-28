@@ -1,7 +1,8 @@
 :host.offsetable-part {
   position: relative;
   display: inline-block;
-  overflow: visible;
+  overflow-y: visible;
+  overflow-x: clip;
 
   .full-part {
     .piece-layers {
