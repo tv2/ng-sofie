@@ -4,7 +4,6 @@ import { RundownComponent } from './rundown.component';
 import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockito'
 import { ActivatedRoute, ActivatedRouteSnapshot, convertToParamMap, ParamMap, RouterModule } from '@angular/router'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
-import { AdLibPieceService } from '../../../core/abstractions/ad-lib-piece.service'
 import { of, Subscription } from 'rxjs'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 
@@ -15,10 +14,9 @@ describe('RundownComponent', () => {
   })
 })
 
-async function configureTestBed(params: { mockedRundownService?: RundownService, mockedRundownStateService?: RundownStateService, mockedAdLibPieceService?: AdLibPieceService } = {}): Promise<RundownComponent> {
+async function configureTestBed(params: { mockedRundownService?: RundownService, mockedRundownStateService?: RundownStateService } = {}): Promise<RundownComponent> {
   const mockedRundownService = params.mockedRundownService ?? mock<RundownService>()
   const mockedRundownStateService = params.mockedRundownStateService ?? createMockOfRundownStateService()
-  const mockedAdLibPieceService = params.mockedAdLibPieceService ?? createMockOfAdLibPieceService()
   await TestBed
       .configureTestingModule({
         imports: [RouterModule.forRoot([])],
@@ -26,7 +24,6 @@ async function configureTestBed(params: { mockedRundownService?: RundownService,
           { provide: ActivatedRoute, useValue: instance(createMockOfActivatedRoute()) },
           { provide: RundownService, useValue: instance(mockedRundownService) },
           { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
-          { provide: AdLibPieceService, useValue: instance(mockedAdLibPieceService) },
         ],
         declarations: [RundownComponent]
       })
@@ -43,12 +40,6 @@ function createMockOfRundownStateService(): RundownStateService {
     const mockedSubscription = mock<Subscription>()
     when(mockedRundownStateService.subscribeToRundown(anyString(), anything())).thenResolve(instance(mockedSubscription))
     return mockedRundownStateService
-}
-
-function createMockOfAdLibPieceService(): AdLibPieceService {
-    const mockedAdLibPieceService = mock<AdLibPieceService>()
-    when(mockedAdLibPieceService.fetchAdLibPieceIdentifiers(anyString())).thenReturn(of([]))
-    return mockedAdLibPieceService
 }
 
 function createMockOfActivatedRoute(params: { paramMap?: ParamMap } = {}): ActivatedRoute {

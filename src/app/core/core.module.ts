@@ -5,8 +5,6 @@ import { HttpErrorService } from './services/http-error.service'
 import { HttpClientModule } from '@angular/common/http'
 import { HttpBasicRundownService } from './services/http-basic-rundown.service'
 import { HttpRundownService } from './services/http-rundown.service'
-import { AdLibPieceService } from './abstractions/ad-lib-piece.service'
-import { HttpAdLibPieceService } from './services/http-ad-lib-piece.service'
 import { ConnectionStatusObserver } from './services/connection-status-observer.service'
 import { RundownEventObserver } from './services/rundown-event-observer.service'
 import { RundownStateService } from './services/rundown-state.service'
@@ -35,7 +33,6 @@ import { BasicRundownEntityService } from './services/models/basic-rundown-entit
     HttpClientModule,
     HttpBasicRundownService,
     { provide: RundownService, useClass: HttpRundownService },
-    { provide: AdLibPieceService, useClass: HttpAdLibPieceService },
     ConnectionStatusObserver,
     RundownEventObserver,
     { provide: BasicRundownService, useClass: HttpBasicRundownService },
