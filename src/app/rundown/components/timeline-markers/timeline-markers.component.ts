@@ -176,6 +176,8 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
           this.draw()
         })
     this.initializeCanvasContext()
+    this.setCanvasSize()
+    this.draw()
     this.resizeSubject.next()
   }
 
