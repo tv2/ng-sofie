@@ -33,7 +33,6 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   @Input()
   public pieceLayers: PieceLayer[]
 
-
   @Output()
   public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
 
