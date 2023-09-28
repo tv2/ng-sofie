@@ -7,7 +7,7 @@ import { Part } from '../../../core/models/part'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
-import { PieceGrouper } from '../../services/piece-grouper.service'
+import { PieceGroupService } from '../../services/piece-group.service'
 
 describe(OffsetablePartComponent.name, () => {
   it('should create', async () => {
@@ -35,7 +35,7 @@ async function configureTestBed(): Promise<void> {
   const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
   const mockedRundownService: RundownService = mock<RundownService>()
   const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
-  const mockedPieceGrouper: PieceGrouper = mock<PieceGrouper>()
+  const mockedPieceGroupService: PieceGroupService = mock<PieceGroupService>()
   await TestBed.configureTestingModule({
     declarations: [OffsetablePartComponent],
     imports: [BrowserAnimationsModule],
@@ -43,7 +43,7 @@ async function configureTestBed(): Promise<void> {
       { provide: PieceLayerService, useValue: instance(mockedPieceLayerService) },
       { provide: RundownService, useValue: instance(mockedRundownService) },
       { provide: PartEntityService, useValue: instance(mockedPartEntityService) },
-      { provide: PieceGrouper, useValue: instance(mockedPieceGrouper) },
+      { provide: PieceGroupService, useValue: instance(mockedPieceGroupService) },
     ]
   }).compileComponents()
 }

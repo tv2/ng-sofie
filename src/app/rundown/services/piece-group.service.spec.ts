@@ -1,14 +1,14 @@
-import { PieceGrouper } from './piece-grouper.service'
+import { PieceGroupService } from './piece-group.service'
 import { PieceLayerService } from '../../shared/services/piece-layer.service'
 import { anything, instance, mock, when } from '@typestrong/ts-mockito'
 import { PieceLayer } from '../../shared/enums/piece-layer'
 import { Piece } from '../../core/models/piece'
 import { TestEntityFactory } from '../../core/services/models/test-entity.factory'
 
-describe(PieceGrouper.name, () => {
-    describe(PieceGrouper.prototype.groupByPieceLayer.name, () => {
+describe(PieceGroupService.name, () => {
+    describe(PieceGroupService.prototype.groupByPieceLayer.name, () => {
         it('returns no layers when no layers are given', () => {
-            const testee: PieceGrouper = createTestee()
+            const testee: PieceGroupService = createTestee()
             const pieces: Piece[] = []
 
             const result: Record<PieceLayer, Piece[]> = testee.groupByPieceLayer(pieces)
@@ -23,7 +23,7 @@ describe(PieceGrouper.name, () => {
             ]
             const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
             when(mockedPieceLayerService.getPieceLayer(anything())).thenReturn(PieceLayer.PGM)
-            const testee: PieceGrouper = createTestee(instance(mockedPieceLayerService))
+            const testee: PieceGroupService = createTestee(instance(mockedPieceLayerService))
 
             const result: Record<PieceLayer, Piece[]> = testee.groupByPieceLayer(pieces)
 
@@ -38,7 +38,7 @@ describe(PieceGrouper.name, () => {
             ]
             const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
             when(mockedPieceLayerService.getPieceLayer(anything())).thenReturn(PieceLayer.PGM)
-            const testee: PieceGrouper = createTestee(instance(mockedPieceLayerService))
+            const testee: PieceGroupService = createTestee(instance(mockedPieceLayerService))
 
             const result: Record<PieceLayer, Piece[]> = testee.groupByPieceLayer(pieces)
 
@@ -53,7 +53,7 @@ describe(PieceGrouper.name, () => {
             ]
             const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
             when(mockedPieceLayerService.getPieceLayer(anything())).thenReturn(PieceLayer.PGM, PieceLayer.OVERLAY)
-            const testee: PieceGrouper = createTestee(instance(mockedPieceLayerService))
+            const testee: PieceGroupService = createTestee(instance(mockedPieceLayerService))
 
             const result: Record<PieceLayer, Piece[]> = testee.groupByPieceLayer(pieces)
 
@@ -63,7 +63,7 @@ describe(PieceGrouper.name, () => {
     })
 })
 
-function createTestee(maybePieceLayerService?: PieceLayerService): PieceGrouper {
+function createTestee(maybePieceLayerService?: PieceLayerService): PieceGroupService {
     const pieceLayerService: PieceLayerService = maybePieceLayerService ?? instance(mock<PieceLayerService>())
-    return new PieceGrouper(pieceLayerService)
+    return new PieceGroupService(pieceLayerService)
 }

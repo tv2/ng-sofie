@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Part } from '../../../core/models/part'
-import { PieceGrouper } from '../../services/piece-grouper.service'
+import { PieceGroupService } from '../../services/piece-group.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { Piece } from '../../../core/models/piece'
 
@@ -37,7 +37,7 @@ export class OffsetablePartComponent implements OnChanges {
 
   public constructor(
       private readonly partEntityService: PartEntityService,
-      private readonly pieceGrouper: PieceGrouper
+      private readonly pieceGroupService: PieceGroupService
   ) {}
 
   @HostBinding('style.width.px')
@@ -66,7 +66,7 @@ export class OffsetablePartComponent implements OnChanges {
 
   public ngOnChanges(): void {
     const visiblePieces: Piece[] = this.getVisiblePieces()
-    this.piecesGroupedByPieceLayer = this.pieceGrouper.groupByPieceLayer(visiblePieces)
+    this.piecesGroupedByPieceLayer = this.pieceGroupService.groupByPieceLayer(visiblePieces)
   }
 
   private getVisiblePieces(): Piece[] {

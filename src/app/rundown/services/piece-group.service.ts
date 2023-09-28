@@ -4,7 +4,7 @@ import { PieceLayerService } from '../../shared/services/piece-layer.service'
 import { Injectable } from '@angular/core'
 
 @Injectable()
-export class PieceGrouper {
+export class PieceGroupService {
     constructor(private readonly pieceLayerService: PieceLayerService) {}
 
     public groupByPieceLayer(pieces: Piece[]): Record<PieceLayer, Piece[]> {
