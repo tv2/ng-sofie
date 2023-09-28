@@ -6,7 +6,7 @@ import {
   Input, OnChanges, SimpleChange, SimpleChanges,
   ViewChild
 } from '@angular/core'
-import { TimestampPipe } from "../../../shared/pipes/timestamp.pipe"
+import { MillisecondsAsTimePipe } from "../../../shared/pipes/timestamp.pipe"
 
 interface Point {
   x: number,
@@ -44,7 +44,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   private secondsPerSection: number = 5
   private subsectionsPerSection: number = 5
 
-  public constructor(private readonly timestampPipe: TimestampPipe) {}
+  public constructor(private readonly timestampPipe: MillisecondsAsTimePipe) {}
 
   @HostListener('window:resize', ['$event'])
   public onResize(): void {

@@ -1,14 +1,14 @@
-import { TimestampPipe } from './timestamp.pipe'
+import { MillisecondsAsTimePipe } from './timestamp.pipe'
 
 describe('TimestampPipe', () => {
     it('create an instance', () => {
-        const testee: TimestampPipe = new TimestampPipe()
+        const testee: MillisecondsAsTimePipe = new MillisecondsAsTimePipe()
         expect(testee).toBeTruthy()
     })
 
     describe('formats duration', () => {
         it('of 0 seconds', () => {
-            const testee: TimestampPipe = new TimestampPipe()
+            const testee: MillisecondsAsTimePipe = new MillisecondsAsTimePipe()
             const durationInSeconds: number = 0
 
             const result: string = testee.transform(durationInSeconds)
@@ -17,7 +17,7 @@ describe('TimestampPipe', () => {
         })
 
         it('of 59 seconds', () => {
-            const testee: TimestampPipe = new TimestampPipe()
+            const testee: MillisecondsAsTimePipe = new MillisecondsAsTimePipe()
             const durationInSeconds: number = 59
 
             const result: string = testee.transform(durationInSeconds)
@@ -26,7 +26,7 @@ describe('TimestampPipe', () => {
         })
 
         it('of over 1 minute and below 1 hour', () => {
-            const testee: TimestampPipe = new TimestampPipe()
+            const testee: MillisecondsAsTimePipe = new MillisecondsAsTimePipe()
             const durationInSeconds: number = 30 * 60 + 12
 
             const result: string = testee.transform(durationInSeconds)
@@ -35,7 +35,7 @@ describe('TimestampPipe', () => {
         })
 
         it('of over 1 hour and below 100 hours', () => {
-            const testee: TimestampPipe = new TimestampPipe()
+            const testee: MillisecondsAsTimePipe = new MillisecondsAsTimePipe()
             const durationInSeconds: number = 99 * 60 * 60 +  30 * 60 + 12
 
             const result: string = testee.transform(durationInSeconds)
@@ -44,7 +44,7 @@ describe('TimestampPipe', () => {
         })
 
         it('of over 100 hours', () => {
-            const testee: TimestampPipe = new TimestampPipe()
+            const testee: MillisecondsAsTimePipe = new MillisecondsAsTimePipe()
             const durationInSeconds: number = 127 * 60 * 60 +  30 * 60 + 12
 
             const result: string = testee.transform(durationInSeconds)
