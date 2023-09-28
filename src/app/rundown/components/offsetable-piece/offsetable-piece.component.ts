@@ -23,6 +23,9 @@ export class OffsetablePieceComponent {
   @Input()
   public prePlayheadDurationInMs: number
 
+  @Input()
+  public postPlayheadDurationInMs: number
+
   @ViewChild('labelTextElement')
   public labelTextElement: ElementRef<HTMLSpanElement>
 
@@ -41,7 +44,7 @@ export class OffsetablePieceComponent {
 
   private getDisplayDurationInMs(): number {
     // TODO: Use postPlayheadInset instead of magic numbers
-    const durationInMs: number = this.piece.duration ?? (this.partDuration - this.piece.start)
+    const durationInMs: number = this.piece.duration ?? (this.partDuration - this.piece.start + this.prePlayheadDurationInMs + this.postPlayheadDurationInMs)
     const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start - this.prePlayheadDurationInMs)
     return durationInMs - (playedDurationForPieceInMs)
   }

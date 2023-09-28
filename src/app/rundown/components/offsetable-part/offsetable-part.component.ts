@@ -26,10 +26,10 @@ export class OffsetablePartComponent implements OnChanges {
   public offsetDurationInMs: number
 
   @Input()
-  public minimumDisplayDurationInMs: number = 0
+  public prePlayheadDurationInMs: number = 0
 
   @Input()
-  public prePlayheadDurationInMs: number = 0
+  public postPlayheadDurationInMs: number = 0
 
   public piecesGroupedByPieceLayer: Record<PieceLayer, Piece[]> = {} as Record<PieceLayer, Piece[]>
 
@@ -40,8 +40,8 @@ export class OffsetablePartComponent implements OnChanges {
 
   @HostBinding('style.width.px')
   public get hostWidthInPixels(): number {
-    const realDurationInMs: number = Math.max(0, this.partDurationInMs - Math.max(0, this.offsetDurationInMs))
-    const displayDurationInMs: number = this.part.autoNext ? realDurationInMs : Math.max(realDurationInMs, this.minimumDisplayDurationInMs)
+    const realDurationInMs: number = Math.max(0, this.partDurationInMs() - Math.max(0, this.offsetDurationInMs))
+    const displayDurationInMs: number = this.part.autoNext ? realDurationInMs : Math.max(realDurationInMs, this.prePlayheadDurationInMs + this.postPlayheadDurationInMs)
     return this.pixelsPerSecond * displayDurationInMs / 1000
   }
 
@@ -52,8 +52,8 @@ export class OffsetablePartComponent implements OnChanges {
     return Date.now() - this.part.executedAt
   }
 
-  public get partDurationInMs(): number {
-    return this.partEntityService.getDuration(this.part) + this.minimumDisplayDurationInMs
+  public partDurationInMs(): number {
+    return this.partEntityService.getDuration(this.part)
   }
 
   public ngOnChanges(): void {

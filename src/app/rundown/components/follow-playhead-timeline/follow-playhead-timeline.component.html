@@ -10,7 +10,6 @@
             [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="getPreviousPartOffsetInMs(previousPart)"
-            [minimumDisplayDurationInMs]="0"
             (click)="setPartAsNext(previousPart)"
     ></sofie-offsetable-part>
 
@@ -20,8 +19,8 @@
             [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="getOnAirPartOffsetInMs()"
-            [minimumDisplayDurationInMs]="prePlayheadDurationInMs + postPlayheadDurationInMs"
             [prePlayheadDurationInMs]="this.prePlayheadDurationInMs"
+            [postPlayheadDurationInMs]="postPlayheadDurationInMs"
     ></sofie-offsetable-part>
 
     <sofie-offsetable-part
@@ -30,7 +29,6 @@
             [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="0"
-            [minimumDisplayDurationInMs]="0"
             (click)="setPartAsNext(futurePart)"
     ></sofie-offsetable-part>
 
