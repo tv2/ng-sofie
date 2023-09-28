@@ -24,6 +24,11 @@
                 <p class="c-panel-card__rundown-property">{{getDesign()}}</p>
             </div>
 
+            <div class="c-panel-card">
+                <span class="c-panel-card__description">Local Time</span>
+                <p class="c-panel-card__rundown-property">{{ localTime | date: 'hh:mm:ss' }}</p>
+            </div>
+
             <a class="c-information-row-right__exit" title="Exit" routerLink="/rundowns">
                 <svg aria-hidden="true" width="1.500em" height="1.500em" viewBox="0 0 24 24">
                     <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"

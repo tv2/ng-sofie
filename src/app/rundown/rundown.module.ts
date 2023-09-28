@@ -13,6 +13,7 @@ import { TimelineNextIndicatorComponent } from './components/timeline-next-indic
 import { FullSegmentTimelineComponent } from './components/full-segment-timeline/full-segment-timeline.component';
 import { RundownViewHeaderComponent } from '../rundown-view-header/rundown-view-header.component'
 import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {MatCardModule} from "@angular/material/card";
     RundownRoutesModule,
     SharedModule,
     MatCardModule,
+    MatButtonModule,
   ]
 })
 export class RundownModule { }
