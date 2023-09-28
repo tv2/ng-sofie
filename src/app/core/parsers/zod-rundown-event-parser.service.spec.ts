@@ -21,8 +21,6 @@ describe(ZodRundownEventParser.name, () => {
                 type: RundownEventType.ACTIVATED,
                 timestamp: Date.now(),
                 rundownId: 'some-rundown-id',
-                segmentId: 'some-segment-id',
-                partId: 'some-segment-id',
             }
 
             const result = testee.parseActivatedEvent(event)

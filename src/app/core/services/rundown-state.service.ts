@@ -75,7 +75,7 @@ export class RundownStateService implements OnDestroy {
       if (!rundownSubject) {
         return
       }
-      const activeRundown: Rundown = this.rundownEntityService.activate(rundownSubject.value, event.timestamp)
+      const activeRundown: Rundown = this.rundownEntityService.activate(rundownSubject.value)
       rundownSubject.next(activeRundown)
   }
 

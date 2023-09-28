@@ -9,12 +9,11 @@ import { Injectable } from '@angular/core'
 export class RundownEntityService {
     constructor(private readonly segmentService: SegmentEntityService) {}
 
-    public activate(rundown: Rundown, activatedAt: number): Rundown {
+    public activate(rundown: Rundown): Rundown {
         const resetRundown: Rundown = this.reset(rundown)
         return {
             ...resetRundown,
             isActive: true,
-            segments: this.putFirstSegmentOnAir(resetRundown, activatedAt)
         }
     }
 
@@ -23,24 +22,6 @@ export class RundownEntityService {
             ...rundown,
             segments: rundown.segments.map(segment => this.segmentService.reset(segment))
         }
-    }
-
-    private putFirstSegmentOnAir(rundown: Rundown, timestamp: number): Segment[] {
-        if (rundown.segments.length === 0) {
-            return []
-        }
-
-        // TODO: Should we find the first segment with a part?
-        const [firstSegment, ...segments]: Segment[] = rundown.segments
-        const firstPart: Part = firstSegment.parts[0]
-        if(!firstPart) {
-            return rundown.segments
-        }
-
-        return [
-            this.segmentService.putOnAir(firstSegment, firstPart.id, timestamp),
-            ...segments
-        ]
     }
 
     public deactivate(rundown: Rundown, deactivatedAt: number): Rundown {
