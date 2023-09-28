@@ -1,22 +1,21 @@
-<sofie-rundown-view-header class="c-rundown-header" [rundown]="rundown"></sofie-rundown-view-header>
+ <sofie-rundown-view-header class="c-rundown-header" [rundown]="rundown"></sofie-rundown-view-header>
+ <div>
+   <button *ngIf="!rundown?.isActive; else activeRundownButtons" (click)="activateRundown()">Activate Rundown</button>
+   <ng-template #activeRundownButtons>
+     <button (click)="takeNext()">Take Next</button>
+     <button (click)="resetRundown()">Reset Rundown</button>
+     <button (click)="deactivateRundown()">Deactivate Rundown</button>
+   </ng-template>
+ </div>
 
-<div class="container">
-  <div>
+  <div class="c-rundown">
     <div>
-      <button *ngIf="!rundown?.isActive; else activeRundownButtons" (click)="activateRundown()">Activate Rundown</button>
-      <ng-template #activeRundownButtons>
-        <button (click)="takeNext()">Take Next</button>
-        <button (click)="resetRundown()">Reset Rundown</button>
-        <button (click)="deactivateRundown()">Deactivate Rundown</button>
-      </ng-template>
-    </div>
-    <div class="segments">
-      <sofie-segment
-        *ngFor="let segment of rundown?.segments"
-        [segment]="segment"
-        [isOnAir]="segment.isOnAir"
-      ></sofie-segment>
+      <div class="c-rundown__segments">
+        <sofie-segment
+          *ngFor="let segment of rundown?.segments"
+          [segment]="segment"
+          [isOnAir]="segment.isOnAir"
+        ></sofie-segment>
+      </div>
     </div>
   </div>
-</div>
-

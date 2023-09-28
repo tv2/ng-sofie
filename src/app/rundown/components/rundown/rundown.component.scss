@@ -1,37 +1,25 @@
 :host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-.container {
-  padding-top: 120px;
   background-color: #343434;
 }
 
-.segments {
-  width: 99%;
-  display: flex;
-  flex-direction: column;
-}
-
-sofie-segment {
-  width: 100%;
-}
-
-.title {
-  font-size: 2em;
-}
-
-.title, .subtitle {
-  display: flex;
-  justify-content: center;
-}
-
-.subtitle {
-  font-size: 1.5em;
-}
-
 .c-rundown-header {
+  flex: 0 1;
+}
 
+.c-rundown {
+  flex: 1 1 100%;
+  height: 100%;
+  overflow: auto;
+
+  &__segments {
+    display: flex;
+    flex-direction: column;
+  }
 }

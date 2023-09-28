@@ -4,24 +4,24 @@
         <div class="c-information-row-left">
             <img class="c-information-row-left__logo" src="assets/sofie-logo.svg" style="width: 32px;" routerLink="/rundowns">
             <div class="c-information-row-left__rundown-name">
-                <h4>{{this.getShortenedRundownName(rundown?.name ?? '')}}</h4>
+                <h4>{{this.getShortenedRundownName()}}</h4>
             </div>
         </div>
 
         <div class="c-information-row-right">
             <div class="c-panel-card">
                 <span class="c-panel-card__description">Variant</span>
-                <p class="c-panel-card__rundown-property">Variant name here</p>
+                <p class="c-panel-card__rundown-property"></p>
             </div>
 
             <div class="c-panel-card">
                 <span class="c-panel-card__description">Schema</span>
-                <p class="c-panel-card__rundown-property">Schema name here</p>
+                <p class="c-panel-card__rundown-property">{{getSchema()}}</p>
             </div>
 
             <div class="c-panel-card">
                 <span class="c-panel-card__description">Design</span>
-                <p class="c-panel-card__rundown-property">Design name here</p>
+                <p class="c-panel-card__rundown-property">{{getDesign()}}</p>
             </div>
 
             <a class="c-information-row-right__exit" title="Exit" routerLink="/rundowns">

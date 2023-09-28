@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Rundown} from "../core/models/rundown";
+import {Piece} from "../core/models/piece";
 
 @Component({
   selector: 'sofie-rundown-view-header',
@@ -15,9 +16,27 @@ export class RundownViewHeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public getShortenedRundownName(name: string): string {
-    const rundownPathStrings: string[] = name.split('.')
+  public getShortenedRundownName(): string {
+    const rundownPathStrings: string[] = this.rundown?.name.split('.') ?? []
     return rundownPathStrings[rundownPathStrings.length - 1]
   }
 
+  //TODO: find a better solution for determining whether infinite pieces are schemas or designs
+  public getDesign(): string {
+    const infinitePieces: Piece[] = this.rundown?.getInfinitePieces() ?? []
+    if (!infinitePieces) {
+      return ''
+    }
+    const designPiece: Piece | undefined = infinitePieces.find((piece) => piece.name.split('_')[0] === 'DESIGN')
+    return designPiece?.name ?? ''
+  }
+
+  public getSchema(): string {
+    const infinitePieces: Piece[] = this.rundown?.getInfinitePieces() ?? []
+    if (!infinitePieces) {
+      return ''
+    }
+    const schemaPiece: Piece | undefined = infinitePieces.find((piece) => piece.name.split('_')[0] === 'SKEMA')
+    return schemaPiece?.name ?? ''
+  }
 }
