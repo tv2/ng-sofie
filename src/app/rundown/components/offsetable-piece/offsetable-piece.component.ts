@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewChild } from '@angular/core'
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core'
 import { Piece } from '../../../core/models/piece'
 
 @Component({
@@ -23,6 +23,9 @@ export class OffsetablePieceComponent {
   @Input()
   public prePlayheadDurationInMs: number
 
+  @ViewChild('labelTextElement')
+  public labelTextElement: ElementRef<HTMLSpanElement>
+
   @HostBinding('style.left.px')
   public get leftInPixels(): number {
     const offsetInMs: number = this.piece.start - Math.max(0, this.playedDurationForPartInMs - this.prePlayheadDurationInMs)
@@ -37,15 +40,35 @@ export class OffsetablePieceComponent {
   }
 
   private getDisplayDurationInMs(): number {
+    // TODO: Use postPlayheadInset instead of magic numbers
     const durationInMs: number = this.piece.duration ?? (this.partDuration - this.piece.start)
-    const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start)
-    return durationInMs - (playedDurationForPieceInMs - this.prePlayheadDurationInMs - 200 * 1000 / 60)
+    const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start - this.prePlayheadDurationInMs)
+    return durationInMs - (playedDurationForPieceInMs)
   }
 
   public get labelOffsetInPixels(): number {
     const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start)
     const displayOffsetInMs: number = Math.min(playedDurationForPieceInMs, this.prePlayheadDurationInMs)
-    return displayOffsetInMs * this.pixelsPerSecond / 1000
+    const displayOffsetWithLabelTextOffsetInMs: number = displayOffsetInMs - this.getDurationInMsSpendAfterLabelTextEnds()
+    return displayOffsetWithLabelTextOffsetInMs * this.pixelsPerSecond / 1000
+  }
+
+  public getDurationInMsSpendAfterLabelTextEnds(): number {
+    if (!this.piece.duration) {
+      return 0
+    }
+
+    const labelTextWidthInPixels: number = this.labelTextElement?.nativeElement.offsetWidth
+    if (!labelTextWidthInPixels) {
+      return 0
+    }
+
+    const labelTextDurationInMs: number = (labelTextWidthInPixels + 14) * 1000 / this.pixelsPerSecond
+    const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start)
+    if (labelTextDurationInMs > this.piece.duration) {
+      return -Math.min(0, this.piece.duration - playedDurationForPieceInMs)
+    }
+    return Math.max(0, playedDurationForPieceInMs + labelTextDurationInMs - this.piece.duration)
   }
 
   @HostBinding('class')

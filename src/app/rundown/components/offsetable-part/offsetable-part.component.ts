@@ -53,7 +53,7 @@ export class OffsetablePartComponent implements OnChanges {
   }
 
   public get partDurationInMs(): number {
-    return this.partEntityService.getDuration(this.part)
+    return this.partEntityService.getDuration(this.part) + this.minimumDisplayDurationInMs
   }
 
   public ngOnChanges(): void {

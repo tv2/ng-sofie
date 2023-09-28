@@ -33,10 +33,11 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   @Input()
   public pieceLayers: PieceLayer[]
 
+
   @Output()
   public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
 
-  public readonly pixelsPerSecond: number = 60
+  public pixelsPerSecond: number = 50
 
   public onAirPart?: Part
   public previousParts: Part[] = []
