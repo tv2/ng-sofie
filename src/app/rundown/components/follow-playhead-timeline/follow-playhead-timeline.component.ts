@@ -42,8 +42,8 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   public previousParts: Part[] = []
   public futureParts: Part[] = []
 
-  public readonly playheadInAnimationDurationInMs: number = PRE_PLAYHEAD_INSET_IN_PIXELS * 1000 / this.pixelsPerSecond
-  public readonly postPlayheadDurationInMs: number = POST_PLAYHEAD_INSET_IN_PIXELS * 1000 / this.pixelsPerSecond
+  public prePlayheadDurationInMs: number = PRE_PLAYHEAD_INSET_IN_PIXELS * 1000 / this.pixelsPerSecond
+  public postPlayheadDurationInMs: number = POST_PLAYHEAD_INSET_IN_PIXELS * 1000 / this.pixelsPerSecond
 
   public constructor(
       private readonly partEntityService: PartEntityService,
@@ -69,7 +69,7 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
         .slice(0, onAirPartIndex)
         .filter(part => this.getDisplayDurationInMs(part) > 0)
 
-    // TODO: Take into account more than the closest previous part and not only if no was found in the first step.
+    // TODO: Take into account more than the closest previous part and not only if none was found in the first step.
     // In order to jump in from anywhere and display the correct transition this is needed.
     if (previousParts.length === 0 && this.segment.parts[onAirPartIndex - 1] && this.isUnplayedPart(this.segment.parts[onAirPartIndex - 1])) {
       return [this.segment.parts[onAirPartIndex - 1]]
@@ -78,10 +78,9 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   }
 
   private getDisplayDurationInMs(part: Part): number {
-    const playheadEpoch: number = Date.now()
     const takenOffAirAt: number = part.executedAt + part.playedDuration
-    const durationInMsSinceTakenOfAir = playheadEpoch - takenOffAirAt
-    return this.playheadInAnimationDurationInMs - durationInMsSinceTakenOfAir
+    const durationInMsSinceTakenOfAir = Date.now() - takenOffAirAt
+    return this.prePlayheadDurationInMs - durationInMsSinceTakenOfAir
   }
 
   private isUnplayedPart(part: Part): boolean {
@@ -96,11 +95,12 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
     if (!this.onAirPart) {
       return 0
     }
-    return Date.now() - this.onAirPart.executedAt - this.playheadInAnimationDurationInMs
+    const playedDurationInMsForPart: number = Date.now() - this.onAirPart.executedAt
+    return playedDurationInMsForPart - this.prePlayheadDurationInMs
   }
 
   public getPreviousPartOffsetInMs(part: Part): number {
-    if (part.playedDuration === 0) {
+    if (this.isUnplayedPart(part)) {
       return this.getUnplayedPreviousPartOffsetInMs(part)
     }
     if (!this.isFirstPartInPreviousParts(part)) {
@@ -117,7 +117,7 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
     }
     const expectedPartDuration: number = this.partEntityService.getDuration(part)
     const playedDurationInOnAirPart: number = Date.now() - this.onAirPart.executedAt
-    return expectedPartDuration - (this.playheadInAnimationDurationInMs - playedDurationInOnAirPart)
+    return expectedPartDuration - (this.prePlayheadDurationInMs - playedDurationInOnAirPart)
   }
 
   private isFirstPartInPreviousParts(part: Part): boolean {

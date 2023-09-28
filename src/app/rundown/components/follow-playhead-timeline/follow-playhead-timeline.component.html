@@ -1,5 +1,5 @@
 <sofie-timeline-markers
-    [time]="time - playheadInAnimationDurationInMs | maximum: 0"
+    [time]="time - prePlayheadDurationInMs | maximum: 0"
     [pixelsPerSecond]="pixelsPerSecond"
 ></sofie-timeline-markers>
 
@@ -20,8 +20,8 @@
             [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="getOnAirPartOffsetInMs()"
-            [minimumDisplayDurationInMs]="playheadInAnimationDurationInMs + postPlayheadDurationInMs"
-            [prePlayheadDurationInMs]="this.playheadInAnimationDurationInMs"
+            [minimumDisplayDurationInMs]="prePlayheadDurationInMs + postPlayheadDurationInMs"
+            [prePlayheadDurationInMs]="this.prePlayheadDurationInMs"
     ></sofie-offsetable-part>
 
     <sofie-offsetable-part
@@ -40,6 +40,6 @@
 </div>
 
 <sofie-timeline-playhead
-        [time]="time | minimum: playheadInAnimationDurationInMs"
+        [time]="time | minimum: prePlayheadDurationInMs"
         [pixelsPerSecond]="pixelsPerSecond"
 ></sofie-timeline-playhead>
