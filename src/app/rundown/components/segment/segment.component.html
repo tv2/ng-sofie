@@ -20,13 +20,12 @@
   </div>
 
 
-  <sofie-full-segment-timeline
+  <sofie-scrollable-timeline
     *ngIf="!segment.isOnAir; else onAirTimeline"
     class="c-segment__timeline"
     [segment]="segment"
     [pieceLayers]="pieceLayers"
-    [time]="timeReference"
-  ></sofie-full-segment-timeline>
+  ></sofie-scrollable-timeline>
 
   <ng-template #onAirTimeline>
     <sofie-follow-playhead-timeline

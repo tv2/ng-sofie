@@ -1,0 +1,17 @@
+<sofie-timeline-markers
+    [time]="scrollOffsetInMs"
+    [pixelsPerSecond]="pixelsPerSecond"
+></sofie-timeline-markers>
+
+<div class="parts">
+    <sofie-offsetable-part
+            *ngFor="let part of segment.parts; trackBy: trackPart"
+            [part]="part"
+            [pieceLayers]="pieceLayers"
+            [pixelsPerSecond]="pixelsPerSecond"
+            [offsetDurationInMs]="scrollOffsetInMs"
+    ></sofie-offsetable-part>
+    <sofie-segment-end-indicator
+            [lastPartInSegment]="segment.parts[segment.parts.length - 1]"
+    ></sofie-segment-end-indicator>
+</div>

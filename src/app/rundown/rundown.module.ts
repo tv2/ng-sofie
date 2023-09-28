@@ -13,6 +13,7 @@ import { FullSegmentTimelineComponent } from './components/full-segment-timeline
 import { SegmentEndIndicatorComponent } from './components/segment-end-indicator/segment-end-indicator.component';
 import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.component';
 import { FollowPlayheadTimelineComponent } from './components/follow-playhead-timeline/follow-playhead-timeline.component';
+import { ScrollableTimelineComponent } from './components/scrollable-timeline/scrollable-timeline.component'
 import { MatCardModule } from "@angular/material/card";
 import { OffsetablePartComponent } from './components/offsetable-part/offsetable-part.component'
 import { PieceGroupService } from './services/piece-group.service'
@@ -34,6 +35,7 @@ import { OffsetablePieceComponent } from './components/offsetable-piece/offsetab
     FollowPlayheadTimelineComponent,
     OffsetablePartComponent,
     OffsetablePieceComponent,
+    ScrollableTimelineComponent,
   ],
   exports: [
     SegmentComponent

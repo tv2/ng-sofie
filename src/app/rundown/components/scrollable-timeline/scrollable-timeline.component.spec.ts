@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FollowPlayheadTimelineComponent } from './follow-playhead-timeline.component';
+import { ScrollableTimelineComponent } from './follow-playhead-timeline.component';
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { instance, mock } from '@typestrong/ts-mockito'
@@ -8,8 +8,8 @@ import { MaximumPipe } from '../../../shared/pipes/maximum.pipe'
 import { SharedModule } from '../../../shared/shared.module'
 
 describe('FollowPlayheadTimelineComponent', () => {
-  let component: FollowPlayheadTimelineComponent;
-  let fixture: ComponentFixture<FollowPlayheadTimelineComponent>;
+  let component: ScrollableTimelineComponent;
+  let fixture: ComponentFixture<ScrollableTimelineComponent>;
 
   beforeEach(async () => {
     const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
@@ -17,7 +17,7 @@ describe('FollowPlayheadTimelineComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [
-        FollowPlayheadTimelineComponent,
+        ScrollableTimelineComponent,
       ],
       imports: [
           SharedModule
@@ -29,7 +29,7 @@ describe('FollowPlayheadTimelineComponent', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FollowPlayheadTimelineComponent);
+    fixture = TestBed.createComponent(ScrollableTimelineComponent);
     component = fixture.componentInstance;
   });
 

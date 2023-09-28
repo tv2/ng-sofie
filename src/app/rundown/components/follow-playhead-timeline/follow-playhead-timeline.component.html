@@ -5,7 +5,7 @@
 
 <div class="parts">
     <sofie-offsetable-part
-            *ngFor="let previousPart of previousParts"
+            *ngFor="let previousPart of previousParts; trackBy: trackPart"
             [part]="previousPart"
             [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"
@@ -24,7 +24,7 @@
     ></sofie-offsetable-part>
 
     <sofie-offsetable-part
-            *ngFor="let futurePart of futureParts"
+            *ngFor="let futurePart of futureParts; trackBy: trackPart"
             [part]="futurePart"
             [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"

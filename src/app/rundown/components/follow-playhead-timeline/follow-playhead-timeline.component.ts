@@ -5,7 +5,6 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges
 } from '@angular/core'
 import { Part } from '../../../core/models/part'
 import { Segment } from '../../../core/models/segment'
@@ -122,5 +121,9 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
 
   private isFirstPartInPreviousParts(part: Part): boolean {
     return this.previousParts[0]?.id === part.id
+  }
+
+  public trackPart(_: number, part: Part): string {
+    return part.id
   }
 }
