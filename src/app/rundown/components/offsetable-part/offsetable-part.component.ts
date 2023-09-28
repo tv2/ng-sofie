@@ -5,6 +5,8 @@ import { PieceGrouper } from '../../services/piece-grouper.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { Piece } from '../../../core/models/piece'
 
+const KEEP_VISIBLE_DURATION_IN_MS: number = 20_000
+
 @Component({
   selector: 'sofie-offsetable-part',
   templateUrl: './offsetable-part.component.html',
@@ -63,7 +65,23 @@ export class OffsetablePartComponent implements OnChanges {
   }
 
   public ngOnChanges(): void {
-    this.piecesGroupedByPieceLayer = this.pieceGrouper.groupByPieceLayer(this.part.pieces)
+    const visiblePieces: Piece[] = this.getVisiblePieces()
+    this.piecesGroupedByPieceLayer = this.pieceGrouper.groupByPieceLayer(visiblePieces)
+  }
+
+  private getVisiblePieces(): Piece[] {
+    const displayDurationInMs = this.getDisplayDurationInMs()
+    return this.part.pieces
+        .filter(piece => this.isPieceVisible(piece, displayDurationInMs))
+  }
+
+  private isPieceVisible(piece: Piece, displayDurationInMs: number): boolean {
+    const partDurationInMsAtEndOfPartViewport: number = this.offsetDurationInMs + displayDurationInMs
+    if (!piece.duration) {
+      return piece.start <= partDurationInMsAtEndOfPartViewport
+    }
+    const pieceEndTimeInMs: number = piece.start + piece.duration
+    return piece.start - KEEP_VISIBLE_DURATION_IN_MS <= partDurationInMsAtEndOfPartViewport && pieceEndTimeInMs + KEEP_VISIBLE_DURATION_IN_MS >= this.offsetDurationInMs
   }
 
   public trackPiece(_: number, piece: Piece): string {
