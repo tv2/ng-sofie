@@ -131,9 +131,6 @@ export class RundownStateService implements OnDestroy {
       console.warn('[warn] Failed finding part for AD_LIB_PIECE_INSERTED for event:', event)
       return
     }
-
-    // TODO: Out-commented due to current changes in AdLib API. Wait until that is somewhat stable.
-    //part.insertAdLibPiece(event.adLibPiece)
   }
 
   private addInfinitePieceToRundownFromEvent(event: RundownInfinitePieceAddedEvent): void {
