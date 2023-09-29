@@ -2,6 +2,7 @@
   background-color: #343434;
   display: flex;
   flex-direction: row;
+  pointer-events: none;
 
   &__main-menu {
     flex: 1;

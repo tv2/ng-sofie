@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RundownViewHeaderComponent } from './rundown-view-header.component';
+import { RundownHeaderComponent } from './rundown-header.component';
 
 describe('RundownViewHeaderComponent', () => {
-  let component: RundownViewHeaderComponent;
-  let fixture: ComponentFixture<RundownViewHeaderComponent>;
+  let component: RundownHeaderComponent;
+  let fixture: ComponentFixture<RundownHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RundownViewHeaderComponent ]
+      declarations: [ RundownHeaderComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RundownViewHeaderComponent);
+    fixture = TestBed.createComponent(RundownHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

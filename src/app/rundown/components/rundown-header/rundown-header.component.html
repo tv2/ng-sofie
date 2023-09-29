@@ -1,8 +1,11 @@
-<div class="c-header" [class.c-header--active]="rundown?.isActive">
-    <div class="c-information-row">
+<div [cdkContextMenuTriggerFor]="context_menu" class="c-header" [class.c-header--active]="rundown?.isActive">
+    <ng-template #context_menu>
+    <sofie-rundown-header-context-menu class="c-context-access-surface" [rundown]="rundown"> </sofie-rundown-header-context-menu>
+    </ng-template>
 
+    <div class="c-information-row">
         <div class="c-information-row-left">
-            <img class="c-information-row-left__logo" src="assets/sofie-logo.svg" style="width: 32px;" routerLink="/rundowns">
+            <img class="c-information-row-left__logo" src="../../../../assets/sofie-logo.svg" style="width: 32px;" routerLink="/rundowns">
             <div class="c-information-row-left__rundown-name">
                 <h4>{{this.getShortenedRundownName()}}</h4>
             </div>
@@ -26,7 +29,7 @@
 
             <div class="c-panel-card">
                 <span class="c-panel-card__description">Local Time</span>
-                <p class="c-panel-card__rundown-property">{{ localTime | date: 'hh:mm:ss' }}</p>
+                <p class="c-panel-card__rundown-property">{{ currentLocalDate | date: 'H:mm:ss' }}</p>
             </div>
 
             <a class="c-information-row-right__exit" title="Exit" routerLink="/rundowns">

@@ -1,0 +1,37 @@
+.c-context-menu {
+  display: inline-flex;
+  flex-direction: column;
+  min-width: 180px;
+  max-width: 280px;
+  background-color: rgb(255, 255, 255);
+}
+
+.c-context-menu-header {
+  padding: 10px;
+  color: #49c0fb;
+  background: #3e4041;
+  text-align: center;
+}
+
+.c-context-menu-item {
+  cursor: pointer;
+  border: none;
+
+  user-select: none;
+  min-width: 64px;
+  line-height: 36px;
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex: 1;
+
+  &:hover {
+    background-color: rgb(208, 208, 208);
+  }
+
+  &:active {
+    background-color: rgb(170, 170, 170);
+  }
+}

@@ -11,9 +11,11 @@ import { TimelineMarkersComponent } from './components/timeline-markers/timeline
 import { TimelinePlayheadComponent } from './components/timeline-playhead/timeline-playhead.component';
 import { TimelineNextIndicatorComponent } from './components/timeline-next-indicator/timeline-next-indicator.component';
 import { FullSegmentTimelineComponent } from './components/full-segment-timeline/full-segment-timeline.component';
-import { RundownViewHeaderComponent } from '../rundown-view-header/rundown-view-header.component'
+import { RundownHeaderComponent } from './components/rundown-header/rundown-header.component'
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
+import {RundownHeaderContextMenuComponent} from "./components/rundown-header-context-menu/rundown-header-context-menu.component";
+import {CdkMenuModule} from "@angular/cdk/menu";
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import {MatButtonModule} from "@angular/material/button";
     TimelinePlayheadComponent,
     TimelineNextIndicatorComponent,
     FullSegmentTimelineComponent,
-    RundownViewHeaderComponent,
+    RundownHeaderComponent,
+    RundownHeaderContextMenuComponent,
   ],
   exports: [
     SegmentComponent
@@ -37,6 +40,7 @@ import {MatButtonModule} from "@angular/material/button";
     SharedModule,
     MatCardModule,
     MatButtonModule,
+    CdkMenuModule,
   ]
 })
 export class RundownModule { }

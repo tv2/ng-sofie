@@ -1,0 +1,10 @@
+<div class="c-context-menu" cdkMenu>
+    <div class="c-context-menu-header">Actions</div>
+    <button *ngIf="rundown?.isActive" class="c-context-menu-item" cdkMenuItem (click)="deactivate()">Deactivate</button>
+    <button *ngIf="rundown?.isActive" class="c-context-menu-item" cdkMenuItem (click)="take()">Take</button>
+    <button *ngIf="!rundown?.isActive"class="c-context-menu-item" cdkMenuItem (click)="activate()">Activate</button>
+    <button class="c-context-menu-item" cdkMenuItem (click)="resetRundown()">Reset Rundown</button>
+    <button class="c-context-menu-item" cdkMenuItem>Reload iNews Data</button>
+    <button class="c-context-menu-item" cdkMenuItem>Store Snapshot</button>
+    <button class="c-context-menu-item"></button>
+</div>
