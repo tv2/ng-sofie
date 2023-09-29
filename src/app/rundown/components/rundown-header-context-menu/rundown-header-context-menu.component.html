@@ -1,5 +1,5 @@
 <div class="c-context-menu" cdkMenu>
-    <div class="c-context-menu-header">Actions</div>
+    <div class="c-context-menu-header">Options</div>
     <button *ngIf="rundown?.isActive" class="c-context-menu-item" cdkMenuItem (click)="deactivate()">Deactivate</button>
     <button *ngIf="rundown?.isActive" class="c-context-menu-item" cdkMenuItem (click)="take()">Take</button>
     <button *ngIf="!rundown?.isActive"class="c-context-menu-item" cdkMenuItem (click)="activate()">Activate</button>
