@@ -13,7 +13,7 @@ import {ConfirmationDialogComponent} from './components/confirmation-dialog/conf
 import {MatDialogModule} from '@angular/material/dialog'
 import {DialogService} from './services/dialog.service'
 import { ConnectionErrorService } from './services/connection-error.service'
-import { MillisecondsAsTimePipe } from './pipes/timestamp.pipe'
+import { MillisecondsAsTimePipe } from './pipes/millisecondsAsTime.pipe'
 import { PieceLayerService } from './services/piece-layer.service'
 
 

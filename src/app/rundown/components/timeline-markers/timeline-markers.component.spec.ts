@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing'
 
 import { TimelineMarkersComponent } from './timeline-markers.component'
 import { instance, mock } from '@typestrong/ts-mockito'
-import { MillisecondsAsTimePipe } from '../../../shared/pipes/timestamp.pipe'
+import { MillisecondsAsTimePipe } from '../../../shared/pipes/millisecondsAsTime.pipe'
 
 describe('TimelineComponent', () => {
   it('should create', async () => {

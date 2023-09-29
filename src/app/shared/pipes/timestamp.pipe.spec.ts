@@ -1,4 +1,4 @@
-import { MillisecondsAsTimePipe } from './timestamp.pipe'
+import { MillisecondsAsTimePipe } from './millisecondsAsTime.pipe'
 
 describe('TimestampPipe', () => {
     it('create an instance', () => {

@@ -1,14 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'MillisecondsAsTime'
+  name: 'millisecondsAsTime'
 })
 export class MillisecondsAsTimePipe implements PipeTransform {
   public transform(timeInMilliseconds: number): string {
     const timeInSeconds: number = timeInMilliseconds / 1000
-    const seconds: number = timeInSeconds % 60
-    const minutes: number = Math.floor((timeInSeconds % 3600) / 60)
-    const hours: number = Math.floor( timeInSeconds / 3600)
+    const seconds: number = timeInMilliseconds % 60
+    const minutes: number = Math.floor((timeInMilliseconds % 3600) / 60)
+    const hours: number = Math.floor( timeInMilliseconds / 3600)
 
     return `${this.formatHours(hours)}${this.formatMinutes(minutes)}${this.formatSeconds(seconds)}`
   }

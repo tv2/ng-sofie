@@ -6,7 +6,7 @@ import {
   Input, OnChanges, SimpleChange, SimpleChanges,
   ViewChild
 } from '@angular/core'
-import { MillisecondsAsTimePipe } from "../../../shared/pipes/timestamp.pipe"
+import { MillisecondsAsTimePipe } from "../../../shared/pipes/millisecondsAsTime.pipe"
 
 interface Point {
   x: number,
