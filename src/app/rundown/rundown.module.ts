@@ -13,6 +13,7 @@ import { FullSegmentTimelineComponent } from './components/full-segment-timeline
 import { SegmentEndIndicatorComponent } from './components/segment-end-indicator/segment-end-indicator.component';
 import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.component';
 import { MatCardModule } from "@angular/material/card";
+import {EditorialLineComponent} from "./components/editorial-line/editorial-line.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MatCardModule } from "@angular/material/card";
     TimelineMarkersComponent,
     TimelinePlayheadComponent,
     FullSegmentTimelineComponent,
+    EditorialLineComponent,
     SegmentEndIndicatorComponent,
     TimelineFlagComponent,
   ],
