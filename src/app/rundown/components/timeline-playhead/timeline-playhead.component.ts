@@ -1,4 +1,4 @@
-import {Component, HostBinding, Input, OnInit} from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core'
 
 @Component({
   selector: 'sofie-timeline-playhead',
@@ -13,7 +13,7 @@ export class TimelinePlayheadComponent {
   public pixelsPerSecond: number
 
   @HostBinding('style.left.px')
-  public get left() {
+  public get left(): number {
     return Math.floor(this.time * this.pixelsPerSecond / 1000)
   }
 }

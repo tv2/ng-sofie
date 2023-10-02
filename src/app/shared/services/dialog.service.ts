@@ -14,8 +14,8 @@ export class DialogService {
   ): MatDialogRef<
     StronglyTypedDialog<DialogData, DialogResult>,
     DialogResult
-  > {
-    return this.dialog.open(component, config);
+    > {
+    return this.dialog.open(component, config)
   }
 
   public openDeletionDialog(typeOfThingToDelete: string, nameOrIdOfThingToDelete: string, onOk: () => void): void {
@@ -29,8 +29,8 @@ export class DialogService {
         }
       },
     }).afterClosed().subscribe(result => {
-      if (!result) return;
-      onOk();
-    });
+      if (!result) return
+      onOk()
+    })
   }
 }

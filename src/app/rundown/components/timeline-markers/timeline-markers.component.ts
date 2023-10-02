@@ -49,14 +49,14 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   private canvasWidth: number = 0
   private canvasHeight: number = 0
 
-  private secondsPerSection: number = 5
-  private subsectionsPerSection: number = 5
+  private readonly secondsPerSection: number = 5
+  private readonly subsectionsPerSection: number = 5
 
-  private resizeSubject: Subject<void> = new Subject<void>()
+  private readonly resizeSubject: Subject<void> = new Subject<void>()
 
-  public constructor(
-      private readonly containerElement: ElementRef,
-      private readonly timestampPipe: TimestampPipe
+  constructor(
+    private readonly containerElement: ElementRef,
+    private readonly timestampPipe: TimestampPipe
   ) {}
 
   @HostListener('window:resize', ['$event'])
@@ -159,9 +159,9 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   }
 
   private drawText(text: string, x: number, y: number): void {
-      this.canvasContext.font = TEXT_STYLE;
-      this.canvasContext.fillStyle = '#5f6164'
-      this.canvasContext.fillText(text, x, y)
+    this.canvasContext.font = TEXT_STYLE
+    this.canvasContext.fillStyle = '#5f6164'
+    this.canvasContext.fillText(text, x, y)
   }
 
   private clearCanvas(): void {
@@ -170,11 +170,11 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   public ngAfterViewInit(): void {
     this.resizeSubject
-        .pipe(debounceTime(RESIZE_DEBOUNCE_DURATION_IN_MS))
-        .subscribe(() => {
-          this.setCanvasSize()
-          this.draw()
-        })
+      .pipe(debounceTime(RESIZE_DEBOUNCE_DURATION_IN_MS))
+      .subscribe(() => {
+        this.setCanvasSize()
+        this.draw()
+      })
     this.initializeCanvasContext()
     this.setCanvasSize()
     this.draw()
@@ -190,7 +190,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
       throw new Error('Canvas not loaded!')
     }
 
-    const canvasContext = this.canvasElement.nativeElement.getContext('2d');
+    const canvasContext = this.canvasElement.nativeElement.getContext('2d')
     if (!canvasContext) {
       throw new Error('Canvas Context not loaded!')
     }

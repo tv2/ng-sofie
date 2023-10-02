@@ -6,7 +6,7 @@ import { EMPTY, Observable } from 'rxjs'
 @Injectable()
 export class HttpErrorService {
 
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(private readonly snackBar: MatSnackBar) { }
 
   public catchError(error: HttpErrorResponse): Observable<never> {
     this.openSnackBarIfError(error)

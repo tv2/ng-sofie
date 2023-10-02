@@ -1,6 +1,6 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {RundownComponent} from './components/rundown/rundown.component';
+import {NgModule} from '@angular/core'
+import {RouterModule, Routes} from '@angular/router'
+import {RundownComponent} from './components/rundown/rundown.component'
 
 const routes: Routes = [
   {

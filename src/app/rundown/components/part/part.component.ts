@@ -40,7 +40,7 @@ export class PartComponent implements OnChanges {
   // TODO: Remove this.
   public DEFAULT_PART_DURATION_IN_MS = 4000
 
-  public constructor(
+  constructor(
     public readonly pieceLayerService: PieceLayerService,
     private readonly partEntityService: PartEntityService,
     private readonly rundownService: RundownService

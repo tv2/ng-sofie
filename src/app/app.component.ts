@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component} from '@angular/core'
 import { ConnectionErrorService } from './shared/services/connection-error.service'
 
 @Component({

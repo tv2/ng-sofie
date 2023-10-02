@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import {Paths} from '../../../app-routing.module';
-import {Router} from '@angular/router';
+import { Component } from '@angular/core'
+import {Paths} from '../../../app-routing.module'
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'sofie-header',
@@ -8,15 +8,19 @@ import {Router} from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  public title = 'Sofie';
+  public title = 'Sofie'
 
-  public constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   public navigateHome(): void {
-    this.router.navigate([Paths.HOME])
+    const routeSegments: string[] = [Paths.HOME]
+    this.router.navigate(routeSegments)
+      .catch(() => console.warn('[warn] Failed navigating with route segments:', routeSegments))
   }
 
   public navigateToRundown(): void {
-    this.router.navigate([Paths.RUNDOWNS])
+    const routeSegments: string[] = [Paths.RUNDOWNS]
+    this.router.navigate(routeSegments)
+      .catch(() => console.warn('[warn] Failed navigating with route segments:', routeSegments))
   }
 }

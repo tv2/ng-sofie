@@ -48,6 +48,6 @@ import { BasicRundownEntityService } from './services/models/basic-rundown-entit
 })
 export class CoreModule extends EnsureLoadedOnceGuard {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
-    super(parentModule);
+    super(parentModule)
   }
 }

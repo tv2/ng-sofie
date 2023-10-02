@@ -18,10 +18,10 @@ export class BasicRundownStateService implements OnDestroy {
   private isLoading = true
 
   constructor(
-      private readonly basicRundownService: BasicRundownService,
-      private readonly rundownEventObserver: RundownEventObserver,
-      private readonly connectionStatusObserver: ConnectionStatusObserver,
-      private readonly basicRundownEntityService: BasicRundownEntityService
+    private readonly basicRundownService: BasicRundownService,
+    private readonly rundownEventObserver: RundownEventObserver,
+    private readonly connectionStatusObserver: ConnectionStatusObserver,
+    private readonly basicRundownEntityService: BasicRundownEntityService
   ) {
     this.basicRundownsSubject = new BehaviorSubject<BasicRundown[]>(this.basicRundowns)
     this.isLoadingSubject = new BehaviorSubject<boolean>(this.isLoading)
@@ -33,9 +33,9 @@ export class BasicRundownStateService implements OnDestroy {
     const connectionStatusSubscriptions = this.subscribeToConnectionStatus()
     const rundownEventSubscriptions = this.subscribeToRundownEvents()
     this.eventSubscriptions = [
-        ...rundownEventSubscriptions,
-        ...connectionStatusSubscriptions
-      ]
+      ...rundownEventSubscriptions,
+      ...connectionStatusSubscriptions
+    ]
   }
 
   private subscribeToConnectionStatus(): EventSubscription[] {
@@ -47,10 +47,10 @@ export class BasicRundownStateService implements OnDestroy {
   private resetBasicRundownSubject(): void {
     this.setIsLoading(true)
     this.fetchBasicRundowns()
-        .then(basicRundowns => this.basicRundowns = basicRundowns)
-        .then(() => this.basicRundownsSubject.next(this.basicRundowns))
-        .catch(error => console.error('[error]', 'Encountered error while fetching basic rundowns:', error))
-        .finally(() => this.setIsLoading(false))
+      .then(basicRundowns => this.basicRundowns = basicRundowns)
+      .then(() => this.basicRundownsSubject.next(this.basicRundowns))
+      .catch(error => console.error('[error]', 'Encountered error while fetching basic rundowns:', error))
+      .finally(() => this.setIsLoading(false))
   }
 
   private setIsLoading(isLoading: boolean): void {
@@ -102,7 +102,7 @@ export class BasicRundownStateService implements OnDestroy {
   }
 
   private fetchBasicRundowns(): Promise<BasicRundown[]> {
-      return lastValueFrom(this.basicRundownService.fetchBasicRundowns())
+    return lastValueFrom(this.basicRundownService.fetchBasicRundowns())
   }
 
   public ngOnDestroy(): void {

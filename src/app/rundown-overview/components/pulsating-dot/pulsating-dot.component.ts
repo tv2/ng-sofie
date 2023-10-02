@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {Color} from "../../../shared/enums/color";
+import {Component, Input} from '@angular/core'
+import {Color} from '../../../shared/enums/color'
 
 @Component({
   selector: 'sofie-pulsating-dot',

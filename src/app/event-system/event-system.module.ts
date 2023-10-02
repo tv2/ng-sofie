@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
 
 import { EventObserver } from './abstractions/event-observer.service'
 import { WebSocketEventObserver } from './services/websocket-event-observer.service'

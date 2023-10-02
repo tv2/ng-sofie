@@ -4,9 +4,9 @@ import { ConnectionStatusObserver } from '../../core/services/connection-status-
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 describe('ConnectionErrorService', () => {
-    it('should be created', () => {
-        const mockedMatSnackBar = mock<MatSnackBar>()
-        const mockedConnectionStatusObserver = mock<ConnectionStatusObserver>()
-        expect(new ConnectionErrorService(instance(mockedMatSnackBar), instance(mockedConnectionStatusObserver))).toBeTruthy()
-    })
+  it('should be created', () => {
+    const mockedMatSnackBar = mock<MatSnackBar>()
+    const mockedConnectionStatusObserver = mock<ConnectionStatusObserver>()
+    expect(new ConnectionErrorService(instance(mockedMatSnackBar), instance(mockedConnectionStatusObserver))).toBeTruthy()
+  })
 })

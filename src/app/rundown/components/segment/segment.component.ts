@@ -3,7 +3,7 @@ import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
-import {RundownService} from "../../../core/abstractions/rundown.service";
+import {RundownService} from '../../../core/abstractions/rundown.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
 @Component({
@@ -21,9 +21,9 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   private animationFrameId?: number
 
   constructor(
-      private readonly pieceLayerService: PieceLayerService,
-      private readonly rundownService: RundownService,
-      private readonly partEntityService: PartEntityService
+    private readonly pieceLayerService: PieceLayerService,
+    private readonly rundownService: RundownService,
+    private readonly partEntityService: PartEntityService
   ) {}
 
   private getUsedPieceLayersInOrder(): PieceLayer[] {
@@ -95,7 +95,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     this.rundownService.setNext(this.segment.rundownId, this.segment.id, firstValidPart.id).subscribe()
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.stopAnimation()
   }
 }

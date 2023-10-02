@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 import {RundownService} from '../../../core/abstractions/rundown.service'
-import {Rundown} from '../../../core/models/rundown';
-import { RundownStateService } from '../../../core/services/rundown-state.service';
+import {Rundown} from '../../../core/models/rundown'
+import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { SubscriptionLike } from 'rxjs'
 import { Segment } from '../../../core/models/segment'
 
@@ -17,9 +17,9 @@ export class RundownComponent implements OnInit, OnDestroy {
   private rundownSubscription?: SubscriptionLike
 
   constructor(
-    private route: ActivatedRoute,
-    private rundownService: RundownService,
-    private rundownStateService: RundownStateService
+    private readonly route: ActivatedRoute,
+    private readonly rundownService: RundownService,
+    private readonly rundownStateService: RundownStateService
   ) { }
 
   public ngOnInit(): void {
@@ -29,8 +29,9 @@ export class RundownComponent implements OnInit, OnDestroy {
       return
     }
     this.rundownStateService
-        .subscribeToRundown(rundownId, (rundown) => { this.rundown = rundown })
-        .then(unsubscribeFromRundown => { this.rundownSubscription = unsubscribeFromRundown })
+      .subscribeToRundown(rundownId, (rundown) => { this.rundown = rundown })
+      .then(unsubscribeFromRundown => { this.rundownSubscription = unsubscribeFromRundown })
+      .catch(error => console.error(`[error] Failed subscribing to rundown with id '${rundownId}'.`, error))
   }
 
   public ngOnDestroy(): void {

@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
 import {catchError, map, Observable} from 'rxjs'
-import {RundownService} from '../abstractions/rundown.service';
-import {HttpErrorService} from './http-error.service';
-import {Rundown} from '../models/rundown';
+import {RundownService} from '../abstractions/rundown.service'
+import {HttpErrorService} from './http-error.service'
+import {Rundown} from '../models/rundown'
 import { EntityParser } from '../abstractions/entity-parser.service'
 
 const RUNDOWN_URL: string = 'http://localhost:3005/api/rundowns'

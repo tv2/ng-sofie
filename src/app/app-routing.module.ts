@@ -19,7 +19,7 @@ const routes: Routes = [
     path: `${Paths.RUNDOWNS}/:rundownId`,
     loadChildren: () => import('./rundown/rundown.module').then(m => m.RundownModule)
   }
-];
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

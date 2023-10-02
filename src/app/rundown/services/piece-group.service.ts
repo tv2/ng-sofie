@@ -5,16 +5,16 @@ import { Injectable } from '@angular/core'
 
 @Injectable()
 export class PieceGroupService {
-    constructor(private readonly pieceLayerService: PieceLayerService) {}
+  constructor(private readonly pieceLayerService: PieceLayerService) {}
 
-    public groupByPieceLayer(pieces: Piece[]): Record<PieceLayer, Piece[]> {
-        return pieces.reduce((pieceLayerGroups: Record<PieceLayer, Piece[]>, piece: Piece) => {
-            const pieceLayer: PieceLayer = this.pieceLayerService.getPieceLayer(piece)
-            if (!(pieceLayer in pieceLayerGroups)) {
-                pieceLayerGroups[pieceLayer] = []
-            }
-            pieceLayerGroups[pieceLayer].push(piece)
-            return pieceLayerGroups
-        }, {} as Record<PieceLayer, Piece[]>)
-    }
+  public groupByPieceLayer(pieces: Piece[]): Record<PieceLayer, Piece[]> {
+    return pieces.reduce((pieceLayerGroups: Record<PieceLayer, Piece[]>, piece: Piece) => {
+      const pieceLayer: PieceLayer = this.pieceLayerService.getPieceLayer(piece)
+      if (!(pieceLayer in pieceLayerGroups)) {
+        pieceLayerGroups[pieceLayer] = []
+      }
+      pieceLayerGroups[pieceLayer].push(piece)
+      return pieceLayerGroups
+    }, {} as Record<PieceLayer, Piece[]>)
+  }
 }

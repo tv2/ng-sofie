@@ -5,7 +5,7 @@ import {
   RundownResetEvent, PartTakenEvent, RundownActivatedEvent, RundownDeactivatedEvent
 } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
-import { Rundown } from '../models/rundown';
+import { Rundown } from '../models/rundown'
 import { RundownService } from '../abstractions/rundown.service'
 import { RundownEventObserver } from './rundown-event-observer.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
@@ -19,10 +19,10 @@ export class RundownStateService implements OnDestroy {
   private eventSubscriptions: EventSubscription[]
 
   constructor(
-      private readonly rundownService: RundownService,
-      private readonly rundownEventObserver: RundownEventObserver,
-      private readonly connectionStatusObserver: ConnectionStatusObserver,
-      private readonly rundownEntityService: RundownEntityService
+    private readonly rundownService: RundownService,
+    private readonly rundownEventObserver: RundownEventObserver,
+    private readonly connectionStatusObserver: ConnectionStatusObserver,
+    private readonly rundownEntityService: RundownEntityService
   ) {
     this.subscribeToEvents()
   }
@@ -31,9 +31,9 @@ export class RundownStateService implements OnDestroy {
     const connectionStatusSubscriptions = this.subscribeToConnectionStatus()
     const rundownEventSubscriptions = this.subscribeToRundownEvents()
     this.eventSubscriptions = [
-        ...rundownEventSubscriptions,
-        ...connectionStatusSubscriptions
-      ]
+      ...rundownEventSubscriptions,
+      ...connectionStatusSubscriptions
+    ]
   }
 
   private subscribeToConnectionStatus(): EventSubscription[] {
@@ -51,8 +51,8 @@ export class RundownStateService implements OnDestroy {
   private resetRundownSubject(rundownSubject: BehaviorSubject<Rundown>, rundownId: string): void {
     console.log('[debug][RundownStateService]', 'Resetting rundown with id: ', rundownId)
     this.fetchRundown(rundownId)
-        .then(rundown => rundownSubject.next(rundown))
-        .catch(error => console.error('[error]', `Encountered error while fetching rundown with id '${rundownId}':`, error))
+      .then(rundown => rundownSubject.next(rundown))
+      .catch(error => console.error('[error]', `Encountered error while fetching rundown with id '${rundownId}':`, error))
   }
 
   private subscribeToRundownEvents(): EventSubscription[] {
@@ -67,12 +67,12 @@ export class RundownStateService implements OnDestroy {
   }
 
   private activateRundownFromEvent(event: RundownActivatedEvent): void {
-      const rundownSubject = this.rundownSubjects.get(event.rundownId)
-      if (!rundownSubject) {
-        return
-      }
-      const activeRundown: Rundown = this.rundownEntityService.activate(rundownSubject.value)
-      rundownSubject.next(activeRundown)
+    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
+    const activeRundown: Rundown = this.rundownEntityService.activate(rundownSubject.value)
+    rundownSubject.next(activeRundown)
   }
 
   private deactivateRundownFromEvent(event: RundownDeactivatedEvent): void {
@@ -142,7 +142,7 @@ export class RundownStateService implements OnDestroy {
   }
 
   private fetchRundown(rundownId: string): Promise<Rundown> {
-      return lastValueFrom(this.rundownService.fetchRundown(rundownId))
+    return lastValueFrom(this.rundownService.fetchRundown(rundownId))
   }
 
   private createUnsubscribeFromRundownHandler(rundownId: string): () => void {

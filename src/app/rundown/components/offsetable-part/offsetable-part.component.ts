@@ -34,9 +34,9 @@ export class OffsetablePartComponent implements OnChanges {
 
   public piecesGroupedByPieceLayer: Record<PieceLayer, Piece[]> = {} as Record<PieceLayer, Piece[]>
 
-  public constructor(
-      private readonly partEntityService: PartEntityService,
-      private readonly pieceGroupService: PieceGroupService
+  constructor(
+    private readonly partEntityService: PartEntityService,
+    private readonly pieceGroupService: PieceGroupService
   ) {}
 
   @HostBinding('style.width.px')
@@ -71,7 +71,7 @@ export class OffsetablePartComponent implements OnChanges {
   private getVisiblePieces(): Piece[] {
     const displayDurationInMs = this.getDisplayDurationInMs()
     return this.part.pieces
-        .filter(piece => this.isPieceVisible(piece, displayDurationInMs))
+      .filter(piece => this.isPieceVisible(piece, displayDurationInMs))
   }
 
   private isPieceVisible(piece: Piece, displayDurationInMs: number): boolean {

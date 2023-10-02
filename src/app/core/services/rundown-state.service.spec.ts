@@ -12,10 +12,10 @@ describe('RundownStateService', () => {
     const mockedConnectionStatusObserver = mock<ConnectionStatusObserver>()
     const mockedRundownEntityService = mock<RundownEntityService>()
     const testee = new RundownStateService(
-        instance(mockedRundownService),
-        instance(mockedRundownEventObserver),
-        instance(mockedConnectionStatusObserver),
-        instance(mockedRundownEntityService)
+      instance(mockedRundownService),
+      instance(mockedRundownEventObserver),
+      instance(mockedConnectionStatusObserver),
+      instance(mockedRundownEntityService)
     )
     expect(testee).toBeTruthy()
   })
