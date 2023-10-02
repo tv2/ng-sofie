@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { TimelineFlagComponent } from './timeline-flag.component';
+import { TimelineFlagComponent } from './timeline-flag.component'
 
 describe('TimelineFlagComponent', () => {
-  let component: TimelineFlagComponent;
-  let fixture: ComponentFixture<TimelineFlagComponent>;
+  let component: TimelineFlagComponent
+  let fixture: ComponentFixture<TimelineFlagComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TimelineFlagComponent ]
     })
-    .compileComponents();
+      .compileComponents()
 
-    fixture = TestBed.createComponent(TimelineFlagComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(TimelineFlagComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})
