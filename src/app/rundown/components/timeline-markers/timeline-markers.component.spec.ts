@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing'
 
 import { TimelineMarkersComponent } from './timeline-markers.component'
 import { instance, mock } from '@typestrong/ts-mockito'
-import { TimestampPipePipe } from '../../../shared/pipes/timestamp.pipe'
+import { TimestampPipe } from '../../../shared/pipes/timestamp.pipe'
 
 describe('TimelineComponent', () => {
   it('should create', async () => {
@@ -14,11 +14,11 @@ describe('TimelineComponent', () => {
 })
 
 async function configureTestBed(): Promise<void> {
-  const mockedTimestampPipe: TimestampPipePipe = mock<TimestampPipePipe>()
+  const mockedTimestampPipe: TimestampPipe = mock<TimestampPipe>()
   await TestBed.configureTestingModule({
     declarations: [ TimelineMarkersComponent ],
     providers: [
-      { provide: TimestampPipePipe, useValue: instance(mockedTimestampPipe) },
+      { provide: TimestampPipe, useValue: instance(mockedTimestampPipe) },
     ]
   }).compileComponents()
 }

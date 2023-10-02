@@ -10,7 +10,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core'
-import { TimestampPipePipe } from '../../../shared/pipes/timestamp.pipe'
+import { TimestampPipe } from '../../../shared/pipes/timestamp.pipe'
 import { debounceTime, Subject } from 'rxjs'
 
 interface Point {
@@ -56,7 +56,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   public constructor(
       private readonly containerElement: ElementRef,
-      private readonly timestampPipe: TimestampPipePipe
+      private readonly timestampPipe: TimestampPipe
   ) {}
 
   @HostListener('window:resize', ['$event'])
