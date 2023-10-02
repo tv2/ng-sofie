@@ -6,7 +6,7 @@ import { RundownService } from '../../../core/abstractions/rundown.service'
 import { instance, mock } from '@typestrong/ts-mockito'
 import { SharedModule } from '../../../shared/shared.module'
 
-describe('FollowPlayheadTimelineComponent', () => {
+describe(ScrollableTimelineComponent.name, () => {
   let component: ScrollableTimelineComponent;
   let fixture: ComponentFixture<ScrollableTimelineComponent>;
 
