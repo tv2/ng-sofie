@@ -70,8 +70,9 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
 
     // TODO: Take into account more than the closest previous part and not only if none was found in the first step.
     // In order to jump in from anywhere and display the correct transition this is needed.
-    if (previousParts.length === 0 && this.segment.parts[onAirPartIndex - 1] && this.isUnplayedPart(this.segment.parts[onAirPartIndex - 1])) {
-      return [this.segment.parts[onAirPartIndex - 1]]
+    const partBeforeOnAirPart: Part | undefined = this.segment.parts[onAirPartIndex - 1]
+    if (previousParts.length === 0 && partBeforeOnAirPart && this.isUnplayedPart(partBeforeOnAirPart)) {
+      return [partBeforeOnAirPart]
     }
     return previousParts
   }

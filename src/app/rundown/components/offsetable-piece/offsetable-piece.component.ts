@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core'
 import { Piece } from '../../../core/models/piece'
 
+const LABEL_TEXT_INSET_IN_PIXELS: number = 14
+
 @Component({
   selector: 'sofie-offsetable-piece',
   templateUrl: './offsetable-piece.component.html',
@@ -43,7 +45,6 @@ export class OffsetablePieceComponent {
   }
 
   private getDisplayDurationInMs(): number {
-    // TODO: Use postPlayheadInset instead of magic numbers
     const durationInMs: number = this.piece.duration ?? (this.partDuration - this.piece.start + this.prePlayheadDurationInMs + this.postPlayheadDurationInMs)
     const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start - this.prePlayheadDurationInMs)
     return durationInMs - (playedDurationForPieceInMs)
@@ -66,7 +67,7 @@ export class OffsetablePieceComponent {
       return 0
     }
 
-    const labelTextDurationInMs: number = (labelTextWidthInPixels + 14) * 1000 / this.pixelsPerSecond
+    const labelTextDurationInMs: number = (labelTextWidthInPixels + LABEL_TEXT_INSET_IN_PIXELS) * 1000 / this.pixelsPerSecond
     const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start)
     if (labelTextDurationInMs > this.piece.duration) {
       return -Math.min(0, this.piece.duration - playedDurationForPieceInMs)

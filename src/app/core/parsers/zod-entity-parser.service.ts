@@ -1,5 +1,4 @@
 import { EntityParser } from '../abstractions/entity-parser.service'
-import { AdLibPiece } from '../models/ad-lib-piece'
 import { BasicRundown } from '../models/basic-rundown'
 import { Part } from '../models/part'
 import { Piece } from '../models/piece'
@@ -17,11 +16,6 @@ export class ZodEntityParser implements EntityParser {
         layer: zod.string().nonempty(),
         start: zod.number(),
         duration: zod.number().optional(),
-    })
-
-    private readonly adLibPieceParser = this.pieceParser.extend({
-        start: zod.number(),
-        duration: zod.number(),
     })
 
     private readonly partParser = zod.object({
@@ -43,6 +37,7 @@ export class ZodEntityParser implements EntityParser {
         isOnAir: zod.boolean(),
         isNext: zod.boolean(),
         parts: this.partParser.array(),
+        budgetDuration: zod.number().optional(),
     })
 
     private readonly basicRundownParser = zod.object({
@@ -61,10 +56,6 @@ export class ZodEntityParser implements EntityParser {
 
     public parsePiece(piece: unknown): Piece {
         return this.pieceParser.parse(piece)
-    }
-
-    public parseAdLibPiece(adLibPiece: unknown): AdLibPiece {
-        return this.adLibPieceParser.parse(adLibPiece)
     }
 
     public parsePart(part: unknown): Part {

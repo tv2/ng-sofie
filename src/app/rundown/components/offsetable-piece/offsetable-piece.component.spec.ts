@@ -4,7 +4,7 @@ import { OffsetablePieceComponent } from './offsetable-piece.component';
 import { Piece } from '../../../core/models/piece'
 import { instance, mock } from '@typestrong/ts-mockito'
 
-describe('PieceComponent', () => {
+describe(OffsetablePieceComponent.name, () => {
   let component: OffsetablePieceComponent;
   let fixture: ComponentFixture<OffsetablePieceComponent>;
 

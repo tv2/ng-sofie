@@ -5,13 +5,12 @@ import {
     RundownDeactivatedEvent,
     RundownResetEvent,
     PartSetAsNextEvent,
-    PartTakenEvent, RundownAdLibPieceInsertedEvent, RundownDeletedEvent
+    PartTakenEvent,
+    RundownDeletedEvent
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
 import { EntityParser } from '../abstractions/entity-parser.service'
-import { AdLibPiece } from '../models/ad-lib-piece'
-
 
 @Injectable()
 export class ZodRundownEventParser {
@@ -19,8 +18,6 @@ export class ZodRundownEventParser {
         type: zod.literal(RundownEventType.ACTIVATED),
         timestamp: zod.number(),
         rundownId: zod.string().nonempty(),
-        segmentId: zod.string().nonempty(),
-        partId: zod.string().nonempty(),
     })
 
     private readonly rundownDeactivatedEventParser = zod.object({
@@ -57,17 +54,6 @@ export class ZodRundownEventParser {
         partId: zod.string().nonempty(),
     })
 
-    private readonly rundownAdLibPieceInsertedEventParser = zod.object({
-        type: zod.literal(RundownEventType.AD_LIB_PIECE_INSERTED),
-        timestamp: zod.number(),
-        rundownId: zod.string().nonempty(),
-        segmentId: zod.string().nonempty(),
-        partId: zod.string().nonempty(),
-        adLibPiece: zod.object({})
-            .nonstrict()
-            .transform((adLibPiece: unknown): AdLibPiece => this.entityParser.parseAdLibPiece(adLibPiece)),
-    })
-
     private readonly rundownInfinitePieceAddedEventParser = zod.object({
         type: zod.literal(RundownEventType.INFINITE_PIECE_ADDED),
         timestamp: zod.number(),
@@ -101,10 +87,6 @@ export class ZodRundownEventParser {
 
     public parseSetNextEvent(maybeEvent: unknown): PartSetAsNextEvent {
         return this.rundownSetNextEventParser.parse(maybeEvent)
-    }
-
-    public parseAdLibPieceInserted(maybeEvent: unknown): RundownAdLibPieceInsertedEvent {
-        return this.rundownAdLibPieceInsertedEventParser.parse(maybeEvent)
     }
 
     public parseInfinitePieceAdded(maybeEvent: unknown): RundownInfinitePieceAddedEvent {
