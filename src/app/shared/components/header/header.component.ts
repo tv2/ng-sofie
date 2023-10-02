@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {Paths} from '../../../app-routing.module';
 import {Router} from '@angular/router';
 
@@ -7,14 +7,10 @@ import {Router} from '@angular/router';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
+  public title = 'Sofie';
 
-  title = 'Sofie';
-
-  constructor(private router: Router) { }
-
-  ngOnInit(): void {
-  }
+  public constructor(private router: Router) {}
 
   public navigateHome(): void {
     this.router.navigate([Paths.HOME])

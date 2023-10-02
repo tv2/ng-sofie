@@ -12,7 +12,6 @@ const KEEP_VISIBLE_DURATION_IN_MS: number = 20_000
   templateUrl: './offsetable-part.component.html',
   styleUrls: ['./offsetable-part.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'offsetable-part' },
 })
 export class OffsetablePartComponent implements OnChanges {
   @Input()
