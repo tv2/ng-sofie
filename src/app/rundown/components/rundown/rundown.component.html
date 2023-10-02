@@ -16,17 +16,15 @@
     <div>
       <div>
         <button *ngIf="!rundown?.isActive; else activeRundownButtons" (click)="activateRundown()">Activate Rundown</button>
-      </div>
-      <div class="segments">
-        <sofie-segment
-          *ngFor="let segment of rundown?.segments"
-          [segment]="segment"
-          [isOnAir]="segment.isOnAir"
-        ></sofie-segment>
-      </div>
+    </div>
+    <div class="segments">
+      <sofie-segment
+        *ngFor="let segment of rundown?.segments; trackBy: trackSegment"
+        [segment]="segment"
+      ></sofie-segment>
     </div>
   </div>
-</ng-template>
+</div></ng-template>
 
 </body>
 

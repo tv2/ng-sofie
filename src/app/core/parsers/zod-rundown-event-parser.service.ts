@@ -19,8 +19,6 @@ export class ZodRundownEventParser {
         type: zod.literal(RundownEventType.ACTIVATED),
         timestamp: zod.number(),
         rundownId: zod.string().nonempty(),
-        segmentId: zod.string().nonempty(),
-        partId: zod.string().nonempty(),
     })
 
     private readonly rundownDeactivatedEventParser = zod.object({

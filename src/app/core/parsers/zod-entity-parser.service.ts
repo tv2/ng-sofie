@@ -69,11 +69,11 @@ export class ZodEntityParser implements EntityParser {
     }
 
     public parsePart(part: unknown): Part {
-        return new Part(this.partParser.parse(part))
+        return this.partParser.parse(part)
     }
 
     public parseSegment(segment: unknown): Segment {
-        return new Segment(this.segmentParser.parse(segment))
+        return this.segmentParser.parse(segment)
     }
 
     public parseBasicRundown(basicRundown: unknown): BasicRundown {
@@ -85,6 +85,6 @@ export class ZodEntityParser implements EntityParser {
     }
 
     public parseRundown(rundown: unknown): Rundown {
-        return new Rundown(this.rundownParser.parse(rundown))
+        return this.rundownParser.parse(rundown)
     }
 }

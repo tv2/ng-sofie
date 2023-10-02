@@ -18,6 +18,10 @@ import { ZodEntityParser } from './parsers/zod-entity-parser.service'
 import { ZodRundownEventParser } from './parsers/zod-rundown-event-parser.service'
 import { EventSystemModule } from '../event-system/event-system.module'
 import { RundownService } from './abstractions/rundown.service'
+import { RundownEntityService } from './services/models/rundown-entity.service'
+import { SegmentEntityService } from './services/models/segment-entity.service'
+import { PartEntityService } from './services/models/part-entity.service'
+import { BasicRundownEntityService } from './services/models/basic-rundown-entity.service'
 
 @NgModule({
   declarations: [],
@@ -39,6 +43,10 @@ import { RundownService } from './abstractions/rundown.service'
     BasicRundownStateService,
     { provide: RundownEventParser, useClass: ZodRundownEventParser },
     { provide: EntityParser, useClass: ZodEntityParser },
+    RundownEntityService,
+    BasicRundownEntityService,
+    SegmentEntityService,
+    PartEntityService,
   ]
 })
 export class CoreModule extends EnsureLoadedOnceGuard {
