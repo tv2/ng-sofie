@@ -3,9 +3,12 @@ import { Injectable } from '@angular/core'
 import { RundownEventParser } from '../abstractions/rundown-event.parser'
 import { RundownEventType } from '../models/rundown-event-type'
 import {
-    RundownActivatedEvent, RundownAdLibPieceInsertedEvent,
-    RundownDeactivatedEvent, RundownDeletedEvent, RundownInfinitePieceAddedEvent,
-    RundownResetEvent, PartSetAsNextEvent,
+    RundownActivatedEvent,
+    RundownDeactivatedEvent,
+    RundownDeletedEvent,
+    RundownInfinitePieceAddedEvent,
+    RundownResetEvent,
+    PartSetAsNextEvent,
     PartTakenEvent
 } from '../models/rundown-event'
 
@@ -52,13 +55,6 @@ export class RundownEventObserver {
         return this.eventObserver.subscribe(
             RundownEventType.SET_NEXT,
             this.createEventValidatingConsumer(onSetNext, this.rundownEventParser.parseSetNextEvent.bind(this.rundownEventParser))
-        )
-    }
-
-    public subscribeToRundownAdLibPieceInserted(onAdLibPieceInserted: (event: RundownAdLibPieceInsertedEvent) => void): EventSubscription {
-        return this.eventObserver.subscribe(
-            RundownEventType.AD_LIB_PIECE_INSERTED,
-            this.createEventValidatingConsumer(onAdLibPieceInserted, this.rundownEventParser.parseAdLibPieceInserted.bind(this.rundownEventParser))
         )
     }
 

@@ -1,5 +1,4 @@
 import { RundownEventType } from './rundown-event-type'
-import { AdLibPiece } from './ad-lib-piece'
 import { Piece } from './piece'
 import { TypedEvent } from '../../event-system/abstractions/event-observer.service'
 
@@ -35,13 +34,6 @@ export interface PartTakenEvent extends PartEvent {
 
 export interface PartSetAsNextEvent extends PartEvent {
   type: RundownEventType.SET_NEXT
-}
-
-export interface RundownAdLibPieceInsertedEvent extends RundownEvent {
-  type: RundownEventType.AD_LIB_PIECE_INSERTED,
-  segmentId: string
-  partId: string
-  adLibPiece: AdLibPiece
 }
 
 export interface RundownInfinitePieceAddedEvent extends RundownEvent {
