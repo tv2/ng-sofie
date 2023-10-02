@@ -84,6 +84,10 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   }
 
   public setFirstValidPartAsNext(): void {
+    if (this.segment.isOnAir) {
+      return
+    }
+
     const firstValidPart: Part | undefined = this.segment.parts.find( (part) => part.pieces.length > 0)
     if (!firstValidPart) {
       return

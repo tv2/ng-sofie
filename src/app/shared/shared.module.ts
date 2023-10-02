@@ -13,16 +13,20 @@ import {ConfirmationDialogComponent} from './components/confirmation-dialog/conf
 import {MatDialogModule} from '@angular/material/dialog'
 import {DialogService} from './services/dialog.service'
 import { ConnectionErrorService } from './services/connection-error.service'
-import { MillisecondsAsTimePipe } from './pipes/millisecondsAsTime.pipe'
-import { PieceLayerService } from './services/piece-layer.service'
+import { TimestampPipePipe } from './pipes/timestamp.pipe'
+import { PieceLayerService } from './services/piece-layer.service';
+import { MinimumPipe } from './pipes/minimum.pipe';
+import { MaximumPipe } from './pipes/maximum.pipe'
 
 
 @NgModule({
-    declarations: [
-     HeaderComponent,
-     ConfirmationDialogComponent,
-     MillisecondsAsTimePipe,
-    ],
+  declarations: [
+    HeaderComponent,
+    ConfirmationDialogComponent,
+    MinimumPipe,
+    MaximumPipe,
+    TimestampPipePipe,
+  ],
   imports: [
     CommonModule,
     MatSnackBarModule,
@@ -35,17 +39,19 @@ import { PieceLayerService } from './services/piece-layer.service'
     MatListModule,
     MatDialogModule,
   ],
-    exports: [
-     CommonModule,
-     HeaderComponent,
-     MillisecondsAsTimePipe
-    ],
+  exports: [
+    CommonModule,
+    HeaderComponent,
+    MinimumPipe,
+    MaximumPipe,
+    TimestampPipePipe,
+  ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000, verticalPosition: 'top'}},
     DialogService,
     ConnectionErrorService,
     PieceLayerService,
-    MillisecondsAsTimePipe,
+    TimestampPipePipe,
   ]
 })
 export class SharedModule {}

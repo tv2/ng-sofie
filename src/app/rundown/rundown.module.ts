@@ -10,7 +10,11 @@ import { TimelinePlayheadComponent } from './components/timeline-playhead/timeli
 import { FullSegmentTimelineComponent } from './components/full-segment-timeline/full-segment-timeline.component';
 import { SegmentEndIndicatorComponent } from './components/segment-end-indicator/segment-end-indicator.component';
 import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.component';
+import { FollowPlayheadTimelineComponent } from './components/follow-playhead-timeline/follow-playhead-timeline.component';
 import { MatCardModule } from "@angular/material/card";
+import { OffsetablePartComponent } from './components/offsetable-part/offsetable-part.component'
+import { PieceGroupService } from './services/piece-group.service'
+import { OffsetablePieceComponent } from './components/offsetable-piece/offsetable-piece.component'
 import {EditorialLineComponent} from "./components/editorial-line/editorial-line.component";
 
 @NgModule({
@@ -25,6 +29,9 @@ import {EditorialLineComponent} from "./components/editorial-line/editorial-line
     EditorialLineComponent,
     SegmentEndIndicatorComponent,
     TimelineFlagComponent,
+    FollowPlayheadTimelineComponent,
+    OffsetablePartComponent,
+    OffsetablePieceComponent,
   ],
   exports: [
     SegmentComponent
@@ -33,6 +40,9 @@ import {EditorialLineComponent} from "./components/editorial-line/editorial-line
     RundownRoutesModule,
     SharedModule,
     MatCardModule,
+  ],
+  providers: [
+    PieceGroupService,
   ]
 })
 export class RundownModule { }
