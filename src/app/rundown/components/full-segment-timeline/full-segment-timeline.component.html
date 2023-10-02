@@ -22,3 +22,8 @@
     [pixelsPerSecond]="pixelsPerSecond"
     [time]="segment.isOnAir ? time : 0"
 ></sofie-timeline-playhead>
+<sofie-editorial-line
+    *ngIf="segment.budgetDuration"
+    [budgetDuration]="segment.budgetDuration"
+    [pixelsPerSecond]="pixelsPerSecond"
+></sofie-editorial-line>

@@ -2,7 +2,7 @@
   <div class="c-segment__header" (click)="setFirstValidPartAsNext()">
     <div class="c-segment__header-toolbar">
       <span>123</span>
-      <span style="margin-left: 50px;">00:30</span>
+      <span class="c-segment__budget-duration">{{segment.budgetDuration ?? 0 | timestamp }}</span>
     </div>
     <div class="c-segment__title">
       {{ segment.name }}

@@ -4,9 +4,10 @@ import { anything, instance, mock, when } from '@typestrong/ts-mockito'
 import {
     PartSetAsNextEvent,
     PartTakenEvent,
-    RundownActivatedEvent, RundownAdLibPieceInsertedEvent,
+    RundownActivatedEvent,
     RundownDeactivatedEvent,
-    RundownDeletedEvent, RundownInfinitePieceAddedEvent,
+    RundownDeletedEvent,
+    RundownInfinitePieceAddedEvent,
     RundownResetEvent
 } from '../models/rundown-event'
 import { PieceType } from '../enums/piece-type'
@@ -21,8 +22,6 @@ describe(ZodRundownEventParser.name, () => {
                 type: RundownEventType.ACTIVATED,
                 timestamp: Date.now(),
                 rundownId: 'some-rundown-id',
-                segmentId: 'some-segment-id',
-                partId: 'some-segment-id',
             }
 
             const result = testee.parseActivatedEvent(event)
@@ -188,47 +187,6 @@ describe(ZodRundownEventParser.name, () => {
         })
     })
 
-    describe(ZodRundownEventParser.prototype.parseAdLibPieceInserted.name, () => {
-        it('parses a rundown ad-lib piece inserted event', () => {
-            const mockedEntityParser = createMockOfEntityParser()
-            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
-            const event: RundownAdLibPieceInsertedEvent = {
-                type: RundownEventType.AD_LIB_PIECE_INSERTED,
-                timestamp: Date.now(),
-                rundownId: 'some-rundown-id',
-                segmentId: 'some-segment-id',
-                partId: 'some-part-id',
-                adLibPiece: {
-                    id: 'some-piece-id',
-                    type: PieceType.UNKNOWN,
-                    name: 'some-piece',
-                    partId: 'some-part-id',
-                    layer: 'some-layer',
-                    start: 0,
-                    duration: 1,
-
-                }
-            }
-
-            const result = testee.parseAdLibPieceInserted(event)
-
-            expect(result).toEqual(event)
-        })
-
-        it('does not parse a partial rundown ad-lib piece inserted event', () => {
-            const mockedEntityParser = createMockOfEntityParser()
-            const testee = new ZodRundownEventParser(instance(mockedEntityParser))
-            const event: Partial<RundownAdLibPieceInsertedEvent> = {
-                type: RundownEventType.AD_LIB_PIECE_INSERTED,
-                rundownId: 'some-rundown-id',
-            }
-
-            const result = () => testee.parseAdLibPieceInserted(event)
-
-            expect(result).toThrow()
-        })
-    })
-
     describe(ZodRundownEventParser.prototype.parseInfinitePieceAdded.name, () => {
         it('parses a rundown infinite piece added event', () => {
             const mockedEntityParser = createMockOfEntityParser()
@@ -269,7 +227,6 @@ describe(ZodRundownEventParser.name, () => {
 
 function createMockOfEntityParser(): EntityParser {
     const mockedEntityParser = mock<EntityParser>()
-    when(mockedEntityParser.parseAdLibPiece(anything())).thenCall(adLibPiece => adLibPiece)
     when(mockedEntityParser.parsePiece(anything())).thenCall(piece => piece)
     return mockedEntityParser
 }

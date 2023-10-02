@@ -1,10 +1,9 @@
 import { RundownEntityService } from './rundown-entity.service'
 import { SegmentEntityService } from './segment-entity.service'
-import { anyNumber, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
+import { anyNumber, anyString, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
 import { Rundown } from '../../models/rundown'
 import { TestEntityFactory } from './test-entity.factory'
 import { Segment } from '../../models/segment'
-import { Part } from '../../models/part'
 import { Piece } from '../../models/piece'
 import { RundownCursor } from '../../models/rundown-cursor'
 
@@ -22,7 +21,7 @@ describe(RundownEntityService.name, () => {
             when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
             const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
 
-            testee.activate(rundown, Date.now())
+            testee.activate(rundown)
 
             segments.forEach(segment => verify(mockedSegmentEntityService.reset(segment)).once())
         })
@@ -32,27 +31,27 @@ describe(RundownEntityService.name, () => {
             const rundown: Rundown = testEntityFactory.createRundown()
             const testee: RundownEntityService = createTestee()
 
-            const result: Rundown = testee.activate(rundown, Date.now())
+            const result: Rundown = testee.activate(rundown)
 
             expect(rundown.isActive).toBeFalse()
             expect(result.isActive).toBeTrue()
         })
 
-        it('puts first part in first segment on-air', () => {
+        it('does not put any segments on-air', () => {
             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-            const firstPartId: string = 'first-part-id'
-            const firstPart: Part = testEntityFactory.createPart({ id: firstPartId })
-            const firstSegmentId: string = 'first-segment-id'
-            const firstSegment: Segment = testEntityFactory.createSegment({ id: firstSegmentId, parts: [firstPart] })
-            const rundown: Rundown = testEntityFactory.createRundown({ segments: [firstSegment] })
+            const segments: Segment[] = [
+                testEntityFactory.createSegment(),
+                testEntityFactory.createSegment(),
+                testEntityFactory.createSegment(),
+            ]
+            const rundown: Rundown = testEntityFactory.createRundown({ segments })
             const mockedSegmentEntityService = mock<SegmentEntityService>()
             when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
             const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
-            const activatedAt: number = Date.now()
 
-            testee.activate(rundown, activatedAt)
+            testee.activate(rundown)
 
-            verify(mockedSegmentEntityService.putOnAir(firstSegment, firstPartId, activatedAt)).once()
+            verify(mockedSegmentEntityService.putOnAir(anything(), anyString(), anyNumber())).never()
         })
     })
 
