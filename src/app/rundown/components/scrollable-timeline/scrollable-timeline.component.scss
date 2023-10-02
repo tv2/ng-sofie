@@ -2,7 +2,11 @@
   position: relative;
   width: 100%;
   background-color: black;
-  cursor: ew-resize;
+  cursor: pointer;
+
+  &:active {
+    cursor: ew-resize;
+  }
 
   .parts {
     display: inline-flex;
