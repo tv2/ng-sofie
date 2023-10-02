@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'timestamp'
 })
-export class TimestampPipePipe implements PipeTransform {
+export class TimestampPipe implements PipeTransform {
   public transform(durationInMs: number): string {
     const durationInSeconds: number = Math.floor(durationInMs / 1000)
     const seconds: number = durationInSeconds % 60
