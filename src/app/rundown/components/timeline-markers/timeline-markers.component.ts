@@ -82,9 +82,9 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   }
 
   private drawSubsections(): void {
-    const subsectionWidth = this.pixelsPerSecond * this.secondsPerSection / this.subsectionsPerSection
-    const subsectionCount = this.subsectionsPerSection + Math.ceil(this.canvasWidth / subsectionWidth)
-    const timeOffsetInPixels = this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
+    const subsectionWidth: number = this.pixelsPerSecond * this.secondsPerSection / this.subsectionsPerSection
+    const subsectionCount: number = this.subsectionsPerSection + Math.ceil(this.canvasWidth / subsectionWidth)
+    const timeOffsetInPixels: number = this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
     for (let i = 0; i < subsectionCount; i++) {
       this.drawSubsectionIfNotCollidingWithSection(i, subsectionWidth, timeOffsetInPixels)
     }
@@ -118,9 +118,9 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   }
 
   private drawSections(): void {
-    const sectionWidth = this.pixelsPerSecond * this.secondsPerSection
-    const sectionCount = 1 + Math.ceil(this.canvasWidth / sectionWidth)
-    const timeOffsetInPixels = this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
+    const sectionWidth: number = this.pixelsPerSecond * this.secondsPerSection
+    const sectionCount: number = 1 + Math.ceil(this.canvasWidth / sectionWidth)
+    const timeOffsetInPixels: number = this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
     for (let i = 0; i < sectionCount; i++) {
       this.drawSectionFromIndex(i, sectionWidth, timeOffsetInPixels)
     }
@@ -139,22 +139,22 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   }
 
   private drawTimestamps(): void {
-    const sectionWidth = this.pixelsPerSecond * this.secondsPerSection
-    const sectionCount = 1 + Math.ceil(this.canvasWidth / sectionWidth)
+    const sectionWidth: number = this.pixelsPerSecond * this.secondsPerSection
+    const sectionCount: number = 1 + Math.ceil(this.canvasWidth / sectionWidth)
     for (let i = 0; i < sectionCount; i++) {
       this.drawTimestampFromIndex(i, sectionWidth)
     }
   }
 
   private drawTimestampFromIndex(sectionIndex: number, sectionWidth: number): void {
-    const x = sectionIndex * sectionWidth - this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
-    const sectionTimestampInSeconds = this.getSectionTimestampInSeconds(sectionIndex)
-    const formattedTimestamp = this.timestampPipe.transform(sectionTimestampInSeconds)
+    const x: number = sectionIndex * sectionWidth - this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
+    const sectionTimestampInSeconds: number = this.getSectionTimestampInSeconds(sectionIndex)
+    const formattedTimestamp: string = this.timestampPipe.transform(sectionTimestampInSeconds * 1000)
     this.drawText(formattedTimestamp, x, TEXT_MIDDLE_POSITION)
   }
 
   private getSectionTimestampInSeconds(sectionIndex: number): number {
-    const timeInSeconds = this.time / 1000
+    const timeInSeconds: number = this.time / 1000
     return timeInSeconds - timeInSeconds % this.secondsPerSection + sectionIndex * this.secondsPerSection
   }
 
