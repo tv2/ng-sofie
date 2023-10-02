@@ -4,10 +4,9 @@ import { FollowPlayheadTimelineComponent } from './follow-playhead-timeline.comp
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { instance, mock } from '@typestrong/ts-mockito'
-import { MaximumPipe } from '../../../shared/pipes/maximum.pipe'
 import { SharedModule } from '../../../shared/shared.module'
 
-describe('FollowPlayheadTimelineComponent', () => {
+describe(FollowPlayheadTimelineComponent.name, () => {
   let component: FollowPlayheadTimelineComponent;
   let fixture: ComponentFixture<FollowPlayheadTimelineComponent>;
 
