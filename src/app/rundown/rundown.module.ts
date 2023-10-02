@@ -9,7 +9,6 @@ import {SharedModule} from '../shared/shared.module'
 import {RundownRoutesModule} from './rundown-routes.module';
 import { TimelineMarkersComponent } from './components/timeline-markers/timeline-markers.component';
 import { TimelinePlayheadComponent } from './components/timeline-playhead/timeline-playhead.component';
-import { FullSegmentTimelineComponent } from './components/full-segment-timeline/full-segment-timeline.component';
 import { SegmentEndIndicatorComponent } from './components/segment-end-indicator/segment-end-indicator.component';
 import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.component';
 import { FollowPlayheadTimelineComponent } from './components/follow-playhead-timeline/follow-playhead-timeline.component';
@@ -29,7 +28,6 @@ import { OffsetablePieceComponent } from './components/offsetable-piece/offsetab
     AdLibPieceIdentifierComponent,
     TimelineMarkersComponent,
     TimelinePlayheadComponent,
-    FullSegmentTimelineComponent,
     SegmentEndIndicatorComponent,
     TimelineFlagComponent,
     FollowPlayheadTimelineComponent,
