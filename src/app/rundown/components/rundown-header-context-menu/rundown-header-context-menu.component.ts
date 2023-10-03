@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, HostBinding, Input, OnInit, ViewChild} from '@angular/core';
 import {RundownService} from "../../../core/abstractions/rundown.service";
 import {Rundown} from "../../../core/models/rundown";
 
