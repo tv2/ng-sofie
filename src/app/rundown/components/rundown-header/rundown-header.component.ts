@@ -48,9 +48,9 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
           this.showStyleVariant = showStyleVariant
           this.setDefaultHeaderInformation()
         })
-        .then(unsubscribeFromShowStyleVariant => {
+        .then(unsubscribeFromShowStyleVariant =>
           this.showStyleVariantSubscription = unsubscribeFromShowStyleVariant
-        })
+        )
   }
 
   private setRundownNameAndPath(): void {
@@ -86,14 +86,14 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     }
     const gfxDefaults = this.showStyleVariant.blueprintConfiguration.GfxDefaults[0]
     this.setupName = gfxDefaults.DefaultSetupName.label
-    this.design = this.getNameFromTemplate(gfxDefaults.DefaultDesign.label)
-    this.schema = this.getNameFromTemplate(gfxDefaults.DefaultSchema.label)
+    this.design = this.getGfxNameFromTemplate(gfxDefaults.DefaultDesign.label)
+    this.schema = this.getGfxNameFromTemplate(gfxDefaults.DefaultSchema.label)
   }
 
   private setDesignFromInfinitePieces(): void {
     const infinitePieces: Piece[] = this.rundown.infinitePieces
 
-    const designPiece: Piece | undefined = infinitePieces.find((piece) => this.getNameFromTemplate(piece.name) === 'DESIGN')
+    const designPiece: Piece | undefined = infinitePieces.find((piece) => this.getGfxNameFromTemplate(piece.name) === 'DESIGN')
     if (designPiece) {
       this.design = designPiece.name
     }
@@ -102,13 +102,13 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   private setSchemaFromInfinitePieces(): void {
     const infinitePieces: Piece[] = this.rundown.infinitePieces
 
-    const schemaPiece: Piece | undefined = infinitePieces.find((piece) => this.getNameFromTemplate(piece.name) === 'SKEMA')
+    const schemaPiece: Piece | undefined = infinitePieces.find((piece) => this.getGfxNameFromTemplate(piece.name) === 'SKEMA')
     if(schemaPiece) {
       this.schema = schemaPiece.name
     }
   }
 
-  private getNameFromTemplate(template: string) {
+  private getGfxNameFromTemplate(template: string) {
     const pattern: RegExp = /^.+_(?<gfxName>\w+)$/
     return template.match(pattern)?.groups?.['gfxName'] ?? template
   }
