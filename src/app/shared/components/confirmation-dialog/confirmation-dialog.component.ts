@@ -14,7 +14,7 @@ export interface ConfirmationDialogData {
 @Component({
   selector: 'sofie-confirmation-dialog',
   templateUrl: './confirmation-dialog.component.html',
-  styleUrls: ['./confirmation-dialog.component.scss']
+  styleUrls: ['./confirmation-dialog.component.scss'],
 })
 export class ConfirmationDialogComponent extends StronglyTypedDialog<ConfirmationDialogData, boolean> {
   public title: string = 'Are you sure?'
@@ -22,12 +22,9 @@ export class ConfirmationDialogComponent extends StronglyTypedDialog<Confirmatio
   public okButtonText: string = 'Yes'
   public cancelButtonText: string = 'Cancel'
 
-  constructor(
-  @Inject(MAT_DIALOG_DATA) data: ConfirmationDialogData,
-    dialogRef: MatDialogRef<StronglyTypedDialog<ConfirmationDialogData, boolean>, boolean>
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) data: ConfirmationDialogData, dialogRef: MatDialogRef<StronglyTypedDialog<ConfirmationDialogData, boolean>, boolean>) {
     super(data, dialogRef)
-    if(!data) return
+    if (!data) return
     this.title = data.title ?? this.title
     this.message = data.message ?? this.message
     this.okButtonText = data.buttonText?.ok ?? this.okButtonText

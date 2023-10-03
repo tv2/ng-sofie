@@ -32,22 +32,17 @@ export class BasicRundownStateService implements OnDestroy {
   private subscribeToEvents(): void {
     const connectionStatusSubscriptions = this.subscribeToConnectionStatus()
     const rundownEventSubscriptions = this.subscribeToRundownEvents()
-    this.eventSubscriptions = [
-      ...rundownEventSubscriptions,
-      ...connectionStatusSubscriptions
-    ]
+    this.eventSubscriptions = [...rundownEventSubscriptions, ...connectionStatusSubscriptions]
   }
 
   private subscribeToConnectionStatus(): EventSubscription[] {
-    return [
-      this.connectionStatusObserver.subscribeToReconnect(this.resetBasicRundownSubject.bind(this))
-    ]
+    return [this.connectionStatusObserver.subscribeToReconnect(this.resetBasicRundownSubject.bind(this))]
   }
 
   private resetBasicRundownSubject(): void {
     this.setIsLoading(true)
     this.fetchBasicRundowns()
-      .then(basicRundowns => this.basicRundowns = basicRundowns)
+      .then(basicRundowns => (this.basicRundowns = basicRundowns))
       .then(() => this.basicRundownsSubject.next(this.basicRundowns))
       .catch(error => console.error('[error]', 'Encountered error while fetching basic rundowns:', error))
       .finally(() => this.setIsLoading(false))

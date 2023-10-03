@@ -12,7 +12,10 @@ export class RobustWebSocket {
   private openConsumer?: OpenConsumer
   private closeConsumer?: CloseConsumer
 
-  constructor(private readonly url: string, private readonly reconnectStrategy: ReconnectStrategy) {
+  constructor(
+    private readonly url: string,
+    private readonly reconnectStrategy: ReconnectStrategy
+  ) {
     this.socket = this.connect()
   }
 

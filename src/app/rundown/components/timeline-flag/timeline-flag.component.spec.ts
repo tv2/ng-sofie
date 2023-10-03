@@ -8,9 +8,8 @@ describe('TimelineFlagComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TimelineFlagComponent ]
-    })
-      .compileComponents()
+      declarations: [TimelineFlagComponent],
+    }).compileComponents()
 
     fixture = TestBed.createComponent(TimelineFlagComponent)
     component = fixture.componentInstance

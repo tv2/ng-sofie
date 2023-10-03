@@ -13,20 +13,20 @@ describe('RundownOverviewComponent', () => {
   })
 })
 
-async function configureTestBed(params: { mockedRundownService?: RundownService, mockedDialogService?: DialogService, mockedBasicRundownStateService?: BasicRundownStateService } = {}): Promise<RundownOverviewComponent> {
+async function configureTestBed(
+  params: { mockedRundownService?: RundownService; mockedDialogService?: DialogService; mockedBasicRundownStateService?: BasicRundownStateService } = {}
+): Promise<RundownOverviewComponent> {
   const mockedRundownService = params.mockedRundownService ?? mock<RundownService>()
   const mockedBasicRundownStateService = params.mockedBasicRundownStateService ?? mock<BasicRundownStateService>()
   const mockedDialogService = params.mockedDialogService ?? mock<DialogService>()
-  await TestBed
-    .configureTestingModule({
-      providers: [
-        { provide: BasicRundownStateService, useValue: instance(mockedBasicRundownStateService) },
-        { provide: RundownService, useValue: instance(mockedRundownService) },
-        { provide: DialogService, useValue: instance(mockedDialogService) },
-      ],
-      declarations: [RundownOverviewComponent]
-    })
-    .compileComponents()
+  await TestBed.configureTestingModule({
+    providers: [
+      { provide: BasicRundownStateService, useValue: instance(mockedBasicRundownStateService) },
+      { provide: RundownService, useValue: instance(mockedRundownService) },
+      { provide: DialogService, useValue: instance(mockedDialogService) },
+    ],
+    declarations: [RundownOverviewComponent],
+  }).compileComponents()
 
   const fixture: ComponentFixture<RundownOverviewComponent> = TestBed.createComponent(RundownOverviewComponent)
   return fixture.componentInstance

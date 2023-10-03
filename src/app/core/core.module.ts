@@ -23,11 +23,7 @@ import { BasicRundownEntityService } from './services/models/basic-rundown-entit
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    EventSystemModule,
-  ],
+  imports: [CommonModule, HttpClientModule, EventSystemModule],
   providers: [
     HttpErrorService,
     HttpClientModule,
@@ -44,7 +40,7 @@ import { BasicRundownEntityService } from './services/models/basic-rundown-entit
     BasicRundownEntityService,
     SegmentEntityService,
     PartEntityService,
-  ]
+  ],
 })
 export class CoreModule extends EnsureLoadedOnceGuard {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {

@@ -15,18 +15,13 @@ describe(FollowPlayheadTimelineComponent.name, () => {
     const mockedRundownService: RundownService = mock<RundownService>()
 
     await TestBed.configureTestingModule({
-      declarations: [
-        FollowPlayheadTimelineComponent,
-      ],
-      imports: [
-        SharedModule
-      ],
+      declarations: [FollowPlayheadTimelineComponent],
+      imports: [SharedModule],
       providers: [
         { provide: PartEntityService, useValue: instance(mockedPartEntityService) },
         { provide: RundownService, useValue: instance(mockedRundownService) },
-      ]
-    })
-      .compileComponents()
+      ],
+    }).compileComponents()
 
     fixture = TestBed.createComponent(FollowPlayheadTimelineComponent)
     component = fixture.componentInstance

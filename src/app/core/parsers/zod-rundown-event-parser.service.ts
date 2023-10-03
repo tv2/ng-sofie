@@ -1,13 +1,5 @@
 import { Injectable } from '@angular/core'
-import {
-  RundownInfinitePieceAddedEvent,
-  RundownActivatedEvent,
-  RundownDeactivatedEvent,
-  RundownResetEvent,
-  PartSetAsNextEvent,
-  PartTakenEvent,
-  RundownDeletedEvent
-} from '../models/rundown-event'
+import { RundownInfinitePieceAddedEvent, RundownActivatedEvent, RundownDeactivatedEvent, RundownResetEvent, PartSetAsNextEvent, PartTakenEvent, RundownDeletedEvent } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
 import { EntityParser } from '../abstractions/entity-parser.service'
@@ -58,7 +50,8 @@ export class ZodRundownEventParser {
     type: zod.literal(RundownEventType.INFINITE_PIECE_ADDED),
     timestamp: zod.number(),
     rundownId: zod.string().nonempty(),
-    infinitePiece: zod.object({})
+    infinitePiece: zod
+      .object({})
       .nonstrict()
       .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
   })

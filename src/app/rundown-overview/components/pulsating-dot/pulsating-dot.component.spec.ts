@@ -8,9 +8,8 @@ describe('ActiveSignalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PulsatingDotComponent ]
-    })
-      .compileComponents()
+      declarations: [PulsatingDotComponent],
+    }).compileComponents()
 
     fixture = TestBed.createComponent(PulsatingDotComponent)
     component = fixture.componentInstance

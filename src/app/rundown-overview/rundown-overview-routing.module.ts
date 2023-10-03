@@ -1,16 +1,16 @@
-import {NgModule} from '@angular/core'
-import {RouterModule, Routes} from '@angular/router'
-import {RundownOverviewComponent} from './components/rundown-overview/rundown-overview.component'
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { RundownOverviewComponent } from './components/rundown-overview/rundown-overview.component'
 
 const routes: Routes = [
   {
     path: '',
-    component: RundownOverviewComponent
-  }
+    component: RundownOverviewComponent,
+  },
 ]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class RundownOverviewRoutingModule {}

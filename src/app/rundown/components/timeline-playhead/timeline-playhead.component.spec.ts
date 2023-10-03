@@ -8,9 +8,8 @@ describe('TimelinePlayheadComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TimelinePlayheadComponent ]
-    })
-      .compileComponents()
+      declarations: [TimelinePlayheadComponent],
+    }).compileComponents()
 
     fixture = TestBed.createComponent(TimelinePlayheadComponent)
     component = fixture.componentInstance

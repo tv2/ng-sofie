@@ -15,7 +15,9 @@ export class TimelineFlagComponent {
   public turnedOn: boolean
 
   @HostBinding('class.no-label')
-  public get hasNoLabel(): boolean { return !this.label }
+  public get hasNoLabel(): boolean {
+    return !this.label
+  }
 
   @Input()
   @HostBinding('class.dimmed')

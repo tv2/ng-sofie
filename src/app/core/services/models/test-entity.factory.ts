@@ -13,7 +13,7 @@ export class TestEntityFactory {
       segments: [],
       infinitePieces: [],
       modifiedAt: 0,
-      ...rundown
+      ...rundown,
     }
   }
 
@@ -25,7 +25,7 @@ export class TestEntityFactory {
       isNext: false,
       isOnAir: false,
       parts: [],
-      ...segment
+      ...segment,
     }
   }
 
@@ -38,7 +38,7 @@ export class TestEntityFactory {
       pieces: [],
       executedAt: 0,
       playedDuration: 0,
-      ...part
+      ...part,
     }
   }
 

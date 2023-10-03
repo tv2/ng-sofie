@@ -11,11 +11,7 @@ describe(RundownEntityService.name, () => {
   describe(RundownEntityService.prototype.activate.name, () => {
     it('resets all segments', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const segments: Segment[] = [
-        testEntityFactory.createSegment(),
-        testEntityFactory.createSegment(),
-        testEntityFactory.createSegment(),
-      ]
+      const segments: Segment[] = [testEntityFactory.createSegment(), testEntityFactory.createSegment(), testEntityFactory.createSegment()]
       const rundown: Rundown = testEntityFactory.createRundown({ segments })
       const mockedSegmentEntityService = mock<SegmentEntityService>()
       when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
@@ -39,11 +35,7 @@ describe(RundownEntityService.name, () => {
 
     it('does not put any segments on-air', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const segments: Segment[] = [
-        testEntityFactory.createSegment(),
-        testEntityFactory.createSegment(),
-        testEntityFactory.createSegment(),
-      ]
+      const segments: Segment[] = [testEntityFactory.createSegment(), testEntityFactory.createSegment(), testEntityFactory.createSegment()]
       const rundown: Rundown = testEntityFactory.createRundown({ segments })
       const mockedSegmentEntityService = mock<SegmentEntityService>()
       when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
@@ -69,11 +61,7 @@ describe(RundownEntityService.name, () => {
 
     it('takes all segments off-air', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const segments = [
-        testEntityFactory.createSegment(),
-        testEntityFactory.createSegment(),
-        testEntityFactory.createSegment(),
-      ]
+      const segments = [testEntityFactory.createSegment(), testEntityFactory.createSegment(), testEntityFactory.createSegment()]
       const rundown = testEntityFactory.createRundown({ isActive: true, segments })
       const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
       when(mockedSegmentEntityService.takeOffAir(anything(), anyNumber())).thenCall(segment => segment)
@@ -87,12 +75,8 @@ describe(RundownEntityService.name, () => {
 
     it('unmarks segments set as next', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const segments: Segment[] = [
-        testEntityFactory.createSegment(),
-        testEntityFactory.createSegment({isNext: true}),
-        testEntityFactory.createSegment(),
-      ]
-      const rundown: Rundown = testEntityFactory.createRundown({segments})
+      const segments: Segment[] = [testEntityFactory.createSegment(), testEntityFactory.createSegment({ isNext: true }), testEntityFactory.createSegment()]
+      const rundown: Rundown = testEntityFactory.createRundown({ segments })
       const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
       when(mockedSegmentEntityService.takeOffAir(anything(), anyNumber())).thenCall(segment => segment)
       const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
@@ -104,11 +88,7 @@ describe(RundownEntityService.name, () => {
 
     it('clears infinite pieces', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const infinitePieces: Piece[] = [
-        testEntityFactory.createPiece(),
-        testEntityFactory.createPiece(),
-        testEntityFactory.createPiece(),
-      ]
+      const infinitePieces: Piece[] = [testEntityFactory.createPiece(), testEntityFactory.createPiece(), testEntityFactory.createPiece()]
       const rundown: Rundown = testEntityFactory.createRundown({ infinitePieces })
       const testee: RundownEntityService = createTestee()
 
@@ -166,10 +146,7 @@ describe(RundownEntityService.name, () => {
           segmentId: nextSegmentId,
           partId: 'next-part-id',
         }
-        const segments: Segment[] = [
-          testEntityFactory.createSegment({ id: 'segment1', isOnAir: true }),
-          testEntityFactory.createSegment({ id: nextSegmentId, isNext: true }),
-        ]
+        const segments: Segment[] = [testEntityFactory.createSegment({ id: 'segment1', isOnAir: true }), testEntityFactory.createSegment({ id: nextSegmentId, isNext: true })]
         const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
         const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
         when(mockedSegmentEntityService.takeOffAir(anything(), anyNumber())).thenCall(() => testEntityFactory.createSegment())
@@ -253,10 +230,7 @@ describe(RundownEntityService.name, () => {
         const testEntityFactory: TestEntityFactory = new TestEntityFactory()
         const nextSegmentId: string = 'next-segment-id'
         const rundownCursor: RundownCursor = { segmentId: nextSegmentId, partId: 'part-id' }
-        const segments: Segment[] = [
-          testEntityFactory.createSegment({ isNext: true }),
-          testEntityFactory.createSegment({ id: rundownCursor.segmentId }),
-        ]
+        const segments: Segment[] = [testEntityFactory.createSegment({ isNext: true }), testEntityFactory.createSegment({ id: rundownCursor.segmentId })]
         const rundown: Rundown = testEntityFactory.createRundown({ segments })
         const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
         when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
@@ -272,10 +246,7 @@ describe(RundownEntityService.name, () => {
         const testEntityFactory: TestEntityFactory = new TestEntityFactory()
         const nextSegmentId: string = 'next-segment-id'
         const rundownCursor: RundownCursor = { segmentId: nextSegmentId, partId: 'part-id' }
-        const segments: Segment[] = [
-          testEntityFactory.createSegment({ isNext: true }),
-          testEntityFactory.createSegment({ id: rundownCursor.segmentId }),
-        ]
+        const segments: Segment[] = [testEntityFactory.createSegment({ isNext: true }), testEntityFactory.createSegment({ id: rundownCursor.segmentId })]
         const rundown: Rundown = testEntityFactory.createRundown({ segments })
         const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
         when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)

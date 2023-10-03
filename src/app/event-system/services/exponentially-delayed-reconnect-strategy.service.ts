@@ -18,7 +18,7 @@ export class ExponentiallyDelayedReconnectStrategy implements ReconnectStrategy 
   private reconnect(connect: () => void): void {
     this.connectAttempts++
     const reconnectDelay = this.getReconnectDelay()
-    console.log('[info]',`Attempting to reconnect in ${reconnectDelay}ms.`)
+    console.log('[info]', `Attempting to reconnect in ${reconnectDelay}ms.`)
     this.delayTimer = setTimeout(this.createConnectWrapper(connect), reconnectDelay)
   }
 

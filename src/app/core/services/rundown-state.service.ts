@@ -1,9 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core'
-import {
-  RundownInfinitePieceAddedEvent,
-  PartSetAsNextEvent,
-  RundownResetEvent, PartTakenEvent, RundownActivatedEvent, RundownDeactivatedEvent
-} from '../models/rundown-event'
+import { RundownInfinitePieceAddedEvent, PartSetAsNextEvent, RundownResetEvent, PartTakenEvent, RundownActivatedEvent, RundownDeactivatedEvent } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
 import { Rundown } from '../models/rundown'
 import { RundownService } from '../abstractions/rundown.service'
@@ -30,16 +26,11 @@ export class RundownStateService implements OnDestroy {
   private subscribeToEvents(): void {
     const connectionStatusSubscriptions = this.subscribeToConnectionStatus()
     const rundownEventSubscriptions = this.subscribeToRundownEvents()
-    this.eventSubscriptions = [
-      ...rundownEventSubscriptions,
-      ...connectionStatusSubscriptions
-    ]
+    this.eventSubscriptions = [...rundownEventSubscriptions, ...connectionStatusSubscriptions]
   }
 
   private subscribeToConnectionStatus(): EventSubscription[] {
-    return [
-      this.connectionStatusObserver.subscribeToReconnect(this.resetRundownSubjects.bind(this))
-    ]
+    return [this.connectionStatusObserver.subscribeToReconnect(this.resetRundownSubjects.bind(this))]
   }
 
   private resetRundownSubjects(): void {

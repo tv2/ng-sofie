@@ -1,20 +1,9 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  Input,
-  OnChanges,
-  SimpleChange,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core'
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnChanges, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
 import { TimestampPipe } from '../../../shared/pipes/timestamp.pipe'
 import { debounceTime, Subject } from 'rxjs'
 
 interface Point {
-  x: number,
+  x: number
   y: number
 }
 
@@ -82,7 +71,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   }
 
   private drawSubsections(): void {
-    const subsectionWidth: number = this.pixelsPerSecond * this.secondsPerSection / this.subsectionsPerSection
+    const subsectionWidth: number = (this.pixelsPerSecond * this.secondsPerSection) / this.subsectionsPerSection
     const subsectionCount: number = this.subsectionsPerSection + Math.ceil(this.canvasWidth / subsectionWidth)
     const timeOffsetInPixels: number = this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
     for (let i = 0; i < subsectionCount; i++) {
@@ -94,7 +83,8 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
     if (subsectionIndex % this.subsectionsPerSection === 0) {
       return
     }
-    this.drawSubsectionFromIndex(subsectionIndex, subsectionWidth, timeOffsetInPixels)}
+    this.drawSubsectionFromIndex(subsectionIndex, subsectionWidth, timeOffsetInPixels)
+  }
 
   private drawSubsectionFromIndex(subsectionIndex: number, subsectionWidth: number, timeOffsetInPixels: number): void {
     const from: Point = {
@@ -155,7 +145,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   private getSectionTimestampInSeconds(sectionIndex: number): number {
     const timeInSeconds: number = this.time / 1000
-    return timeInSeconds - timeInSeconds % this.secondsPerSection + sectionIndex * this.secondsPerSection
+    return timeInSeconds - (timeInSeconds % this.secondsPerSection) + sectionIndex * this.secondsPerSection
   }
 
   private drawText(text: string, x: number, y: number): void {
@@ -169,12 +159,10 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   }
 
   public ngAfterViewInit(): void {
-    this.resizeSubject
-      .pipe(debounceTime(RESIZE_DEBOUNCE_DURATION_IN_MS))
-      .subscribe(() => {
-        this.setCanvasSize()
-        this.draw()
-      })
+    this.resizeSubject.pipe(debounceTime(RESIZE_DEBOUNCE_DURATION_IN_MS)).subscribe(() => {
+      this.setCanvasSize()
+      this.draw()
+    })
     this.initializeCanvasContext()
     this.setCanvasSize()
     this.draw()
@@ -199,7 +187,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     const timeChange: SimpleChange | undefined = changes['time']
-    if (timeChange)  {
+    if (timeChange) {
       this.draw()
       return
     }

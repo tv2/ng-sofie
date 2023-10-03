@@ -7,12 +7,8 @@ import { instance, mock } from '@typestrong/ts-mockito'
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent,
-      ],
+      imports: [RouterTestingModule],
+      declarations: [AppComponent],
     }).compileComponents()
   })
 
@@ -26,17 +22,9 @@ describe('AppComponent', () => {
 
 async function configureTestBed(): Promise<void> {
   const mockedConnectionErrorService: ConnectionErrorService = mock<ConnectionErrorService>()
-  await TestBed
-    .configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent,
-      ],
-      providers: [
-        { provide: ConnectionErrorService, useValue: instance(mockedConnectionErrorService) },
-      ],
-    })
-    .compileComponents()
+  await TestBed.configureTestingModule({
+    imports: [RouterTestingModule],
+    declarations: [AppComponent],
+    providers: [{ provide: ConnectionErrorService, useValue: instance(mockedConnectionErrorService) }],
+  }).compileComponents()
 }

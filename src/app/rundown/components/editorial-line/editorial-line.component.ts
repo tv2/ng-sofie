@@ -1,9 +1,9 @@
-import {Component, HostBinding, Input} from '@angular/core'
+import { Component, HostBinding, Input } from '@angular/core'
 
 @Component({
   selector: 'sofie-editorial-line',
   template: '',
-  styleUrls: ['./editorial-line.component.scss']
+  styleUrls: ['./editorial-line.component.scss'],
 })
 export class EditorialLineComponent {
   @Input()
@@ -14,6 +14,6 @@ export class EditorialLineComponent {
 
   @HostBinding('style.left.px')
   public get left(): number {
-    return Math.floor(this.budgetDuration * this.pixelsPerSecond / 1000)
+    return Math.floor((this.budgetDuration * this.pixelsPerSecond) / 1000)
   }
 }

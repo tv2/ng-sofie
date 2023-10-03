@@ -8,9 +8,8 @@ describe('SegmentEndIndicatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SegmentEndIndicatorComponent ]
-    })
-      .compileComponents()
+      declarations: [SegmentEndIndicatorComponent],
+    }).compileComponents()
 
     fixture = TestBed.createComponent(SegmentEndIndicatorComponent)
     component = fixture.componentInstance

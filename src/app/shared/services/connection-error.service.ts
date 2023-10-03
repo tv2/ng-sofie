@@ -4,7 +4,10 @@ import { ConnectionStatusObserver } from '../../core/services/connection-status-
 
 @Injectable()
 export class ConnectionErrorService {
-  constructor(private readonly snackBar: MatSnackBar, private readonly connectionStatusObserver: ConnectionStatusObserver) {
+  constructor(
+    private readonly snackBar: MatSnackBar,
+    private readonly connectionStatusObserver: ConnectionStatusObserver
+  ) {
     this.connectionStatusObserver.subscribeToClosed(() => this.openDangerSnackBar('Lost connection to backend. Attempting to reconnect...'))
     this.connectionStatusObserver.subscribeToReconnect(() => this.openSnackBar('Reconnected to backend.'))
   }

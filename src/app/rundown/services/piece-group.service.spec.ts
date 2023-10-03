@@ -18,9 +18,7 @@ describe(PieceGroupService.name, () => {
 
     it('returns a single layer for PGM with one piece if given a piece on PGM', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const pieces: Piece[] = [
-        testEntityFactory.createPiece(),
-      ]
+      const pieces: Piece[] = [testEntityFactory.createPiece()]
       const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
       when(mockedPieceLayerService.getPieceLayer(anything())).thenReturn(PieceLayer.PGM)
       const testee: PieceGroupService = createTestee(instance(mockedPieceLayerService))
@@ -32,10 +30,7 @@ describe(PieceGroupService.name, () => {
 
     it('returns a single layer for PGM with two pieces if given two piece on PGM', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const pieces: Piece[] = [
-        testEntityFactory.createPiece(),
-        testEntityFactory.createPiece(),
-      ]
+      const pieces: Piece[] = [testEntityFactory.createPiece(), testEntityFactory.createPiece()]
       const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
       when(mockedPieceLayerService.getPieceLayer(anything())).thenReturn(PieceLayer.PGM)
       const testee: PieceGroupService = createTestee(instance(mockedPieceLayerService))
@@ -47,10 +42,7 @@ describe(PieceGroupService.name, () => {
 
     it('returns layers for PGM and OVERLAY with each one piece if given a piece for PGM and one for OVERLAY', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const pieces: Piece[] = [
-        testEntityFactory.createPiece(),
-        testEntityFactory.createPiece(),
-      ]
+      const pieces: Piece[] = [testEntityFactory.createPiece(), testEntityFactory.createPiece()]
       const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
       when(mockedPieceLayerService.getPieceLayer(anything())).thenReturn(PieceLayer.PGM, PieceLayer.OVERLAY)
       const testee: PieceGroupService = createTestee(instance(mockedPieceLayerService))

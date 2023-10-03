@@ -36,7 +36,7 @@ describe('TimestampPipe', () => {
 
     it('of over 1 hour and below 100 hours', () => {
       const testee: TimestampPipe = new TimestampPipe()
-      const durationInMs: number = 99_000 * 60 * 60 +  30_000 * 60 + 12_000
+      const durationInMs: number = 99_000 * 60 * 60 + 30_000 * 60 + 12_000
 
       const result: string = testee.transform(durationInMs)
 
@@ -45,12 +45,11 @@ describe('TimestampPipe', () => {
 
     it('of over 100 hours', () => {
       const testee: TimestampPipe = new TimestampPipe()
-      const durationInMs: number = 127_000 * 60 * 60 +  30_000 * 60 + 12_000
+      const durationInMs: number = 127_000 * 60 * 60 + 30_000 * 60 + 12_000
 
       const result: string = testee.transform(durationInMs)
 
       expect(result).toBe('127:30:12')
     })
   })
-
 })

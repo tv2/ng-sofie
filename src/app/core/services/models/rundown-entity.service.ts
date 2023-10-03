@@ -19,7 +19,7 @@ export class RundownEntityService {
   private reset(rundown: Rundown): Rundown {
     return {
       ...rundown,
-      segments: rundown.segments.map(segment => this.segmentService.reset(segment))
+      segments: rundown.segments.map(segment => this.segmentService.reset(segment)),
     }
   }
 
@@ -40,12 +40,12 @@ export class RundownEntityService {
     const segmentsPossiblyWithoutSegmentOnAir: Segment[] = this.takeOnAirSegmentsOffAir(rundown.segments, putOnAirAt)
     return {
       ...rundown,
-      segments: this.putSegmentOnAir(segmentsPossiblyWithoutSegmentOnAir, rundownCursor, putOnAirAt)
+      segments: this.putSegmentOnAir(segmentsPossiblyWithoutSegmentOnAir, rundownCursor, putOnAirAt),
     }
   }
 
   private takeOnAirSegmentsOffAir(segments: Segment[], takenOffAirAt: number): Segment[] {
-    return segments.map(segment => segment.isOnAir ? this.segmentService.takeOffAir(segment, takenOffAirAt) : segment)
+    return segments.map(segment => (segment.isOnAir ? this.segmentService.takeOffAir(segment, takenOffAirAt) : segment))
   }
 
   private putSegmentOnAir(segments: Segment[], rundownCursor: RundownCursor, takenAt: number): Segment[] {
@@ -66,14 +66,14 @@ export class RundownEntityService {
   }
 
   private resetSegmentIfOffAir(segments: Segment[], segmentId: string): Segment[] {
-    return segments.map(segment => segment.id === segmentId && !segment.isOnAir ? this.segmentService.reset(segment) : segment)
+    return segments.map(segment => (segment.id === segmentId && !segment.isOnAir ? this.segmentService.reset(segment) : segment))
   }
 
   private unmarkSegmentsSetAsNext(segments: Segment[]): Segment[] {
-    return segments.map(segment => segment.isNext ? this.segmentService.removeAsNextSegment(segment) : segment)
+    return segments.map(segment => (segment.isNext ? this.segmentService.removeAsNextSegment(segment) : segment))
   }
 
   private setSegmentAsNext(segments: Segment[], rundownCursor: RundownCursor): Segment[] {
-    return segments.map(segment => segment.id === rundownCursor.segmentId ? this.segmentService.setAsNextSegment(segment, rundownCursor.partId) : segment)
+    return segments.map(segment => (segment.id === rundownCursor.segmentId ? this.segmentService.setAsNextSegment(segment, rundownCursor.partId) : segment))
   }
 }

@@ -5,7 +5,6 @@ import { instance, mock } from '@typestrong/ts-mockito'
 import { EntityParser } from '../abstractions/entity-parser.service'
 
 describe('HttpBasicRundownService', () => {
-
   it('should be created', () => {
     const mockedHttpClient = mock<HttpClient>()
     const mockedHttpErrorService = mock<HttpErrorService>()

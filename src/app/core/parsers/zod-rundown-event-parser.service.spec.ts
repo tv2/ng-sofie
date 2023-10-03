@@ -1,15 +1,7 @@
 import { ZodRundownEventParser } from './zod-rundown-event-parser.service'
 import { RundownEventType } from '../models/rundown-event-type'
 import { anything, instance, mock, when } from '@typestrong/ts-mockito'
-import {
-  PartSetAsNextEvent,
-  PartTakenEvent,
-  RundownActivatedEvent,
-  RundownDeactivatedEvent,
-  RundownDeletedEvent,
-  RundownInfinitePieceAddedEvent,
-  RundownResetEvent
-} from '../models/rundown-event'
+import { PartSetAsNextEvent, PartTakenEvent, RundownActivatedEvent, RundownDeactivatedEvent, RundownDeletedEvent, RundownInfinitePieceAddedEvent, RundownResetEvent } from '../models/rundown-event'
 import { PieceType } from '../enums/piece-type'
 import { EntityParser } from '../abstractions/entity-parser.service'
 
@@ -202,7 +194,7 @@ describe(ZodRundownEventParser.name, () => {
           partId: 'some-part-id',
           layer: 'some-layer',
           start: 0,
-        }
+        },
       }
 
       const result = testee.parseInfinitePieceAdded(event)

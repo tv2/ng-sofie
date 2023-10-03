@@ -41,7 +41,7 @@ export class OffsetablePartComponent implements OnChanges {
 
   @HostBinding('style.width.px')
   public get displayDurationInPixels(): number {
-    return this.pixelsPerSecond * this.getDisplayDurationInMs() / 1000
+    return (this.pixelsPerSecond * this.getDisplayDurationInMs()) / 1000
   }
 
   public getDisplayDurationInMs(): number {
@@ -70,8 +70,7 @@ export class OffsetablePartComponent implements OnChanges {
 
   private getVisiblePieces(): Piece[] {
     const displayDurationInMs = this.getDisplayDurationInMs()
-    return this.part.pieces
-      .filter(piece => this.isPieceVisible(piece, displayDurationInMs))
+    return this.part.pieces.filter(piece => this.isPieceVisible(piece, displayDurationInMs))
   }
 
   private isPieceVisible(piece: Piece, displayDurationInMs: number): boolean {

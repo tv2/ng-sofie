@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { HttpClient} from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { HttpErrorService } from './http-error.service'
 import { catchError, map, Observable } from 'rxjs'
 import { BasicRundownService } from '../abstractions/basic-rundown.service'
@@ -18,10 +18,9 @@ export class HttpBasicRundownService implements BasicRundownService {
   ) {}
 
   public fetchBasicRundowns(): Observable<BasicRundown[]> {
-    return this.http.get<unknown>(`${RUNDOWN_URL}/basic`)
-      .pipe(
-        catchError((error) => this.httpErrorService.catchError(error)),
-        map(this.entityParser.parseBasicRundowns.bind(this.entityParser)) // TODO: Catch this and display/log it
-      )
+    return this.http.get<unknown>(`${RUNDOWN_URL}/basic`).pipe(
+      catchError(error => this.httpErrorService.catchError(error)),
+      map(this.entityParser.parseBasicRundowns.bind(this.entityParser)) // TODO: Catch this and display/log it
+    )
   }
 }

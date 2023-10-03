@@ -24,10 +24,13 @@ export class ZodEntityParser implements EntityParser {
     isOnAir: zod.boolean(),
     isNext: zod.boolean(),
     pieces: this.pieceParser.array(),
-    expectedDuration: zod.number().nullish().transform(expectedDuration => expectedDuration ?? undefined), // TODO: Normalize the type to number | undefined
+    expectedDuration: zod
+      .number()
+      .nullish()
+      .transform(expectedDuration => expectedDuration ?? undefined), // TODO: Normalize the type to number | undefined
     executedAt: zod.number(),
     playedDuration: zod.number(),
-    autoNext: zod.object({ overlap: zod.number() }).optional()
+    autoNext: zod.object({ overlap: zod.number() }).optional(),
   })
 
   private readonly segmentParser = zod.object({

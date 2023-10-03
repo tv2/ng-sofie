@@ -14,20 +14,18 @@ describe('RundownComponent', () => {
   })
 })
 
-async function configureTestBed(params: { mockedRundownService?: RundownService, mockedRundownStateService?: RundownStateService } = {}): Promise<RundownComponent> {
+async function configureTestBed(params: { mockedRundownService?: RundownService; mockedRundownStateService?: RundownStateService } = {}): Promise<RundownComponent> {
   const mockedRundownService = params.mockedRundownService ?? mock<RundownService>()
   const mockedRundownStateService = params.mockedRundownStateService ?? createMockOfRundownStateService()
-  await TestBed
-    .configureTestingModule({
-      imports: [RouterModule.forRoot([])],
-      providers: [
-        { provide: ActivatedRoute, useValue: instance(createMockOfActivatedRoute()) },
-        { provide: RundownService, useValue: instance(mockedRundownService) },
-        { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
-      ],
-      declarations: [RundownComponent]
-    })
-    .compileComponents()
+  await TestBed.configureTestingModule({
+    imports: [RouterModule.forRoot([])],
+    providers: [
+      { provide: ActivatedRoute, useValue: instance(createMockOfActivatedRoute()) },
+      { provide: RundownService, useValue: instance(mockedRundownService) },
+      { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
+    ],
+    declarations: [RundownComponent],
+  }).compileComponents()
 
   const fixture: ComponentFixture<RundownComponent> = TestBed.createComponent(RundownComponent)
   const component = fixture.componentInstance

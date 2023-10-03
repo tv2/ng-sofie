@@ -15,50 +15,25 @@ export class PieceLayerService {
     if (piece.name.includes('CLEAR')) {
       return PieceLayer.SEC
     }
-    if ([
-      'studio0_pilotOverlay',
-      'studio0_graphicsHeadline',
-      'studio0_overlay',
-      'studio0_graphicsTema',
-      'studio0_graphicsLower',
-      'studio0_graphicsIdent',
-    ].includes(piece.layer)) {
+    if (['studio0_pilotOverlay', 'studio0_graphicsHeadline', 'studio0_overlay', 'studio0_graphicsTema', 'studio0_graphicsLower', 'studio0_graphicsIdent'].includes(piece.layer)) {
       return PieceLayer.OVERLAY
     }
-    if ([
-      'studio0_jingle',
-    ].includes(piece.layer)) {
+    if (['studio0_jingle'].includes(piece.layer)) {
       return PieceLayer.JINGLE
     }
     if (piece.layer === 'studio0_script') {
       return PieceLayer.MANUS
     }
-    if ([
-      'studio0_robot_camera',
-    ].includes(piece.layer)) {
+    if (['studio0_robot_camera'].includes(piece.layer)) {
       return PieceLayer.SEC
     }
-    if ([
-      'studio0_schema',
-      'studio0_full_back',
-      'studio0_dve_back',
-      'studio0_design',
-    ].includes(piece.layer)) {
+    if (['studio0_schema', 'studio0_full_back', 'studio0_dve_back', 'studio0_design'].includes(piece.layer)) {
       return PieceLayer.UNKNOWN
     }
     return PieceLayer.PGM
   }
 
   public getPieceLayersInOrder(): PieceLayer[] {
-    return [
-      PieceLayer.OVERLAY,
-      PieceLayer.PGM,
-      PieceLayer.JINGLE,
-      PieceLayer.MUSIK,
-      PieceLayer.MANUS,
-      PieceLayer.ADLIB,
-      PieceLayer.SEC,
-      PieceLayer.AUX,
-    ]
+    return [PieceLayer.OVERLAY, PieceLayer.PGM, PieceLayer.JINGLE, PieceLayer.MUSIK, PieceLayer.MANUS, PieceLayer.ADLIB, PieceLayer.SEC, PieceLayer.AUX]
   }
 }

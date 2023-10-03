@@ -6,14 +6,14 @@ export class BasicRundownEntityService {
   public activate(basicRundown: BasicRundown): BasicRundown {
     return {
       ...basicRundown,
-      isActive: true
+      isActive: true,
     }
   }
 
   public deactivate(basicRundown: BasicRundown): BasicRundown {
     return {
       ...basicRundown,
-      isActive: false
+      isActive: false,
     }
   }
 }

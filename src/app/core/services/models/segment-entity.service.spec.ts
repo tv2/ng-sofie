@@ -23,11 +23,7 @@ describe(SegmentEntityService.name, () => {
       it('marks part as on-air', () => {
         const testEntityFactory: TestEntityFactory = new TestEntityFactory()
         const partId: string = 'part2'
-        const parts: Part[] = [
-          testEntityFactory.createPart({ id: 'part1' }),
-          testEntityFactory.createPart({ id: partId }),
-          testEntityFactory.createPart({ id: 'part3' }),
-        ]
+        const parts: Part[] = [testEntityFactory.createPart({ id: 'part1' }), testEntityFactory.createPart({ id: partId }), testEntityFactory.createPart({ id: 'part3' })]
         const segment: Segment = testEntityFactory.createSegment({ parts })
         const mockedPartService: PartEntityService = mock<PartEntityService>()
         const testee: SegmentEntityService = createTestee(instance(mockedPartService))
@@ -55,11 +51,7 @@ describe(SegmentEntityService.name, () => {
 
       it('marks on-air part as off-air', () => {
         const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-        const parts: Part[] = [
-          testEntityFactory.createPart({ id: 'part1' }),
-          testEntityFactory.createPart({ id: 'part2', isOnAir: true }),
-          testEntityFactory.createPart({ id: 'part3' }),
-        ]
+        const parts: Part[] = [testEntityFactory.createPart({ id: 'part1' }), testEntityFactory.createPart({ id: 'part2', isOnAir: true }), testEntityFactory.createPart({ id: 'part3' })]
         const segment: Segment = testEntityFactory.createSegment({ isOnAir: true, parts })
         const mockedPartService: PartEntityService = mock<PartEntityService>()
         const testee: SegmentEntityService = createTestee(instance(mockedPartService))
@@ -88,11 +80,7 @@ describe(SegmentEntityService.name, () => {
     it('marks part as next', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const partId: string = 'part2'
-      const parts: Part[] = [
-        testEntityFactory.createPart({ id: 'part1' }),
-        testEntityFactory.createPart({ id: partId }),
-        testEntityFactory.createPart({ id: 'part3' }),
-      ]
+      const parts: Part[] = [testEntityFactory.createPart({ id: 'part1' }), testEntityFactory.createPart({ id: partId }), testEntityFactory.createPart({ id: 'part3' })]
       const segment: Segment = testEntityFactory.createSegment({ parts })
       const mockedPartService: PartEntityService = mock<PartEntityService>()
       const testee: SegmentEntityService = createTestee(instance(mockedPartService))
@@ -117,11 +105,7 @@ describe(SegmentEntityService.name, () => {
 
     it('unmarks part as next', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const parts: Part[] = [
-        testEntityFactory.createPart({ id: 'part1' }),
-        testEntityFactory.createPart({ id: 'part2', isNext: true }),
-        testEntityFactory.createPart({ id: 'part3' }),
-      ]
+      const parts: Part[] = [testEntityFactory.createPart({ id: 'part1' }), testEntityFactory.createPart({ id: 'part2', isNext: true }), testEntityFactory.createPart({ id: 'part3' })]
       const segment: Segment = testEntityFactory.createSegment({ parts })
       const mockedPartService: PartEntityService = mock<PartEntityService>()
       const testee: SegmentEntityService = createTestee(instance(mockedPartService))
@@ -135,11 +119,7 @@ describe(SegmentEntityService.name, () => {
   describe(SegmentEntityService.prototype.reset.name, () => {
     it('resets all parts', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const parts: Part[] = [
-        testEntityFactory.createPart(),
-        testEntityFactory.createPart(),
-        testEntityFactory.createPart(),
-      ]
+      const parts: Part[] = [testEntityFactory.createPart(), testEntityFactory.createPart(), testEntityFactory.createPart()]
       const segment: Segment = testEntityFactory.createSegment({ parts })
       const mockedPartService: PartEntityService = mock<PartEntityService>()
       const testee: SegmentEntityService = createTestee(instance(mockedPartService))

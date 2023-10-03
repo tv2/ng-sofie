@@ -11,5 +11,7 @@ export class SegmentEndIndicatorComponent {
   public lastPartInSegment?: Part
 
   @HostBinding('class.active')
-  public get isLastPartOnAir(): boolean { return this.lastPartInSegment?.isOnAir ?? false }
+  public get isLastPartOnAir(): boolean {
+    return this.lastPartInSegment?.isOnAir ?? false
+  }
 }

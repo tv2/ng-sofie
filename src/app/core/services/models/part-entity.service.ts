@@ -1,6 +1,5 @@
 import { Part } from '../../models/part'
 
-
 export class PartEntityService {
   public readonly defaultPartDurationInMs: number = 4000
 
@@ -17,7 +16,7 @@ export class PartEntityService {
     return {
       ...part,
       isOnAir: false,
-      playedDuration: this.computePlayedDuration(part, takenOffAirAt)
+      playedDuration: this.computePlayedDuration(part, takenOffAirAt),
     }
   }
 

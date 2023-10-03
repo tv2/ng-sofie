@@ -15,18 +15,13 @@ describe(ScrollableTimelineComponent.name, () => {
     const mockedRundownService: RundownService = mock<RundownService>()
 
     await TestBed.configureTestingModule({
-      declarations: [
-        ScrollableTimelineComponent,
-      ],
-      imports: [
-        SharedModule
-      ],
+      declarations: [ScrollableTimelineComponent],
+      imports: [SharedModule],
       providers: [
         { provide: PartEntityService, useValue: instance(mockedPartEntityService) },
         { provide: RundownService, useValue: instance(mockedRundownService) },
-      ]
-    })
-      .compileComponents()
+      ],
+    }).compileComponents()
 
     fixture = TestBed.createComponent(ScrollableTimelineComponent)
     component = fixture.componentInstance

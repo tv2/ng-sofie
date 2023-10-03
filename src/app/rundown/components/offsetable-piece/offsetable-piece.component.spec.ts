@@ -10,9 +10,8 @@ describe(OffsetablePieceComponent.name, () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OffsetablePieceComponent ]
-    })
-      .compileComponents()
+      declarations: [OffsetablePieceComponent],
+    }).compileComponents()
 
     fixture = TestBed.createComponent(OffsetablePieceComponent)
     component = fixture.componentInstance

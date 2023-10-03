@@ -44,6 +44,6 @@ async function configureTestBed(): Promise<void> {
       { provide: RundownService, useValue: instance(mockedRundownService) },
       { provide: PartEntityService, useValue: instance(mockedPartEntityService) },
       { provide: PieceGroupService, useValue: instance(mockedPieceGroupService) },
-    ]
+    ],
   }).compileComponents()
 }

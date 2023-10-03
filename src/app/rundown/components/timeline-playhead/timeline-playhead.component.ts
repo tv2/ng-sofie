@@ -3,7 +3,7 @@ import { Component, HostBinding, Input } from '@angular/core'
 @Component({
   selector: 'sofie-timeline-playhead',
   templateUrl: './timeline-playhead.component.html',
-  styleUrls: ['./timeline-playhead.component.scss']
+  styleUrls: ['./timeline-playhead.component.scss'],
 })
 export class TimelinePlayheadComponent {
   @Input()
@@ -14,6 +14,6 @@ export class TimelinePlayheadComponent {
 
   @HostBinding('style.left.px')
   public get left(): number {
-    return Math.floor(this.time * this.pixelsPerSecond / 1000)
+    return Math.floor((this.time * this.pixelsPerSecond) / 1000)
   }
 }

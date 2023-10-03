@@ -5,8 +5,7 @@ import { EMPTY, Observable } from 'rxjs'
 
 @Injectable()
 export class HttpErrorService {
-
-  constructor(private readonly snackBar: MatSnackBar) { }
+  constructor(private readonly snackBar: MatSnackBar) {}
 
   public catchError(error: HttpErrorResponse): Observable<never> {
     this.openSnackBarIfError(error)
@@ -17,13 +16,9 @@ export class HttpErrorService {
     if (error.status >= 200 && error.status < 300) {
       return
     }
-    this.snackBar.open(
-      error.error,
-      'DISMISS',
-      {
-        panelClass: [this.getSnackBarCss(error.status)]
-      }
-    )
+    this.snackBar.open(error.error, 'DISMISS', {
+      panelClass: [this.getSnackBarCss(error.status)],
+    })
   }
 
   private getSnackBarCss(statusCode: number): string {

@@ -11,7 +11,7 @@ import { RundownService } from '../../../core/abstractions/rundown.service'
 @Component({
   selector: 'sofie-rundown-overview',
   templateUrl: './rundown-overview.component.html',
-  styleUrls: ['./rundown-overview.component.scss']
+  styleUrls: ['./rundown-overview.component.scss'],
 })
 export class RundownOverviewComponent implements OnInit, OnDestroy {
   public basicRundowns: BasicRundown[] = []
@@ -30,14 +30,13 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
       console.log('[debug]: Updates basicRundowns for rundown overview', basicRundowns)
       this.basicRundowns = basicRundowns
     })
-    const isLoadingSubscription: SubscriptionLike = this.basicRundownStateService.subscribeToLoading(isLoading => this.isLoading = isLoading)
+    const isLoadingSubscription: SubscriptionLike = this.basicRundownStateService.subscribeToLoading(isLoading => (this.isLoading = isLoading))
     this.subscriptions = [basicRundownSubscription, isLoadingSubscription]
   }
 
   public navigateToRundown(basicRundown: BasicRundown): void {
     const routeSegments: string[] = [Paths.RUNDOWNS, basicRundown.id]
-    this.router.navigate(routeSegments)
-      .catch(() => console.warn('[warn] Failed navigating with route segments:', routeSegments))
+    this.router.navigate(routeSegments).catch(() => console.warn('[warn] Failed navigating with route segments:', routeSegments))
   }
 
   public openDeletionDialog(basicRundown: BasicRundown): void {

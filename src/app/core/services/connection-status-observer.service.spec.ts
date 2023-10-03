@@ -14,7 +14,9 @@ describe(ConnectionStatusObserver.name, () => {
       const subject = ConnectionStatusEventType.OPENED
       const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
 
-      testee.subscribeToReconnect(() => { return })
+      testee.subscribeToReconnect(() => {
+        return
+      })
 
       verify(mockedEventObserver.subscribe(subject, anything())).once()
     })

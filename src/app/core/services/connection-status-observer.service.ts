@@ -12,7 +12,7 @@ export class ConnectionStatusObserver implements OnDestroy {
   private hasHadOpenConnection: boolean = false
 
   constructor(private readonly eventObserver: EventObserver) {
-    this.closedEventSubscription = eventObserver.subscribe(ConnectionEventType.CLOSED, () => this.hasHadOpenConnection = true)
+    this.closedEventSubscription = eventObserver.subscribe(ConnectionEventType.CLOSED, () => (this.hasHadOpenConnection = true))
   }
 
   public subscribeToReconnect(onReconnected: () => void): EventSubscription {

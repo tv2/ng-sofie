@@ -12,7 +12,9 @@ describe(RundownEventObserver.name, () => {
       const subject = RundownEventType.ACTIVATED
       const testee = new RundownEventObserver(instance(mockedEventObserver), instance(mockedRundownEventParser))
 
-      testee.subscribeToRundownActivation(() => { return })
+      testee.subscribeToRundownActivation(() => {
+        return
+      })
 
       verify(mockedEventObserver.subscribe(subject, anything())).once()
     })
@@ -23,7 +25,9 @@ describe(RundownEventObserver.name, () => {
       const subject = RundownEventType.DEACTIVATED
       const testee = new RundownEventObserver(instance(mockedEventObserver), instance(mockedRundownEventParser))
 
-      testee.subscribeToRundownDeactivation(() => { return })
+      testee.subscribeToRundownDeactivation(() => {
+        return
+      })
 
       verify(mockedEventObserver.subscribe(subject, anything())).once()
     })
@@ -35,7 +39,9 @@ describe(RundownEventObserver.name, () => {
       const mockedEventSubscription = configureEventSubscriptionMock(subject, mockedEventObserver)
       const testee = new RundownEventObserver(instance(mockedEventObserver), instance(mockedRundownEventParser))
 
-      const eventSubscription = testee.subscribeToRundownActivation(() => { return })
+      const eventSubscription = testee.subscribeToRundownActivation(() => {
+        return
+      })
       eventSubscription.unsubscribe()
 
       verify(mockedEventSubscription.unsubscribe()).once()
@@ -48,7 +54,9 @@ describe(RundownEventObserver.name, () => {
       const mockedEventSubscription = configureEventSubscriptionMock(subject, mockedEventObserver)
       const testee = new RundownEventObserver(instance(mockedEventObserver), instance(mockedRundownEventParser))
 
-      const eventSubscription = testee.subscribeToRundownDeactivation(() => { return })
+      const eventSubscription = testee.subscribeToRundownDeactivation(() => {
+        return
+      })
       eventSubscription.unsubscribe()
 
       verify(mockedEventSubscription.unsubscribe()).once()
@@ -70,7 +78,6 @@ function createMockOfRundownEventParser(): RundownEventParser {
 function configureEventSubscriptionMock(subject: string, mockedEventObserver: EventObserver): EventSubscription {
   const mockedUnsubscribeObject = mock<EventSubscription>()
   when(mockedEventObserver.subscribe(anyString(), anything())).thenReturn({ unsubscribe: () => {} })
-  when(mockedEventObserver.subscribe(subject, anything()))
-    .thenReturn(instance(mockedUnsubscribeObject))
+  when(mockedEventObserver.subscribe(subject, anything())).thenReturn(instance(mockedUnsubscribeObject))
   return mockedUnsubscribeObject
 }

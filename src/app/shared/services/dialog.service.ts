@@ -11,10 +11,7 @@ export class DialogService {
   private open<DialogData, DialogResult>(
     component: ComponentType<StronglyTypedDialog<DialogData, DialogResult>>,
     config?: MatDialogConfig<DialogData>
-  ): MatDialogRef<
-    StronglyTypedDialog<DialogData, DialogResult>,
-    DialogResult
-    > {
+  ): MatDialogRef<StronglyTypedDialog<DialogData, DialogResult>, DialogResult> {
     return this.dialog.open(component, config)
   }
 
@@ -25,12 +22,14 @@ export class DialogService {
         message: `Are you sure you want to delete the ${typeOfThingToDelete} "${nameOrIdOfThingToDelete}"?\n\nPlease note: This action is irreversible!`,
         buttonText: {
           ok: 'Delete',
-          cancel: 'Cancel'
-        }
+          cancel: 'Cancel',
+        },
       },
-    }).afterClosed().subscribe(result => {
-      if (!result) return
-      onOk()
     })
+      .afterClosed()
+      .subscribe(result => {
+        if (!result) return
+        onOk()
+      })
   }
 }

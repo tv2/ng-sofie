@@ -69,7 +69,6 @@ describe(PartEntityService.name, () => {
         const result: Part = testee.takeOffAir(part, takenOffAirAt)
 
         expect(result.playedDuration).toBe(expectedPlayedDuration)
-
       })
     })
   })
@@ -130,7 +129,7 @@ describe(PartEntityService.name, () => {
             const part: Part = testEntityFactory.createPart({
               isOnAir: true,
               autoNext: { overlap: autoNextOverlapDuration },
-              executedAt: Date.now()
+              executedAt: Date.now(),
             })
             jasmine.clock().tick(100)
             const testee: PartEntityService = new PartEntityService()
@@ -149,7 +148,7 @@ describe(PartEntityService.name, () => {
             const part: Part = testEntityFactory.createPart({
               isOnAir: true,
               autoNext: { overlap: autoNextOverlapDuration },
-              executedAt: Date.now()
+              executedAt: Date.now(),
             })
             jasmine.clock().tick(playedDuration)
             const testee: PartEntityService = new PartEntityService()
@@ -171,7 +170,7 @@ describe(PartEntityService.name, () => {
               const part: Part = testEntityFactory.createPart({
                 isOnAir: true,
                 expectedDuration,
-                executedAt: Date.now()
+                executedAt: Date.now(),
               })
               jasmine.clock().tick(playedDuration)
               const testee: PartEntityService = new PartEntityService()
@@ -190,7 +189,7 @@ describe(PartEntityService.name, () => {
               const part: Part = testEntityFactory.createPart({
                 isOnAir: true,
                 expectedDuration,
-                executedAt: Date.now()
+                executedAt: Date.now(),
               })
               jasmine.clock().tick(playedDuration)
               const testee: PartEntityService = new PartEntityService()
@@ -210,7 +209,7 @@ describe(PartEntityService.name, () => {
               const testEntityFactory: TestEntityFactory = new TestEntityFactory()
               const part: Part = testEntityFactory.createPart({
                 isOnAir: true,
-                executedAt: Date.now()
+                executedAt: Date.now(),
               })
               jasmine.clock().tick(playedDuration)
 
@@ -227,7 +226,7 @@ describe(PartEntityService.name, () => {
               const testEntityFactory: TestEntityFactory = new TestEntityFactory()
               const part: Part = testEntityFactory.createPart({
                 isOnAir: true,
-                executedAt: Date.now()
+                executedAt: Date.now(),
               })
               jasmine.clock().tick(playedDuration)
 
@@ -251,7 +250,7 @@ describe(PartEntityService.name, () => {
               isOnAir: false,
               autoNext: { overlap: autoNextOverlapDuration },
               playedDuration,
-              executedAt: Date.now()
+              executedAt: Date.now(),
             })
             jasmine.clock().tick(playedDuration)
             const testee: PartEntityService = new PartEntityService()
