@@ -1,28 +1,52 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
 import {Rundown} from "../../../core/models/rundown";
 import {Piece} from "../../../core/models/piece";
+import {ShowStyleVariantStateService} from "../../../core/services/show-style-variant-state.service";
+import {ShowStyleVariant} from "../../../core/models/show-style-variant";
+import {SubscriptionLike} from "rxjs";
 
 @Component({
   selector: 'sofie-rundown-header',
   templateUrl: './rundown-header.component.html',
   styleUrls: ['./rundown-header.component.scss']
 })
-export class RundownHeaderComponent implements OnInit, OnDestroy {
+export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   @Input()
-  public rundown?: Rundown
+  public rundown: Rundown
 
+  public showStyleVariant: ShowStyleVariant
   public currentLocalDate: Date = new Date()
-  private updateCurrentLocalDateIntervalId: NodeJS.Timer
-  constructor() { }
+  private updateCurrentLocalDateIntervalId: ReturnType<typeof setInterval>
+  private showStyleVariantSubscription?: SubscriptionLike
 
-  ngOnInit(): void {
+  public setupName: string = ''
+  public schema: string = ''
+  public design: string = ''
+
+  constructor(private showStyleVariantStateService: ShowStyleVariantStateService) {}
+
+  public ngOnInit(): void {
     this.updateCurrentLocalDateIntervalId = setInterval(() => {
       this.currentLocalDate = new Date()
     }, 1000)
+
+    this.showStyleVariantStateService
+        .subscribeToShowStyleVariant(this.rundown.id, (showStyleVariant) => {
+          this.showStyleVariant = showStyleVariant
+          this.setDefaultHeaderInformation()
+        })
+        .then(unsubscribeFromShowStyleVariant => {
+          this.showStyleVariantSubscription = unsubscribeFromShowStyleVariant
+        })
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     clearInterval(this.updateCurrentLocalDateIntervalId)
+    this.showStyleVariantSubscription?.unsubscribe()
+  }
+  public ngOnChanges() {
+    this.setDesignFromInfinitePieces()
+    this.setSchemaFromInfinitePieces()
   }
 
   public getShortenedRundownName(): string {
@@ -30,22 +54,38 @@ export class RundownHeaderComponent implements OnInit, OnDestroy {
     return rundownPathStrings[rundownPathStrings.length - 1]
   }
 
-  //TODO: find a better solution for determining whether infinite pieces are schemas or designs
-  public getDesign(): string {
-    const infinitePieces: Piece[] = this.rundown?.getInfinitePieces() ?? []
-    if (!infinitePieces) {
-      return ''
-    }
-    const designPiece: Piece | undefined = infinitePieces.find((piece) => piece.name.split('_')[0] === 'DESIGN')
-    return designPiece?.name ?? ''
+  private setDefaultHeaderInformation(): void {
+    const gfxDefaults = this.showStyleVariant.blueprintConfiguration.GfxDefaults[0]
+    this.setupName = gfxDefaults.DefaultSetupName.label
+    this.design = this.getNameFromTemplate(gfxDefaults.DefaultDesign.label)
+    this.schema = this.getNameFromTemplate(gfxDefaults.DefaultSchema.label)
   }
 
-  public getSchema(): string {
+  private setDesignFromInfinitePieces(): void {
     const infinitePieces: Piece[] = this.rundown?.getInfinitePieces() ?? []
     if (!infinitePieces) {
-      return ''
+      return
     }
-    const schemaPiece: Piece | undefined = infinitePieces.find((piece) => piece.name.split('_')[0] === 'SKEMA')
-    return schemaPiece?.name ?? ''
+
+    const designPiece: Piece | undefined = infinitePieces.find((piece) => this.getNameFromTemplate(piece.name) === 'DESIGN')
+    if (designPiece) {
+      this.design = designPiece.name
+    }
+  }
+
+  private setSchemaFromInfinitePieces(): void {
+    const infinitePieces: Piece[] = this.rundown?.getInfinitePieces() ?? []
+    if (!infinitePieces) {
+      return
+    }
+
+    const schemaPiece: Piece | undefined = infinitePieces.find((piece) => this.getNameFromTemplate(piece.name) === 'SKEMA')
+    if(schemaPiece) {
+      this.schema = schemaPiece.name
+    }
+  }
+
+  private getNameFromTemplate(template: string) {
+    return template.split('_')[0]
   }
 }

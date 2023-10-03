@@ -14,18 +14,19 @@
 }
 
 .c-context-menu-item {
-  cursor: pointer;
-  border: none;
-
-  user-select: none;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
   min-width: 64px;
+  align-items: center;
+  border: none;
   line-height: 36px;
   padding: 0 16px;
 
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  flex: 1;
+  font-size: 1rem;
+
+  user-select: none;
+  cursor: pointer;
 
   &:hover {
     background-color: rgb(208, 208, 208);

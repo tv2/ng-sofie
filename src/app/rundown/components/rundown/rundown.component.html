@@ -1,4 +1,4 @@
-<sofie-rundown-header class="c-rundown-header" [rundown]="rundown"></sofie-rundown-header>
+<sofie-rundown-header *ngIf="rundown" class="c-rundown-header" [rundown]="rundown"></sofie-rundown-header>
 
 <div style="padding-bottom: 5px">
     <button mat-raised-button *ngIf="!rundown?.isActive; else activeRundownButtons"  color="primary" style="margin-left: 20px" (click)="activateRundown()">Activate Rundown</button>

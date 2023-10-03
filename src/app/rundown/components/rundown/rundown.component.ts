@@ -74,4 +74,6 @@ export class RundownComponent implements OnInit, OnDestroy {
     }
     this.rundownService.takeNext(this.rundown.id).subscribe()
   }
+
+  protected readonly Rundown = Rundown;
 }

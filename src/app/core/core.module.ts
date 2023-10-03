@@ -18,6 +18,9 @@ import { ZodEntityParser } from './parsers/zod-entity-parser.service'
 import { ZodRundownEventParser } from './parsers/zod-rundown-event-parser.service'
 import { EventSystemModule } from '../event-system/event-system.module'
 import { RundownService } from './abstractions/rundown.service'
+import { HttpShowStyleVariantService } from "./services/http-show-style-variant.service";
+import { ShowStyleVariantStateService } from "./services/show-style-variant-state.service";
+import {ShowStyleVariantService} from "./abstractions/show-style-variant.service";
 
 @NgModule({
   declarations: [],
@@ -30,6 +33,7 @@ import { RundownService } from './abstractions/rundown.service'
     HttpErrorService,
     HttpClientModule,
     HttpBasicRundownService,
+    { provide: ShowStyleVariantService, useClass: HttpShowStyleVariantService },
     { provide: RundownService, useClass: HttpRundownService },
     { provide: AdLibPieceService, useClass: HttpAdLibPieceService },
     ConnectionStatusObserver,
@@ -37,6 +41,7 @@ import { RundownService } from './abstractions/rundown.service'
     { provide: BasicRundownService, useClass: HttpBasicRundownService },
     RundownStateService,
     BasicRundownStateService,
+    ShowStyleVariantStateService,
     { provide: RundownEventParser, useClass: ZodRundownEventParser },
     { provide: EntityParser, useClass: ZodEntityParser },
   ]

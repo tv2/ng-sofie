@@ -1,4 +1,4 @@
-<div [cdkContextMenuTriggerFor]="context_menu" class="c-header" [class.c-header--active]="rundown?.isActive">
+<div [cdkContextMenuTriggerFor]="context_menu" class="c-header" [class.c-header--active]="rundown.isActive">
     <ng-template #context_menu>
     <sofie-rundown-header-context-menu class="c-context-access-surface" [rundown]="rundown"> </sofie-rundown-header-context-menu>
     </ng-template>
@@ -14,17 +14,17 @@
         <div class="c-information-row-right">
             <div class="c-panel-card">
                 <span class="c-panel-card__description">Show Style Variant</span>
-                <p class="c-panel-card__rundown-property"></p>
+                <p class="c-panel-card__rundown-property">{{setupName}}</p>
             </div>
 
             <div class="c-panel-card">
                 <span class="c-panel-card__description">Schema</span>
-                <p class="c-panel-card__rundown-property">{{getSchema()}}</p>
+                <p class="c-panel-card__rundown-property">{{schema}}</p>
             </div>
 
             <div class="c-panel-card">
                 <span class="c-panel-card__description">Design</span>
-                <p class="c-panel-card__rundown-property">{{getDesign()}}</p>
+                <p class="c-panel-card__rundown-property">{{design}}</p>
             </div>
 
             <div class="c-panel-card">
