@@ -1,6 +1,7 @@
 import {
   Component,
-  EventEmitter, HostBinding, HostListener,
+  EventEmitter,
+  HostListener,
   Input,
   Output,
 } from '@angular/core'
@@ -29,10 +30,11 @@ export class ScrollableTimelineComponent {
   public pixelsPerSecond: number = 50
   public scrollOffsetInMs: number = 0
 
-  public horizontalDragStartPoint?: number
+  private horizontalDragStartPoint?: number
+
 
   @HostListener('mousedown', ['$event'])
-  public onDragStart(event: DragEvent): void {
+  public onDragStart(event: MouseEvent): void {
     this.horizontalDragStartPoint = event.clientX
     const onDragMove: (event: MouseEvent) => void = this.onDragMove.bind(this)
     window.addEventListener('mousemove', onDragMove)
@@ -42,9 +44,9 @@ export class ScrollableTimelineComponent {
     }, { once: true })
   }
 
-  public constructor(
-      private readonly partEntityService: PartEntityService,
-      private readonly rundownService: RundownService
+  constructor(
+    private readonly partEntityService: PartEntityService,
+    private readonly rundownService: RundownService
   ) {}
 
   public setPartAsNext(part: Part): void {
@@ -54,7 +56,7 @@ export class ScrollableTimelineComponent {
   public onDragMove(event: MouseEvent): void {
     event.preventDefault()
     if (!this.horizontalDragStartPoint) {
-        return
+      return
     }
     const newHorizontalPoint: number = event.clientX
     const horizontalDeltaInPixels: number = this.horizontalDragStartPoint - newHorizontalPoint
@@ -62,8 +64,8 @@ export class ScrollableTimelineComponent {
     const segmentDurationInMs: number = this.segment.parts.reduce((duration, part) => duration + this.partEntityService.getDuration(part), 0)
     const horizontalDeltaInMs: number = 1000 * horizontalDeltaInPixels / this.pixelsPerSecond
     this.scrollOffsetInMs = Math.min(
-        segmentDurationInMs,
-        Math.max(0, this.scrollOffsetInMs + horizontalDeltaInMs)
+      segmentDurationInMs,
+      Math.max(0, this.scrollOffsetInMs + horizontalDeltaInMs)
     )
   }
 
