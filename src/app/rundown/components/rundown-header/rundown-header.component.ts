@@ -88,7 +88,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   private setDesignFromInfinitePieces(): void {
     const infinitePieces: Piece[] = this.rundown.infinitePieces
 
-    const designPiece: Piece | undefined = infinitePieces.find((piece) => this.getGfxNameFromTemplate(piece.name) === 'DESIGN')
+    const designPiece: Piece | undefined = infinitePieces.find((piece) => this.isDesignInfinitePiece(piece))
     if (designPiece) {
       this.design = designPiece.name
     }
@@ -97,12 +97,20 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   private setSchemaFromInfinitePieces(): void {
     const infinitePieces: Piece[] = this.rundown.infinitePieces
 
-    const schemaPiece: Piece | undefined = infinitePieces.find((piece) => this.getGfxNameFromTemplate(piece.name) === 'SKEMA')
+    const schemaPiece: Piece | undefined = infinitePieces.find((piece) => this.isSkemaInfinitePiece(piece))
     if(schemaPiece) {
       this.schema = schemaPiece.name
     }
   }
 
+  private isDesignInfinitePiece(piece: Piece): boolean {
+    return piece.name.startsWith('DESIGN_')
+  }
+
+  private isSkemaInfinitePiece(piece: Piece): boolean {
+    return piece.name.startsWith('DESIGN_')
+  }
+  
   private getGfxNameFromTemplate(template: string) {
     const pattern: RegExp = /^.+_(?<gfxName>\w+)$/
     return template.match(pattern)?.groups?.['gfxName'] ?? template
