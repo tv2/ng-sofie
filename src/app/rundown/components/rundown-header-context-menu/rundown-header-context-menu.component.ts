@@ -1,21 +1,19 @@
-import {Component, HostBinding, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {RundownService} from "../../../core/abstractions/rundown.service";
 import {Rundown} from "../../../core/models/rundown";
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
   templateUrl: './rundown-header-context-menu.component.html',
-  styleUrls: ['./rundown-header-context-menu.component.scss']
+  styleUrls: ['./rundown-header-context-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RundownHeaderContextMenuComponent implements OnInit {
+export class RundownHeaderContextMenuComponent {
 
   @Input()
   public rundown?: Rundown
 
   constructor(private rundownService: RundownService) { }
-
-  ngOnInit(): void {
-  }
 
   public activate(): void {
     if (!this.rundown?.id) {
