@@ -35,6 +35,7 @@
           },
           "configurations": {
             "production": {
+              "tsConfig": "./tsconfig.build.json",
               "budgets": [
                 {
                   "type": "initial",
@@ -61,7 +62,7 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
             }
           },
           "defaultConfiguration": "production"
