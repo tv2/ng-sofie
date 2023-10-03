@@ -4,10 +4,18 @@
 
 ### Naming conventions
 
-_**TODO:** Should we use units formats for e.g. number values (`timeSinceYesterdayInMs` | `activatedRundownAtEpochTime`)._
+When working with numbers, units should be supplied where applicable.
+For example, when working time-related data, either the format or the units should be specified:
+````typescript
+const startEpochTime: number = Date.now()
+// sleep(SOME_AMOUNT)
+const endEpochTime: number = Date.now()
+
+const durationInMs: number = endEpochTime - startEpochTime
+````
 
 ### Logging
-Production log level should be `info`, in order to have a sufficient amount of information when a incident occurs.
+Production log level should be `info`, in order to have a sufficient amount of information when an incident occurs.
 From this decision, it is important that we limit the use of info log statements, such that we don't drown out the important information.
 
 A log entry should at least contain the following:
@@ -27,7 +35,7 @@ interface LogEntry {
 
 **Variables**
 
-_**TODO:** Find out how to handle global settings such as color palettes, sizings, etc..._
+_**TODO:** Find out how to handle global settings such as color palettes, sizing, etc..._
 
 **Attribute order**
 
@@ -42,7 +50,7 @@ In order to have a certain degree of consistency, the following style attribute 
 
 ```scss
 .some-class {
-  postion: absolute;
+  position: absolute;
   display: flex;
   box-sizing: border-box;
 
@@ -67,7 +75,7 @@ In order to have a certain degree of consistency, the following style attribute 
 
 **Component modifiers**
 
-Components should not have any base class, but can add modifiers.
+Components should not have any base class, but can have modifiers.
 An example could be a Segment component, which can be in either off-air or on-air mode.
 The default would be off-air and when changing to on-air the class `on-air` would be appended to the class list of the host element.
 ````html
