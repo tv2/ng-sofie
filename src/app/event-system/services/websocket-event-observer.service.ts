@@ -13,6 +13,9 @@ export class WebSocketEventObserver implements EventObserver {
   }
 
   private getSocket(): RobustWebSocket {
+    if (this.socket) {
+      return this.socket
+    }
     const socket = this.robustWebSocketFactory.createRobustWebSocket()
     socket.onMessage(this.parseAndPublishEvent.bind(this))
     socket.onOpen(this.publishOpenEvent.bind(this))
