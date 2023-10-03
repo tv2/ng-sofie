@@ -31,7 +31,7 @@ _**TODO:** Find out how to handle global settings such as color palettes, sizing
 
 **Attribute order**
 
-When writing scss the suggested attribute order is:
+In order to have a certain degree of consistency, the following style attribute order is suggested:
 
 * **Structural:** Position type, display type, box-sizing, etc.
 * **Placement and sizing:** Absolute position, width, height, padding, margin, etc.
