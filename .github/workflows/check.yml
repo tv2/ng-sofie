@@ -35,4 +35,5 @@ jobs:
         run: 'yarn lint'
 
       - name: 'Validate dependencies'
-        run: 'yarn validate'
+        # Bash branch expression checks if error code is moderate or above, since yarn audit outputs error code for vulnerabilities below the specified level.
+        run: 'yarn validate; [[ $? -ge 4 ]] && exit 1 || exit 0'
