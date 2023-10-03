@@ -42,5 +42,6 @@ function createMockOfShowStyleVariantStateService(): ShowStyleVariantStateServic
 function getMockedRundown(): Rundown {
     const mockedRundown = mock<Rundown>()
     when(mockedRundown.id).thenReturn('some-part-id')
+    when(mockedRundown.name).thenReturn('my.rundown.name')
     return mockedRundown
 }
