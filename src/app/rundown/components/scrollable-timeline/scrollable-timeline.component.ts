@@ -57,12 +57,13 @@ export class ScrollableTimelineComponent {
         return
     }
     const newHorizontalPoint: number = event.clientX
-    const horizontalDelta: number = this.horizontalDragStartPoint - newHorizontalPoint
+    const horizontalDeltaInPixels: number = this.horizontalDragStartPoint - newHorizontalPoint
     this.horizontalDragStartPoint = newHorizontalPoint
     const segmentDurationInMs: number = this.segment.parts.reduce((duration, part) => duration + this.partEntityService.getDuration(part), 0)
+    const horizontalDeltaInMs: number = 1000 * horizontalDeltaInPixels / this.pixelsPerSecond
     this.scrollOffsetInMs = Math.min(
         segmentDurationInMs,
-        Math.max(0, this.scrollOffsetInMs + 1000 * horizontalDelta / this.pixelsPerSecond)
+        Math.max(0, this.scrollOffsetInMs + horizontalDeltaInMs)
     )
   }
 
