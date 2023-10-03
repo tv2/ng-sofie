@@ -24,7 +24,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   @Input()
   public rundown: Rundown
 
-  public showStyleVariant: ShowStyleVariant
+  public showStyleVariant?: ShowStyleVariant
   public currentLocalDate: Date = new Date()
   private updateCurrentLocalDateIntervalId: ReturnType<typeof setInterval>
   private showStyleVariantSubscription?: SubscriptionLike
@@ -80,6 +80,9 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private setDefaultHeaderInformation(): void {
+    if (!this.showStyleVariant) {
+      return
+    }
     const gfxDefaults = this.showStyleVariant.blueprintConfiguration.GfxDefaults[0]
     this.setupName = gfxDefaults.DefaultSetupName.label
     this.design = this.getNameFromTemplate(gfxDefaults.DefaultDesign.label)
