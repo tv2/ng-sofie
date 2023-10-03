@@ -31,7 +31,6 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
   public rundownName: string = ''
   public rundownPath: string = ''
-  public setupName: string = ''
   public schema: string = ''
   public design: string = ''
 
@@ -80,7 +79,6 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
       return
     }
     const gfxDefaults = this.showStyleVariant.blueprintConfiguration.GfxDefaults[0]
-    this.setupName = gfxDefaults.DefaultSetupName.label
     this.design = this.getGfxNameFromTemplate(gfxDefaults.DefaultDesign.label)
     this.schema = this.getGfxNameFromTemplate(gfxDefaults.DefaultSchema.label)
   }
@@ -98,7 +96,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     const infinitePieces: Piece[] = this.rundown.infinitePieces
 
     const schemaPiece: Piece | undefined = infinitePieces.find((piece) => this.isSkemaInfinitePiece(piece))
-    if(schemaPiece) {
+    if (schemaPiece) {
       this.schema = schemaPiece.name
     }
   }
@@ -110,7 +108,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   private isSkemaInfinitePiece(piece: Piece): boolean {
     return piece.name.startsWith('DESIGN_')
   }
-  
+
   private getGfxNameFromTemplate(template: string) {
     const pattern: RegExp = /^.+_(?<gfxName>\w+)$/
     return template.match(pattern)?.groups?.['gfxName'] ?? template

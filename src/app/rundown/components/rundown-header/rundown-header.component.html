@@ -6,7 +6,7 @@
     <sofie-logo></sofie-logo>
     <sofie-rundown-header-panel [label]="rundownPath">{{rundownName}}</sofie-rundown-header-panel>
     <sofie-spacer></sofie-spacer>
-    <sofie-rundown-header-panel label="Show Style Variant">{{setupName}}</sofie-rundown-header-panel>
+    <sofie-rundown-header-panel label="Show Style Variant">{{showStyleVariant?.name ?? ''}}</sofie-rundown-header-panel>
     <sofie-rundown-header-panel label="Schema">{{schema}}</sofie-rundown-header-panel>
     <sofie-rundown-header-panel label="Design">{{design}}</sofie-rundown-header-panel>
     <sofie-rundown-header-panel label="Local Time">{{currentLocalDate | date: 'H:mm:ss'}}</sofie-rundown-header-panel>
