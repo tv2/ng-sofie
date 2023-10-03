@@ -39,9 +39,9 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnInit(): void {
     this.setRundownNameAndPath()
-    this.updateCurrentLocalDateIntervalId = setInterval(() => {
+    this.updateCurrentLocalDateIntervalId = setInterval(() =>
       this.currentLocalDate = new Date()
-    }, 1000)
+    , 1000)
 
     this.showStyleVariantStateService
         .subscribeToShowStyleVariant(this.rundown.id, (showStyleVariant) => {
@@ -64,6 +64,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnDestroy() {
     clearInterval(this.updateCurrentLocalDateIntervalId)
+
     this.showStyleVariantSubscription?.unsubscribe()
   }
   public ngOnChanges(changes: SimpleChanges) {
