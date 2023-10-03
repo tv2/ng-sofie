@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FollowPlayheadTimelineComponent } from './follow-playhead-timeline.component';
+import { ScrollableTimelineComponent } from './scrollable-timeline.component'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { instance, mock } from '@typestrong/ts-mockito'
 import { SharedModule } from '../../../shared/shared.module'
 
-describe(FollowPlayheadTimelineComponent.name, () => {
-  let component: FollowPlayheadTimelineComponent;
-  let fixture: ComponentFixture<FollowPlayheadTimelineComponent>;
+describe(ScrollableTimelineComponent.name, () => {
+  let component: ScrollableTimelineComponent;
+  let fixture: ComponentFixture<ScrollableTimelineComponent>;
 
   beforeEach(async () => {
     const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
@@ -16,7 +16,7 @@ describe(FollowPlayheadTimelineComponent.name, () => {
 
     await TestBed.configureTestingModule({
       declarations: [
-        FollowPlayheadTimelineComponent,
+        ScrollableTimelineComponent,
       ],
       imports: [
           SharedModule
@@ -28,7 +28,7 @@ describe(FollowPlayheadTimelineComponent.name, () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FollowPlayheadTimelineComponent);
+    fixture = TestBed.createComponent(ScrollableTimelineComponent);
     component = fixture.componentInstance;
   });
 
