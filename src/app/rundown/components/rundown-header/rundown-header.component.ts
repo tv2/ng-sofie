@@ -64,20 +64,15 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnDestroy() {
     clearInterval(this.updateCurrentLocalDateIntervalId)
-
     this.showStyleVariantSubscription?.unsubscribe()
   }
+
   public ngOnChanges(changes: SimpleChanges) {
     const rundownChange: SimpleChange = changes['rundown']
     if (rundownChange.currentValue.infinitePieces !== rundownChange.previousValue.infinitePieces) {
       this.setDesignFromInfinitePieces()
       this.setSchemaFromInfinitePieces()
     }
-  }
-
-  public getShortenedRundownName(): string {
-    const rundownPathStrings: string[] = this.rundown?.name.split('.') ?? []
-    return rundownPathStrings[rundownPathStrings.length - 1]
   }
 
   private setDefaultHeaderInformation(): void {
