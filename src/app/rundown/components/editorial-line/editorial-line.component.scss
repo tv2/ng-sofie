@@ -1,0 +1,7 @@
+:host {
+  position: absolute;
+  top: var(--toolbar-height);
+  bottom: 0;
+  margin-left: -1px;
+  border-left: 2px dashed grey;
+}

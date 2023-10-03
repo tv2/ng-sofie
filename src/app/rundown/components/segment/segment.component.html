@@ -1,8 +1,8 @@
 <div class="c-segment" [class.c-segment--on-air]="segment.isOnAir" [class.c-segment--set-as-next]="segment.isNext">
-  <div class="c-segment__header">
+  <div class="c-segment__header" (click)="setFirstValidPartAsNext()">
     <div class="c-segment__header-toolbar">
       <span>123</span>
-      <span style="margin-left: 50px;">00:30</span>
+      <span class="c-segment__budget-duration">{{segment.budgetDuration ?? 0 | timestamp }}</span>
     </div>
     <div class="c-segment__title">
       {{ segment.name }}
@@ -19,10 +19,21 @@
     </div>
   </div>
 
+
   <sofie-full-segment-timeline
+    *ngIf="!segment.isOnAir; else onAirTimeline"
     class="c-segment__timeline"
     [segment]="segment"
     [pieceLayers]="pieceLayers"
     [time]="timeReference"
   ></sofie-full-segment-timeline>
+
+  <ng-template #onAirTimeline>
+    <sofie-follow-playhead-timeline
+      class="c-segment__timeline"
+      [time]="timeReference"
+      [segment]="segment"
+      [pieceLayers]="pieceLayers"
+    ></sofie-follow-playhead-timeline>
+  </ng-template>
 </div>

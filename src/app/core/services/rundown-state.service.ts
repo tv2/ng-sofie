@@ -1,6 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core'
 import {
-  RundownAdLibPieceInsertedEvent,
   RundownInfinitePieceAddedEvent,
   PartSetAsNextEvent,
   RundownResetEvent, PartTakenEvent, RundownActivatedEvent, RundownDeactivatedEvent
@@ -8,12 +7,11 @@ import {
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
 import { Rundown } from '../models/rundown';
 import { RundownService } from '../abstractions/rundown.service'
-import { Segment } from '../models/segment';
-import { Part } from '../models/part';
 import { RundownEventObserver } from './rundown-event-observer.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { ManagedSubscription } from './managed-subscription.service'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
+import { RundownEntityService } from './models/rundown-entity.service'
 
 @Injectable()
 export class RundownStateService implements OnDestroy {
@@ -23,7 +21,8 @@ export class RundownStateService implements OnDestroy {
   constructor(
       private readonly rundownService: RundownService,
       private readonly rundownEventObserver: RundownEventObserver,
-      private readonly connectionStatusObserver: ConnectionStatusObserver
+      private readonly connectionStatusObserver: ConnectionStatusObserver,
+      private readonly rundownEntityService: RundownEntityService
   ) {
     this.subscribeToEvents()
   }
@@ -63,7 +62,6 @@ export class RundownStateService implements OnDestroy {
       this.rundownEventObserver.subscribeToRundownReset(this.resetRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownTake(this.takePartInRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownSetNext(this.setNextPartInRundownFromEvent.bind(this)),
-      this.rundownEventObserver.subscribeToRundownAdLibPieceInserted(this.insertAdLibPieceInRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownInfinitePieceAdded(this.addInfinitePieceToRundownFromEvent.bind(this)),
     ]
   }
@@ -73,7 +71,8 @@ export class RundownStateService implements OnDestroy {
       if (!rundownSubject) {
         return
       }
-      rundownSubject.value.activate(event, event.timestamp)
+      const activeRundown: Rundown = this.rundownEntityService.activate(rundownSubject.value)
+      rundownSubject.next(activeRundown)
   }
 
   private deactivateRundownFromEvent(event: RundownDeactivatedEvent): void {
@@ -81,7 +80,8 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    rundownSubject.value.deactivate(event.timestamp)
+    const inactiveRundown: Rundown = this.rundownEntityService.deactivate(rundownSubject.value, event.timestamp)
+    rundownSubject.next(inactiveRundown)
   }
 
   private resetRundownFromEvent(event: RundownResetEvent): void {
@@ -97,7 +97,9 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    rundownSubject.value.takeNext(event, event.timestamp)
+    const { timestamp, ...rundownCursor } = event
+    const progressedRundown: Rundown = this.rundownEntityService.takeNext(rundownSubject.value, rundownCursor, timestamp)
+    rundownSubject.next(progressedRundown)
   }
 
   private setNextPartInRundownFromEvent(event: PartSetAsNextEvent): void {
@@ -105,27 +107,8 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    rundownSubject.value.setNext(event)
-  }
-
-  private insertAdLibPieceInRundownFromEvent(event: RundownAdLibPieceInsertedEvent): void {
-    const rundownSubject = this.rundownSubjects.get(event.rundownId)
-    if (!rundownSubject) {
-      return
-    }
-    const segment: Segment | undefined = rundownSubject.value.segments.find(segment => segment.id === event.segmentId)
-    if (!segment) {
-      console.warn('[warn] Failed finding segment for AD_LIB_PIECE_INSERTED for event:', event)
-      return
-    }
-
-    const part: Part | undefined = segment.parts.find(part => part.id === event.partId)
-    if (!part) {
-      console.warn('[warn] Failed finding part for AD_LIB_PIECE_INSERTED for event:', event)
-      return
-    }
-
-    part.insertAdLibPiece(event.adLibPiece)
+    const progressedRundown: Rundown = this.rundownEntityService.setNext(rundownSubject.value, event)
+    rundownSubject.next(progressedRundown)
   }
 
   private addInfinitePieceToRundownFromEvent(event: RundownInfinitePieceAddedEvent): void {
@@ -133,7 +116,8 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    rundownSubject.value.addInfinitePiece(event.infinitePiece)
+    // TODO: Out-commented due to current changes in AdLib API. Wait until that is somewhat stable.
+    //rundownSubject.value.addInfinitePiece(event.infinitePiece)
   }
 
   public async subscribeToRundown(rundownId: string, consumer: (rundown: Rundown) => void): Promise<SubscriptionLike> {

@@ -4,6 +4,7 @@ import {
   Input,
   Output,
 } from '@angular/core'
+import { Part } from '../../../core/models/part'
 import { Segment } from '../../../core/models/segment'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { RundownCursor } from '../../../core/models/rundown-cursor'
@@ -26,5 +27,9 @@ export class FullSegmentTimelineComponent {
   @Output()
   public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
 
-  public pixelsPerSecond: number = 30
+  public readonly pixelsPerSecond: number = 50
+
+  public trackPart(_: number, part: Part): string {
+    return part.id
+  }
 }

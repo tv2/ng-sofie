@@ -44,9 +44,12 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     clearInterval(this.updateCurrentLocalDateIntervalId)
     this.showStyleVariantSubscription?.unsubscribe()
   }
-  public ngOnChanges() {
-    this.setDesignFromInfinitePieces()
-    this.setSchemaFromInfinitePieces()
+  public ngOnChanges(changes: SimpleChanges) {
+    const rundownChange: SimpleChange = changes['rundown']
+    if (rundownChange.currentValue.infinitePieces !== rundownChange.previousValue.infinitePieces) {
+      this.setDesignFromInfinitePieces()
+      this.setSchemaFromInfinitePieces()
+    }
   }
 
   public getShortenedRundownName(): string {
@@ -62,10 +65,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private setDesignFromInfinitePieces(): void {
-    const infinitePieces: Piece[] = this.rundown?.getInfinitePieces() ?? []
-    if (!infinitePieces) {
-      return
-    }
+    const infinitePieces: Piece[] = this.rundown.infinitePieces
 
     const designPiece: Piece | undefined = infinitePieces.find((piece) => this.getNameFromTemplate(piece.name) === 'DESIGN')
     if (designPiece) {
@@ -74,10 +74,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private setSchemaFromInfinitePieces(): void {
-    const infinitePieces: Piece[] = this.rundown?.getInfinitePieces() ?? []
-    if (!infinitePieces) {
-      return
-    }
+    const infinitePieces: Piece[] = this.rundown.infinitePieces
 
     const schemaPiece: Piece | undefined = infinitePieces.find((piece) => this.getNameFromTemplate(piece.name) === 'SKEMA')
     if(schemaPiece) {
@@ -86,6 +83,10 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private getNameFromTemplate(template: string) {
-    return template.split('_')[0]
+    const nameParts: string[] = template.split('_')
+    if (nameParts.length > 1) {
+      return nameParts[1]
+    }
+    return nameParts[0]
   }
 }

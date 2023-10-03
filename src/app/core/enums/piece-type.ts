@@ -4,4 +4,6 @@ export enum PieceType {
     LIVE = 'LIVE',
     GRAPHIC = 'GRAPHIC',
     SERVER = 'SERVER',
+    AUDIO = 'AUDIO',
+    TRANSITION = 'TRANSITION'
 }

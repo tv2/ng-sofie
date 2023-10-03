@@ -5,7 +5,8 @@ import {
     RundownDeactivatedEvent,
     RundownResetEvent,
     PartSetAsNextEvent,
-    PartTakenEvent, RundownAdLibPieceInsertedEvent, RundownDeletedEvent
+    PartTakenEvent,
+    RundownDeletedEvent
 } from '../models/rundown-event'
 
 @Injectable()
@@ -21,8 +22,6 @@ export abstract class RundownEventParser {
     public abstract parseTakenEvent(maybeEvent: unknown): PartTakenEvent
 
     public abstract parseSetNextEvent(maybeEvent: unknown): PartSetAsNextEvent
-
-    public abstract parseAdLibPieceInserted(maybeEvent: unknown): RundownAdLibPieceInsertedEvent
 
     public abstract parseInfinitePieceAdded(maybeEvent: unknown): RundownInfinitePieceAddedEvent
 }

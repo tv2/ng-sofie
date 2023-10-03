@@ -36,11 +36,13 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   }
 
   public navigateToRundown(basicRundown: BasicRundown): void {
-    this.router.navigate([Paths.RUNDOWNS, basicRundown.id])
+    const routeSegments: string[] = [Paths.RUNDOWNS, basicRundown.id]
+    this.router.navigate(routeSegments)
+        .catch(() => console.warn('[warn] Failed navigating with route segments:', routeSegments))
   }
 
   public openDeletionDialog(basicRundown: BasicRundown): void {
-    this.dialogService.openDeletionDialog(Rundown.name, basicRundown.name, () => this.deleteRundown(basicRundown.id))
+    this.dialogService.openDeletionDialog('Rundown', basicRundown.name, () => this.deleteRundown(basicRundown.id))
   }
 
   private deleteRundown(rundownId: string): void {

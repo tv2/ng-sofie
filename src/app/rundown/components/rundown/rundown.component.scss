@@ -9,6 +9,20 @@
   background-color: #343434;
 }
 
+.container {
+  background-color: #343434;
+  min-height: 100%;
+}
+
+.c-loading-rundown {
+  text-align: center;
+  background-color: #343434;
+  height: 100%;
+  width: 100%;
+  padding: 100px;
+  color: white;
+}
+
 .c-rundown-header {
   flex: 0 1;
   padding-bottom: 20px;

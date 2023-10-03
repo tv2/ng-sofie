@@ -5,18 +5,25 @@
 ></sofie-timeline-markers>
 <div class="c-full-segment-timeline__parts">
     <sofie-part
-            *ngFor="let part of segment.parts"
+            *ngFor="let part of segment.parts; trackBy: trackPart"
             [rundownId]="segment.rundownId"
             [part]="part"
             [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"
-            [isOnAir]="part.isOnAir"
             [time]="part.isOnAir ? time : 0"
     ></sofie-part>
+    <sofie-segment-end-indicator
+            [lastPartInSegment]="segment.parts[segment.parts.length - 1]"
+    ></sofie-segment-end-indicator>
 </div>
 <sofie-timeline-playhead
     *ngIf="segment.isOnAir"
     class="c-full-segment-timeline__playhead"
     [pixelsPerSecond]="pixelsPerSecond"
-    [time]="time"
+    [time]="segment.isOnAir ? time : 0"
 ></sofie-timeline-playhead>
+<sofie-editorial-line
+    *ngIf="segment.budgetDuration"
+    [budgetDuration]="segment.budgetDuration"
+    [pixelsPerSecond]="pixelsPerSecond"
+></sofie-editorial-line>

@@ -1,20 +1,26 @@
 <sofie-rundown-header *ngIf="rundown" class="c-rundown-header" [rundown]="rundown"></sofie-rundown-header>
-
-<div style="padding-bottom: 5px">
-    <button mat-raised-button *ngIf="!rundown?.isActive; else activeRundownButtons"  color="primary" style="margin-left: 20px" (click)="activateRundown()">Activate Rundown</button>
-    <ng-template #activeRundownButtons>
-         <button mat-raised-button color="primary" style="margin-left: 20px" (click)="takeNext()">Take Next</button>
-         <button mat-raised-button color="basic" style="margin-left: 2px" (click)="resetRundown()">Reset Rundown</button>
-         <button mat-raised-button color="warn" style="margin-left: 2px" (click)="deactivateRundown()">Deactivate Rundown</button>
-    </ng-template>
+<div *ngIf="!rundown; else loadedRundown" class='c-loading-rundown'>
+  <mat-card-title>Loading the rundown...</mat-card-title>
 </div>
 
-<div class="c-rundown">
-      <div class="c-rundown__segments">
-        <sofie-segment
-          *ngFor="let segment of rundown?.segments"
-          [segment]="segment"
-          [isOnAir]="segment.isOnAir"
-        ></sofie-segment>
-      </div>
-</div>
+<ng-template #activeRundownButtons>
+    <button mat-raised-button color="primary" style="margin-left: 20px" (click)="takeNext()">Take Next</button>
+    <button mat-raised-button color="basic" style="margin-left: 2px" (click)="resetRundown()">Reset Rundown</button>
+    <button mat-raised-button color="warn" style="margin-left: 2px" (click)="deactivateRundown()">Deactivate Rundown</button>
+</ng-template>
+
+<ng-template #loadedRundown>
+    <div class="container">
+        <div>
+            <div>
+              <button mat-raised-button *ngIf="!rundown?.isActive; else activeRundownButtons"  color="primary" style="margin-left: 20px" (click)="activateRundown()">Activate Rundown</button>
+            </div>
+            <div class="segments">
+                <sofie-segment
+                    *ngFor="let segment of rundown?.segments; trackBy: trackSegment"
+                    [segment]="segment"
+                ></sofie-segment>
+            </div>
+        </div>
+    </div>
+</ng-template>

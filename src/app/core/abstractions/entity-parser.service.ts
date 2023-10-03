@@ -3,8 +3,8 @@ import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
 import { Part } from '../models/part'
 import { Piece } from '../models/piece'
-import { AdLibPiece } from '../models/ad-lib-piece'
-import {ShowStyleVariant} from "../models/show-style-variant";
+import {ShowStyleVariant} from "../models/show-style-variant"
+
 
 export abstract class EntityParser {
     public abstract parseBasicRundown(basicRundown: unknown): BasicRundown
@@ -13,6 +13,5 @@ export abstract class EntityParser {
     public abstract parseSegment(segment: unknown): Segment
     public abstract parsePart(part: unknown): Part
     public abstract parsePiece(piece: unknown): Piece
-    public abstract parseAdLibPiece(adLibPiece: unknown): AdLibPiece
     public abstract parseShowStyleVariant(showStyleVariant: unknown): ShowStyleVariant
 }

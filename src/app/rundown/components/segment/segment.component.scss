@@ -8,6 +8,12 @@
 
   --toolbar-height: 30px;
 
+  &__header {
+    flex: 0;
+    min-width: 270px;
+    background-color: rgb(75,75,75);
+    transition: background-color .2s;
+  }
 
   &--set-as-next &__header {
     background-color: #00ac17;
@@ -15,12 +21,6 @@
 
   &--on-air &__header {
     background-color: #c40000;
-  }
-
-  &__header {
-    flex: 0;
-    min-width: 270px;
-    background-color: rgb(75,75,75);
   }
 
   &__header-toolbar {
@@ -56,6 +56,9 @@
 
   &__timeline {
     overflow: hidden;
+  }
+  &__budget-duration {
+    margin-left: 50px;
   }
 }
 

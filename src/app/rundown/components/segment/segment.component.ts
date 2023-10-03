@@ -1,28 +1,17 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  Output, SimpleChange,
-  SimpleChanges
-} from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
-import {PieceLayerService} from "../../../shared/services/piece-layer.service";
+import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
-import { RundownCursor } from '../../../core/models/rundown-cursor'
+import {RundownService} from "../../../core/abstractions/rundown.service";
+import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
 @Component({
   selector: 'sofie-segment',
   templateUrl: './segment.component.html',
-  styleUrls: ['./segment.component.scss']
+  styleUrls: ['./segment.component.scss'],
 })
 export class SegmentComponent implements OnChanges, OnDestroy {
-  // TODO: Remove when we have change detection for reference values.
-  @Input()
-  public isOnAir: boolean
-
   @Input()
   public segment: Segment
 
@@ -31,7 +20,11 @@ export class SegmentComponent implements OnChanges, OnDestroy {
 
   private animationFrameId?: number
 
-  constructor(private readonly pieceLayerService: PieceLayerService) {}
+  constructor(
+      private readonly pieceLayerService: PieceLayerService,
+      private readonly rundownService: RundownService,
+      private readonly partEntityService: PartEntityService
+  ) {}
 
   private getUsedPieceLayersInOrder(): PieceLayer[] {
     const pieceLayersInOrder: PieceLayer[] = this.pieceLayerService.getPieceLayersInOrder()
@@ -39,24 +32,23 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     return pieceLayersInOrder.filter(layer => usedPieceLayers.has(layer))
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(): void {
     this.pieceLayers = this.getUsedPieceLayersInOrder()
 
-    const isOnAirChange: SimpleChange | undefined = changes['isOnAir']
-    if (isOnAirChange?.currentValue === false) {
-      this.stopAnimation()
+    if(this.isGoingOnAir()) {
+      this.startAnimation()
     }
-    if (isOnAirChange?.previousValue !== isOnAirChange?.currentValue) {
-      this.startOrStopAnimation()
+    if (this.isGoingOffAir()) {
+      this.stopAnimation()
     }
   }
 
-  private startOrStopAnimation(): void {
-    if (this.segment.isOnAir) {
-      this.startAnimation()
-      return
-    }
-    this.stopAnimation()
+  private isGoingOnAir(): boolean {
+    return this.segment.isOnAir && this.animationFrameId === undefined
+  }
+
+  private isGoingOffAir(): boolean {
+    return !this.segment.isOnAir && this.animationFrameId !== undefined
   }
 
   private startAnimation(): void {
@@ -85,10 +77,22 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     }
     const activePart: Part = this.segment.parts[activePartIndex]
     const partsUntilActivePart: Part[] = this.segment.parts.slice(0, activePartIndex)
-    const timeSpendUntilActivePart: number = partsUntilActivePart.reduce((duration, part) => duration + part.getDuration(), 0)
+    const timeSpendUntilActivePart: number = partsUntilActivePart.reduce((duration, part) => duration + this.partEntityService.getDuration(part), 0)
     // TODO: Is this the right place to compute it or should it be the part that does it?
     const timeSpendInActivePart: number = activePart.executedAt > 0 ? Date.now() - activePart.executedAt : 0
     this.timeReference = timeSpendUntilActivePart + timeSpendInActivePart
+  }
+
+  public setFirstValidPartAsNext(): void {
+    if (this.segment.isOnAir) {
+      return
+    }
+
+    const firstValidPart: Part | undefined = this.segment.parts.find( (part) => part.pieces.length > 0)
+    if (!firstValidPart) {
+      return
+    }
+    this.rundownService.setNext(this.segment.rundownId, this.segment.id, firstValidPart.id).subscribe()
   }
 
   public ngOnDestroy() {

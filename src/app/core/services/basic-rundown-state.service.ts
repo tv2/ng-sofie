@@ -6,6 +6,7 @@ import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { BasicRundown } from '../models/basic-rundown'
 import { BasicRundownService } from '../abstractions/basic-rundown.service'
 import { RundownEvent } from '../models/rundown-event'
+import { BasicRundownEntityService } from './models/basic-rundown-entity.service'
 
 @Injectable()
 export class BasicRundownStateService implements OnDestroy {
@@ -19,7 +20,8 @@ export class BasicRundownStateService implements OnDestroy {
   constructor(
       private readonly basicRundownService: BasicRundownService,
       private readonly rundownEventObserver: RundownEventObserver,
-      private readonly connectionStatusObserver: ConnectionStatusObserver
+      private readonly connectionStatusObserver: ConnectionStatusObserver,
+      private readonly basicRundownEntityService: BasicRundownEntityService
   ) {
     this.basicRundownsSubject = new BehaviorSubject<BasicRundown[]>(this.basicRundowns)
     this.isLoadingSubject = new BehaviorSubject<boolean>(this.isLoading)
@@ -68,20 +70,20 @@ export class BasicRundownStateService implements OnDestroy {
 
   private activateBasicRundownFromEvent(event: RundownEvent): void {
     this.basicRundowns = this.basicRundowns.map(basicRundown => {
-      if (basicRundown.id === event.rundownId) {
-        basicRundown.isActive = true
+      if (basicRundown.id !== event.rundownId) {
+        return basicRundown
       }
-      return basicRundown
+      return this.basicRundownEntityService.deactivate(basicRundown)
     })
     this.basicRundownsSubject.next(this.basicRundowns)
   }
 
   private deactivateBasicRundownFromEvent(event: RundownEvent): void {
     this.basicRundowns = this.basicRundowns.map(basicRundown => {
-      if (basicRundown.id === event.rundownId) {
-        basicRundown.isActive = false
+      if (basicRundown.id !== event.rundownId) {
+        return basicRundown
       }
-      return basicRundown
+      return this.basicRundownEntityService.deactivate(basicRundown)
     })
     this.basicRundownsSubject.next(this.basicRundowns)
   }

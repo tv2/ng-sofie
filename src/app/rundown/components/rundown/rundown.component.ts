@@ -1,11 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 import {RundownService} from '../../../core/abstractions/rundown.service'
-import {AdLibPieceService} from '../../../core/abstractions/ad-lib-piece.service'
 import {Rundown} from '../../../core/models/rundown';
-import {Identifier} from '../../../core/models/identifier';
 import { RundownStateService } from '../../../core/services/rundown-state.service';
 import { SubscriptionLike } from 'rxjs'
+import { Segment } from '../../../core/models/segment'
 
 @Component({
   selector: 'sofie-rundown',
@@ -15,13 +14,11 @@ import { SubscriptionLike } from 'rxjs'
 export class RundownComponent implements OnInit, OnDestroy {
 
   public rundown?: Rundown
-  public adLibPieceIdentifiers: Identifier[] = []
   private rundownSubscription?: SubscriptionLike
 
   constructor(
     private route: ActivatedRoute,
     private rundownService: RundownService,
-    private adLibPieceService: AdLibPieceService,
     private rundownStateService: RundownStateService
   ) { }
 
@@ -31,7 +28,6 @@ export class RundownComponent implements OnInit, OnDestroy {
       console.error('[error]: No rundownId found. Can\'t fetch Rundown')
       return
     }
-    this.fetchAdLibPieceIdentifiers(rundownId)
     this.rundownStateService
         .subscribeToRundown(rundownId, (rundown) => { this.rundown = rundown })
         .then(unsubscribeFromRundown => { this.rundownSubscription = unsubscribeFromRundown })
@@ -39,12 +35,6 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.rundownSubscription?.unsubscribe()
-  }
-
-  private fetchAdLibPieceIdentifiers(rundownId: string): void {
-    this.adLibPieceService.fetchAdLibPieceIdentifiers(rundownId).subscribe((identifiers: Identifier[]) => {
-      this.adLibPieceIdentifiers = identifiers
-    })
   }
 
   public activateRundown(): void {
@@ -75,5 +65,7 @@ export class RundownComponent implements OnInit, OnDestroy {
     this.rundownService.takeNext(this.rundown.id).subscribe()
   }
 
-  protected readonly Rundown = Rundown;
+  public trackSegment(_: number, segment: Segment): string {
+    return segment.id
+  }
 }

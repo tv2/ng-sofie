@@ -1,0 +1,17 @@
+<div class="piece-layers">
+    <div
+        *ngFor="let pieceLayer of pieceLayers"
+        class="piece-layer"
+    >
+        <sofie-offsetable-piece
+                *ngFor="let piece of piecesGroupedByPieceLayer[pieceLayer]; trackBy: trackPiece"
+                [piece]="piece"
+                [pixelsPerSecond]="pixelsPerSecond"
+                [partDuration]="partDurationInMs()"
+                [playedDurationForPartInMs]="playedDurationInMs"
+                [prePlayheadDurationInMs]="prePlayheadDurationInMs"
+                [postPlayheadDurationInMs]="postPlayheadDurationInMs"
+        ></sofie-offsetable-piece>
+    </div>
+</div>
+<sofie-timeline-flag [label]="part.isNext ? 'NEXT' : undefined" [turnedOn]="part.isNext"></sofie-timeline-flag>

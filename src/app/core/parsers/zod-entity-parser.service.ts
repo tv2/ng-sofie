@@ -1,5 +1,4 @@
 import { EntityParser } from '../abstractions/entity-parser.service'
-import { AdLibPiece } from '../models/ad-lib-piece'
 import { BasicRundown } from '../models/basic-rundown'
 import { Part } from '../models/part'
 import { Piece } from '../models/piece'
@@ -49,11 +48,6 @@ export class ZodEntityParser implements EntityParser {
         duration: zod.number().optional(),
     })
 
-    private readonly adLibPieceParser = this.pieceParser.extend({
-        start: zod.number(),
-        duration: zod.number(),
-    })
-
     private readonly partParser = zod.object({
         id: zod.string().nonempty(),
         segmentId: zod.string().nonempty(),
@@ -73,6 +67,7 @@ export class ZodEntityParser implements EntityParser {
         isOnAir: zod.boolean(),
         isNext: zod.boolean(),
         parts: this.partParser.array(),
+        budgetDuration: zod.number().optional(),
     })
 
     private readonly basicRundownParser = zod.object({
@@ -93,16 +88,12 @@ export class ZodEntityParser implements EntityParser {
         return this.pieceParser.parse(piece)
     }
 
-    public parseAdLibPiece(adLibPiece: unknown): AdLibPiece {
-        return this.adLibPieceParser.parse(adLibPiece)
-    }
-
     public parsePart(part: unknown): Part {
-        return new Part(this.partParser.parse(part))
+        return this.partParser.parse(part)
     }
 
     public parseSegment(segment: unknown): Segment {
-        return new Segment(this.segmentParser.parse(segment))
+        return this.segmentParser.parse(segment)
     }
 
     public parseBasicRundown(basicRundown: unknown): BasicRundown {
@@ -114,7 +105,7 @@ export class ZodEntityParser implements EntityParser {
     }
 
     public parseRundown(rundown: unknown): Rundown {
-        return new Rundown(this.rundownParser.parse(rundown))
+        return this.rundownParser.parse(rundown)
     }
 
     public parseShowStyleVariant(showStyleVariant: unknown): ShowStyleVariant {
