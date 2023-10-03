@@ -83,10 +83,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private getNameFromTemplate(template: string) {
-    const nameParts: string[] = template.split('_')
-    if (nameParts.length > 1) {
-      return nameParts[1]
-    }
-    return nameParts[0]
+    const pattern: RegExp = /^.+_(?<gfxName>\w+)$/
+    return template.match(pattern)?.groups?.['gfxName'] ?? template
   }
 }
