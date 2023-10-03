@@ -1,46 +1,23 @@
-<div [cdkContextMenuTriggerFor]="context_menu" class="c-header" [class.c-header--active]="rundown.isActive">
-    <ng-template #context_menu>
-    <sofie-rundown-header-context-menu class="c-context-access-surface" [rundown]="rundown"> </sofie-rundown-header-context-menu>
+<div [cdkContextMenuTriggerFor]="contextMenu" class="c-rundown-header" [class.c-rundown-header--active]="rundown.isActive">
+    <ng-template #contextMenu>
+        <sofie-rundown-header-context-menu class="c-context-access-surface" [rundown]="rundown"> </sofie-rundown-header-context-menu>
     </ng-template>
 
-    <div class="c-information-row">
-        <div class="c-information-row-left">
-            <img class="c-information-row-left__logo" src="../../../../assets/sofie-logo.svg" style="width: 32px;" routerLink="/rundowns">
-            <div class="c-information-row-left__rundown-name">
-                <span>{{this.getShortenedRundownName()}}</span>
-            </div>
-        </div>
+    <sofie-logo></sofie-logo>
+    <sofie-rundown-header-panel [label]="rundownPath">{{rundownName}}</sofie-rundown-header-panel>
+    <sofie-spacer></sofie-spacer>
+    <sofie-rundown-header-panel label="Show Style Variant">{{setupName}}</sofie-rundown-header-panel>
+    <sofie-rundown-header-panel label="Schema">{{schema}}</sofie-rundown-header-panel>
+    <sofie-rundown-header-panel label="Design">{{design}}</sofie-rundown-header-panel>
+    <sofie-rundown-header-panel label="Local Time">{{currentLocalDate | date: 'H:mm:ss'}}</sofie-rundown-header-panel>
 
-        <div class="c-information-row-right">
-            <div class="c-panel-card">
-                <span class="c-panel-card__description">Show Style Variant</span>
-                <p class="c-panel-card__rundown-property">{{setupName}}</p>
-            </div>
-
-            <div class="c-panel-card">
-                <span class="c-panel-card__description">Schema</span>
-                <p class="c-panel-card__rundown-property">{{schema}}</p>
-            </div>
-
-            <div class="c-panel-card">
-                <span class="c-panel-card__description">Design</span>
-                <p class="c-panel-card__rundown-property">{{design}}</p>
-            </div>
-
-            <div class="c-panel-card">
-                <span class="c-panel-card__description">Local Time</span>
-                <p class="c-panel-card__rundown-property">{{ currentLocalDate | date: 'H:mm:ss' }}</p>
-            </div>
-
-            <a class="c-information-row-right__exit" title="Exit" routerLink="/rundowns">
-                <svg aria-hidden="true" width="1.500em" height="1.500em" viewBox="0 0 24 24">
-                    <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
-                          d="M12 10.5858l6.2929-6.29289 1.4142 1.41421L13.4142 12l6.2929
-                       6.2929-1.4142 1.4142L12 13.4142l-6.29288 6.2929-1.41421-1.4142L10.5858
-                        12 4.29291 5.70712l1.41421-1.41421L12 10.5858z">
-                    </path>
-                </svg>
-            </a>
-        </div>
-    </div>
+    <a class="exit-button" title="Exit" routerLink="/rundowns">
+        <svg aria-hidden="true" width="1.500em" height="1.500em" viewBox="0 0 24 24">
+            <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
+                  d="M12 10.5858l6.2929-6.29289 1.4142 1.41421L13.4142 12l6.2929
+               6.2929-1.4142 1.4142L12 13.4142l-6.29288 6.2929-1.41421-1.4142L10.5858
+                12 4.29291 5.70712l1.41421-1.41421L12 10.5858z">
+            </path>
+        </svg>
+    </a>
 </div>

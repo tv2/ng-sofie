@@ -1,4 +1,14 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
+import {
+  Component, ElementRef,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChange,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {Rundown} from "../../../core/models/rundown";
 import {Piece} from "../../../core/models/piece";
 import {ShowStyleVariantStateService} from "../../../core/services/show-style-variant-state.service";
@@ -19,6 +29,8 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   private updateCurrentLocalDateIntervalId: ReturnType<typeof setInterval>
   private showStyleVariantSubscription?: SubscriptionLike
 
+  public rundownName: string = ''
+  public rundownPath: string = ''
   public setupName: string = ''
   public schema: string = ''
   public design: string = ''
@@ -26,6 +38,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   constructor(private showStyleVariantStateService: ShowStyleVariantStateService) {}
 
   public ngOnInit(): void {
+    this.setRundownNameAndPath()
     this.updateCurrentLocalDateIntervalId = setInterval(() => {
       this.currentLocalDate = new Date()
     }, 1000)
@@ -38,6 +51,15 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
         .then(unsubscribeFromShowStyleVariant => {
           this.showStyleVariantSubscription = unsubscribeFromShowStyleVariant
         })
+  }
+
+  private setRundownNameAndPath(): void {
+    const rundownPathSegments: string[] = this.rundown.name.split('.')
+    if (rundownPathSegments.length === 0) {
+      return
+    }
+    this.rundownPath = rundownPathSegments.slice(0, -1).join('.')
+    this.rundownName = rundownPathSegments[rundownPathSegments.length - 1]
   }
 
   public ngOnDestroy() {

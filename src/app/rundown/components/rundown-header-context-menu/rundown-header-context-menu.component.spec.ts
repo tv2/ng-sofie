@@ -30,7 +30,6 @@ async function configureTestBed(params: { mockedRundownService?: RundownService}
   return fixture.componentInstance
 }
 
-
 function getMockedRundown(): Rundown {
   const mockedRundown = mock<Rundown>()
   when(mockedRundown.id).thenReturn('some-part-id')

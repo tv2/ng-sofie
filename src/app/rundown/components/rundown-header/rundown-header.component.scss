@@ -1,53 +1,27 @@
-.c-header {
-  height: 90%;
-  min-width: 100%;
+.c-rundown-header {
+  display: flex;
+  flex-direction: row;
+  min-height: 60px;
   background: #252627;
+  overflow: auto;
+  width: auto;
 
   &--active {
     background: #761912;
   }
-}
 
-.c-information-row {
-  padding: 5px;
+  .exit-button {
+    align-self: center;
 
-  &-left {
-    display: flex;
-    float: left;
-    gap: 20px;
+    padding: 0 20px;
+    height: 100%;
+    color: #888888;
+    border-radius: 8px;
 
-    &__rundown-name {
-      padding: 20px;
-      color: white;
-      font-weight: normal;
-    }
+    transition: color .2s;
 
-    &__logo {
-      cursor: pointer;
-    }
-  }
-
-  &-right {
-    display: flex;
-    float: right;
-    gap: 80px;
-
-    &__exit {
+    &:hover {
       color: white;
     }
-  }
-}
-
-.c-panel-card {
-  color: white;
-
-  &__description {
-    font-size: small;
-    font-weight: normal;
-    text-transform: uppercase;
-  }
-
-  &__rundown-property {
-    font-weight: bold;
   }
 }

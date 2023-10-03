@@ -18,6 +18,7 @@ import { OffsetablePartComponent } from './components/offsetable-part/offsetable
 import { PieceGroupService } from './services/piece-group.service'
 import { OffsetablePieceComponent } from './components/offsetable-piece/offsetable-piece.component'
 import { EditorialLineComponent } from "./components/editorial-line/editorial-line.component";
+import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { EditorialLineComponent } from "./components/editorial-line/editorial-li
     OffsetablePartComponent,
     OffsetablePieceComponent,
     ScrollableTimelineComponent,
+    RundownHeaderPanelComponent,
   ],
   exports: [
     SegmentComponent

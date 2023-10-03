@@ -16,7 +16,9 @@ import { ConnectionErrorService } from './services/connection-error.service'
 import { TimestampPipe } from './pipes/timestamp.pipe'
 import { PieceLayerService } from './services/piece-layer.service';
 import { MinimumPipe } from './pipes/minimum.pipe';
-import { MaximumPipe } from './pipes/maximum.pipe'
+import { MaximumPipe } from './pipes/maximum.pipe';
+import { SofieLogoComponent } from './components/sofie-logo/sofie-logo.component';
+import { SpacerComponent } from './components/spacer/spacer.component'
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { MaximumPipe } from './pipes/maximum.pipe'
     MinimumPipe,
     MaximumPipe,
     TimestampPipe,
+    SofieLogoComponent,
+    SpacerComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +49,8 @@ import { MaximumPipe } from './pipes/maximum.pipe'
     MinimumPipe,
     MaximumPipe,
     TimestampPipe,
+    SofieLogoComponent,
+    SpacerComponent,
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000, verticalPosition: 'top'}},
