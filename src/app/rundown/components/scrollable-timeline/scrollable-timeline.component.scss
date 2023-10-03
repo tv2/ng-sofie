@@ -2,16 +2,13 @@
   position: relative;
   width: 100%;
   background-color: black;
-}
+  cursor: pointer;
 
-.c-full-segment-timeline {
-  &__markers {
-    height: var(--toolbar-height);
+  &:active {
+    cursor: ew-resize;
   }
 
-  &__parts {
+  .parts {
     display: inline-flex;
   }
 }
-
-
