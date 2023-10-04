@@ -5,6 +5,7 @@ import {Rundown} from '../../../core/models/rundown';
 import { RundownStateService } from '../../../core/services/rundown-state.service';
 import { SubscriptionLike } from 'rxjs'
 import { Segment } from '../../../core/models/segment'
+import {DialogService} from "../../../shared/services/dialog.service";
 
 @Component({
   selector: 'sofie-rundown',
@@ -17,10 +18,9 @@ export class RundownComponent implements OnInit, OnDestroy {
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent2(event: KeyboardEvent) {
     if (event.code === 'Backquote') {
-      this.activateRundown()
+      this.openActivationDialog()
     }
   }
-
 
   public rundown?: Rundown
 
@@ -29,7 +29,8 @@ export class RundownComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private rundownService: RundownService,
-    private rundownStateService: RundownStateService
+    private rundownStateService: RundownStateService,
+    private readonly dialogService: DialogService
   ) { }
 
   public ngOnInit(): void {
@@ -47,25 +48,18 @@ export class RundownComponent implements OnInit, OnDestroy {
     this.rundownSubscription?.unsubscribe()
   }
 
+  public openActivationDialog(): void {
+    if (!this.rundown) {
+      return
+    }
+    this.dialogService.openActivationDialog(this.rundown.name, () => this.activateRundown())
+  }
+
   public activateRundown(): void {
     if (!this.rundown?.id) {
       return
     }
     this.rundownService.activate(this.rundown.id).subscribe()
-  }
-
-  public deactivateRundown(): void {
-    if (!this.rundown?.id) {
-      return
-    }
-    this.rundownService.deactivate(this.rundown.id).subscribe()
-  }
-
-  public resetRundown(): void {
-    if (!this.rundown?.id) {
-      return
-    }
-    this.rundownService.reset(this.rundown.id).subscribe()
   }
 
   public takeNext(): void {

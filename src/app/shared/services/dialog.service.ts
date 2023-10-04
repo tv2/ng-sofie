@@ -33,4 +33,20 @@ export class DialogService {
       onOk();
     });
   }
+
+  public openActivationDialog(nameOfRundownToActivate: string, onOk: () => void): void {
+    this.open(ConfirmationDialogComponent, {
+      data: {
+        title: nameOfRundownToActivate,
+        message: `Are you sure you want to activate the Rundown?`,
+        buttonText: {
+          ok: 'Activate',
+          cancel: 'Cancel'
+        }
+      },
+    }).afterClosed().subscribe(result => {
+      if (!result) return;
+      onOk();
+    });
+  }
 }
