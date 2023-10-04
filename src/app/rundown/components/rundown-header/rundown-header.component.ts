@@ -16,6 +16,11 @@ import {ShowStyleVariant} from "../../../core/models/show-style-variant";
 import {SubscriptionLike} from "rxjs";
 import {IconButton, IconButtonSize} from "../../../shared/enums/icon-button";
 
+
+const UPDATE_LOCAL_CLOCK_INTERVAL: number = 1000
+const DESIGN_TEMPLATE_IDENTIFIER: string = 'DESIGN_'
+const SKEMA_TEMPLATE_IDENTIFIER: string = 'SKEMA_'
+
 @Component({
   selector: 'sofie-rundown-header',
   templateUrl: './rundown-header.component.html',
@@ -41,7 +46,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     this.setRundownNameAndPath()
     this.updateCurrentLocalDateIntervalId = setInterval(() =>
       this.currentLocalDate = new Date()
-    , 1000)
+    , UPDATE_LOCAL_CLOCK_INTERVAL)
 
     this.showStyleVariantStateService
         .subscribeToShowStyleVariant(this.rundown.id, (showStyleVariant) => {
@@ -103,16 +108,17 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private isDesignInfinitePiece(piece: Piece): boolean {
-    return piece.name.startsWith('DESIGN_')
+    return piece.name.startsWith(DESIGN_TEMPLATE_IDENTIFIER)
   }
 
   private isSkemaInfinitePiece(piece: Piece): boolean {
-    return piece.name.startsWith('DESIGN_')
+    return piece.name.startsWith(SKEMA_TEMPLATE_IDENTIFIER)
   }
 
   private getGfxNameFromTemplate(template: string) {
     const pattern: RegExp = /^.+_(?<gfxName>\w+)$/
-    return template.match(pattern)?.groups?.['gfxName'] ?? template
+    const { gfxName } = template.match(pattern)?.groups ?? {}
+    return gfxName ?? template
   }
 
   protected readonly IconButton = IconButton;
