@@ -52,7 +52,9 @@ export class RundownComponent implements OnInit, OnDestroy {
     if (!this.rundown) {
       return
     }
-    this.dialogService.openActivationDialog(this.rundown.name, () => this.activateRundown())
+    if (!this.rundown.isActive) {
+      this.dialogService.openActivationDialog(this.rundown.name, () => this.activateRundown())
+    }
   }
 
   public activateRundown(): void {
