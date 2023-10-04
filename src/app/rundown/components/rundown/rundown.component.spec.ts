@@ -6,6 +6,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot, convertToParamMap, ParamMap, Ro
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { of, Subscription } from 'rxjs'
 import { RundownService } from '../../../core/abstractions/rundown.service'
+import {DialogService} from "../../../shared/services/dialog.service";
 
 describe('RundownComponent', () => {
   it('should create', async () => {
@@ -14,9 +15,10 @@ describe('RundownComponent', () => {
   })
 })
 
-async function configureTestBed(params: { mockedRundownService?: RundownService, mockedRundownStateService?: RundownStateService } = {}): Promise<RundownComponent> {
+async function configureTestBed(params: { mockedRundownService?: RundownService, mockedRundownStateService?: RundownStateService, mockedDialogService?: DialogService } = {}): Promise<RundownComponent> {
   const mockedRundownService = params.mockedRundownService ?? mock<RundownService>()
   const mockedRundownStateService = params.mockedRundownStateService ?? createMockOfRundownStateService()
+  const mockedDialogService = params.mockedDialogService ?? mock<DialogService>()
   await TestBed
       .configureTestingModule({
         imports: [RouterModule.forRoot([])],
@@ -24,6 +26,7 @@ async function configureTestBed(params: { mockedRundownService?: RundownService,
           { provide: ActivatedRoute, useValue: instance(createMockOfActivatedRoute()) },
           { provide: RundownService, useValue: instance(mockedRundownService) },
           { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
+          { provide: DialogService, useValue: instance(mockedDialogService)},
         ],
         declarations: [RundownComponent]
       })

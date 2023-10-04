@@ -4,24 +4,26 @@ import {Rundown} from "../../../core/models/rundown";
 import {instance, mock, when} from "@typestrong/ts-mockito";
 import {RouterModule} from "@angular/router";
 import {RundownService} from "../../../core/abstractions/rundown.service";
+import {DialogService} from "../../../shared/services/dialog.service";
 
 describe('HeaderContextMenuComponent', () => {
   it('should create', async () => {
     const mockedRundown: Rundown = getMockedRundown()
     const component: RundownHeaderContextMenuComponent = await configureTestBed()
     component.rundown = instance(mockedRundown)
-    component.ngOnInit()
     expect(component).toBeTruthy();
   });
 });
 
-async function configureTestBed(params: { mockedRundownService?: RundownService} = {}): Promise<RundownHeaderContextMenuComponent> {
+async function configureTestBed(params: { mockedRundownService?: RundownService, mockedDialogService?: DialogService} = {}): Promise<RundownHeaderContextMenuComponent> {
   const mockedRundownService = params.mockedRundownService ?? mock<RundownService>()
+  const mockedDialogService = params.mockedDialogService ?? mock<DialogService>()
   await TestBed
       .configureTestingModule( {
         imports: [RouterModule.forRoot([])],
         providers: [
           { provide: RundownService, useValue: instance(mockedRundownService) },
+          { provide: DialogService, useValue: instance(mockedDialogService)},
         ],
         declarations: [RundownHeaderContextMenuComponent]
       })
