@@ -42,5 +42,4 @@ export class RundownHeaderContextMenuComponent {
     }
     this.rundownService.reset(this.rundown.id).subscribe()
   }
-
 }

@@ -14,6 +14,7 @@ import {Piece} from "../../../core/models/piece";
 import {ShowStyleVariantStateService} from "../../../core/services/show-style-variant-state.service";
 import {ShowStyleVariant} from "../../../core/models/show-style-variant";
 import {SubscriptionLike} from "rxjs";
+import {IconButton, IconButtonSize} from "../../../shared/enums/icon-button";
 
 @Component({
   selector: 'sofie-rundown-header',
@@ -113,4 +114,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     const pattern: RegExp = /^.+_(?<gfxName>\w+)$/
     return template.match(pattern)?.groups?.['gfxName'] ?? template
   }
+
+  protected readonly IconButton = IconButton;
+  protected readonly IconButtonSize = IconButtonSize;
 }
