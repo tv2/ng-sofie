@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 import {RundownService} from '../../../core/abstractions/rundown.service'
 import {Rundown} from '../../../core/models/rundown';
@@ -12,6 +12,15 @@ import { Segment } from '../../../core/models/segment'
   styleUrls: ['./rundown.component.scss'],
 })
 export class RundownComponent implements OnInit, OnDestroy {
+
+  //TODO: Remove this temporary implementation once keyboard shortcuts are added
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent2(event: KeyboardEvent) {
+    if (event.code === 'Backquote') {
+      this.activateRundown()
+    }
+  }
+
 
   public rundown?: Rundown
 
