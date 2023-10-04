@@ -2,8 +2,6 @@
     <ng-container *ngIf="rundown?.isActive; then activeButtons; else inactiveButtons"></ng-container>
 
     <button class="c-context-menu-item" cdkMenuItem (click)="resetRundown()">Reset Rundown</button>
-    <button class="c-context-menu-item" cdkMenuItem>Reload iNews Data</button>
-    <button class="c-context-menu-item" cdkMenuItem>Store Snapshot</button>
     <button class="c-context-menu-item"></button>
 
     <ng-template #inactiveButtons>

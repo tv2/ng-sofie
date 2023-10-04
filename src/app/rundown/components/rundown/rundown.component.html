@@ -1,7 +1,7 @@
 <sofie-rundown-header *ngIf="rundown" class="c-rundown-header" [rundown]="rundown"></sofie-rundown-header>
 
-<div class="test-buttons">
-    <button mat-raised-button *ngIf="!rundown?.isActive; else activeRundownButtons"  color="primary" style="margin-left: 20px" (click)="activateRundown()">Activate Rundown</button>
+<div *ngIf="rundown?.isActive" class="test-buttons">
+    <ng-container *ngIf="!rundown?.isActive; else activeRundownButtons"></ng-container>
 </div>
 
 <div *ngIf="!rundown; else loadedRundown" class='c-loading-rundown'>
@@ -10,8 +10,6 @@
 
 <ng-template #activeRundownButtons>
     <button mat-raised-button color="primary" style="margin-left: 20px" (click)="takeNext()">Take Next</button>
-    <button mat-raised-button color="basic" style="margin-left: 2px" (click)="resetRundown()">Reset Rundown</button>
-    <button mat-raised-button color="warn" style="margin-left: 2px" (click)="deactivateRundown()">Deactivate Rundown</button>
 </ng-template>
 
 <ng-template #loadedRundown>

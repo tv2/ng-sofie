@@ -68,7 +68,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnChanges(changes: SimpleChanges) {
     const rundownChange: SimpleChange = changes['rundown']
-    if (rundownChange.currentValue.infinitePieces !== rundownChange.previousValue.infinitePieces) {
+    if (rundownChange.currentValue.infinitePieces.length > 0 && rundownChange.currentValue.infinitePieces !== rundownChange.previousValue.infinitePieces) {
       this.setDesignFromInfinitePieces()
       this.setSchemaFromInfinitePieces()
     }
