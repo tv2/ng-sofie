@@ -5,8 +5,9 @@ import { RundownService } from '../abstractions/rundown.service'
 import { HttpErrorService } from './http-error.service'
 import { Rundown } from '../models/rundown'
 import { EntityParser } from '../abstractions/entity-parser.service'
+import { environment } from '../../../environments/environment'
 
-const RUNDOWN_URL: string = 'http://localhost:3005/api/rundowns'
+const RUNDOWN_URL: string = `${environment.apiBaseUrl}/api/rundowns`
 
 @Injectable()
 export class HttpRundownService implements RundownService {
