@@ -39,7 +39,7 @@
     <ng-container matColumnDef="delete">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell class="c-delete-rundown-cell" *matCellDef="let basicRundown">
-        <span class="material-icons c-delete-rundown-icon" (click)="openDeletionDialog(basicRundown)">delete</span>
+        <sofie-icon-button class="material-icons c-delete-rundown-icon" [iconButton]="IconButton.DELETE" [iconButtonSize]="IconButtonSize.SMALL" (click)="openDeletionDialog(basicRundown)"></sofie-icon-button>
       </mat-cell>
     </ng-container>
 

@@ -20,7 +20,7 @@ import { MaximumPipe } from './pipes/maximum.pipe';
 import { SofieLogoComponent } from './components/sofie-logo/sofie-logo.component';
 import { SpacerComponent } from './components/spacer/spacer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconButtonComponent } from "./components/icon-button/icon-button.component";
+import {IconButtonComponent} from "./components/icon-button/icon-button.component";
 
 
 @NgModule({
@@ -32,8 +32,7 @@ import { IconButtonComponent } from "./components/icon-button/icon-button.compon
     TimestampPipe,
     SofieLogoComponent,
     SpacerComponent,
-    IconButtonComponent,
-    IconButtonComponent,
+    IconButtonComponent
   ],
   imports: [
     CommonModule,
@@ -56,7 +55,7 @@ import { IconButtonComponent } from "./components/icon-button/icon-button.compon
     TimestampPipe,
     SofieLogoComponent,
     SpacerComponent,
-    IconButtonComponent,
+    IconButtonComponent
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000, verticalPosition: 'top'}},

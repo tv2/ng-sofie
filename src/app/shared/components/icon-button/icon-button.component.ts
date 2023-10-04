@@ -14,7 +14,7 @@ export class IconButtonComponent implements OnInit {
   public iconButton: IconButton
 
   @Input()
-  public iconButtonSize: IconButtonSize
+  public iconButtonSize?: IconButtonSize
 
   public iconButtonProp: IconProp
   public iconButtonSizeProp: SizeProp
@@ -37,7 +37,7 @@ export class IconButtonComponent implements OnInit {
     }
   }
 
-  public getIconSizeProperty(iconButtonSize: IconButtonSize): SizeProp {
+  public getIconSizeProperty(iconButtonSize?: IconButtonSize): SizeProp {
     switch (iconButtonSize) {
       case IconButtonSize.XS:
         return "xs"
