@@ -10,7 +10,6 @@ describe('RundownHeaderContextMenuComponent', () => {
     const mockedRundown: Rundown = getMockedRundown()
     const component: RundownHeaderContextMenuComponent = await configureTestBed()
     component.rundown = instance(mockedRundown)
-    component.ngOnInit()
     expect(component).toBeTruthy();
   });
 });
