@@ -14,22 +14,8 @@ export class ShowStyleVariantStateService implements OnDestroy {
 
     constructor(
         private readonly showStyleVariantService: ShowStyleVariantService,
-        private readonly connectionStatusObserver: ConnectionStatusObserver
     ) {
-        this.subscribeToEvents()
     }
-
-    private subscribeToEvents(): void {
-        this.eventSubscriptions = [
-            this.subscribeToConnectionStatus(),
-        ]
-    }
-
-    private subscribeToConnectionStatus(): EventSubscription {
-        return this.connectionStatusObserver.subscribeToReconnect(this.resetShowStyleVariantSubjects.bind(this))
-    }
-
-    private resetShowStyleVariantSubjects(): void {}
 
     public async subscribeToShowStyleVariant(rundownId: string, consumer: (showStyleVariant: ShowStyleVariant) => void): Promise<SubscriptionLike> {
         const showStyleVariantSubject: BehaviorSubject<ShowStyleVariant> = await this.getShowStyleVariantSubject(rundownId)
