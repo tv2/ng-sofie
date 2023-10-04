@@ -21,19 +21,12 @@ export class ShowStyleVariantStateService implements OnDestroy {
 
     private subscribeToEvents(): void {
         this.eventSubscriptions = [
-            ...this.subscribeToShowStyleVariantEvents(),
-            ...this.subscribeToConnectionStatus(),
+            this.subscribeToConnectionStatus(),
         ]
     }
 
-    private subscribeToConnectionStatus(): EventSubscription[] {
-        return [
-            this.connectionStatusObserver.subscribeToReconnect(this.resetShowStyleVariantSubjects.bind(this))
-        ]
-    }
-
-    private subscribeToShowStyleVariantEvents(): EventSubscription[] {
-        return []
+    private subscribeToConnectionStatus(): EventSubscription {
+        return this.connectionStatusObserver.subscribeToReconnect(this.resetShowStyleVariantSubjects.bind(this))
     }
 
     private resetShowStyleVariantSubjects(): void {}
@@ -41,7 +34,7 @@ export class ShowStyleVariantStateService implements OnDestroy {
     public async subscribeToShowStyleVariant(rundownId: string, consumer: (showStyleVariant: ShowStyleVariant) => void): Promise<SubscriptionLike> {
         const showStyleVariantSubject: BehaviorSubject<ShowStyleVariant> = await this.getShowStyleVariantSubject(rundownId)
         const subscription: Subscription = showStyleVariantSubject.subscribe(consumer)
-        return new ManagedSubscription(subscription, this.createUnsubscribeFromShowStyleVariantHandler(rundownId))
+        return new ManagedSubscription(subscription, () => this.unsubscribeFromShowStyleVariant(rundownId))
     }
 
     private async getShowStyleVariantSubject(rundownId: string): Promise<BehaviorSubject<ShowStyleVariant>> {
@@ -61,10 +54,6 @@ export class ShowStyleVariantStateService implements OnDestroy {
 
     private async fetchShowStyleVariant(rundownId: string): Promise<ShowStyleVariant> {
         return lastValueFrom(this.showStyleVariantService.getShowStyleVariant(rundownId))
-    }
-
-    private createUnsubscribeFromShowStyleVariantHandler(rundownId: string): () => void {
-        return () => this.unsubscribeFromShowStyleVariant(rundownId)
     }
 
     private unsubscribeFromShowStyleVariant(rundownId: string): void {
