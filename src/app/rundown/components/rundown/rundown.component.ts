@@ -13,6 +13,7 @@ import { Segment } from '../../../core/models/segment'
 })
 export class RundownComponent implements OnInit, OnDestroy {
   public rundown?: Rundown
+
   private rundownSubscription?: SubscriptionLike
 
   constructor(

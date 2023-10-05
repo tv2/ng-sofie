@@ -17,11 +17,27 @@ import { TimestampPipe } from './pipes/timestamp.pipe'
 import { PieceLayerService } from './services/piece-layer.service'
 import { MinimumPipe } from './pipes/minimum.pipe'
 import { MaximumPipe } from './pipes/maximum.pipe'
+import { SofieLogoComponent } from './components/sofie-logo/sofie-logo.component'
+import { SpacerComponent } from './components/spacer/spacer.component'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { IconButtonComponent } from './components/icon-button/icon-button.component'
 
 @NgModule({
-  declarations: [HeaderComponent, ConfirmationDialogComponent, MinimumPipe, MaximumPipe, TimestampPipe],
-  imports: [CommonModule, MatSnackBarModule, MatToolbarModule, MatIconModule, MatButtonModule, MatGridListModule, MatCardModule, MatButtonToggleModule, MatListModule, MatDialogModule],
-  exports: [CommonModule, HeaderComponent, MinimumPipe, MaximumPipe, TimestampPipe],
+  declarations: [HeaderComponent, ConfirmationDialogComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent],
+  imports: [
+    CommonModule,
+    MatSnackBarModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatGridListModule,
+    MatCardModule,
+    MatButtonToggleModule,
+    MatListModule,
+    MatDialogModule,
+    FontAwesomeModule,
+  ],
+  exports: [CommonModule, HeaderComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent],
   providers: [{ provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } }, DialogService, ConnectionErrorService, PieceLayerService, TimestampPipe],
 })
 export class SharedModule {}

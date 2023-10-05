@@ -7,6 +7,7 @@ import { Color } from '../../../shared/enums/color'
 import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
 import { SubscriptionLike } from 'rxjs'
 import { RundownService } from '../../../core/abstractions/rundown.service'
+import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 
 @Component({
   selector: 'sofie-rundown-overview',
@@ -52,4 +53,6 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   }
 
   public readonly Color = Color
+  protected readonly IconButton = IconButton
+  protected readonly IconButtonSize = IconButtonSize
 }
