@@ -13,6 +13,7 @@ import { Segment } from '../../../core/models/segment'
 })
 export class RundownComponent implements OnInit, OnDestroy {
   public rundown?: Rundown
+  protected onAirSegment?: Segment
 
   private rundownSubscription?: SubscriptionLike
 
@@ -31,6 +32,7 @@ export class RundownComponent implements OnInit, OnDestroy {
     this.rundownStateService
       .subscribeToRundown(rundownId, rundown => {
         this.rundown = rundown
+        this.onAirSegment = rundown.segments.find(segment => segment.isOnAir)
       })
       .then(unsubscribeFromRundown => {
         this.rundownSubscription = unsubscribeFromRundown
