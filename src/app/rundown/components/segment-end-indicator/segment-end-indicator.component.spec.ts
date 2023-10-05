@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { SegmentEndIndicatorComponent } from './segment-end-indicator.component';
+import { SegmentEndIndicatorComponent } from './segment-end-indicator.component'
 
 describe('SegmentEndIndicatorComponent', () => {
-  let component: SegmentEndIndicatorComponent;
-  let fixture: ComponentFixture<SegmentEndIndicatorComponent>;
+  let component: SegmentEndIndicatorComponent
+  let fixture: ComponentFixture<SegmentEndIndicatorComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SegmentEndIndicatorComponent ]
-    })
-    .compileComponents();
+      declarations: [SegmentEndIndicatorComponent],
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(SegmentEndIndicatorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(SegmentEndIndicatorComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

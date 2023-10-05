@@ -1,5 +1,5 @@
-import {Observable} from 'rxjs';
-import {Rundown} from '../models/rundown';
+import { Observable } from 'rxjs'
+import { Rundown } from '../models/rundown'
 
 export abstract class RundownService {
   public abstract fetchRundown(rundownId: string): Observable<Rundown>

@@ -1,9 +1,9 @@
-import { Component, Input, OnChanges, OnDestroy, } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
-import {RundownService} from "../../../core/abstractions/rundown.service";
+import { RundownService } from '../../../core/abstractions/rundown.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
 @Component({
@@ -21,9 +21,9 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   private animationFrameId?: number
 
   constructor(
-      private readonly pieceLayerService: PieceLayerService,
-      private readonly rundownService: RundownService,
-      private readonly partEntityService: PartEntityService
+    private readonly pieceLayerService: PieceLayerService,
+    private readonly rundownService: RundownService,
+    private readonly partEntityService: PartEntityService
   ) {}
 
   private getUsedPieceLayersInOrder(): PieceLayer[] {
@@ -35,7 +35,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   public ngOnChanges(): void {
     this.pieceLayers = this.getUsedPieceLayersInOrder()
 
-    if(this.isGoingOnAir()) {
+    if (this.isGoingOnAir()) {
       this.startAnimation()
     }
     if (this.isGoingOffAir()) {
@@ -88,14 +88,14 @@ export class SegmentComponent implements OnChanges, OnDestroy {
       return
     }
 
-    const firstValidPart: Part | undefined = this.segment.parts.find( (part) => part.pieces.length > 0)
+    const firstValidPart: Part | undefined = this.segment.parts.find(part => part.pieces.length > 0)
     if (!firstValidPart) {
       return
     }
     this.rundownService.setNext(this.segment.rundownId, this.segment.id, firstValidPart.id).subscribe()
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.stopAnimation()
   }
 }

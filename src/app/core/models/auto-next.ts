@@ -1,3 +1,3 @@
 export interface AutoNext {
-    readonly overlap: number
+  readonly overlap: number
 }

@@ -1,19 +1,18 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {RundownService} from "../../../core/abstractions/rundown.service";
-import {Rundown} from "../../../core/models/rundown";
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
+import { RundownService } from '../../../core/abstractions/rundown.service'
+import { Rundown } from '../../../core/models/rundown'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
   templateUrl: './rundown-header-context-menu.component.html',
   styleUrls: ['./rundown-header-context-menu.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RundownHeaderContextMenuComponent {
-
   @Input()
   public rundown?: Rundown
 
-  constructor(private rundownService: RundownService) { }
+  constructor(private readonly rundownService: RundownService) {}
 
   public activate(): void {
     if (!this.rundown?.id) {

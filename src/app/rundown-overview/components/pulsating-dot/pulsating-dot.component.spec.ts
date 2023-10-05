@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { PulsatingDotComponent } from './pulsating-dot.component';
+import { PulsatingDotComponent } from './pulsating-dot.component'
 
 describe('ActiveSignalComponent', () => {
-  let component: PulsatingDotComponent;
-  let fixture: ComponentFixture<PulsatingDotComponent>;
+  let component: PulsatingDotComponent
+  let fixture: ComponentFixture<PulsatingDotComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PulsatingDotComponent ]
-    })
-    .compileComponents();
+      declarations: [PulsatingDotComponent],
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(PulsatingDotComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(PulsatingDotComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

@@ -16,9 +16,9 @@ import { ZodEntityParser } from './parsers/zod-entity-parser.service'
 import { ZodRundownEventParser } from './parsers/zod-rundown-event-parser.service'
 import { EventSystemModule } from '../event-system/event-system.module'
 import { RundownService } from './abstractions/rundown.service'
-import { HttpShowStyleVariantService } from "./services/http-show-style-variant.service";
-import { ShowStyleVariantStateService } from "./services/show-style-variant-state.service";
-import {ShowStyleVariantService} from "./abstractions/show-style-variant.service";
+import { HttpShowStyleVariantService } from './services/http-show-style-variant.service'
+import { ShowStyleVariantStateService } from './services/show-style-variant-state.service'
+import { ShowStyleVariantService } from './abstractions/show-style-variant.service'
 import { RundownEntityService } from './services/models/rundown-entity.service'
 import { SegmentEntityService } from './services/models/segment-entity.service'
 import { PartEntityService } from './services/models/part-entity.service'
@@ -26,11 +26,7 @@ import { BasicRundownEntityService } from './services/models/basic-rundown-entit
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    EventSystemModule,
-  ],
+  imports: [CommonModule, HttpClientModule, EventSystemModule],
   providers: [
     HttpErrorService,
     HttpClientModule,
@@ -49,10 +45,10 @@ import { BasicRundownEntityService } from './services/models/basic-rundown-entit
     BasicRundownEntityService,
     SegmentEntityService,
     PartEntityService,
-  ]
+  ],
 })
 export class CoreModule extends EnsureLoadedOnceGuard {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
-    super(parentModule);
+    super(parentModule)
   }
 }

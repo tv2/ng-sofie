@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
-import {ActivatedRoute} from '@angular/router'
-import {RundownService} from '../../../core/abstractions/rundown.service'
-import {Rundown} from '../../../core/models/rundown';
-import { RundownStateService } from '../../../core/services/rundown-state.service';
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import { RundownService } from '../../../core/abstractions/rundown.service'
+import { Rundown } from '../../../core/models/rundown'
+import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { SubscriptionLike } from 'rxjs'
 import { Segment } from '../../../core/models/segment'
 
@@ -12,26 +12,30 @@ import { Segment } from '../../../core/models/segment'
   styleUrls: ['./rundown.component.scss'],
 })
 export class RundownComponent implements OnInit, OnDestroy {
-
   public rundown?: Rundown
 
   private rundownSubscription?: SubscriptionLike
 
   constructor(
-    private route: ActivatedRoute,
-    private rundownService: RundownService,
-    private rundownStateService: RundownStateService
-  ) { }
+    private readonly route: ActivatedRoute,
+    private readonly rundownService: RundownService,
+    private readonly rundownStateService: RundownStateService
+  ) {}
 
   public ngOnInit(): void {
     const rundownId: string | null = this.route.snapshot.paramMap.get('rundownId')
     if (!rundownId) {
-      console.error('[error]: No rundownId found. Can\'t fetch Rundown')
+      console.error("[error]: No rundownId found. Can't fetch Rundown")
       return
     }
     this.rundownStateService
-        .subscribeToRundown(rundownId, (rundown) => { this.rundown = rundown })
-        .then(unsubscribeFromRundown => { this.rundownSubscription = unsubscribeFromRundown })
+      .subscribeToRundown(rundownId, rundown => {
+        this.rundown = rundown
+      })
+      .then(unsubscribeFromRundown => {
+        this.rundownSubscription = unsubscribeFromRundown
+      })
+      .catch(error => console.error(`[error] Failed subscribing to rundown with id '${rundownId}'.`, error))
   }
 
   public ngOnDestroy(): void {

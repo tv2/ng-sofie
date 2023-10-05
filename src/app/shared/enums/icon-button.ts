@@ -1,14 +1,13 @@
-
 export enum IconButton {
-    XMARK = 'xmark',
-    DELETE = 'delete',
+  XMARK = 'xmark',
+  DELETE = 'delete',
 }
 
 export enum IconButtonSize {
-    XS = 'XS',
-    S = 'S',
-    M = 'M',
-    L = 'L',
-    XL = 'XL',
-    XXL = 'XXL',
+  XS = 'XS',
+  S = 'S',
+  M = 'M',
+  L = 'L',
+  XL = 'XL',
+  XXL = 'XXL',
 }

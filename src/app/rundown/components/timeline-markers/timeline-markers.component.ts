@@ -1,20 +1,9 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  Input,
-  OnChanges,
-  SimpleChange,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core'
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnChanges, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
 import { TimestampPipe } from '../../../shared/pipes/timestamp.pipe'
 import { debounceTime, Subject } from 'rxjs'
 
 interface Point {
-  x: number,
+  x: number
   y: number
 }
 
@@ -49,14 +38,14 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   private canvasWidth: number = 0
   private canvasHeight: number = 0
 
-  private secondsPerSection: number = 5
-  private subsectionsPerSection: number = 5
+  private readonly secondsPerSection: number = 5
+  private readonly subsectionsPerSection: number = 5
 
-  private resizeSubject: Subject<void> = new Subject<void>()
+  private readonly resizeSubject: Subject<void> = new Subject<void>()
 
-  public constructor(
-      private readonly containerElement: ElementRef,
-      private readonly timestampPipe: TimestampPipe
+  constructor(
+    private readonly containerElement: ElementRef,
+    private readonly timestampPipe: TimestampPipe
   ) {}
 
   @HostListener('window:resize', ['$event'])
@@ -82,7 +71,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   }
 
   private drawSubsections(): void {
-    const subsectionWidth: number = this.pixelsPerSecond * this.secondsPerSection / this.subsectionsPerSection
+    const subsectionWidth: number = (this.pixelsPerSecond * this.secondsPerSection) / this.subsectionsPerSection
     const subsectionCount: number = this.subsectionsPerSection + Math.ceil(this.canvasWidth / subsectionWidth)
     const timeOffsetInPixels: number = this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
     for (let i = 0; i < subsectionCount; i++) {
@@ -94,7 +83,8 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
     if (subsectionIndex % this.subsectionsPerSection === 0) {
       return
     }
-    this.drawSubsectionFromIndex(subsectionIndex, subsectionWidth, timeOffsetInPixels)}
+    this.drawSubsectionFromIndex(subsectionIndex, subsectionWidth, timeOffsetInPixels)
+  }
 
   private drawSubsectionFromIndex(subsectionIndex: number, subsectionWidth: number, timeOffsetInPixels: number): void {
     const from: Point = {
@@ -155,13 +145,13 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   private getSectionTimestampInSeconds(sectionIndex: number): number {
     const timeInSeconds: number = this.time / 1000
-    return timeInSeconds - timeInSeconds % this.secondsPerSection + sectionIndex * this.secondsPerSection
+    return timeInSeconds - (timeInSeconds % this.secondsPerSection) + sectionIndex * this.secondsPerSection
   }
 
   private drawText(text: string, x: number, y: number): void {
-      this.canvasContext.font = TEXT_STYLE;
-      this.canvasContext.fillStyle = '#5f6164'
-      this.canvasContext.fillText(text, x, y)
+    this.canvasContext.font = TEXT_STYLE
+    this.canvasContext.fillStyle = '#5f6164'
+    this.canvasContext.fillText(text, x, y)
   }
 
   private clearCanvas(): void {
@@ -169,12 +159,10 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   }
 
   public ngAfterViewInit(): void {
-    this.resizeSubject
-        .pipe(debounceTime(RESIZE_DEBOUNCE_DURATION_IN_MS))
-        .subscribe(() => {
-          this.setCanvasSize()
-          this.draw()
-        })
+    this.resizeSubject.pipe(debounceTime(RESIZE_DEBOUNCE_DURATION_IN_MS)).subscribe(() => {
+      this.setCanvasSize()
+      this.draw()
+    })
     this.initializeCanvasContext()
     this.setCanvasSize()
     this.draw()
@@ -190,7 +178,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
       throw new Error('Canvas not loaded!')
     }
 
-    const canvasContext = this.canvasElement.nativeElement.getContext('2d');
+    const canvasContext = this.canvasElement.nativeElement.getContext('2d')
     if (!canvasContext) {
       throw new Error('Canvas Context not loaded!')
     }
@@ -199,7 +187,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     const timeChange: SimpleChange | undefined = changes['time']
-    if (timeChange)  {
+    if (timeChange) {
       this.draw()
       return
     }

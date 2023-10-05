@@ -1,14 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {IconProp, SizeProp} from "@fortawesome/fontawesome-svg-core";
-import {IconButton, IconButtonSize} from "../../enums/icon-button";
-import {faTrashCan, faXmark} from "@fortawesome/free-solid-svg-icons";
+import { Component, Input, OnInit } from '@angular/core'
+import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core'
+import { IconButton, IconButtonSize } from '../../enums/icon-button'
+import { faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'sofie-icon-button',
-  templateUrl: './icon-button.component.html'
+  templateUrl: './icon-button.component.html',
 })
 export class IconButtonComponent implements OnInit {
-
   @Input()
   public iconButton: IconButton
 
@@ -37,20 +36,19 @@ export class IconButtonComponent implements OnInit {
   public getIconSizeProperty(iconButtonSize?: IconButtonSize): SizeProp {
     switch (iconButtonSize) {
       case IconButtonSize.XS:
-        return "xs"
+        return 'xs'
       case IconButtonSize.S:
-        return "sm"
+        return 'sm'
       case IconButtonSize.M:
         return '1x'
       case IconButtonSize.L:
-        return "lg"
+        return 'lg'
       case IconButtonSize.XL:
-        return "xl"
+        return 'xl'
       case IconButtonSize.XXL:
-        return "2xl"
+        return '2xl'
       default:
-        return "1x"
+        return '1x'
     }
   }
-
 }
