@@ -1,12 +1,12 @@
 :host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-.container {
   background-color: #343434;
-  min-height: 100%;
 }
 
 .c-loading-rundown {
@@ -18,27 +18,19 @@
   color: white;
 }
 
-.segments {
-  width: 99%;
-  display: flex;
-  flex-direction: column;
+.test-buttons {
+  padding: 20px 0;
+  background-color: #4f696b
 }
 
-sofie-segment {
-  width: 100%;
-}
+.c-rundown {
+  padding-top: 10px;
+  flex: 1 1 100%;
+  height: 100%;
+  overflow: auto;
 
-.title {
-  font-size: 2em;
-  background-color: #343434;
-  color: white;
-}
-
-.title, .subtitle {
-  display: flex;
-  justify-content: center;
-}
-
-.subtitle {
-  font-size: 1.5em;
+  &__segments {
+    display: flex;
+    flex-direction: column;
+  }
 }

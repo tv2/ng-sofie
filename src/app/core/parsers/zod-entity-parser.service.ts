@@ -6,8 +6,38 @@ import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
 import * as zod from 'zod'
 import { PieceType } from '../enums/piece-type'
+import { ShowStyleVariant } from "../models/show-style-variant";
 
 export class ZodEntityParser implements EntityParser {
+    private readonly blueprintConfigurationParser = zod.object( {
+        SelectedGfxSetupName: zod.object( {
+            value: zod.string(),
+            label: zod.string(),
+        }),
+        GfxDefaults: zod.object({
+            id: zod.optional(zod.string()),
+            DefaultSetupName: zod.object({
+                value: zod.string(),
+                label: zod.string(),
+            }),
+            DefaultSchema: zod.object({
+                value: zod.string(),
+                label: zod.string(),
+            }),
+            DefaultDesign: zod.object({
+                value: zod.string(),
+                label: zod.string(),
+            }),
+        }).array()
+    })
+
+    private readonly showStyleVariantParser = zod.object( {
+        id: zod.string().nonempty(),
+        showStyleBaseId: zod.string().nonempty(),
+        name: zod.string().nonempty(),
+        blueprintConfiguration: this.blueprintConfigurationParser
+    })
+
     private readonly pieceParser = zod.object({
         id: zod.string().nonempty(),
         type: zod.nativeEnum(PieceType),
@@ -76,5 +106,9 @@ export class ZodEntityParser implements EntityParser {
 
     public parseRundown(rundown: unknown): Rundown {
         return this.rundownParser.parse(rundown)
+    }
+
+    public parseShowStyleVariant(showStyleVariant: unknown): ShowStyleVariant {
+        return this.showStyleVariantParser.parse(showStyleVariant)
     }
 }

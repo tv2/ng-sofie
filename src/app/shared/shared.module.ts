@@ -16,7 +16,11 @@ import { ConnectionErrorService } from './services/connection-error.service'
 import { TimestampPipe } from './pipes/timestamp.pipe'
 import { PieceLayerService } from './services/piece-layer.service';
 import { MinimumPipe } from './pipes/minimum.pipe';
-import { MaximumPipe } from './pipes/maximum.pipe'
+import { MaximumPipe } from './pipes/maximum.pipe';
+import { SofieLogoComponent } from './components/sofie-logo/sofie-logo.component';
+import { SpacerComponent } from './components/spacer/spacer.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {IconButtonComponent} from "./components/icon-button/icon-button.component";
 
 
 @NgModule({
@@ -26,6 +30,9 @@ import { MaximumPipe } from './pipes/maximum.pipe'
     MinimumPipe,
     MaximumPipe,
     TimestampPipe,
+    SofieLogoComponent,
+    SpacerComponent,
+    IconButtonComponent
   ],
   imports: [
     CommonModule,
@@ -38,6 +45,7 @@ import { MaximumPipe } from './pipes/maximum.pipe'
     MatButtonToggleModule,
     MatListModule,
     MatDialogModule,
+    FontAwesomeModule,
   ],
   exports: [
     CommonModule,
@@ -45,6 +53,9 @@ import { MaximumPipe } from './pipes/maximum.pipe'
     MinimumPipe,
     MaximumPipe,
     TimestampPipe,
+    SofieLogoComponent,
+    SpacerComponent,
+    IconButtonComponent
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000, verticalPosition: 'top'}},
