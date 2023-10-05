@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { DialogService } from '../../../shared/services/dialog.service'
 
-describe('HeaderContextMenuComponent', () => {
+describe(RundownHeaderContextMenuComponent.name, () => {
   it('should create', async () => {
     const mockedRundown: Rundown = getMockedRundown()
     const component: RundownHeaderContextMenuComponent = await configureTestBed()
