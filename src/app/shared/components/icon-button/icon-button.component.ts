@@ -5,8 +5,7 @@ import {faTrashCan, faXmark} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'sofie-icon-button',
-  templateUrl: './icon-button.component.html',
-  styleUrls: ['./icon-button.component.scss']
+  templateUrl: './icon-button.component.html'
 })
 export class IconButtonComponent implements OnInit {
 
@@ -19,7 +18,7 @@ export class IconButtonComponent implements OnInit {
   public iconButtonProp: IconProp
   public iconButtonSizeProp: SizeProp
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.iconButtonProp = this.getIconProperty(this.iconButton)
     this.iconButtonSizeProp = this.getIconSizeProperty(this.iconButtonSize ?? IconButtonSize.M)
   }

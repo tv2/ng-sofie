@@ -1,4 +1,3 @@
-import {faTrashCan, faXmark} from "@fortawesome/free-solid-svg-icons";
 
 export enum IconButton {
     XMARK = 'xmark',

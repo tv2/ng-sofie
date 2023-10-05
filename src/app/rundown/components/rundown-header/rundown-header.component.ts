@@ -34,6 +34,8 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public currentLocalDate: Date = new Date()
   private updateCurrentLocalDateIntervalId: ReturnType<typeof setInterval>
   private showStyleVariantSubscription?: SubscriptionLike
+  public readonly IconButton = IconButton;
+  public readonly IconButtonSize = IconButtonSize;
 
   public rundownName: string = ''
   public rundownPath: string = ''
@@ -120,7 +122,4 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     const { gfxName } = template.match(pattern)?.groups ?? {}
     return gfxName ?? template
   }
-
-  protected readonly IconButton = IconButton;
-  protected readonly IconButtonSize = IconButtonSize;
 }
