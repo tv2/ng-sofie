@@ -1,6 +1,6 @@
 <sofie-rundown-header *ngIf="rundown" class="c-rundown-header" [rundown]="rundown"></sofie-rundown-header>
-<div class="on-air-segment">
-    <sofie-segment *ngIf="onAirSegment" [segment]="onAirSegment"></sofie-segment>
+<div *ngIf="onAirSegment" class="on-air-segment">
+    <sofie-segment [segment]="onAirSegment"></sofie-segment>
 </div>
 
 <div *ngIf="!rundown; else loadedRundown" class='c-loading-rundown'>
