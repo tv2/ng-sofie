@@ -1,6 +1,6 @@
 import { Environment } from './environment-interface'
 
 export const environment: Environment = {
-  production: true,
-  apiBaseUrl: `${window.location.origin}/api`,
+  production: false,
+  apiBaseUrl: 'http://localhost:3005/api',
 }
