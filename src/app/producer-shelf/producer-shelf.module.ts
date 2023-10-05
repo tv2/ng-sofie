@@ -9,13 +9,7 @@ import { CameraKeyBindingFactory } from './factories/camera-key-binding.factory'
 @NgModule({
   declarations: [ProducerShelfComponent],
   imports: [CommonModule],
-  providers: [
-    { provide: KeyboardBindingService, useClass: HardcodedProducerKeyboardBindingService },
-    KeyboardBindingMatcher,
-    CameraKeyBindingFactory,
-  ],
-  exports: [
-    ProducerShelfComponent
-  ]
+  providers: [{ provide: KeyboardBindingService, useClass: HardcodedProducerKeyboardBindingService }, KeyboardBindingMatcher, CameraKeyBindingFactory],
+  exports: [ProducerShelfComponent],
 })
 export class ProducerShelfModule {}

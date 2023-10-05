@@ -30,6 +30,6 @@ export class ProducerShelfComponent implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    (this.keyboardBindingService as any).ngOnDestroy()
+    this.keyboardBindingService.ngOnDestroy()
   }
 }
