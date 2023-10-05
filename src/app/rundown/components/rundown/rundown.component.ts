@@ -16,7 +16,7 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   //TODO: Remove this temporary implementation once keyboard shortcuts are added
   @HostListener('document:keypress', ['$event'])
-  handleKeyboardEvent2(event: KeyboardEvent) {
+  handleKeyboardEvent(event: KeyboardEvent) {
     if (event.code === 'Backquote') {
       this.openActivationDialog()
     }
@@ -49,12 +49,15 @@ export class RundownComponent implements OnInit, OnDestroy {
   }
 
   public openActivationDialog(): void {
-    if (!this.rundown) {
+    if (!this.rundown || this.rundown.isActive) {
       return
     }
-    if (!this.rundown.isActive) {
-      this.dialogService.openActivationDialog(this.rundown.name, () => this.activateRundown())
-    }
+    this.dialogService.createConfirmDialog(
+        this.rundown.name,
+        `Are you sure you want to activate the Rundown?`,
+        'Activate',
+        () => this.activateRundown()
+    )
   }
 
   public activateRundown(): void {

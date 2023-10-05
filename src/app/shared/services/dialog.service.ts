@@ -18,29 +18,13 @@ export class DialogService {
     return this.dialog.open(component, config);
   }
 
-  public openDeletionDialog(typeOfThingToDelete: string, nameOrIdOfThingToDelete: string, onOk: () => void): void {
+  public createConfirmDialog(title: string, message: string, okButtonText: string, onOk: () => void): void {
     this.open(ConfirmationDialogComponent, {
       data: {
-        title: `Delete ${typeOfThingToDelete}?`,
-        message: `Are you sure you want to delete the ${typeOfThingToDelete} "${nameOrIdOfThingToDelete}"?\n\nPlease note: This action is irreversible!`,
+        title: title,
+        message: message,
         buttonText: {
-          ok: 'Delete',
-          cancel: 'Cancel'
-        }
-      },
-    }).afterClosed().subscribe(result => {
-      if (!result) return;
-      onOk();
-    });
-  }
-
-  public openActivationDialog(nameOfRundownToActivate: string, onOk: () => void): void {
-    this.open(ConfirmationDialogComponent, {
-      data: {
-        title: nameOfRundownToActivate,
-        message: `Are you sure you want to activate the Rundown?`,
-        buttonText: {
-          ok: 'Activate',
+          ok: okButtonText,
           cancel: 'Cancel'
         }
       },
