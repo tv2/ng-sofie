@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnDestroy } from '@angular/core'
 import { KeyboardBindingService } from '../../abstractions/keyboard-binding.service'
 import { KeyBinding } from '../../models/key-binding'
 import { KeyboardBindingMatcher } from '../../services/keyboard-binding.matcher'
@@ -8,7 +8,7 @@ import { KeyboardBindingMatcher } from '../../services/keyboard-binding.matcher'
   templateUrl: './producer-shelf.component.html',
   styleUrls: ['./producer-shelf.component.scss'],
 })
-export class ProducerShelfComponent {
+export class ProducerShelfComponent implements OnDestroy {
   public keyBindings: KeyBinding[] = []
   public pressedKeys: string[] = []
 
@@ -27,5 +27,9 @@ export class ProducerShelfComponent {
 
   public isKeyBindingMatched(keyBinding: KeyBinding): boolean {
     return this.keyboardBindingMatcher.isKeyBindingMatchedExactly(keyBinding, this.pressedKeys)
+  }
+
+  public ngOnDestroy(): void {
+    (this.keyboardBindingService as any).ngOnDestroy()
   }
 }

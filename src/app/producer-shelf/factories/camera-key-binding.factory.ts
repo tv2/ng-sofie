@@ -8,7 +8,7 @@ export class CameraKeyBindingFactory {
             const cameraNumber: number = index + 1
             const label = `KAM ${cameraNumber}`
             return {
-                key: cameraNumber.toString(),
+                key: `Digit${cameraNumber}`,
                 modifiers: [],
                 label,
                 action: () => console.error(label),
