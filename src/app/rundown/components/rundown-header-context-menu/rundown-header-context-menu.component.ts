@@ -1,32 +1,28 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {RundownService} from "../../../core/abstractions/rundown.service";
-import {Rundown} from "../../../core/models/rundown";
-import {DialogService} from "../../../shared/services/dialog.service";
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
+import { RundownService } from '../../../core/abstractions/rundown.service'
+import { Rundown } from '../../../core/models/rundown'
+import { DialogService } from '../../../shared/services/dialog.service'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
   templateUrl: './rundown-header-context-menu.component.html',
   styleUrls: ['./rundown-header-context-menu.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RundownHeaderContextMenuComponent {
-
   @Input()
   public rundown?: Rundown
 
-  constructor(private readonly rundownService: RundownService, private readonly dialogService: DialogService) { }
-
+  constructor(
+    private readonly rundownService: RundownService,
+    private readonly dialogService: DialogService
+  ) {}
 
   public openActivationDialog(): void {
     if (!this.rundown || this.rundown.isActive) {
       return
     }
-    this.dialogService.createConfirmDialog(
-        this.rundown.name,
-        `Are you sure you want to activate the Rundown?`,
-        'Activate',
-        () => this.activate()
-    )
+    this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to activate the Rundown?`, 'Activate', () => this.activate())
   }
 
   public activate(): void {
@@ -56,5 +52,4 @@ export class RundownHeaderContextMenuComponent {
     }
     this.rundownService.reset(this.rundown.id).subscribe()
   }
-
 }

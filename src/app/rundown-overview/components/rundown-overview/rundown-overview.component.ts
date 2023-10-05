@@ -41,11 +41,8 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   }
 
   public openDeletionDialog(basicRundown: BasicRundown): void {
-    this.dialogService.createConfirmDialog(
-        'Delete Rundown?',
-        `Are you sure you want to delete the Rundown "${basicRundown.name}"?\n\nPlease note: This action is irreversible!`,
-        'Delete',
-        () => this.deleteRundown(basicRundown.id)
+    this.dialogService.createConfirmDialog('Delete Rundown?', `Are you sure you want to delete the Rundown "${basicRundown.name}"?\n\nPlease note: This action is irreversible!`, 'Delete', () =>
+      this.deleteRundown(basicRundown.id)
     )
   }
 
