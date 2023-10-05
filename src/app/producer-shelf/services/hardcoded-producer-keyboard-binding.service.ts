@@ -2,17 +2,17 @@ import { KeyboardBindingService } from '../abstractions/keyboard-binding.service
 import { BehaviorSubject, fromEvent, Subject, Subscription } from 'rxjs'
 import { KeyBinding } from '../models/key-binding'
 import { KeyboardBindingMatcher } from './keyboard-binding.matcher'
-import { HostListener, Injectable } from '@angular/core'
+import { HostListener, Injectable, OnDestroy } from '@angular/core'
 import { CameraKeyBindingFactory } from '../factories/camera-key-binding.factory'
 import { RundownService } from '../../core/abstractions/rundown.service'
 
 @Injectable()
-export class HardcodedProducerKeyboardBindingService implements KeyboardBindingService {
+export class HardcodedProducerKeyboardBindingService implements KeyboardBindingService, OnDestroy {
     private keyBindings: KeyBinding[]
     private pressedKeys: string[] = []
     private readonly keyBindingsSubject: Subject<KeyBinding[]>
     private readonly pressedKeysSubject: Subject<string[]>
-    private readonly documentSubscriptions: Subscription[]
+    private readonly windowSubscriptions: Subscription[]
 
     public constructor(
         private readonly keyboardBindingMatcher: KeyboardBindingMatcher,
@@ -24,7 +24,7 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
             ...this.getRundownKeyBindings(),
         ]
         // TODO: unsubscribe when destroyed
-        this.documentSubscriptions = [
+        this.windowSubscriptions = [
             fromEvent(window, 'keyup').subscribe(event => this.onKeyup(event as KeyboardEvent)),
             fromEvent(window, 'keydown').subscribe(event => this.onKeydown(event as KeyboardEvent)),
             fromEvent(window, 'blur').subscribe(() => this.resetPressedKeys()),
@@ -59,15 +59,15 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
                 action: () => this.rundownService.reset(rundownId).subscribe()
             },
             {
-                key: '$',
+                key: 'Backquote',
                 modifiers: [],
                 label: 'Activate Rundown',
                 onKeyPress: false,
                 action: () => this.rundownService.activate(rundownId).subscribe()
             },
             {
-                key: '§',
-                modifiers: ['Shift'],
+                key: 'Backquote',
+                modifiers: ['ShiftLeft'],
                 label: 'Deactivate Rundown',
                 onKeyPress: false,
                 action: () => this.rundownService.deactivate(rundownId).subscribe()
@@ -86,7 +86,7 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
     @HostListener('document:keyup', ['$event'])
     private onKeyup(event: KeyboardEvent): void {
         const keyBindings: KeyBinding[] = this.getKeyBindingsOnKeyUp()
-        this.deregisterPressedKey(event.key)
+        this.deregisterPressedKey(event.code)
         if (keyBindings.length === 0) {
             return
         }
@@ -115,7 +115,7 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
         if (event.repeat) {
             return
         }
-        this.registerPressedKey(event.key)
+        this.registerPressedKey(event.code)
         const keyBindings: KeyBinding[] = this.getKeyBindingsOnKeyPress()
         if(keyBindings.length === 0) {
             return
@@ -142,5 +142,9 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
 
     public subscribeToPressedKeys(callback: (pressedKeys: string[]) => void): Subscription {
         return this.pressedKeysSubject.subscribe(callback)
+    }
+
+    public ngOnDestroy(): void {
+        this.windowSubscriptions.forEach(subscription => subscription.unsubscribe())
     }
 }
