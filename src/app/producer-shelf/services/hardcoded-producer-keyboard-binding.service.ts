@@ -77,10 +77,8 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
 
     @HostListener('document:blur', ['$event'])
     private resetPressedKeys(): void {
-        console.warn('BLURRED')
         this.pressedKeys = []
         this.pressedKeysSubject.next(this.pressedKeys)
-
     }
 
     @HostListener('document:keyup', ['$event'])
@@ -92,6 +90,7 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
         }
         event.preventDefault()
         keyBindings.forEach(keyBinding => keyBinding.action())
+        this.resetPressedKeys()
     }
 
     private getKeyBindingsOnKeyUp(): KeyBinding[] {
@@ -122,6 +121,7 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
         }
         keyBindings.forEach(keyBinding => keyBinding.action())
         event.preventDefault()
+        this.resetPressedKeys()
     }
 
     private registerPressedKey(key: string): void {
