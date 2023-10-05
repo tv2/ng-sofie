@@ -46,3 +46,7 @@ $sofie-theme: mat.define-light-theme((
   density: 0,
 ));
 @include mat.button-theme($sofie-theme);
+
+:root {
+  --background-color: #343434;
+}

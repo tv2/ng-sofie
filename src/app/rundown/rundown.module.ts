@@ -14,6 +14,7 @@ import { PieceGroupService } from './services/piece-group.service'
 import { OffsetablePieceComponent } from './components/offsetable-piece/offsetable-piece.component'
 import { EditorialLineComponent } from './components/editorial-line/editorial-line.component'
 import { MatCardModule } from '@angular/material/card'
+import { ProducerShelfModule } from '../producer-shelf/producer-shelf.module'
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { MatCardModule } from '@angular/material/card'
     ScrollableTimelineComponent,
   ],
   exports: [SegmentComponent],
-  imports: [RundownRoutesModule, SharedModule, MatCardModule],
+  imports: [SharedModule, RundownRoutesModule, ProducerShelfModule, MatCardModule],
   providers: [PieceGroupService],
 })
 export class RundownModule {}

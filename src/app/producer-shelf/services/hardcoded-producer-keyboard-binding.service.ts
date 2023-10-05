@@ -1,9 +1,10 @@
 import { KeyboardBindingService } from '../abstractions/keyboard-binding.service'
-import { BehaviorSubject, Subject, Subscription } from 'rxjs'
+import { BehaviorSubject, fromEvent, Subject, Subscription } from 'rxjs'
 import { KeyBinding } from '../models/key-binding'
 import { KeyboardBindingMatcher } from './keyboard-binding.matcher'
-import { Injectable } from '@angular/core'
+import { HostListener, Injectable } from '@angular/core'
 import { CameraKeyBindingFactory } from '../factories/camera-key-binding.factory'
+import { RundownService } from '../../core/abstractions/rundown.service'
 
 @Injectable()
 export class HardcodedProducerKeyboardBindingService implements KeyboardBindingService {
@@ -11,38 +12,90 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
     private pressedKeys: string[] = []
     private readonly keyBindingsSubject: Subject<KeyBinding[]>
     private readonly pressedKeysSubject: Subject<string[]>
+    private readonly documentSubscriptions: Subscription[]
 
     public constructor(
         private readonly keyboardBindingMatcher: KeyboardBindingMatcher,
-        private readonly cameraKeyBindingFactory: CameraKeyBindingFactory
+        private readonly cameraKeyBindingFactory: CameraKeyBindingFactory,
+        private readonly rundownService: RundownService
     ) {
         this.keyBindings = [
-            ...this.getCameraKeyBindings()
+            ...this.getCameraKeyBindings(),
+            ...this.getRundownKeyBindings(),
+        ]
+        // TODO: unsubscribe when destroyed
+        this.documentSubscriptions = [
+            fromEvent(window, 'keyup').subscribe(event => this.onKeyup(event as KeyboardEvent)),
+            fromEvent(window, 'keydown').subscribe(event => this.onKeydown(event as KeyboardEvent)),
+            fromEvent(window, 'blur').subscribe(() => this.resetPressedKeys()),
         ]
         this.keyBindingsSubject = new BehaviorSubject(this.keyBindings)
         this.pressedKeysSubject = new BehaviorSubject(this.pressedKeys)
-        window.addEventListener('keyup', this.onKeyup.bind(this))
-        window.addEventListener('keydown', this.onKeydown.bind(this))
-        window.addEventListener('blur', () => {
-            this.pressedKeys = []
-            this.pressedKeysSubject.next(this.pressedKeys)
-        })
-        // TODO: removeEventListeners when destroyed
     }
 
     private getCameraKeyBindings(): KeyBinding[] {
         return this.cameraKeyBindingFactory.createCameraKeyBindings(5)
     }
 
-    private onKeyup(event: KeyboardEvent): void {
-        this.triggerKeyBindingsOnKeyUp()
-        this.deregisterPressedKey(event.key)
+    private getRundownKeyBindings(): KeyBinding[] {
+        // TODO: Don't take it directly from URL
+        const { rundownId } = window.location.pathname.match(/rundowns\/(?<rundownId>.+)\/?/)?.groups ?? {}
+        if (!rundownId) {
+            throw new Error('Failed getting rundown id.')
+        }
+        return [
+            {
+                key: 'Enter',
+                modifiers: [],
+                label: 'Take',
+                onKeyPress: false,
+                action: () => this.rundownService.takeNext(rundownId).subscribe()
+            },
+            {
+                key: 'Escape',
+                modifiers: [],
+                label: 'Reset Rundown',
+                onKeyPress: false,
+                action: () => this.rundownService.reset(rundownId).subscribe()
+            },
+            {
+                key: '$',
+                modifiers: [],
+                label: 'Activate Rundown',
+                onKeyPress: false,
+                action: () => this.rundownService.activate(rundownId).subscribe()
+            },
+            {
+                key: '§',
+                modifiers: ['Shift'],
+                label: 'Deactivate Rundown',
+                onKeyPress: false,
+                action: () => this.rundownService.deactivate(rundownId).subscribe()
+            },
+        ]
     }
 
-    private triggerKeyBindingsOnKeyUp(): void {
-        const matchedKeyBindings: KeyBinding[] = this.getMatchedKeyBindings()
-        const matchedKeyBindingsOnKeyUp: KeyBinding[] = matchedKeyBindings.filter(keyBinding => !keyBinding.onKeyPress)
-        matchedKeyBindingsOnKeyUp.forEach(keyBinding => keyBinding.action())
+    @HostListener('document:blur', ['$event'])
+    private resetPressedKeys(): void {
+        console.warn('BLURRED')
+        this.pressedKeys = []
+        this.pressedKeysSubject.next(this.pressedKeys)
+
+    }
+
+    @HostListener('document:keyup', ['$event'])
+    private onKeyup(event: KeyboardEvent): void {
+        const keyBindings: KeyBinding[] = this.getKeyBindingsOnKeyUp()
+        this.deregisterPressedKey(event.key)
+        if (keyBindings.length === 0) {
+            return
+        }
+        event.preventDefault()
+        keyBindings.forEach(keyBinding => keyBinding.action())
+    }
+
+    private getKeyBindingsOnKeyUp(): KeyBinding[] {
+        return this.getMatchedKeyBindings().filter(keyBinding => !keyBinding.onKeyPress)
     }
 
     private getMatchedKeyBindings(): KeyBinding[] {
@@ -57,11 +110,18 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
         this.pressedKeysSubject.next(this.pressedKeys)
     }
 
+    @HostListener('document:keydown', ['$event'])
     private onKeydown(event: KeyboardEvent): void {
         if (event.repeat) {
             return
         }
         this.registerPressedKey(event.key)
+        const keyBindings: KeyBinding[] = this.getKeyBindingsOnKeyPress()
+        if(keyBindings.length === 0) {
+            return
+        }
+        keyBindings.forEach(keyBinding => keyBinding.action())
+        event.preventDefault()
     }
 
     private registerPressedKey(key: string): void {
@@ -70,6 +130,10 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
         }
         this.pressedKeys = [...this.pressedKeys, key]
         this.pressedKeysSubject.next(this.pressedKeys)
+    }
+
+    private getKeyBindingsOnKeyPress(): KeyBinding[] {
+        return this.getMatchedKeyBindings().filter(keyBinding => keyBinding.onKeyPress)
     }
 
     public subscribeToKeybindings(callback: (keyBindings: KeyBinding[]) => void): Subscription {

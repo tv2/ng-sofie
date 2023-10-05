@@ -14,11 +14,11 @@ export class HeaderComponent {
 
   public navigateHome(): void {
     const routeSegments: string[] = [Paths.HOME]
-    this.router.navigate(routeSegments).catch(() => console.warn('[warn] Failed navigating with route segments:', routeSegments))
+    this.router.navigate(routeSegments).catch(error => console.warn('[warn] Failed navigating with route segments:', routeSegments, error))
   }
 
   public navigateToRundown(): void {
     const routeSegments: string[] = [Paths.RUNDOWNS]
-    this.router.navigate(routeSegments).catch(() => console.warn('[warn] Failed navigating with route segments:', routeSegments))
+    this.router.navigate(routeSegments).catch(error => console.warn('[warn] Failed navigating with route segments:', routeSegments, error))
   }
 }

@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  background-color: var(--background-color);
+  overflow: hidden;
+
+  .keybinding {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 10px;
+    background-color: gray;
+    cursor: pointer;
+
+    &:hover {
+      background-color: lightgray;
+    }
+
+    &--matched, &:active {
+      background-color: green
+    }
+  }
+}

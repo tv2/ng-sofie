@@ -5,5 +5,3 @@ export interface KeyBinding {
     readonly action: () => void
     readonly onKeyPress: boolean
 }
-
-

@@ -8,7 +8,7 @@ export class KeyboardBindingMatcher {
 
     public isKeyBindingMatchedExactly(keyBinding: KeyBinding, pressedKeys: string[]): boolean {
         const keys: string[] = [...keyBinding.modifiers, keyBinding.key]
-        return keys.every(key => pressedKeys.includes(key)) && pressedKeys.length === pressedKeys.length
+        return keys.every(key => pressedKeys.includes(key)) && pressedKeys.length === keys.length
     }
 }
 
