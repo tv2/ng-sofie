@@ -5,7 +5,7 @@ import {instance, mock, when} from "@typestrong/ts-mockito";
 import {RouterModule} from "@angular/router";
 import {RundownService} from "../../../core/abstractions/rundown.service";
 
-describe('RundownHeaderContextMenuComponent', () => {
+describe(RundownHeaderContextMenuComponent.name, () => {
   it('should create', async () => {
     const mockedRundown: Rundown = getMockedRundown()
     const component: RundownHeaderContextMenuComponent = await configureTestBed()

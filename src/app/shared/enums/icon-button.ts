@@ -6,9 +6,10 @@ export enum IconButton {
 }
 
 export enum IconButtonSize {
-    XS = 'xs',
-    SMALL = 'sm',
-    LARGE = 'lg',
-    XL = 'xl',
-    TWO_XL = '2xl',
+    XS = 'XS',
+    S = 'S',
+    M = 'M',
+    L = 'L',
+    XL = 'XL',
+    XXL = 'XXL',
 }

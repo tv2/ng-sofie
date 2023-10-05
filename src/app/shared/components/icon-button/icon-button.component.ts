@@ -14,16 +14,14 @@ export class IconButtonComponent implements OnInit {
   public iconButton: IconButton
 
   @Input()
-  public iconButtonSize?: IconButtonSize
+  public iconButtonSize: IconButtonSize
 
   public iconButtonProp: IconProp
   public iconButtonSizeProp: SizeProp
 
-  constructor() {}
-
   ngOnInit(): void {
     this.iconButtonProp = this.getIconProperty(this.iconButton)
-    this.iconButtonSizeProp = this.getIconSizeProperty(this.iconButtonSize)
+    this.iconButtonSizeProp = this.getIconSizeProperty(this.iconButtonSize ?? IconButtonSize.M)
   }
 
   public getIconProperty(iconButton: IconButton): IconProp {
@@ -41,13 +39,15 @@ export class IconButtonComponent implements OnInit {
     switch (iconButtonSize) {
       case IconButtonSize.XS:
         return "xs"
-      case IconButtonSize.SMALL:
+      case IconButtonSize.S:
         return "sm"
-      case IconButtonSize.LARGE:
+      case IconButtonSize.M:
+        return '1x'
+      case IconButtonSize.L:
         return "lg"
       case IconButtonSize.XL:
         return "xl"
-      case IconButtonSize.TWO_XL:
+      case IconButtonSize.XXL:
         return "2xl"
       default:
         return "1x"
