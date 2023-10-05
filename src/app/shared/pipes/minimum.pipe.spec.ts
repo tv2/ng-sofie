@@ -1,10 +1,10 @@
-import { MinimumPipe } from './minimum.pipe';
+import { MinimumPipe } from './minimum.pipe'
 
 describe('MinimumPipe', () => {
   it('create an instance', () => {
-    const pipe = new MinimumPipe();
-    expect(pipe).toBeTruthy();
-  });
+    const pipe = new MinimumPipe()
+    expect(pipe).toBeTruthy()
+  })
 
   describe('transform', () => {
     it('returns the value if only a single value is given', () => {
@@ -16,4 +16,4 @@ describe('MinimumPipe', () => {
       expect(result).toBe(value)
     })
   })
-});
+})

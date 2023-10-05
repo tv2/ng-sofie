@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing'
 
-import { OffsetablePartComponent } from './offsetable-part.component';
+import { OffsetablePartComponent } from './offsetable-part.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { instance, mock, when } from '@typestrong/ts-mockito'
 import { Part } from '../../../core/models/part'
@@ -17,9 +17,9 @@ describe(OffsetablePartComponent.name, () => {
     const mockedPart = getMockedPart()
     component.part = instance(mockedPart)
     fixture.detectChanges()
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})
 
 function getMockedPart(): Part {
   const mockedPart = mock<Part>()
@@ -44,6 +44,6 @@ async function configureTestBed(): Promise<void> {
       { provide: RundownService, useValue: instance(mockedRundownService) },
       { provide: PartEntityService, useValue: instance(mockedPartEntityService) },
       { provide: PieceGroupService, useValue: instance(mockedPieceGroupService) },
-    ]
+    ],
   }).compileComponents()
 }

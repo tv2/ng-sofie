@@ -1,7 +1,7 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
-  name: 'maximum'
+  name: 'maximum',
 })
 export class MaximumPipe implements PipeTransform {
   public transform(value: number, ...values: number[]): number {

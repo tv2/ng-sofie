@@ -6,7 +6,7 @@ import { TimestampPipe } from '../../../shared/pipes/timestamp.pipe'
 
 describe('TimelineComponent', () => {
   it('should create', async () => {
-    await  configureTestBed()
+    await configureTestBed()
     const fixture = TestBed.createComponent(TimelineMarkersComponent)
     const component = fixture.componentInstance
     expect(component).toBeTruthy()
@@ -16,9 +16,7 @@ describe('TimelineComponent', () => {
 async function configureTestBed(): Promise<void> {
   const mockedTimestampPipe: TimestampPipe = mock<TimestampPipe>()
   await TestBed.configureTestingModule({
-    declarations: [ TimelineMarkersComponent ],
-    providers: [
-      { provide: TimestampPipe, useValue: instance(mockedTimestampPipe) },
-    ]
+    declarations: [TimelineMarkersComponent],
+    providers: [{ provide: TimestampPipe, useValue: instance(mockedTimestampPipe) }],
   }).compileComponents()
 }

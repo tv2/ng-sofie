@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter, HostBinding, HostListener,
-  Input,
-  Output,
-} from '@angular/core'
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { RundownCursor } from '../../../core/models/rundown-cursor'
@@ -29,22 +24,26 @@ export class ScrollableTimelineComponent {
   public pixelsPerSecond: number = 50
   public scrollOffsetInMs: number = 0
 
-  public horizontalDragStartPoint?: number
+  private horizontalDragStartPoint?: number
 
   @HostListener('mousedown', ['$event'])
-  public onDragStart(event: DragEvent): void {
+  public onDragStart(event: MouseEvent): void {
     this.horizontalDragStartPoint = event.clientX
     const onDragMove: (event: MouseEvent) => void = this.onDragMove.bind(this)
     window.addEventListener('mousemove', onDragMove)
-    window.addEventListener('mouseup', () => {
-      this.horizontalDragStartPoint = undefined
-      window.removeEventListener('mousemove', onDragMove)
-    }, { once: true })
+    window.addEventListener(
+      'mouseup',
+      () => {
+        this.horizontalDragStartPoint = undefined
+        window.removeEventListener('mousemove', onDragMove)
+      },
+      { once: true }
+    )
   }
 
-  public constructor(
-      private readonly partEntityService: PartEntityService,
-      private readonly rundownService: RundownService
+  constructor(
+    private readonly partEntityService: PartEntityService,
+    private readonly rundownService: RundownService
   ) {}
 
   public setPartAsNext(part: Part): void {
@@ -54,17 +53,14 @@ export class ScrollableTimelineComponent {
   public onDragMove(event: MouseEvent): void {
     event.preventDefault()
     if (!this.horizontalDragStartPoint) {
-        return
+      return
     }
     const newHorizontalPoint: number = event.clientX
     const horizontalDeltaInPixels: number = this.horizontalDragStartPoint - newHorizontalPoint
     this.horizontalDragStartPoint = newHorizontalPoint
     const segmentDurationInMs: number = this.segment.parts.reduce((duration, part) => duration + this.partEntityService.getDuration(part), 0)
-    const horizontalDeltaInMs: number = 1000 * horizontalDeltaInPixels / this.pixelsPerSecond
-    this.scrollOffsetInMs = Math.min(
-        segmentDurationInMs,
-        Math.max(0, this.scrollOffsetInMs + horizontalDeltaInMs)
-    )
+    const horizontalDeltaInMs: number = (1000 * horizontalDeltaInPixels) / this.pixelsPerSecond
+    this.scrollOffsetInMs = Math.min(segmentDurationInMs, Math.max(0, this.scrollOffsetInMs + horizontalDeltaInMs))
   }
 
   public trackPart(_: number, part: Part): string {

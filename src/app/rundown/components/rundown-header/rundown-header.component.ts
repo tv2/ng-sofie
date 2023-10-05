@@ -1,24 +1,19 @@
-import {
-  Component, ElementRef,
-  HostBinding,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChange,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
-import {Rundown} from "../../../core/models/rundown";
-import {Piece} from "../../../core/models/piece";
-import {ShowStyleVariantStateService} from "../../../core/services/show-style-variant-state.service";
-import {ShowStyleVariant} from "../../../core/models/show-style-variant";
-import {SubscriptionLike} from "rxjs";
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
+import { Rundown } from '../../../core/models/rundown'
+import { Piece } from '../../../core/models/piece'
+import { ShowStyleVariantStateService } from '../../../core/services/show-style-variant-state.service'
+import { ShowStyleVariant } from '../../../core/models/show-style-variant'
+import { SubscriptionLike } from 'rxjs'
+import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
+
+const UPDATE_LOCAL_CLOCK_INTERVAL: number = 1000
+const DESIGN_TEMPLATE_IDENTIFIER: string = 'DESIGN_'
+const SKEMA_TEMPLATE_IDENTIFIER: string = 'SKEMA_'
 
 @Component({
   selector: 'sofie-rundown-header',
   templateUrl: './rundown-header.component.html',
-  styleUrls: ['./rundown-header.component.scss']
+  styleUrls: ['./rundown-header.component.scss'],
 })
 export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   @Input()
@@ -28,28 +23,27 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public currentLocalDate: Date = new Date()
   private updateCurrentLocalDateIntervalId: ReturnType<typeof setInterval>
   private showStyleVariantSubscription?: SubscriptionLike
+  public readonly IconButton = IconButton
+  public readonly IconButtonSize = IconButtonSize
 
   public rundownName: string = ''
   public rundownPath: string = ''
   public schema: string = ''
   public design: string = ''
 
-  constructor(private showStyleVariantStateService: ShowStyleVariantStateService) {}
+  constructor(private readonly showStyleVariantStateService: ShowStyleVariantStateService) {}
 
   public ngOnInit(): void {
     this.setRundownNameAndPath()
-    this.updateCurrentLocalDateIntervalId = setInterval(() =>
-      this.currentLocalDate = new Date()
-    , 1000)
+    this.updateCurrentLocalDateIntervalId = setInterval(() => (this.currentLocalDate = new Date()), UPDATE_LOCAL_CLOCK_INTERVAL)
 
     this.showStyleVariantStateService
-        .subscribeToShowStyleVariant(this.rundown.id, (showStyleVariant) => {
-          this.showStyleVariant = showStyleVariant
-          this.setDefaultHeaderInformation()
-        })
-        .then(unsubscribeFromShowStyleVariant =>
-          this.showStyleVariantSubscription = unsubscribeFromShowStyleVariant
-        )
+      .subscribeToShowStyleVariant(this.rundown.id, showStyleVariant => {
+        this.showStyleVariant = showStyleVariant
+        this.setDefaultHeaderInformation()
+      })
+      .then(unsubscribeFromShowStyleVariant => (this.showStyleVariantSubscription = unsubscribeFromShowStyleVariant))
+      .catch(error => console.error('[error] Failed subscribing to show style variant changes.', error))
   }
 
   private setRundownNameAndPath(): void {
@@ -61,12 +55,12 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     this.rundownName = rundownPathSegments[rundownPathSegments.length - 1]
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     clearInterval(this.updateCurrentLocalDateIntervalId)
     this.showStyleVariantSubscription?.unsubscribe()
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     const rundownChange: SimpleChange = changes['rundown']
     if (rundownChange.currentValue.infinitePieces.length > 0 && rundownChange.currentValue.infinitePieces !== rundownChange.previousValue.infinitePieces) {
       this.setDesignFromInfinitePieces()
@@ -86,7 +80,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   private setDesignFromInfinitePieces(): void {
     const infinitePieces: Piece[] = this.rundown.infinitePieces
 
-    const designPiece: Piece | undefined = infinitePieces.find((piece) => this.isDesignInfinitePiece(piece))
+    const designPiece: Piece | undefined = infinitePieces.find(piece => this.isDesignInfinitePiece(piece))
     if (designPiece) {
       this.design = designPiece.name
     }
@@ -95,22 +89,23 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   private setSchemaFromInfinitePieces(): void {
     const infinitePieces: Piece[] = this.rundown.infinitePieces
 
-    const schemaPiece: Piece | undefined = infinitePieces.find((piece) => this.isSkemaInfinitePiece(piece))
+    const schemaPiece: Piece | undefined = infinitePieces.find(piece => this.isSkemaInfinitePiece(piece))
     if (schemaPiece) {
       this.schema = schemaPiece.name
     }
   }
 
   private isDesignInfinitePiece(piece: Piece): boolean {
-    return piece.name.startsWith('DESIGN_')
+    return piece.name.startsWith(DESIGN_TEMPLATE_IDENTIFIER)
   }
 
   private isSkemaInfinitePiece(piece: Piece): boolean {
-    return piece.name.startsWith('DESIGN_')
+    return piece.name.startsWith(SKEMA_TEMPLATE_IDENTIFIER)
   }
 
-  private getGfxNameFromTemplate(template: string) {
+  private getGfxNameFromTemplate(template: string): string {
     const pattern: RegExp = /^.+_(?<gfxName>\w+)$/
-    return template.match(pattern)?.groups?.['gfxName'] ?? template
+    const { gfxName } = template.match(pattern)?.groups ?? {}
+    return gfxName ?? template
   }
 }

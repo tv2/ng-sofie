@@ -6,152 +6,132 @@ import { instance, mock, verify } from '@typestrong/ts-mockito'
 import { Part } from '../../models/part'
 
 describe(SegmentEntityService.name, () => {
-    describe(SegmentEntityService.prototype.putOnAir.name, () => {
-        describe('when given an off-air segment', () => {
-            it('marks segment as on-air', () => {
-                const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-                const segment: Segment = testEntityFactory.createSegment()
-                const partId: string = 'part-id'
-                const testee: SegmentEntityService = createTestee()
+  describe(SegmentEntityService.prototype.putOnAir.name, () => {
+    describe('when given an off-air segment', () => {
+      it('marks segment as on-air', () => {
+        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+        const segment: Segment = testEntityFactory.createSegment()
+        const partId: string = 'part-id'
+        const testee: SegmentEntityService = createTestee()
 
-                const result: Segment = testee.putOnAir(segment, partId, Date.now())
+        const result: Segment = testee.putOnAir(segment, partId, Date.now())
 
-                expect(segment.isOnAir).toBeFalse()
-                expect(result.isOnAir).toBeTrue()
-            })
+        expect(segment.isOnAir).toBeFalse()
+        expect(result.isOnAir).toBeTrue()
+      })
 
-            it('marks part as on-air', () => {
-                const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-                const partId: string = 'part2'
-                const parts: Part[] = [
-                    testEntityFactory.createPart({ id: 'part1' }),
-                    testEntityFactory.createPart({ id: partId }),
-                    testEntityFactory.createPart({ id: 'part3' }),
-                ]
-                const segment: Segment = testEntityFactory.createSegment({ parts })
-                const mockedPartService: PartEntityService = mock<PartEntityService>()
-                const testee: SegmentEntityService = createTestee(instance(mockedPartService))
-                const timestamp: number = Date.now()
+      it('marks part as on-air', () => {
+        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+        const partId: string = 'part2'
+        const parts: Part[] = [testEntityFactory.createPart({ id: 'part1' }), testEntityFactory.createPart({ id: partId }), testEntityFactory.createPart({ id: 'part3' })]
+        const segment: Segment = testEntityFactory.createSegment({ parts })
+        const mockedPartService: PartEntityService = mock<PartEntityService>()
+        const testee: SegmentEntityService = createTestee(instance(mockedPartService))
+        const timestamp: number = Date.now()
 
-                testee.putOnAir(segment, partId, timestamp)
+        testee.putOnAir(segment, partId, timestamp)
 
-                verify(mockedPartService.putOnAir(parts[1], timestamp)).once()
-            })
-        })
+        verify(mockedPartService.putOnAir(parts[1], timestamp)).once()
+      })
+    })
+  })
+
+  describe(SegmentEntityService.prototype.takeOffAir.name, () => {
+    describe('when given an on-air segment', () => {
+      it('marks segment as off-air', () => {
+        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+        const segment: Segment = testEntityFactory.createSegment({ isOnAir: true })
+        const testee: SegmentEntityService = createTestee()
+
+        const result: Segment = testee.takeOffAir(segment, Date.now())
+
+        expect(segment.isOnAir).toBeTrue()
+        expect(result.isOnAir).toBeFalse()
+      })
+
+      it('marks on-air part as off-air', () => {
+        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+        const parts: Part[] = [testEntityFactory.createPart({ id: 'part1' }), testEntityFactory.createPart({ id: 'part2', isOnAir: true }), testEntityFactory.createPart({ id: 'part3' })]
+        const segment: Segment = testEntityFactory.createSegment({ isOnAir: true, parts })
+        const mockedPartService: PartEntityService = mock<PartEntityService>()
+        const testee: SegmentEntityService = createTestee(instance(mockedPartService))
+        const timestamp: number = Date.now()
+
+        testee.takeOffAir(segment, timestamp)
+
+        verify(mockedPartService.takeOffAir(parts[1], timestamp)).once()
+      })
+    })
+  })
+
+  describe(SegmentEntityService.prototype.setAsNextSegment.name, () => {
+    it('marks segment as next', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const segment: Segment = testEntityFactory.createSegment()
+      const partId: string = 'part-id'
+      const testee: SegmentEntityService = createTestee()
+
+      const result: Segment = testee.setAsNextSegment(segment, partId)
+
+      expect(segment.isNext).toBeFalse()
+      expect(result.isNext).toBeTrue()
     })
 
-    describe(SegmentEntityService.prototype.takeOffAir.name, () => {
-        describe('when given an on-air segment', () => {
-            it('marks segment as off-air', () => {
-                const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-                const segment: Segment = testEntityFactory.createSegment({ isOnAir: true })
-                const testee: SegmentEntityService = createTestee()
+    it('marks part as next', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const partId: string = 'part2'
+      const parts: Part[] = [testEntityFactory.createPart({ id: 'part1' }), testEntityFactory.createPart({ id: partId }), testEntityFactory.createPart({ id: 'part3' })]
+      const segment: Segment = testEntityFactory.createSegment({ parts })
+      const mockedPartService: PartEntityService = mock<PartEntityService>()
+      const testee: SegmentEntityService = createTestee(instance(mockedPartService))
 
-                const result: Segment = testee.takeOffAir(segment, Date.now())
+      testee.setAsNextSegment(segment, partId)
 
-                expect(segment.isOnAir).toBeTrue()
-                expect(result.isOnAir).toBeFalse()
-            })
+      verify(mockedPartService.setAsNextPart(parts[1])).once()
+    })
+  })
 
-            it('marks on-air part as off-air', () => {
-                const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-                const parts: Part[] = [
-                    testEntityFactory.createPart({ id: 'part1' }),
-                    testEntityFactory.createPart({ id: 'part2', isOnAir: true }),
-                    testEntityFactory.createPart({ id: 'part3' }),
-                ]
-                const segment: Segment = testEntityFactory.createSegment({ isOnAir: true, parts })
-                const mockedPartService: PartEntityService = mock<PartEntityService>()
-                const testee: SegmentEntityService = createTestee(instance(mockedPartService))
-                const timestamp: number = Date.now()
+  describe(SegmentEntityService.prototype.removeAsNextSegment.name, () => {
+    it('unmarks segment as next', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const segment: Segment = testEntityFactory.createSegment({ isNext: true })
+      const testee: SegmentEntityService = createTestee()
 
-                testee.takeOffAir(segment, timestamp)
+      const result: Segment = testee.removeAsNextSegment(segment)
 
-                verify(mockedPartService.takeOffAir(parts[1], timestamp)).once()
-            })
-        })
+      expect(segment.isNext).toBeTrue()
+      expect(result.isNext).toBeFalse()
     })
 
-    describe(SegmentEntityService.prototype.setAsNextSegment.name, () => {
-        it('marks segment as next', () => {
-            const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-            const segment: Segment = testEntityFactory.createSegment()
-            const partId: string = 'part-id'
-            const testee: SegmentEntityService = createTestee()
+    it('unmarks part as next', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const parts: Part[] = [testEntityFactory.createPart({ id: 'part1' }), testEntityFactory.createPart({ id: 'part2', isNext: true }), testEntityFactory.createPart({ id: 'part3' })]
+      const segment: Segment = testEntityFactory.createSegment({ parts })
+      const mockedPartService: PartEntityService = mock<PartEntityService>()
+      const testee: SegmentEntityService = createTestee(instance(mockedPartService))
 
-            const result: Segment = testee.setAsNextSegment(segment, partId)
+      testee.removeAsNextSegment(segment)
 
-            expect(segment.isNext).toBeFalse()
-            expect(result.isNext).toBeTrue()
-        })
-
-        it('marks part as next', () => {
-            const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-            const partId: string = 'part2'
-            const parts: Part[] = [
-                testEntityFactory.createPart({ id: 'part1' }),
-                testEntityFactory.createPart({ id: partId }),
-                testEntityFactory.createPart({ id: 'part3' }),
-            ]
-            const segment: Segment = testEntityFactory.createSegment({ parts })
-            const mockedPartService: PartEntityService = mock<PartEntityService>()
-            const testee: SegmentEntityService = createTestee(instance(mockedPartService))
-
-            testee.setAsNextSegment(segment, partId)
-
-            verify(mockedPartService.setAsNextPart(parts[1])).once()
-        })
+      verify(mockedPartService.removeAsNextPart(parts[1])).once()
     })
+  })
 
-    describe(SegmentEntityService.prototype.removeAsNextSegment.name, () => {
-        it('unmarks segment as next', () => {
-            const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-            const segment: Segment = testEntityFactory.createSegment({ isNext: true })
-            const testee: SegmentEntityService = createTestee()
+  describe(SegmentEntityService.prototype.reset.name, () => {
+    it('resets all parts', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const parts: Part[] = [testEntityFactory.createPart(), testEntityFactory.createPart(), testEntityFactory.createPart()]
+      const segment: Segment = testEntityFactory.createSegment({ parts })
+      const mockedPartService: PartEntityService = mock<PartEntityService>()
+      const testee: SegmentEntityService = createTestee(instance(mockedPartService))
 
-            const result: Segment = testee.removeAsNextSegment(segment)
+      testee.reset(segment)
 
-            expect(segment.isNext).toBeTrue()
-            expect(result.isNext).toBeFalse()
-        })
-
-        it('unmarks part as next', () => {
-            const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-            const parts: Part[] = [
-                testEntityFactory.createPart({ id: 'part1' }),
-                testEntityFactory.createPart({ id: 'part2', isNext: true }),
-                testEntityFactory.createPart({ id: 'part3' }),
-            ]
-            const segment: Segment = testEntityFactory.createSegment({ parts })
-            const mockedPartService: PartEntityService = mock<PartEntityService>()
-            const testee: SegmentEntityService = createTestee(instance(mockedPartService))
-
-            testee.removeAsNextSegment(segment)
-
-            verify(mockedPartService.removeAsNextPart(parts[1])).once()
-        })
+      parts.forEach(part => verify(mockedPartService.reset(part)).once())
     })
-
-    describe(SegmentEntityService.prototype.reset.name, () => {
-        it('resets all parts', () => {
-            const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-            const parts: Part[] = [
-                testEntityFactory.createPart(),
-                testEntityFactory.createPart(),
-                testEntityFactory.createPart(),
-            ]
-            const segment: Segment = testEntityFactory.createSegment({ parts })
-            const mockedPartService: PartEntityService = mock<PartEntityService>()
-            const testee: SegmentEntityService = createTestee(instance(mockedPartService))
-
-            testee.reset(segment)
-
-            parts.forEach(part => verify(mockedPartService.reset(part)).once())
-        })
-    })
+  })
 })
 
 function createTestee(maybePartService?: PartEntityService): SegmentEntityService {
-    const partService: PartEntityService = maybePartService ?? instance(mock<PartEntityService>())
-    return new SegmentEntityService(partService)
+  const partService: PartEntityService = maybePartService ?? instance(mock<PartEntityService>())
+  return new SegmentEntityService(partService)
 }

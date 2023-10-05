@@ -18,19 +18,19 @@ export class DialogService {
     return this.dialog.open(component, config);
   }
 
-  public createConfirmDialog(title: string, message: string, okButtonText: string, onOk: () => void): void {
-    this.open(ConfirmationDialogComponent, {
-      data: {
-        title: title,
-        message: message,
-        buttonText: {
-          ok: okButtonText,
-          cancel: 'Cancel'
-        }
-      },
-    }).afterClosed().subscribe(result => {
-      if (!result) return;
-      onOk();
-    });
-  }
+    public createConfirmDialog(title: string, message: string, okButtonText: string, onOk: () => void): void {
+        this.open(ConfirmationDialogComponent, {
+            data: {
+                title: title,
+                message: message,
+                buttonText: {
+                    ok: okButtonText,
+                    cancel: 'Cancel'
+                }
+            },
+        }).afterClosed().subscribe(result => {
+            if (!result) return
+            onOk()
+        });
+    }
 }

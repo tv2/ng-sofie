@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-} from '@angular/core'
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core'
 import { Part } from '../../../core/models/part'
 import { Segment } from '../../../core/models/segment'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
@@ -41,19 +34,19 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   public previousParts: Part[] = []
   public futureParts: Part[] = []
 
-  public prePlayheadDurationInMs: number = PRE_PLAYHEAD_INSET_IN_PIXELS * 1000 / this.pixelsPerSecond
-  public postPlayheadDurationInMs: number = POST_PLAYHEAD_INSET_IN_PIXELS * 1000 / this.pixelsPerSecond
+  public prePlayheadDurationInMs: number = (PRE_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
+  public postPlayheadDurationInMs: number = (POST_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
 
-  public constructor(
-      private readonly partEntityService: PartEntityService,
-      private readonly rundownService: RundownService
+  constructor(
+    private readonly partEntityService: PartEntityService,
+    private readonly rundownService: RundownService
   ) {}
 
   public setPartAsNext(part: Part): void {
     this.rundownService.setNext(this.segment.rundownId, part.segmentId, part.id).subscribe()
   }
 
-  public ngOnChanges() {
+  public ngOnChanges(): void {
     const onAirPartIndex: number = this.segment.parts.findIndex(part => part.isOnAir)
     if (onAirPartIndex < 0) {
       return
@@ -64,9 +57,7 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   }
 
   private getPreviousParts(onAirPartIndex: number): Part[] {
-    const previousParts: Part[] = this.segment.parts
-        .slice(0, onAirPartIndex)
-        .filter(part => this.getDisplayDurationInMs(part) > 0)
+    const previousParts: Part[] = this.segment.parts.slice(0, onAirPartIndex).filter(part => this.getDisplayDurationInMs(part) > 0)
 
     // TODO: Take into account more than the closest previous part and not only if none was found in the first step.
     // In order to jump in from anywhere and display the correct transition this is needed.

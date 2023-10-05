@@ -1,18 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { Paths } from '../../../app-routing.module'
-import { BasicRundown } from "../../../core/models/basic-rundown";
-import { Rundown } from '../../../core/models/rundown';
-import { DialogService } from '../../../shared/services/dialog.service';
-import { Color } from "../../../shared/enums/color";
+import { BasicRundown } from '../../../core/models/basic-rundown'
+import { DialogService } from '../../../shared/services/dialog.service'
+import { Color } from '../../../shared/enums/color'
 import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
 import { SubscriptionLike } from 'rxjs'
 import { RundownService } from '../../../core/abstractions/rundown.service'
+import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 
 @Component({
   selector: 'sofie-rundown-overview',
   templateUrl: './rundown-overview.component.html',
-  styleUrls: ['./rundown-overview.component.scss']
+  styleUrls: ['./rundown-overview.component.scss'],
 })
 export class RundownOverviewComponent implements OnInit, OnDestroy {
   public basicRundowns: BasicRundown[] = []
@@ -31,14 +31,13 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
       console.log('[debug]: Updates basicRundowns for rundown overview', basicRundowns)
       this.basicRundowns = basicRundowns
     })
-    const isLoadingSubscription: SubscriptionLike = this.basicRundownStateService.subscribeToLoading(isLoading => this.isLoading = isLoading)
+    const isLoadingSubscription: SubscriptionLike = this.basicRundownStateService.subscribeToLoading(isLoading => (this.isLoading = isLoading))
     this.subscriptions = [basicRundownSubscription, isLoadingSubscription]
   }
 
   public navigateToRundown(basicRundown: BasicRundown): void {
     const routeSegments: string[] = [Paths.RUNDOWNS, basicRundown.id]
-    this.router.navigate(routeSegments)
-        .catch(() => console.warn('[warn] Failed navigating with route segments:', routeSegments))
+    this.router.navigate(routeSegments).catch(() => console.warn('[warn] Failed navigating with route segments:', routeSegments))
   }
 
   public openDeletionDialog(basicRundown: BasicRundown): void {
@@ -58,5 +57,7 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe())
   }
 
-  public readonly Color = Color;
+  public readonly Color = Color
+  protected readonly IconButton = IconButton
+  protected readonly IconButtonSize = IconButtonSize
 }
