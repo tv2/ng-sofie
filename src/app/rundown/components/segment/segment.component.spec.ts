@@ -8,6 +8,7 @@ import { SegmentEntityService } from '../../../core/services/models/segment-enti
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { SharedModule } from '../../../shared/shared.module'
+import { Logger } from '../../../core/abstractions/logger.service'
 
 describe('SegmentComponent', () => {
   it('should create', async () => {
@@ -43,6 +44,7 @@ async function configureTestBed(): Promise<void> {
       { provide: SegmentEntityService, useValue: instance(mockedSegmentEntityService) },
       { provide: PartEntityService, useValue: instance(mockedPartEntityService) },
       { provide: RundownService, useValue: instance(mockedRundownService) },
+      { provide: Logger, useValue: instance(mock<Logger>()) },
     ],
     imports: [SharedModule],
   }).compileComponents()

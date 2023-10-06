@@ -8,18 +8,22 @@ import { EventSubscription } from '../../event-system/abstractions/event-observe
 import { ManagedSubscription } from './managed-subscription.service'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { RundownEntityService } from './models/rundown-entity.service'
+import { Logger } from '../../../../../../mediatech-logger'
 
 @Injectable()
 export class RundownStateService implements OnDestroy {
   private readonly rundownSubjects: Map<string, BehaviorSubject<Rundown>> = new Map()
   private eventSubscriptions: EventSubscription[]
+  private readonly logger: Logger
 
   constructor(
     private readonly rundownService: RundownService,
     private readonly rundownEventObserver: RundownEventObserver,
     private readonly connectionStatusObserver: ConnectionStatusObserver,
-    private readonly rundownEntityService: RundownEntityService
+    private readonly rundownEntityService: RundownEntityService,
+    logger: Logger
   ) {
+    this.logger = logger.tag('RundownStateService')
     this.subscribeToEvents()
   }
 
@@ -40,10 +44,10 @@ export class RundownStateService implements OnDestroy {
   }
 
   private resetRundownSubject(rundownSubject: BehaviorSubject<Rundown>, rundownId: string): void {
-    console.log('[debug][RundownStateService]', 'Resetting rundown with id: ', rundownId)
+    this.logger.debug(`Resetting rundown with id: ${rundownId}`)
     this.fetchRundown(rundownId)
       .then(rundown => rundownSubject.next(rundown))
-      .catch(error => console.error('[error]', `Encountered error while fetching rundown with id '${rundownId}':`, error))
+      .catch(error => this.logger.data(error).error(`Encountered error while fetching rundown with id '${rundownId}':`))
   }
 
   private subscribeToRundownEvents(): EventSubscription[] {

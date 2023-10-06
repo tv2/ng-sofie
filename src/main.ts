@@ -10,4 +10,6 @@ if (environment.production) {
 
 platformBrowserDynamic()
   .bootstrapModule(AppModule)
-  .catch(err => console.error(err))
+  // console.error is used here since dependency injection is set up at this moment.
+  // eslint-disable-next-line no-console
+  .catch(error => console.error(error))
