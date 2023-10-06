@@ -16,3 +16,10 @@
             [lastPartInSegment]="segment.parts[segment.parts.length - 1]"
     ></sofie-segment-end-indicator>
 </div>
+
+<sofie-editorial-line
+        *ngIf="segment.budgetDuration !== undefined"
+        [budgetDurationInMs]="segment.budgetDuration"
+        [pixelsPerSecond]="pixelsPerSecond"
+        [offsetInMs]="scrollOffsetInMs"
+></sofie-editorial-line>
