@@ -2,12 +2,12 @@ import { KeyboardBindingService } from '../abstractions/keyboard-binding.service
 import { BehaviorSubject, fromEvent, Subject, Subscription } from 'rxjs'
 import { KeyBinding } from '../models/key-binding'
 import { KeyboardBindingMatcher } from './keyboard-binding.matcher'
-import { HostListener, Injectable, OnDestroy } from '@angular/core'
+import { HostListener, Injectable } from '@angular/core'
 import { CameraKeyBindingFactory } from '../factories/camera-key-binding.factory'
 import { RundownService } from '../../core/abstractions/rundown.service'
 
 @Injectable()
-export class HardcodedProducerKeyboardBindingService implements KeyboardBindingService, OnDestroy {
+export class HardcodedProducerKeyboardBindingService implements KeyboardBindingService {
   private readonly keyBindings: KeyBinding[]
   private pressedKeys: string[] = []
   private readonly keyBindingsSubject: Subject<KeyBinding[]>
@@ -141,7 +141,7 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
     return this.pressedKeysSubject.subscribe(callback)
   }
 
-  public ngOnDestroy(): void {
+  public destroy(): void {
     this.windowSubscriptions.forEach(subscription => subscription.unsubscribe())
   }
 }

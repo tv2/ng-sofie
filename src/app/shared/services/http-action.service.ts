@@ -3,7 +3,9 @@ import { catchError, map, Observable } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../../environments/environment'
 import { HttpErrorService } from '../../core/services/http-error.service'
+import { Injectable } from '@angular/core'
 
+@Injectable()
 export class HttpActionService implements ActionService {
   constructor(
     private readonly http: HttpClient,
