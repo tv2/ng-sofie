@@ -2406,6 +2406,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tv2media/logger@portal:/Users/afjo/Documents/work/mediatech-logger::locator=ng-sofie%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@tv2media/logger@portal:/Users/afjo/Documents/work/mediatech-logger::locator=ng-sofie%40workspace%3A."
+  languageName: node
+  linkType: soft
+
 "@types/body-parser@npm:*":
   version: 1.19.3
   resolution: "@types/body-parser@npm:1.19.3"
@@ -7594,6 +7600,7 @@ __metadata:
     "@fortawesome/angular-fontawesome": 0.11.1
     "@fortawesome/fontawesome-svg-core": ^6.4.2
     "@fortawesome/free-solid-svg-icons": ^6.4.2
+    "@tv2media/logger": "file:../../mediatech-logger"
     "@types/jasmine": ~4.0.0
     "@typescript-eslint/eslint-plugin": 5.43.0
     "@typescript-eslint/parser": 5.43.0
