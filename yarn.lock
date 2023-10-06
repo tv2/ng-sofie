@@ -7600,7 +7600,7 @@ __metadata:
     "@fortawesome/angular-fontawesome": 0.11.1
     "@fortawesome/fontawesome-svg-core": ^6.4.2
     "@fortawesome/free-solid-svg-icons": ^6.4.2
-    "@tv2media/logger": "file:../../mediatech-logger"
+    "@tv2media/logger": ^2.0.1
     "@types/jasmine": ~4.0.0
     "@typescript-eslint/eslint-plugin": 5.43.0
     "@typescript-eslint/parser": 5.43.0
