@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Rundown } from '../../../core/models/rundown'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { SubscriptionLike } from 'rxjs'
 import { Segment } from '../../../core/models/segment'
+import { DialogService } from '../../../shared/services/dialog.service'
 
 @Component({
   selector: 'sofie-rundown',
@@ -12,14 +13,22 @@ import { Segment } from '../../../core/models/segment'
   styleUrls: ['./rundown.component.scss'],
 })
 export class RundownComponent implements OnInit, OnDestroy {
-  public rundown?: Rundown
+  //TODO: Remove this temporary implementation once keyboard shortcuts are added
+  @HostListener('document:keypress', ['$event'])
+  public handleKeyboardEvent(event: KeyboardEvent): void {
+    if (event.code === 'Backquote') {
+      this.openActivationDialog()
+    }
+  }
 
+  public rundown?: Rundown
   private rundownSubscription?: SubscriptionLike
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly rundownService: RundownService,
-    private readonly rundownStateService: RundownStateService
+    private readonly rundownStateService: RundownStateService,
+    private readonly dialogService: DialogService
   ) {}
 
   public ngOnInit(): void {
@@ -42,25 +51,18 @@ export class RundownComponent implements OnInit, OnDestroy {
     this.rundownSubscription?.unsubscribe()
   }
 
+  public openActivationDialog(): void {
+    if (!this.rundown || this.rundown.isActive) {
+      return
+    }
+    this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to activate the Rundown?`, 'Activate', () => this.activateRundown())
+  }
+
   public activateRundown(): void {
     if (!this.rundown?.id) {
       return
     }
     this.rundownService.activate(this.rundown.id).subscribe()
-  }
-
-  public deactivateRundown(): void {
-    if (!this.rundown?.id) {
-      return
-    }
-    this.rundownService.deactivate(this.rundown.id).subscribe()
-  }
-
-  public resetRundown(): void {
-    if (!this.rundown?.id) {
-      return
-    }
-    this.rundownService.reset(this.rundown.id).subscribe()
   }
 
   public takeNext(): void {
