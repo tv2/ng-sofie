@@ -1,31 +1,43 @@
 :host {
+  position: relative;
   display: block;
   flex-shrink: 0;
   flex-grow: 0;
   background-color: var(--background-color);
-  overflow: hidden;
+  border-top: 2px solid #555;
   pointer-events: none;
 
   .drag-handle {
     position: absolute;
-    padding: 10px;
-    border-radius: 100% 100% 0 0;
-    left: 50%;
+
+    bottom: 100%;
+    left: calc(50% - 40px);
     width: 80px;
-    height: 80px;
+    height: 40px;
+    padding: 10px 20px;
     z-index: 1000;
 
-    box-shadow: 0 0 20px #000;
+    border-radius: 40px 40px 0 0;
+    border-color: #555 #555 transparent #555;
+    border-style: solid;
+    border-width: 2px;
     background-color: var(--background-color);
-    color: #444;
-
-    transform: translate(-50%, -48.5%);
-    clip-path: polygon(-20% -20%, 120% -20%, 120% 50%, -20% 50%);
+    color: #555;
+    cursor: grab;
 
     text-align: center;
-    cursor: row-resize;
+    transition: color .2s, background-color .2s;
     pointer-events: all;
     touch-action: none;
+
+    &:hover, &:active {
+      color: #888;
+    }
+
+    &:active {
+      background-color: #555;
+      cursor: grabbing;
+    }
   }
 
   .keybinding {
