@@ -59,8 +59,5 @@
     "prettier-eslint": "^15.0.1",
     "typescript": "~4.7.2"
   },
-  "packageManager": "yarn@3.6.3",
-  "resolutions": {
-    "@tv2media/logger": "portal:/Users/afjo/Documents/work/mediatech-logger"
-  }
+  "packageManager": "yarn@3.6.3"
 }

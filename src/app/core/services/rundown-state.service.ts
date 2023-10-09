@@ -8,7 +8,7 @@ import { EventSubscription } from '../../event-system/abstractions/event-observe
 import { ManagedSubscription } from './managed-subscription.service'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { RundownEntityService } from './models/rundown-entity.service'
-import { Logger } from '../../../../../../mediatech-logger'
+import { Logger } from '../abstractions/logger.service'
 
 @Injectable()
 export class RundownStateService implements OnDestroy {

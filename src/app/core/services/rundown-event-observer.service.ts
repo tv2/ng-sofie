@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { RundownEventParser } from '../abstractions/rundown-event.parser'
 import { RundownEventType } from '../models/rundown-event-type'
 import { RundownActivatedEvent, RundownDeactivatedEvent, RundownDeletedEvent, RundownInfinitePieceAddedEvent, RundownResetEvent, PartSetAsNextEvent, PartTakenEvent } from '../models/rundown-event'
-import { Logger } from '../../../../../../mediatech-logger'
+import { Logger } from '../abstractions/logger.service'
 
 @Injectable()
 export class RundownEventObserver {

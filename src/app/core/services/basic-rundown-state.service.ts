@@ -7,7 +7,7 @@ import { BasicRundown } from '../models/basic-rundown'
 import { BasicRundownService } from '../abstractions/basic-rundown.service'
 import { RundownEvent } from '../models/rundown-event'
 import { BasicRundownEntityService } from './models/basic-rundown-entity.service'
-import { Logger } from '../../../../../../mediatech-logger'
+import { Logger } from '../abstractions/logger.service'
 
 @Injectable()
 export class BasicRundownStateService implements OnDestroy {

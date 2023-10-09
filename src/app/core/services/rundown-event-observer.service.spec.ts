@@ -3,7 +3,7 @@ import { anyString, anything, instance, mock, verify, when } from '@typestrong/t
 import { EventObserver, EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { RundownEventParser } from '../abstractions/rundown-event.parser'
 import { RundownEventType } from '../models/rundown-event-type'
-import { Logger } from '../../../../../../mediatech-logger'
+import { Logger } from '../abstractions/logger.service'
 
 describe(RundownEventObserver.name, () => {
   describe(RundownEventObserver.prototype.subscribeToRundownActivation.name, () => {

@@ -4,7 +4,7 @@ import { RundownService } from '../abstractions/rundown.service'
 import { RundownEventObserver } from './rundown-event-observer.service'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { RundownEntityService } from './models/rundown-entity.service'
-import { Logger } from '../../../../../../mediatech-logger'
+import { Logger } from '../abstractions/logger.service'
 
 describe('RundownStateService', () => {
   it('should be created', () => {

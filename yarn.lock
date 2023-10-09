@@ -2406,11 +2406,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tv2media/logger@portal:/Users/afjo/Documents/work/mediatech-logger::locator=ng-sofie%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@tv2media/logger@portal:/Users/afjo/Documents/work/mediatech-logger::locator=ng-sofie%40workspace%3A."
+"@tv2media/logger@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@tv2media/logger@npm:2.0.1"
+  checksum: f3ddc23e5efc6750bedda64ecb898d3b4cfe2e5f4373f6a263ea0464088cb599e5d9995ec96e34adca2ae1cb6a003b4e11581eda88eade1f8b7c64883981f0aa
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@types/body-parser@npm:*":
   version: 1.19.3
