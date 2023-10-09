@@ -2,7 +2,9 @@ import { Component, HostListener } from '@angular/core'
 import { KeyboardBindingService } from '../../abstractions/keyboard-binding.service'
 import { KeyBinding } from '../../models/key-binding'
 import { KeyboardBindingMatcher } from '../../services/keyboard-binding.matcher'
-import {IconButton, IconButtonSize} from "../../../shared/enums/icon-button";
+import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
+
+const DRAG_HANDLE_START_OFFSET: number = 10
 
 @Component({
   selector: 'sofie-producer-shelf',
@@ -10,9 +12,6 @@ import {IconButton, IconButtonSize} from "../../../shared/enums/icon-button";
   styleUrls: ['./producer-shelf.component.scss'],
 })
 export class ProducerShelfComponent {
-  public keyBindings: KeyBinding[] = []
-  public pressedKeys: string[] = []
-
   @HostListener('mousedown', ['$event'])
   public onDragStart(event: MouseEvent): void {
     this.verticalDragStartPoint = event.clientY
@@ -28,7 +27,12 @@ export class ProducerShelfComponent {
     )
   }
 
-  public scrollOffset: number = 0
+  public keyBindings: KeyBinding[] = []
+  public pressedKeys: string[] = []
+  public dragOffset: number = 0
+
+  protected readonly IconButton = IconButton
+  protected readonly IconButtonSize = IconButtonSize
 
   private verticalDragStartPoint?: number
 
@@ -50,17 +54,10 @@ export class ProducerShelfComponent {
   }
 
   public onDragMove(event: MouseEvent): void {
-    //TODO: change to use the offset height from bottom to cursor, so we can drag off screen.
-    event.preventDefault()
     if (!this.verticalDragStartPoint) {
       return
     }
-    const newVerticalPoint: number = event.clientY
-    const verticalDeltaInPixels: number = this.verticalDragStartPoint - newVerticalPoint
-    this.verticalDragStartPoint = newVerticalPoint
-    this.scrollOffset = this.scrollOffset + verticalDeltaInPixels
+    this.verticalDragStartPoint = event.clientY
+    this.dragOffset = window.innerHeight - event.clientY - DRAG_HANDLE_START_OFFSET
   }
-
-  protected readonly IconButton = IconButton;
-  protected readonly IconButtonSize = IconButtonSize;
 }
