@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, ViewChild} from '@angular/core'
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core'
 import { KeyboardBindingService } from '../../abstractions/keyboard-binding.service'
 import { KeyBinding } from '../../models/key-binding'
 import { KeyboardBindingMatcher } from '../../services/keyboard-binding.matcher'
