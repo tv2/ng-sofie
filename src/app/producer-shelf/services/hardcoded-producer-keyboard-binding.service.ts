@@ -20,9 +20,14 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
         private readonly cameraKeyBindingFactory: CameraKeyBindingFactory,
         private readonly rundownService: RundownService
     ) {
+        // TODO: Don't take it directly from URL
+        const { rundownId } = window.location.pathname.match(/rundowns\/(?<rundownId>.+)\/?/)?.groups ?? {}
+        if (!rundownId) {
+            throw new Error('Failed getting rundown id.')
+        }
         this.keyBindings = [
-            ...this.getCameraKeyBindings(),
-            ...this.getRundownKeyBindings(),
+            ...this.getCameraKeyBindings(rundownId),
+            ...this.getRundownKeyBindings(rundownId),
         ]
         this.keyBindingsSubject = new BehaviorSubject(this.keyBindings)
         this.keystrokesSubject = new BehaviorSubject(this.keystrokes)
@@ -33,16 +38,11 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
         this.keyBindingService.defineKeyBindings(this.keyBindings)
     }
 
-    private getCameraKeyBindings(): KeyBinding[] {
-        return this.cameraKeyBindingFactory.createCameraKeyBindings(5)
+    private getCameraKeyBindings(rundownId: string): KeyBinding[] {
+        return this.cameraKeyBindingFactory.createCameraKeyBindings(5, rundownId)
     }
 
-    private getRundownKeyBindings(): KeyBinding[] {
-        // TODO: Don't take it directly from URL
-        const { rundownId } = window.location.pathname.match(/rundowns\/(?<rundownId>.+)\/?/)?.groups ?? {}
-        if (!rundownId) {
-            throw new Error('Failed getting rundown id.')
-        }
+    private getRundownKeyBindings(rundownId: string): KeyBinding[] {
         const defaultKeyBinding: KeyBinding = {
             keys: [''],
             label: '',
