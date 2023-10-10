@@ -1,23 +1,49 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { RundownViewComponent } from './rundown-view.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { RundownStateService } from '../../../core/services/rundown-state.service'
+import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockito'
+import { Subscription } from 'rxjs'
+import { ActivatedRoute, ActivatedRouteSnapshot, convertToParamMap, ParamMap, RouterModule } from '@angular/router'
+import { RundownViewComponent } from './rundown-view.component'
 
 describe('RundownViewComponent', () => {
-  let component: RundownViewComponent;
-  let fixture: ComponentFixture<RundownViewComponent>;
+  it('should create', async () => {
+    const component = await configureTestBed()
+    expect(component).toBeTruthy()
+  })
+})
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ RundownViewComponent ]
-    })
-    .compileComponents();
+async function configureTestBed(params: { mockedRundownStateService?: RundownStateService } = {}): Promise<RundownViewComponent> {
+  const mockedRundownStateService = params.mockedRundownStateService ?? createMockOfRundownStateService()
 
-    fixture = TestBed.createComponent(RundownViewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  await TestBed.configureTestingModule({
+    imports: [RouterModule.forRoot([])],
+    providers: [
+      { provide: ActivatedRoute, useValue: instance(createMockOfActivatedRoute()) },
+      { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
+    ],
+    declarations: [RundownViewComponent],
+  }).compileComponents()
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  const fixture: ComponentFixture<RundownViewComponent> = TestBed.createComponent(RundownViewComponent)
+  const component = fixture.componentInstance
+  component.ngOnInit()
+  return component
+}
+
+function createMockOfRundownStateService(): RundownStateService {
+  const mockedRundownStateService = mock<RundownStateService>()
+  const mockedSubscription = mock<Subscription>()
+  when(mockedRundownStateService.subscribeToRundown(anyString(), anything())).thenResolve(instance(mockedSubscription))
+  return mockedRundownStateService
+}
+
+function createMockOfActivatedRoute(params: { paramMap?: ParamMap } = {}): ActivatedRoute {
+  const paramMap: ParamMap = params.paramMap ?? convertToParamMap({ rundownId: 'some-rundown-id' })
+  const mockedActivatedRouteSnapshot: ActivatedRouteSnapshot = mock<ActivatedRouteSnapshot>()
+  when(mockedActivatedRouteSnapshot.paramMap).thenReturn(paramMap)
+
+  const mockedActivatedRoute: ActivatedRoute = mock<ActivatedRoute>()
+  when(mockedActivatedRoute.snapshot).thenReturn(instance(mockedActivatedRouteSnapshot))
+
+  return mockedActivatedRoute
+}

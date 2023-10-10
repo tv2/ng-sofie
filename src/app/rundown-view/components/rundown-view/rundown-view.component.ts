@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Rundown } from '../../../core/models/rundown'
 import { SubscriptionLike } from 'rxjs'
-import { RundownService } from '../../../core/abstractions/rundown.service'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
-import {ActivatedRoute} from "@angular/router";
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'sofie-rundown-view',
@@ -16,7 +15,6 @@ export class RundownViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly rundownService: RundownService,
     private readonly rundownStateService: RundownStateService
   ) {}
 

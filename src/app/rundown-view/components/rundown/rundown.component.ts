@@ -1,5 +1,4 @@
-import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Rundown } from '../../../core/models/rundown'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
@@ -26,7 +25,6 @@ export class RundownComponent implements OnInit, OnDestroy {
   private rundownSubscription?: SubscriptionLike
 
   constructor(
-    private readonly route: ActivatedRoute,
     private readonly rundownService: RundownService,
     private readonly rundownStateService: RundownStateService,
     private readonly dialogService: DialogService
