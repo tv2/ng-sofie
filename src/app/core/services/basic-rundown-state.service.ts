@@ -68,7 +68,7 @@ export class BasicRundownStateService implements OnDestroy {
       if (basicRundown.id !== event.rundownId) {
         return basicRundown
       }
-      return this.basicRundownEntityService.deactivate(basicRundown)
+      return this.basicRundownEntityService.activate(basicRundown)
     })
     this.basicRundownsSubject.next(this.basicRundowns)
   }
