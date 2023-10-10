@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core'
+import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Rundown } from '../../../core/models/rundown'
@@ -21,6 +21,7 @@ export class RundownComponent implements OnInit, OnDestroy {
     }
   }
 
+  @Input()
   public rundown?: Rundown
   private rundownSubscription?: SubscriptionLike
 
@@ -32,19 +33,18 @@ export class RundownComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    const rundownId: string | null = this.route.snapshot.paramMap.get('rundownId')
-    if (!rundownId) {
+    if (!this.rundown?.id) {
       console.error("[error]: No rundownId found. Can't fetch Rundown")
       return
     }
     this.rundownStateService
-      .subscribeToRundown(rundownId, rundown => {
+      .subscribeToRundown(this.rundown?.id, rundown => {
         this.rundown = rundown
       })
       .then(unsubscribeFromRundown => {
         this.rundownSubscription = unsubscribeFromRundown
       })
-      .catch(error => console.error(`[error] Failed subscribing to rundown with id '${rundownId}'.`, error))
+      .catch(error => console.error(`[error] Failed subscribing to rundown with id '${this.rundown?.id}'.`, error))
   }
 
   public ngOnDestroy(): void {

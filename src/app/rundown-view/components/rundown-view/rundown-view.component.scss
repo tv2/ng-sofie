@@ -5,6 +5,9 @@
   height: 100%;
   overflow: hidden;
   background-color: #343434;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .c-loading-rundown {
