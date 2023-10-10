@@ -1,18 +1,8 @@
-<sofie-rundown-header *ngIf="rundown" class="c-rundown-header" [rundown]="rundown"></sofie-rundown-header>
-
-<div *ngIf="!rundown; else loadedRundown" class='c-loading-rundown'>
-  <mat-card-title>Loading the rundown...</mat-card-title>
-</div>
-
-<ng-template #loadedRundown>
-    <div class="c-rundown">
-        <div class="segments">
-            <sofie-segment
-                *ngFor="let segment of rundown?.segments; trackBy: trackSegment"
-                [segment]="segment"
-            ></sofie-segment>
-        </div>
+<div class="c-rundown">
+    <div class="segments">
+        <sofie-segment
+            *ngFor="let segment of rundown?.segments; trackBy: trackSegment"
+            [segment]="segment"
+        ></sofie-segment>
     </div>
-</ng-template>
-
-<sofie-producer-shelf></sofie-producer-shelf>
+</div>

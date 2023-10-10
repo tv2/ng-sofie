@@ -19,7 +19,8 @@ import { OffsetablePieceComponent } from './components/offsetable-piece/offsetab
 import { EditorialLineComponent } from './components/editorial-line/editorial-line.component'
 import { MatCardModule } from '@angular/material/card'
 import { ProducerShelfModule } from '../producer-shelf/producer-shelf.module'
-import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component'
+import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component';
+import { RundownViewComponent } from './components/rundown-view/rundown-view.component'
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { RundownHeaderPanelComponent } from './components/rundown-header-panel/r
     OffsetablePieceComponent,
     ScrollableTimelineComponent,
     RundownHeaderPanelComponent,
+    RundownViewComponent,
   ],
   exports: [SegmentComponent],
   providers: [PieceGroupService],

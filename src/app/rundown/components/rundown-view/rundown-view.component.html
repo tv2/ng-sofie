@@ -1,0 +1,11 @@
+<sofie-rundown-header *ngIf="rundown" class="c-rundown-header" [rundown]="rundown"></sofie-rundown-header>
+
+<div *ngIf="!rundown; else loadedRundown" class='c-loading-rundown'>
+    <mat-card-title>Loading the rundown...</mat-card-title>
+</div>
+
+<ng-template #loadedRundown>
+    <sofie-rundown></sofie-rundown>
+</ng-template>
+
+<sofie-producer-shelf></sofie-producer-shelf>
