@@ -1,5 +1,5 @@
-import { KeyBinding } from '../models/key-binding'
 import { Injectable } from '@angular/core'
+import { KeyBinding } from '../../keyboard/models/key-binding'
 
 @Injectable()
 export class CameraKeyBindingFactory {
@@ -8,11 +8,14 @@ export class CameraKeyBindingFactory {
             const cameraNumber: number = index + 1
             const label = `KAM ${cameraNumber}`
             return {
-                key: cameraNumber.toString(),
-                modifiers: [],
+                keys: [`Digit${cameraNumber}`],
                 label,
-                action: () => console.error(label),
-                onKeyPress: false,
+                onMatched: () => console.error(label),
+                shouldMatchOnKeyRelease: true,
+                shouldPreventDefaultBehaviourOnKeyPress: true,
+                shouldPreventDefaultBehaviourForPartialMatches: true,
+                useExclusiveMatching: true,
+                useOrderedMatching: false,
             }
         })
     }

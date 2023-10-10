@@ -1,8 +1,8 @@
 import {Component, ElementRef, HostListener, ViewChild} from '@angular/core'
 import { KeyboardBindingService } from '../../abstractions/keyboard-binding.service'
-import { KeyBinding } from '../../models/key-binding'
-import { KeyboardBindingMatcher } from '../../services/keyboard-binding.matcher'
 import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
+import { KeyBinding } from '../../../keyboard/models/key-binding'
+import { KeyBindingMatcher } from '../../../keyboard/abstractions/key-binding-matcher.service'
 
 @Component({
   selector: 'sofie-producer-shelf',
@@ -23,7 +23,7 @@ export class ProducerShelfComponent {
 
   constructor(
     private readonly keyboardBindingService: KeyboardBindingService,
-    private readonly keyboardBindingMatcher: KeyboardBindingMatcher
+    private readonly keyBindingMatcher: KeyBindingMatcher
   ) {
     // TODO: handle closing subscriptions on teardown
     this.keyboardBindingService.subscribeToKeybindings((keyBindings: KeyBinding[]) => (this.keyBindings = keyBindings))
@@ -54,10 +54,10 @@ export class ProducerShelfComponent {
   }
 
   public displayKeyBinding(keyBinding: KeyBinding): string {
-    return [...keyBinding.modifiers, keyBinding.key].join('+')
+    return keyBinding.keys.join('+')
   }
 
   public isKeyBindingMatched(keyBinding: KeyBinding): boolean {
-    return this.keyboardBindingMatcher.isKeyBindingMatchedExactly(keyBinding, this.pressedKeys)
+    return this.keyBindingMatcher.isMatching(keyBinding, this.pressedKeys, true)
   }
 }

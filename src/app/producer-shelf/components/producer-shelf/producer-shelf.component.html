@@ -3,7 +3,7 @@
         <sofie-icon-button [iconButton]="IconButton.BARS" [iconButtonSize]="IconButtonSize.XL"></sofie-icon-button>
     </div>
     <div
-        *ngFor="let keyBinding of keyBindings" (click)="keyBinding.action()"
+        *ngFor="let keyBinding of keyBindings" (click)="keyBinding.onMatched()"
         class="keybinding"
         style="padding: 12px 20px; margin: 10px;"
         [class.keybinding--matched]="isKeyBindingMatched(keyBinding)"

@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs'
-import { KeyBinding } from '../models/key-binding'
+import { KeyBinding } from '../../keyboard/models/key-binding'
 
 export abstract class KeyboardBindingService {
     public abstract subscribeToKeybindings(callback: (keyBindings: KeyBinding[]) => void): Subscription
