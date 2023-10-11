@@ -20,12 +20,12 @@ export class HeaderComponent {
   }
 
   public navigateHome(): void {
-    const routeSegments: string[] = [Paths.HOME]
-    this.router.navigate(routeSegments).catch(() => this.logger.data(routeSegments).warn('Failed navigating with route segments:'))
+    const segmentedPath: string[] = [Paths.HOME]
+    this.router.navigate(segmentedPath).catch(() => this.logger.data(segmentedPath).warn('Failed navigating with route segments:'))
   }
 
   public navigateToRundown(): void {
-    const routeSegments: string[] = [Paths.RUNDOWNS]
-    this.router.navigate(routeSegments).catch(() => this.logger.data(routeSegments).warn('Failed navigating with route segments:'))
+    const segmentedPath: string[] = [Paths.RUNDOWNS]
+    this.router.navigate(segmentedPath).catch(() => this.logger.data(segmentedPath).warn('Failed navigating with route segments:'))
   }
 }
