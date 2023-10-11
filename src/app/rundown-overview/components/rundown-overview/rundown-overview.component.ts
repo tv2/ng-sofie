@@ -8,6 +8,7 @@ import { BasicRundownStateService } from '../../../core/services/basic-rundown-s
 import { SubscriptionLike } from 'rxjs'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
+import { Logger } from '../../../core/abstractions/logger.service'
 
 @Component({
   selector: 'sofie-rundown-overview',
@@ -18,26 +19,30 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   public basicRundowns: BasicRundown[] = []
   public isLoading: boolean = true
   private subscriptions: SubscriptionLike[] = []
+  private readonly logger: Logger
 
   constructor(
     private readonly router: Router,
     private readonly basicRundownStateService: BasicRundownStateService,
     private readonly rundownService: RundownService,
-    private readonly dialogService: DialogService
-  ) {}
+    private readonly dialogService: DialogService,
+    logger: Logger
+  ) {
+    this.logger = logger.tag('RundownOverviewComponent')
+  }
 
   public ngOnInit(): void {
     const basicRundownSubscription: SubscriptionLike = this.basicRundownStateService.subscribeToBasicRundowns(basicRundowns => {
-      console.log('[debug]: Updates basicRundowns for rundown overview', basicRundowns)
       this.basicRundowns = basicRundowns
+      this.logger.data(basicRundowns).debug('Updated basicRundowns for rundown overview.')
     })
     const isLoadingSubscription: SubscriptionLike = this.basicRundownStateService.subscribeToLoading(isLoading => (this.isLoading = isLoading))
     this.subscriptions = [basicRundownSubscription, isLoadingSubscription]
   }
 
   public navigateToRundown(basicRundown: BasicRundown): void {
-    const routeSegments: string[] = [Paths.RUNDOWNS, basicRundown.id]
-    this.router.navigate(routeSegments).catch(() => console.warn('[warn] Failed navigating with route segments:', routeSegments))
+    const segmentedPath: string[] = [Paths.RUNDOWNS, basicRundown.id]
+    this.router.navigate(segmentedPath).catch(() => this.logger.data(segmentedPath).warn('Failed navigating with route segments:'))
   }
 
   public openDeletionDialog(basicRundown: BasicRundown): void {
