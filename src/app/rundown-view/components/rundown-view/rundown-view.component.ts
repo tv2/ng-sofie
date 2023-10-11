@@ -3,6 +3,7 @@ import { Rundown } from '../../../core/models/rundown'
 import { SubscriptionLike } from 'rxjs'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { ActivatedRoute } from '@angular/router'
+import { Logger } from '../../../core/abstractions/logger.service'
 
 @Component({
   selector: 'sofie-rundown-view',
@@ -12,6 +13,7 @@ import { ActivatedRoute } from '@angular/router'
 export class RundownViewComponent implements OnInit, OnDestroy {
   public rundown?: Rundown
   private rundownSubscription?: SubscriptionLike
+  private readonly logger: Logger
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -21,7 +23,7 @@ export class RundownViewComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const rundownId: string | null = this.route.snapshot.paramMap.get('rundownId')
     if (!rundownId) {
-      console.error("[error]: No rundownId found. Can't fetch Rundown")
+      this.logger.error("[error]: No rundownId found. Can't fetch Rundown")
       return
     }
     this.rundownStateService
@@ -31,7 +33,7 @@ export class RundownViewComponent implements OnInit, OnDestroy {
       .then(unsubscribeFromRundown => {
         this.rundownSubscription = unsubscribeFromRundown
       })
-      .catch(error => console.error(`[error] Failed subscribing to rundown with id '${rundownId}'.`, error))
+      .catch(error => this.logger.error(`[error] Failed subscribing to rundown with id '${rundownId}'.`, error))
   }
 
   public ngOnDestroy(): void {

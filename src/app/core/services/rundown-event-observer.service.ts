@@ -3,13 +3,19 @@ import { Injectable } from '@angular/core'
 import { RundownEventParser } from '../abstractions/rundown-event.parser'
 import { RundownEventType } from '../models/rundown-event-type'
 import { RundownActivatedEvent, RundownDeactivatedEvent, RundownDeletedEvent, RundownInfinitePieceAddedEvent, RundownResetEvent, PartSetAsNextEvent, PartTakenEvent } from '../models/rundown-event'
+import { Logger } from '../abstractions/logger.service'
 
 @Injectable()
 export class RundownEventObserver {
+  private readonly logger: Logger
+
   constructor(
     private readonly eventObserver: EventObserver,
-    private readonly rundownEventParser: RundownEventParser
-  ) {}
+    private readonly rundownEventParser: RundownEventParser,
+    logger: Logger
+  ) {
+    this.logger = logger.tag('RundownEventObserver')
+  }
 
   public subscribeToRundownActivation(onActivated: (event: RundownActivatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(RundownEventType.ACTIVATED, this.createEventValidatingConsumer(onActivated, this.rundownEventParser.parseActivatedEvent.bind(this.rundownEventParser)))
@@ -48,7 +54,7 @@ export class RundownEventObserver {
         const activationEvent: T = parser(event)
         consumer(activationEvent)
       } catch (error) {
-        console.error('Failed to parse activation event', error, event)
+        this.logger.data({ error, event }).error('Failed to parse activation event.')
       }
     }
   }

@@ -1,7 +1,9 @@
 <ng-container *ngIf="rundown; else loadingRundown">
     <sofie-rundown-header [rundown]="rundown"></sofie-rundown-header>
     <sofie-rundown [rundown]="rundown"></sofie-rundown>
-    <sofie-producer-shelf></sofie-producer-shelf>
+    <sofie-draggable-shelf>
+        <sofie-producer-shelf></sofie-producer-shelf>
+    </sofie-draggable-shelf>
 </ng-container>
 
 <ng-template #loadingRundown>

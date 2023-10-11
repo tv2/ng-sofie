@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { ActivatedRoute, ActivatedRouteSnapshot, convertToParamMap, ParamMap, RouterModule } from '@angular/router'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockito'
 import { Subscription } from 'rxjs'
-import { ActivatedRoute, ActivatedRouteSnapshot, convertToParamMap, ParamMap, RouterModule } from '@angular/router'
+import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownViewComponent } from './rundown-view.component'
 
 describe('RundownViewComponent', () => {
@@ -20,6 +21,7 @@ async function configureTestBed(params: { mockedRundownStateService?: RundownSta
     providers: [
       { provide: ActivatedRoute, useValue: instance(createMockOfActivatedRoute()) },
       { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
+      { provide: Logger, useValue: instance(createMockOfLogger()) },
     ],
     declarations: [RundownViewComponent],
   }).compileComponents()
@@ -46,4 +48,13 @@ function createMockOfActivatedRoute(params: { paramMap?: ParamMap } = {}): Activ
   when(mockedActivatedRoute.snapshot).thenReturn(instance(mockedActivatedRouteSnapshot))
 
   return mockedActivatedRoute
+}
+
+// TODO: Extract to one place
+function createMockOfLogger(): Logger {
+  const mockedLogger: Logger = mock<Logger>()
+  when(mockedLogger.tag(anyString())).thenCall(() => instance(createMockOfLogger()))
+  when(mockedLogger.data(anything())).thenCall(() => instance(createMockOfLogger()))
+  when(mockedLogger.metadata(anything())).thenCall(() => instance(createMockOfLogger()))
+  return mockedLogger
 }
