@@ -20,6 +20,7 @@ import { EditorialLineComponent } from './components/editorial-line/editorial-li
 import { MatCardModule } from '@angular/material/card'
 import { ProducerShelfModule } from '../producer-shelf/producer-shelf.module'
 import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component'
+import { DraggableShelfComponent } from '../draggable-shelf/draggable-shelf.component'
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { RundownHeaderPanelComponent } from './components/rundown-header-panel/r
     OffsetablePieceComponent,
     ScrollableTimelineComponent,
     RundownHeaderPanelComponent,
+    DraggableShelfComponent,
   ],
   exports: [SegmentComponent],
   providers: [PieceGroupService],
