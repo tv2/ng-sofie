@@ -1,8 +1,11 @@
 import { KeyBinding } from '../models/key-binding'
 import { Injectable } from '@angular/core'
+import { Logger } from '../../core/abstractions/logger.service'
 
 @Injectable()
 export class CameraKeyBindingFactory {
+  private readonly logger: Logger
+
   public createCameraKeyBindings(numberOfCameras: number): KeyBinding[] {
     return Array(numberOfCameras)
       .fill(null)
@@ -13,7 +16,7 @@ export class CameraKeyBindingFactory {
           key: cameraNumber.toString(),
           modifiers: [],
           label,
-          action: () => console.error(label),
+          action: () => this.logger.error(label),
           onKeyPress: false,
         }
       })

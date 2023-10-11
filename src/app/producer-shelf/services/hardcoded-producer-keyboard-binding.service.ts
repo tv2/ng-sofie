@@ -5,6 +5,7 @@ import { KeyboardBindingMatcher } from './keyboard-binding.matcher'
 import { HostListener, Injectable } from '@angular/core'
 import { CameraKeyBindingFactory } from '../factories/camera-key-binding.factory'
 import { RundownService } from '../../core/abstractions/rundown.service'
+import { Logger } from '../../core/abstractions/logger.service'
 
 @Injectable()
 export class HardcodedProducerKeyboardBindingService implements KeyboardBindingService {
@@ -13,6 +14,7 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
   private readonly keyBindingsSubject: Subject<KeyBinding[]>
   private readonly pressedKeysSubject: Subject<string[]>
   private readonly documentSubscriptions: Subscription[]
+  private readonly logger: Logger
 
   constructor(
     private readonly keyboardBindingMatcher: KeyboardBindingMatcher,
@@ -73,7 +75,7 @@ export class HardcodedProducerKeyboardBindingService implements KeyboardBindingS
 
   @HostListener('document:blur', ['$event'])
   private resetPressedKeys(): void {
-    console.warn('BLURRED')
+    this.logger.warn('BLURRED')
     this.pressedKeys = []
     this.pressedKeysSubject.next(this.pressedKeys)
   }
