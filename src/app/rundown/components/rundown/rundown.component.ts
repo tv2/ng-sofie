@@ -6,6 +6,7 @@ import { RundownStateService } from '../../../core/services/rundown-state.servic
 import { SubscriptionLike } from 'rxjs'
 import { Segment } from '../../../core/models/segment'
 import { DialogService } from '../../../shared/services/dialog.service'
+import { Logger } from '../../../core/abstractions/logger.service'
 
 @Component({
   selector: 'sofie-rundown',
@@ -23,18 +24,22 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   public rundown?: Rundown
   private rundownSubscription?: SubscriptionLike
+  private readonly logger: Logger
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly rundownService: RundownService,
     private readonly rundownStateService: RundownStateService,
-    private readonly dialogService: DialogService
-  ) {}
+    private readonly dialogService: DialogService,
+    logger: Logger
+  ) {
+    this.logger = logger.tag('RundownComponent')
+  }
 
   public ngOnInit(): void {
     const rundownId: string | null = this.route.snapshot.paramMap.get('rundownId')
     if (!rundownId) {
-      console.error("[error]: No rundownId found. Can't fetch Rundown")
+      this.logger.error("No rundownId found. Can't fetch Rundown")
       return
     }
     this.rundownStateService
@@ -44,7 +49,7 @@ export class RundownComponent implements OnInit, OnDestroy {
       .then(unsubscribeFromRundown => {
         this.rundownSubscription = unsubscribeFromRundown
       })
-      .catch(error => console.error(`[error] Failed subscribing to rundown with id '${rundownId}'.`, error))
+      .catch(error => this.logger.data(error).error(`[error] Failed subscribing to rundown with id '${rundownId}'.`))
   }
 
   public ngOnDestroy(): void {
