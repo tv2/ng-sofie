@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core'
-import { IconButton, IconButtonSize } from '../shared/enums/icon-button'
+import { IconButton, IconButtonSize } from '../../enums/icon-button'
 
 @Component({
   selector: 'sofie-draggable-shelf',

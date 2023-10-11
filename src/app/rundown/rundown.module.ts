@@ -20,7 +20,7 @@ import { EditorialLineComponent } from './components/editorial-line/editorial-li
 import { MatCardModule } from '@angular/material/card'
 import { ProducerShelfModule } from '../producer-shelf/producer-shelf.module'
 import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component'
-import { DraggableShelfComponent } from '../draggable-shelf/draggable-shelf.component'
+import { DraggableShelfComponent } from '../shared/components/draggable-shelf/draggable-shelf.component'
 
 @NgModule({
   declarations: [
