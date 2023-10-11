@@ -8,32 +8,32 @@ import { Action } from '../models/action'
 
 @Injectable()
 export class HttpActionService implements ActionService {
-    constructor(
-        private readonly http: HttpClient,
-        private readonly httpErrorService: HttpErrorService
-    ) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly httpErrorService: HttpErrorService
+  ) {}
 
-    public getActions(): Observable<Action[]> {
-        const url: string = this.getGetActionsUrl()
-        return this.http.get<unknown>(url).pipe(
-            catchError(error => this.httpErrorService.catchError(error)),
-            map(actions => actions as unknown as Action[]) // TODO: use parser
-        )
-    }
+  public getActions(): Observable<Action[]> {
+    const url: string = this.getGetActionsUrl()
+    return this.http.get<unknown>(url).pipe(
+      catchError(error => this.httpErrorService.catchError(error)),
+      map(actions => actions as unknown as Action[]) // TODO: use parser
+    )
+  }
 
-    private getGetActionsUrl(): string {
-        return `${environment.apiBaseUrl}/actions`
-    }
+  private getGetActionsUrl(): string {
+    return `${environment.apiBaseUrl}/actions`
+  }
 
-    public executeAction(actionId: string, rundownId: string): Observable<void> {
-        const url: string = this.getExecuteActionUrl(actionId, rundownId)
-        return this.http.put(url, { actionId, rundownId }).pipe(
-            catchError(error => this.httpErrorService.catchError(error)),
-            map(() => undefined)
-        )
-    }
+  public executeAction(actionId: string, rundownId: string): Observable<void> {
+    const url: string = this.getExecuteActionUrl(actionId, rundownId)
+    return this.http.put(url, { actionId, rundownId }).pipe(
+      catchError(error => this.httpErrorService.catchError(error)),
+      map(() => undefined)
+    )
+  }
 
-    private getExecuteActionUrl(actionId: string, rundownId: string): string {
-        return `${environment.apiBaseUrl}/actions/${actionId}/rundowns/${rundownId}`
-    }
+  private getExecuteActionUrl(actionId: string, rundownId: string): string {
+    return `${environment.apiBaseUrl}/actions/${actionId}/rundowns/${rundownId}`
+  }
 }

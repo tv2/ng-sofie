@@ -1,4 +1,4 @@
 export interface ActionRequest {
-    actionId: string
-    rundownId: string
+  actionId: string
+  rundownId: string
 }

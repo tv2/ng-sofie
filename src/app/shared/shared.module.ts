@@ -40,6 +40,13 @@ import { HttpActionService } from './services/http-action.service'
     FontAwesomeModule,
   ],
   exports: [CommonModule, HeaderComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent],
-  providers: [{ provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } }, { provide: ActionService, useClass: HttpActionService }, DialogService, ConnectionErrorService, PieceLayerService, TimestampPipe],
+  providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
+    { provide: ActionService, useClass: HttpActionService },
+    DialogService,
+    ConnectionErrorService,
+    PieceLayerService,
+    TimestampPipe,
+  ],
 })
 export class SharedModule {}

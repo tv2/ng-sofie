@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, ViewChild} from '@angular/core'
+import { Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core'
 import { KeyboardBindingService } from '../../abstractions/keyboard-binding.service'
 import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 import { KeyBinding } from '../../../keyboard/models/key-binding'
@@ -9,7 +9,7 @@ import { KeyBindingMatcher } from '../../../keyboard/abstractions/key-binding-ma
   templateUrl: './producer-shelf.component.html',
   styleUrls: ['./producer-shelf.component.scss'],
 })
-export class ProducerShelfComponent {
+export class ProducerShelfComponent implements OnDestroy {
   public keyBindings: KeyBinding[] = []
   public pressedKeys: string[] = []
   public dragOffsetInPixels: number = 0
@@ -28,6 +28,10 @@ export class ProducerShelfComponent {
     // TODO: handle closing subscriptions on teardown
     this.keyboardBindingService.subscribeToKeybindings((keyBindings: KeyBinding[]) => (this.keyBindings = keyBindings))
     this.keyboardBindingService.subscribeToPressedKeys((pressedKeys: string[]) => (this.pressedKeys = pressedKeys))
+  }
+
+  public ngOnDestroy(): void {
+    this.keyboardBindingService.unsubscribe()
   }
 
   @HostListener('mousedown', ['$event'])
