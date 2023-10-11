@@ -1,8 +1,14 @@
 import { ReconnectStrategy } from '../abstractions/reconnect-strategy.service'
+import { Logger } from '../../core/abstractions/logger.service'
 
 export class ExponentiallyDelayedReconnectStrategy implements ReconnectStrategy {
+  private readonly logger: Logger
   private connectAttempts: number = 0
   private delayTimer?: NodeJS.Timeout
+
+  constructor(logger: Logger) {
+    this.logger = logger.tag('ExponentiallyDelayedReconnectStrategy')
+  }
 
   public connected(): void {
     this.connectAttempts = 0
@@ -18,7 +24,7 @@ export class ExponentiallyDelayedReconnectStrategy implements ReconnectStrategy 
   private reconnect(connect: () => void): void {
     this.connectAttempts++
     const reconnectDelay = this.getReconnectDelay()
-    console.log('[info]', `Attempting to reconnect in ${reconnectDelay}ms.`)
+    this.logger.info(`Attempting to reconnect in ${reconnectDelay}ms.`)
     this.delayTimer = setTimeout(this.createConnectWrapper(connect), reconnectDelay)
   }
 

@@ -1,6 +1,7 @@
 import { ExponentiallyDelayedReconnectStrategy } from './exponentially-delayed-reconnect-strategy.service'
 import { ReconnectStrategy } from '../abstractions/reconnect-strategy.service'
-import { instance, mock, verify, when } from '@typestrong/ts-mockito'
+import { anyString, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
+import { Logger } from '../../core/abstractions/logger.service'
 
 describe(ExponentiallyDelayedReconnectStrategy.name, () => {
   beforeEach(() => jasmine.clock().install())
@@ -9,7 +10,7 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
 
   describe('first retry attempt', () => {
     it('does not fire after 0ms', () => {
-      const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+      const testee: ReconnectStrategy = createTestee()
       let connectTries = 0
       const connect = (): number => connectTries++
 
@@ -19,7 +20,7 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
     })
 
     it('does not fire after 999ms', () => {
-      const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+      const testee: ReconnectStrategy = createTestee()
       let connectTries = 0
       const connect = (): number => connectTries++
 
@@ -30,7 +31,7 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
     })
 
     it('does fire after 1000ms', () => {
-      const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+      const testee: ReconnectStrategy = createTestee()
       let connectTries = 0
       const connect = (): number => connectTries++
 
@@ -41,7 +42,7 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
     })
 
     it('does fire after 1023ms', () => {
-      const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+      const testee: ReconnectStrategy = createTestee()
       let connectTries = 0
       const connect = (): number => connectTries++
 
@@ -54,7 +55,7 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
 
   describe('second retry attempt', () => {
     it('does not fire after 0ms', () => {
-      const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+      const testee: ReconnectStrategy = createTestee()
       let connectTries = 0
       const connect = (): number => connectTries++
       testee.disconnected(connect)
@@ -66,7 +67,7 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
     })
 
     it('does not fire after 3999ms', () => {
-      const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+      const testee: ReconnectStrategy = createTestee()
       let connectTries = 0
       const connect = (): number => connectTries++
       testee.disconnected(connect)
@@ -79,7 +80,7 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
     })
 
     it('does fire after 4000ms', () => {
-      const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+      const testee: ReconnectStrategy = createTestee()
       let connectTries = 0
       const connect = (): number => connectTries++
       testee.disconnected(connect)
@@ -94,7 +95,7 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
 
   describe('first retry attempt after connected', () => {
     it('does not fire after 0ms', () => {
-      const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+      const testee: ReconnectStrategy = createTestee()
       let connectTries = 0
       const connect = (): number => connectTries++
 
@@ -108,7 +109,7 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
     })
 
     it('does not fire after 999ms', () => {
-      const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+      const testee: ReconnectStrategy = createTestee()
       let connectTries = 0
       const connect = (): number => connectTries++
 
@@ -123,7 +124,7 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
     })
 
     it('does fire after 1000ms', () => {
-      const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+      const testee: ReconnectStrategy = createTestee()
       let connectTries = 0
       const connect = (): number => connectTries++
 
@@ -140,7 +141,7 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
 
   describe('overlapping reconnect attempts', () => {
     it('only triggers first attempt', () => {
-      const testee: ReconnectStrategy = new ExponentiallyDelayedReconnectStrategy()
+      const testee: ReconnectStrategy = createTestee()
       const mockedFirstConnectObject = createObservableConnectObject()
       const mockedSecondConnectObject = createObservableConnectObject()
 
@@ -155,8 +156,22 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
   })
 })
 
+function createTestee(): ExponentiallyDelayedReconnectStrategy {
+  const mockedLogger: Logger = createMockOfLogger()
+  return new ExponentiallyDelayedReconnectStrategy(instance(mockedLogger))
+}
+
 function createObservableConnectObject(): { connect: () => void } {
   const observableFunctionObject = mock<{ connect: () => void }>()
   when(observableFunctionObject.connect()).thenReturn(undefined)
   return observableFunctionObject
+}
+
+// TODO: Extract to one place
+function createMockOfLogger(): Logger {
+  const mockedLogger: Logger = mock<Logger>()
+  when(mockedLogger.tag(anyString())).thenCall(() => instance(createMockOfLogger()))
+  when(mockedLogger.data(anything())).thenCall(() => instance(createMockOfLogger()))
+  when(mockedLogger.metadata(anything())).thenCall(() => instance(createMockOfLogger()))
+  return mockedLogger
 }

@@ -5,6 +5,7 @@ import { ShowStyleVariantStateService } from '../../../core/services/show-style-
 import { ShowStyleVariant } from '../../../core/models/show-style-variant'
 import { SubscriptionLike } from 'rxjs'
 import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
+import { Logger } from '../../../core/abstractions/logger.service'
 
 const UPDATE_LOCAL_CLOCK_INTERVAL: number = 1000
 const DESIGN_TEMPLATE_IDENTIFIER: string = 'DESIGN_'
@@ -31,7 +32,14 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public schema: string = ''
   public design: string = ''
 
-  constructor(private readonly showStyleVariantStateService: ShowStyleVariantStateService) {}
+  private readonly logger: Logger
+
+  constructor(
+    private readonly showStyleVariantStateService: ShowStyleVariantStateService,
+    logger: Logger
+  ) {
+    this.logger = logger.tag('RundownHeaderComponent')
+  }
 
   public ngOnInit(): void {
     this.setRundownNameAndPath()
@@ -43,7 +51,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
         this.setDefaultHeaderInformation()
       })
       .then(unsubscribeFromShowStyleVariant => (this.showStyleVariantSubscription = unsubscribeFromShowStyleVariant))
-      .catch(error => console.error('[error] Failed subscribing to show style variant changes.', error))
+      .catch(error => this.logger.data(error).error('Failed subscribing to show style variant changes.'))
   }
 
   private setRundownNameAndPath(): void {

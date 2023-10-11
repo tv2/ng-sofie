@@ -23,6 +23,8 @@ import { RundownEntityService } from './services/models/rundown-entity.service'
 import { SegmentEntityService } from './services/models/segment-entity.service'
 import { PartEntityService } from './services/models/part-entity.service'
 import { BasicRundownEntityService } from './services/models/basic-rundown-entity.service'
+import { Logger } from './abstractions/logger.service'
+import { Tv2LoggerService } from './services/tv2-logger.service'
 
 @NgModule({
   declarations: [],
@@ -41,6 +43,7 @@ import { BasicRundownEntityService } from './services/models/basic-rundown-entit
     ShowStyleVariantStateService,
     { provide: RundownEventParser, useClass: ZodRundownEventParser },
     { provide: EntityParser, useClass: ZodEntityParser },
+    { provide: Logger, useClass: Tv2LoggerService },
     RundownEntityService,
     BasicRundownEntityService,
     SegmentEntityService,

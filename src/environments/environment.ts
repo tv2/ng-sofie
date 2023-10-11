@@ -2,9 +2,13 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
+import { Environment } from './environment-interface'
+import { LogLevel } from '../app/core/abstractions/logger.service'
+
+export const environment: Environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:3005',
+  apiBaseUrl: 'http://localhost:3005/api',
+  logLevel: LogLevel.DEBUG,
 }
 
 /*

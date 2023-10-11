@@ -2,13 +2,19 @@ import { EventConsumer, EventObserver, TypedEvent, EventSubscription } from '../
 import { RobustWebSocket } from './robust-websocket.service'
 import { Injectable } from '@angular/core'
 import { RobustWebSocketFactory } from '../factories/robust-websocket.factory'
+import { Logger } from '../../core/abstractions/logger.service'
 
 @Injectable()
 export class WebSocketEventObserver implements EventObserver {
   private readonly subscriptions: Record<string, Set<EventConsumer>> = {}
   private readonly socket: RobustWebSocket
+  private readonly logger: Logger
 
-  constructor(private readonly robustWebSocketFactory: RobustWebSocketFactory) {
+  constructor(
+    private readonly robustWebSocketFactory: RobustWebSocketFactory,
+    logger: Logger
+  ) {
+    this.logger = logger.tag('WebSocketEventObserver')
     this.socket = this.getSocket()
   }
 
@@ -26,10 +32,10 @@ export class WebSocketEventObserver implements EventObserver {
   private parseAndPublishEvent(message: MessageEvent): void {
     try {
       const event: TypedEvent = this.parseEvent(message.data)
-      console.log('[debug]', '[WebSocketEventObserver] Received an event:', message)
+      this.logger.data(message).debug('Received an event:')
       this.publishEvent(event)
     } catch (error) {
-      console.error('[error]', 'Failed to parse event.', error)
+      this.logger.data(error).error('Failed to parse event.')
     }
   }
 

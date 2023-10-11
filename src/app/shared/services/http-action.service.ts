@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http'
 import { environment } from '../../../environments/environment'
 import { HttpErrorService } from '../../core/services/http-error.service'
 import { Injectable } from '@angular/core'
+import { Action } from '../models/action'
 
 @Injectable()
 export class HttpActionService implements ActionService {
@@ -12,9 +13,21 @@ export class HttpActionService implements ActionService {
     private readonly httpErrorService: HttpErrorService
   ) {}
 
+  public getActions(): Observable<Action[]> {
+    const url: string = this.getGetActionsUrl()
+    return this.http.get<unknown>(url).pipe(
+      catchError(error => this.httpErrorService.catchError(error)),
+      map(actions => actions as unknown as Action[]) // TODO: use parser
+    )
+  }
+
+  private getGetActionsUrl(): string {
+    return `${environment.apiBaseUrl}/actions`
+  }
+
   public executeAction(actionId: string, rundownId: string): Observable<void> {
     const url: string = this.getExecuteActionUrl(actionId, rundownId)
-    return this.http.put(url, null).pipe(
+    return this.http.put(url, { actionId, rundownId }).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
       map(() => undefined)
     )

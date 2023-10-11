@@ -41,3 +41,10 @@
         [time]="time | minimum: prePlayheadDurationInMs"
         [pixelsPerSecond]="pixelsPerSecond"
 ></sofie-timeline-playhead>
+
+<sofie-editorial-line
+    *ngIf="segment.budgetDuration !== undefined && time - prePlayheadDurationInMs <= segment.budgetDuration"
+    [budgetDurationInMs]="segment.budgetDuration"
+    [pixelsPerSecond]="pixelsPerSecond"
+    [offsetInMs]="time - prePlayheadDurationInMs | maximum: 0"
+></sofie-editorial-line>

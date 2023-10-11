@@ -5,6 +5,7 @@ import { instance, mock } from '@typestrong/ts-mockito'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { DialogService } from '../../../shared/services/dialog.service'
 import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
+import { Logger } from '../../../core/abstractions/logger.service'
 
 describe('RundownOverviewComponent', () => {
   it('should create', async () => {
@@ -24,6 +25,7 @@ async function configureTestBed(
       { provide: BasicRundownStateService, useValue: instance(mockedBasicRundownStateService) },
       { provide: RundownService, useValue: instance(mockedRundownService) },
       { provide: DialogService, useValue: instance(mockedDialogService) },
+      { provide: Logger, useValue: instance(mock<Logger>()) },
     ],
     declarations: [RundownOverviewComponent],
   }).compileComponents()

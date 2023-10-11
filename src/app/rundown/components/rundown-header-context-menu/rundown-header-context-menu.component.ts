@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Rundown } from '../../../core/models/rundown'
+import { DialogService } from '../../../shared/services/dialog.service'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
@@ -12,7 +13,17 @@ export class RundownHeaderContextMenuComponent {
   @Input()
   public rundown?: Rundown
 
-  constructor(private readonly rundownService: RundownService) {}
+  constructor(
+    private readonly rundownService: RundownService,
+    private readonly dialogService: DialogService
+  ) {}
+
+  public openActivationDialog(): void {
+    if (!this.rundown || this.rundown.isActive) {
+      return
+    }
+    this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to activate the Rundown?`, 'Activate', () => this.activate())
+  }
 
   public activate(): void {
     if (!this.rundown?.id) {

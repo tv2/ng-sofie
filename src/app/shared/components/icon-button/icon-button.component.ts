@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core'
 import { IconButton, IconButtonSize } from '../../enums/icon-button'
-import { faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan, faXmark, faBars } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'sofie-icon-button',
@@ -28,6 +28,8 @@ export class IconButtonComponent implements OnInit {
         return faXmark
       case IconButton.DELETE:
         return faTrashCan
+      case IconButton.BARS:
+        return faBars
       default:
         return faXmark
     }

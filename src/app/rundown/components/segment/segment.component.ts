@@ -5,6 +5,7 @@ import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
+import { Logger } from '../../../core/abstractions/logger.service'
 
 @Component({
   selector: 'sofie-segment',
@@ -19,12 +20,16 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   public pieceLayers: PieceLayer[] = []
 
   private animationFrameId?: number
+  private readonly logger: Logger
 
   constructor(
     private readonly pieceLayerService: PieceLayerService,
     private readonly rundownService: RundownService,
-    private readonly partEntityService: PartEntityService
-  ) {}
+    private readonly partEntityService: PartEntityService,
+    logger: Logger
+  ) {
+    this.logger = logger.tag('SegmentComponent')
+  }
 
   private getUsedPieceLayersInOrder(): PieceLayer[] {
     const pieceLayersInOrder: PieceLayer[] = this.pieceLayerService.getPieceLayersInOrder()
@@ -72,7 +77,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   private updateTimeReference(): void {
     const activePartIndex: number = this.segment.parts.findIndex(part => part.isOnAir)
     if (activePartIndex < 0) {
-      console.warn(`Expected an active part in segment '${this.segment.name} (${this.segment.id})', but found none.`)
+      this.logger.warn(`Expected an active part in segment '${this.segment.name} (${this.segment.id})', but found none.`)
       return
     }
     const activePart: Part = this.segment.parts[activePartIndex]

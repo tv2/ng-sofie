@@ -15,13 +15,13 @@ export class DialogService {
     return this.dialog.open(component, config)
   }
 
-  public openDeletionDialog(typeOfThingToDelete: string, nameOrIdOfThingToDelete: string, onOk: () => void): void {
+  public createConfirmDialog(title: string, message: string, okButtonText: string, onOk: () => void): void {
     this.open(ConfirmationDialogComponent, {
       data: {
-        title: `Delete ${typeOfThingToDelete}?`,
-        message: `Are you sure you want to delete the ${typeOfThingToDelete} "${nameOrIdOfThingToDelete}"?\n\nPlease note: This action is irreversible!`,
+        title: title,
+        message: message,
         buttonText: {
-          ok: 'Delete',
+          ok: okButtonText,
           cancel: 'Cancel',
         },
       },
