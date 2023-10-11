@@ -5,6 +5,7 @@ import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockit
 import { RouterModule } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { Rundown } from '../../../core/models/rundown'
+import { Logger } from '../../../core/abstractions/logger.service'
 
 describe('RundownHeaderComponent', () => {
   it('should create', async () => {
@@ -20,7 +21,10 @@ async function configureTestBed(params: { mockedShowStyleVariantStateService?: S
   const mockedShowStyleVariantStateService = params.mockedShowStyleVariantStateService ?? createMockOfShowStyleVariantStateService()
   await TestBed.configureTestingModule({
     imports: [RouterModule.forRoot([])],
-    providers: [{ provide: ShowStyleVariantStateService, useValue: instance(mockedShowStyleVariantStateService) }],
+    providers: [
+      { provide: ShowStyleVariantStateService, useValue: instance(mockedShowStyleVariantStateService) },
+      { provide: Logger, useValue: instance(mock<Logger>()) },
+    ],
     declarations: [RundownHeaderComponent],
   }).compileComponents()
   const fixture: ComponentFixture<RundownHeaderComponent> = TestBed.createComponent(RundownHeaderComponent)

@@ -36,6 +36,7 @@
             "style": "kebab-case"
           }
         ],
+        "no-console": "error",
         "indent": "off",
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "error",
