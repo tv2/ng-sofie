@@ -1,8 +1,6 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core'
+import { Component, HostListener, Input } from '@angular/core'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Rundown } from '../../../core/models/rundown'
-import { RundownStateService } from '../../../core/services/rundown-state.service'
-import { SubscriptionLike } from 'rxjs'
 import { Segment } from '../../../core/models/segment'
 import { DialogService } from '../../../shared/services/dialog.service'
 
@@ -11,7 +9,7 @@ import { DialogService } from '../../../shared/services/dialog.service'
   templateUrl: './rundown.component.html',
   styleUrls: ['./rundown.component.scss'],
 })
-export class RundownComponent implements OnInit, OnDestroy {
+export class RundownComponent {
   //TODO: Remove this temporary implementation once keyboard shortcuts are added
   @HostListener('document:keypress', ['$event'])
   public handleKeyboardEvent(event: KeyboardEvent): void {
@@ -22,32 +20,11 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   @Input()
   public rundown?: Rundown
-  private rundownSubscription?: SubscriptionLike
 
   constructor(
     private readonly rundownService: RundownService,
-    private readonly rundownStateService: RundownStateService,
     private readonly dialogService: DialogService
   ) {}
-
-  public ngOnInit(): void {
-    if (!this.rundown?.id) {
-      console.error("[error]: No rundownId found. Can't fetch Rundown")
-      return
-    }
-    this.rundownStateService
-      .subscribeToRundown(this.rundown?.id, rundown => {
-        this.rundown = rundown
-      })
-      .then(unsubscribeFromRundown => {
-        this.rundownSubscription = unsubscribeFromRundown
-      })
-      .catch(error => console.error(`[error] Failed subscribing to rundown with id '${this.rundown?.id}'.`, error))
-  }
-
-  public ngOnDestroy(): void {
-    this.rundownSubscription?.unsubscribe()
-  }
 
   public openActivationDialog(): void {
     if (!this.rundown || this.rundown.isActive) {
@@ -61,13 +38,6 @@ export class RundownComponent implements OnInit, OnDestroy {
       return
     }
     this.rundownService.activate(this.rundown.id).subscribe()
-  }
-
-  public takeNext(): void {
-    if (!this.rundown?.id) {
-      return
-    }
-    this.rundownService.takeNext(this.rundown.id).subscribe()
   }
 
   public trackSegment(_: number, segment: Segment): string {
