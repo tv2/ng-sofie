@@ -19,7 +19,10 @@ import { OffsetablePieceComponent } from './components/offsetable-piece/offsetab
 import { EditorialLineComponent } from './components/editorial-line/editorial-line.component'
 import { MatCardModule } from '@angular/material/card'
 import { ProducerShelfModule } from '../producer-shelf/producer-shelf.module'
-import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component';
+import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component'
+import { ProducerKeyBindingService } from './abstractions/producer-key-binding.service'
+import { HardcodedProducerKeyBindingService } from './services/hardcoded-producer-key-binding.service'
+import { Tv2ActionGroupService } from './services/tv2-action-group.service'
 import { SegmentContextMenuComponent } from './components/segment-context-menu/segment-context-menu.component';
 import { PartContextMenuComponent } from './components/part-context-menu/part-context-menu.component'
 
@@ -43,7 +46,7 @@ import { PartContextMenuComponent } from './components/part-context-menu/part-co
     PartContextMenuComponent,
   ],
   exports: [SegmentComponent],
-  providers: [PieceGroupService],
+  providers: [PieceGroupService, { provide: ProducerKeyBindingService, useClass: HardcodedProducerKeyBindingService }, Tv2ActionGroupService],
   imports: [SharedModule, RundownRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule],
 })
 export class RundownModule {}
