@@ -30,10 +30,10 @@ export class RundownViewComponent implements OnInit, OnDestroy {
       .subscribeToRundown(rundownId, rundown => {
         this.rundown = rundown
       })
-      .then(unsubscribeFromRundown => {
-        this.rundownSubscription = unsubscribeFromRundown
+      .then(rundownSubscription => {
+        this.rundownSubscription = rundownSubscription
       })
-      .catch(error => this.logger.error(`[error] Failed subscribing to rundown with id '${rundownId}'.`, error))
+      .catch(error => this.logger.data(error).error(`[error] Failed subscribing to rundown with id '${rundownId}'.`))
   }
 
   public ngOnDestroy(): void {
