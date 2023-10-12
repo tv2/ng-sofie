@@ -25,7 +25,7 @@ import { ProducerKeyBindingService } from './abstractions/producer-key-binding.s
 import { HardcodedProducerKeyBindingService } from './services/hardcoded-producer-key-binding.service'
 import { Tv2ActionGroupService } from './services/tv2-action-group.service'
 import { KeyboardConfigurationService } from './abstractions/keyboard-configuration.service'
-import { ProducerKeyboardBindingService } from './services/producer-keyboard-binding.service'
+import { ProducerKeyboardConfigurationService } from './services/producer-keyboard-configuration.service'
 import { KeyBindingFactory } from './factories/key-binding.factory'
 
 @NgModule({
@@ -51,7 +51,7 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
     PieceGroupService,
     { provide: ProducerKeyBindingService, useClass: HardcodedProducerKeyBindingService },
     Tv2ActionGroupService,
-    { provide: KeyboardConfigurationService, useClass: ProducerKeyboardBindingService },
+    { provide: KeyboardConfigurationService, useClass: ProducerKeyboardConfigurationService },
     KeyBindingFactory,
   ],
   imports: [SharedModule, RundownViewRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule],

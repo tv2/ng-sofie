@@ -4,9 +4,10 @@ import { KeyBindingService } from '../../keyboard/abstractions/key-binding.servi
 import { KeyBinding } from '../../keyboard/models/key-binding'
 import { ProducerKeyBindingService } from '../abstractions/producer-key-binding.service'
 import { KeyboardConfigurationService } from '../abstractions/keyboard-configuration.service'
+import { Rundown } from '../../core/models/rundown'
 
 @Injectable()
-export class ProducerKeyboardBindingService implements KeyboardConfigurationService {
+export class ProducerKeyboardConfigurationService implements KeyboardConfigurationService {
   private keyBindings: KeyBinding[]
   private keystrokes: string[] = []
   private readonly keyBindingsSubject: Subject<KeyBinding[]>
@@ -23,9 +24,13 @@ export class ProducerKeyboardBindingService implements KeyboardConfigurationServ
     }
     this.keyBindingsSubject = new BehaviorSubject(this.keyBindings)
     this.keystrokesSubject = new BehaviorSubject(this.keystrokes)
-    this.producerKeyBindingService.init(rundownId)
+  }
+
+  public init(rundown: Rundown, eventTarget: EventTarget): void {
+    console.log('EVENTARGET', eventTarget)
+    this.producerKeyBindingService.init(rundown)
     this.producerKeyBindingService.subscribeToKeyBindings().subscribe(keyBindings => this.updateKeyBindings(keyBindings))
-    this.keyBindingService.subscribeToKeystrokesOn(document).subscribe(keystrokes => {
+    this.keyBindingService.subscribeToKeystrokesOn(eventTarget).subscribe(keystrokes => {
       this.keystrokes = keystrokes
       this.keystrokesSubject.next(this.keystrokes)
     })

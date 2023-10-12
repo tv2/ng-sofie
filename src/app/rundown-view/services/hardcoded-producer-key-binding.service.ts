@@ -7,14 +7,16 @@ import { Action } from '../../shared/models/action'
 import { Tv2ActionContentTypeGrouping, Tv2ActionGroupService } from './tv2-action-group.service'
 import { Injectable } from '@angular/core'
 import { Logger } from '../../core/abstractions/logger.service'
+import { ProducerKeyBindingService } from '../abstractions/producer-key-binding.service'
+import { Rundown } from '../../core/models/rundown'
 
 @Injectable()
-export class HardcodedProducerKeyBindingService {
+export class HardcodedProducerKeyBindingService implements ProducerKeyBindingService {
   private subscription?: SubscriptionLike
   private actions: Tv2Action[] = []
   private keyBindings: KeyBinding[] = []
   private readonly keyBindingsSubject: Subject<KeyBinding[]>
-  private rundownId: string = ''
+  private rundown: Rundown
   private readonly logger: Logger
 
   // TODO implement the action parser
@@ -37,10 +39,10 @@ export class HardcodedProducerKeyBindingService {
     this.keyBindingsSubject = new BehaviorSubject(this.keyBindings)
   }
 
-  public init(rundownId: string): void {
-    this.rundownId = rundownId
+  public init(rundown: Rundown): void {
+    this.rundown = rundown
     this.actionStateService
-      .subscribeToRundownActions(rundownId, this.onActionsChanged.bind(this))
+      .subscribeToRundownActions(rundown.id, this.onActionsChanged.bind(this))
       .then(subscription => (this.subscription = subscription))
       .catch(error => this.logger.data(error).error('Encountered an error while subscribing to actions.'))
   }
@@ -60,7 +62,7 @@ export class HardcodedProducerKeyBindingService {
 
   private createKeyBindings(): KeyBinding[] {
     const actionsGroupedByContentType: Tv2ActionContentTypeGrouping = this.tv2ActionGroupService.getActionsGroupedByContentType(this.actions)
-    return [...this.keyBindingFactory.createRundownKeyBindings(this.rundownId), ...this.keyBindingFactory.createCameraKeyBindingsFromActions(actionsGroupedByContentType.camera, this.rundownId)]
+    return [...this.keyBindingFactory.createRundownKeyBindings(this.rundown), ...this.keyBindingFactory.createCameraKeyBindingsFromActions(actionsGroupedByContentType.camera, this.rundown.id)]
   }
 
   public subscribeToKeyBindings(): Observable<KeyBinding[]> {
