@@ -14,6 +14,9 @@ export class RundownHeaderContextMenuComponent {
   @Input()
   public rundown?: Rundown
 
+  @Input()
+  public shortenedRundownName: string
+
   public readonly deactivatedContextMenuOptions: ContextMenuOption[] = [
     {
       label: 'Activate (On Air)',

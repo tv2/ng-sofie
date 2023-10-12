@@ -1,6 +1,6 @@
 <div [cdkContextMenuTriggerFor]="contextMenu" class="c-rundown-header" [class.c-rundown-header--active]="rundown.isActive">
     <ng-template #contextMenu>
-        <sofie-rundown-header-context-menu class="c-context-access-surface" [rundown]="rundown"> </sofie-rundown-header-context-menu>
+        <sofie-rundown-header-context-menu class="c-context-access-surface" [rundown]="rundown" [shortenedRundownName]="rundownName"> </sofie-rundown-header-context-menu>
     </ng-template>
 
     <sofie-logo></sofie-logo>

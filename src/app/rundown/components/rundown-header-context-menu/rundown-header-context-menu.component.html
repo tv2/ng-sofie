@@ -1,9 +1,9 @@
 <ng-container *ngIf="!rundown?.isActive; then deactivatedContextMenu; else activatedContextMenu"></ng-container>
 <ng-template #deactivatedContextMenu>
-    <sofie-context-menu [contextMenuOptions]="deactivatedContextMenuOptions"></sofie-context-menu>
+    <sofie-context-menu [contextMenuOptions]="deactivatedContextMenuOptions" [contextMenuHeader]="shortenedRundownName"></sofie-context-menu>
 </ng-template>
 
 <ng-template #activatedContextMenu>
-    <sofie-context-menu [contextMenuOptions]="activatedContextMenuOptions"></sofie-context-menu>
+    <sofie-context-menu [contextMenuOptions]="activatedContextMenuOptions" [contextMenuHeader]="shortenedRundownName"></sofie-context-menu>
 </ng-template>
 

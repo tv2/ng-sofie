@@ -1,8 +1,7 @@
 .context-menu {
   display: inline-flex;
   flex-direction: column;
-  min-width: 180px;
-  max-width: 280px;
+  width: 350px;
   background-color: rgb(255, 255, 255);
   border-radius: 4px;
   overflow: hidden;
@@ -36,5 +35,9 @@
 
   &:active {
     background-color: rgb(170, 170, 170);
+  }
+
+  &:focus {
+    outline: none !important;
   }
 }

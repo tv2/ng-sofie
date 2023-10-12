@@ -1,5 +1,5 @@
 <div class="context-menu" cdkMenu>
-    <span *ngIf="contextMenuHeader" class="context-menu-header" cdkMenuItem> {{contextMenuHeader}} </span>
+    <span *ngIf="contextMenuHeader" class="context-menu-header" cdkMenuGroup> {{contextMenuHeader}} </span>
     <ng-container *ngFor="let option of contextMenuOptions">
         <button class="context-menu-item" cdkMenuItem (click)=option.contextAction()> {{option.label}} </button>
     </ng-container>
