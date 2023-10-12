@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core'
 import { SegmentComponent } from './components/segment/segment.component'
 import { RundownComponent } from './components/rundown/rundown.component'
 import { SharedModule } from '../shared/shared.module'
-import { RundownRoutesModule } from './rundown-routes.module'
+import { RundownViewRoutesModule } from './rundown-view-routes.module'
 import { TimelineMarkersComponent } from './components/timeline-markers/timeline-markers.component'
 import { TimelinePlayheadComponent } from './components/timeline-playhead/timeline-playhead.component'
 import { RundownHeaderComponent } from './components/rundown-header/rundown-header.component'
@@ -20,9 +20,13 @@ import { EditorialLineComponent } from './components/editorial-line/editorial-li
 import { MatCardModule } from '@angular/material/card'
 import { ProducerShelfModule } from '../producer-shelf/producer-shelf.module'
 import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component'
+import { RundownViewComponent } from './components/rundown-view/rundown-view.component'
 import { ProducerKeyBindingService } from './abstractions/producer-key-binding.service'
 import { HardcodedProducerKeyBindingService } from './services/hardcoded-producer-key-binding.service'
 import { Tv2ActionGroupService } from './services/tv2-action-group.service'
+import { KeyboardConfigurationService } from './abstractions/keyboard-configuration.service'
+import { ProducerKeyboardBindingService } from './services/producer-keyboard-binding.service'
+import { KeyBindingFactory } from './factories/key-binding.factory'
 
 @NgModule({
   declarations: [
@@ -40,9 +44,16 @@ import { Tv2ActionGroupService } from './services/tv2-action-group.service'
     OffsetablePieceComponent,
     ScrollableTimelineComponent,
     RundownHeaderPanelComponent,
+    RundownViewComponent,
   ],
   exports: [SegmentComponent],
-  providers: [PieceGroupService, { provide: ProducerKeyBindingService, useClass: HardcodedProducerKeyBindingService }, Tv2ActionGroupService],
-  imports: [SharedModule, RundownRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule],
+  providers: [
+    PieceGroupService,
+    { provide: ProducerKeyBindingService, useClass: HardcodedProducerKeyBindingService },
+    Tv2ActionGroupService,
+    { provide: KeyboardConfigurationService, useClass: ProducerKeyboardBindingService },
+    KeyBindingFactory,
+  ],
+  imports: [SharedModule, RundownViewRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule],
 })
-export class RundownModule {}
+export class RundownViewModule {}

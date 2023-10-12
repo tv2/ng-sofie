@@ -1,12 +1,12 @@
-import { KeyboardBindingService } from '../../producer-shelf/abstractions/keyboard-binding.service'
 import { BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { Injectable } from '@angular/core'
 import { KeyBindingService } from '../../keyboard/abstractions/key-binding.service'
 import { KeyBinding } from '../../keyboard/models/key-binding'
 import { ProducerKeyBindingService } from '../abstractions/producer-key-binding.service'
+import { KeyboardConfigurationService } from '../abstractions/keyboard-configuration.service'
 
 @Injectable()
-export class ProducerKeyboardBindingService implements KeyboardBindingService {
+export class ProducerKeyboardBindingService implements KeyboardConfigurationService {
   private keyBindings: KeyBinding[]
   private keystrokes: string[] = []
   private readonly keyBindingsSubject: Subject<KeyBinding[]>
@@ -38,15 +38,15 @@ export class ProducerKeyboardBindingService implements KeyboardBindingService {
     this.keyBindingService.defineKeyBindings(this.keyBindings)
   }
 
-  public subscribeToKeybindings(callback: (keyBindings: KeyBinding[]) => void): Subscription {
-    return this.keyBindingsSubject.subscribe(callback)
+  public subscribeToKeyBindings(onKeyBindingsChanged: (keyBindings: KeyBinding[]) => void): Subscription {
+    return this.keyBindingsSubject.subscribe(onKeyBindingsChanged)
   }
 
-  public subscribeToPressedKeys(callback: (pressedKeys: string[]) => void): Subscription {
-    return this.keystrokesSubject.subscribe(callback)
+  public subscribeToKeystrokes(onKeystrokesChanged: (keystrokes: string[]) => void): Subscription {
+    return this.keystrokesSubject.subscribe(onKeystrokesChanged)
   }
 
-  public unsubscribe(): void {
+  public destroy(): void {
     this.keyBindingService.unsubscribeFromKeystrokes()
   }
 }
