@@ -4,6 +4,8 @@ import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 import { KeyBinding } from '../../../keyboard/models/key-binding'
 import { KeyBindingMatcher } from '../../../keyboard/abstractions/key-binding-matcher.service'
 
+const PRODUCER_SHELF_HEIGHT_LOCAL_STORAGE_KEY: string = 'producer-shelf-height'
+
 @Component({
   selector: 'sofie-producer-shelf',
   templateUrl: './producer-shelf.component.html',
@@ -28,6 +30,23 @@ export class ProducerShelfComponent implements OnDestroy {
     // TODO: handle closing subscriptions on teardown
     this.keyboardBindingService.subscribeToKeybindings((keyBindings: KeyBinding[]) => (this.keyBindings = keyBindings))
     this.keyboardBindingService.subscribeToPressedKeys((pressedKeys: string[]) => (this.pressedKeys = pressedKeys))
+    this.dragOffsetInPixels = this.getInitialHeight()
+  }
+
+  private getInitialHeight(): number {
+    try {
+      const storedHeight: string | null = window.localStorage.getItem(PRODUCER_SHELF_HEIGHT_LOCAL_STORAGE_KEY)
+      if (!storedHeight) {
+        return 0
+      }
+      const storedHeightInPixels: number = Number(storedHeight)
+      if (Number.isNaN(storedHeight)) {
+        return 0
+      }
+      return storedHeightInPixels
+    } catch {
+      return 0
+    }
   }
 
   public ngOnDestroy(): void {
@@ -45,6 +64,7 @@ export class ProducerShelfComponent implements OnDestroy {
       () => {
         this.dragHandleOffsetInPixels = undefined
         window.removeEventListener('mousemove', onDragMove)
+        window.localStorage.setItem(PRODUCER_SHELF_HEIGHT_LOCAL_STORAGE_KEY, this.dragOffsetInPixels.toString())
       },
       { once: true }
     )
