@@ -7,12 +7,10 @@ import { IconButton, IconButtonSize } from '../../enums/icon-button'
   styleUrls: ['./draggable-shelf.component.scss'],
 })
 export class DraggableShelfComponent implements OnInit {
-  // TODO: Rename to heightInPixels
   @HostBinding('style.flex-basis.px')
   @HostBinding('style.height.px')
-  public dragOffsetInPixels: number = 0
-  // TODO: Rename to verticalDragPositionFromDragHandleBottomInPixels
-  public dragHandleOffsetInPixels?: number
+  public heightInPixels: number = 0
+  public verticalDragPositionFromDragHandleBottomInPixels?: number
 
   protected readonly IconButton = IconButton
   protected readonly IconButtonSize = IconButtonSize
@@ -24,7 +22,7 @@ export class DraggableShelfComponent implements OnInit {
   public localStorageKeyForHeight?: string
 
   public ngOnInit(): void {
-    this.dragOffsetInPixels = this.getInitialHeight()
+    this.heightInPixels = this.getInitialHeight()
   }
 
   private getInitialHeight(): number {
@@ -48,13 +46,13 @@ export class DraggableShelfComponent implements OnInit {
   @HostListener('mousedown', ['$event'])
   public onDragStart(event: MouseEvent): void {
     const dragHandleBottomInPixels: number = this.dragHandleElement.nativeElement.getBoundingClientRect().bottom
-    this.dragHandleOffsetInPixels = event.clientY - dragHandleBottomInPixels
+    this.verticalDragPositionFromDragHandleBottomInPixels = event.clientY - dragHandleBottomInPixels
     const onDragMove: (event: MouseEvent) => void = this.onDragMove.bind(this)
     window.addEventListener('mousemove', onDragMove)
     window.addEventListener(
       'mouseup',
       () => {
-        this.dragHandleOffsetInPixels = undefined
+        this.verticalDragPositionFromDragHandleBottomInPixels = undefined
         window.removeEventListener('mousemove', onDragMove)
         this.storeHeight()
       },
@@ -66,13 +64,13 @@ export class DraggableShelfComponent implements OnInit {
     if (!this.localStorageKeyForHeight) {
       return
     }
-    window.localStorage.setItem(this.localStorageKeyForHeight, this.dragOffsetInPixels.toString())
+    window.localStorage.setItem(this.localStorageKeyForHeight, this.heightInPixels.toString())
   }
 
   public onDragMove(event: MouseEvent): void {
-    if (this.dragHandleOffsetInPixels === undefined) {
+    if (this.verticalDragPositionFromDragHandleBottomInPixels === undefined) {
       return
     }
-    this.dragOffsetInPixels = window.innerHeight - event.clientY + this.dragHandleOffsetInPixels
+    this.heightInPixels = window.innerHeight - event.clientY + this.verticalDragPositionFromDragHandleBottomInPixels
   }
 }
