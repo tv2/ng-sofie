@@ -21,6 +21,7 @@ import { SofieLogoComponent } from './components/sofie-logo/sofie-logo.component
 import { SpacerComponent } from './components/spacer/spacer.component'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { IconButtonComponent } from './components/icon-button/icon-button.component'
+import { DraggableShelfComponent } from './components/draggable-shelf/draggable-shelf.component'
 import { ActionService } from './abstractions/action.service'
 import { HttpActionService } from './services/http-action.service'
 import { ContextMenuComponent } from './components/context-menu/context-menu.component'
@@ -28,7 +29,18 @@ import { CdkMenuModule } from '@angular/cdk/menu'
 import { ActionStateService } from './services/action-state.service'
 
 @NgModule({
-  declarations: [HeaderComponent, ConfirmationDialogComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent, ContextMenuComponent],
+  declarations: [
+    HeaderComponent,
+    ConfirmationDialogComponent,
+    MinimumPipe,
+    MaximumPipe,
+    TimestampPipe,
+    SofieLogoComponent,
+    SpacerComponent,
+    IconButtonComponent,
+    DraggableShelfComponent,
+    ContextMenuComponent,
+  ],
   imports: [
     CommonModule,
     MatSnackBarModule,
@@ -43,7 +55,7 @@ import { ActionStateService } from './services/action-state.service'
     FontAwesomeModule,
     CdkMenuModule,
   ],
-  exports: [CommonModule, HeaderComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent, ContextMenuComponent],
+  exports: [CommonModule, HeaderComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent, DraggableShelfComponent, ContextMenuComponent],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
     { provide: ActionService, useClass: HttpActionService },

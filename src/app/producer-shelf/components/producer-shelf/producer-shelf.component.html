@@ -1,17 +1,12 @@
-<div [style.flex-basis.px]="dragOffsetInPixels" [style.height.px]="dragOffsetInPixels">
-    <div #dragHandle class="drag-handle">
-        <sofie-icon-button [iconButton]="IconButton.BARS" [iconButtonSize]="IconButtonSize.XL"></sofie-icon-button>
-    </div>
-    <div
-        *ngFor="let keyBinding of keyBindings" (click)="keyBinding.onMatched()"
-        class="keybinding"
-        style="padding: 12px 20px; margin: 10px;"
-        [class.keybinding--matched]="isKeyBindingMatched(keyBinding)"
-    >
-        {{ keyBinding.label }} ({{ displayKeyBinding(keyBinding) }})
-    </div>
-    <pre style="padding: 20px; color: white;">
-        Pressed:keys
-        {{ pressedKeys }}
-    </pre>
+<div
+    *ngFor="let keyBinding of keyBindings" (click)="keyBinding.onMatched()"
+    class="keybinding"
+    style="padding: 12px 20px; margin: 10px;"
+    [class.keybinding--matched]="isKeyBindingMatched(keyBinding)"
+>
+    {{ keyBinding.label }} ({{ displayKeyBinding(keyBinding) }})
 </div>
+<pre style="padding: 20px; color: white;">
+    Pressed:keys
+    {{ keystrokes }}
+</pre>

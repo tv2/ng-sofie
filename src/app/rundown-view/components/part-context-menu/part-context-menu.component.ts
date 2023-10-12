@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { Part } from '../../../core/models/part'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
 import { RundownService } from '../../../core/abstractions/rundown.service'
