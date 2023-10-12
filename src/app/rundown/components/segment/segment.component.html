@@ -7,9 +7,7 @@
     <div class="c-segment__title">
       {{ segment.name }}
     </div>
-
   </div>
-
   <div class="c-segment__controls">
     <div class="c-segment__controls-toolbar">Hello</div>
     <div class="c-segment__piece-layers">
@@ -38,5 +36,5 @@
 </div>
 
 <ng-template #contextMenu>
-  <sofie-context-menu [contextMenuOptions]="contextMenuOptions"></sofie-context-menu>
+  <sofie-segment-context-menu [segment]="this.segment" [isRundownActive]="isRundownActive"></sofie-segment-context-menu>
 </ng-template>
