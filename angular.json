@@ -4,6 +4,14 @@
   "newProjectRoot": "projects",
   "projects": {
     "ng-sofie": {
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "da": {
+            "translation": "src/locale/messages.da.xlf"
+          }
+        }
+      },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,6 +25,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "localize": true,
+            "i18nMissingTranslation": "warning",
             "outputPath": "dist/ng-sofie",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -34,6 +44,9 @@
             "scripts": []
           },
           "configurations": {
+            "da": {
+              "localize": ["da"]
+            },
             "production": {
               "tsConfig": "./tsconfig.build.json",
               "budgets": [
@@ -76,6 +89,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
+            "da": {
+              "browserTarget": "ng-sofie:build:development,da"
+            },
             "production": {
               "browserTarget": "ng-sofie:build:production"
             },
@@ -88,7 +104,9 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng-sofie:build"
+            "browserTarget": "ng-sofie:build",
+            "format": "xlf",
+            "outputPath": "src/locale"
           }
         },
         "test": {

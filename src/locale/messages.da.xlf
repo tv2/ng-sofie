@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="rundownsListHeader" datatype="html">
+        <source>Rundowns</source>
+        <target>Rundowns</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description"> </note>
+        <note priority="1" from="meaning">rundown-overview </note>
+      </trans-unit>
+      <trans-unit id="loadingRundownsDescription" datatype="html">
+        <source>Loading rundowns...</source>
+        <target>Indlæsning af rundowns...</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="description"> </note>
+        <note priority="1" from="meaning">rundown-overview </note>
+      </trans-unit>
+      <trans-unit id="rundownsListLoadingMessage" datatype="html">
+        <source>There are currently no rundowns available.</source>
+        <target>Der er i øjeblikket ingen oversigter tilgængelige.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description"> </note>
+        <note priority="1" from="meaning">rundown-overview </note>
+      </trans-unit>
+      <trans-unit id="rundownListCheckConnestionMessage" datatype="html">
+        <source>Check your connection and if you have configured the Ingest Gateway.</source>
+        <target>Tjek din forbindelse og om du har konfigureret Indtag Gatewayen.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <note priority="1" from="description"> </note>
+        <note priority="1" from="meaning">rundown-overview </note>
+      </trans-unit>
+      <trans-unit id="rundownListHeader" datatype="html">
+        <source>Rundown</source>
+        <source>Rundown</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <note priority="1" from="description"> </note>
+        <note priority="1" from="meaning">rundown-overview </note>
+      </trans-unit>
+      <trans-unit id="rundownListLastUpdatedHeader" datatype="html">
+        <source> Last updated </source>
+        <target> Senest opdateret </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <note priority="1" from="description"> </note>
+        <note priority="1" from="meaning">rundown-overview </note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
