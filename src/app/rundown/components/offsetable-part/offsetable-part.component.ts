@@ -5,7 +5,7 @@ import { PieceGroupService } from '../../services/piece-group.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { Piece } from '../../../core/models/piece'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
-import {RundownService} from "../../../core/abstractions/rundown.service";
+import { RundownService } from '../../../core/abstractions/rundown.service'
 
 const KEEP_VISIBLE_DURATION_IN_MS: number = 20_000
 
@@ -37,14 +37,10 @@ export class OffsetablePartComponent implements OnChanges {
   @Input()
   public rundownId: string
 
-  public piecesGroupedByPieceLayer: Record<PieceLayer, Piece[]> = {} as Record<PieceLayer, Piece[]>
+  @Input()
+  public isRundownActive: boolean
 
-  protected readonly contextMenuOptions: ContextMenuOption[] = [
-    {
-      label: 'Set part as next',
-      contextAction: (): void => this.setPartAsNext(),
-    },
-  ]
+  public piecesGroupedByPieceLayer: Record<PieceLayer, Piece[]> = {} as Record<PieceLayer, Piece[]>
 
   constructor(
     private readonly partEntityService: PartEntityService,

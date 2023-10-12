@@ -20,7 +20,8 @@ import { EditorialLineComponent } from './components/editorial-line/editorial-li
 import { MatCardModule } from '@angular/material/card'
 import { ProducerShelfModule } from '../producer-shelf/producer-shelf.module'
 import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component';
-import { SegmentContextMenuComponent } from './components/segment-context-menu/segment-context-menu.component'
+import { SegmentContextMenuComponent } from './components/segment-context-menu/segment-context-menu.component';
+import { PartContextMenuComponent } from './components/part-context-menu/part-context-menu.component'
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { SegmentContextMenuComponent } from './components/segment-context-menu/s
     ScrollableTimelineComponent,
     RundownHeaderPanelComponent,
     SegmentContextMenuComponent,
+    PartContextMenuComponent,
   ],
   exports: [SegmentComponent],
   providers: [PieceGroupService],

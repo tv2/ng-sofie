@@ -23,6 +23,7 @@
     class="c-segment__timeline"
     [segment]="segment"
     [pieceLayers]="pieceLayers"
+    [isRundownActive]="isRundownActive"
   ></sofie-scrollable-timeline>
 
   <ng-template #onAirTimeline>
@@ -31,6 +32,7 @@
       [time]="timeReference"
       [segment]="segment"
       [pieceLayers]="pieceLayers"
+      [isRundownActive]="isRundownActive"
     ></sofie-follow-playhead-timeline>
   </ng-template>
 </div>

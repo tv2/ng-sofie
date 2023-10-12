@@ -25,6 +25,9 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   @Input()
   public pieceLayers: PieceLayer[]
 
+  @Input()
+  public isRundownActive: boolean
+
   @Output()
   public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
 

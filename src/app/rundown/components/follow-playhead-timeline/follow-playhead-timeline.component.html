@@ -11,6 +11,7 @@
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="getPreviousPartOffsetInMs(previousPart)"
             [rundownId]="segment.rundownId"
+            [isRundownActive]="isRundownActive"
     ></sofie-offsetable-part>
 
     <sofie-offsetable-part
@@ -22,6 +23,7 @@
             [prePlayheadDurationInMs]="this.prePlayheadDurationInMs"
             [postPlayheadDurationInMs]="postPlayheadDurationInMs"
             [rundownId]="segment.rundownId"
+            [isRundownActive]="isRundownActive"
     ></sofie-offsetable-part>
 
     <sofie-offsetable-part
@@ -31,6 +33,7 @@
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="0"
             [rundownId]="segment.rundownId"
+            [isRundownActive]="isRundownActive"
     ></sofie-offsetable-part>
 
     <sofie-segment-end-indicator

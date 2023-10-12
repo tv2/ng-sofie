@@ -17,5 +17,5 @@
 <sofie-timeline-flag [label]="part.isNext ? 'NEXT' : undefined" [turnedOn]="part.isNext"></sofie-timeline-flag>
 
 <ng-template #contextMenu>
-    <sofie-context-menu [contextMenuOptions]="contextMenuOptions"></sofie-context-menu>
+    <sofie-part-context-menu [part]="part" [isRundownActive]="isRundownActive" [rundownId]="rundownId"></sofie-part-context-menu >
 </ng-template>

@@ -18,6 +18,9 @@ export class ScrollableTimelineComponent {
   @Input()
   public pieceLayers: PieceLayer[]
 
+  @Input()
+  public isRundownActive: boolean
+
   @Output()
   public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
 
