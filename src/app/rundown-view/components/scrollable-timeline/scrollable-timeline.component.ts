@@ -4,7 +4,6 @@ import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { RundownCursor } from '../../../core/models/rundown-cursor'
 import { Part } from '../../../core/models/part'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
-import { RundownService } from '../../../core/abstractions/rundown.service'
 
 @Component({
   selector: 'sofie-scrollable-timeline',
@@ -44,10 +43,7 @@ export class ScrollableTimelineComponent {
     )
   }
 
-  constructor(
-    private readonly partEntityService: PartEntityService,
-    private readonly rundownService: RundownService
-  ) {}
+  constructor(private readonly partEntityService: PartEntityService) {}
 
   public onDragMove(event: MouseEvent): void {
     event.preventDefault()

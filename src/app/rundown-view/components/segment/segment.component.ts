@@ -3,7 +3,6 @@ import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
-import { RundownService } from '../../../core/abstractions/rundown.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Logger } from '../../../core/abstractions/logger.service'
 
@@ -27,7 +26,6 @@ export class SegmentComponent implements OnChanges, OnDestroy {
 
   constructor(
     private readonly pieceLayerService: PieceLayerService,
-    private readonly rundownService: RundownService,
     private readonly partEntityService: PartEntityService,
     logger: Logger
   ) {

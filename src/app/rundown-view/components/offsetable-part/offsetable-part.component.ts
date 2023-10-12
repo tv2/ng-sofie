@@ -4,7 +4,6 @@ import { Part } from '../../../core/models/part'
 import { PieceGroupService } from '../../services/piece-group.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { Piece } from '../../../core/models/piece'
-import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 
 const KEEP_VISIBLE_DURATION_IN_MS: number = 20_000

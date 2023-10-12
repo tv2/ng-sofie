@@ -6,7 +6,6 @@ import { RundownService } from '../../../core/abstractions/rundown.service'
 @Component({
   selector: 'sofie-part-context-menu',
   templateUrl: './part-context-menu.component.html',
-  styleUrls: ['./part-context-menu.component.scss'],
 })
 export class PartContextMenuComponent {
   @Input()

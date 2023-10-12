@@ -7,7 +7,6 @@ import { Segment } from '../../../core/models/segment'
 @Component({
   selector: 'sofie-segment-context-menu',
   templateUrl: './segment-context-menu.component.html',
-  styleUrls: ['./segment-context-menu.component.scss'],
 })
 export class SegmentContextMenuComponent {
   @Input()

@@ -7,7 +7,6 @@ import { ContextMenuOption } from '../../../shared/abstractions/context-menu-opt
 @Component({
   selector: 'sofie-rundown-header-context-menu',
   templateUrl: './rundown-header-context-menu.component.html',
-  styleUrls: ['./rundown-header-context-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RundownHeaderContextMenuComponent {
