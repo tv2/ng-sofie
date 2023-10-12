@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostBinding, HostListener, ViewChild} from '@angular/core'
+import { Component, ElementRef, HostBinding, HostListener, ViewChild } from '@angular/core'
 import { IconButton, IconButtonSize } from '../../enums/icon-button'
 
 @Component({
