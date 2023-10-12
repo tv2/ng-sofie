@@ -23,6 +23,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { IconButtonComponent } from './components/icon-button/icon-button.component'
 import { ActionService } from './abstractions/action.service'
 import { HttpActionService } from './services/http-action.service'
+import { ActionStateService } from './services/action-state.service'
 
 @NgModule({
   declarations: [HeaderComponent, ConfirmationDialogComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent],
@@ -47,6 +48,7 @@ import { HttpActionService } from './services/http-action.service'
     ConnectionErrorService,
     PieceLayerService,
     TimestampPipe,
+    ActionStateService,
   ],
 })
 export class SharedModule {}

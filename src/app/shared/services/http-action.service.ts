@@ -13,16 +13,16 @@ export class HttpActionService implements ActionService {
     private readonly httpErrorService: HttpErrorService
   ) {}
 
-  public getActions(): Observable<Action[]> {
-    const url: string = this.getGetActionsUrl()
+  public getActions(rundownId: string): Observable<Action[]> {
+    const url: string = this.getGetActionsUrl(rundownId)
     return this.http.get<unknown>(url).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
       map(actions => actions as unknown as Action[]) // TODO: use parser
     )
   }
 
-  private getGetActionsUrl(): string {
-    return `${environment.apiBaseUrl}/actions`
+  private getGetActionsUrl(rundownId: string): string {
+    return `${environment.apiBaseUrl}/actions/rundowns/${rundownId}`
   }
 
   public executeAction(actionId: string, rundownId: string): Observable<void> {

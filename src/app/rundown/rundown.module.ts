@@ -20,6 +20,9 @@ import { EditorialLineComponent } from './components/editorial-line/editorial-li
 import { MatCardModule } from '@angular/material/card'
 import { ProducerShelfModule } from '../producer-shelf/producer-shelf.module'
 import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component'
+import { ProducerKeyBindingService } from './abstractions/producer-key-binding.service'
+import { HardcodedProducerKeyBindingService } from './services/hardcoded-producer-key-binding.service'
+import { Tv2ActionGroupService } from './services/tv2-action-group.service'
 
 @NgModule({
   declarations: [
@@ -39,7 +42,7 @@ import { RundownHeaderPanelComponent } from './components/rundown-header-panel/r
     RundownHeaderPanelComponent,
   ],
   exports: [SegmentComponent],
-  providers: [PieceGroupService],
+  providers: [PieceGroupService, { provide: ProducerKeyBindingService, useClass: HardcodedProducerKeyBindingService }, Tv2ActionGroupService],
   imports: [SharedModule, RundownRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule],
 })
 export class RundownModule {}

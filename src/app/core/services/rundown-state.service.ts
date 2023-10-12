@@ -47,7 +47,7 @@ export class RundownStateService implements OnDestroy {
     this.logger.debug(`Resetting rundown with id: ${rundownId}`)
     this.fetchRundown(rundownId)
       .then(rundown => rundownSubject.next(rundown))
-      .catch(error => this.logger.data(error).error(`Encountered error while fetching rundown with id '${rundownId}':`))
+      .catch(error => this.logger.data(error).error(`Encountered an error while fetching rundown with id '${rundownId}':`))
   }
 
   private subscribeToRundownEvents(): EventSubscription[] {
