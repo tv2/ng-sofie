@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #343434;
+}
+
+.c-rundown {
+  padding-top: 10px;
+  overflow: auto;
+
+  &__segments {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core'
 import { SegmentComponent } from './components/segment/segment.component'
 import { RundownComponent } from './components/rundown/rundown.component'
 import { SharedModule } from '../shared/shared.module'
-import { RundownRoutesModule } from './rundown-routes.module'
+import { RundownViewRoutesModule } from './rundown-view-routes.module'
 import { TimelineMarkersComponent } from './components/timeline-markers/timeline-markers.component'
 import { TimelinePlayheadComponent } from './components/timeline-playhead/timeline-playhead.component'
 import { RundownHeaderComponent } from './components/rundown-header/rundown-header.component'
@@ -20,7 +20,7 @@ import { EditorialLineComponent } from './components/editorial-line/editorial-li
 import { MatCardModule } from '@angular/material/card'
 import { ProducerShelfModule } from '../producer-shelf/producer-shelf.module'
 import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component'
-import { DraggableShelfComponent } from '../shared/components/draggable-shelf/draggable-shelf.component'
+import { RundownViewComponent } from './components/rundown-view/rundown-view.component'
 
 @NgModule({
   declarations: [
@@ -38,10 +38,10 @@ import { DraggableShelfComponent } from '../shared/components/draggable-shelf/dr
     OffsetablePieceComponent,
     ScrollableTimelineComponent,
     RundownHeaderPanelComponent,
-    DraggableShelfComponent,
+    RundownViewComponent,
   ],
   exports: [SegmentComponent],
   providers: [PieceGroupService],
-  imports: [SharedModule, RundownRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule],
+  imports: [SharedModule, RundownViewRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule],
 })
-export class RundownModule {}
+export class RundownViewModule {}
