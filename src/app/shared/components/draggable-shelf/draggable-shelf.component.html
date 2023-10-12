@@ -1,4 +1,4 @@
-<div #dragHandle class="drag-handle">
+<div #dragHandle class="drag-handle" (dblclick)="collapse()">
     <sofie-icon-button [iconButton]="IconButton.BARS" [iconButtonSize]="IconButtonSize.XL"></sofie-icon-button>
 </div>
 <ng-content></ng-content>

@@ -73,4 +73,9 @@ export class DraggableShelfComponent implements OnInit {
     }
     this.heightInPixels = window.innerHeight - event.clientY + this.verticalDragPositionFromDragHandleBottomInPixels
   }
+
+  protected collapse(): void {
+    this.heightInPixels = 0
+    this.storeHeight()
+  }
 }
