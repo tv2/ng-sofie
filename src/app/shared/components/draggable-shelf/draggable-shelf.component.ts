@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core'
+import {Component, ElementRef, HostBinding, HostListener, ViewChild} from '@angular/core'
 import { IconButton, IconButtonSize } from '../../enums/icon-button'
 
 @Component({
@@ -15,6 +15,16 @@ export class DraggableShelfComponent {
 
   @ViewChild('dragHandle')
   private readonly dragHandleElement: ElementRef<HTMLDivElement>
+
+  @HostBinding('style.flex-basis.px')
+  public get flexBasisInPixels(): number {
+    return this.dragOffsetInPixels
+  }
+
+  @HostBinding('style.height.px')
+  public get heightInPixels(): number {
+    return this.dragOffsetInPixels
+  }
 
   @HostListener('mousedown', ['$event'])
   public onDragStart(event: MouseEvent): void {
