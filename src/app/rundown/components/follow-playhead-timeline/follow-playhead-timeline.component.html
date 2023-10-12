@@ -10,7 +10,7 @@
             [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="getPreviousPartOffsetInMs(previousPart)"
-            (click)="setPartAsNext(previousPart)"
+            [rundownId]="segment.rundownId"
     ></sofie-offsetable-part>
 
     <sofie-offsetable-part
@@ -21,6 +21,7 @@
             [offsetDurationInMs]="getOnAirPartOffsetInMs()"
             [prePlayheadDurationInMs]="this.prePlayheadDurationInMs"
             [postPlayheadDurationInMs]="postPlayheadDurationInMs"
+            [rundownId]="segment.rundownId"
     ></sofie-offsetable-part>
 
     <sofie-offsetable-part
@@ -29,7 +30,7 @@
             [pieceLayers]="pieceLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="0"
-            (click)="setPartAsNext(futurePart)"
+            [rundownId]="segment.rundownId"
     ></sofie-offsetable-part>
 
     <sofie-segment-end-indicator

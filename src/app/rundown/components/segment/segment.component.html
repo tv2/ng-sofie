@@ -1,5 +1,5 @@
 <div class="c-segment" [class.c-segment--on-air]="segment.isOnAir" [class.c-segment--set-as-next]="segment.isNext">
-  <div class="c-segment__header" (click)="setFirstValidPartAsNext()">
+  <div [cdkContextMenuTriggerFor]="contextMenu" class="c-segment__header">
     <div class="c-segment__header-toolbar">
       <span>123</span>
       <span class="c-segment__budget-duration">{{segment.budgetDuration ?? 0 | timestamp }}</span>
@@ -36,3 +36,7 @@
     ></sofie-follow-playhead-timeline>
   </ng-template>
 </div>
+
+<ng-template #contextMenu>
+  <sofie-context-menu [contextMenuOptions]="contextMenuOptions"></sofie-context-menu>
+</ng-template>

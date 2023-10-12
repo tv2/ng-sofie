@@ -46,10 +46,6 @@ export class ScrollableTimelineComponent {
     private readonly rundownService: RundownService
   ) {}
 
-  public setPartAsNext(part: Part): void {
-    this.rundownService.setNext(this.segment.rundownId, this.segment.id, part.id).subscribe()
-  }
-
   public onDragMove(event: MouseEvent): void {
     event.preventDefault()
     if (!this.horizontalDragStartPoint) {

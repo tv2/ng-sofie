@@ -4,6 +4,8 @@ import { Part } from '../../../core/models/part'
 import { PieceGroupService } from '../../services/piece-group.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { Piece } from '../../../core/models/piece'
+import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
+import {RundownService} from "../../../core/abstractions/rundown.service";
 
 const KEEP_VISIBLE_DURATION_IN_MS: number = 20_000
 
@@ -32,11 +34,22 @@ export class OffsetablePartComponent implements OnChanges {
   @Input()
   public postPlayheadDurationInMs: number = 0
 
+  @Input()
+  public rundownId: string
+
   public piecesGroupedByPieceLayer: Record<PieceLayer, Piece[]> = {} as Record<PieceLayer, Piece[]>
+
+  protected readonly contextMenuOptions: ContextMenuOption[] = [
+    {
+      label: 'Set part as next',
+      contextAction: (): void => this.setPartAsNext(),
+    },
+  ]
 
   constructor(
     private readonly partEntityService: PartEntityService,
-    private readonly pieceGroupService: PieceGroupService
+    private readonly pieceGroupService: PieceGroupService,
+    private readonly rundownService: RundownService
   ) {}
 
   @HostBinding('style.width.px')
@@ -80,6 +93,10 @@ export class OffsetablePartComponent implements OnChanges {
     }
     const pieceEndTimeInMs: number = piece.start + piece.duration
     return piece.start - KEEP_VISIBLE_DURATION_IN_MS <= partDurationInMsAtEndOfPartViewport && pieceEndTimeInMs + KEEP_VISIBLE_DURATION_IN_MS >= this.offsetDurationInMs
+  }
+
+  public setPartAsNext(): void {
+    this.rundownService.setNext(this.rundownId, this.part.segmentId, this.part.id).subscribe()
   }
 
   public trackPiece(_: number, piece: Piece): string {

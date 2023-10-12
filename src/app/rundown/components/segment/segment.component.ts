@@ -6,6 +6,7 @@ import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
 
 @Component({
   selector: 'sofie-segment',
@@ -21,6 +22,13 @@ export class SegmentComponent implements OnChanges, OnDestroy {
 
   private animationFrameId?: number
   private readonly logger: Logger
+
+  public readonly contextMenuOptions: ContextMenuOption[] = [
+    {
+      label: 'Set segment as Next',
+      contextAction: (): void => this.setFirstValidPartAsNext(),
+    },
+  ]
 
   constructor(
     private readonly pieceLayerService: PieceLayerService,
