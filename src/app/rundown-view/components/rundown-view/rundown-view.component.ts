@@ -31,17 +31,13 @@ export class RundownViewComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const rundownId: string | null = this.route.snapshot.paramMap.get('rundownId')
     if (!rundownId) {
-      this.logger.error("[error]: No rundownId found. Can't fetch Rundown")
+      this.logger.error("No rundownId found. Can't fetch Rundown")
       return
     }
     this.rundownStateService
-      .subscribeToRundown(rundownId, rundown => {
-        this.rundown = rundown
-      })
-      .then(rundownSubscription => {
-        this.rundownSubscription = rundownSubscription
-      })
-      .catch(error => this.logger.data(error).error(`[error] Failed subscribing to rundown with id '${rundownId}'.`))
+      .subscribeToRundown(rundownId, rundown => (this.rundown = rundown))
+      .then(rundownSubscription => (this.rundownSubscription = rundownSubscription))
+      .catch(error => this.logger.data(error).error(`Failed subscribing to rundown with id '${rundownId}'.`))
 
     this.keyboardConfigurationService.subscribeToKeystrokes(keystrokes => (this.keystrokes = keystrokes))
     this.keyboardConfigurationService.subscribeToKeyBindings(keyBindings => (this.keyBindings = keyBindings))
