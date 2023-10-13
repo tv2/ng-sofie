@@ -36,7 +36,7 @@ export class Tv2KeyBindingService implements KeyBindingService {
       this.deregisterKeystroke(keyCode)
       return
     }
-    this.clearKeystrokes()
+    this.deregisterKeystroke(keyCode)
     matchedKeyBindings.forEach(keyBinding => keyBinding.onMatched())
   }
 
@@ -59,7 +59,6 @@ export class Tv2KeyBindingService implements KeyBindingService {
     if (matchedKeyBindings.length === 0) {
       return
     }
-    this.clearKeystrokes()
     matchedKeyBindings.forEach(keyBinding => keyBinding.onMatched())
   }
 

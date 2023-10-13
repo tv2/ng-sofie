@@ -6,13 +6,16 @@ import { PartActionType } from '../../shared/models/action-type'
 import { RundownService } from '../../core/abstractions/rundown.service'
 import { Rundown } from '../../core/models/rundown'
 import { DialogService } from '../../shared/services/dialog.service'
+import { RundownNavigationService } from '../../shared/services/rundown-navigation-service'
+import {RundownCursor} from "../../core/models/rundown-cursor";
 
 @Injectable()
 export class KeyBindingFactory {
   constructor(
     private readonly actionService: ActionService,
     private readonly rundownService: RundownService,
-    private readonly dialogService: DialogService
+    private readonly dialogService: DialogService,
+    private readonly rundownNavigationService: RundownNavigationService
   ) {}
 
   public createCameraKeyBindingsFromActions(cameraActions: Tv2CameraAction[], rundownId: string): KeyBinding[] {
@@ -60,6 +63,10 @@ export class KeyBindingFactory {
         this.createRundownKeyBinding('Take', ['Enter'], () => this.takeNext(rundown)),
         this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
         this.createRundownKeyBinding('Deactivate Rundown', ['ShiftLeft', 'Backquote'], () => this.deactivateRundown(rundown)),
+        this.createRundownKeyBinding('Set Segment Above as Next', ['ShiftLeft', 'ArrowUp'], () => this.setSegmentAboveNextAsNext(rundown)),
+        this.createRundownKeyBinding('Set Segment Below as Next', ['ShiftLeft', 'ArrowDown'], () => this.setSegmentBelowNextAsNext(rundown)),
+        this.createRundownKeyBinding('Set Earlier Part as Next', ['ShiftLeft', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
+        this.createRundownKeyBinding('Set Later Part as Next', ['ShiftLeft', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
       ]
     }
     return [
@@ -91,6 +98,38 @@ export class KeyBindingFactory {
       return
     }
     this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to deactivate the Rundown?`, 'Deactivate', () => this.rundownService.deactivate(rundown.id).subscribe())
+  }
+
+  private setSegmentAboveNextAsNext(rundown: Rundown): void {
+    if (!rundown.isActive) {
+      return
+    }
+    const cursor: RundownCursor = this.rundownNavigationService.getCursorForSegmentAboveNext(rundown)
+    this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+  }
+
+  private setSegmentBelowNextAsNext(rundown: Rundown): void {
+    if (!rundown.isActive) {
+      return
+    }
+    const cursor: RundownCursor = this.rundownNavigationService.getCursorForSegmentBelowNext(rundown)
+    this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+  }
+
+  private setEarlierPartAsNext(rundown: Rundown): void {
+    if (!rundown.isActive) {
+      return
+    }
+    const cursor: RundownCursor = this.rundownNavigationService.getCursorForEarlierPart(rundown)
+    this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+  }
+
+  private setLaterPartAsNext(rundown: Rundown): void {
+    if (!rundown.isActive) {
+      return
+    }
+    const cursor: RundownCursor = this.rundownNavigationService.getCursorForLaterPart(rundown)
+    this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
   }
 
   public createRundownKeyBinding(label: string, keys: [string, ...string[]], onMatched: () => void): KeyBinding {

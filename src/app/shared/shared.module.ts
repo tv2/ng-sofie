@@ -27,6 +27,7 @@ import { HttpActionService } from './services/http-action.service'
 import { ContextMenuComponent } from './components/context-menu/context-menu.component'
 import { CdkMenuModule } from '@angular/cdk/menu'
 import { ActionStateService } from './services/action-state.service'
+import { RundownNavigationService } from './services/rundown-navigation-service'
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { ActionStateService } from './services/action-state.service'
     PieceLayerService,
     TimestampPipe,
     ActionStateService,
+    RundownNavigationService,
   ],
 })
 export class SharedModule {}
