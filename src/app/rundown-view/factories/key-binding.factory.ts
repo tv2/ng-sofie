@@ -104,7 +104,7 @@ export class KeyBindingFactory {
     if (!rundown.isActive) {
       return
     }
-    const cursor: RundownCursor = this.rundownNavigationService.getCursorForSegmentAboveNext(rundown)
+    const cursor: RundownCursor = this.rundownNavigationService.getCursorForSegmentBeforeNext(rundown)
     this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
   }
 
@@ -112,7 +112,7 @@ export class KeyBindingFactory {
     if (!rundown.isActive) {
       return
     }
-    const cursor: RundownCursor = this.rundownNavigationService.getCursorForSegmentBelowNext(rundown)
+    const cursor: RundownCursor = this.rundownNavigationService.getCursorForSegmentAfterNext(rundown)
     this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
   }
 

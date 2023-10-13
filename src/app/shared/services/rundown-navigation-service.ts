@@ -6,7 +6,7 @@ import { Part } from '../../core/models/part'
 /* TODO: Do we want it to go up/down if you go far enough left or right?
     Going too far left should put you at the last Part in the segment above */
 export class RundownNavigationService {
-  public getCursorForSegmentAboveNext(rundown: Rundown): RundownCursor {
+  public getCursorForSegmentBeforeNext(rundown: Rundown): RundownCursor {
     const currentSegmentWithNext: Segment | undefined = rundown.segments.find(segment => segment.isNext)
     if (!currentSegmentWithNext) {
       return this.getFirstSegmentCursor(rundown)
@@ -18,21 +18,21 @@ export class RundownNavigationService {
       return { segmentId: currentSegmentWithNext.id, partId: currentNextPart ? currentNextPart.id : currentSegmentWithNext.parts[0].id }
     }
 
-    const firstValidPartAboveNext: Part = this.getFirstValidPartAbove(rundown, rundown.segments[segmentAboveIndex])
+    const firstValidPartAboveNext: Part = this.getFirstValidPartInSegmentBefore(rundown, rundown.segments[segmentAboveIndex])
     return { segmentId: firstValidPartAboveNext.segmentId, partId: firstValidPartAboveNext.id }
   }
 
   private getFirstSegmentCursor(rundown: Rundown): RundownCursor {
     const firstSegmentInRundown: Segment = rundown.segments[0]
-    const firstValidPart: Part = this.getFirstValidPartBelow(rundown, firstSegmentInRundown)
+    const firstValidPart: Part = this.getFirstValidPartInSegmentAfter(rundown, firstSegmentInRundown)
     return { segmentId: firstSegmentInRundown.id, partId: firstValidPart.id }
   }
 
-  private getFirstValidPartAbove(rundown: Rundown, segment: Segment): Part {
+  private getFirstValidPartInSegmentBefore(rundown: Rundown, segment: Segment): Part {
     const firstValidPart: Part | undefined = segment.parts.find(part => this.isValidPart(part))
     if (!firstValidPart) {
       const nextSegmentIndex = rundown.segments.indexOf(segment) - 1
-      return this.getFirstValidPartAbove(rundown, rundown.segments[nextSegmentIndex])
+      return this.getFirstValidPartInSegmentBefore(rundown, rundown.segments[nextSegmentIndex])
     }
     return firstValidPart
   }
@@ -41,7 +41,7 @@ export class RundownNavigationService {
     return part.pieces.length !== 0
   }
 
-  public getCursorForSegmentBelowNext(rundown: Rundown): RundownCursor {
+  public getCursorForSegmentAfterNext(rundown: Rundown): RundownCursor {
     const currentSegmentWithNext: Segment | undefined = rundown.segments.find(segment => segment.isNext)
     if (!currentSegmentWithNext) {
       return this.getFirstSegmentCursor(rundown)
@@ -51,15 +51,15 @@ export class RundownNavigationService {
       const currentNextPart: Part | undefined = currentSegmentWithNext.parts.find(part => part.isNext)
       return { segmentId: currentSegmentWithNext.id, partId: currentNextPart ? currentNextPart.id : currentSegmentWithNext.parts[0].id }
     }
-    const firstValidPartBelowNext: Part = this.getFirstValidPartBelow(rundown, rundown.segments[segmentBelowIndex])
+    const firstValidPartBelowNext: Part = this.getFirstValidPartInSegmentAfter(rundown, rundown.segments[segmentBelowIndex])
     return { segmentId: firstValidPartBelowNext.segmentId, partId: firstValidPartBelowNext.id }
   }
 
-  private getFirstValidPartBelow(rundown: Rundown, segment: Segment): Part {
+  private getFirstValidPartInSegmentAfter(rundown: Rundown, segment: Segment): Part {
     const firstValidPart: Part | undefined = segment.parts.find(part => this.isValidPart(part))
     if (!firstValidPart) {
       const nextSegmentIndex = rundown.segments.indexOf(segment) + 1
-      return this.getFirstValidPartBelow(rundown, rundown.segments[nextSegmentIndex])
+      return this.getFirstValidPartInSegmentAfter(rundown, rundown.segments[nextSegmentIndex])
     }
     return firstValidPart
   }
@@ -69,11 +69,11 @@ export class RundownNavigationService {
     if (!currentSegmentWithNext) {
       return this.getFirstSegmentCursor(rundown)
     }
-    const firstValidPartLeftOfNext: Part = this.getFirstValidPartLeft(rundown, currentSegmentWithNext)
+    const firstValidPartLeftOfNext: Part = this.getFirstValidEarlierPart(rundown, currentSegmentWithNext)
     return { segmentId: firstValidPartLeftOfNext.segmentId, partId: firstValidPartLeftOfNext.id }
   }
 
-  private getFirstValidPartLeft(rundown: Rundown, segment: Segment): Part {
+  private getFirstValidEarlierPart(rundown: Rundown, segment: Segment): Part {
     const nextPart: Part | undefined = segment.parts.find(part => part.isNext)
     if (!nextPart) {
       return {} as Part
@@ -82,7 +82,7 @@ export class RundownNavigationService {
     const firstValidPartLeftIndex: number = segment.parts.indexOf(nextPart) - 1
     if (firstValidPartLeftIndex < 0) {
       const segmentBeforeIndex: number = rundown.segments.indexOf(segment) - 1
-      return this.getFirstValidPartAbove(rundown, rundown.segments[segmentBeforeIndex])
+      return this.getFirstValidPartInSegmentBefore(rundown, rundown.segments[segmentBeforeIndex])
     }
 
     return segment.parts[firstValidPartLeftIndex]
@@ -93,11 +93,11 @@ export class RundownNavigationService {
     if (!currentSegmentWithNext) {
       return this.getFirstSegmentCursor(rundown)
     }
-    const firstValidPartRightOfNext: Part = this.getFirstValidPartRight(rundown, currentSegmentWithNext)
+    const firstValidPartRightOfNext: Part = this.getFirstValidLaterPart(rundown, currentSegmentWithNext)
     return { segmentId: firstValidPartRightOfNext.segmentId, partId: firstValidPartRightOfNext.id }
   }
 
-  private getFirstValidPartRight(rundown: Rundown, segment: Segment): Part {
+  private getFirstValidLaterPart(rundown: Rundown, segment: Segment): Part {
     const nextPart: Part | undefined = segment.parts.find(part => part.isNext)
     if (!nextPart) {
       return {} as Part
@@ -106,7 +106,7 @@ export class RundownNavigationService {
     const firstValidPartRightIndex: number = segment.parts.indexOf(nextPart) + 1
     if (firstValidPartRightIndex >= segment.parts.length) {
       const segmentBeforeIndex: number = rundown.segments.indexOf(segment) + 1
-      return this.getFirstValidPartBelow(rundown, rundown.segments[segmentBeforeIndex])
+      return this.getFirstValidPartInSegmentAfter(rundown, rundown.segments[segmentBeforeIndex])
     }
 
     return segment.parts[firstValidPartRightIndex]
