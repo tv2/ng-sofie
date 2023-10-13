@@ -59,7 +59,7 @@ export class KeyBindingFactory {
       return [
         this.createRundownKeyBinding('Take', ['Enter'], () => this.takeNext(rundown)),
         this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
-        this.createRundownKeyBinding('Deactivate Rundown', ['ShiftLeft', 'Backquote'], () => this.deactivateRundown(rundown)),
+        this.createRundownKeyBinding('Deactivate Rundown', ['ControlLeft', 'ShiftLeft', 'Backquote'], () => this.deactivateRundown(rundown)),
       ]
     }
     return [

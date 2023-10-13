@@ -18,15 +18,15 @@ export class Tv2KeyBindingService implements KeyBindingService {
   public subscribeToKeystrokesOn(eventAreaNode: Node): Observable<string[]> {
     this.unsubscribeFromKeystrokes()
     this.elementSubscriptions = [
-      fromEvent(document, 'keyup').subscribe(event => this.registerKeyRelease(event as KeyboardEvent, eventAreaNode)),
-      fromEvent(document, 'keydown').subscribe(event => this.registerKeyPress(event as KeyboardEvent, eventAreaNode)),
-      fromEvent(document, 'blur').subscribe(() => this.clearKeystrokes()),
+      fromEvent(window, 'keyup').subscribe(event => this.registerKeyRelease(event as KeyboardEvent, eventAreaNode)),
+      fromEvent(window, 'keydown').subscribe(event => this.registerKeyPress(event as KeyboardEvent, eventAreaNode)),
+      fromEvent(window, 'blur').subscribe(() => this.clearKeystrokes()),
     ]
     return this.keystrokesSubject.asObservable()
   }
 
   private registerKeyRelease(event: KeyboardEvent, eventAreaNode: Node): void {
-    if (!this.isTargetingEvenArea(event, eventAreaNode)) {
+    if (!this.isTargetingEventAreaNode(event, eventAreaNode)) {
       return
     }
     const keyCode: string = event.code
@@ -35,16 +35,15 @@ export class Tv2KeyBindingService implements KeyBindingService {
       event.preventDefault()
     }
     const matchedKeyBindings: KeyBinding[] = this.keyBindings.filter(keyBinding => this.keyBindingMatcher.isMatching(keyBinding, this.keystrokes, true))
+    this.deregisterKeystroke(keyCode)
     if (matchedKeyBindings.length === 0) {
-      this.deregisterKeystroke(keyCode)
       return
     }
-    this.clearKeystrokes()
     matchedKeyBindings.forEach(keyBinding => keyBinding.onMatched())
   }
 
-  private isTargetingEvenArea(event: KeyboardEvent, eventAreaNode: Node): boolean {
-    return eventAreaNode.contains(event.target as Node | null)
+  private isTargetingEventAreaNode(event: KeyboardEvent, eventAreaNode: Node): boolean {
+    return eventAreaNode.contains(event.target as Node | null) || event.target === document.body
   }
 
   private deregisterKeystroke(keystrokeToUnregister: string): void {
@@ -53,7 +52,7 @@ export class Tv2KeyBindingService implements KeyBindingService {
   }
 
   private registerKeyPress(event: KeyboardEvent, eventAreaNode: Node): void {
-    if (!this.isTargetingEvenArea(event, eventAreaNode)) {
+    if (!this.isTargetingEventAreaNode(event, eventAreaNode)) {
       return
     }
     if (event.repeat) {
@@ -69,7 +68,6 @@ export class Tv2KeyBindingService implements KeyBindingService {
     if (matchedKeyBindings.length === 0) {
       return
     }
-    this.clearKeystrokes()
     matchedKeyBindings.forEach(keyBinding => keyBinding.onMatched())
   }
 
