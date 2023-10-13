@@ -62,7 +62,7 @@ export class KeyBindingFactory {
       return [
         this.createRundownKeyBinding('Take', ['Enter'], () => this.takeNext(rundown)),
         this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
-          this.createRundownKeyBinding('Deactivate Rundown', ['ControlLeft', 'ShiftLeft', 'Backquote'], () => this.deactivateRundown(rundown)),
+        this.createRundownKeyBinding('Deactivate Rundown', ['ControlLeft', 'ShiftLeft', 'Backquote'], () => this.deactivateRundown(rundown)),
         this.createRundownKeyBinding('Set Segment Above as Next', ['ShiftLeft', 'ArrowUp'], () => this.setSegmentAboveNextAsNext(rundown)),
         this.createRundownKeyBinding('Set Segment Below as Next', ['ShiftLeft', 'ArrowDown'], () => this.setSegmentBelowNextAsNext(rundown)),
         this.createRundownKeyBinding('Set Earlier Part as Next', ['ShiftLeft', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
