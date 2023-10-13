@@ -17,7 +17,11 @@ export class ProducerShelfComponent {
   constructor(private readonly keyBindingMatcher: KeyBindingMatcher) {}
 
   public displayKeyBinding(keyBinding: KeyBinding): string {
-    return keyBinding.keys.join('+')
+    return keyBinding.keys.map(key => this.displayKey(key)).join(' + ')
+  }
+
+  private displayKey(key: string): string {
+    return key.replace('Digit', '').replace('Key', '').replace('Left', '').replace('Right', '')
   }
 
   public isKeyBindingMatched(keyBinding: KeyBinding): boolean {
