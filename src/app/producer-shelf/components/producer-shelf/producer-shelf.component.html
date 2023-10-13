@@ -3,9 +3,10 @@
     class="keybinding"
     [class.keybinding--matched]="isKeyBindingMatched(keyBinding)"
 >
-    {{ keyBinding.label }} ({{ displayKeyBinding(keyBinding) }})
+    <span class="keybinding-label">{{ keyBinding.label }}</span>
+    <span class="keybinding-keys">{{ displayKeyBinding(keyBinding) }}</span>
 </div>
-<pre style="padding: 20px; color: white;">
+<pre class="keystrokes">
     Pressed:keys
     {{ keystrokes }}
 </pre>
