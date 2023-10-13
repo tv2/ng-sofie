@@ -6,7 +6,7 @@ import { ProducerKeyBindingService } from '../abstractions/producer-key-binding.
 import { KeyboardConfigurationService } from '../abstractions/keyboard-configuration.service'
 
 @Injectable()
-export class ProducerKeyboardBindingService implements KeyboardConfigurationService {
+export class ProducerKeyboardConfigurationService implements KeyboardConfigurationService {
   private keyBindings: KeyBinding[]
   private keystrokes: string[] = []
   private readonly keyBindingsSubject: Subject<KeyBinding[]>
@@ -16,19 +16,14 @@ export class ProducerKeyboardBindingService implements KeyboardConfigurationServ
     private readonly keyBindingService: KeyBindingService,
     private readonly producerKeyBindingService: ProducerKeyBindingService
   ) {
-    // TODO: Don't take it directly from URL
-    const { rundownId } = window.location.pathname.match(/rundowns\/(?<rundownId>.+)\/?/)?.groups ?? {}
-    if (!rundownId) {
-      throw new Error('Failed getting rundown id.')
-    }
     this.keyBindingsSubject = new BehaviorSubject(this.keyBindings)
     this.keystrokesSubject = new BehaviorSubject(this.keystrokes)
+  }
+
+  public init(rundownId: string, eventTarget: EventTarget): void {
     this.producerKeyBindingService.init(rundownId)
-    this.producerKeyBindingService.subscribeToKeyBindings().subscribe(keyBindings => this.updateKeyBindings(keyBindings))
-    this.keyBindingService.subscribeToKeystrokesOn(document).subscribe(keystrokes => {
-      this.keystrokes = keystrokes
-      this.keystrokesSubject.next(this.keystrokes)
-    })
+    this.producerKeyBindingService.subscribeToKeyBindings().subscribe(this.updateKeyBindings.bind(this))
+    this.keyBindingService.subscribeToKeystrokesOn(eventTarget).subscribe(this.updateKeystrokes.bind(this))
     this.keyBindingService.defineKeyBindings(this.keyBindings)
   }
 
@@ -36,6 +31,11 @@ export class ProducerKeyboardBindingService implements KeyboardConfigurationServ
     this.keyBindings = keyBindings
     this.keyBindingsSubject.next(this.keyBindings)
     this.keyBindingService.defineKeyBindings(this.keyBindings)
+  }
+
+  private updateKeystrokes(keystrokes: string[]): void {
+    this.keystrokes = keystrokes
+    this.keystrokesSubject.next(this.keystrokes)
   }
 
   public subscribeToKeyBindings(onKeyBindingsChanged: (keyBindings: KeyBinding[]) => void): Subscription {

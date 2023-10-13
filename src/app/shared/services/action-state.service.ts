@@ -5,20 +5,25 @@ import { ManagedSubscription } from '../../core/services/managed-subscription.se
 import { Injectable } from '@angular/core'
 import { ConnectionStatusObserver } from '../../core/services/connection-status-observer.service'
 import { Logger } from '../../core/abstractions/logger.service'
+import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
+import { RundownStateService } from '../../core/services/rundown-state.service'
+import { Rundown } from '../../core/models/rundown'
 
 @Injectable()
 export class ActionStateService {
   private readonly actionsSubjects: Map<string, BehaviorSubject<Action[]>> = new Map()
-  private readonly subscriptions: SubscriptionLike[]
+  private readonly rundownSubscriptions: Map<string, SubscriptionLike> = new Map()
+  private readonly connectionSubscription: EventSubscription
   private readonly logger: Logger
 
   constructor(
     private readonly connectionStatusObserver: ConnectionStatusObserver,
+    private readonly rundownStateService: RundownStateService,
     private readonly actionService: ActionService,
     logger: Logger
   ) {
     this.logger = logger.tag('ActionStateService')
-    this.connectionStatusObserver.subscribeToReconnect(this.onReconnected.bind(this))
+    this.connectionSubscription = this.connectionStatusObserver.subscribeToReconnect(this.onReconnected.bind(this))
   }
 
   private onReconnected(): void {
@@ -44,6 +49,8 @@ export class ActionStateService {
       return actionsSubject
     }
     const cleanActionsSubject: BehaviorSubject<Action[]> = await this.getCleanActionsSubject(rundownId)
+    const rundownSubscription: SubscriptionLike = await this.rundownStateService.subscribeToRundown(rundownId, this.onRundownChanged.bind(this))
+    this.rundownSubscriptions.set(rundownId, rundownSubscription)
     this.actionsSubjects.set(rundownId, cleanActionsSubject)
     return cleanActionsSubject
   }
@@ -57,6 +64,14 @@ export class ActionStateService {
     return lastValueFrom(this.actionService.getActions(rundownId))
   }
 
+  private onRundownChanged(rundown: Rundown): void {
+    const actionSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundown.id)
+    if (!actionSubject) {
+      return
+    }
+    this.resetActionsSubject(actionSubject, rundown.id)
+  }
+
   private unsubscribeFromRundownActions(rundownId: string): void {
     const actionsSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundownId)
     if (!actionsSubject) {
@@ -67,10 +82,12 @@ export class ActionStateService {
     }
     actionsSubject.unsubscribe()
     this.actionsSubjects.delete(rundownId)
+    this.rundownSubscriptions.delete(rundownId)
   }
 
   public destroy(): void {
     this.actionsSubjects.forEach(subject => subject.complete())
-    this.subscriptions.forEach(subscription => subscription.unsubscribe())
+    this.rundownSubscriptions.forEach(subscription => subscription.unsubscribe())
+    this.connectionSubscription.unsubscribe()
   }
 }

@@ -4,12 +4,15 @@ import { ActionService } from '../../shared/abstractions/action.service'
 import { Tv2CameraAction } from '../../shared/models/tv2-action'
 import { PartActionType } from '../../shared/models/action-type'
 import { RundownService } from '../../core/abstractions/rundown.service'
+import { Rundown } from '../../core/models/rundown'
+import { DialogService } from '../../shared/services/dialog.service'
 
 @Injectable()
 export class KeyBindingFactory {
   constructor(
     private readonly actionService: ActionService,
-    private readonly rundownService: RundownService
+    private readonly rundownService: RundownService,
+    private readonly dialogService: DialogService
   ) {}
 
   public createCameraKeyBindingsFromActions(cameraActions: Tv2CameraAction[], rundownId: string): KeyBinding[] {
@@ -51,13 +54,43 @@ export class KeyBindingFactory {
     }
   }
 
-  public createRundownKeyBindings(rundownId: string): KeyBinding[] {
+  public createRundownKeyBindings(rundown: Rundown): KeyBinding[] {
+    if (rundown.isActive) {
+      return [
+        this.createRundownKeyBinding('Take', ['Enter'], () => this.takeNext(rundown)),
+        this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
+        this.createRundownKeyBinding('Deactivate Rundown', ['ShiftLeft', 'Backquote'], () => this.deactivateRundown(rundown)),
+      ]
+    }
     return [
-      this.createRundownKeyBinding('Take', ['Enter'], () => this.rundownService.takeNext(rundownId).subscribe()),
-      this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.rundownService.reset(rundownId).subscribe()),
-      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.rundownService.activate(rundownId).subscribe()),
-      this.createRundownKeyBinding('Activate Rundown', ['ShiftLeft', 'Backquote'], () => this.rundownService.deactivate(rundownId).subscribe()),
+      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.activateRundown(rundown)),
+      this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
     ]
+  }
+
+  private takeNext(rundown: Rundown): void {
+    if (!rundown.isActive) {
+      return
+    }
+    this.rundownService.takeNext(rundown.id).subscribe()
+  }
+
+  private resetRundown(rundown: Rundown): void {
+    this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to reset the Rundown?`, 'Reset', () => this.rundownService.reset(rundown.id).subscribe())
+  }
+
+  private activateRundown(rundown: Rundown): void {
+    if (rundown.isActive) {
+      return
+    }
+    this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to activate the Rundown?`, 'Activate', () => this.rundownService.activate(rundown.id).subscribe())
+  }
+
+  private deactivateRundown(rundown: Rundown): void {
+    if (!rundown.isActive) {
+      return
+    }
+    this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to deactivate the Rundown?`, 'Deactivate', () => this.rundownService.deactivate(rundown.id).subscribe())
   }
 
   public createRundownKeyBinding(label: string, keys: [string, ...string[]], onMatched: () => void): KeyBinding {
@@ -66,9 +99,9 @@ export class KeyBindingFactory {
       label,
       onMatched,
       shouldMatchOnKeyRelease: true,
-      shouldPreventDefaultBehaviourForPartialMatches: false,
-      shouldPreventDefaultBehaviourOnKeyPress: false,
-      useExclusiveMatching: false,
+      shouldPreventDefaultBehaviourForPartialMatches: true,
+      shouldPreventDefaultBehaviourOnKeyPress: true,
+      useExclusiveMatching: true,
       useOrderedMatching: false,
     }
   }
