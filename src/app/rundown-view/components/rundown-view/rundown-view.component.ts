@@ -58,5 +58,6 @@ export class RundownViewComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.rundownSubscription?.unsubscribe()
+    this.keyboardConfigurationService.destroy()
   }
 }
