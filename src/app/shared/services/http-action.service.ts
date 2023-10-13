@@ -5,19 +5,21 @@ import { environment } from '../../../environments/environment'
 import { HttpErrorService } from '../../core/services/http-error.service'
 import { Injectable } from '@angular/core'
 import { Action } from '../models/action'
+import { ActionParser } from '../abstractions/action-parser.service'
 
 @Injectable()
 export class HttpActionService implements ActionService {
   constructor(
     private readonly http: HttpClient,
-    private readonly httpErrorService: HttpErrorService
+    private readonly httpErrorService: HttpErrorService,
+    private readonly actionParser: ActionParser
   ) {}
 
   public getActions(rundownId: string): Observable<Action[]> {
     const url: string = this.getGetActionsUrl(rundownId)
     return this.http.get<unknown>(url).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
-      map(actions => actions as unknown as Action[]) // TODO: use parser
+      map(actions => this.actionParser.parseActions(actions))
     )
   }
 

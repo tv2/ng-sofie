@@ -5,7 +5,7 @@ export interface Action {
   type: ActionType
   name: string
   description?: string
-  metadata: unknown
+  metadata?: unknown
 }
 
 export interface PieceAction extends Action {

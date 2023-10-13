@@ -25,6 +25,10 @@ import { DraggableShelfComponent } from './components/draggable-shelf/draggable-
 import { ActionService } from './abstractions/action.service'
 import { HttpActionService } from './services/http-action.service'
 import { ActionStateService } from './services/action-state.service'
+import { ActionParser } from './abstractions/action-parser.service'
+import { ZodActionParser } from './services/zod-action-parser.service'
+import { Tv2ActionParser } from './abstractions/tv2-action-parser.service'
+import { ZodTv2ActionParser } from './services/zod-tv2-action-parser.service'
 
 @NgModule({
   declarations: [HeaderComponent, ConfirmationDialogComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent, DraggableShelfComponent],
@@ -45,6 +49,8 @@ import { ActionStateService } from './services/action-state.service'
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
     { provide: ActionService, useClass: HttpActionService },
+    { provide: ActionParser, useClass: ZodActionParser },
+    { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
     DialogService,
     ConnectionErrorService,
     PieceLayerService,
