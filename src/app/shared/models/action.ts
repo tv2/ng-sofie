@@ -1,4 +1,4 @@
-import { ActionType } from './action-type'
+import { ActionType, PartActionType, PieceActionType } from './action-type'
 
 export interface Action {
   id: string
@@ -6,4 +6,12 @@ export interface Action {
   name: string
   description?: string
   metadata: unknown
+}
+
+export interface PieceAction extends Action {
+  type: PieceActionType
+}
+
+export interface PartAction extends Action {
+  type: PartActionType
 }
