@@ -13,7 +13,6 @@ export class RobustWebSocketFactory {
   }
 
   public createRobustWebSocket(): RobustWebSocket {
-    // TODO: Move to configuration
     const webSocketUrl = environment.eventStreamUrl
     return new RobustWebSocket(webSocketUrl, new ExponentiallyDelayedReconnectStrategy(this.logger), this.logger)
   }
