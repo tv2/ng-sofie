@@ -45,6 +45,9 @@ export class DraggableShelfComponent implements OnInit {
 
   @HostListener('mousedown', ['$event'])
   public onDragStart(event: MouseEvent): void {
+    if (!this.dragHandleElement.nativeElement.contains(event.target as Node | null)) {
+      return
+    }
     const dragHandleBottomInPixels: number = this.dragHandleElement.nativeElement.getBoundingClientRect().bottom
     this.verticalDragPositionFromDragHandleBottomInPixels = event.clientY - dragHandleBottomInPixels
     const onDragMove: (event: MouseEvent) => void = this.onDragMove.bind(this)
