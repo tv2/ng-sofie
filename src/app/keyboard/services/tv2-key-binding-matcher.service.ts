@@ -36,7 +36,7 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
 
   private doesKeystrokesMatchKeyBindingOrder(keyBinding: KeyBinding, keystrokes: string[]): boolean {
     const exclusiveKeystrokes: string[] = keystrokes.filter(keystroke => keyBinding.keys.includes(keystroke))
-    const hasSameLength: boolean = keyBinding.keys.length !== exclusiveKeystrokes.length
+    const hasSameLength: boolean = keyBinding.keys.length === exclusiveKeystrokes.length
     return hasSameLength && keyBinding.keys.every((key, index) => exclusiveKeystrokes[index] === key)
   }
 
@@ -52,12 +52,31 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
     if (!keyBinding.shouldPreventDefaultBehaviourForPartialMatches) {
       return () => false
     }
-    // TODO: Add support for exclusive and ordered matching
-    return () => this.areKeystrokesSubsetOfKeyBinding(keyBinding, keystrokes)
+    if (keystrokes.length === 0) {
+      return () => false
+    }
+    if (keyBinding.useExclusiveMatching && !this.isKeyBindingAPartialExclusiveMatch(keyBinding, keystrokes)) {
+      return () => false
+    }
+    if (keyBinding.useOrderedMatching && !this.doesKeystrokeOrderMatchIntersectionWithKeyBinding(keyBinding, keystrokes)) {
+      return () => false
+    }
+    return () => this.isKeyBindingAPartialNonExclusiveMatch(keyBinding, keystrokes)
   }
 
-  private areKeystrokesSubsetOfKeyBinding(keyBinding: KeyBinding, keystrokes: string[]): boolean {
-    return keystrokes.every(key => keyBinding.keys.includes(key))
+  private isKeyBindingAPartialExclusiveMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
+    return keystrokes.every(keystroke => keyBinding.keys.includes(keystroke))
+  }
+
+  private isKeyBindingAPartialNonExclusiveMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
+    return keyBinding.keys.some(key => keystrokes.includes(key))
+  }
+
+  private doesKeystrokeOrderMatchIntersectionWithKeyBinding(keyBinding: KeyBinding, keystrokes: string[]): boolean {
+    const exclusiveKeys = keyBinding.keys.filter(key => keystrokes.includes(key))
+    const exclusiveKeystrokes: string[] = keystrokes.filter(keystroke => exclusiveKeys.includes(keystroke))
+    const hasSameLength: boolean = exclusiveKeys.length === exclusiveKeystrokes.length
+    return hasSameLength && exclusiveKeys.every((key, index) => exclusiveKeystrokes[index] === key)
   }
 
   private createPreventDefaultBehaviourOnKeyPressMatcher(keyBinding: KeyBinding, keystrokes: string[], isKeyReleased: boolean): Matcher {
