@@ -1,7 +1,6 @@
 <div
     *ngFor="let keyBinding of keyBindings" (click)="keyBinding.onMatched()"
     class="keybinding"
-    style="padding: 12px 20px; margin: 10px;"
     [class.keybinding--matched]="isKeyBindingMatched(keyBinding)"
 >
     {{ keyBinding.label }} ({{ displayKeyBinding(keyBinding) }})
