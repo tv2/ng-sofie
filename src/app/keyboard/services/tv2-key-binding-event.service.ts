@@ -1,11 +1,11 @@
-import { KeyBindingService } from '../abstractions/key-binding.service'
+import { KeyBindingEventService } from '../abstractions/key-binding-event.service'
 import { KeyBinding } from '../models/key-binding'
 import { BehaviorSubject, fromEvent, Observable, Subject, Subscription } from 'rxjs'
 import { KeyBindingMatcher } from '../abstractions/key-binding-matcher.service'
 import { Injectable } from '@angular/core'
 
 @Injectable()
-export class Tv2KeyBindingService implements KeyBindingService {
+export class Tv2KeyBindingEventService implements KeyBindingEventService {
   private keystrokes: string[] = []
   private readonly keystrokesSubject: Subject<string[]>
   private keyBindings: KeyBinding[] = []

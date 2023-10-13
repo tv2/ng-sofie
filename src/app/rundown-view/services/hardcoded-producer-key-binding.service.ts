@@ -7,13 +7,13 @@ import { Action } from '../../shared/models/action'
 import { Tv2ActionContentTypeGrouping, Tv2ActionGroupService } from './tv2-action-group.service'
 import { Injectable } from '@angular/core'
 import { Logger } from '../../core/abstractions/logger.service'
-import { ProducerKeyBindingService } from '../abstractions/producer-key-binding.service'
+import { KeyBindingService } from '../abstractions/key-binding.service'
 import { Rundown } from '../../core/models/rundown'
 import { RundownStateService } from '../../core/services/rundown-state.service'
 import { Tv2ActionParser } from '../../shared/abstractions/tv2-action-parser.service'
 
 @Injectable()
-export class HardcodedProducerKeyBindingService implements ProducerKeyBindingService {
+export class HardcodedProducerKeyBindingService implements KeyBindingService {
   private actions: Tv2Action[] = []
   private rundown?: Rundown
   private keyBindings: KeyBinding[] = []

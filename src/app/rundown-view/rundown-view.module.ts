@@ -21,7 +21,7 @@ import { MatCardModule } from '@angular/material/card'
 import { ProducerShelfModule } from '../producer-shelf/producer-shelf.module'
 import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component'
 import { RundownViewComponent } from './components/rundown-view/rundown-view.component'
-import { ProducerKeyBindingService } from './abstractions/producer-key-binding.service'
+import { KeyBindingService } from './abstractions/key-binding.service'
 import { HardcodedProducerKeyBindingService } from './services/hardcoded-producer-key-binding.service'
 import { Tv2ActionGroupService } from './services/tv2-action-group.service'
 import { KeyboardConfigurationService } from './abstractions/keyboard-configuration.service'
@@ -49,7 +49,7 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
   exports: [SegmentComponent],
   providers: [
     PieceGroupService,
-    { provide: ProducerKeyBindingService, useClass: HardcodedProducerKeyBindingService },
+    { provide: KeyBindingService, useClass: HardcodedProducerKeyBindingService },
     Tv2ActionGroupService,
     { provide: KeyboardConfigurationService, useClass: ProducerKeyboardConfigurationService },
     KeyBindingFactory,
