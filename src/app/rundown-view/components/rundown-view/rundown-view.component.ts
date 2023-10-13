@@ -16,18 +16,20 @@ export class RundownViewComponent implements OnInit, OnDestroy {
   public rundown?: Rundown
   private rundownSubscription?: SubscriptionLike
   private readonly logger: Logger
-  protected keyBindings: KeyBinding[] = []
-  protected keystrokes: string[] = []
+  public keyBindings: KeyBinding[] = []
+  public keystrokes: string[] = []
 
   @HostBinding('tabindex')
-  public get tabindex(): string { return '0' }
+  public get tabindex(): string {
+    return '0'
+  }
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly rundownStateService: RundownStateService,
     private readonly keyboardConfigurationService: KeyboardConfigurationService,
     logger: Logger,
-    private readonly hostElement: ElementRef,
+    private readonly hostElement: ElementRef
   ) {
     this.logger = logger.tag('RundownViewComponent')
   }
@@ -46,7 +48,7 @@ export class RundownViewComponent implements OnInit, OnDestroy {
 
   private setRundown(rundown: Rundown): void {
     if (!this.rundown) {
-      this.keyboardConfigurationService.init(rundown, this.hostElement.nativeElement)
+      this.keyboardConfigurationService.init(rundown.id, this.hostElement.nativeElement)
       this.keyboardConfigurationService.subscribeToKeystrokes(keystrokes => (this.keystrokes = keystrokes))
       this.keyboardConfigurationService.subscribeToKeyBindings(keyBindings => (this.keyBindings = keyBindings))
       this.hostElement.nativeElement.focus()

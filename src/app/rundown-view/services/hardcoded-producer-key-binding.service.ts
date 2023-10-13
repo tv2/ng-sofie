@@ -9,14 +9,16 @@ import { Injectable } from '@angular/core'
 import { Logger } from '../../core/abstractions/logger.service'
 import { ProducerKeyBindingService } from '../abstractions/producer-key-binding.service'
 import { Rundown } from '../../core/models/rundown'
+import { RundownStateService } from '../../core/services/rundown-state.service'
 
 @Injectable()
 export class HardcodedProducerKeyBindingService implements ProducerKeyBindingService {
-  private subscription?: SubscriptionLike
   private actions: Tv2Action[] = []
+  private rundown?: Rundown
   private keyBindings: KeyBinding[] = []
   private readonly keyBindingsSubject: Subject<KeyBinding[]>
-  private rundown: Rundown
+  private actionsSubscription?: SubscriptionLike
+  private rundownSubscription?: SubscriptionLike
   private readonly logger: Logger
 
   // TODO implement the action parser
@@ -33,18 +35,23 @@ export class HardcodedProducerKeyBindingService implements ProducerKeyBindingSer
     private readonly actionStateService: ActionStateService,
     private readonly keyBindingFactory: KeyBindingFactory,
     private readonly tv2ActionGroupService: Tv2ActionGroupService,
+    private readonly rundownStateService: RundownStateService,
     logger: Logger
   ) {
     this.logger = logger.tag('HardcodedProducerKeyBindingService')
     this.keyBindingsSubject = new BehaviorSubject(this.keyBindings)
   }
 
-  public init(rundown: Rundown): void {
-    this.rundown = rundown
+  public init(rundownId: string): void {
     this.actionStateService
-      .subscribeToRundownActions(rundown.id, this.onActionsChanged.bind(this))
-      .then(subscription => (this.subscription = subscription))
+      .subscribeToRundownActions(rundownId, this.onActionsChanged.bind(this))
+      .then(subscription => (this.actionsSubscription = subscription))
       .catch(error => this.logger.data(error).error('Encountered an error while subscribing to actions.'))
+
+    this.rundownStateService
+      .subscribeToRundown(rundownId, this.onRundownChanged.bind(this))
+      .then(subscription => (this.rundownSubscription = subscription))
+      .catch(error => this.logger.data(error).error(`Encountered an error while subscribing to rundown with id '${rundownId}'.`))
   }
 
   private onActionsChanged(actions: Action[]): void {
@@ -61,8 +68,20 @@ export class HardcodedProducerKeyBindingService implements ProducerKeyBindingSer
   }
 
   private createKeyBindings(): KeyBinding[] {
+    if (!this.rundown) {
+      return []
+    }
     const actionsGroupedByContentType: Tv2ActionContentTypeGrouping = this.tv2ActionGroupService.getActionsGroupedByContentType(this.actions)
+    if (!this.rundown.isActive) {
+      return this.keyBindingFactory.createRundownKeyBindings(this.rundown)
+    }
     return [...this.keyBindingFactory.createRundownKeyBindings(this.rundown), ...this.keyBindingFactory.createCameraKeyBindingsFromActions(actionsGroupedByContentType.camera, this.rundown.id)]
+  }
+
+  private onRundownChanged(rundown: Rundown): void {
+    this.rundown = rundown
+    this.keyBindings = this.createKeyBindings()
+    this.keyBindingsSubject.next(this.keyBindings)
   }
 
   public subscribeToKeyBindings(): Observable<KeyBinding[]> {
@@ -72,6 +91,7 @@ export class HardcodedProducerKeyBindingService implements ProducerKeyBindingSer
   public destroy(): void {
     this.keyBindingsSubject.complete()
     this.actionStateService.destroy()
-    this.subscription?.unsubscribe()
+    this.actionsSubscription?.unsubscribe()
+    this.rundownSubscription?.unsubscribe()
   }
 }

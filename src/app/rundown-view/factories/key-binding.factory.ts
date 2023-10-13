@@ -12,7 +12,7 @@ export class KeyBindingFactory {
   constructor(
     private readonly actionService: ActionService,
     private readonly rundownService: RundownService,
-    private readonly dialogService: DialogService,
+    private readonly dialogService: DialogService
   ) {}
 
   public createCameraKeyBindingsFromActions(cameraActions: Tv2CameraAction[], rundownId: string): KeyBinding[] {
@@ -55,12 +55,42 @@ export class KeyBindingFactory {
   }
 
   public createRundownKeyBindings(rundown: Rundown): KeyBinding[] {
+    if (rundown.isActive) {
+      return [
+        this.createRundownKeyBinding('Take', ['Enter'], () => this.takeNext(rundown)),
+        this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
+        this.createRundownKeyBinding('Deactivate Rundown', ['ShiftLeft', 'Backquote'], () => this.deactivateRundown(rundown)),
+      ]
+    }
     return [
-      this.createRundownKeyBinding('Take', ['Enter'], () => this.rundownService.takeNext(rundown.id).subscribe()),
-      this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to reset the Rundown?`, 'Reset', () => this.rundownService.reset(rundown.id).subscribe())),
-      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to activate the Rundown?`, 'Activate', () => this.rundownService.activate(rundown.id).subscribe())),
-      this.createRundownKeyBinding('Deactivate Rundown', ['ShiftLeft', 'Backquote'], () => this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to deactivate the Rundown?`, 'Deactivate', () => this.rundownService.deactivate(rundown.id).subscribe())),
+      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.activateRundown(rundown)),
+      this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
     ]
+  }
+
+  private takeNext(rundown: Rundown): void {
+    if (!rundown.isActive) {
+      return
+    }
+    this.rundownService.takeNext(rundown.id).subscribe()
+  }
+
+  private resetRundown(rundown: Rundown): void {
+    this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to reset the Rundown?`, 'Reset', () => this.rundownService.reset(rundown.id).subscribe())
+  }
+
+  private activateRundown(rundown: Rundown): void {
+    if (rundown.isActive) {
+      return
+    }
+    this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to activate the Rundown?`, 'Activate', () => this.rundownService.activate(rundown.id).subscribe())
+  }
+
+  private deactivateRundown(rundown: Rundown): void {
+    if (!rundown.isActive) {
+      return
+    }
+    this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to deactivate the Rundown?`, 'Deactivate', () => this.rundownService.deactivate(rundown.id).subscribe())
   }
 
   public createRundownKeyBinding(label: string, keys: [string, ...string[]], onMatched: () => void): KeyBinding {
