@@ -20,10 +20,10 @@ export class ProducerKeyboardConfigurationService implements KeyboardConfigurati
     this.keystrokesSubject = new BehaviorSubject(this.keystrokes)
   }
 
-  public init(rundownId: string, eventTarget: EventTarget): void {
+  public init(rundownId: string, eventAreaNode: Node): void {
     this.producerKeyBindingService.init(rundownId)
     this.producerKeyBindingService.subscribeToKeyBindings().subscribe(this.updateKeyBindings.bind(this))
-    this.keyBindingService.subscribeToKeystrokesOn(eventTarget).subscribe(this.updateKeystrokes.bind(this))
+    this.keyBindingService.subscribeToKeystrokesOn(eventAreaNode).subscribe(this.updateKeystrokes.bind(this))
     this.keyBindingService.defineKeyBindings(this.keyBindings)
   }
 

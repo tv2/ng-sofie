@@ -7,7 +7,7 @@ import { RundownService } from '../../core/abstractions/rundown.service'
 import { Rundown } from '../../core/models/rundown'
 import { DialogService } from '../../shared/services/dialog.service'
 import { RundownNavigationService } from '../../shared/services/rundown-navigation-service'
-import {RundownCursor} from "../../core/models/rundown-cursor";
+import { RundownCursor } from '../../core/models/rundown-cursor'
 
 @Injectable()
 export class KeyBindingFactory {
@@ -62,7 +62,7 @@ export class KeyBindingFactory {
       return [
         this.createRundownKeyBinding('Take', ['Enter'], () => this.takeNext(rundown)),
         this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
-        this.createRundownKeyBinding('Deactivate Rundown', ['ShiftLeft', 'Backquote'], () => this.deactivateRundown(rundown)),
+          this.createRundownKeyBinding('Deactivate Rundown', ['ControlLeft', 'ShiftLeft', 'Backquote'], () => this.deactivateRundown(rundown)),
         this.createRundownKeyBinding('Set Segment Above as Next', ['ShiftLeft', 'ArrowUp'], () => this.setSegmentAboveNextAsNext(rundown)),
         this.createRundownKeyBinding('Set Segment Below as Next', ['ShiftLeft', 'ArrowDown'], () => this.setSegmentBelowNextAsNext(rundown)),
         this.createRundownKeyBinding('Set Earlier Part as Next', ['ShiftLeft', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
