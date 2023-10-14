@@ -39,7 +39,6 @@ export class Tv2KeyBindingEventService implements KeyBindingEventService {
     if (matchedKeyBindings.length === 0) {
       return
     }
-    this.deregisterKeystroke(keyCode)
     matchedKeyBindings.forEach(keyBinding => keyBinding.onMatched())
   }
 

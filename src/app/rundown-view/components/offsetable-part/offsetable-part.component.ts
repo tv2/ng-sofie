@@ -4,7 +4,6 @@ import { Part } from '../../../core/models/part'
 import { PieceGroupService } from '../../services/piece-group.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { Piece } from '../../../core/models/piece'
-import { RundownService } from '../../../core/abstractions/rundown.service'
 
 const KEEP_VISIBLE_DURATION_IN_MS: number = 20_000
 
@@ -43,8 +42,7 @@ export class OffsetablePartComponent implements OnChanges {
 
   constructor(
     private readonly partEntityService: PartEntityService,
-    private readonly pieceGroupService: PieceGroupService,
-    private readonly rundownService: RundownService
+    private readonly pieceGroupService: PieceGroupService
   ) {}
 
   @HostBinding('style.width.px')
@@ -88,10 +86,6 @@ export class OffsetablePartComponent implements OnChanges {
     }
     const pieceEndTimeInMs: number = piece.start + piece.duration
     return piece.start - KEEP_VISIBLE_DURATION_IN_MS <= partDurationInMsAtEndOfPartViewport && pieceEndTimeInMs + KEEP_VISIBLE_DURATION_IN_MS >= this.offsetDurationInMs
-  }
-
-  public setPartAsNext(): void {
-    this.rundownService.setNext(this.rundownId, this.part.segmentId, this.part.id).subscribe()
   }
 
   public trackPiece(_: number, piece: Piece): string {
