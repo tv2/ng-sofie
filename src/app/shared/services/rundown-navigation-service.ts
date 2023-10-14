@@ -3,112 +3,138 @@ import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Segment } from '../../core/models/segment'
 import { Part } from '../../core/models/part'
 
-/* TODO: Do we want it to go up/down if you go far enough left or right?
-    Going too far left should put you at the last Part in the segment above */
 export class RundownNavigationService {
-  public getCursorForSegmentBeforeNext(rundown: Rundown): RundownCursor {
-    const currentSegmentWithNext: Segment | undefined = rundown.segments.find(segment => segment.isNext)
-    if (!currentSegmentWithNext) {
-      return this.getFirstSegmentCursor(rundown)
+  public getRundownCursorForNearestValidSegmentBeforeSegmentMarkedAsNext(rundown: Rundown): RundownCursor {
+    const nextSegmentIndex: number = this.getIndexForSegmentMarkedAsNext(rundown)
+    const nearestValidSegment: Segment = this.getNearestValidSegmentBeforeSegmentIndex(rundown, nextSegmentIndex)
+    const firstValidPart: Part = this.getFirstValidPartInSegment(nearestValidSegment)
+    return {
+      segmentId: firstValidPart.segmentId,
+      partId: firstValidPart.id,
     }
-
-    const segmentAboveIndex: number = rundown.segments.indexOf(currentSegmentWithNext) - 1
-    if (segmentAboveIndex < 0) {
-      const currentNextPart: Part | undefined = currentSegmentWithNext.parts.find(part => part.isNext)
-      return { segmentId: currentSegmentWithNext.id, partId: currentNextPart ? currentNextPart.id : currentSegmentWithNext.parts[0].id }
-    }
-
-    const firstValidPartAboveNext: Part = this.getFirstValidPartInSegmentBefore(rundown, rundown.segments[segmentAboveIndex])
-    return { segmentId: firstValidPartAboveNext.segmentId, partId: firstValidPartAboveNext.id }
   }
 
-  private getFirstSegmentCursor(rundown: Rundown): RundownCursor {
-    const firstSegmentInRundown: Segment = rundown.segments[0]
-    const firstValidPart: Part = this.getFirstValidPartInSegmentAfter(rundown, firstSegmentInRundown)
-    return { segmentId: firstSegmentInRundown.id, partId: firstValidPart.id }
+  private getIndexForSegmentMarkedAsNext(rundown: Rundown): number {
+    const nextSegmentIndex: number = rundown.segments.findIndex(segment => segment.isNext)
+    if (nextSegmentIndex < 0) {
+      throw new Error('No next cursor is present in rundown.')
+    }
+    return nextSegmentIndex
   }
 
-  private getFirstValidPartInSegmentBefore(rundown: Rundown, segment: Segment): Part {
-    const firstValidPart: Part | undefined = segment.parts.find(part => this.isValidPart(part))
-    if (!firstValidPart) {
-      const nextSegmentIndex = rundown.segments.indexOf(segment) - 1
-      return this.getFirstValidPartInSegmentBefore(rundown, rundown.segments[nextSegmentIndex])
+  private getNearestValidSegmentBeforeSegmentIndex(rundown: Rundown, segmentIndex: number): Segment {
+    const nearestSegment: Segment | undefined = rundown.segments
+        .slice(0, segmentIndex)
+        .reverse()
+        .find(segment => this.isValidSegment(segment))
+
+    if (!nearestSegment) {
+      throw new Error(`There are no valid segments before segment index ${segmentIndex} in rundown '${rundown.name}' with 'id ${rundown.id}'.`)
     }
-    return firstValidPart
+    return nearestSegment
+  }
+
+  private isValidSegment(segment: Segment): boolean {
+    return segment.parts.some(part => this.isValidPart(part))
   }
 
   private isValidPart(part: Part): boolean {
-    return part.pieces.length !== 0
+    return part.pieces.length !== 0 && !part.isOnAir
   }
 
-  public getCursorForSegmentAfterNext(rundown: Rundown): RundownCursor {
-    const currentSegmentWithNext: Segment | undefined = rundown.segments.find(segment => segment.isNext)
-    if (!currentSegmentWithNext) {
-      return this.getFirstSegmentCursor(rundown)
+  private getFirstValidPartInSegment(segment: Segment): Part {
+    const validPart: Part | undefined = segment.parts.find(part => this.isValidPart(part))
+    if (!validPart) {
+      throw new Error(`Segment '${segment.name}' with id '${segment.id}' has no valid parts.`)
     }
-    const segmentBelowIndex: number = rundown.segments.indexOf(currentSegmentWithNext) + 1
-    if (segmentBelowIndex > rundown.segments.length - 1) {
-      const currentNextPart: Part | undefined = currentSegmentWithNext.parts.find(part => part.isNext)
-      return { segmentId: currentSegmentWithNext.id, partId: currentNextPart ? currentNextPart.id : currentSegmentWithNext.parts[0].id }
-    }
-    const firstValidPartBelowNext: Part = this.getFirstValidPartInSegmentAfter(rundown, rundown.segments[segmentBelowIndex])
-    return { segmentId: firstValidPartBelowNext.segmentId, partId: firstValidPartBelowNext.id }
+    return validPart
   }
 
-  private getFirstValidPartInSegmentAfter(rundown: Rundown, segment: Segment): Part {
-    const firstValidPart: Part | undefined = segment.parts.find(part => this.isValidPart(part))
-    if (!firstValidPart) {
-      const nextSegmentIndex = rundown.segments.indexOf(segment) + 1
-      return this.getFirstValidPartInSegmentAfter(rundown, rundown.segments[nextSegmentIndex])
+  public getRundownCursorForNearestValidSegmentAfterSegmentMarkedAsNext(rundown: Rundown): RundownCursor {
+    const nextSegmentIndex: number = this.getIndexForSegmentMarkedAsNext(rundown)
+    const nearestValidSegment: Segment = this.getNearestValidSegmentAfterSegmentIndex(rundown, nextSegmentIndex)
+    const firstValidPart: Part = this.getFirstValidPartInSegment(nearestValidSegment)
+    return {
+      segmentId: firstValidPart.segmentId,
+      partId: firstValidPart.id,
     }
-    return firstValidPart
   }
 
-  public getCursorForEarlierPart(rundown: Rundown): RundownCursor {
-    const currentSegmentWithNext: Segment | undefined = rundown.segments.find(segment => segment.isNext)
-    if (!currentSegmentWithNext) {
-      return this.getFirstSegmentCursor(rundown)
+  private getNearestValidSegmentAfterSegmentIndex(rundown: Rundown, segmentIndex: number): Segment {
+    const nearestSegment: Segment | undefined = rundown.segments
+        .slice(segmentIndex + 1)
+        .find(segment => this.isValidSegment(segment))
+
+    if (!nearestSegment) {
+      throw new Error(`There are no valid segments after segment index ${segmentIndex} in rundown '${rundown.name}' with 'id ${rundown.id}'.`)
     }
-    const firstValidPartLeftOfNext: Part = this.getFirstValidEarlierPart(rundown, currentSegmentWithNext)
-    return { segmentId: firstValidPartLeftOfNext.segmentId, partId: firstValidPartLeftOfNext.id }
+    return nearestSegment
   }
 
-  private getFirstValidEarlierPart(rundown: Rundown, segment: Segment): Part {
-    const nextPart: Part | undefined = segment.parts.find(part => part.isNext)
-    if (!nextPart) {
-      return {} as Part
+  public getRundownCursorForNearestValidPartBeforePartMarkedAsNext(rundown: Rundown): RundownCursor {
+    const nextSegmentIndex: number = this.getIndexForSegmentMarkedAsNext(rundown)
+    const nextSegment: Segment = rundown.segments[nextSegmentIndex]
+    const nextPartIndex: number = nextSegment.parts.findIndex(part => part.isNext)
+    try {
+      const nearestPart: Part = this.getNearestValidPartBeforePartIndex(nextSegment, nextPartIndex)
+      return {
+        segmentId: nearestPart.segmentId,
+        partId: nearestPart.id,
+      }
+    } catch {}
+    const nearestValidSegment: Segment = this.getNearestValidSegmentBeforeSegmentIndex(rundown, nextSegmentIndex)
+    const lastValidPart: Part = this.getLastValidPartInSegment(nearestValidSegment)
+    return {
+      segmentId: lastValidPart.segmentId,
+      partId: lastValidPart.id
     }
-
-    const firstValidPartLeftIndex: number = segment.parts.indexOf(nextPart) - 1
-    if (firstValidPartLeftIndex < 0) {
-      const segmentBeforeIndex: number = rundown.segments.indexOf(segment) - 1
-      return this.getFirstValidPartInSegmentBefore(rundown, rundown.segments[segmentBeforeIndex])
-    }
-
-    return segment.parts[firstValidPartLeftIndex]
   }
 
-  public getCursorForLaterPart(rundown: Rundown): RundownCursor {
-    const currentSegmentWithNext: Segment | undefined = rundown.segments.find(segment => segment.isNext)
-    if (!currentSegmentWithNext) {
-      return this.getFirstSegmentCursor(rundown)
+  private getNearestValidPartBeforePartIndex(segment: Segment, partIndex: number): Part {
+    const nearestPart: Part | undefined = segment.parts
+        .slice(0, partIndex)
+        .reverse()
+        .find(part => this.isValidPart(part))
+    if (!nearestPart) {
+      throw new Error(`There are no valid parts before part index ${partIndex} in segment '${segment.name}' with 'id ${segment.id}'.`)
     }
-    const firstValidPartRightOfNext: Part = this.getFirstValidLaterPart(rundown, currentSegmentWithNext)
-    return { segmentId: firstValidPartRightOfNext.segmentId, partId: firstValidPartRightOfNext.id }
+    return nearestPart
   }
 
-  private getFirstValidLaterPart(rundown: Rundown, segment: Segment): Part {
-    const nextPart: Part | undefined = segment.parts.find(part => part.isNext)
-    if (!nextPart) {
-      return {} as Part
+  private getLastValidPartInSegment(segment: Segment): Part {
+    const validPart: Part | undefined = [...segment.parts].reverse().find(part => this.isValidPart(part))
+    if (!validPart) {
+      throw new Error(`Segment '${segment.name}' with id '${segment.id}' has no valid parts.`)
     }
+    return validPart
+  }
 
-    const firstValidPartRightIndex: number = segment.parts.indexOf(nextPart) + 1
-    if (firstValidPartRightIndex >= segment.parts.length) {
-      const segmentBeforeIndex: number = rundown.segments.indexOf(segment) + 1
-      return this.getFirstValidPartInSegmentAfter(rundown, rundown.segments[segmentBeforeIndex])
+  public getRundownCursorForNearestValidPartAfterPartMarkedAsNext(rundown: Rundown): RundownCursor {
+    const nextSegmentIndex: number = this.getIndexForSegmentMarkedAsNext(rundown)
+    const nextSegment: Segment = rundown.segments[nextSegmentIndex]
+    const nextPartIndex: number = nextSegment.parts.findIndex(part => part.isNext)
+    try {
+      const nearestPart: Part = this.getNearestValidPartAfterPartIndex(nextSegment, nextPartIndex)
+      return {
+        segmentId: nearestPart.segmentId,
+        partId: nearestPart.id,
+      }
+    } catch {}
+    const nearestValidSegment: Segment = this.getNearestValidSegmentAfterSegmentIndex(rundown, nextSegmentIndex)
+    const lastValidPart: Part = this.getFirstValidPartInSegment(nearestValidSegment)
+    return {
+      segmentId: lastValidPart.segmentId,
+      partId: lastValidPart.id
     }
+  }
 
-    return segment.parts[firstValidPartRightIndex]
+  private getNearestValidPartAfterPartIndex(segment: Segment, partIndex: number): Part {
+    const nearestPart: Part | undefined = segment.parts
+        .slice(partIndex + 1)
+        .find(part => this.isValidPart(part))
+    if (!nearestPart) {
+      throw new Error(`There are no valid parts before part index ${partIndex} in segment '${segment.name}' with 'id ${segment.id}'.`)
+    }
+    return nearestPart
   }
 }

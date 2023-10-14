@@ -8,15 +8,21 @@ import { Rundown } from '../../core/models/rundown'
 import { DialogService } from '../../shared/services/dialog.service'
 import { RundownNavigationService } from '../../shared/services/rundown-navigation-service'
 import { RundownCursor } from '../../core/models/rundown-cursor'
+import { Logger } from '../../core/abstractions/logger.service'
 
 @Injectable()
 export class KeyBindingFactory {
+  private readonly logger: Logger
+
   constructor(
     private readonly actionService: ActionService,
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService,
-    private readonly rundownNavigationService: RundownNavigationService
-  ) {}
+    private readonly rundownNavigationService: RundownNavigationService,
+    logger: Logger,
+  ) {
+    this.logger = logger.tag('KeyBindingFactory')
+  }
 
   public createCameraKeyBindingsFromActions(cameraActions: Tv2CameraAction[], rundownId: string): KeyBinding[] {
     return cameraActions.map(cameraAction => this.createCameraKeyBindingFromAction(cameraAction, rundownId))
@@ -25,8 +31,7 @@ export class KeyBindingFactory {
   private createCameraKeyBindingFromAction(cameraAction: Tv2CameraAction, rundownId: string): KeyBinding {
     if (cameraAction.type === PartActionType.INSERT_PART_AS_ON_AIR) {
       return this.createInsertCameraOnAirKeyBinding(cameraAction, rundownId)
-    }
-    return this.createInsertCameraAsNextKeyBinding(cameraAction, rundownId)
+    }return this.createInsertCameraAsNextKeyBinding(cameraAction, rundownId)
   }
 
   private createInsertCameraOnAirKeyBinding(cameraAction: Tv2CameraAction, rundownId: string): KeyBinding {
@@ -101,18 +106,21 @@ export class KeyBindingFactory {
   }
 
   private setSegmentAboveNextAsNext(rundown: Rundown): void {
-    if (!rundown.isActive) {
-      return
+    try {
+      const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidSegmentBeforeSegmentMarkedAsNext(rundown)
+      this.logger.data(cursor).debug('Changing next cursor to:')
+      this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+    } catch (error) {
+      this.logger.data(error).error('Failed setting segment above as next.')
     }
-    const cursor: RundownCursor = this.rundownNavigationService.getCursorForSegmentBeforeNext(rundown)
-    this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
   }
 
   private setSegmentBelowNextAsNext(rundown: Rundown): void {
     if (!rundown.isActive) {
       return
     }
-    const cursor: RundownCursor = this.rundownNavigationService.getCursorForSegmentAfterNext(rundown)
+    const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidSegmentAfterSegmentMarkedAsNext(rundown)
+    this.logger.data(cursor).debug('Changing next cursor to:')
     this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
   }
 
@@ -120,7 +128,8 @@ export class KeyBindingFactory {
     if (!rundown.isActive) {
       return
     }
-    const cursor: RundownCursor = this.rundownNavigationService.getCursorForEarlierPart(rundown)
+    const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidPartBeforePartMarkedAsNext(rundown)
+    this.logger.data(cursor).debug('Changing next cursor to:')
     this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
   }
 
@@ -128,7 +137,8 @@ export class KeyBindingFactory {
     if (!rundown.isActive) {
       return
     }
-    const cursor: RundownCursor = this.rundownNavigationService.getCursorForLaterPart(rundown)
+    const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidPartAfterPartMarkedAsNext(rundown)
+    this.logger.data(cursor).debug('Changing next cursor to:')
     this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
   }
 
