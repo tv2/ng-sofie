@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core'
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { RundownCursor } from '../../../core/models/rundown-cursor'
@@ -30,14 +30,16 @@ export class ScrollableTimelineComponent {
 
   private horizontalDragStartPoint?: number
 
-  constructor(private readonly partEntityService: PartEntityService) {}
+  constructor(private readonly partEntityService: PartEntityService, private readonly hostElement: ElementRef) {}
 
   @HostListener('mousedown', ['$event'])
-  public onDragStart(event: MouseEvent): void {
+  public async onDragStart(event: MouseEvent): Promise<void> {
     if (!this.isLeftButtonEvent(event)) {
       this.horizontalDragStartPoint = undefined
       return
     }
+    this.hostElement.nativeElement.requestPointerLock()
+
     this.horizontalDragStartPoint = event.clientX
     const onDragMove: (event: MouseEvent) => void = this.onDragMove.bind(this)
     window.addEventListener('mousemove', onDragMove)
@@ -46,6 +48,7 @@ export class ScrollableTimelineComponent {
       () => {
         this.horizontalDragStartPoint = undefined
         window.removeEventListener('mousemove', onDragMove)
+        document.exitPointerLock()
       },
       { once: true }
     )
@@ -61,7 +64,7 @@ export class ScrollableTimelineComponent {
       return
     }
     const newHorizontalPoint: number = event.clientX
-    const horizontalDeltaInPixels: number = this.horizontalDragStartPoint - newHorizontalPoint
+    const horizontalDeltaInPixels: number = document.pointerLockElement ? -event.movementX : this.horizontalDragStartPoint - newHorizontalPoint
     this.horizontalDragStartPoint = newHorizontalPoint
     const segmentDurationInMs: number = this.segment.parts.reduce((duration, part) => duration + this.partEntityService.getDuration(part), 0)
     const horizontalDeltaInMs: number = (1000 * horizontalDeltaInPixels) / this.pixelsPerSecond
