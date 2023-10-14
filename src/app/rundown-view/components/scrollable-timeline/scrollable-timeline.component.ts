@@ -5,6 +5,8 @@ import { RundownCursor } from '../../../core/models/rundown-cursor'
 import { Part } from '../../../core/models/part'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
+const LEFT_MOUSE_BUTTON_IDENTIFIER: number = 0
+
 @Component({
   selector: 'sofie-scrollable-timeline',
   templateUrl: './scrollable-timeline.component.html',
@@ -28,8 +30,14 @@ export class ScrollableTimelineComponent {
 
   private horizontalDragStartPoint?: number
 
+  constructor(private readonly partEntityService: PartEntityService) {}
+
   @HostListener('mousedown', ['$event'])
   public onDragStart(event: MouseEvent): void {
+    if (!this.isLeftButtonEvent(event)) {
+      this.horizontalDragStartPoint = undefined
+      return
+    }
     this.horizontalDragStartPoint = event.clientX
     const onDragMove: (event: MouseEvent) => void = this.onDragMove.bind(this)
     window.addEventListener('mousemove', onDragMove)
@@ -43,7 +51,9 @@ export class ScrollableTimelineComponent {
     )
   }
 
-  constructor(private readonly partEntityService: PartEntityService) {}
+  private isLeftButtonEvent(event: MouseEvent): boolean {
+    return event.button === LEFT_MOUSE_BUTTON_IDENTIFIER
+  }
 
   public onDragMove(event: MouseEvent): void {
     event.preventDefault()
