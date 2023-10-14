@@ -17,7 +17,7 @@ export class PartContextMenuComponent {
   @Input()
   public isRundownActive: boolean
 
-  protected readonly contextMenuOptions: ContextMenuOption[] = [
+  public readonly offAirContextMenuOptions: ContextMenuOption[] = [
     {
       label: 'Set part as next',
       contextAction: (): void => this.setPartAsNext(),
