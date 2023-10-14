@@ -108,10 +108,9 @@ export class KeyBindingFactory {
   private setSegmentAboveNextAsNext(rundown: Rundown): void {
     try {
       const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidSegmentBeforeSegmentMarkedAsNext(rundown)
-      this.logger.data(cursor).debug('Changing next cursor to:')
       this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
     } catch (error) {
-      this.logger.data(error).error('Failed setting segment above as next.')
+      this.logger.data(error).warn('Failed setting segment above as next.')
     }
   }
 
@@ -119,27 +118,36 @@ export class KeyBindingFactory {
     if (!rundown.isActive) {
       return
     }
-    const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidSegmentAfterSegmentMarkedAsNext(rundown)
-    this.logger.data(cursor).debug('Changing next cursor to:')
-    this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+    try {
+      const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidSegmentAfterSegmentMarkedAsNext(rundown)
+      this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+    } catch (error) {
+      this.logger.data(error).warn('Failed setting segment below as next.')
+    }
   }
 
   private setEarlierPartAsNext(rundown: Rundown): void {
     if (!rundown.isActive) {
       return
     }
-    const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidPartBeforePartMarkedAsNext(rundown)
-    this.logger.data(cursor).debug('Changing next cursor to:')
-    this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+    try {
+      const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidPartBeforePartMarkedAsNext(rundown)
+      this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+    } catch (error) {
+      this.logger.data(error).warn('Failed setting a earlier part as next.')
+    }
   }
 
   private setLaterPartAsNext(rundown: Rundown): void {
     if (!rundown.isActive) {
       return
     }
-    const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidPartAfterPartMarkedAsNext(rundown)
-    this.logger.data(cursor).debug('Changing next cursor to:')
-    this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+    try {
+      const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidPartAfterPartMarkedAsNext(rundown)
+      this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+    } catch (error) {
+      this.logger.data(error).warn('Failed setting a later part as next.')
+    }
   }
 
   public createRundownKeyBinding(label: string, keys: [string, ...string[]], onMatched: () => void): KeyBinding {
