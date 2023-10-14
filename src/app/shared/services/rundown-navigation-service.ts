@@ -24,9 +24,9 @@ export class RundownNavigationService {
 
   private getNearestValidSegmentBeforeSegmentIndex(rundown: Rundown, segmentIndex: number): Segment {
     const nearestSegment: Segment | undefined = rundown.segments
-        .slice(0, segmentIndex)
-        .reverse()
-        .find(segment => this.isValidSegment(segment))
+      .slice(0, segmentIndex)
+      .reverse()
+      .find(segment => this.isValidSegment(segment))
 
     if (!nearestSegment) {
       throw new Error(`There are no valid segments before segment index ${segmentIndex} in rundown '${rundown.name}' with 'id ${rundown.id}'.`)
@@ -61,9 +61,7 @@ export class RundownNavigationService {
   }
 
   private getNearestValidSegmentAfterSegmentIndex(rundown: Rundown, segmentIndex: number): Segment {
-    const nearestSegment: Segment | undefined = rundown.segments
-        .slice(segmentIndex + 1)
-        .find(segment => this.isValidSegment(segment))
+    const nearestSegment: Segment | undefined = rundown.segments.slice(segmentIndex + 1).find(segment => this.isValidSegment(segment))
 
     if (!nearestSegment) {
       throw new Error(`There are no valid segments after segment index ${segmentIndex} in rundown '${rundown.name}' with 'id ${rundown.id}'.`)
@@ -86,15 +84,15 @@ export class RundownNavigationService {
     const lastValidPart: Part = this.getLastValidPartInSegment(nearestValidSegment)
     return {
       segmentId: lastValidPart.segmentId,
-      partId: lastValidPart.id
+      partId: lastValidPart.id,
     }
   }
 
   private getNearestValidPartBeforePartIndex(segment: Segment, partIndex: number): Part {
     const nearestPart: Part | undefined = segment.parts
-        .slice(0, partIndex)
-        .reverse()
-        .find(part => this.isValidPart(part))
+      .slice(0, partIndex)
+      .reverse()
+      .find(part => this.isValidPart(part))
     if (!nearestPart) {
       throw new Error(`There are no valid parts before part index ${partIndex} in segment '${segment.name}' with 'id ${segment.id}'.`)
     }
@@ -124,14 +122,12 @@ export class RundownNavigationService {
     const lastValidPart: Part = this.getFirstValidPartInSegment(nearestValidSegment)
     return {
       segmentId: lastValidPart.segmentId,
-      partId: lastValidPart.id
+      partId: lastValidPart.id,
     }
   }
 
   private getNearestValidPartAfterPartIndex(segment: Segment, partIndex: number): Part {
-    const nearestPart: Part | undefined = segment.parts
-        .slice(partIndex + 1)
-        .find(part => this.isValidPart(part))
+    const nearestPart: Part | undefined = segment.parts.slice(partIndex + 1).find(part => this.isValidPart(part))
     if (!nearestPart) {
       throw new Error(`There are no valid parts before part index ${partIndex} in segment '${segment.name}' with 'id ${segment.id}'.`)
     }

@@ -19,7 +19,7 @@ export class KeyBindingFactory {
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService,
     private readonly rundownNavigationService: RundownNavigationService,
-    logger: Logger,
+    logger: Logger
   ) {
     this.logger = logger.tag('KeyBindingFactory')
   }
@@ -31,7 +31,8 @@ export class KeyBindingFactory {
   private createCameraKeyBindingFromAction(cameraAction: Tv2CameraAction, rundownId: string): KeyBinding {
     if (cameraAction.type === PartActionType.INSERT_PART_AS_ON_AIR) {
       return this.createInsertCameraOnAirKeyBinding(cameraAction, rundownId)
-    }return this.createInsertCameraAsNextKeyBinding(cameraAction, rundownId)
+    }
+    return this.createInsertCameraAsNextKeyBinding(cameraAction, rundownId)
   }
 
   private createInsertCameraOnAirKeyBinding(cameraAction: Tv2CameraAction, rundownId: string): KeyBinding {

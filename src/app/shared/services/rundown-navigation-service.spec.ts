@@ -8,10 +8,7 @@ describe(RundownNavigationService.name, () => {
   describe(RundownNavigationService.prototype.getRundownCursorForNearestValidSegmentBeforeSegmentMarkedAsNext.name, () => {
     it('throws an error when the next cursor is on the first element', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const segments: Segment[] = [
-          testEntityFactory.createSegment({ id: 'first-segment-id' }),
-          testEntityFactory.createSegment({ id: 'next-segment-id', isNext: true }),
-      ]
+      const segments: Segment[] = [testEntityFactory.createSegment({ id: 'first-segment-id' }), testEntityFactory.createSegment({ id: 'next-segment-id', isNext: true })]
       const rundown: Rundown = testEntityFactory.createRundown({ segments })
       const testee: RundownNavigationService = createTestee()
 
