@@ -63,6 +63,7 @@ export class ZodEntityParser implements EntityParser {
     executedAt: zod.number(),
     playedDuration: zod.number(),
     autoNext: zod.object({ overlap: zod.number() }).optional(),
+    isPlanned: zod.boolean(),
   })
 
   private readonly segmentParser = zod.object({

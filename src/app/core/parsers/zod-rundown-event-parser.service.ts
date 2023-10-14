@@ -1,11 +1,21 @@
 import { Injectable } from '@angular/core'
-import { RundownInfinitePieceAddedEvent, RundownActivatedEvent, RundownDeactivatedEvent, RundownResetEvent, PartSetAsNextEvent, PartTakenEvent, RundownDeletedEvent } from '../models/rundown-event'
+import {
+  RundownInfinitePieceAddedEvent,
+  RundownActivatedEvent,
+  RundownDeactivatedEvent,
+  RundownResetEvent,
+  PartSetAsNextEvent,
+  PartTakenEvent,
+  RundownDeletedEvent,
+  RundownPartInsertedAsOnAirEvent, RundownPartInsertedAsNextEvent
+} from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
 import { EntityParser } from '../abstractions/entity-parser.service'
+import { RundownEventParser } from '../abstractions/rundown-event.parser'
 
 @Injectable()
-export class ZodRundownEventParser {
+export class ZodRundownEventParser implements RundownEventParser {
   private readonly rundownActivatedEventParser = zod.object({
     type: zod.literal(RundownEventType.ACTIVATED),
     timestamp: zod.number(),
@@ -52,8 +62,28 @@ export class ZodRundownEventParser {
     rundownId: zod.string().nonempty(),
     infinitePiece: zod
       .object({})
-      .nonstrict()
+      .passthrough()
       .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
+  })
+
+  private readonly rundownPartInsertedAsOnAirEventParser = zod.object({
+    type: zod.literal(RundownEventType.PART_INSERTED_AS_ON_AIR),
+    timestamp: zod.number(),
+    rundownId: zod.string().nonempty(),
+    part: zod
+        .object({})
+        .passthrough()
+        .transform((part: unknown) => this.entityParser.parsePart(part)),
+  })
+
+  private readonly rundownPartInsertedAsNextEventParser = zod.object({
+    type: zod.literal(RundownEventType.PART_INSERTED_AS_NEXT),
+    timestamp: zod.number(),
+    rundownId: zod.string().nonempty(),
+    part: zod
+        .object({})
+        .passthrough()
+        .transform((part: unknown) => this.entityParser.parsePart(part)),
   })
 
   constructor(private readonly entityParser: EntityParser) {}
@@ -61,7 +91,6 @@ export class ZodRundownEventParser {
   public parseActivatedEvent(maybeEvent: unknown): RundownActivatedEvent {
     return this.rundownActivatedEventParser.parse(maybeEvent)
   }
-
   public parseDeactivatedEvent(maybeEvent: unknown): RundownDeactivatedEvent {
     return this.rundownDeactivatedEventParser.parse(maybeEvent)
   }
@@ -84,5 +113,13 @@ export class ZodRundownEventParser {
 
   public parseInfinitePieceAdded(maybeEvent: unknown): RundownInfinitePieceAddedEvent {
     return this.rundownInfinitePieceAddedEventParser.parse(maybeEvent)
+  }
+
+  public parsePartInsertedAsOnAir(maybeEvent: unknown): RundownPartInsertedAsOnAirEvent {
+    return this.rundownPartInsertedAsOnAirEventParser.parse(maybeEvent)
+  }
+
+  public parsePartInsertedAsNext(maybeEvent: unknown): RundownPartInsertedAsNextEvent {
+    return this.rundownPartInsertedAsNextEventParser.parse(maybeEvent)
   }
 }

@@ -11,4 +11,5 @@ export interface Part {
   readonly executedAt: number
   readonly playedDuration: number
   readonly autoNext?: AutoNext
+  readonly isPlanned: boolean
 }

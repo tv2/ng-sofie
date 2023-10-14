@@ -1,5 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core'
-import { RundownInfinitePieceAddedEvent, PartSetAsNextEvent, RundownResetEvent, PartTakenEvent, RundownActivatedEvent, RundownDeactivatedEvent } from '../models/rundown-event'
+import {
+  RundownInfinitePieceAddedEvent,
+  PartSetAsNextEvent,
+  RundownResetEvent,
+  PartTakenEvent,
+  RundownActivatedEvent,
+  RundownDeactivatedEvent,
+  RundownPartInsertedAsOnAirEvent, RundownPartInsertedAsNextEvent
+} from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
 import { Rundown } from '../models/rundown'
 import { RundownService } from '../abstractions/rundown.service'
@@ -58,6 +66,8 @@ export class RundownStateService implements OnDestroy {
       this.rundownEventObserver.subscribeToRundownTake(this.takePartInRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownSetNext(this.setNextPartInRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownInfinitePieceAdded(this.addInfinitePieceToRundownFromEvent.bind(this)),
+        this.rundownEventObserver.subscribeToRundownPartInsertedAsOnAir(this.insertPartAsOnAirFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownPartInsertedAsNext(this.insertPartAsNextFromEvent.bind(this)),
     ]
   }
 
@@ -111,8 +121,26 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    const rundown: Rundown = this.rundownEntityService.addInfinitePiece(rundownSubject.value, event.infinitePiece)
-    rundownSubject.next(rundown)
+    const updatedRundown: Rundown = this.rundownEntityService.addInfinitePiece(rundownSubject.value, event.infinitePiece)
+    rundownSubject.next(updatedRundown)
+  }
+
+  private insertPartAsOnAirFromEvent(event: RundownPartInsertedAsOnAirEvent): void {
+    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
+    const updatedRundown: Rundown = this.rundownEntityService.insertPartAsOnAir(rundownSubject.value, event.part, event.timestamp)
+    rundownSubject.next(updatedRundown)
+  }
+
+  private insertPartAsNextFromEvent(event: RundownPartInsertedAsNextEvent): void {
+    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
+    const updatedRundown: Rundown = this.rundownEntityService.insertPartAsNext(rundownSubject.value, event.part)
+    rundownSubject.next(updatedRundown)
   }
 
   public async subscribeToRundown(rundownId: string, consumer: (rundown: Rundown) => void): Promise<SubscriptionLike> {

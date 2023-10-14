@@ -91,13 +91,13 @@ describe(SegmentEntityService.name, () => {
     })
   })
 
-  describe(SegmentEntityService.prototype.removeAsNextSegment.name, () => {
+  describe(SegmentEntityService.prototype.unmarkSegmentAsNext.name, () => {
     it('unmarks segment as next', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const segment: Segment = testEntityFactory.createSegment({ isNext: true })
       const testee: SegmentEntityService = createTestee()
 
-      const result: Segment = testee.removeAsNextSegment(segment)
+      const result: Segment = testee.unmarkSegmentAsNext(segment)
 
       expect(segment.isNext).toBeTrue()
       expect(result.isNext).toBeFalse()
@@ -110,9 +110,9 @@ describe(SegmentEntityService.name, () => {
       const mockedPartService: PartEntityService = mock<PartEntityService>()
       const testee: SegmentEntityService = createTestee(instance(mockedPartService))
 
-      testee.removeAsNextSegment(segment)
+      testee.unmarkSegmentAsNext(segment)
 
-      verify(mockedPartService.removeAsNextPart(parts[1])).once()
+      verify(mockedPartService.unmarkPartAsNext(parts[1])).once()
     })
   })
 

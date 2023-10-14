@@ -31,7 +31,7 @@ export class PartEntityService {
     }
   }
 
-  public removeAsNextPart(part: Part): Part {
+  public unmarkPartAsNext(part: Part): Part {
     return {
       ...part,
       isNext: false,

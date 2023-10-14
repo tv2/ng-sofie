@@ -1,7 +1,16 @@
 import { ZodRundownEventParser } from './zod-rundown-event-parser.service'
 import { RundownEventType } from '../models/rundown-event-type'
 import { anything, instance, mock, when } from '@typestrong/ts-mockito'
-import { PartSetAsNextEvent, PartTakenEvent, RundownActivatedEvent, RundownDeactivatedEvent, RundownDeletedEvent, RundownInfinitePieceAddedEvent, RundownResetEvent } from '../models/rundown-event'
+import {
+  PartSetAsNextEvent,
+  PartTakenEvent,
+  RundownActivatedEvent,
+  RundownDeactivatedEvent,
+  RundownDeletedEvent,
+  RundownInfinitePieceAddedEvent, RundownPartInsertedAsNextEvent,
+  RundownPartInsertedAsOnAirEvent,
+  RundownResetEvent
+} from '../models/rundown-event'
 import { PieceType } from '../enums/piece-type'
 import { EntityParser } from '../abstractions/entity-parser.service'
 
@@ -211,6 +220,72 @@ describe(ZodRundownEventParser.name, () => {
       }
 
       const result = (): RundownInfinitePieceAddedEvent => testee.parseInfinitePieceAdded(event)
+
+      expect(result).toThrow()
+    })
+  })
+
+  describe(ZodRundownEventParser.prototype.parsePartInsertedAsOnAir.name, () => {
+    it('parses a rundown part is inserted as on-air event', () => {
+      const mockedEntityParser = createMockOfEntityParser()
+      when(mockedEntityParser.parsePart(anything())).thenCall(part => part)
+      const testee = new ZodRundownEventParser(instance(mockedEntityParser))
+      const event: RundownPartInsertedAsOnAirEvent = {
+        type: RundownEventType.PART_INSERTED_AS_ON_AIR,
+        timestamp: Date.now(),
+        rundownId: 'some-rundown-id',
+        part: {
+          executedAt: 0, id: '', isNext: false, isOnAir: false, pieces: [], playedDuration: 0, segmentId: ''
+        }
+      }
+
+      const result: RundownPartInsertedAsOnAirEvent = testee.parsePartInsertedAsOnAir(event)
+
+      expect(result).toEqual(event)
+    })
+
+    it('does not parse a partial rundown part is inserted as on-air event', () => {
+      const mockedEntityParser = createMockOfEntityParser()
+      const testee = new ZodRundownEventParser(instance(mockedEntityParser))
+      const event: Partial<RundownPartInsertedAsOnAirEvent> = {
+        type: RundownEventType.PART_INSERTED_AS_ON_AIR,
+        rundownId: 'some-rundown-id',
+      }
+
+      const result = (): RundownPartInsertedAsOnAirEvent => testee.parsePartInsertedAsOnAir(event)
+
+      expect(result).toThrow()
+    })
+  })
+
+  describe(ZodRundownEventParser.prototype.parsePartInsertedAsNext.name, () => {
+    it('parses a rundown part is inserted as next event', () => {
+      const mockedEntityParser = createMockOfEntityParser()
+      when(mockedEntityParser.parsePart(anything())).thenCall(part => part)
+      const testee = new ZodRundownEventParser(instance(mockedEntityParser))
+      const event: RundownPartInsertedAsNextEvent = {
+        type: RundownEventType.PART_INSERTED_AS_NEXT,
+        timestamp: Date.now(),
+        rundownId: 'some-rundown-id',
+        part: {
+          executedAt: 0, id: '', isNext: false, isOnAir: false, pieces: [], playedDuration: 0, segmentId: ''
+        }
+      }
+
+      const result: RundownPartInsertedAsNextEvent = testee.parsePartInsertedAsNext(event)
+
+      expect(result).toEqual(event)
+    })
+
+    it('does not parse a partial rundown part is inserted as next event', () => {
+      const mockedEntityParser = createMockOfEntityParser()
+      const testee = new ZodRundownEventParser(instance(mockedEntityParser))
+      const event: Partial<RundownPartInsertedAsNextEvent> = {
+        type: RundownEventType.PART_INSERTED_AS_NEXT,
+        rundownId: 'some-rundown-id',
+      }
+
+      const result = (): RundownPartInsertedAsNextEvent => testee.parsePartInsertedAsNext(event)
 
       expect(result).toThrow()
     })

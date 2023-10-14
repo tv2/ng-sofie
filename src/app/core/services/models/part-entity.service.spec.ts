@@ -85,13 +85,13 @@ describe(PartEntityService.name, () => {
     })
   })
 
-  describe(PartEntityService.prototype.removeAsNextPart.name, () => {
+  describe(PartEntityService.prototype.unmarkPartAsNext.name, () => {
     it('unmarks part as next', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const part: Part = testEntityFactory.createPart({ isNext: true })
       const testee: PartEntityService = new PartEntityService()
 
-      const result: Part = testee.removeAsNextPart(part)
+      const result: Part = testee.unmarkPartAsNext(part)
 
       expect(result.isNext).toBeFalse()
     })
