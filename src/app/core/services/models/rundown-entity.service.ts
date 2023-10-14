@@ -3,6 +3,7 @@ import { SegmentEntityService } from './segment-entity.service'
 import { Segment } from '../../models/segment'
 import { RundownCursor } from '../../models/rundown-cursor'
 import { Injectable } from '@angular/core'
+import { Piece } from '../../models/piece'
 
 @Injectable()
 export class RundownEntityService {
@@ -75,5 +76,15 @@ export class RundownEntityService {
 
   private setSegmentAsNext(segments: Segment[], rundownCursor: RundownCursor): Segment[] {
     return segments.map(segment => (segment.id === rundownCursor.segmentId ? this.segmentService.setAsNextSegment(segment, rundownCursor.partId) : segment))
+  }
+
+  public addInfinitePiece(rundown: Rundown, infinitePieceToAdd: Piece): Rundown {
+    return {
+      ...rundown,
+      infinitePieces: [
+          ...rundown.infinitePieces.filter(infinitePiece => infinitePiece.id !== infinitePieceToAdd.id),
+          infinitePieceToAdd,
+      ],
+    }
   }
 }

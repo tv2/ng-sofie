@@ -259,6 +259,40 @@ describe(RundownEntityService.name, () => {
       })
     })
   })
+
+  describe(RundownEntityService.prototype.addInfinitePiece.name, () => {
+    describe('when an already existing infinite piece is added', () => {
+      it('overwrites the previous one', () => {
+        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+        const infinitePiece: Piece = testEntityFactory.createPiece({ id: 'some-id', name: 'some-name' })
+        const rundown: Rundown = testEntityFactory.createRundown({ infinitePieces: [infinitePiece] })
+        const updatedInfinitePiece: Piece = { ...infinitePiece, name: 'some-other-name' }
+        const testee: RundownEntityService = createTestee()
+
+        expect(rundown.infinitePieces).toContain(infinitePiece)
+        expect(rundown.infinitePieces).not.toContain(updatedInfinitePiece)
+
+        const result: Rundown = testee.addInfinitePiece(rundown, updatedInfinitePiece)
+
+        expect(result.infinitePieces).not.toContain(infinitePiece)
+        expect(result.infinitePieces).toContain(updatedInfinitePiece)
+      })
+    })
+    describe('when a non-existing infinite piece is added', () => {
+      it('is added to the rundown', () => {
+        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+        const infinitePiece: Piece = testEntityFactory.createPiece({ id: 'some-id' })
+        const rundown: Rundown = testEntityFactory.createRundown({ infinitePieces: [] })
+        const testee: RundownEntityService = createTestee()
+
+        expect(rundown.infinitePieces).not.toContain(infinitePiece)
+
+        const result: Rundown = testee.addInfinitePiece(rundown, infinitePiece)
+
+        expect(result.infinitePieces).toContain(infinitePiece)
+      })
+    })
+  })
 })
 
 function createTestee(maybeSegmentService?: SegmentEntityService): RundownEntityService {

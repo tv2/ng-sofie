@@ -111,8 +111,8 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    // TODO: Out-commented due to current changes in AdLib API. Wait until that is somewhat stable.
-    //rundownSubject.value.addInfinitePiece(event.infinitePiece)
+    const rundown: Rundown = this.rundownEntityService.addInfinitePiece(rundownSubject.value, event.infinitePiece)
+    rundownSubject.next(rundown)
   }
 
   public async subscribeToRundown(rundownId: string, consumer: (rundown: Rundown) => void): Promise<SubscriptionLike> {
