@@ -27,6 +27,10 @@ import { HttpActionService } from './services/http-action.service'
 import { ContextMenuComponent } from './components/context-menu/context-menu.component'
 import { CdkMenuModule } from '@angular/cdk/menu'
 import { ActionStateService } from './services/action-state.service'
+import { ActionParser } from './abstractions/action-parser.service'
+import { ZodActionParser } from './services/zod-action-parser.service'
+import { Tv2ActionParser } from './abstractions/tv2-action-parser.service'
+import { ZodTv2ActionParser } from './services/zod-tv2-action-parser.service'
 import { RundownNavigationService } from './services/rundown-navigation-service'
 
 @NgModule({
@@ -60,6 +64,8 @@ import { RundownNavigationService } from './services/rundown-navigation-service'
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
     { provide: ActionService, useClass: HttpActionService },
+    { provide: ActionParser, useClass: ZodActionParser },
+    { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
     DialogService,
     ConnectionErrorService,
     PieceLayerService,

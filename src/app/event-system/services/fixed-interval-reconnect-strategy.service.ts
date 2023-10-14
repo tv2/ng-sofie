@@ -1,13 +1,15 @@
 import { ReconnectStrategy } from '../abstractions/reconnect-strategy.service'
 import { Logger } from '../../core/abstractions/logger.service'
 
+const RECONNECT_INTERVAL_IN_MS: number = 2000
+
 export class FixedIntervalReconnectStrategy implements ReconnectStrategy {
   private readonly logger: Logger
   private connectAttempts: number = 0
   private delayTimer?: NodeJS.Timeout
 
   constructor(logger: Logger) {
-    this.logger = logger.tag('ExponentiallyDelayedReconnectStrategy')
+    this.logger = logger.tag('FixedIntervalReconnectStrategy')
   }
 
   public connected(): void {
@@ -44,6 +46,6 @@ export class FixedIntervalReconnectStrategy implements ReconnectStrategy {
   }
 
   private getReconnectDelay(): number {
-    return 2000
+    return RECONNECT_INTERVAL_IN_MS
   }
 }

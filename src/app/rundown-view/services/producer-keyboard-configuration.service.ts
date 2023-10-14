@@ -1,8 +1,8 @@
 import { BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { Injectable } from '@angular/core'
-import { KeyBindingService } from '../../keyboard/abstractions/key-binding.service'
+import { KeyBindingEventService } from '../../keyboard/abstractions/key-binding-event.service'
 import { KeyBinding } from '../../keyboard/models/key-binding'
-import { ProducerKeyBindingService } from '../abstractions/producer-key-binding.service'
+import { KeyBindingService } from '../abstractions/key-binding.service'
 import { KeyboardConfigurationService } from '../abstractions/keyboard-configuration.service'
 
 @Injectable()
@@ -13,8 +13,8 @@ export class ProducerKeyboardConfigurationService implements KeyboardConfigurati
   private readonly keystrokesSubject: Subject<string[]>
 
   constructor(
-    private readonly keyBindingService: KeyBindingService,
-    private readonly producerKeyBindingService: ProducerKeyBindingService
+    private readonly keyBindingEventService: KeyBindingEventService,
+    private readonly producerKeyBindingService: KeyBindingService
   ) {
     this.keyBindingsSubject = new BehaviorSubject(this.keyBindings)
     this.keystrokesSubject = new BehaviorSubject(this.keystrokes)
@@ -23,14 +23,14 @@ export class ProducerKeyboardConfigurationService implements KeyboardConfigurati
   public init(rundownId: string, eventAreaNode: Node): void {
     this.producerKeyBindingService.init(rundownId)
     this.producerKeyBindingService.subscribeToKeyBindings().subscribe(this.updateKeyBindings.bind(this))
-    this.keyBindingService.subscribeToKeystrokesOn(eventAreaNode).subscribe(this.updateKeystrokes.bind(this))
-    this.keyBindingService.defineKeyBindings(this.keyBindings)
+    this.keyBindingEventService.subscribeToKeystrokesOn(eventAreaNode).subscribe(this.updateKeystrokes.bind(this))
+    this.keyBindingEventService.defineKeyBindings(this.keyBindings)
   }
 
   private updateKeyBindings(keyBindings: KeyBinding[]): void {
     this.keyBindings = keyBindings
     this.keyBindingsSubject.next(this.keyBindings)
-    this.keyBindingService.defineKeyBindings(this.keyBindings)
+    this.keyBindingEventService.defineKeyBindings(this.keyBindings)
   }
 
   private updateKeystrokes(keystrokes: string[]): void {
@@ -47,6 +47,6 @@ export class ProducerKeyboardConfigurationService implements KeyboardConfigurati
   }
 
   public destroy(): void {
-    this.keyBindingService.unsubscribeFromKeystrokes()
+    this.keyBindingEventService.unsubscribeFromKeystrokes()
   }
 }

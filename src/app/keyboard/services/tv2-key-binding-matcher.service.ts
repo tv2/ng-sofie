@@ -1,37 +1,35 @@
 import { KeyBindingMatcher } from '../abstractions/key-binding-matcher.service'
 import { KeyBinding } from '../models/key-binding'
 
-type Matcher = () => boolean
-
 export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
   public isMatching(keyBinding: KeyBinding, keystrokes: string[], isKeyReleased: boolean): boolean {
-    return [...this.createKeystrokesRelatedKeyBindingMatchers(keyBinding, keystrokes), this.createKeyEventTypeMatcher(keyBinding, isKeyReleased)].every(matcher => matcher())
+    return this.doesKeystrokeRelatedPropertiesMatch(keyBinding, keystrokes) && this.doesKeyEventTypeMatch(keyBinding, isKeyReleased)
   }
 
-  private createKeystrokesRelatedKeyBindingMatchers(keyBinding: KeyBinding, keystrokes: string[]): Matcher[] {
-    return [this.createExclusivityMatcher(keyBinding, keystrokes), this.createOrderingMatcher(keyBinding, keystrokes)]
+  public doesKeystrokeRelatedPropertiesMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
+    return this.doesExclusivityMatch(keyBinding, keystrokes) && this.doesOrderingMatch(keyBinding, keystrokes)
   }
 
   private doesKeystrokesContainAllKeys(keyBinding: KeyBinding, keystrokes: string[]): boolean {
     return keyBinding.keys.every(key => keystrokes.includes(key))
   }
 
-  private createExclusivityMatcher(keyBinding: KeyBinding, keystrokes: string[]): Matcher {
+  private doesExclusivityMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
     if (!keyBinding.useExclusiveMatching) {
-      return () => this.doesKeystrokesContainAllKeys(keyBinding, keystrokes)
+      return this.doesKeystrokesContainAllKeys(keyBinding, keystrokes)
     }
-    return () => this.isKeyBindingAnExclusiveMatch(keyBinding, keystrokes)
+    return this.isKeyBindingAnExclusiveMatch(keyBinding, keystrokes)
   }
 
   private isKeyBindingAnExclusiveMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
     return this.doesKeystrokesContainAllKeys(keyBinding, keystrokes) && keyBinding.keys.length === keystrokes.length
   }
 
-  private createOrderingMatcher(keyBinding: KeyBinding, keystrokes: string[]): Matcher {
+  private doesOrderingMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
     if (!keyBinding.useOrderedMatching) {
-      return () => true
+      return true
     }
-    return () => this.doesKeystrokesMatchKeyBindingOrder(keyBinding, keystrokes)
+    return this.doesKeystrokesMatchKeyBindingOrder(keyBinding, keystrokes)
   }
 
   private doesKeystrokesMatchKeyBindingOrder(keyBinding: KeyBinding, keystrokes: string[]): boolean {
@@ -40,28 +38,28 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
     return hasSameLength && keyBinding.keys.every((key, index) => exclusiveKeystrokes[index] === key)
   }
 
-  private createKeyEventTypeMatcher(keyBinding: KeyBinding, isKeyReleased: boolean): Matcher {
-    return () => keyBinding.shouldMatchOnKeyRelease === isKeyReleased
+  private doesKeyEventTypeMatch(keyBinding: KeyBinding, isKeyReleased: boolean): boolean {
+    return keyBinding.shouldMatchOnKeyRelease === isKeyReleased
   }
 
   public shouldPreventDefaultBehaviour(keyBinding: KeyBinding, keystrokes: string[], isKeyReleased: boolean): boolean {
-    return [this.createPartialMatchMatcher(keyBinding, keystrokes), this.createPreventDefaultBehaviourOnKeyPressMatcher(keyBinding, keystrokes, isKeyReleased)].some(matcher => matcher())
+    return this.doesPartialMatchingMatch(keyBinding, keystrokes) || this.doesKeyEventTypePreventDefaultBehaviour(keyBinding, keystrokes, isKeyReleased)
   }
 
-  private createPartialMatchMatcher(keyBinding: KeyBinding, keystrokes: string[]): Matcher {
+  private doesPartialMatchingMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
     if (!keyBinding.shouldPreventDefaultBehaviourForPartialMatches) {
-      return () => false
+      return false
     }
     if (keystrokes.length === 0) {
-      return () => false
+      return false
     }
     if (keyBinding.useExclusiveMatching && !this.isKeyBindingAPartialExclusiveMatch(keyBinding, keystrokes)) {
-      return () => false
+      return false
     }
     if (keyBinding.useOrderedMatching && !this.doesKeystrokeOrderMatchIntersectionWithKeyBinding(keyBinding, keystrokes)) {
-      return () => false
+      return false
     }
-    return () => this.isKeyBindingAPartialNonExclusiveMatch(keyBinding, keystrokes)
+    return this.isKeyBindingAPartialNonExclusiveMatch(keyBinding, keystrokes)
   }
 
   private isKeyBindingAPartialExclusiveMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
@@ -79,10 +77,10 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
     return hasSameLength && exclusiveKeys.every((key, index) => exclusiveKeystrokes[index] === key)
   }
 
-  private createPreventDefaultBehaviourOnKeyPressMatcher(keyBinding: KeyBinding, keystrokes: string[], isKeyReleased: boolean): Matcher {
+  private doesKeyEventTypePreventDefaultBehaviour(keyBinding: KeyBinding, keystrokes: string[], isKeyReleased: boolean): boolean {
     if (!keyBinding.shouldPreventDefaultBehaviourOnKeyPress) {
-      return () => false
+      return false
     }
-    return () => !isKeyReleased && this.createKeystrokesRelatedKeyBindingMatchers(keyBinding, keystrokes).every(matcher => matcher())
+    return !isKeyReleased && this.doesKeystrokeRelatedPropertiesMatch(keyBinding, keystrokes)
   }
 }

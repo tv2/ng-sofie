@@ -7,12 +7,13 @@ import { Action } from '../../shared/models/action'
 import { Tv2ActionContentTypeGrouping, Tv2ActionGroupService } from './tv2-action-group.service'
 import { Injectable } from '@angular/core'
 import { Logger } from '../../core/abstractions/logger.service'
-import { ProducerKeyBindingService } from '../abstractions/producer-key-binding.service'
+import { KeyBindingService } from '../abstractions/key-binding.service'
 import { Rundown } from '../../core/models/rundown'
 import { RundownStateService } from '../../core/services/rundown-state.service'
+import { Tv2ActionParser } from '../../shared/abstractions/tv2-action-parser.service'
 
 @Injectable()
-export class HardcodedProducerKeyBindingService implements ProducerKeyBindingService {
+export class HardcodedProducerKeyBindingService implements KeyBindingService {
   private actions: Tv2Action[] = []
   private rundown?: Rundown
   private keyBindings: KeyBinding[] = []
@@ -21,20 +22,11 @@ export class HardcodedProducerKeyBindingService implements ProducerKeyBindingSer
   private rundownSubscription?: SubscriptionLike
   private readonly logger: Logger
 
-  // TODO implement the action parser
-  private readonly tv2ActionParser = {
-    parse(action: Action): Tv2Action {
-      if (!('metadata' in action)) {
-        throw new Error('Tv2Action is missing metadata attribute.')
-      }
-      return action as Tv2Action
-    },
-  }
-
   constructor(
     private readonly actionStateService: ActionStateService,
     private readonly keyBindingFactory: KeyBindingFactory,
     private readonly tv2ActionGroupService: Tv2ActionGroupService,
+    private readonly tv2ActionParser: Tv2ActionParser,
     private readonly rundownStateService: RundownStateService,
     logger: Logger
   ) {
@@ -57,7 +49,7 @@ export class HardcodedProducerKeyBindingService implements ProducerKeyBindingSer
   private onActionsChanged(actions: Action[]): void {
     this.actions = actions.reduce((tv2Actions: Tv2Action[], action: Action) => {
       try {
-        return [...tv2Actions, this.tv2ActionParser.parse(action)]
+        return [...tv2Actions, this.tv2ActionParser.parseTv2Action(action)]
       } catch (error) {
         this.logger.data({ error, action }).warn('Received invalid Tv2Action')
       }
