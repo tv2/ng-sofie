@@ -40,11 +40,18 @@ export class PartEntityService {
   }
 
   public reset(part: Part): Part {
+    const partWithoutUnplannedPieces: Part = this.removeUnplannedPieces(part)
     return {
-      ...part,
+      ...partWithoutUnplannedPieces,
       playedDuration: 0,
       executedAt: 0,
-      pieces: part.pieces.filter(piece => piece.isPlanned),
+    }
+  }
+
+  public removeUnplannedPieces(part: Part): Part {
+    return {
+      ...part,
+      pieces: part.pieces.filter(piece => piece.isPlanned)
     }
   }
 

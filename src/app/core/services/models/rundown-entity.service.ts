@@ -62,7 +62,7 @@ export class RundownEntityService {
   public setNext(rundown: Rundown, rundownCursor: RundownCursor): Rundown {
     const segmentsWithNextSegmentPossiblyReset: Segment[] = this.resetSegmentIfOffAir(rundown.segments, rundownCursor.segmentId)
     const segmentsWithoutUnplannedUnplayedParts: Segment[] = segmentsWithNextSegmentPossiblyReset.map(segment =>
-      segment.isNext ? this.segmentEntityService.removeUnplannedUnplayedParts(segment) : segment
+      segment.isNext ? this.segmentEntityService.removeUnplannedUnplayedPartsAndPieces(segment) : segment
     )
     return {
       ...rundown,

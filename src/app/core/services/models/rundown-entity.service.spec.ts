@@ -187,7 +187,7 @@ describe(RundownEntityService.name, () => {
         const rundown: Rundown = testEntityFactory.createRundown({ segments: [segment] })
         const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
         when(mockedSegmentEntityService.unmarkSegmentAsNext(anything())).thenCall(segment => segment)
-        when(mockedSegmentEntityService.removeUnplannedUnplayedParts(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.removeUnplannedUnplayedPartsAndPieces(anything())).thenCall(segment => segment)
         const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
 
         testee.setNext(rundown, rundownCursor)
@@ -202,7 +202,7 @@ describe(RundownEntityService.name, () => {
         const rundown: Rundown = testEntityFactory.createRundown({ segments: [segment] })
         const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
         when(mockedSegmentEntityService.unmarkSegmentAsNext(anything())).thenCall(segment => segment)
-        when(mockedSegmentEntityService.removeUnplannedUnplayedParts(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.removeUnplannedUnplayedPartsAndPieces(anything())).thenCall(segment => segment)
         const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
 
         testee.setNext(rundown, rundownCursor)
@@ -238,7 +238,7 @@ describe(RundownEntityService.name, () => {
         const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
         when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
         when(mockedSegmentEntityService.unmarkSegmentAsNext(anything())).thenCall(segment => segment)
-        when(mockedSegmentEntityService.removeUnplannedUnplayedParts(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.removeUnplannedUnplayedPartsAndPieces(anything())).thenCall(segment => segment)
         const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
 
         testee.setNext(rundown, rundownCursor)
@@ -255,7 +255,7 @@ describe(RundownEntityService.name, () => {
         const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
         when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
         when(mockedSegmentEntityService.unmarkSegmentAsNext(anything())).thenCall(segment => segment)
-        when(mockedSegmentEntityService.removeUnplannedUnplayedParts(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.removeUnplannedUnplayedPartsAndPieces(anything())).thenCall(segment => segment)
         const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
 
         testee.setNext(rundown, rundownCursor)

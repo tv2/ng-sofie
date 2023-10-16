@@ -4,6 +4,7 @@ import { Segment } from '../../models/segment'
 import { PartEntityService } from './part-entity.service'
 import { anyNumber, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
 import { Part } from '../../models/part'
+import { RundownEntityService } from './rundown-entity.service'
 
 describe(SegmentEntityService.name, () => {
   describe(SegmentEntityService.prototype.putOnAir.name, () => {
@@ -270,7 +271,7 @@ describe(SegmentEntityService.name, () => {
           const nextPart: Part = testEntityFactory.createPart({ id: 'next-part-id', isNext: true })
           const newPart: Part = testEntityFactory.createPart({ id: 'new-part-id', isNext: true })
           const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
-          const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
+          const mockedPartEntityService: PartEntityService = createMockOfPartEntityService()
           const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 
           testee.insertPartAsNext(segment, newPart)
@@ -288,9 +289,8 @@ describe(SegmentEntityService.name, () => {
           const nextPart: Part = testEntityFactory.createPart({ id: 'next-part-id', isNext: true, isPlanned: true })
           const newPart: Part = testEntityFactory.createPart({ id: 'new-part-id', isNext: true })
           const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
-          const mockedPartEntitySegment: PartEntityService = mock<PartEntityService>()
-          when(mockedPartEntitySegment.unmarkPartAsNext(anything())).thenCall(part => part)
-          const testee: SegmentEntityService = createTestee(instance(mockedPartEntitySegment))
+          const mockedPartEntityService: PartEntityService = createMockOfPartEntityService()
+          const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 
           const result: Segment = testee.insertPartAsNext(segment, newPart)
 
@@ -304,13 +304,12 @@ describe(SegmentEntityService.name, () => {
           const nextPart: Part = testEntityFactory.createPart({ id: 'next-part-id', isNext: true, isPlanned: true })
           const newPart: Part = testEntityFactory.createPart({ id: 'new-part-id', isNext: true })
           const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
-          const mockedPartEntitySegment: PartEntityService = mock<PartEntityService>()
-          when(mockedPartEntitySegment.unmarkPartAsNext(anything())).thenCall(part => part)
-          const testee: SegmentEntityService = createTestee(instance(mockedPartEntitySegment))
+          const mockedPartEntityService: PartEntityService = createMockOfPartEntityService()
+          const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 
           testee.insertPartAsNext(segment, newPart)
 
-          verify(mockedPartEntitySegment.unmarkPartAsNext(nextPart)).once()
+          verify(mockedPartEntityService.unmarkPartAsNext(nextPart)).once()
         })
       })
 
@@ -321,9 +320,8 @@ describe(SegmentEntityService.name, () => {
           const nextPart: Part = testEntityFactory.createPart({ id: 'next-part-id', isNext: true, isPlanned: false })
           const newPart: Part = testEntityFactory.createPart({ id: 'new-part-id', isNext: true })
           const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
-          const mockedPartEntitySegment: PartEntityService = mock<PartEntityService>()
-          when(mockedPartEntitySegment.unmarkPartAsNext(anything())).thenCall(part => part)
-          const testee: SegmentEntityService = createTestee(instance(mockedPartEntitySegment))
+          const mockedPartEntityService: PartEntityService = createMockOfPartEntityService()
+          const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 
           const result: Segment = testee.insertPartAsNext(segment, newPart)
 
@@ -334,9 +332,58 @@ describe(SegmentEntityService.name, () => {
       })
     })
   })
+
+  describe(SegmentEntityService.prototype.removeUnplannedUnplayedPartsAndPieces.name, () => {
+    it('removes unplanned unplayed parts', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const playedPart: Part = testEntityFactory.createPart({ isPlanned: true })
+      const playedUnplannedPart: Part = testEntityFactory.createPart({ isPlanned: false, playedDuration: 1234 })
+      const unplannedUnplayedPart1: Part = testEntityFactory.createPart({ isPlanned: false, playedDuration: 0 })
+      const unplannedUnplayedPart2: Part = testEntityFactory.createPart({ isPlanned: false, playedDuration: 0 })
+      const unplannedUnplayedPart3: Part = testEntityFactory.createPart({ isPlanned: false, playedDuration: 0 })
+      const parts: Part[] = [
+        unplannedUnplayedPart1,
+        playedPart,
+        unplannedUnplayedPart2,
+        playedUnplannedPart,
+        unplannedUnplayedPart3,
+      ]
+      const expectedParts: Part[] = [
+          playedPart,
+          playedUnplannedPart
+      ]
+      const segment: Segment = testEntityFactory.createSegment({ parts })
+      const testee: SegmentEntityService = createTestee()
+
+      const result: Segment = testee.removeUnplannedUnplayedPartsAndPieces(segment)
+
+      expect(result.parts).toEqual(expectedParts)
+    })
+
+    it('removes unplanned pieces from next part', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const onAirPart: Part = testEntityFactory.createPart({ isOnAir: true })
+      const nextPart: Part = testEntityFactory.createPart({ isNext: true })
+      const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart]})
+      const mockedPartEntityService: PartEntityService = createMockOfPartEntityService()
+      const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
+
+      testee.removeUnplannedUnplayedPartsAndPieces(segment)
+
+      verify(mockedPartEntityService.removeUnplannedPieces(onAirPart)).never()
+      verify(mockedPartEntityService.removeUnplannedPieces(nextPart)).once()
+    })
+  })
 })
 
-function createTestee(maybePartService?: PartEntityService): SegmentEntityService {
-  const partService: PartEntityService = maybePartService ?? instance(mock<PartEntityService>())
+function createTestee(maybePartEntityService?: PartEntityService): SegmentEntityService {
+  const partService: PartEntityService = maybePartEntityService ?? instance(createMockOfPartEntityService())
   return new SegmentEntityService(partService)
+}
+
+function createMockOfPartEntityService(): PartEntityService {
+  const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
+  when(mockedPartEntityService.unmarkPartAsNext(anything())).thenCall(part => part)
+  when(mockedPartEntityService.removeUnplannedPieces(anything())).thenCall(part => part)
+  return mockedPartEntityService
 }
