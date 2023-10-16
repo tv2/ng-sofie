@@ -1,10 +1,4 @@
-import {
-  Tv2Action,
-  Tv2ActionContentType,
-  Tv2CameraAction,
-  Tv2TransitionAction,
-  Tv2VideoClipAction
-} from '../../shared/models/tv2-action'
+import { Tv2Action, Tv2ActionContentType, Tv2CameraAction, Tv2TransitionAction, Tv2VideoClipAction } from '../../shared/models/tv2-action'
 
 export interface Tv2ActionContentTypeGrouping {
   camera: Tv2CameraAction[]

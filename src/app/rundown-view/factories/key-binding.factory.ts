@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { KeyBinding } from '../../keyboard/models/key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
-import { Tv2ActionContentType, Tv2CameraAction, Tv2TransitionAction } from '../../shared/models/tv2-action'
+import { Tv2CameraAction, Tv2TransitionAction } from '../../shared/models/tv2-action'
 import { PartActionType } from '../../shared/models/action-type'
 import { RundownService } from '../../core/abstractions/rundown.service'
 import { Rundown } from '../../core/models/rundown'
@@ -166,7 +166,7 @@ export class KeyBindingFactory {
 
   public createTransitionKeyBindingsFromActions(transitionActions: Tv2TransitionAction[], rundownId: string): KeyBinding[] {
     const keys: [string, ...string[]][] = [['KeyZ'], ['KeyX'], ['KeyC'], ['KeyV'], ['KeyB']]
-    return transitionActions.slice(0,5).map(((action, actionIndex) => this.createTransitionKeyBinding(action, rundownId, keys[actionIndex])))
+    return transitionActions.slice(0, 5).map((action, actionIndex) => this.createTransitionKeyBinding(action, rundownId, keys[actionIndex]))
   }
 
   private createTransitionKeyBinding(action: Tv2TransitionAction, rundownId: string, keys: [string, ...string[]]): KeyBinding {
@@ -178,8 +178,7 @@ export class KeyBindingFactory {
       shouldPreventDefaultBehaviourForPartialMatches: true,
       shouldPreventDefaultBehaviourOnKeyPress: true,
       useExclusiveMatching: true,
-      useOrderedMatching: false
-
+      useOrderedMatching: false,
     }
   }
 }
