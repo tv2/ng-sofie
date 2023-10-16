@@ -300,7 +300,7 @@ describe(RundownEntityService.name, () => {
   })
 
   describe(RundownEntityService.prototype.insertPartAsOnAir.name, () => {
-    it('takes segment off-air before putting new part on-air', () => {
+    it('inserts the part as on-air', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const newPart: Part = testEntityFactory.createPart()
       const onAirPart: Part = testEntityFactory.createPart({ isOnAir: true })
@@ -313,7 +313,7 @@ describe(RundownEntityService.name, () => {
 
       testee.insertPartAsOnAir(rundown, newPart, Date.now())
 
-      verify(mockedSegmentEntityService.takeOffAir(segment, anyNumber())).calledBefore(mockedSegmentEntityService.insertPartAsOnAir(segment, newPart, anyNumber()))
+      verify(mockedSegmentEntityService.insertPartAsOnAir(segment, newPart, anyNumber())).once()
     })
   })
 

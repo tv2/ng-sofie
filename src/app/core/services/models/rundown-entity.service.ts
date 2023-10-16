@@ -92,9 +92,7 @@ export class RundownEntityService {
   public insertPartAsOnAir(rundown: Rundown, part: Part, insertedAt: number): Rundown {
     return {
       ...rundown,
-      segments: rundown.segments.map(segment =>
-        segment.id === part.segmentId ? this.segmentEntityService.insertPartAsOnAir(this.segmentEntityService.takeOffAir(segment, insertedAt), part, insertedAt) : segment
-      ),
+      segments: rundown.segments.map(segment => (segment.id === part.segmentId ? this.segmentEntityService.insertPartAsOnAir(segment, part, insertedAt) : segment)),
     }
   }
 
