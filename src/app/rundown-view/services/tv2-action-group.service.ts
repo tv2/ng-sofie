@@ -1,8 +1,15 @@
-import { Tv2Action, Tv2ActionContentType, Tv2CameraAction, Tv2VideoClipAction } from '../../shared/models/tv2-action'
+import {
+  Tv2Action,
+  Tv2ActionContentType,
+  Tv2CameraAction,
+  Tv2TransitionAction,
+  Tv2VideoClipAction
+} from '../../shared/models/tv2-action'
 
 export interface Tv2ActionContentTypeGrouping {
   camera: Tv2CameraAction[]
   videoClip: Tv2VideoClipAction[]
+  transition: Tv2TransitionAction[]
 }
 
 export class Tv2ActionGroupService {
@@ -15,6 +22,8 @@ export class Tv2ActionGroupService {
       grouping.camera.push(action)
     } else if (this.isVideoClipAction(action)) {
       grouping.videoClip.push(action)
+    } else if (this.isTransitionAction(action)) {
+      grouping.transition.push(action)
     }
     return grouping
   }
@@ -27,10 +36,15 @@ export class Tv2ActionGroupService {
     return action.metadata.contentType === Tv2ActionContentType.VIDEO_CLIP
   }
 
+  private isTransitionAction(action: Tv2Action): action is Tv2TransitionAction {
+    return action.metadata.contentType === Tv2ActionContentType.TRANSITION
+  }
+
   private createEmptyGrouping(): Tv2ActionContentTypeGrouping {
     return {
       camera: [],
       videoClip: [],
+      transition: [],
     }
   }
 }

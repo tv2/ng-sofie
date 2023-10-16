@@ -67,7 +67,7 @@ export class HardcodedProducerKeyBindingService implements KeyBindingService {
     if (!this.rundown.isActive) {
       return this.keyBindingFactory.createRundownKeyBindings(this.rundown)
     }
-    return [...this.keyBindingFactory.createRundownKeyBindings(this.rundown), ...this.keyBindingFactory.createCameraKeyBindingsFromActions(actionsGroupedByContentType.camera, this.rundown.id)]
+    return [...this.keyBindingFactory.createRundownKeyBindings(this.rundown), ...this.keyBindingFactory.createCameraKeyBindingsFromActions(actionsGroupedByContentType.camera, this.rundown.id), ...this.keyBindingFactory.createTransitionKeyBindingsFromActions(actionsGroupedByContentType.transition, this.rundown.id)]
   }
 
   private onRundownChanged(rundown: Rundown): void {
