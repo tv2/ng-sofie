@@ -61,7 +61,9 @@ export class RundownEntityService {
 
   public setNext(rundown: Rundown, rundownCursor: RundownCursor): Rundown {
     const segmentsWithNextSegmentPossiblyReset: Segment[] = this.resetSegmentIfOffAir(rundown.segments, rundownCursor.segmentId)
-    const segmentsWithoutUnplannedUnplayedParts: Segment[] = segmentsWithNextSegmentPossiblyReset.map(segment => segment.isNext ? this.segmentEntityService.removeUnplannedUnplayedParts(segment) : segment)
+    const segmentsWithoutUnplannedUnplayedParts: Segment[] = segmentsWithNextSegmentPossiblyReset.map(segment =>
+      segment.isNext ? this.segmentEntityService.removeUnplannedUnplayedParts(segment) : segment
+    )
     return {
       ...rundown,
       segments: this.setSegmentAsNext(this.unmarkSegmentsSetAsNext(segmentsWithoutUnplannedUnplayedParts), rundownCursor),
@@ -83,27 +85,25 @@ export class RundownEntityService {
   public addInfinitePiece(rundown: Rundown, infinitePieceToAdd: Piece): Rundown {
     return {
       ...rundown,
-      infinitePieces: [
-          ...rundown.infinitePieces.filter(infinitePiece => infinitePiece.id !== infinitePieceToAdd.id),
-          infinitePieceToAdd,
-      ],
+      infinitePieces: [...rundown.infinitePieces.filter(infinitePiece => infinitePiece.id !== infinitePieceToAdd.id), infinitePieceToAdd],
     }
   }
 
   public insertPartAsOnAir(rundown: Rundown, part: Part, insertedAt: number): Rundown {
     return {
       ...rundown,
-      segments: rundown.segments.map(segment => segment.id === part.segmentId ? this.segmentEntityService.insertPartAsOnAir(segment, part, insertedAt) : this.segmentEntityService.takeOffAir(segment, insertedAt))
+      segments: rundown.segments.map(segment =>
+        segment.id === part.segmentId ? this.segmentEntityService.insertPartAsOnAir(this.segmentEntityService.takeOffAir(segment, insertedAt), part, insertedAt) : segment
+      ),
     }
   }
 
   public insertPartAsNext(rundown: Rundown, part: Part): Rundown {
     return {
       ...rundown,
-      segments: rundown.segments.map(
-          segment => segment.id === part.segmentId
-          ? this.segmentEntityService.insertPartAsNext(segment, part)
-          : this.segmentEntityService.unmarkSegmentAsNext(segment)),
+      segments: rundown.segments
+        .map(segment => (segment.isNext ? this.segmentEntityService.unmarkSegmentAsNext(segment) : segment))
+        .map(segment => (segment.id === part.segmentId ? this.segmentEntityService.insertPartAsNext(segment, part) : segment)),
     }
   }
 }

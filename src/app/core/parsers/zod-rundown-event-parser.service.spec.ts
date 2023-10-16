@@ -7,9 +7,10 @@ import {
   RundownActivatedEvent,
   RundownDeactivatedEvent,
   RundownDeletedEvent,
-  RundownInfinitePieceAddedEvent, RundownPartInsertedAsNextEvent,
+  RundownInfinitePieceAddedEvent,
+  RundownPartInsertedAsNextEvent,
   RundownPartInsertedAsOnAirEvent,
-  RundownResetEvent
+  RundownResetEvent,
 } from '../models/rundown-event'
 import { PieceType } from '../enums/piece-type'
 import { EntityParser } from '../abstractions/entity-parser.service'
@@ -235,8 +236,15 @@ describe(ZodRundownEventParser.name, () => {
         timestamp: Date.now(),
         rundownId: 'some-rundown-id',
         part: {
-          executedAt: 0, id: '', isNext: false, isOnAir: false, pieces: [], playedDuration: 0, segmentId: ''
-        }
+          executedAt: 0,
+          id: '',
+          isNext: false,
+          isOnAir: false,
+          pieces: [],
+          playedDuration: 0,
+          segmentId: '',
+          isPlanned: false,
+        },
       }
 
       const result: RundownPartInsertedAsOnAirEvent = testee.parsePartInsertedAsOnAir(event)
@@ -268,8 +276,15 @@ describe(ZodRundownEventParser.name, () => {
         timestamp: Date.now(),
         rundownId: 'some-rundown-id',
         part: {
-          executedAt: 0, id: '', isNext: false, isOnAir: false, pieces: [], playedDuration: 0, segmentId: ''
-        }
+          executedAt: 0,
+          id: '',
+          isNext: false,
+          isOnAir: false,
+          pieces: [],
+          playedDuration: 0,
+          segmentId: '',
+          isPlanned: false,
+        },
       }
 
       const result: RundownPartInsertedAsNextEvent = testee.parsePartInsertedAsNext(event)

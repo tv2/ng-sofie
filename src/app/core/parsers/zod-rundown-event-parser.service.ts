@@ -7,7 +7,8 @@ import {
   PartSetAsNextEvent,
   PartTakenEvent,
   RundownDeletedEvent,
-  RundownPartInsertedAsOnAirEvent, RundownPartInsertedAsNextEvent
+  RundownPartInsertedAsOnAirEvent,
+  RundownPartInsertedAsNextEvent,
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
@@ -71,9 +72,9 @@ export class ZodRundownEventParser implements RundownEventParser {
     timestamp: zod.number(),
     rundownId: zod.string().nonempty(),
     part: zod
-        .object({})
-        .passthrough()
-        .transform((part: unknown) => this.entityParser.parsePart(part)),
+      .object({})
+      .passthrough()
+      .transform((part: unknown) => this.entityParser.parsePart(part)),
   })
 
   private readonly rundownPartInsertedAsNextEventParser = zod.object({
@@ -81,9 +82,9 @@ export class ZodRundownEventParser implements RundownEventParser {
     timestamp: zod.number(),
     rundownId: zod.string().nonempty(),
     part: zod
-        .object({})
-        .passthrough()
-        .transform((part: unknown) => this.entityParser.parsePart(part)),
+      .object({})
+      .passthrough()
+      .transform((part: unknown) => this.entityParser.parsePart(part)),
   })
 
   constructor(private readonly entityParser: EntityParser) {}

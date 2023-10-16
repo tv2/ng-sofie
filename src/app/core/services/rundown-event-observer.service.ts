@@ -10,7 +10,8 @@ import {
   RundownResetEvent,
   PartSetAsNextEvent,
   PartTakenEvent,
-  RundownPartInsertedAsOnAirEvent, RundownPartInsertedAsNextEvent
+  RundownPartInsertedAsOnAirEvent,
+  RundownPartInsertedAsNextEvent,
 } from '../models/rundown-event'
 import { Logger } from '../abstractions/logger.service'
 
@@ -59,15 +60,15 @@ export class RundownEventObserver {
 
   public subscribeToRundownPartInsertedAsOnAir(onPartInsertedAsOnAir: (event: RundownPartInsertedAsOnAirEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
-        RundownEventType.PART_INSERTED_AS_ON_AIR,
-        this.createEventValidatingConsumer(onPartInsertedAsOnAir, this.rundownEventParser.parsePartInsertedAsOnAir.bind(this.rundownEventParser))
+      RundownEventType.PART_INSERTED_AS_ON_AIR,
+      this.createEventValidatingConsumer(onPartInsertedAsOnAir, this.rundownEventParser.parsePartInsertedAsOnAir.bind(this.rundownEventParser))
     )
   }
 
   public subscribeToRundownPartInsertedAsNext(onPartInsertedAsNext: (event: RundownPartInsertedAsNextEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
-        RundownEventType.PART_INSERTED_AS_NEXT,
-        this.createEventValidatingConsumer(onPartInsertedAsNext, this.rundownEventParser.parsePartInsertedAsNext.bind(this.rundownEventParser))
+      RundownEventType.PART_INSERTED_AS_NEXT,
+      this.createEventValidatingConsumer(onPartInsertedAsNext, this.rundownEventParser.parsePartInsertedAsNext.bind(this.rundownEventParser))
     )
   }
 

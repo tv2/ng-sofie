@@ -6,7 +6,8 @@ import {
   PartTakenEvent,
   RundownActivatedEvent,
   RundownDeactivatedEvent,
-  RundownPartInsertedAsOnAirEvent, RundownPartInsertedAsNextEvent
+  RundownPartInsertedAsOnAirEvent,
+  RundownPartInsertedAsNextEvent,
 } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
 import { Rundown } from '../models/rundown'
@@ -66,7 +67,7 @@ export class RundownStateService implements OnDestroy {
       this.rundownEventObserver.subscribeToRundownTake(this.takePartInRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownSetNext(this.setNextPartInRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownInfinitePieceAdded(this.addInfinitePieceToRundownFromEvent.bind(this)),
-        this.rundownEventObserver.subscribeToRundownPartInsertedAsOnAir(this.insertPartAsOnAirFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownPartInsertedAsOnAir(this.insertPartAsOnAirFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownPartInsertedAsNext(this.insertPartAsNextFromEvent.bind(this)),
     ]
   }

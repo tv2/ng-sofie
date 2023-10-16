@@ -38,6 +38,7 @@ export class TestEntityFactory {
       pieces: [],
       executedAt: 0,
       playedDuration: 0,
+      isPlanned: true,
       ...part,
     }
   }
