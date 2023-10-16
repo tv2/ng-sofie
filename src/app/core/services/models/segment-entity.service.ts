@@ -79,7 +79,7 @@ export class SegmentEntityService {
   }
 
   public insertPartAsNext(segment: Segment, part: Part): Segment {
-  const segmentWithOnlyPlannedOrPlayedParts: Segment = this.removeUnplannedUnplayedPartsAndPieces(segment)
+    const segmentWithOnlyPlannedOrPlayedParts: Segment = this.removeUnplannedUnplayedPartsAndPieces(segment)
     const noNextParts: Part[] = this.unmarkPartsSetAsNext(segmentWithOnlyPlannedOrPlayedParts)
     const onAirPartIndex: number = segment.parts.findIndex(part => part.isOnAir)
     return {
@@ -96,9 +96,7 @@ export class SegmentEntityService {
   public removeUnplannedUnplayedPartsAndPieces(segment: Segment): Segment {
     return {
       ...segment,
-      parts: segment.parts
-          .filter(part => part.isOnAir || part.isPlanned || part.playedDuration > 0)
-          .map(part => part.isNext ? this.partEntityService.removeUnplannedPieces(part) : part),
+      parts: segment.parts.filter(part => part.isOnAir || part.isPlanned || part.playedDuration > 0).map(part => (part.isNext ? this.partEntityService.removeUnplannedPieces(part) : part)),
     }
   }
 

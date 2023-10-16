@@ -4,7 +4,6 @@ import { Segment } from '../../models/segment'
 import { PartEntityService } from './part-entity.service'
 import { anyNumber, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
 import { Part } from '../../models/part'
-import { RundownEntityService } from './rundown-entity.service'
 
 describe(SegmentEntityService.name, () => {
   describe(SegmentEntityService.prototype.putOnAir.name, () => {
@@ -341,17 +340,8 @@ describe(SegmentEntityService.name, () => {
       const unplannedUnplayedPart1: Part = testEntityFactory.createPart({ isPlanned: false, playedDuration: 0 })
       const unplannedUnplayedPart2: Part = testEntityFactory.createPart({ isPlanned: false, playedDuration: 0 })
       const unplannedUnplayedPart3: Part = testEntityFactory.createPart({ isPlanned: false, playedDuration: 0 })
-      const parts: Part[] = [
-        unplannedUnplayedPart1,
-        playedPart,
-        unplannedUnplayedPart2,
-        playedUnplannedPart,
-        unplannedUnplayedPart3,
-      ]
-      const expectedParts: Part[] = [
-          playedPart,
-          playedUnplannedPart
-      ]
+      const parts: Part[] = [unplannedUnplayedPart1, playedPart, unplannedUnplayedPart2, playedUnplannedPart, unplannedUnplayedPart3]
+      const expectedParts: Part[] = [playedPart, playedUnplannedPart]
       const segment: Segment = testEntityFactory.createSegment({ parts })
       const testee: SegmentEntityService = createTestee()
 
@@ -364,7 +354,7 @@ describe(SegmentEntityService.name, () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const onAirPart: Part = testEntityFactory.createPart({ isOnAir: true })
       const nextPart: Part = testEntityFactory.createPart({ isNext: true })
-      const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart]})
+      const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
       const mockedPartEntityService: PartEntityService = createMockOfPartEntityService()
       const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 

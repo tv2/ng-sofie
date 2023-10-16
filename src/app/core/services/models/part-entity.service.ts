@@ -51,7 +51,7 @@ export class PartEntityService {
   public removeUnplannedPieces(part: Part): Part {
     return {
       ...part,
-      pieces: part.pieces.filter(piece => piece.isPlanned)
+      pieces: part.pieces.filter(piece => piece.isPlanned),
     }
   }
 

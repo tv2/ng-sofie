@@ -338,19 +338,15 @@ describe(PartEntityService.name, () => {
       const plannedPiece2: Piece = testEntityFactory.createPiece({ isPlanned: true })
       const plannedPiece3: Piece = testEntityFactory.createPiece({ isPlanned: true })
       const pieces: Piece[] = [
-          plannedPiece1,
-          testEntityFactory.createPiece({ isPlanned: false }),
-          testEntityFactory.createPiece({ isPlanned: false }),
-          plannedPiece2,
-          testEntityFactory.createPiece({ isPlanned: false }),
-          plannedPiece3,
+        plannedPiece1,
+        testEntityFactory.createPiece({ isPlanned: false }),
+        testEntityFactory.createPiece({ isPlanned: false }),
+        plannedPiece2,
+        testEntityFactory.createPiece({ isPlanned: false }),
+        plannedPiece3,
       ]
       const part = testEntityFactory.createPart({ pieces })
-      const expectedPieces: Piece[] = [
-          plannedPiece1,
-          plannedPiece2,
-          plannedPiece3
-      ]
+      const expectedPieces: Piece[] = [plannedPiece1, plannedPiece2, plannedPiece3]
       const testee: PartEntityService = new PartEntityService()
 
       const result: Part = testee.removeUnplannedPieces(part)
