@@ -189,7 +189,7 @@ describe(ZodRundownEventParser.name, () => {
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parseInfinitePieceAdded.name, () => {
+  describe(ZodRundownEventParser.prototype.parseInfinitePieceAddedEvent.name, () => {
     it('parses a rundown infinite piece added event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
@@ -207,7 +207,7 @@ describe(ZodRundownEventParser.name, () => {
         },
       }
 
-      const result = testee.parseInfinitePieceAdded(event)
+      const result = testee.parseInfinitePieceAddedEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -220,13 +220,13 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = (): RundownInfinitePieceAddedEvent => testee.parseInfinitePieceAdded(event)
+      const result = (): RundownInfinitePieceAddedEvent => testee.parseInfinitePieceAddedEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parsePartInsertedAsOnAir.name, () => {
+  describe(ZodRundownEventParser.prototype.parsePartInsertedAsOnAirEvent.name, () => {
     it('parses a rundown part is inserted as on-air event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       when(mockedEntityParser.parsePart(anything())).thenCall(part => part)
@@ -247,7 +247,7 @@ describe(ZodRundownEventParser.name, () => {
         },
       }
 
-      const result: RundownPartInsertedAsOnAirEvent = testee.parsePartInsertedAsOnAir(event)
+      const result: RundownPartInsertedAsOnAirEvent = testee.parsePartInsertedAsOnAirEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -260,13 +260,13 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = (): RundownPartInsertedAsOnAirEvent => testee.parsePartInsertedAsOnAir(event)
+      const result = (): RundownPartInsertedAsOnAirEvent => testee.parsePartInsertedAsOnAirEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parsePartInsertedAsNext.name, () => {
+  describe(ZodRundownEventParser.prototype.parsePartInsertedAsNextEvent.name, () => {
     it('parses a rundown part is inserted as next event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       when(mockedEntityParser.parsePart(anything())).thenCall(part => part)
@@ -287,7 +287,7 @@ describe(ZodRundownEventParser.name, () => {
         },
       }
 
-      const result: RundownPartInsertedAsNextEvent = testee.parsePartInsertedAsNext(event)
+      const result: RundownPartInsertedAsNextEvent = testee.parsePartInsertedAsNextEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -300,7 +300,7 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = (): RundownPartInsertedAsNextEvent => testee.parsePartInsertedAsNext(event)
+      const result = (): RundownPartInsertedAsNextEvent => testee.parsePartInsertedAsNextEvent(event)
 
       expect(result).toThrow()
     })

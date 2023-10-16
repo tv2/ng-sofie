@@ -48,6 +48,7 @@ export class ZodEntityParser implements EntityParser {
     layer: zod.string().nonempty(),
     start: zod.number(),
     duration: zod.number().optional(),
+    isPlanned: zod.boolean(),
   })
 
   private readonly partParser = zod.object({

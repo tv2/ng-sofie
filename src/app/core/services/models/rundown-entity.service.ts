@@ -104,4 +104,11 @@ export class RundownEntityService {
         .map(segment => (segment.id === part.segmentId ? this.segmentEntityService.insertPartAsNext(segment, part) : segment)),
     }
   }
+
+  public insertPiece(rundown: Rundown, rundownCursor: RundownCursor, piece: Piece): Rundown {
+    return {
+      ...rundown,
+      segments: rundown.segments.map(segment => segment.id === rundownCursor.segmentId ? this.segmentEntityService.insertPiece(segment, rundownCursor.partId, piece) : segment),
+    }
+  }
 }

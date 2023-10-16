@@ -2,6 +2,7 @@ import { Segment } from '../../models/segment'
 import { Part } from '../../models/part'
 import { Injectable } from '@angular/core'
 import { PartEntityService } from './part-entity.service'
+import { Piece } from '../../models/piece'
 
 @Injectable()
 export class SegmentEntityService {
@@ -95,6 +96,13 @@ export class SegmentEntityService {
     return {
       ...segment,
       parts: segment.parts.filter(part => part.isOnAir || part.isPlanned || part.playedDuration > 0),
+    }
+  }
+
+  public insertPiece(segment: Segment, partId: string, piece: Piece): Segment {
+    return {
+      ...segment,
+      parts: segment.parts.map(part => part.id === partId ? this.partEntityService.insertPiece(part, piece) : part),
     }
   }
 }

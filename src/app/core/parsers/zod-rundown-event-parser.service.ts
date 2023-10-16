@@ -8,7 +8,7 @@ import {
   PartTakenEvent,
   RundownDeletedEvent,
   RundownPartInsertedAsOnAirEvent,
-  RundownPartInsertedAsNextEvent,
+  RundownPartInsertedAsNextEvent, RundownPieceInsertedEvent,
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
@@ -87,6 +87,18 @@ export class ZodRundownEventParser implements RundownEventParser {
       .transform((part: unknown) => this.entityParser.parsePart(part)),
   })
 
+  private readonly rundownPieceInsertedEventParser = zod.object({
+    type: zod.literal(RundownEventType.PIECE_INSERTED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    segmentId: zod.string().min(1),
+    partId: zod.string().min(1),
+    piece: zod
+        .object({})
+        .passthrough()
+        .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
+  })
+
   constructor(private readonly entityParser: EntityParser) {}
 
   public parseActivatedEvent(maybeEvent: unknown): RundownActivatedEvent {
@@ -112,15 +124,19 @@ export class ZodRundownEventParser implements RundownEventParser {
     return this.rundownSetNextEventParser.parse(maybeEvent)
   }
 
-  public parseInfinitePieceAdded(maybeEvent: unknown): RundownInfinitePieceAddedEvent {
+  public parseInfinitePieceAddedEvent(maybeEvent: unknown): RundownInfinitePieceAddedEvent {
     return this.rundownInfinitePieceAddedEventParser.parse(maybeEvent)
   }
 
-  public parsePartInsertedAsOnAir(maybeEvent: unknown): RundownPartInsertedAsOnAirEvent {
+  public parsePartInsertedAsOnAirEvent(maybeEvent: unknown): RundownPartInsertedAsOnAirEvent {
     return this.rundownPartInsertedAsOnAirEventParser.parse(maybeEvent)
   }
 
-  public parsePartInsertedAsNext(maybeEvent: unknown): RundownPartInsertedAsNextEvent {
+  public parsePartInsertedAsNextEvent(maybeEvent: unknown): RundownPartInsertedAsNextEvent {
     return this.rundownPartInsertedAsNextEventParser.parse(maybeEvent)
+  }
+
+  public parsePieceInsertedEvent(maybeEvent: unknown): RundownPieceInsertedEvent {
+    return this.rundownPieceInsertedEventParser.parse(maybeEvent)
   }
 }
