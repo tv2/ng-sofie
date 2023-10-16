@@ -1,5 +1,6 @@
 import { Tv2KeyBindingMatcher } from './tv2-key-binding-matcher.service'
 import { KeyBinding } from '../models/key-binding'
+import { Tv2KeyAliasService } from './tv2-key-alias.service'
 
 describe(Tv2KeyBindingMatcher.name, () => {
   describe(Tv2KeyBindingMatcher.prototype.isMatching.name, () => {
@@ -792,7 +793,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
 })
 
 function createTestee(): Tv2KeyBindingMatcher {
-  return new Tv2KeyBindingMatcher()
+  return new Tv2KeyBindingMatcher(new Tv2KeyAliasService())
 }
 
 function createKeyBinding(keyBinding: Partial<KeyBinding>): KeyBinding {

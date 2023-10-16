@@ -21,7 +21,7 @@ export class ProducerShelfComponent {
   }
 
   private displayKey(key: string): string {
-    return key.replace('Digit', '').replace('Key', '').replace('Left', '').replace('Right', '')
+    return key.replace('Digit', '').replace('Key', '')
   }
 
   public isKeyBindingMatched(keyBinding: KeyBinding): boolean {
