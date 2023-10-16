@@ -8,6 +8,7 @@ export class PartEntityService {
     return {
       ...part,
       isOnAir: true,
+      isNext: false,
       executedAt,
       playedDuration: 0,
     }
@@ -49,6 +50,7 @@ export class PartEntityService {
   }
 
   public removeUnplannedPieces(part: Part): Part {
+    console.warn('REMOVING', JSON.stringify({ ...part, pieces: [] }, null, 4))
     return {
       ...part,
       pieces: part.pieces.filter(piece => piece.isPlanned),
