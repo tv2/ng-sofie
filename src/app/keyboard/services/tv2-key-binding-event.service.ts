@@ -26,10 +26,11 @@ export class Tv2KeyBindingEventService implements KeyBindingEventService {
   }
 
   private registerKeyRelease(event: KeyboardEvent, eventAreaNode: Node): void {
+    const keyCode: string = event.code
     if (!this.isTargetingEventAreaNode(event, eventAreaNode)) {
+      this.deregisterKeystroke(keyCode)
       return
     }
-    const keyCode: string = event.code
     const shouldPreventDefaultBehaviour: boolean = this.keyBindings.some(keyBinding => this.keyBindingMatcher.shouldPreventDefaultBehaviour(keyBinding, this.keystrokes, true))
     if (shouldPreventDefaultBehaviour) {
       event.preventDefault()
