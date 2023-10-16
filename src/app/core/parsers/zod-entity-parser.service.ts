@@ -34,26 +34,26 @@ export class ZodEntityParser implements EntityParser {
   })
 
   private readonly showStyleVariantParser = zod.object({
-    id: zod.string().nonempty(),
-    showStyleBaseId: zod.string().nonempty(),
-    name: zod.string().nonempty(),
+    id: zod.string().min(1),
+    showStyleBaseId: zod.string().min(1),
+    name: zod.string().min(1),
     blueprintConfiguration: this.blueprintConfigurationParser,
   })
 
   private readonly pieceParser = zod.object({
-    id: zod.string().nonempty(),
+    id: zod.string().min(1),
     type: zod.nativeEnum(PieceType),
-    partId: zod.string().nonempty(),
-    name: zod.string().nonempty(),
-    layer: zod.string().nonempty(),
+    partId: zod.string().min(1),
+    name: zod.string().min(1),
+    layer: zod.string().min(1),
     start: zod.number(),
     duration: zod.number().optional(),
     isPlanned: zod.boolean(),
   })
 
   private readonly partParser = zod.object({
-    id: zod.string().nonempty(),
-    segmentId: zod.string().nonempty(),
+    id: zod.string().min(1),
+    segmentId: zod.string().min(1),
     isOnAir: zod.boolean(),
     isNext: zod.boolean(),
     pieces: this.pieceParser.array(),
@@ -68,9 +68,9 @@ export class ZodEntityParser implements EntityParser {
   })
 
   private readonly segmentParser = zod.object({
-    id: zod.string().nonempty(),
-    rundownId: zod.string().nonempty(),
-    name: zod.string().nonempty(),
+    id: zod.string().min(1),
+    rundownId: zod.string().min(1),
+    name: zod.string().min(1),
     isOnAir: zod.boolean(),
     isNext: zod.boolean(),
     parts: this.partParser.array(),
@@ -78,8 +78,8 @@ export class ZodEntityParser implements EntityParser {
   })
 
   private readonly basicRundownParser = zod.object({
-    id: zod.string().nonempty(),
-    name: zod.string().nonempty(),
+    id: zod.string().min(1),
+    name: zod.string().min(1),
     isActive: zod.boolean(),
     modifiedAt: zod.number(),
   })

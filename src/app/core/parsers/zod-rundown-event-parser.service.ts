@@ -20,47 +20,47 @@ export class ZodRundownEventParser implements RundownEventParser {
   private readonly rundownActivatedEventParser = zod.object({
     type: zod.literal(RundownEventType.ACTIVATED),
     timestamp: zod.number(),
-    rundownId: zod.string().nonempty(),
+    rundownId: zod.string().min(1),
   })
 
   private readonly rundownDeactivatedEventParser = zod.object({
     type: zod.literal(RundownEventType.DEACTIVATED),
     timestamp: zod.number(),
-    rundownId: zod.string().nonempty(),
+    rundownId: zod.string().min(1),
   })
 
   private readonly rundownDeletedEventParser = zod.object({
     type: zod.literal(RundownEventType.DELETED),
     timestamp: zod.number(),
-    rundownId: zod.string().nonempty(),
+    rundownId: zod.string().min(1),
   })
 
   private readonly rundownResetEventParser = zod.object({
     type: zod.literal(RundownEventType.RESET),
     timestamp: zod.number(),
-    rundownId: zod.string().nonempty(),
+    rundownId: zod.string().min(1),
   })
 
   private readonly rundownTakenEventParser = zod.object({
     type: zod.literal(RundownEventType.TAKEN),
     timestamp: zod.number(),
-    rundownId: zod.string().nonempty(),
-    segmentId: zod.string().nonempty(),
-    partId: zod.string().nonempty(),
+    rundownId: zod.string().min(1),
+    segmentId: zod.string().min(1),
+    partId: zod.string().min(1),
   })
 
   private readonly rundownSetNextEventParser = zod.object({
     type: zod.literal(RundownEventType.SET_NEXT),
     timestamp: zod.number(),
-    rundownId: zod.string().nonempty(),
-    segmentId: zod.string().nonempty(),
-    partId: zod.string().nonempty(),
+    rundownId: zod.string().min(1),
+    segmentId: zod.string().min(1),
+    partId: zod.string().min(1),
   })
 
   private readonly rundownInfinitePieceAddedEventParser = zod.object({
     type: zod.literal(RundownEventType.INFINITE_PIECE_ADDED),
     timestamp: zod.number(),
-    rundownId: zod.string().nonempty(),
+    rundownId: zod.string().min(1),
     infinitePiece: zod
       .object({})
       .passthrough()
@@ -70,7 +70,7 @@ export class ZodRundownEventParser implements RundownEventParser {
   private readonly rundownPartInsertedAsOnAirEventParser = zod.object({
     type: zod.literal(RundownEventType.PART_INSERTED_AS_ON_AIR),
     timestamp: zod.number(),
-    rundownId: zod.string().nonempty(),
+    rundownId: zod.string().min(1),
     part: zod
       .object({})
       .passthrough()
@@ -80,7 +80,7 @@ export class ZodRundownEventParser implements RundownEventParser {
   private readonly rundownPartInsertedAsNextEventParser = zod.object({
     type: zod.literal(RundownEventType.PART_INSERTED_AS_NEXT),
     timestamp: zod.number(),
-    rundownId: zod.string().nonempty(),
+    rundownId: zod.string().min(1),
     part: zod
       .object({})
       .passthrough()

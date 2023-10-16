@@ -41,7 +41,8 @@ export class SegmentEntityService {
   }
 
   private setPartAsNext(segment: Segment, partId: string): Part[] {
-    return segment.parts.map(part => (part.id === partId ? this.partEntityService.setAsNextPart(part) : part))
+    const partsWithoutUnplannedPiecesOnNextPart: Part[] = segment.parts.map(part => part.isNext ? this.partEntityService.reset(part) : part)
+    return partsWithoutUnplannedPiecesOnNextPart.map(part => (part.id === partId ? this.partEntityService.setAsNextPart(part) : part))
   }
 
   public unmarkSegmentAsNext(segment: Segment): Segment {

@@ -5,16 +5,13 @@ const RECONNECT_INTERVAL_IN_MS: number = 2000
 
 export class FixedIntervalReconnectStrategy implements ReconnectStrategy {
   private readonly logger: Logger
-  private connectAttempts: number = 0
   private delayTimer?: NodeJS.Timeout
 
   constructor(logger: Logger) {
     this.logger = logger.tag('FixedIntervalReconnectStrategy')
   }
 
-  public connected(): void {
-    this.connectAttempts = 0
-  }
+  public connected(): void { return }
 
   public disconnected(connect: () => void): void {
     if (this.delayTimer) {
@@ -24,7 +21,6 @@ export class FixedIntervalReconnectStrategy implements ReconnectStrategy {
   }
 
   private reconnect(connect: () => void): void {
-    this.connectAttempts++
     const reconnectDelay = this.getReconnectDelay()
     this.logger.info(`Attempting to reconnect in ${reconnectDelay}ms.`)
     this.delayTimer = setTimeout(this.createConnectWrapper(connect), reconnectDelay)
