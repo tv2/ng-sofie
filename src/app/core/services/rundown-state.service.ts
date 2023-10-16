@@ -7,7 +7,8 @@ import {
   RundownActivatedEvent,
   RundownDeactivatedEvent,
   RundownPartInsertedAsOnAirEvent,
-  RundownPartInsertedAsNextEvent, RundownPieceInsertedEvent,
+  RundownPartInsertedAsNextEvent,
+  RundownPieceInsertedEvent,
 } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
 import { Rundown } from '../models/rundown'

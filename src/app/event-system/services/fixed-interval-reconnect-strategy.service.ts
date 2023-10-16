@@ -11,7 +11,9 @@ export class FixedIntervalReconnectStrategy implements ReconnectStrategy {
     this.logger = logger.tag('FixedIntervalReconnectStrategy')
   }
 
-  public connected(): void { return }
+  public connected(): void {
+    return
+  }
 
   public disconnected(connect: () => void): void {
     if (this.delayTimer) {

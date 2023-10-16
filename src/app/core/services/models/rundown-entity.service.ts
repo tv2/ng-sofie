@@ -108,7 +108,7 @@ export class RundownEntityService {
   public insertPiece(rundown: Rundown, rundownCursor: RundownCursor, piece: Piece): Rundown {
     return {
       ...rundown,
-      segments: rundown.segments.map(segment => segment.id === rundownCursor.segmentId ? this.segmentEntityService.insertPiece(segment, rundownCursor.partId, piece) : segment),
+      segments: rundown.segments.map(segment => (segment.id === rundownCursor.segmentId ? this.segmentEntityService.insertPiece(segment, rundownCursor.partId, piece) : segment)),
     }
   }
 }

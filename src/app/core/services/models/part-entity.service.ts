@@ -44,7 +44,7 @@ export class PartEntityService {
       ...part,
       playedDuration: 0,
       executedAt: 0,
-      pieces: part.pieces.filter(piece => piece.isPlanned)
+      pieces: part.pieces.filter(piece => piece.isPlanned),
     }
   }
 
@@ -69,7 +69,7 @@ export class PartEntityService {
   public insertPiece(part: Part, piece: Piece): Part {
     return {
       ...part,
-      pieces: [...part.pieces, piece]
+      pieces: [...part.pieces, piece],
     }
   }
 }

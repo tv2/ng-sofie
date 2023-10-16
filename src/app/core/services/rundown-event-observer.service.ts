@@ -11,7 +11,8 @@ import {
   PartSetAsNextEvent,
   PartTakenEvent,
   RundownPartInsertedAsOnAirEvent,
-  RundownPartInsertedAsNextEvent, RundownPieceInsertedEvent,
+  RundownPartInsertedAsNextEvent,
+  RundownPieceInsertedEvent,
 } from '../models/rundown-event'
 import { Logger } from '../abstractions/logger.service'
 
@@ -74,8 +75,8 @@ export class RundownEventObserver {
 
   public subscribeToRundownPieceInserted(onPieceInserted: (event: RundownPieceInsertedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
-        RundownEventType.PIECE_INSERTED,
-        this.createEventValidatingConsumer(onPieceInserted, this.rundownEventParser.parsePieceInsertedEvent.bind(this.rundownEventParser))
+      RundownEventType.PIECE_INSERTED,
+      this.createEventValidatingConsumer(onPieceInserted, this.rundownEventParser.parsePieceInsertedEvent.bind(this.rundownEventParser))
     )
   }
 

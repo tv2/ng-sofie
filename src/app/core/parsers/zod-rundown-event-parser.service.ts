@@ -8,7 +8,8 @@ import {
   PartTakenEvent,
   RundownDeletedEvent,
   RundownPartInsertedAsOnAirEvent,
-  RundownPartInsertedAsNextEvent, RundownPieceInsertedEvent,
+  RundownPartInsertedAsNextEvent,
+  RundownPieceInsertedEvent,
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
@@ -94,9 +95,9 @@ export class ZodRundownEventParser implements RundownEventParser {
     segmentId: zod.string().min(1),
     partId: zod.string().min(1),
     piece: zod
-        .object({})
-        .passthrough()
-        .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
+      .object({})
+      .passthrough()
+      .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
   })
 
   constructor(private readonly entityParser: EntityParser) {}

@@ -51,6 +51,7 @@ export class TestEntityFactory {
       type: PieceType.UNKNOWN,
       layer: 'layer-id',
       start: 0,
+      isPlanned: true,
       ...piece,
     }
   }

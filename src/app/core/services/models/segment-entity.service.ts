@@ -41,7 +41,7 @@ export class SegmentEntityService {
   }
 
   private setPartAsNext(segment: Segment, partId: string): Part[] {
-    const partsWithoutUnplannedPiecesOnNextPart: Part[] = segment.parts.map(part => part.isNext ? this.partEntityService.reset(part) : part)
+    const partsWithoutUnplannedPiecesOnNextPart: Part[] = segment.parts.map(part => (part.isNext ? this.partEntityService.reset(part) : part))
     return partsWithoutUnplannedPiecesOnNextPart.map(part => (part.id === partId ? this.partEntityService.setAsNextPart(part) : part))
   }
 
@@ -103,7 +103,7 @@ export class SegmentEntityService {
   public insertPiece(segment: Segment, partId: string, piece: Piece): Segment {
     return {
       ...segment,
-      parts: segment.parts.map(part => part.id === partId ? this.partEntityService.insertPiece(part, piece) : part),
+      parts: segment.parts.map(part => (part.id === partId ? this.partEntityService.insertPiece(part, piece) : part)),
     }
   }
 }

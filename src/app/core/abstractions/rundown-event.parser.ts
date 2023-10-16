@@ -8,7 +8,8 @@ import {
   PartTakenEvent,
   RundownDeletedEvent,
   RundownPartInsertedAsOnAirEvent,
-  RundownPartInsertedAsNextEvent, RundownPieceInsertedEvent,
+  RundownPartInsertedAsNextEvent,
+  RundownPieceInsertedEvent,
 } from '../models/rundown-event'
 
 @Injectable()
