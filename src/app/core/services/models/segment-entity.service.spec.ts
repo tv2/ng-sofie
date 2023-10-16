@@ -360,8 +360,8 @@ describe(SegmentEntityService.name, () => {
 
       testee.removeUnplannedUnplayedPartsAndPieces(segment)
 
-      verify(mockedPartEntityService.removeUnplannedPieces(onAirPart)).never()
-      verify(mockedPartEntityService.removeUnplannedPieces(nextPart)).once()
+      verify(mockedPartEntityService.reset(onAirPart)).never()
+      verify(mockedPartEntityService.reset(nextPart)).once()
     })
   })
 })
@@ -374,6 +374,6 @@ function createTestee(maybePartEntityService?: PartEntityService): SegmentEntity
 function createMockOfPartEntityService(): PartEntityService {
   const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
   when(mockedPartEntityService.unmarkPartAsNext(anything())).thenCall(part => part)
-  when(mockedPartEntityService.removeUnplannedPieces(anything())).thenCall(part => part)
+  when(mockedPartEntityService.reset(anything())).thenCall(part => part)
   return mockedPartEntityService
 }

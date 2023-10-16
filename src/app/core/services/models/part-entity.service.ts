@@ -41,18 +41,10 @@ export class PartEntityService {
   }
 
   public reset(part: Part): Part {
-    const partWithoutUnplannedPieces: Part = this.removeUnplannedPieces(part)
-    return {
-      ...partWithoutUnplannedPieces,
-      playedDuration: 0,
-      executedAt: 0,
-    }
-  }
-
-  public removeUnplannedPieces(part: Part): Part {
-    console.warn('REMOVING', JSON.stringify({ ...part, pieces: [] }, null, 4))
     return {
       ...part,
+      playedDuration: 0,
+      executedAt: 0,
       pieces: part.pieces.filter(piece => piece.isPlanned),
     }
   }

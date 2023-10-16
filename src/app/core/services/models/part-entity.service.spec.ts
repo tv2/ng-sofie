@@ -331,7 +331,7 @@ describe(PartEntityService.name, () => {
     })
   })
 
-  describe(PartEntityService.prototype.removeUnplannedPieces.name, () => {
+  describe(PartEntityService.prototype.reset.name, () => {
     it('removes all unplanned pieces', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const plannedPiece1: Piece = testEntityFactory.createPiece({ isPlanned: true })
@@ -349,7 +349,7 @@ describe(PartEntityService.name, () => {
       const expectedPieces: Piece[] = [plannedPiece1, plannedPiece2, plannedPiece3]
       const testee: PartEntityService = new PartEntityService()
 
-      const result: Part = testee.removeUnplannedPieces(part)
+      const result: Part = testee.reset(part)
 
       expect(result.pieces).toEqual(expectedPieces)
     })

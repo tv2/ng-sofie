@@ -96,7 +96,7 @@ export class SegmentEntityService {
   public removeUnplannedUnplayedPartsAndPieces(segment: Segment): Segment {
     return {
       ...segment,
-      parts: segment.parts.filter(part => part.isOnAir || part.isPlanned || part.playedDuration > 0).map(part => (part.isNext ? this.partEntityService.removeUnplannedPieces(part) : part)),
+      parts: segment.parts.filter(part => part.isOnAir || part.isPlanned || part.playedDuration > 0).map(part => (part.isNext ? this.partEntityService.reset(part) : part)),
     }
   }
 
