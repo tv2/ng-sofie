@@ -1,0 +1,8 @@
+<div class="title">{{ title }}</div>
+<div class="actions">
+    <sofie-tv2-action-card
+        *ngFor="let action of actions; trackBy: trackAction"
+        [action]="action"
+        (click)="executeAction(action)"
+    ></sofie-tv2-action-card>
+</div>
