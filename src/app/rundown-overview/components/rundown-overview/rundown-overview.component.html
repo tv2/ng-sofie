@@ -1,15 +1,15 @@
 <sofie-header></sofie-header>
 
-<h1 class="c-rundown-overview__title" i18n="rundown-overview | @@rundownsListHeader">Rundowns</h1>
+<h1 class="c-rundown-overview__title" i18n>rundown-overview-component.rundown-header.label</h1>
 
 <div *ngIf="isLoading; else doneLoading" class="c-rundown-overview__loading-rundowns">
-  <mat-card-title i18n="rundown-overview | @@loadingRundownsDescription">Loading rundowns...</mat-card-title>
+  <mat-card-title i18n>rundown-overview-component.loading-rundowns.message</mat-card-title>
 </div>
 
 <ng-template #doneLoading>
   <div *ngIf="basicRundowns.length === 0; else rundowns" class="c-rundown-overview__no-rundowns">
-    <h2 i18n="rundown-overview | @@rundownsListLoadingMessage">There are currently no rundowns available.</h2>
-    <p i18n="rundown-overview | @@rundownListCheckConnestionMessage">Check your connection and if you have configured the Ingest Gateway.</p>
+    <h2 i18n>rundown-overview-component.no-rundowns-available.message</h2>
+    <p i18n>rundown-overview-component.check-connection-configure-ingest-gateway.message</p>
   </div>
 </ng-template>
 
@@ -23,14 +23,14 @@
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <mat-header-cell i18n="rundown-overview | @@rundownListHeader" *matHeaderCellDef>Rundown</mat-header-cell>
+      <mat-header-cell i18>rundown-overview-component.rundown-label</mat-header-cell>
       <mat-cell *matCellDef="let basicRundown" class="c-rundown-name" (click)="navigateToRundown(basicRundown)">
         {{basicRundown.name}}
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="modifiedAt">
-      <mat-header-cell *matHeaderCellDef i18n="rundown-overview | @@rundownListLastUpdatedHeader"> Last updated </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef i18n>rundown-overview-component.last-updated.label</mat-header-cell>
       <mat-cell *matCellDef="let basicRundown">
         {{basicRundown.modifiedAt | date: 'HH:mm – d LLL YYYY'}}
       </mat-cell>

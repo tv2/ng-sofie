@@ -6,11 +6,11 @@ import { AppComponent } from './app.component'
 import { CoreModule } from './core/core.module'
 import { SharedModule } from './shared/shared.module'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { CommonModule } from '@angular/common'
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [CommonModule, BrowserModule, BrowserAnimationsModule, AppRoutingModule, CoreModule, SharedModule],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -21,22 +21,25 @@ import { SofieLogoComponent } from './components/sofie-logo/sofie-logo.component
 import { SpacerComponent } from './components/spacer/spacer.component'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { IconButtonComponent } from './components/icon-button/icon-button.component'
+import {LocaleSwitcherComponent} from "./components/locale-switcher/locale-switcher.component";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
-  declarations: [HeaderComponent, ConfirmationDialogComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent],
-  imports: [
-    CommonModule,
-    MatSnackBarModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatGridListModule,
-    MatCardModule,
-    MatButtonToggleModule,
-    MatListModule,
-    MatDialogModule,
-    FontAwesomeModule,
-  ],
+  declarations: [HeaderComponent, ConfirmationDialogComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent, LocaleSwitcherComponent],
+    imports: [
+        CommonModule,
+        MatSnackBarModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatGridListModule,
+        MatCardModule,
+        MatButtonToggleModule,
+        MatListModule,
+        MatDialogModule,
+        FontAwesomeModule,
+        MatSelectModule
+    ],
   exports: [CommonModule, HeaderComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent],
   providers: [{ provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } }, DialogService, ConnectionErrorService, PieceLayerService, TimestampPipe],
 })
