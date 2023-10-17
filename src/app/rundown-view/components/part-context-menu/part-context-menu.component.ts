@@ -26,7 +26,7 @@ export class PartContextMenuComponent {
 
   constructor(private readonly rundownService: RundownService) {}
 
-  public setPartAsNext(): void {
+  private setPartAsNext(): void {
     this.rundownService.setNext(this.rundownId, this.part.segmentId, this.part.id).subscribe()
   }
 }
