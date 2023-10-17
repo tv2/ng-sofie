@@ -1,5 +1,6 @@
 import { Tv2KeyBindingMatcher } from './tv2-key-binding-matcher.service'
 import { KeyBinding, Keys } from '../models/key-binding'
+import { KeyEventType } from '../value-objects/key-event-type'
 
 describe(Tv2KeyBindingMatcher.name, () => {
   describe(Tv2KeyBindingMatcher.prototype.isMatching.name, () => {
@@ -10,7 +11,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -21,7 +22,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -32,7 +33,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeTrue()
       })
@@ -45,7 +46,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -56,7 +57,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeTrue()
       })
@@ -67,7 +68,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeTrue()
       })
@@ -80,7 +81,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldMatchOnKeyRelease: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, true)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.RELEASED)
 
         expect(result).toBeFalse()
       })
@@ -91,7 +92,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldMatchOnKeyRelease: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -102,7 +103,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldMatchOnKeyRelease: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, true)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.RELEASED)
 
         expect(result).toBeFalse()
       })
@@ -113,7 +114,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldMatchOnKeyRelease: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeTrue()
       })
@@ -126,7 +127,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldMatchOnKeyRelease: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, true)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.RELEASED)
 
         expect(result).toBeFalse()
       })
@@ -137,7 +138,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldMatchOnKeyRelease: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -148,7 +149,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldMatchOnKeyRelease: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, true)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.RELEASED)
 
         expect(result).toBeTrue()
       })
@@ -159,7 +160,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldMatchOnKeyRelease: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -172,7 +173,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -183,7 +184,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -194,7 +195,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -205,7 +206,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -216,7 +217,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeTrue()
       })
@@ -227,7 +228,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeTrue()
       })
@@ -240,7 +241,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -251,7 +252,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeTrue()
       })
@@ -262,7 +263,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeTrue()
       })
@@ -273,7 +274,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -284,7 +285,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeTrue()
       })
@@ -295,7 +296,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.isMatching(keyBinding, keystrokes, false)
+        const result: boolean = testee.isMatching(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeTrue()
       })
@@ -310,7 +311,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldPreventDefaultBehaviourForPartialMatches: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+        const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -322,7 +323,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: true, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -333,7 +334,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: true, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -344,7 +345,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: true, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -357,7 +358,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: false, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -368,7 +369,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: false, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -379,7 +380,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: false, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -392,7 +393,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -403,7 +404,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -414,7 +415,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -425,7 +426,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -436,7 +437,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -447,7 +448,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -460,7 +461,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -471,7 +472,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -482,7 +483,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -493,7 +494,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -504,7 +505,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -515,7 +516,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false, shouldPreventDefaultBehaviourForPartialMatches: true })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeTrue()
         })
@@ -529,7 +530,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldPreventDefaultBehaviourForPartialMatches: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+        const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -541,7 +542,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: true, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -552,7 +553,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: true, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -563,7 +564,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: true, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -576,7 +577,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: false, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -587,7 +588,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: false, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -598,7 +599,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useExclusiveMatching: false, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -611,7 +612,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -622,7 +623,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -633,7 +634,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -644,7 +645,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -655,7 +656,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -666,7 +667,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: true, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -679,7 +680,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -690,7 +691,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -701,7 +702,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -712,7 +713,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -723,7 +724,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -734,7 +735,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
           const keyBinding: KeyBinding = createKeyBinding({ keys, useOrderedMatching: false, shouldPreventDefaultBehaviourForPartialMatches: false })
           const testee: Tv2KeyBindingMatcher = createTestee()
 
-          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+          const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
           expect(result).toBeFalse()
         })
@@ -748,7 +749,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldPreventDefaultBehaviourOnKeyPress: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+        const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeTrue()
       })
@@ -759,7 +760,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldPreventDefaultBehaviourOnKeyPress: true })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, true)
+        const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.RELEASED)
 
         expect(result).toBeFalse()
       })
@@ -772,7 +773,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldPreventDefaultBehaviourOnKeyPress: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, false)
+        const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.PRESSED)
 
         expect(result).toBeFalse()
       })
@@ -783,7 +784,7 @@ describe(Tv2KeyBindingMatcher.name, () => {
         const keyBinding: KeyBinding = createKeyBinding({ keys, shouldPreventDefaultBehaviourOnKeyPress: false })
         const testee: Tv2KeyBindingMatcher = createTestee()
 
-        const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, true)
+        const result: boolean = testee.shouldPreventDefaultBehaviour(keyBinding, keystrokes, KeyEventType.RELEASED)
 
         expect(result).toBeFalse()
       })

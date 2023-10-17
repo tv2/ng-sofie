@@ -3,6 +3,7 @@ import { KeyBinding } from '../models/key-binding'
 import { BehaviorSubject, fromEvent, Observable, Subject, Subscription } from 'rxjs'
 import { KeyBindingMatcher } from '../abstractions/key-binding-matcher.service'
 import { Injectable } from '@angular/core'
+import { KeyEventType } from '../value-objects/key-event-type'
 
 @Injectable()
 export class Tv2KeyBindingEventService implements KeyBindingEventService {
@@ -30,11 +31,11 @@ export class Tv2KeyBindingEventService implements KeyBindingEventService {
       return
     }
     const keyCode: string = event.code
-    const shouldPreventDefaultBehaviour: boolean = this.keyBindings.some(keyBinding => this.keyBindingMatcher.shouldPreventDefaultBehaviour(keyBinding, this.keystrokes, true))
+    const shouldPreventDefaultBehaviour: boolean = this.keyBindings.some(keyBinding => this.keyBindingMatcher.shouldPreventDefaultBehaviour(keyBinding, this.keystrokes, KeyEventType.RELEASED))
     if (shouldPreventDefaultBehaviour) {
       event.preventDefault()
     }
-    const matchedKeyBindings: KeyBinding[] = this.keyBindings.filter(keyBinding => this.keyBindingMatcher.isMatching(keyBinding, this.keystrokes, true))
+    const matchedKeyBindings: KeyBinding[] = this.keyBindings.filter(keyBinding => this.keyBindingMatcher.isMatching(keyBinding, this.keystrokes, KeyEventType.RELEASED))
     this.deregisterKeystroke(keyCode)
     if (matchedKeyBindings.length === 0) {
       return
@@ -60,11 +61,11 @@ export class Tv2KeyBindingEventService implements KeyBindingEventService {
     }
     const keyCode: string = event.code
     this.registerKeystroke(keyCode)
-    const shouldPreventDefaultBehaviour: boolean = this.keyBindings.some(keyBinding => this.keyBindingMatcher.shouldPreventDefaultBehaviour(keyBinding, this.keystrokes, false))
+    const shouldPreventDefaultBehaviour: boolean = this.keyBindings.some(keyBinding => this.keyBindingMatcher.shouldPreventDefaultBehaviour(keyBinding, this.keystrokes, KeyEventType.PRESSED))
     if (shouldPreventDefaultBehaviour) {
       event.preventDefault()
     }
-    const matchedKeyBindings: KeyBinding[] = this.keyBindings.filter(keyBinding => this.keyBindingMatcher.isMatching(keyBinding, this.keystrokes, false))
+    const matchedKeyBindings: KeyBinding[] = this.keyBindings.filter(keyBinding => this.keyBindingMatcher.isMatching(keyBinding, this.keystrokes, KeyEventType.PRESSED))
     if (matchedKeyBindings.length === 0) {
       return
     }

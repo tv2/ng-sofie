@@ -1,9 +1,10 @@
 import { KeyBindingMatcher } from '../abstractions/key-binding-matcher.service'
 import { KeyBinding } from '../models/key-binding'
+import { KeyEventType } from '../value-objects/key-event-type'
 
 export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
-  public isMatching(keyBinding: KeyBinding, keystrokes: string[], isKeyReleased: boolean): boolean {
-    return this.doesKeystrokeRelatedPropertiesMatch(keyBinding, keystrokes) && this.doesKeyEventTypeMatch(keyBinding, isKeyReleased)
+  public isMatching(keyBinding: KeyBinding, keystrokes: string[], keyEventType: KeyEventType): boolean {
+    return this.doesKeystrokeRelatedPropertiesMatch(keyBinding, keystrokes) && this.doesKeyEventTypeMatch(keyBinding, keyEventType)
   }
 
   public doesKeystrokeRelatedPropertiesMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
@@ -38,12 +39,13 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
     return hasSameLength && keyBinding.keys.every((key, index) => exclusiveKeystrokes[index] === key)
   }
 
-  private doesKeyEventTypeMatch(keyBinding: KeyBinding, isKeyReleased: boolean): boolean {
+  private doesKeyEventTypeMatch(keyBinding: KeyBinding, keyEventType: KeyEventType): boolean {
+    const isKeyReleased: boolean = keyEventType === KeyEventType.RELEASED
     return keyBinding.shouldMatchOnKeyRelease === isKeyReleased
   }
 
-  public shouldPreventDefaultBehaviour(keyBinding: KeyBinding, keystrokes: string[], isKeyReleased: boolean): boolean {
-    return this.doesPartialMatchingMatch(keyBinding, keystrokes) || this.doesKeyEventTypePreventDefaultBehaviour(keyBinding, keystrokes, isKeyReleased)
+  public shouldPreventDefaultBehaviour(keyBinding: KeyBinding, keystrokes: string[], keyEventType: KeyEventType): boolean {
+    return this.doesPartialMatchingMatch(keyBinding, keystrokes) || this.doesKeyEventTypePreventDefaultBehaviour(keyBinding, keystrokes, keyEventType)
   }
 
   private doesPartialMatchingMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
@@ -77,10 +79,11 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
     return hasSameLength && exclusiveKeys.every((key, index) => exclusiveKeystrokes[index] === key)
   }
 
-  private doesKeyEventTypePreventDefaultBehaviour(keyBinding: KeyBinding, keystrokes: string[], isKeyReleased: boolean): boolean {
+  private doesKeyEventTypePreventDefaultBehaviour(keyBinding: KeyBinding, keystrokes: string[], keyEventType: KeyEventType): boolean {
     if (!keyBinding.shouldPreventDefaultBehaviourOnKeyPress) {
       return false
     }
-    return !isKeyReleased && this.doesKeystrokeRelatedPropertiesMatch(keyBinding, keystrokes)
+    const isKeyPressed: boolean = keyEventType === KeyEventType.PRESSED
+    return isKeyPressed && this.doesKeystrokeRelatedPropertiesMatch(keyBinding, keystrokes)
   }
 }
