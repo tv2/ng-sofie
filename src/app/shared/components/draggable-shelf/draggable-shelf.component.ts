@@ -2,8 +2,8 @@ import { Component, ElementRef, HostBinding, HostListener, Input, OnInit, ViewCh
 import { IconButton, IconButtonSize } from '../../enums/icon-button'
 
 interface PositionData {
-  heightInPixels: number,
-  isCollapsed: boolean,
+  heightInPixels: number
+  isCollapsed: boolean
 }
 
 @Component({
