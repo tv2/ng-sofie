@@ -76,21 +76,21 @@ export class KeyBindingFactory {
   }
 
   private resetRundown(rundown: Rundown): void {
-    this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to reset the Rundown?`, 'Reset', () => this.rundownService.reset(rundown.id).subscribe())
+    this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to reset the Rundown?', 'Reset', () => this.rundownService.reset(rundown.id).subscribe())
   }
 
   private activateRundown(rundown: Rundown): void {
     if (rundown.isActive) {
       return
     }
-    this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to activate the Rundown?`, 'Activate', () => this.rundownService.activate(rundown.id).subscribe())
+    this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.rundownService.activate(rundown.id).subscribe())
   }
 
   private deactivateRundown(rundown: Rundown): void {
     if (!rundown.isActive) {
       return
     }
-    this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to deactivate the Rundown?`, 'Deactivate', () => this.rundownService.deactivate(rundown.id).subscribe())
+    this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to deactivate the Rundown?\n\nThis will clear the outputs.', 'Deactivate', () => this.rundownService.deactivate(rundown.id).subscribe())
   }
 
   public createRundownKeyBinding(label: string, keys: Keys, onMatched: () => void): KeyBinding {
