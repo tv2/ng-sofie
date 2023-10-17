@@ -12,9 +12,6 @@ export class SegmentContextMenuComponent {
   @Input()
   public segment: Segment
 
-  @Input()
-  public isRundownActive: boolean
-
   public readonly contextMenuOptions: ContextMenuOption[] = [
     {
       label: 'Set segment as Next',

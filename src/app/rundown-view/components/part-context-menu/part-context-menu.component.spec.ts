@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { PartContextMenuComponent } from './part-context-menu.component'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { instance, mock } from '@typestrong/ts-mockito'
+import { TestEntityFactory } from '../../../core/services/models/test-entity.factory'
 
 describe('PartContextMenuComponent', () => {
   let component: PartContextMenuComponent
@@ -15,6 +16,9 @@ describe('PartContextMenuComponent', () => {
 
     fixture = TestBed.createComponent(PartContextMenuComponent)
     component = fixture.componentInstance
+    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+    const part = testEntityFactory.createPart()
+    component.part = part
     fixture.detectChanges()
   })
 

@@ -11,12 +11,12 @@ import { ContextMenuOption } from '../../../shared/abstractions/context-menu-opt
 })
 export class RundownHeaderContextMenuComponent {
   @Input()
-  public rundown?: Rundown
+  public rundown: Rundown
 
   @Input()
   public shortenedRundownName: string
 
-  public readonly deactivatedContextMenuOptions: ContextMenuOption[] = [
+  public readonly contextMenuOptionsForInactiveRundown: ContextMenuOption[] = [
     {
       label: 'Activate (On Air)',
       contextAction: (): void => this.openActivationDialog(),
@@ -27,7 +27,7 @@ export class RundownHeaderContextMenuComponent {
     },
   ]
 
-  public readonly activatedContextMenuOptions: ContextMenuOption[] = [
+  public readonly contextMenuOptionsForActiveRundown: ContextMenuOption[] = [
     {
       label: 'Deactivate',
       contextAction: (): void => this.openDeactivationDialog(),
@@ -42,50 +42,42 @@ export class RundownHeaderContextMenuComponent {
     },
   ]
 
+  public get contextMenuOptions(): ContextMenuOption[] {
+    return this.rundown.isActive ? this.contextMenuOptionsForActiveRundown : this.contextMenuOptionsForInactiveRundown
+  }
+
   constructor(
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService
   ) {}
 
   public openActivationDialog(): void {
-    if (!this.rundown || this.rundown.isActive) {
+    if (this.rundown.isActive) {
       return
     }
     this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to activate the Rundown?`, 'Activate', () => this.activate())
   }
 
   public openDeactivationDialog(): void {
-    if (!this.rundown || !this.rundown.isActive) {
+    if (!this.rundown.isActive) {
       return
     }
     this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to deactivate this Rundown?`, 'Deactivate', () => this.deactivate())
   }
 
   public activate(): void {
-    if (!this.rundown?.id) {
-      return
-    }
     this.rundownService.activate(this.rundown.id).subscribe()
   }
 
   public deactivate(): void {
-    if (!this.rundown?.id) {
-      return
-    }
     this.rundownService.deactivate(this.rundown.id).subscribe()
   }
 
   public take(): void {
-    if (!this.rundown?.id) {
-      return
-    }
     this.rundownService.takeNext(this.rundown.id).subscribe()
   }
 
   public resetRundown(): void {
-    if (!this.rundown?.id) {
-      return
-    }
     this.rundownService.reset(this.rundown.id).subscribe()
   }
 }

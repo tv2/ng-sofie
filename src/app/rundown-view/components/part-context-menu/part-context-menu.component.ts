@@ -14,9 +14,6 @@ export class PartContextMenuComponent {
   @Input()
   public rundownId: string
 
-  @Input()
-  public isRundownActive: boolean
-
   public readonly offAirContextMenuOptions: ContextMenuOption[] = [
     {
       label: 'Set part as next',
