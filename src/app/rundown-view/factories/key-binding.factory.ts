@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { KeyBinding } from '../../keyboard/models/key-binding'
+import { KeyBinding, Keys } from '../../keyboard/models/key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
 import { Tv2CameraAction } from '../../shared/models/tv2-action'
 import { PartActionType } from '../../shared/models/action-type'
@@ -93,7 +93,7 @@ export class KeyBindingFactory {
     this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to deactivate the Rundown?`, 'Deactivate', () => this.rundownService.deactivate(rundown.id).subscribe())
   }
 
-  public createRundownKeyBinding(label: string, keys: [string, ...string[]], onMatched: () => void): KeyBinding {
+  public createRundownKeyBinding(label: string, keys: Keys, onMatched: () => void): KeyBinding {
     return {
       keys,
       label,
