@@ -1,6 +1,7 @@
 :host {
+  position: relative;
   display: block;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgb(34, 34, 34);
   border-radius: 8px;
   margin-bottom: 10px;
 
@@ -22,8 +23,34 @@
     }
   }
 
-  &.scrollable .actions {
-    flex-wrap: nowrap;
-    overflow: auto;
+  &.scrollable {
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 20px;
+      background: linear-gradient(90deg, rgba(34, 34, 34, 1), rgba(34, 34, 34, 0));
+      pointer-events: none;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 20px;
+      background: linear-gradient(-90deg, rgba(34, 34, 34, 1), rgba(34, 34, 34, 0));
+      pointer-events: none;
+    }
+
+    .actions {
+      flex-wrap: nowrap;
+      overflow: auto;
+    }
   }
 }

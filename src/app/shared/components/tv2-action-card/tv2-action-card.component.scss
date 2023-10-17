@@ -1,9 +1,9 @@
 :host {
   display: inline-block;
   background-color: #777777;
-  padding: 10px;
+  padding: 14px;
 
-  width: 120px;
+  width: 130px;
   height: 100px;
 
   border-radius: 8px;
@@ -17,15 +17,15 @@
   cursor: pointer;
   transition: background-color .2s;
 
-  &:active {
-    background-color: #888888;
-  }
-
   &.camera {
     background-color: #005919;
   }
 
   &.video-clip {
     background-color: #1769ff;
+  }
+
+  &:active {
+    background-color: #888888;
   }
 }

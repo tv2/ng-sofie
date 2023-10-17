@@ -13,7 +13,6 @@ import { ActionService } from '../../../shared/abstractions/action.service'
   selector: 'sofie-producer-shelf',
   templateUrl: './producer-shelf.component.html',
   styleUrls: ['./producer-shelf.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProducerShelfComponent implements OnInit, OnDestroy {
   @Input()
