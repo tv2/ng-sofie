@@ -1,15 +1,15 @@
 <div class="c-context-menu" cdkMenu>
     <ng-container *ngIf="rundown?.isActive; then activeButtons; else inactiveButtons"></ng-container>
 
-    <button class="c-context-menu-item" cdkMenuItem (click)="resetRundown()">Reset Rundown</button>
+    <button class="c-context-menu-item" cdkMenuItem (click)="resetRundown()" i18n>rundown-header-context-menu-component.reset-rundown.button</button>
     <button class="c-context-menu-item"></button>
 
     <ng-template #inactiveButtons>
-        <button class="c-context-menu-item" cdkMenuItem (click)="openActivationDialog()">Activate</button>
+        <button class="c-context-menu-item" cdkMenuItem (click)="openActivationDialog()" i18n>rundown-header-context-menu-component.activate.button</button>
     </ng-template>
 
     <ng-template #activeButtons>
-        <button class="c-context-menu-item" cdkMenuItem (click)="deactivate()">Deactivate</button>
-        <button class="c-context-menu-item" cdkMenuItem (click)="take()">Take</button>
+        <button class="c-context-menu-item" cdkMenuItem (click)="deactivate()" i18n>rundown-header-context-menu-component.deactivate.button</button>
+        <button class="c-context-menu-item" cdkMenuItem (click)="take()" i18n>rundown-header-context-menu-component.take.button</button>
     </ng-template>
 </div>

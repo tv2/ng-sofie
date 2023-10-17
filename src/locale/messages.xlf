@@ -37,6 +37,48 @@
           <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="690878947555894079" datatype="html">
+        <source>rundown-header-context-menu-component.reset-rundown.button</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="221016838323992979" datatype="html">
+        <source>rundown-header-context-menu-component.activate.button</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2175030815390487298" datatype="html">
+        <source>rundown-header-context-menu-component.deactivate.button</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1013806782562403538" datatype="html">
+        <source>rundown-header-context-menu-component.take.button</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2136327373490001416" datatype="html">
+        <source>rundown-component.take-next.button</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown/components/rundown/rundown.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="410553181106118867" datatype="html">
+        <source>Loading the rundown...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown/components/rundown/rundown.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="6602960182549626686" datatype="html">
         <source>confirmation-dialog.close.label</source>
         <context-group purpose="location">
@@ -67,6 +109,13 @@
           <context context-type="linenumber">23</context>
         </context-group>
         <note priority="1" from="description">confirmation-dialog.cancel.button</note>
+      </trans-unit>
+      <trans-unit id="2638363041233817949" datatype="html">
+        <source>header-component.rundowns.label</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/components/header/header.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="1079134994533846284" datatype="html">
         <source>Lost connection to backend. Attempting to reconnect...</source>
