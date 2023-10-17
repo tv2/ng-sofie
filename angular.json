@@ -26,7 +26,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "localize": true,
-            "i18nMissingTranslation": "warning",
+            "i18nMissingTranslation": "error",
             "outputPath": "dist/ng-sofie",
             "index": "src/index.html",
             "main": "src/main.ts",

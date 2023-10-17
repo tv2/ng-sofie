@@ -4,7 +4,6 @@
     <body>
       <trans-unit id="487362280897426487" datatype="html">
         <source>rundown-overview-component.rundown-header.label</source>
-        <target>Rundowns</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
           <context context-type="linenumber">3</context>
@@ -12,7 +11,6 @@
       </trans-unit>
       <trans-unit id="6408855480151636220" datatype="html">
         <source>rundown-overview-component.loading-rundowns.message</source>
-        <target>Loading rundowns...</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
           <context context-type="linenumber">6</context>
@@ -20,7 +18,6 @@
       </trans-unit>
       <trans-unit id="4244324227350096273" datatype="html">
         <source>rundown-overview-component.no-rundowns-available.message</source>
-        <target>There are currently no rundowns available.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
           <context context-type="linenumber">11</context>
@@ -28,7 +25,6 @@
       </trans-unit>
       <trans-unit id="3521974238403661262" datatype="html">
         <source>rundown-overview-component.check-connection-configure-ingest-gateway.message</source>
-        <target>Check your connection and if you have configured the Ingest Gateway.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
           <context context-type="linenumber">12</context>
@@ -36,11 +32,49 @@
       </trans-unit>
       <trans-unit id="4359206169774515973" datatype="html">
         <source>rundown-overview-component.last-updated.label</source>
-        <target>Last updated:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
           <context context-type="linenumber">33</context>
         </context-group>
+      </trans-unit>
+      <trans-unit id="6602960182549626686" datatype="html">
+        <source>confirmation-dialog.close.label</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7515883357904500238" datatype="html">
+        <source>Are you sure?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <note priority="1" from="description">confirmation-dialog.are-you-sure.title</note>
+      </trans-unit>
+      <trans-unit id="2807800733729323332" datatype="html">
+        <source>Yes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <note priority="1" from="description">confirmation-dialog.yes.button</note>
+      </trans-unit>
+      <trans-unit id="2159130950882492111" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <note priority="1" from="description">confirmation-dialog.cancel.button</note>
+      </trans-unit>
+      <trans-unit id="1079134994533846284" datatype="html">
+        <source>Lost connection to backend. Attempting to reconnect...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/services/connection-error.service.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <note priority="1" from="description">connection-error</note>
       </trans-unit>
     </body>
   </file>

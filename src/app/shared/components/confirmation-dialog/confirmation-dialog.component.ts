@@ -17,10 +17,10 @@ export interface ConfirmationDialogData {
   styleUrls: ['./confirmation-dialog.component.scss'],
 })
 export class ConfirmationDialogComponent extends StronglyTypedDialog<ConfirmationDialogData, boolean> {
-  public title: string = 'Are you sure?'
+  public title: string = $localize `:confirmation-dialog.are-you-sure.title:Are you sure?`
   public message: string = ''
-  public okButtonText: string = 'Yes'
-  public cancelButtonText: string = 'Cancel'
+  public okButtonText: string = $localize `:confirmation-dialog.yes.button:Yes`
+  public cancelButtonText: string = $localize`:confirmation-dialog.cancel.button:Cancel`
 
   constructor(@Inject(MAT_DIALOG_DATA) data: ConfirmationDialogData, dialogRef: MatDialogRef<StronglyTypedDialog<ConfirmationDialogData, boolean>, boolean>) {
     super(data, dialogRef)

@@ -42,6 +42,49 @@
           <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="6602960182549626686" datatype="html">
+        <source>confirmation-dialog.close.label</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7515883357904500238" datatype="html">
+        <source>Are you sure?</source>
+        <target>Er du sikker?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <note priority="1" from="description">confirmation-dialog.are-you-sure.title</note>
+      </trans-unit>
+      <trans-unit id="2807800733729323332" datatype="html">
+        <source>Yes</source>
+        <target>Ja</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <note priority="1" from="description">confirmation-dialog.yes.button</note>
+      </trans-unit>
+      <trans-unit id="2159130950882492111" datatype="html">
+        <source>Cancel</source>
+        <target>Annullere</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <note priority="1" from="description">confirmation-dialog.cancel.button</note>
+      </trans-unit>
+      <trans-unit id="1079134994533846284" datatype="html">
+        <source>Lost connection to backend. Attempting to reconnect...</source>
+        <target>Mistet forbindelse til backend. Forsøger at genoprette forbindelse...</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/services/connection-error.service.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <note priority="1" from="description">connection-error</note>
+      </trans-unit>
     </body>
   </file>
 </xliff>
