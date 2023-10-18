@@ -5,7 +5,7 @@ import { SharedModule } from '../shared/shared.module'
 import { KeyboardModule } from '../keyboard/keyboard.module';
 
 @NgModule({
-  declarations: [ProducerShelfComponent, ],
+  declarations: [ProducerShelfComponent],
   imports: [CommonModule, SharedModule, KeyboardModule],
   exports: [ProducerShelfComponent],
 })

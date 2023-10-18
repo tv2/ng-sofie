@@ -1,12 +1,14 @@
 :host {
   position: relative;
   display: block;
-  background-color: rgb(34, 34, 34);
   border-radius: 8px;
   margin-bottom: 10px;
+  background-color: #222222;
+  overflow: hidden;
 
   .title {
-    color: white;
+    //color: #cccccc;
+    color: var(--text-color);
     font-weight: bold;
     padding: 10px 20px;
   }
@@ -32,7 +34,7 @@
       left: 0;
       bottom: 0;
       width: 20px;
-      background: linear-gradient(90deg, rgba(34, 34, 34, 1) 0%, rgba(34, 34, 34, 1) 10%, rgba(34, 34, 34, 0) 100%);
+      background: linear-gradient(90deg, #222222FF 0%, #222222FF 10%, #22222200 100%);
       pointer-events: none;
     }
 
@@ -44,7 +46,7 @@
       right: 0;
       bottom: 0;
       width: 20px;
-      background: linear-gradient(-90deg, rgba(34, 34, 34, 1) 0%, rgba(34, 34, 34, 1) 10%, rgba(34, 34, 34, 0) 100%);
+      background: linear-gradient(-90deg, #222222FF 0%, #222222FF 10%, #22222200 100%);
       pointer-events: none;
     }
 
