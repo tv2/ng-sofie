@@ -91,7 +91,13 @@ export class KeyBindingFactory {
     if (!rundown.isActive) {
       return
     }
-    this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to deactivate the Rundown?\n\nThis will clear the outputs.', 'Deactivate', () => this.rundownService.deactivate(rundown.id).subscribe(), DialogSeverity.DANGER)
+    this.dialogService.createConfirmDialog(
+      rundown.name,
+      'Are you sure you want to deactivate the Rundown?\n\nThis will clear the outputs.',
+      'Deactivate',
+      () => this.rundownService.deactivate(rundown.id).subscribe(),
+      DialogSeverity.DANGER
+    )
   }
 
   public createRundownKeyBinding(label: string, keys: Keys, onMatched: () => void): KeyBinding {

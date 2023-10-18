@@ -1,10 +1,7 @@
 import { ComponentType } from '@angular/cdk/overlay'
 import { Injectable } from '@angular/core'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
-import {
-  ConfirmationDialogComponent,
-  DialogSeverity
-} from '../components/confirmation-dialog/confirmation-dialog.component'
+import { ConfirmationDialogComponent, DialogSeverity } from '../components/confirmation-dialog/confirmation-dialog.component'
 import { StronglyTypedDialog } from '../directives/strongly-typed-dialog.directive'
 
 @Injectable()
