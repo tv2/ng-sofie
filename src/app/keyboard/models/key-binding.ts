@@ -1,5 +1,6 @@
+export type Keys = [string, ...string[]]
 export interface KeyBinding {
-  readonly keys: [string, ...string[]]
+  readonly keys: Keys
   readonly label: string
   readonly onMatched: () => void
   readonly shouldMatchOnKeyRelease: boolean

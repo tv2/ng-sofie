@@ -1,7 +1,7 @@
 <ng-container *ngIf="rundown; else loadingRundown">
     <sofie-rundown-header [rundown]="rundown"></sofie-rundown-header>
     <sofie-rundown [rundown]="rundown"></sofie-rundown>
-    <sofie-draggable-shelf localStorageKeyForHeight="producer-shelf-height">
+    <sofie-draggable-shelf localStorageKey="producer-shelf">
         <sofie-producer-shelf [keyBindings]="keyBindings" [keystrokes]="keystrokes"></sofie-producer-shelf>
     </sofie-draggable-shelf>
 </ng-container>

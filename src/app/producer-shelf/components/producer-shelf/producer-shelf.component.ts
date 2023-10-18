@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { KeyBinding } from '../../../keyboard/models/key-binding'
 import { KeyBindingMatcher } from '../../../keyboard/abstractions/key-binding-matcher.service'
+import { KeyEventType } from '../../../keyboard/value-objects/key-event-type'
 
 @Component({
   selector: 'sofie-producer-shelf',
@@ -25,6 +26,6 @@ export class ProducerShelfComponent {
   }
 
   public isKeyBindingMatched(keyBinding: KeyBinding): boolean {
-    return this.keyBindingMatcher.isMatching(keyBinding, this.keystrokes, true)
+    return this.keyBindingMatcher.isMatching(keyBinding, this.keystrokes, KeyEventType.RELEASED)
   }
 }
