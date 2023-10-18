@@ -15,7 +15,7 @@
   text-shadow: 1px 1px 2px black;
 
   cursor: pointer;
-  transition: background-color .2s;
+  transition: opacity .1s;
 
   &.camera {
     background-color: #005919;
@@ -23,9 +23,19 @@
 
   &.video-clip {
     background-color: #1769ff;
+
+    &.missing-source {
+      background: repeating-linear-gradient(
+        45deg,
+        red,
+        red 10px,
+        yellow 10px,
+        yellow 20px
+      );
+    }
   }
 
   &:active {
-    background-color: #888888;
+    opacity: .7;
   }
 }

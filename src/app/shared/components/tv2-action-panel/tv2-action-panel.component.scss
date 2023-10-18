@@ -14,7 +14,7 @@
   .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 12px;
 
     padding: 0 20px 20px 20px;
 
@@ -32,7 +32,7 @@
       left: 0;
       bottom: 0;
       width: 20px;
-      background: linear-gradient(90deg, rgba(34, 34, 34, 1), rgba(34, 34, 34, 0));
+      background: linear-gradient(90deg, rgba(34, 34, 34, 1) 0%, rgba(34, 34, 34, 1) 10%, rgba(34, 34, 34, 0) 100%);
       pointer-events: none;
     }
 
@@ -44,7 +44,7 @@
       right: 0;
       bottom: 0;
       width: 20px;
-      background: linear-gradient(-90deg, rgba(34, 34, 34, 1), rgba(34, 34, 34, 0));
+      background: linear-gradient(-90deg, rgba(34, 34, 34, 1) 0%, rgba(34, 34, 34, 1) 10%, rgba(34, 34, 34, 0) 100%);
       pointer-events: none;
     }
 
