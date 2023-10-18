@@ -6,9 +6,13 @@
     "ng-sofie": {
       "i18n": {
         "sourceLocale": "en-US",
+        "sourceLocale": "da-DK",
         "locales": {
           "da": {
             "translation": "src/locale/messages.da.xlf"
+          },
+          "en": {
+            "translation": "scr/locale/messages.en.xlf"
           }
         }
       },
