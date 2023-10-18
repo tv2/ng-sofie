@@ -31,14 +31,20 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
 
   private readonly logger: Logger
 
-  constructor(private readonly actionStateService: ActionStateService, private readonly tv2ActionParser: Tv2ActionParser, private readonly actionService: ActionService, logger: Logger) {
+  constructor(
+    private readonly actionStateService: ActionStateService,
+    private readonly tv2ActionParser: Tv2ActionParser,
+    private readonly actionService: ActionService,
+    logger: Logger
+  ) {
     this.logger = logger.tag('ProducerShelfComponent')
   }
 
   public ngOnInit(): void {
-    this.actionStateService.subscribeToRundownActions(this.rundown.id, this.onActionsChanged.bind(this))
-        .then(actionsSubscription => this.actionsSubscription = actionsSubscription)
-        .catch(error => this.logger.data(error).error('Failed subscribing to actions.'))
+    this.actionStateService
+      .subscribeToRundownActions(this.rundown.id, this.onActionsChanged.bind(this))
+      .then(actionsSubscription => (this.actionsSubscription = actionsSubscription))
+      .catch(error => this.logger.data(error).error('Failed subscribing to actions.'))
   }
 
   private onActionsChanged(actions: Action[]): void {

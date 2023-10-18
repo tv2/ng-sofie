@@ -28,12 +28,24 @@ import { ActionStateService } from './services/action-state.service'
 import { ActionParser } from './abstractions/action-parser.service'
 import { ZodActionParser } from './services/zod-action-parser.service'
 import { Tv2ActionParser } from './abstractions/tv2-action-parser.service'
-import { ZodTv2ActionParser } from './services/zod-tv2-action-parser.service';
+import { ZodTv2ActionParser } from './services/zod-tv2-action-parser.service'
 import { Tv2ActionPanelComponent } from './components/tv2-action-panel/tv2-action-panel.component'
 import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-card.component'
 
 @NgModule({
-  declarations: [HeaderComponent, ConfirmationDialogComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent, DraggableShelfComponent, Tv2ActionPanelComponent, Tv2ActionCardComponent],
+  declarations: [
+    HeaderComponent,
+    ConfirmationDialogComponent,
+    MinimumPipe,
+    MaximumPipe,
+    TimestampPipe,
+    SofieLogoComponent,
+    SpacerComponent,
+    IconButtonComponent,
+    DraggableShelfComponent,
+    Tv2ActionPanelComponent,
+    Tv2ActionCardComponent,
+  ],
   imports: [
     CommonModule,
     MatSnackBarModule,
@@ -47,7 +59,19 @@ import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-
     MatDialogModule,
     FontAwesomeModule,
   ],
-  exports: [CommonModule, HeaderComponent, MinimumPipe, MaximumPipe, TimestampPipe, SofieLogoComponent, SpacerComponent, IconButtonComponent, DraggableShelfComponent, Tv2ActionPanelComponent, Tv2ActionCardComponent],
+  exports: [
+    CommonModule,
+    HeaderComponent,
+    MinimumPipe,
+    MaximumPipe,
+    TimestampPipe,
+    SofieLogoComponent,
+    SpacerComponent,
+    IconButtonComponent,
+    DraggableShelfComponent,
+    Tv2ActionPanelComponent,
+    Tv2ActionCardComponent,
+  ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
     { provide: ActionService, useClass: HttpActionService },

@@ -3,6 +3,6 @@
     <sofie-tv2-action-card
         *ngFor="let action of actions; trackBy: trackAction"
         [action]="action"
-        (click)="executeAction(action)"
+        (click)="onExecuteAction(action)"
     ></sofie-tv2-action-card>
 </div>

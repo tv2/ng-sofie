@@ -6,7 +6,7 @@ import { KeyEventType } from '../../value-objects/key-event-type'
 @Component({
   selector: 'sofie-virtual-keyboard',
   templateUrl: './virtual-keyboard.component.html',
-  styleUrls: ['./virtual-keyboard.component.scss']
+  styleUrls: ['./virtual-keyboard.component.scss'],
 })
 export class VirtualKeyboardComponent {
   @Input()
