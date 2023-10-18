@@ -7,7 +7,11 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
     return this.doesKeystrokeRelatedPropertiesMatch(keyBinding, keystrokes) && this.doesKeyEventTypeMatch(keyBinding, keyEventType)
   }
 
-  public doesKeystrokeRelatedPropertiesMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
+  public isMatchingKeystrokes(keyBinding: KeyBinding, keystrokes: string[]): boolean {
+    return this.doesKeystrokeRelatedPropertiesMatch(keyBinding, keystrokes)
+  }
+
+  private doesKeystrokeRelatedPropertiesMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
     return this.doesExclusivityMatch(keyBinding, keystrokes) && this.doesOrderingMatch(keyBinding, keystrokes)
   }
 

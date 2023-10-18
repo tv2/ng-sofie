@@ -1,3 +1,23 @@
+:host {
+  display: flex;
+  container-type: inline-size;
+  flex-direction: column;
+  gap: 0.5cqw;
+  background-color: #111111;
+  padding: 20px;
+  border-radius: 16px;
+
+  .key-row {
+    display: flex;
+    gap: 0.5cqw;
+
+    &:first-child {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+
 .key {
   display: inline-block;
   padding: 12px 20px;

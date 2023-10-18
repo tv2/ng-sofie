@@ -1,3 +1,31 @@
+<div *ngFor="let keyRow of physicalLayout" class="key-row">
+    <sofie-virtual-keyboard-key
+        *ngFor="let key of keyRow"
+        [key]="key"
+        [label]="getLabelOfKey(key)"
+        [keyboardLayout]="keyboardLayout"
+        [weight]="getKeyWeight(key)"
+        [isMatched]="isKeystrokeMatched(key)"
+    ></sofie-virtual-keyboard-key>
+</div>
+     <!--
+<div class="key-row">
+    <sofie-virtual-keyboard-key key="Escape" label="Reset rundown" [keyboardLayout]="keyboardLayout" [weight]="1.5"></sofie-virtual-keyboard-key>
+    <sofie-virtual-keyboard-key *ngFor="let functionKey of functionKeys" [key]="functionKey" label="???" [keyboardLayout]="keyboardLayout" [weight]="1.137"></sofie-virtual-keyboard-key>
+</div>
+
+<div class="key-row">
+    <sofie-virtual-keyboard-key key="Backquote" label="Activate rundown" [keyboardLayout]="keyboardLayout"></sofie-virtual-keyboard-key>
+    <sofie-virtual-keyboard-key *ngFor="let digitKey of digitKeys" [key]="digitKey" label="???" [keyboardLayout]="keyboardLayout"></sofie-virtual-keyboard-key>
+    <sofie-virtual-keyboard-key key="Minus" label="???" [keyboardLayout]="keyboardLayout"></sofie-virtual-keyboard-key>
+    <sofie-virtual-keyboard-key key="Equal" label="???" [keyboardLayout]="keyboardLayout"></sofie-virtual-keyboard-key>
+    <sofie-virtual-keyboard-key key="Backspace" label="???" [keyboardLayout]="keyboardLayout" [weight]="2"></sofie-virtual-keyboard-key>
+</div>
+
+<div class="key-row">
+    <sofie-virtual-keyboard-key key="Tab" label="Activate rundown" [keyboardLayout]="keyboardLayout" [weight]="1.5"></sofie-virtual-keyboard-key>
+    <sofie-virtual-keyboard-key *ngFor="let digitKey of digitKeys" [key]="digitKey" label="???" [keyboardLayout]="keyboardLayout"></sofie-virtual-keyboard-key>
+</div>
 <div
     *ngFor="let keyBinding of keyBindings" (click)="keyBinding.onMatched()"
     class="key"
@@ -7,7 +35,11 @@
     <span class="key-keys">{{ displayKeyBinding(keyBinding) }}</span>
 </div>
 
+-->
+<div>
 <pre class="keystrokes">
 Pressed:keys
 {{ keystrokes }}
 </pre>
+
+</div>
