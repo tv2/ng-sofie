@@ -7,7 +7,7 @@ export interface Tv2ActionContentTypeGrouping {
 
 export class Tv2ActionGroupService {
   public getActionsGroupedByContentType(actions: Tv2Action[]): Tv2ActionContentTypeGrouping {
-    return actions.reduce(this.groupActionsByContentTypeReducer.bind(this), this.getEmptyGrouping())
+    return actions.reduce(this.groupActionsByContentTypeReducer.bind(this), this.createEmptyGrouping())
   }
 
   private groupActionsByContentTypeReducer(grouping: Tv2ActionContentTypeGrouping, action: Tv2Action): Tv2ActionContentTypeGrouping {
@@ -27,7 +27,7 @@ export class Tv2ActionGroupService {
     return action.metadata.contentType === Tv2ActionContentType.VIDEO_CLIP
   }
 
-  public getEmptyGrouping(): Tv2ActionContentTypeGrouping {
+  private createEmptyGrouping(): Tv2ActionContentTypeGrouping {
     return {
       camera: [],
       videoClip: [],
