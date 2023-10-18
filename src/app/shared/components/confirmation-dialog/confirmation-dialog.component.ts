@@ -1,6 +1,12 @@
-import { Component, Inject } from '@angular/core'
+import { Component, HostBinding, Inject } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { StronglyTypedDialog } from '../../directives/strongly-typed-dialog.directive'
+import { ThemePalette } from '@angular/material/core'
+
+export enum DialogSeverity {
+  INFO = 'INFO',
+  DANGER = 'DANGER',
+}
 
 export interface ConfirmationDialogData {
   title?: string
@@ -9,6 +15,7 @@ export interface ConfirmationDialogData {
     ok: string
     cancel?: string
   }
+  severity?: DialogSeverity
 }
 
 @Component({
@@ -21,6 +28,21 @@ export class ConfirmationDialogComponent extends StronglyTypedDialog<Confirmatio
   public message: string = ''
   public okButtonText: string = 'Yes'
   public cancelButtonText: string = 'Cancel'
+  public severity: DialogSeverity
+
+  @HostBinding('class')
+  public get severityClass(): string {
+    return this.severity.toLowerCase()
+  }
+
+  public get buttonColor(): ThemePalette {
+    switch (this.severity) {
+      case DialogSeverity.DANGER:
+        return 'warn'
+      default:
+        return 'primary'
+    }
+  }
 
   constructor(@Inject(MAT_DIALOG_DATA) data: ConfirmationDialogData, dialogRef: MatDialogRef<StronglyTypedDialog<ConfirmationDialogData, boolean>, boolean>) {
     super(data, dialogRef)
@@ -29,5 +51,6 @@ export class ConfirmationDialogComponent extends StronglyTypedDialog<Confirmatio
     this.message = data.message ?? this.message
     this.okButtonText = data.buttonText?.ok ?? this.okButtonText
     this.cancelButtonText = data.buttonText?.cancel ?? this.cancelButtonText
+    this.severity = data.severity ?? DialogSeverity.INFO
   }
 }
