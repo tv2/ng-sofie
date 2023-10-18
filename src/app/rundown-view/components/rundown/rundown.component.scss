@@ -3,14 +3,12 @@
   flex-direction: column;
   overflow: hidden;
   background-color: #343434;
-}
-
-.c-rundown {
-  padding-top: 10px;
   overflow: auto;
 
-  &__segments {
+  .segments {
+    margin: 20px 0 300px 0;
     display: flex;
     flex-direction: column;
   }
 }
+

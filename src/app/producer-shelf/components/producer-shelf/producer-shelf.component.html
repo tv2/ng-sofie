@@ -1,0 +1,12 @@
+<div
+    *ngFor="let keyBinding of keyBindings" (click)="keyBinding.onMatched()"
+    class="keybinding"
+    [class.keybinding--matched]="isKeyBindingMatched(keyBinding)"
+>
+    <span class="keybinding-label">{{ keyBinding.label }}</span>
+    <span class="keybinding-keys">{{ displayKeyBinding(keyBinding) }}</span>
+</div>
+<pre class="keystrokes">
+    Pressed:keys
+    {{ keystrokes }}
+</pre>

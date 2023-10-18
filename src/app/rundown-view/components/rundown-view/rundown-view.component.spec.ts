@@ -5,6 +5,7 @@ import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockit
 import { Subscription } from 'rxjs'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownViewComponent } from './rundown-view.component'
+import { KeyboardConfigurationService } from '../../abstractions/keyboard-configuration.service'
 
 describe('RundownViewComponent', () => {
   it('should create', async () => {
@@ -13,14 +14,16 @@ describe('RundownViewComponent', () => {
   })
 })
 
-async function configureTestBed(params: { mockedRundownStateService?: RundownStateService } = {}): Promise<RundownViewComponent> {
+async function configureTestBed(params: { mockedRundownStateService?: RundownStateService; mockedKeyboardConfigurationService?: KeyboardConfigurationService } = {}): Promise<RundownViewComponent> {
   const mockedRundownStateService = params.mockedRundownStateService ?? createMockOfRundownStateService()
+  const mockedKeyboardConfigurationService = params.mockedKeyboardConfigurationService ?? mock<KeyboardConfigurationService>()
 
   await TestBed.configureTestingModule({
     imports: [RouterModule.forRoot([])],
     providers: [
       { provide: ActivatedRoute, useValue: instance(createMockOfActivatedRoute()) },
       { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
+      { provide: KeyboardConfigurationService, useValue: instance(mockedKeyboardConfigurationService) },
       { provide: Logger, useValue: instance(createMockOfLogger()) },
     ],
     declarations: [RundownViewComponent],

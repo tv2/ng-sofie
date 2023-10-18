@@ -21,11 +21,11 @@ export class HeaderComponent {
 
   public navigateHome(): void {
     const segmentedPath: string[] = [Paths.HOME]
-    this.router.navigate(segmentedPath).catch(() => this.logger.data(segmentedPath).warn('Failed navigating with route segments:'))
+    this.router.navigate(segmentedPath).catch(error => this.logger.data(error).warn(`Failed navigating to /${segmentedPath.join('/')}.`))
   }
 
   public navigateToRundown(): void {
     const segmentedPath: string[] = [Paths.RUNDOWNS]
-    this.router.navigate(segmentedPath).catch(() => this.logger.data(segmentedPath).warn('Failed navigating with route segments:'))
+    this.router.navigate(segmentedPath).catch(error => this.logger.data(error).warn(`Failed navigating to /${segmentedPath.join('/')}.`))
   }
 }

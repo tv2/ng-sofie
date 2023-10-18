@@ -42,7 +42,7 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
 
   public navigateToRundown(basicRundown: BasicRundown): void {
     const segmentedPath: string[] = [Paths.RUNDOWNS, basicRundown.id]
-    this.router.navigate(segmentedPath).catch(() => this.logger.data(segmentedPath).warn('Failed navigating with route segments:'))
+    this.router.navigate(segmentedPath).catch(error => this.logger.data(error).warn(`Failed navigating to /${segmentedPath.join('/')}.`))
   }
 
   public openDeletionDialog(basicRundown: BasicRundown): void {
