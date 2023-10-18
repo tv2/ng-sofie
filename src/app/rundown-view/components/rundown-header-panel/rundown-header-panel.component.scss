@@ -1,9 +1,9 @@
 :host {
-  flex: 1 1;
-  color: white;
   display: flex;
   flex-direction: column;
+  flex: 1 1;
   padding: 15px;
+  color: white;
 
   .label {
     margin-bottom: 2px;
