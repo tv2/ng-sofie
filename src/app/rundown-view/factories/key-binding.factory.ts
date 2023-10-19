@@ -46,7 +46,7 @@ export class KeyBindingFactory {
     const cameraNumber: number = cameraAction.metadata.cameraNumber
     return {
       keys: ['Alt', `Digit${cameraNumber}`],
-      label: `KAM ${cameraNumber}`,
+      label: cameraAction.name,
       onMatched: () => this.actionService.executeAction(cameraAction.id, rundownId).subscribe(),
       shouldMatchOnKeyRelease: true,
       shouldPreventDefaultBehaviourOnKeyPress: true,
