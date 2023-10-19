@@ -6,7 +6,7 @@
 
   width: calc(var(--key-weight) * var(--key-size));
   height: var(--key-size);
-  padding: calc(var(--key-size) / 9);
+  padding: calc(var(--key-size) / 10);
 
   background-color: #333333;
   color: var(--text-color);
@@ -15,7 +15,7 @@
 
   overflow: hidden;
 
-  font-size: calc(var(--key-size) / 6);
+  font-size: calc(var(--key-size) / 5.6);
   font-weight: bold;
 
   cursor: pointer;
@@ -28,7 +28,9 @@
   }
 
   .key {
+    font-size: calc(var(--key-size) / 5);
     text-align: left;
+    opacity: 0.7;
   }
 
   .label {
