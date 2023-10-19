@@ -1,12 +1,16 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core'
-import { KeyBinding } from '../../value-objects/key-binding'
+import { Component, ElementRef, HostBinding, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core'
 import { KeyBindingMatcher } from '../../abstractions/key-binding-matcher.service'
-import { KeyEventType } from '../../value-objects/key-event-type'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { StyledKeyBinding } from '../../value-objects/styled-key-binding'
 import { KeyAliasService } from '../../abstractions/key-alias-service'
+import { PhysicalKeyboardLayoutFactory } from '../../factories/physical-keyboard-layout.factory'
+import { KeyboardLayout, KeyboardLayoutKey } from '../../value-objects/keyboard-layout'
+import { debounceTime, Subject } from 'rxjs'
 
 const CHAR_CODE_FOR_A: number = 65
+const RESIZE_DEBOUNCE_DURATION_IN_MS: number = 10
+const NUMBER_OF_KEYS_IN_FULL_ROW: number = 21
+const KEY_GAP_TO_KEY_SIZE_RATIO: number = 8
 
 @Component({
   selector: 'sofie-virtual-keyboard',
@@ -20,35 +24,50 @@ export class VirtualKeyboardComponent implements OnChanges {
   @Input()
   public keystrokes: string[]
 
-  public keyboardLayout: KeyboardLayoutMap
+  @HostBinding('style.--key-size.px')
+  public keySizeInPixels: number = 10
+
+  @HostBinding('style.--key-gap.px')
+  public keyGapInPixels: number = 0
+
+  @HostListener('window:resize')
+  public onWindowResize(): void {
+    this.resizeSubject.next()
+  }
+  public updateKeyStyling(): void {
+    this.keySizeInPixels = this.hostElement.nativeElement.offsetWidth / NUMBER_OF_KEYS_IN_FULL_ROW
+    this.keyGapInPixels = this.hostElement.nativeElement.offsetWidth / (NUMBER_OF_KEYS_IN_FULL_ROW * KEY_GAP_TO_KEY_SIZE_RATIO)
+  }
+
+  private readonly resizeSubject: Subject<void> = new Subject<void>()
+
+  public keyboardLayoutMap: KeyboardLayoutMap
   private readonly logger: Logger
 
   public readonly functionKeys: string[] = [...Array(12)].map((_, index: number) => `F${index + 1}`)
   public readonly digitKeys: string[] = [...Array(10)].map((_, index: number) => `Digit${(index + 1) % 10}`)
   public readonly numpadDigitKeys: string[] = [...Array(10)].map((_, index: number) => `Digit${(index + 1) % 10}`)
-  public readonly physicalLayout: string[][] = [
-    ['Escape', ...this.functionKeys],
-    ['Backquote', ...this.digitKeys, 'Minus', 'Equal', 'Backspace'],
-    ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight'],
-    ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Backslash', 'Enter'],
-    ['ShiftLeft', 'IntlBackslash', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight'],
-    ['ControlLeft', 'OSLeft', 'AltLeft', 'Space', 'AltRight', 'OSRight', 'ContextMenu', 'ControlRight'],
-  ]
+  public readonly physicalKeyboardLayout: KeyboardLayout
 
   private keyBindingsFilteredByModifiers: StyledKeyBinding[] = []
   private currentModifierKeystrokes: string[] = []
 
   constructor(
+    private readonly physicalKeyboardLayoutFactory: PhysicalKeyboardLayoutFactory,
     private readonly keyBindingMatcher: KeyBindingMatcher,
     private readonly keyAliasService: KeyAliasService,
+    private readonly hostElement: ElementRef,
     logger: Logger
   ) {
     this.logger = logger.tag('VirtualKeyboardComponent')
-    this.keyboardLayout = this.createKeyboardLayout()
+    this.physicalKeyboardLayout = this.physicalKeyboardLayoutFactory.createIso102KeyboardLayout()
+    this.keyboardLayoutMap = this.createKeyboardLayout()
     navigator.keyboard
       ?.getLayoutMap()
-      .then(keyboardLayout => (this.keyboardLayout = this.updateKeyboardLayout(keyboardLayout)))
+      .then(keyboardLayoutMap => (this.keyboardLayoutMap = this.updateKeyboardLayoutMap(keyboardLayoutMap)))
       .catch(error => this.logger.data(error).warn('Failed getting keyboard layout.'))
+    this.resizeSubject.pipe(debounceTime(RESIZE_DEBOUNCE_DURATION_IN_MS)).subscribe(() => this.updateKeyStyling())
+    this.resizeSubject.next()
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -60,17 +79,15 @@ export class VirtualKeyboardComponent implements OnChanges {
   private updateAvailableKeyBindings(): void {
     this.currentModifierKeystrokes = this.keystrokes.filter(keystroke => this.keyAliasService.isModifierKeyOrAliasedModifierKey(keystroke))
     this.keyBindingsFilteredByModifiers = this.keyBindings.filter(keyBinding => {
-
       const modifierKeys: string[] = keyBinding.keys.filter(key => this.keyAliasService.isModifierKeyOrAliasedModifierKey(key))
-      if (keyBinding.keys.includes('Backquote')) {
-        console.log(modifierKeys)
+      if (modifierKeys.length !== this.currentModifierKeystrokes.length) {
+        return false
       }
-      const isModifiersPartialOfKeyBindingModifiers: boolean = this.currentModifierKeystrokes.every(
-          keystroke => modifierKeys.some(modifierKey => this.keyAliasService.isKeyPartOfAlias(keystroke, modifierKey))
+      const isModifiersPartialOfKeyBindingModifiers: boolean = this.currentModifierKeystrokes.every(keystroke =>
+        modifierKeys.some(modifierKey => this.keyAliasService.isKeyPartOfAlias(keystroke, modifierKey))
       )
-      return isModifiersPartialOfKeyBindingModifiers && modifierKeys.length === this.currentModifierKeystrokes.length
+      return isModifiersPartialOfKeyBindingModifiers
     })
-    console.log(this.currentModifierKeystrokes, this.keyBindingsFilteredByModifiers)
   }
 
   public isKeystrokeMatched(keystroke: string): boolean {
@@ -80,41 +97,6 @@ export class VirtualKeyboardComponent implements OnChanges {
   public getLabelOfKey(keystroke: string): string | undefined {
     const emulatedKeystrokes: string[] = [...this.currentModifierKeystrokes, keystroke]
     return this.keyBindingsFilteredByModifiers.find(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))?.label
-  }
-
-  public getKeyWeight(key: string): number {
-    switch (key) {
-      case 'Escape':
-      case 'Tab':
-        return 1.5
-      case 'Backspace':
-      case 'CapsLock':
-        return 2
-      case 'ShiftLeft':
-        return 1.3
-      case 'ShiftRight':
-        return 2.85
-      case 'ControlLeft':
-        return 1.4
-      case 'ControlRight':
-        return 1.95
-      case 'Space':
-        return 7.42
-      case 'F1':
-      case 'F2':
-      case 'F3':
-      case 'F4':
-      case 'F5':
-      case 'F6':
-      case 'F7':
-      case 'F8':
-      case 'F9':
-      case 'F10':
-      case 'F11':
-      case 'F12':
-        return 1.137
-    }
-    return 1
   }
 
   public getBackgroundForKey(key: string): string | undefined {
@@ -156,23 +138,11 @@ export class VirtualKeyboardComponent implements OnChanges {
     ]
   }
 
-  private updateKeyboardLayout(keyboardLayout: KeyboardLayoutMap): KeyboardLayoutMap {
-    return new Map([...this.keyboardLayout, ...keyboardLayout.entries()])
+  private updateKeyboardLayoutMap(keyboardLayout: KeyboardLayoutMap): KeyboardLayoutMap {
+    return new Map([...this.keyboardLayoutMap, ...keyboardLayout.entries()])
   }
 
-  public displayKeyBinding(keyBinding: KeyBinding): string {
-    return keyBinding.keys.map(key => this.getDisplayKey(key)).join(' + ')
-  }
-
-  private getDisplayKey(key: string): string {
-    const mappedKey: string | undefined = this.keyboardLayout?.get(key)
-    if (mappedKey) {
-      return mappedKey
-    }
-    return key.replace('Digit', '').replace('Numpad', '').replace('Key', '').replace('Left', '').replace('Right', '')
-  }
-
-  public isKeyBindingMatched(keyBinding: KeyBinding): boolean {
-    return this.keyBindingMatcher.isMatching(keyBinding, this.keystrokes, KeyEventType.RELEASED)
+  public trackKeyboardLayoutKey(_index: number, keyboardLayoutKey: KeyboardLayoutKey): string {
+    return keyboardLayoutKey.key
   }
 }

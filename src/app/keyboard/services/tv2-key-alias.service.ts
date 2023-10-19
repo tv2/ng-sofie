@@ -1,13 +1,7 @@
 import { KeyAliasService } from '../abstractions/key-alias-service'
 
 export class Tv2KeyAliasService implements KeyAliasService {
-  private readonly modifierKeys: string[] = [
-  'ShiftLeft', 'ShiftRight',
-  'ControlLeft', 'ControlRight',
-  'AltLeft', 'AltRight',
-  'MetaLeft', 'MetaRight',
-  'OSLeft', 'OSRight',
-  ]
+  private readonly modifierKeys: string[] = ['ShiftLeft', 'ShiftRight', 'ControlLeft', 'ControlRight', 'AltLeft', 'AltRight', 'MetaLeft', 'MetaRight', 'OSLeft', 'OSRight']
 
   public getKeysFromKeyAlias(keyAlias: string): string[] {
     switch (keyAlias) {

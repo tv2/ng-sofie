@@ -5,6 +5,8 @@ import { KeyBindingMatcher } from '../../abstractions/key-binding-matcher.servic
 import { instance, mock } from '@typestrong/ts-mockito'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
+import { PhysicalKeyboardLayoutFactory } from '../../factories/physical-keyboard-layout.factory'
+import { KeyAliasService } from '../../abstractions/key-alias-service'
 
 describe('VirtualKeyboardComponent', () => {
   let component: VirtualKeyboardComponent
@@ -16,7 +18,9 @@ describe('VirtualKeyboardComponent', () => {
       declarations: [VirtualKeyboardComponent],
       providers: [
         { provide: KeyBindingMatcher, useValue: instance(mock<KeyBindingMatcher>()) },
+        { provide: KeyAliasService, useValue: instance(mock<KeyAliasService>()) },
         { provide: Logger, useValue: testLoggerFactory.createLogger() },
+        PhysicalKeyboardLayoutFactory,
       ],
     }).compileComponents()
 

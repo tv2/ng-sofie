@@ -1,19 +1,50 @@
-<div *ngFor="let keyRow of physicalLayout" class="key-row">
-    <sofie-virtual-keyboard-key
-        *ngFor="let key of keyRow"
-        [key]="key"
-        [label]="getLabelOfKey(key)"
-        [keyboardLayout]="keyboardLayout"
-        [weight]="getKeyWeight(key)"
-        [isMatched]="isKeystrokeMatched(key)"
-        [background]="getBackgroundForKey(key)"
-        (click)="onExecuteActionsForKeystroke(key)"
-    ></sofie-virtual-keyboard-key>
+<div class="key-row-column">
+    <div class="function-key-row key-row">
+        <sofie-virtual-keyboard-key
+                *ngFor="let keyboardLayoutKey of physicalKeyboardLayout.functionKeyRow"
+                [key]="keyboardLayoutKey.key"
+                [label]="getLabelOfKey(keyboardLayoutKey.key)"
+                [keyboardLayout]="keyboardLayoutMap"
+                [weight]="keyboardLayoutKey.widthScale"
+                [isMatched]="isKeystrokeMatched(keyboardLayoutKey.key)"
+                [background]="getBackgroundForKey(keyboardLayoutKey.key)"
+                (click)="onExecuteActionsForKeystroke(keyboardLayoutKey.key)"
+        ></sofie-virtual-keyboard-key>
+    </div>
+
+    <div *ngFor="let keyboardLayoutKeys of physicalKeyboardLayout.mainKeyRows" class="key-row">
+        <sofie-virtual-keyboard-key
+                *ngFor="let keyboardLayoutKey of keyboardLayoutKeys; trackBy: trackKeyboardLayoutKey"
+                [key]="keyboardLayoutKey.key"
+                [label]="getLabelOfKey(keyboardLayoutKey.key)"
+                [keyboardLayout]="keyboardLayoutMap"
+                [weight]="keyboardLayoutKey.widthScale"
+                [isMatched]="isKeystrokeMatched(keyboardLayoutKey.key)"
+                [background]="getBackgroundForKey(keyboardLayoutKey.key)"
+                (click)="onExecuteActionsForKeystroke(keyboardLayoutKey.key)"
+        ></sofie-virtual-keyboard-key>
+    </div>
 </div>
 
-<div>
-<pre class="keystrokes">
-Pressed:keys
-{{ keystrokes }}
-</pre>
+<div class="key-row-column control">
+    <div *ngFor="let keyboardLayoutKeys of physicalKeyboardLayout.controlKeyRows" class="key-row control-key-row">
+        <sofie-virtual-keyboard-key
+                *ngFor="let keyboardLayoutKey of keyboardLayoutKeys; trackBy: trackKeyboardLayoutKey"
+                [key]="keyboardLayoutKey.key"
+                [label]="getLabelOfKey(keyboardLayoutKey.key)"
+                [keyboardLayout]="keyboardLayoutMap"
+                [weight]="keyboardLayoutKey.widthScale"
+                [isMatched]="isKeystrokeMatched(keyboardLayoutKey.key)"
+                [background]="getBackgroundForKey(keyboardLayoutKey.key)"
+                (click)="onExecuteActionsForKeystroke(keyboardLayoutKey.key)"
+        ></sofie-virtual-keyboard-key>
+    </div>
 </div>
+<!--
+<div class="key-row-column">
+    <pre class="keystrokes">
+    Pressed:keys
+    {{ keystrokes }}
+    </pre>
+</div>
+-->

@@ -8,8 +8,12 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 })
 export class VirtualKeyboardKeyComponent {
   @Input()
-  @HostBinding('class')
   public key: string
+
+  @HostBinding('class')
+  public get keyClass(): string {
+    return this.key ? this.key : 'none'
+  }
 
   @Input()
   public label?: string

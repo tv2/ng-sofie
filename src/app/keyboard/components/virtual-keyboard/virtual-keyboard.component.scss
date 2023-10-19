@@ -1,19 +1,26 @@
 :host {
   display: flex;
-  container-type: inline-size;
-  flex-direction: column;
-  gap: 0.5cqw;
   background-color: #111111;
   padding: 20px;
   border-radius: 16px;
 
+  .key-row-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--key-gap);
+  }
   .key-row {
     display: flex;
-    gap: 0.5cqw;
+    height: var(--key-size);
+    gap: var(--key-gap);
+  }
 
-    &:first-child {
-      margin-bottom: 10px;
-    }
+  .function-key-row {
+    padding-bottom: var(--key-gap);
+  }
+
+  .control-key-row {
+    padding-left: calc(4 * var(--key-gap));
   }
 }
 

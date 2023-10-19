@@ -1,5 +1,4 @@
 :host {
-  --key-size: 4.2cqw;
   position: relative;
   display: inline-flex;
   flex-direction: column;
@@ -7,17 +6,16 @@
 
   width: calc(var(--key-weight) * var(--key-size));
   height: var(--key-size);
-  padding: 0.5cqw;
+  padding: calc(var(--key-size) / 9);
 
   background-color: #333333;
   color: var(--text-color);
-  border-radius: 0.4cqw;
-  border: 2px solid transparent;
-  box-shadow: inset 1px 1px 20px 4px #FFFFFF14;
+  border-radius: calc(var(--key-size) / 10);
+  border: 2px solid #FFFFFF09;
 
   overflow: hidden;
 
-  font-size: 0.7cqw;
+  font-size: calc(var(--key-size) / 6);
   font-weight: bold;
 
   cursor: pointer;
@@ -25,8 +23,8 @@
   transition: transform .08s, border-color .08s;
 
   &.Enter {
-    margin-top: calc(-1 * var(--key-size) - 0.5cqw);
-    height: calc(2 * var(--key-size) + 0.5cqw);
+    margin-top: calc(-1 * var(--key-size) - var(--key-gap));
+    height: calc(2 * var(--key-size) + var(--key-gap));
   }
 
   .key {
@@ -54,7 +52,7 @@
 
     :after {
       background-color: #00000066;
-      box-shadow: inset 0 0 8px 0 #00000099;
+      box-shadow: inset 0 0 8px 1px #00000099;
     }
   }
 }
