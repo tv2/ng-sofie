@@ -16,7 +16,7 @@ export class RundownHeaderContextMenuComponent {
   @Input()
   public shortenedRundownName: string
 
-  public readonly contextMenuOptionsForInactiveRundown: ContextMenuOption[] = [
+  private readonly contextMenuOptionsForInactiveRundown: ContextMenuOption[] = [
     {
       label: 'Activate (On Air)',
       contextAction: (): void => this.openActivationDialog(),
@@ -27,7 +27,7 @@ export class RundownHeaderContextMenuComponent {
     },
   ]
 
-  public readonly contextMenuOptionsForActiveRundown: ContextMenuOption[] = [
+  private readonly contextMenuOptionsForActiveRundown: ContextMenuOption[] = [
     {
       label: 'Deactivate',
       contextAction: (): void => this.openDeactivationDialog(),
