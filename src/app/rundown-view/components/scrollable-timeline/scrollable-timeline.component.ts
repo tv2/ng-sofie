@@ -1,7 +1,6 @@
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core'
+import { Component, HostListener, Input } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
-import { RundownCursor } from '../../../core/models/rundown-cursor'
 import { Part } from '../../../core/models/part'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
@@ -21,9 +20,6 @@ export class ScrollableTimelineComponent {
 
   @Input()
   public isRundownActive: boolean
-
-  @Output()
-  public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
 
   public pixelsPerSecond: number = 50
   public scrollOffsetInMs: number = 0

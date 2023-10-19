@@ -26,13 +26,13 @@
   &__header-toolbar {
     height: var(--toolbar-height);
     background: black;
-    color: white;
+    color: var(--text-color);
     padding: 8px;
   }
 
   &__title {
     padding: 7px;
-    color: white;
+    color: var(--text-color);
     font-size: 1.4em;
     font-weight: normal;
   }

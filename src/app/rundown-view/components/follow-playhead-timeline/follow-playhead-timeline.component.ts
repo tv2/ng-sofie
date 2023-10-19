@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core'
 import { Part } from '../../../core/models/part'
 import { Segment } from '../../../core/models/segment'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
-import { RundownCursor } from '../../../core/models/rundown-cursor'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 
 const PRE_PLAYHEAD_INSET_IN_PIXELS: number = 40
@@ -27,9 +26,6 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
 
   @Input()
   public isRundownActive: boolean
-
-  @Output()
-  public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
 
   public pixelsPerSecond: number = 50
 

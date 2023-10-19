@@ -9,7 +9,7 @@
     text-align: right;
 
     a {
-      color: white;
+      color: var(--text-color);
       padding: 1em;
       font-size: medium;
     }
@@ -27,7 +27,7 @@
     }
 
     span {
-      color: white;
+      color: var(--text-color);
     }
   }
 
