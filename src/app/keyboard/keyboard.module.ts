@@ -6,7 +6,7 @@ import { KeyBindingMatcher } from './abstractions/key-binding-matcher.service'
 import { Tv2KeyBindingMatcher } from './services/tv2-key-binding-matcher.service'
 import { KeyAliasService } from './abstractions/key-alias-service'
 import { Tv2KeyAliasService } from './services/tv2-key-alias.service'
-import { VirtualKeyboardComponent } from './components/virtual-keyboard/virtual-keyboard.component';
+import { VirtualKeyboardComponent } from './components/virtual-keyboard/virtual-keyboard.component'
 import { VirtualKeyboardKeyComponent } from '../virtual-keyboard-key/virtual-keyboard-key.component'
 
 @NgModule({

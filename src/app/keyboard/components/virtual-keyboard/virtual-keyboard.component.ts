@@ -6,22 +6,8 @@ import { Logger } from '../../../core/abstractions/logger.service'
 
 const CHAR_CODE_FOR_A: number = 65
 
-
 // TODO: Find better way.
-const MODIFIER_KEYS: string[] = [
-  'Control',
-  'Shift',
-  'Option',
-  'Alt',
-  'ControlLeft',
-  'ShiftLeft',
-  'OptionLeft',
-  'AltLeft',
-  'ControlRight',
-  'ShiftRight',
-  'OptionRight',
-  'AltRight',
-]
+const MODIFIER_KEYS: string[] = ['Control', 'Shift', 'Option', 'Alt', 'ControlLeft', 'ShiftLeft', 'OptionLeft', 'AltLeft', 'ControlRight', 'ShiftRight', 'OptionRight', 'AltRight']
 
 @Component({
   selector: 'sofie-virtual-keyboard',
@@ -39,8 +25,8 @@ export class VirtualKeyboardComponent implements OnChanges {
   private readonly logger: Logger
 
   public readonly functionKeys: string[] = [...Array(12)].map((_, index: number) => `F${index + 1}`)
-  public readonly digitKeys: string [] = [...Array(10)].map((_, index: number) => `Digit${(index + 1) % 10}`)
-  public readonly numpadDigitKeys: string [] = [...Array(10)].map((_, index: number) => `Digit${(index + 1) % 10}`)
+  public readonly digitKeys: string[] = [...Array(10)].map((_, index: number) => `Digit${(index + 1) % 10}`)
+  public readonly numpadDigitKeys: string[] = [...Array(10)].map((_, index: number) => `Digit${(index + 1) % 10}`)
   public readonly physicalLayout: string[][] = [
     ['Escape', ...this.functionKeys],
     ['Backquote', ...this.digitKeys, 'Minus', 'Equal', 'Backspace'],
@@ -50,13 +36,18 @@ export class VirtualKeyboardComponent implements OnChanges {
     ['ControlLeft', 'OSLeft', 'AltLeft', 'Space', 'AltRight', 'OSRight', 'ContextMenu', 'ControlRight'],
   ]
 
-  private keyBindingsFilteredByModifiers: KeyBinding[]
+  private keyBindingsFilteredByModifiers: KeyBinding[] = []
 
-  constructor(private readonly keyBindingMatcher: KeyBindingMatcher, logger: Logger) {
+  constructor(
+    private readonly keyBindingMatcher: KeyBindingMatcher,
+    logger: Logger
+  ) {
+    this.logger = logger.tag('VirtualKeyboardComponent')
     this.keyboardLayout = this.createKeyboardLayout()
-    navigator.keyboard?.getLayoutMap()
-        .then(keyboardLayout => this.keyboardLayout = this.updateKeyboardLayout(keyboardLayout))
-        .catch(error => this.logger.data(error).warn('Failed getting keyboard layout.'))
+    navigator.keyboard
+      ?.getLayoutMap()
+      .then(keyboardLayout => (this.keyboardLayout = this.updateKeyboardLayout(keyboardLayout)))
+      .catch(error => this.logger.data(error).warn('Failed getting keyboard layout.'))
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -117,24 +108,18 @@ export class VirtualKeyboardComponent implements OnChanges {
   public onExecuteActionsForKeystroke(keystroke: string): void {
     const modifierKeystrokes: string[] = this.keystrokes.filter(keystroke => MODIFIER_KEYS.includes(keystroke))
     const emulatedKeystrokes: string[] = [...modifierKeystrokes, keystroke]
-    this.keyBindingsFilteredByModifiers
-        .filter(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))
-        .forEach(keyBinding => keyBinding.onMatched())
+    this.keyBindingsFilteredByModifiers.filter(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes)).forEach(keyBinding => keyBinding.onMatched())
   }
 
   private createKeyboardLayout(): KeyboardLayoutMap {
-    return new Map([
-        ...this.createAlphaKeyKeyboardLayoutEntries(),
-        ...this.createNumericKeyKeyboardLayoutEntries(),
-        ...this.createSpecialKeyKeyboardLayoutEntries(),
-    ])
+    return new Map([...this.createAlphaKeyKeyboardLayoutEntries(), ...this.createNumericKeyKeyboardLayoutEntries(), ...this.createSpecialKeyKeyboardLayoutEntries()])
   }
 
   private createAlphaKeyKeyboardLayoutEntries(): [string, string][] {
     return [...Array(26)]
-        .map((_, index) => index + CHAR_CODE_FOR_A)
-        .map(charCode => String.fromCharCode(charCode))
-        .map(character => [`Key${character}`, character])
+      .map((_, index) => index + CHAR_CODE_FOR_A)
+      .map(charCode => String.fromCharCode(charCode))
+      .map(character => [`Key${character}`, character])
   }
 
   private createNumericKeyKeyboardLayoutEntries(): [string, string][] {
@@ -156,10 +141,7 @@ export class VirtualKeyboardComponent implements OnChanges {
   }
 
   private updateKeyboardLayout(keyboardLayout: KeyboardLayoutMap): KeyboardLayoutMap {
-    return new Map([
-        ...this.keyboardLayout,
-        ...keyboardLayout.entries(),
-    ])
+    return new Map([...this.keyboardLayout, ...keyboardLayout.entries()])
   }
 
   public displayKeyBinding(keyBinding: KeyBinding): string {
@@ -167,7 +149,7 @@ export class VirtualKeyboardComponent implements OnChanges {
   }
 
   private getDisplayKey(key: string): string {
-    const mappedKey: string | undefined =  this.keyboardLayout?.get(key)
+    const mappedKey: string | undefined = this.keyboardLayout?.get(key)
     if (mappedKey) {
       return mappedKey
     }

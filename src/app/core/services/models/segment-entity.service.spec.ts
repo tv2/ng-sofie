@@ -1,5 +1,5 @@
 import { SegmentEntityService } from './segment-entity.service'
-import { TestEntityFactory } from './test-entity.factory'
+import { TestEntityFactory } from '../../../test/factories/test-entity.factory'
 import { Segment } from '../../models/segment'
 import { PartEntityService } from './part-entity.service'
 import { instance, mock, verify } from '@typestrong/ts-mockito'

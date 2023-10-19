@@ -4,6 +4,7 @@ import { EventObserver, EventSubscription } from '../../event-system/abstraction
 import { RundownEventParser } from '../abstractions/rundown-event.parser'
 import { RundownEventType } from '../models/rundown-event-type'
 import { Logger } from '../abstractions/logger.service'
+import { TestLoggerFactory } from '../../test/factories/test-logger.factory'
 
 describe(RundownEventObserver.name, () => {
   describe(RundownEventObserver.prototype.subscribeToRundownActivation.name, () => {
@@ -64,7 +65,7 @@ describe(RundownEventObserver.name, () => {
 function createTestee(parameters: { eventObserver?: EventObserver; rundownEventParser?: RundownEventParser; logger?: Logger } = {}): RundownEventObserver {
   const mockedEventObserver: EventObserver = parameters.eventObserver ?? instance(mock<EventObserver>())
   const mockedRundownEventParser: RundownEventParser = parameters.rundownEventParser ?? instance(createMockOfRundownEventParser())
-  const mockedLogger: Logger = parameters.logger ?? instance(createMockOfLogger())
+  const mockedLogger: Logger = parameters.logger ?? createLogger()
   return new RundownEventObserver(mockedEventObserver, mockedRundownEventParser, mockedLogger)
 }
 
@@ -86,11 +87,7 @@ function configureEventSubscriptionMock(subject: string, mockedEventObserver: Ev
   return mockedUnsubscribeObject
 }
 
-// TODO: Extract to one place
-function createMockOfLogger(): Logger {
-  const mockedLogger: Logger = mock<Logger>()
-  when(mockedLogger.tag(anyString())).thenCall(() => instance(createMockOfLogger()))
-  when(mockedLogger.data(anything())).thenCall(() => instance(createMockOfLogger()))
-  when(mockedLogger.metadata(anything())).thenCall(() => instance(createMockOfLogger()))
-  return mockedLogger
+function createLogger(): Logger {
+  const testLoggerFactory: TestLoggerFactory = new TestLoggerFactory()
+  return testLoggerFactory.createLogger()
 }

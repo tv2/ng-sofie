@@ -1,6 +1,6 @@
 import { PartEntityService } from './part-entity.service'
 import { Part } from '../../models/part'
-import { TestEntityFactory } from './test-entity.factory'
+import { TestEntityFactory } from '../../../test/factories/test-entity.factory'
 
 describe(PartEntityService.name, () => {
   beforeEach(() => {

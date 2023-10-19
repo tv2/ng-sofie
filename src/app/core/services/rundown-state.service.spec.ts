@@ -5,6 +5,7 @@ import { RundownEventObserver } from './rundown-event-observer.service'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { RundownEntityService } from './models/rundown-entity.service'
 import { Logger } from '../abstractions/logger.service'
+import { TestLoggerFactory } from '../../test/factories/test-logger.factory'
 
 describe('RundownStateService', () => {
   it('should be created', () => {
@@ -12,14 +13,19 @@ describe('RundownStateService', () => {
     const mockedRundownEventObserver = mock<RundownEventObserver>()
     const mockedConnectionStatusObserver = mock<ConnectionStatusObserver>()
     const mockedRundownEntityService = mock<RundownEntityService>()
-    const mockedLogger: Logger = mock<Logger>()
+
     const testee = new RundownStateService(
       instance(mockedRundownService),
       instance(mockedRundownEventObserver),
       instance(mockedConnectionStatusObserver),
       instance(mockedRundownEntityService),
-      instance(mockedLogger)
+      createLogger()
     )
     expect(testee).toBeTruthy()
   })
 })
+
+function createLogger(): Logger {
+  const testLoggerFactory: TestLoggerFactory = new TestLoggerFactory()
+  return testLoggerFactory.createLogger()
+}
