@@ -4,11 +4,9 @@ import { KeyBindingMatcher } from '../../abstractions/key-binding-matcher.servic
 import { KeyEventType } from '../../value-objects/key-event-type'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { StyledKeyBinding } from '../../value-objects/styled-key-binding'
+import { KeyAliasService } from '../../abstractions/key-alias-service'
 
 const CHAR_CODE_FOR_A: number = 65
-
-// TODO: Find better way.
-const MODIFIER_KEYS: string[] = ['Control', 'Shift', 'Option', 'Alt', 'ControlLeft', 'ShiftLeft', 'OptionLeft', 'AltLeft', 'ControlRight', 'ShiftRight', 'OptionRight', 'AltRight']
 
 @Component({
   selector: 'sofie-virtual-keyboard',
@@ -38,9 +36,11 @@ export class VirtualKeyboardComponent implements OnChanges {
   ]
 
   private keyBindingsFilteredByModifiers: StyledKeyBinding[] = []
+  private currentModifierKeystrokes: string[] = []
 
   constructor(
     private readonly keyBindingMatcher: KeyBindingMatcher,
+    private readonly keyAliasService: KeyAliasService,
     logger: Logger
   ) {
     this.logger = logger.tag('VirtualKeyboardComponent')
@@ -53,16 +53,24 @@ export class VirtualKeyboardComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if ('keystrokes' in changes || 'keyBindings' in changes) {
-      this.updateKeyBindingsFilteredByModifiers()
+      this.updateAvailableKeyBindings()
     }
   }
 
-  private updateKeyBindingsFilteredByModifiers(): void {
-    const modifierKeystrokes: string[] = this.keystrokes.filter(keystroke => MODIFIER_KEYS.includes(keystroke))
+  private updateAvailableKeyBindings(): void {
+    this.currentModifierKeystrokes = this.keystrokes.filter(keystroke => this.keyAliasService.isModifierKeyOrAliasedModifierKey(keystroke))
     this.keyBindingsFilteredByModifiers = this.keyBindings.filter(keyBinding => {
-      const modifierKeys: string[] = keyBinding.keys.filter(key => MODIFIER_KEYS.includes(key))
-      return modifierKeystrokes.every(keystroke => modifierKeys.includes(keystroke)) && modifierKeys.length === modifierKeystrokes.length
+
+      const modifierKeys: string[] = keyBinding.keys.filter(key => this.keyAliasService.isModifierKeyOrAliasedModifierKey(key))
+      if (keyBinding.keys.includes('Backquote')) {
+        console.log(modifierKeys)
+      }
+      const isModifiersPartialOfKeyBindingModifiers: boolean = this.currentModifierKeystrokes.every(
+          keystroke => modifierKeys.some(modifierKey => this.keyAliasService.isKeyPartOfAlias(keystroke, modifierKey))
+      )
+      return isModifiersPartialOfKeyBindingModifiers && modifierKeys.length === this.currentModifierKeystrokes.length
     })
+    console.log(this.currentModifierKeystrokes, this.keyBindingsFilteredByModifiers)
   }
 
   public isKeystrokeMatched(keystroke: string): boolean {
@@ -70,8 +78,7 @@ export class VirtualKeyboardComponent implements OnChanges {
   }
 
   public getLabelOfKey(keystroke: string): string | undefined {
-    const modifierKeystrokes: string[] = this.keystrokes.filter(keystroke => MODIFIER_KEYS.includes(keystroke))
-    const emulatedKeystrokes: string[] = [...modifierKeystrokes, keystroke]
+    const emulatedKeystrokes: string[] = [...this.currentModifierKeystrokes, keystroke]
     return this.keyBindingsFilteredByModifiers.find(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))?.label
   }
 
@@ -111,14 +118,12 @@ export class VirtualKeyboardComponent implements OnChanges {
   }
 
   public getBackgroundForKey(key: string): string | undefined {
-    const modifierKeystrokes: string[] = this.keystrokes.filter(keystroke => MODIFIER_KEYS.includes(keystroke))
-    const emulatedKeystrokes: string[] = [...modifierKeystrokes, key]
+    const emulatedKeystrokes: string[] = [...this.currentModifierKeystrokes, key]
     return this.keyBindingsFilteredByModifiers.find(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))?.background
   }
 
   public onExecuteActionsForKeystroke(keystroke: string): void {
-    const modifierKeystrokes: string[] = this.keystrokes.filter(keystroke => MODIFIER_KEYS.includes(keystroke))
-    const emulatedKeystrokes: string[] = [...modifierKeystrokes, keystroke]
+    const emulatedKeystrokes: string[] = [...this.currentModifierKeystrokes, keystroke]
     this.keyBindingsFilteredByModifiers.filter(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes)).forEach(keyBinding => keyBinding.onMatched())
   }
 

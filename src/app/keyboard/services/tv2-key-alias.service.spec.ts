@@ -1,7 +1,7 @@
 import { Tv2KeyAliasService } from './tv2-key-alias.service'
 
 describe(Tv2KeyAliasService.name, () => {
-  describe(Tv2KeyAliasService.prototype.getAliasesForKey.name, () => {
+  describe(Tv2KeyAliasService.prototype.getKeysFromKeyAlias.name, () => {
     describe('when key is an alias', () => {
       describe('when alias is AnyEnter', () => {
         it('returns Enter and NumpadEnter', () => {
@@ -9,7 +9,7 @@ describe(Tv2KeyAliasService.name, () => {
           const expectedAliases: string[] = ['Enter', 'NumpadEnter']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getAliasesForKey(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(alias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -21,7 +21,7 @@ describe(Tv2KeyAliasService.name, () => {
           const expectedAliases: string[] = ['ShiftLeft', 'ShiftRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getAliasesForKey(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(alias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -33,7 +33,7 @@ describe(Tv2KeyAliasService.name, () => {
           const expectedAliases: string[] = ['ControlLeft', 'ControlRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getAliasesForKey(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(alias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -45,7 +45,7 @@ describe(Tv2KeyAliasService.name, () => {
           const expectedAliases: string[] = ['AltLeft', 'AltRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getAliasesForKey(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(alias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -57,7 +57,7 @@ describe(Tv2KeyAliasService.name, () => {
           const expectedAliases: string[] = ['AltLeft', 'AltRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getAliasesForKey(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(alias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -69,7 +69,7 @@ describe(Tv2KeyAliasService.name, () => {
           const expectedAliases: string[] = ['MetaLeft', 'MetaRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getAliasesForKey(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(alias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -81,7 +81,7 @@ describe(Tv2KeyAliasService.name, () => {
           const expectedAliases: string[] = ['OSLeft', 'OSRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getAliasesForKey(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(alias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -93,7 +93,7 @@ describe(Tv2KeyAliasService.name, () => {
           const expectedAliases: string[] = ['OSLeft', 'OSRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getAliasesForKey(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(alias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -105,7 +105,7 @@ describe(Tv2KeyAliasService.name, () => {
           const expectedAliases: string[] = ['OSLeft', 'OSRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getAliasesForKey(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(alias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -127,7 +127,7 @@ function runTestKeyWithoutAliases(key: string): void {
     it('returns no aliases except for the key itself', () => {
       const testee: Tv2KeyAliasService = createTestee()
 
-      const result: string[] = testee.getAliasesForKey(key)
+      const result: string[] = testee.getKeysFromKeyAlias(key)
 
       expect(result).toEqual([key])
     })

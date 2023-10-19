@@ -1,8 +1,16 @@
 import { KeyAliasService } from '../abstractions/key-alias-service'
 
 export class Tv2KeyAliasService implements KeyAliasService {
-  public getAliasesForKey(key: string): string[] {
-    switch (key) {
+  private readonly modifierKeys: string[] = [
+  'ShiftLeft', 'ShiftRight',
+  'ControlLeft', 'ControlRight',
+  'AltLeft', 'AltRight',
+  'MetaLeft', 'MetaRight',
+  'OSLeft', 'OSRight',
+  ]
+
+  public getKeysFromKeyAlias(keyAlias: string): string[] {
+    switch (keyAlias) {
       case 'AnyEnter':
         return ['Enter', 'NumpadEnter']
       case 'Shift':
@@ -19,7 +27,15 @@ export class Tv2KeyAliasService implements KeyAliasService {
       case 'Windows':
         return ['OSLeft', 'OSRight']
       default:
-        return [key]
+        return [keyAlias]
     }
+  }
+
+  public isModifierKeyOrAliasedModifierKey(keyAlias: string): boolean {
+    return this.getKeysFromKeyAlias(keyAlias).some(key => this.modifierKeys.includes(key))
+  }
+
+  public isKeyPartOfAlias(key: string, keyAlias: string): boolean {
+    return this.getKeysFromKeyAlias(keyAlias).includes(key)
   }
 }

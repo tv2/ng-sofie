@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core'
-import { StyledKeyBinding } from '../../value-objects/styled-key-binding'
 
 @Component({
   selector: 'sofie-virtual-keyboard-key',

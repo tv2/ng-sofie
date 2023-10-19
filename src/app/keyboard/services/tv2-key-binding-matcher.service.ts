@@ -28,7 +28,7 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
   }
 
   private doesKeystrokesContainAllKeys(keyBinding: KeyBinding, keystrokes: string[]): boolean {
-    return keyBinding.keys.every(key => this.keyAliasService.getAliasesForKey(key).some(keyAlias => keystrokes.includes(keyAlias)))
+    return keyBinding.keys.every(key => this.keyAliasService.getKeysFromKeyAlias(key).some(keyAlias => keystrokes.includes(keyAlias)))
   }
 
   private isKeyBindingAnExclusiveMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
@@ -49,8 +49,8 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
   }
 
   private areKeysMatching(firstKey: string, secondKey: string): boolean {
-    const firstKeyAliases: string[] = this.keyAliasService.getAliasesForKey(firstKey)
-    const secondKeyAliases: string[] = this.keyAliasService.getAliasesForKey(secondKey)
+    const firstKeyAliases: string[] = this.keyAliasService.getKeysFromKeyAlias(firstKey)
+    const secondKeyAliases: string[] = this.keyAliasService.getKeysFromKeyAlias(secondKey)
     return [...firstKeyAliases].some(firstKeyAlias => secondKeyAliases.includes(firstKeyAlias))
   }
 
@@ -80,12 +80,12 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
   }
 
   private isKeyBindingAPartialExclusiveMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
-    const keyAliases: string[] = keyBinding.keys.flatMap(key => this.keyAliasService.getAliasesForKey(key))
+    const keyAliases: string[] = keyBinding.keys.flatMap(key => this.keyAliasService.getKeysFromKeyAlias(key))
     return keystrokes.every(keystroke => keyAliases.includes(keystroke))
   }
 
   private isKeyBindingAPartialNonExclusiveMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
-    const keyAliases: string[] = keyBinding.keys.flatMap(key => this.keyAliasService.getAliasesForKey(key))
+    const keyAliases: string[] = keyBinding.keys.flatMap(key => this.keyAliasService.getKeysFromKeyAlias(key))
     return keyAliases.some(key => keystrokes.includes(key))
   }
 
