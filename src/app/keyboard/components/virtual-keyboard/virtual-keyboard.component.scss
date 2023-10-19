@@ -1,8 +1,12 @@
 :host {
+  --key-size: 4.9cqw;
+  --key-gap: calc(var(--key-size) / 8);
+
   display: flex;
   background-color: #111111;
   padding: 20px;
   border-radius: 16px;
+  container-type: inline-size;
 
   .key-row-column {
     display: flex;

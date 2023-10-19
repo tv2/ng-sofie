@@ -24,23 +24,6 @@ export class VirtualKeyboardComponent implements OnChanges {
   @Input()
   public keystrokes: string[]
 
-  @HostBinding('style.--key-size.px')
-  public keySizeInPixels: number = 10
-
-  @HostBinding('style.--key-gap.px')
-  public keyGapInPixels: number = 0
-
-  @HostListener('window:resize')
-  public onWindowResize(): void {
-    this.resizeSubject.next()
-  }
-  public updateKeyStyling(): void {
-    this.keySizeInPixels = this.hostElement.nativeElement.offsetWidth / NUMBER_OF_KEYS_IN_FULL_ROW
-    this.keyGapInPixels = this.hostElement.nativeElement.offsetWidth / (NUMBER_OF_KEYS_IN_FULL_ROW * KEY_GAP_TO_KEY_SIZE_RATIO)
-  }
-
-  private readonly resizeSubject: Subject<void> = new Subject<void>()
-
   public keyboardLayoutMap: KeyboardLayoutMap
   private readonly logger: Logger
 
@@ -66,8 +49,6 @@ export class VirtualKeyboardComponent implements OnChanges {
       ?.getLayoutMap()
       .then(keyboardLayoutMap => (this.keyboardLayoutMap = this.updateKeyboardLayoutMap(keyboardLayoutMap)))
       .catch(error => this.logger.data(error).warn('Failed getting keyboard layout.'))
-    this.resizeSubject.pipe(debounceTime(RESIZE_DEBOUNCE_DURATION_IN_MS)).subscribe(() => this.updateKeyStyling())
-    this.resizeSubject.next()
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

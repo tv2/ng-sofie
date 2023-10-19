@@ -1,6 +1,26 @@
 :host {
   display: block;
-  padding: 20px;
   height: 100%;
-  overflow: auto;
+  overflow-y: scroll;
+
+  .wrapper {
+    display: inline-flex;
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .sidebar {
+    display: inline-flex;
+    flex: 0 0 320px;
+    width: 320px;
+  }
 }
