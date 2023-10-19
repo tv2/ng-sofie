@@ -7,5 +7,6 @@ export interface KeyboardLayout {
 
 export interface KeyboardLayoutKey {
   key: string
+  label: string
   widthScale: number
 }

@@ -2,7 +2,7 @@
   position: relative;
   display: inline-flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
 
   width: calc(var(--key-weight) * var(--key-size));
   height: var(--key-size);
@@ -19,7 +19,6 @@
   font-weight: bold;
 
   cursor: pointer;
-
   transition: transform .08s, border-color .08s;
 
   &.Enter {
@@ -29,12 +28,12 @@
 
   .key {
     font-size: calc(var(--key-size) / 5);
-    text-align: left;
+    text-align: center;
     opacity: 0.7;
   }
 
   .label {
-    text-align: left;
+    text-align: center;
   }
 
   :after {
