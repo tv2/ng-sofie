@@ -21,9 +21,13 @@
   cursor: pointer;
   transition: transform .08s, border-color .08s;
 
-  &.Enter {
+  &.enter {
     margin-top: calc(-1 * var(--key-size) - var(--key-gap));
     height: calc(2 * var(--key-size) + var(--key-gap));
+  }
+
+  &.none {
+    visibility: hidden;
   }
 
   .key {
