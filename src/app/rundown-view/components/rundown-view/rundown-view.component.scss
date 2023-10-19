@@ -1,4 +1,6 @@
 :host {
+  --text-color: #cccccc;
+
   display: flex;
   flex-direction: column;
   flex: 1 1 100%;
@@ -9,13 +11,13 @@
   -ms-user-select: none;
   user-select: none;
   outline: none;
-}
 
-.c-loading-rundown {
-  text-align: center;
-  background-color: #343434;
-  height: 100%;
-  width: 100%;
-  padding: 100px;
-  color: white;
+  .c-loading-rundown {
+    text-align: center;
+    background-color: #343434;
+    height: 100%;
+    width: 100%;
+    padding: 100px;
+    color: var(--text-color);
+  }
 }
