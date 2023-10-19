@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { KeyBinding } from '../../../keyboard/models/key-binding'
+import { KeyBinding } from '../../../keyboard/value-objects/key-binding'
 import { Rundown } from '../../../core/models/rundown'
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'

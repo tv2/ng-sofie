@@ -6,6 +6,7 @@
         [keyboardLayout]="keyboardLayout"
         [weight]="getKeyWeight(key)"
         [isMatched]="isKeystrokeMatched(key)"
+        [background]="getBackgroundForKey(key)"
         (click)="onExecuteActionsForKeystroke(key)"
     ></sofie-virtual-keyboard-key>
 </div>

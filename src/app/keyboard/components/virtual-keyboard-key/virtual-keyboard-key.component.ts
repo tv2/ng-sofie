@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core'
+import { StyledKeyBinding } from '../../value-objects/styled-key-binding'
 
 @Component({
   selector: 'sofie-virtual-keyboard-key',
@@ -24,6 +25,14 @@ export class VirtualKeyboardKeyComponent {
   @Input()
   @HostBinding('style.--key-weight')
   public weight: number = 1
+
+  @Input()
+  public background?: string
+
+  @HostBinding('style.background')
+  public get displayBackground(): string {
+    return this.background ?? '#333333'
+  }
 
   public get mappedKey(): string {
     const mappedKey: string = this.keyboardLayout.get(this.key) ?? this.key

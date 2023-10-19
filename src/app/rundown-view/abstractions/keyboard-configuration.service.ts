@@ -1,4 +1,4 @@
-import { KeyBinding } from '../../keyboard/models/key-binding'
+import { KeyBinding } from '../../keyboard/value-objects/key-binding'
 import { Subscription } from 'rxjs'
 
 export abstract class KeyboardConfigurationService {

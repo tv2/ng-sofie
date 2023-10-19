@@ -1,6 +1,6 @@
 import { BehaviorSubject, Observable, Subject, SubscriptionLike } from 'rxjs'
 import { ActionStateService } from '../../shared/services/action-state.service'
-import { KeyBinding } from '../../keyboard/models/key-binding'
+import { KeyBinding } from '../../keyboard/value-objects/key-binding'
 import { KeyBindingFactory } from '../factories/key-binding.factory'
 import { Tv2Action } from '../../shared/models/tv2-action'
 import { Action } from '../../shared/models/action'

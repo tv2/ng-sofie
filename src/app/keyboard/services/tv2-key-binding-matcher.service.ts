@@ -1,5 +1,5 @@
 import { KeyBindingMatcher } from '../abstractions/key-binding-matcher.service'
-import { KeyBinding } from '../models/key-binding'
+import { KeyBinding } from '../value-objects/key-binding'
 import { KeyEventType } from '../value-objects/key-event-type'
 import { Injectable } from '@angular/core'
 import { KeyAliasService } from '../abstractions/key-alias-service'
