@@ -55,6 +55,7 @@ export class ZodEntityParser implements EntityParser {
     segmentId: zod.string().nonempty(),
     isOnAir: zod.boolean(),
     isNext: zod.boolean(),
+    isUnsynced: zod.boolean(),
     pieces: this.pieceParser.array(),
     expectedDuration: zod
       .number()
@@ -68,9 +69,10 @@ export class ZodEntityParser implements EntityParser {
   private readonly segmentParser = zod.object({
     id: zod.string().nonempty(),
     rundownId: zod.string().nonempty(),
-    name: zod.string().nonempty(),
+    name: zod.string().min(0),
     isOnAir: zod.boolean(),
     isNext: zod.boolean(),
+    isUnsynced: zod.boolean(),
     parts: this.partParser.array(),
     budgetDuration: zod.number().optional(),
   })

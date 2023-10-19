@@ -1,5 +1,18 @@
 import { Injectable, OnDestroy } from '@angular/core'
-import { RundownInfinitePieceAddedEvent, PartSetAsNextEvent, RundownResetEvent, PartTakenEvent, RundownActivatedEvent, RundownDeactivatedEvent } from '../models/rundown-event'
+import {
+  PartCreatedEvent,
+  PartDeletedEvent,
+  PartSetAsNextEvent,
+  PartTakenEvent,
+  PartUpdatedEvent,
+  RundownActivatedEvent,
+  RundownDeactivatedEvent,
+  RundownInfinitePieceAddedEvent,
+  RundownResetEvent,
+  SegmentCreatedEvent,
+  SegmentDeletedEvent,
+  SegmentUpdatedEvent
+} from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
 import { Rundown } from '../models/rundown'
 import { RundownService } from '../abstractions/rundown.service'
@@ -54,7 +67,47 @@ export class RundownStateService implements OnDestroy {
       this.rundownEventObserver.subscribeToRundownTake(this.takePartInRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownSetNext(this.setNextPartInRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownInfinitePieceAdded(this.addInfinitePieceToRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToSegmentCreated(this.segmentCreated.bind(this)),
+      this.rundownEventObserver.subscribeToSegmentUpdated(this.segmentUpdated.bind(this)),
+      this.rundownEventObserver.subscribeToSegmentDeleted(this.segmentDeleted.bind(this)),
+      this.rundownEventObserver.subscribeToPartCreated(this.partCreated.bind(this)),
+      this.rundownEventObserver.subscribeToPartUpdated(this.partUpdated.bind(this)),
+      this.rundownEventObserver.subscribeToPartDeleted(this.partDeleted.bind(this))
     ]
+  }
+
+  private segmentCreated(event: SegmentCreatedEvent): void {
+    this.refetchRundown(event.rundownId)
+  }
+
+  private segmentUpdated(event: SegmentUpdatedEvent): void {
+    this.refetchRundown(event.rundownId)
+  }
+
+  private segmentDeleted(event: SegmentDeletedEvent): void {
+    this.refetchRundown(event.rundownId)
+  }
+
+  private partCreated(event: PartCreatedEvent): void {
+    this.refetchRundown(event.rundownId)
+  }
+
+  private partUpdated(event: PartUpdatedEvent): void {
+    this.refetchRundown(event.rundownId)
+  }
+
+  private partDeleted(event: PartDeletedEvent): void {
+    this.refetchRundown(event.rundownId)
+  }
+
+  private refetchRundown(rundownId: string) {
+    const rundownSubject = this.rundownSubjects.get(rundownId)
+    if (!rundownSubject) {
+      return
+    }
+    this.fetchRundown(rundownId)
+        .then(rundown => rundownSubject.next(rundown))
+        .catch(error => console.error('[error]', `Encountered error while fetching rundown with id '${rundownId}':`, error))
   }
 
   private activateRundownFromEvent(event: RundownActivatedEvent): void {

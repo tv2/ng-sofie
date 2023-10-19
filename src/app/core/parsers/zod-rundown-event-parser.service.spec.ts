@@ -63,17 +63,17 @@ describe(ZodRundownEventParser.name, () => {
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parseDeletedEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.parseRundownDeletedEvent.name, () => {
     it('parses a rundown deleted event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
       const event: RundownDeletedEvent = {
-        type: RundownEventType.DELETED,
+        type: RundownEventType.RUNDOWN_DELETED,
         timestamp: Date.now(),
         rundownId: 'some-rundown-id',
       }
 
-      const result = testee.parseDeletedEvent(event)
+      const result = testee.parseRundownDeletedEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -82,10 +82,10 @@ describe(ZodRundownEventParser.name, () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
       const event: Partial<RundownDeletedEvent> = {
-        type: RundownEventType.DELETED,
+        type: RundownEventType.RUNDOWN_DELETED,
       }
 
-      const result = (): RundownDeletedEvent => testee.parseDeletedEvent(event)
+      const result = (): RundownDeletedEvent => testee.parseRundownDeletedEvent(event)
 
       expect(result).toThrow()
     })

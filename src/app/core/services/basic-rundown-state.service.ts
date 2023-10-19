@@ -60,6 +60,8 @@ export class BasicRundownStateService implements OnDestroy {
       this.rundownEventObserver.subscribeToRundownDeletion(this.deleteBasicRundownFromEvent.bind(this)),
       // TODO: Add listener(s) for updating the modifiedAt attribute when we implement modifiedAt.
       // TODO: Add listener(s) for when a rundown is created.
+        this.rundownEventObserver.subscribeToRundownCreated(() => this.resetBasicRundownSubject()),
+        this.rundownEventObserver.subscribeToRundownUpdated(() => this.resetBasicRundownSubject())
     ]
   }
 

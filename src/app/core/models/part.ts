@@ -6,6 +6,7 @@ export interface Part {
   readonly segmentId: string
   readonly isOnAir: boolean
   readonly isNext: boolean
+  readonly isUnsynced: boolean
   readonly pieces: Piece[]
   readonly expectedDuration?: number
   readonly executedAt: number

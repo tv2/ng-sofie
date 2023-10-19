@@ -20,10 +20,6 @@ export interface RundownDeactivatedEvent extends RundownEvent {
   type: RundownEventType.DEACTIVATED
 }
 
-export interface RundownDeletedEvent extends RundownEvent {
-  type: RundownEventType.DELETED
-}
-
 export interface RundownResetEvent extends RundownEvent {
   type: RundownEventType.RESET
 }
@@ -39,4 +35,40 @@ export interface PartSetAsNextEvent extends PartEvent {
 export interface RundownInfinitePieceAddedEvent extends RundownEvent {
   type: RundownEventType.INFINITE_PIECE_ADDED
   infinitePiece: Piece
+}
+
+export interface RundownCreatedEvent extends RundownEvent {
+  type: RundownEventType.RUNDOWN_CREATED
+}
+
+export interface RundownUpdatedEvent extends RundownEvent {
+  type: RundownEventType.RUNDOWN_UPDATED
+}
+
+export interface RundownDeletedEvent extends RundownEvent {
+  type: RundownEventType.RUNDOWN_DELETED
+}
+
+export interface SegmentCreatedEvent extends RundownEvent {
+  type: RundownEventType.SEGMENT_CREATED,
+}
+
+export interface SegmentUpdatedEvent extends RundownEvent {
+  type: RundownEventType.SEGMENT_UPDATED,
+}
+
+export interface SegmentDeletedEvent extends RundownEvent {
+  type: RundownEventType.SEGMENT_DELETED,
+}
+
+export interface PartCreatedEvent extends RundownEvent {
+  type: RundownEventType.PART_CREATED
+}
+
+export interface PartUpdatedEvent extends RundownEvent {
+  type: RundownEventType.PART_UPDATED
+}
+
+export interface PartDeletedEvent extends RundownEvent {
+  type: RundownEventType.PART_DELETED
 }

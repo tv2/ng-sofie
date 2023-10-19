@@ -24,6 +24,7 @@ export class TestEntityFactory {
       name: 'Segment',
       isNext: false,
       isOnAir: false,
+      isUnsynced: false,
       parts: [],
       ...segment,
     }
@@ -35,6 +36,7 @@ export class TestEntityFactory {
       segmentId: 'segment-id',
       isNext: false,
       isOnAir: false,
+      isUnsynced: false,
       pieces: [],
       executedAt: 0,
       playedDuration: 0,
