@@ -43,7 +43,7 @@ export class KeyBindingFactory {
   private createInsertCameraAsNextKeyBinding(cameraAction: Tv2CameraAction, rundownId: string): KeyBinding {
     const cameraNumber: number = cameraAction.metadata.cameraNumber
     return {
-      keys: ['AltLeft', `Digit${cameraNumber}`],
+      keys: ['Alt', `Digit${cameraNumber}`],
       label: `KAM ${cameraNumber}`,
       onMatched: () => this.actionService.executeAction(cameraAction.id, rundownId).subscribe(),
       shouldMatchOnKeyRelease: true,
@@ -57,9 +57,9 @@ export class KeyBindingFactory {
   public createRundownKeyBindings(rundown: Rundown): KeyBinding[] {
     if (rundown.isActive) {
       return [
-        this.createRundownKeyBinding('Take', ['Enter'], () => this.takeNext(rundown)),
+        this.createRundownKeyBinding('Take', ['AnyEnter'], () => this.takeNext(rundown)),
         this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
-        this.createRundownKeyBinding('Deactivate Rundown', ['ControlLeft', 'ShiftLeft', 'Backquote'], () => this.deactivateRundown(rundown)),
+        this.createRundownKeyBinding('Deactivate Rundown', ['Control', 'Shift', 'Backquote'], () => this.deactivateRundown(rundown)),
       ]
     }
     return [
