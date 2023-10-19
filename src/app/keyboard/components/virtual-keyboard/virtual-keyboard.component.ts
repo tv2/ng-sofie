@@ -78,6 +78,7 @@ export class VirtualKeyboardComponent implements OnChanges {
     const emulatedKeystrokes: string[] = [...modifierKeystrokes, keystroke]
     return this.keyBindingsFilteredByModifiers.find(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))?.label
   }
+
   public getKeyWeight(key: string): number {
     switch (key) {
       case 'Escape':
@@ -111,6 +112,14 @@ export class VirtualKeyboardComponent implements OnChanges {
         return 1.137
     }
     return 1
+  }
+
+  public onExecuteActionsForKeystroke(keystroke: string): void {
+    const modifierKeystrokes: string[] = this.keystrokes.filter(keystroke => MODIFIER_KEYS.includes(keystroke))
+    const emulatedKeystrokes: string[] = [...modifierKeystrokes, keystroke]
+    this.keyBindingsFilteredByModifiers
+        .filter(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))
+        .forEach(keyBinding => keyBinding.onMatched())
   }
 
   private createKeyboardLayout(): KeyboardLayoutMap {
