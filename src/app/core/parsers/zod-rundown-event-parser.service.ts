@@ -19,7 +19,7 @@ export class ZodRundownEventParser {
   })
 
   private readonly rundownDeletedEventParser = zod.object({
-    type: zod.literal(RundownEventType.DELETED),
+    type: zod.literal(RundownEventType.RUNDOWN_DELETED),
     timestamp: zod.number(),
     rundownId: zod.string().nonempty(),
   })
