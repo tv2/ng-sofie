@@ -1,15 +1,16 @@
 import { Tv2KeyAliasService } from './tv2-key-alias.service'
+import { KeyAlias } from '../value-objects/key-alias'
 
 describe(Tv2KeyAliasService.name, () => {
   describe(Tv2KeyAliasService.prototype.getKeysFromKeyAlias.name, () => {
     describe('when key is an alias', () => {
       describe('when alias is AnyEnter', () => {
         it('returns Enter and NumpadEnter', () => {
-          const alias: string = 'AnyEnter'
+          const keyAlias: string = KeyAlias.ANY_ENTER
           const expectedAliases: string[] = ['Enter', 'NumpadEnter']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getKeysFromKeyAlias(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(keyAlias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -17,11 +18,11 @@ describe(Tv2KeyAliasService.name, () => {
 
       describe('when alias is Shift', () => {
         it('returns ShiftLeft and ShiftRight', () => {
-          const alias: string = 'Shift'
+          const keyAlias: string = KeyAlias.SHIFT
           const expectedAliases: string[] = ['ShiftLeft', 'ShiftRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getKeysFromKeyAlias(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(keyAlias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -29,11 +30,11 @@ describe(Tv2KeyAliasService.name, () => {
 
       describe('when alias is Control', () => {
         it('returns ControlLeft and ControlRight', () => {
-          const alias: string = 'Control'
+          const keyAlias: string = KeyAlias.CONTROL
           const expectedAliases: string[] = ['ControlLeft', 'ControlRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getKeysFromKeyAlias(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(keyAlias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -41,11 +42,11 @@ describe(Tv2KeyAliasService.name, () => {
 
       describe('when alias is Alt', () => {
         it('returns AltLeft and AltRight', () => {
-          const alias: string = 'Alt'
+          const keyAlias: string = KeyAlias.ALT
           const expectedAliases: string[] = ['AltLeft', 'AltRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getKeysFromKeyAlias(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(keyAlias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -53,11 +54,11 @@ describe(Tv2KeyAliasService.name, () => {
 
       describe('when alias is Option', () => {
         it('returns AltLeft and AltRight', () => {
-          const alias: string = 'Option'
+          const keyAlias: string = KeyAlias.OPTION
           const expectedAliases: string[] = ['AltLeft', 'AltRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getKeysFromKeyAlias(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(keyAlias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -65,11 +66,11 @@ describe(Tv2KeyAliasService.name, () => {
 
       describe('when alias is Meta', () => {
         it('returns MetaLeft and MetaRight', () => {
-          const alias: string = 'Meta'
+          const keyAlias: string = KeyAlias.META
           const expectedAliases: string[] = ['MetaLeft', 'MetaRight']
           const testee: Tv2KeyAliasService = createTestee()
 
-          const result: string[] = testee.getKeysFromKeyAlias(alias)
+          const result: string[] = testee.getKeysFromKeyAlias(keyAlias)
 
           expect(result).toEqual(expectedAliases)
         })
@@ -86,7 +87,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is AnyEnter', () => {
         it('returns false', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const key: string = 'AnyEnter'
+          const key: string = KeyAlias.ANY_ENTER
 
           const result: boolean = testee.isModifierKeyOrAliasedModifierKey(key)
 
@@ -97,7 +98,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is Control', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const key: string = 'Control'
+          const key: string = KeyAlias.CONTROL
 
           const result: boolean = testee.isModifierKeyOrAliasedModifierKey(key)
 
@@ -108,7 +109,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is Shift', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const key: string = 'Shift'
+          const key: string = KeyAlias.SHIFT
 
           const result: boolean = testee.isModifierKeyOrAliasedModifierKey(key)
 
@@ -119,7 +120,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is Alt', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const key: string = 'Alt'
+          const key: string = KeyAlias.ALT
 
           const result: boolean = testee.isModifierKeyOrAliasedModifierKey(key)
 
@@ -130,7 +131,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is Option', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const key: string = 'Option'
+          const key: string = KeyAlias.OPTION
 
           const result: boolean = testee.isModifierKeyOrAliasedModifierKey(key)
 
@@ -141,7 +142,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is Meta', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const key: string = 'Meta'
+          const key: string = KeyAlias.META
 
           const result: boolean = testee.isModifierKeyOrAliasedModifierKey(key)
 
@@ -152,7 +153,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is Meta', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const key: string = 'Meta'
+          const key: string = KeyAlias.META
 
           const result: boolean = testee.isModifierKeyOrAliasedModifierKey(key)
 
@@ -261,7 +262,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is Enter', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const keyAlias: string = 'AnyEnter'
+          const keyAlias: string = KeyAlias.ANY_ENTER
           const key: string = 'Enter'
 
           const result: boolean = testee.isKeyPartOfAlias(key, keyAlias)
@@ -273,7 +274,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is NumpadEnter', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const keyAlias: string = 'AnyEnter'
+          const keyAlias: string = KeyAlias.ANY_ENTER
           const key: string = 'NumpadEnter'
 
           const result: boolean = testee.isKeyPartOfAlias(key, keyAlias)
@@ -339,7 +340,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is ShiftLeft', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const keyAlias: string = 'Shift'
+          const keyAlias: string = KeyAlias.SHIFT
           const key: string = 'ShiftLeft'
 
           const result: boolean = testee.isKeyPartOfAlias(key, keyAlias)
@@ -351,7 +352,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is ShiftRight', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const keyAlias: string = 'Shift'
+          const keyAlias: string = KeyAlias.SHIFT
           const key: string = 'ShiftRight'
 
           const result: boolean = testee.isKeyPartOfAlias(key, keyAlias)
@@ -417,7 +418,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is ControlLeft', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const keyAlias: string = 'Control'
+          const keyAlias: string = KeyAlias.CONTROL
           const key: string = 'ControlLeft'
 
           const result: boolean = testee.isKeyPartOfAlias(key, keyAlias)
@@ -429,7 +430,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is ControlRight', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const keyAlias: string = 'Control'
+          const keyAlias: string = KeyAlias.CONTROL
           const key: string = 'ControlRight'
 
           const result: boolean = testee.isKeyPartOfAlias(key, keyAlias)
@@ -495,7 +496,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is AltLeft', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const keyAlias: string = 'Option'
+          const keyAlias: string = KeyAlias.OPTION
           const key: string = 'AltLeft'
 
           const result: boolean = testee.isKeyPartOfAlias(key, keyAlias)
@@ -507,7 +508,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is AltRight', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const keyAlias: string = 'Option'
+          const keyAlias: string = KeyAlias.OPTION
           const key: string = 'AltRight'
 
           const result: boolean = testee.isKeyPartOfAlias(key, keyAlias)
@@ -521,7 +522,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is AltLeft', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const keyAlias: string = 'Alt'
+          const keyAlias: string = KeyAlias.ALT
           const key: string = 'AltLeft'
 
           const result: boolean = testee.isKeyPartOfAlias(key, keyAlias)
@@ -533,7 +534,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is AltRight', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const keyAlias: string = 'Alt'
+          const keyAlias: string = KeyAlias.ALT
           const key: string = 'AltRight'
 
           const result: boolean = testee.isKeyPartOfAlias(key, keyAlias)
@@ -599,7 +600,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is MetaLeft', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const keyAlias: string = 'Meta'
+          const keyAlias: string = KeyAlias.META
           const key: string = 'MetaLeft'
 
           const result: boolean = testee.isKeyPartOfAlias(key, keyAlias)
@@ -611,7 +612,7 @@ describe(Tv2KeyAliasService.name, () => {
       describe('when key is MetaRight', () => {
         it('returns true', () => {
           const testee: Tv2KeyAliasService = createTestee()
-          const keyAlias: string = 'Meta'
+          const keyAlias: string = KeyAlias.META
           const key: string = 'MetaRight'
 
           const result: boolean = testee.isKeyPartOfAlias(key, keyAlias)
