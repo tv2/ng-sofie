@@ -66,6 +66,7 @@ export class ActionStateService {
 
   private onRundownChanged(rundown: Rundown): void {
     const actionSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundown.id)
+    // TODO: Improve when to recompute the actions
     if (!actionSubject) {
       return
     }
