@@ -1,0 +1,41 @@
+:host {
+  display: inline-block;
+  background-color: #777777;
+  padding: 14px;
+
+  width: 130px;
+  height: 100px;
+
+  border-radius: 8px;
+
+  color: var(--text-color);
+
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-shadow: 1px 1px 2px black;
+
+  cursor: pointer;
+  transition: opacity .1s;
+
+  &.camera {
+    background-color: #005919;
+  }
+
+  &.video-clip {
+    background-color: #1769ff;
+
+    &.missing-source {
+      background: repeating-linear-gradient(
+        45deg,
+        #7C2720,
+        #7C2720 5px,
+        #1769FF 5px,
+        #1769FF 15px
+      );
+    }
+  }
+
+  &:active {
+    opacity: .7;
+  }
+}

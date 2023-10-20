@@ -1,10 +1,10 @@
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core'
+import { Component, HostListener, Input } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
-import { RundownCursor } from '../../../core/models/rundown-cursor'
 import { Part } from '../../../core/models/part'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
-import { RundownService } from '../../../core/abstractions/rundown.service'
+
+const LEFT_MOUSE_BUTTON_IDENTIFIER: number = 0
 
 @Component({
   selector: 'sofie-scrollable-timeline',
@@ -18,16 +18,22 @@ export class ScrollableTimelineComponent {
   @Input()
   public pieceLayers: PieceLayer[]
 
-  @Output()
-  public setNextEvent: EventEmitter<RundownCursor> = new EventEmitter()
+  @Input()
+  public isRundownActive: boolean
 
   public pixelsPerSecond: number = 50
   public scrollOffsetInMs: number = 0
 
   private horizontalDragStartPoint?: number
 
+  constructor(private readonly partEntityService: PartEntityService) {}
+
   @HostListener('mousedown', ['$event'])
   public onDragStart(event: MouseEvent): void {
+    if (!this.isLeftButtonEvent(event)) {
+      this.horizontalDragStartPoint = undefined
+      return
+    }
     this.horizontalDragStartPoint = event.clientX
     const onDragMove: (event: MouseEvent) => void = this.onDragMove.bind(this)
     window.addEventListener('mousemove', onDragMove)
@@ -41,13 +47,8 @@ export class ScrollableTimelineComponent {
     )
   }
 
-  constructor(
-    private readonly partEntityService: PartEntityService,
-    private readonly rundownService: RundownService
-  ) {}
-
-  public setPartAsNext(part: Part): void {
-    this.rundownService.setNext(this.segment.rundownId, this.segment.id, part.id).subscribe()
+  private isLeftButtonEvent(event: MouseEvent): boolean {
+    return event.button === LEFT_MOUSE_BUTTON_IDENTIFIER
   }
 
   public onDragMove(event: MouseEvent): void {
