@@ -45,9 +45,15 @@ export class OffsetablePieceComponent {
   }
 
   private getDisplayDurationInMs(): number {
-    const durationInMs: number = this.piece.duration ?? this.partDuration - this.piece.start + this.prePlayheadDurationInMs + this.postPlayheadDurationInMs
+    const durationInMs: number = this.piece.duration || this.getDurationForPieceWithNoEnding()
     const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start - this.prePlayheadDurationInMs)
     return durationInMs - playedDurationForPieceInMs
+  }
+
+  private getDurationForPieceWithNoEnding(): number {
+    const availablePieceDurationInPartInMs: number = this.partDuration - this.piece.start
+    const minimumDisplayDurationInMs: number = this.prePlayheadDurationInMs + this.postPlayheadDurationInMs
+    return availablePieceDurationInPartInMs + minimumDisplayDurationInMs
   }
 
   public get labelOffsetInPixels(): number {

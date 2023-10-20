@@ -1,6 +1,7 @@
 import { PartEntityService } from './part-entity.service'
 import { Part } from '../../models/part'
 import { TestEntityFactory } from './test-entity.factory'
+import { Piece } from '../../models/piece'
 
 describe(PartEntityService.name, () => {
   beforeEach(() => {
@@ -85,13 +86,13 @@ describe(PartEntityService.name, () => {
     })
   })
 
-  describe(PartEntityService.prototype.removeAsNextPart.name, () => {
+  describe(PartEntityService.prototype.unmarkPartAsNext.name, () => {
     it('unmarks part as next', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const part: Part = testEntityFactory.createPart({ isNext: true })
       const testee: PartEntityService = new PartEntityService()
 
-      const result: Part = testee.removeAsNextPart(part)
+      const result: Part = testee.unmarkPartAsNext(part)
 
       expect(result.isNext).toBeFalse()
     })
@@ -327,6 +328,30 @@ describe(PartEntityService.name, () => {
           })
         })
       })
+    })
+  })
+
+  describe(PartEntityService.prototype.reset.name, () => {
+    it('removes all unplanned pieces', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const plannedPiece1: Piece = testEntityFactory.createPiece({ isPlanned: true })
+      const plannedPiece2: Piece = testEntityFactory.createPiece({ isPlanned: true })
+      const plannedPiece3: Piece = testEntityFactory.createPiece({ isPlanned: true })
+      const pieces: Piece[] = [
+        plannedPiece1,
+        testEntityFactory.createPiece({ isPlanned: false }),
+        testEntityFactory.createPiece({ isPlanned: false }),
+        plannedPiece2,
+        testEntityFactory.createPiece({ isPlanned: false }),
+        plannedPiece3,
+      ]
+      const part = testEntityFactory.createPart({ pieces })
+      const expectedPieces: Piece[] = [plannedPiece1, plannedPiece2, plannedPiece3]
+      const testee: PartEntityService = new PartEntityService()
+
+      const result: Part = testee.reset(part)
+
+      expect(result.pieces).toEqual(expectedPieces)
     })
   })
 })
