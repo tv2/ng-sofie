@@ -52,16 +52,10 @@ export class RundownHeaderContextMenuComponent {
   ) {}
 
   public openActivationDialog(): void {
-    if (this.rundown.isActive) {
-      return
-    }
     this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to activate the Rundown?`, 'Activate', () => this.activate())
   }
 
   public openDeactivationDialog(): void {
-    if (!this.rundown.isActive) {
-      return
-    }
     this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to deactivate this Rundown?`, 'Deactivate', () => this.deactivate())
   }
 
