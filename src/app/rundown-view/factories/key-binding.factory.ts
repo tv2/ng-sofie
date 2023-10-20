@@ -72,10 +72,10 @@ export class KeyBindingFactory {
         this.createRundownKeyBinding('Take', ['AnyEnter'], () => this.takeNext(rundown)),
         this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
         this.createRundownKeyBinding('Deactivate Rundown', ['Control', 'Shift', 'Backquote'], () => this.deactivateRundown(rundown)),
-        this.createRundownKeyBinding('Set Segment Above as Next', ['ShiftLeft', 'ArrowUp'], () => this.setSegmentAboveNextAsNext(rundown)),
-        this.createRundownKeyBinding('Set Segment Below as Next', ['ShiftLeft', 'ArrowDown'], () => this.setSegmentBelowNextAsNext(rundown)),
-        this.createRundownKeyBinding('Set Earlier Part as Next', ['ShiftLeft', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
-        this.createRundownKeyBinding('Set Later Part as Next', ['ShiftLeft', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
+        this.createRundownKeyBinding('Set Segment Above as Next', ['Shift', 'ArrowUp'], () => this.setSegmentAboveNextAsNext(rundown)),
+        this.createRundownKeyBinding('Set Segment Below as Next', ['Shift', 'ArrowDown'], () => this.setSegmentBelowNextAsNext(rundown)),
+        this.createRundownKeyBinding('Set Earlier Part as Next', ['Shift', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
+        this.createRundownKeyBinding('Set Later Part as Next', ['Shift', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
       ]
     }
     return [
