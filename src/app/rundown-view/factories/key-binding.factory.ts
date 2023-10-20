@@ -7,14 +7,23 @@ import { RundownService } from '../../core/abstractions/rundown.service'
 import { Rundown } from '../../core/models/rundown'
 import { DialogService } from '../../shared/services/dialog.service'
 import { DialogSeverity } from '../../shared/components/confirmation-dialog/confirmation-dialog.component'
+import { RundownNavigationService } from '../../shared/services/rundown-navigation-service'
+import { RundownCursor } from '../../core/models/rundown-cursor'
+import { Logger } from '../../core/abstractions/logger.service'
 
 @Injectable()
 export class KeyBindingFactory {
+  private readonly logger: Logger
+
   constructor(
     private readonly actionService: ActionService,
     private readonly rundownService: RundownService,
-    private readonly dialogService: DialogService
-  ) {}
+    private readonly dialogService: DialogService,
+    private readonly rundownNavigationService: RundownNavigationService,
+    logger: Logger
+  ) {
+    this.logger = logger.tag('KeyBindingFactory')
+  }
 
   public createCameraKeyBindingsFromActions(cameraActions: Tv2CameraAction[], rundownId: string): KeyBinding[] {
     return cameraActions.map(cameraAction => this.createCameraKeyBindingFromAction(cameraAction, rundownId))
@@ -61,6 +70,10 @@ export class KeyBindingFactory {
         this.createRundownKeyBinding('Take', ['Enter'], () => this.takeNext(rundown)),
         this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
         this.createRundownKeyBinding('Deactivate Rundown', ['ControlLeft', 'ShiftLeft', 'Backquote'], () => this.deactivateRundown(rundown)),
+        this.createRundownKeyBinding('Set Segment Above as Next', ['ShiftLeft', 'ArrowUp'], () => this.setSegmentAboveNextAsNext(rundown)),
+        this.createRundownKeyBinding('Set Segment Below as Next', ['ShiftLeft', 'ArrowDown'], () => this.setSegmentBelowNextAsNext(rundown)),
+        this.createRundownKeyBinding('Set Earlier Part as Next', ['ShiftLeft', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
+        this.createRundownKeyBinding('Set Later Part as Next', ['ShiftLeft', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
       ]
     }
     return [
@@ -98,6 +111,51 @@ export class KeyBindingFactory {
       () => this.rundownService.deactivate(rundown.id).subscribe(),
       DialogSeverity.DANGER
     )
+  }
+
+  private setSegmentAboveNextAsNext(rundown: Rundown): void {
+    try {
+      const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidSegmentBeforeSegmentMarkedAsNext(rundown)
+      this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+    } catch (error) {
+      this.logger.data(error).warn('Failed setting segment above as next.')
+    }
+  }
+
+  private setSegmentBelowNextAsNext(rundown: Rundown): void {
+    if (!rundown.isActive) {
+      return
+    }
+    try {
+      const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidSegmentAfterSegmentMarkedAsNext(rundown)
+      this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+    } catch (error) {
+      this.logger.data(error).warn('Failed setting segment below as next.')
+    }
+  }
+
+  private setEarlierPartAsNext(rundown: Rundown): void {
+    if (!rundown.isActive) {
+      return
+    }
+    try {
+      const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidPartBeforePartMarkedAsNext(rundown)
+      this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+    } catch (error) {
+      this.logger.data(error).warn('Failed setting a earlier part as next.')
+    }
+  }
+
+  private setLaterPartAsNext(rundown: Rundown): void {
+    if (!rundown.isActive) {
+      return
+    }
+    try {
+      const cursor: RundownCursor = this.rundownNavigationService.getRundownCursorForNearestValidPartAfterPartMarkedAsNext(rundown)
+      this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
+    } catch (error) {
+      this.logger.data(error).warn('Failed setting a later part as next.')
+    }
   }
 
   public createRundownKeyBinding(label: string, keys: Keys, onMatched: () => void): KeyBinding {

@@ -3,7 +3,6 @@ import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
 import { PieceLayerService } from '../../../shared/services/piece-layer.service'
 import { PieceLayer } from '../../../shared/enums/piece-layer'
-import { RundownService } from '../../../core/abstractions/rundown.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Logger } from '../../../core/abstractions/logger.service'
 
@@ -16,6 +15,9 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   @Input()
   public segment: Segment
 
+  @Input()
+  public isRundownActive: boolean
+
   public timeReference: number = 0
   public pieceLayers: PieceLayer[] = []
 
@@ -24,7 +26,6 @@ export class SegmentComponent implements OnChanges, OnDestroy {
 
   constructor(
     private readonly pieceLayerService: PieceLayerService,
-    private readonly rundownService: RundownService,
     private readonly partEntityService: PartEntityService,
     logger: Logger
   ) {
@@ -86,18 +87,6 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     // TODO: Is this the right place to compute it or should it be the part that does it?
     const timeSpendInActivePart: number = activePart.executedAt > 0 ? Date.now() - activePart.executedAt : 0
     this.timeReference = timeSpendUntilActivePart + timeSpendInActivePart
-  }
-
-  public setFirstValidPartAsNext(): void {
-    if (this.segment.isOnAir) {
-      return
-    }
-
-    const firstValidPart: Part | undefined = this.segment.parts.find(part => part.pieces.length > 0)
-    if (!firstValidPart) {
-      return
-    }
-    this.rundownService.setNext(this.segment.rundownId, this.segment.id, firstValidPart.id).subscribe()
   }
 
   public ngOnDestroy(): void {

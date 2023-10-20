@@ -1,22 +1,24 @@
-.c-context-menu {
+.context-menu {
   display: inline-flex;
   flex-direction: column;
-  min-width: 180px;
-  max-width: 280px;
   background-color: rgb(255, 255, 255);
-  border-radius: 4px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
   overflow: hidden;
   user-select: none;
 }
 
-.c-context-menu-header {
-  padding: 10px;
+.context-menu-header {
+  padding: 10px 30px;
+
   color: #49c0fb;
-  background: #3e4041;
+  background-color: #3e4041;
+
+  font-weight: bold;
   text-align: center;
 }
 
-.c-context-menu-item {
+.context-menu-item {
   display: flex;
   flex: 1;
   flex-direction: row;
@@ -24,11 +26,12 @@
   align-items: center;
   border: none;
   line-height: 36px;
-  padding: 0 16px;
+  padding: 0 30px;
 
   font-size: 1rem;
 
   cursor: pointer;
+  outline: none;
 
   &:hover {
     background-color: rgb(208, 208, 208);

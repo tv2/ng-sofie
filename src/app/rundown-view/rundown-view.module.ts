@@ -24,6 +24,8 @@ import { RundownViewComponent } from './components/rundown-view/rundown-view.com
 import { KeyBindingService } from './abstractions/key-binding.service'
 import { HardcodedProducerKeyBindingService } from './services/hardcoded-producer-key-binding.service'
 import { Tv2ActionGroupService } from './services/tv2-action-group.service'
+import { SegmentContextMenuComponent } from './components/segment-context-menu/segment-context-menu.component'
+import { PartContextMenuComponent } from './components/part-context-menu/part-context-menu.component'
 import { KeyboardConfigurationService } from './abstractions/keyboard-configuration.service'
 import { ProducerKeyboardConfigurationService } from './services/producer-keyboard-configuration.service'
 import { KeyBindingFactory } from './factories/key-binding.factory'
@@ -44,6 +46,8 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
     OffsetablePieceComponent,
     ScrollableTimelineComponent,
     RundownHeaderPanelComponent,
+    SegmentContextMenuComponent,
+    PartContextMenuComponent,
     RundownViewComponent,
   ],
   exports: [SegmentComponent],
