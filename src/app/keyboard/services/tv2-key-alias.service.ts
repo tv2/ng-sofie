@@ -16,10 +16,6 @@ export class Tv2KeyAliasService implements KeyAliasService {
         return ['AltLeft', 'AltRight']
       case 'Meta':
         return ['MetaLeft', 'MetaRight']
-      case 'OS':
-      case 'Command':
-      case 'Windows':
-        return ['OSLeft', 'OSRight']
       default:
         return [keyAlias]
     }
