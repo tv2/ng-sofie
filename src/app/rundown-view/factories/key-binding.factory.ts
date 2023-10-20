@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core'
 import { Keys } from '../../keyboard/value-objects/key-binding'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
-import { Tv2CameraAction } from '../../shared/models/tv2-action'
+import { Tv2CameraAction, Tv2TransitionAction } from '../../shared/models/tv2-action'
 import { PartActionType } from '../../shared/models/action-type'
 import { RundownService } from '../../core/abstractions/rundown.service'
 import { Rundown } from '../../core/models/rundown'
 import { DialogService } from '../../shared/services/dialog.service'
+import { DialogSeverity } from '../../shared/components/confirmation-dialog/confirmation-dialog.component'
 import { RundownNavigationService } from '../../shared/services/rundown-navigation-service'
 import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
@@ -106,8 +107,12 @@ export class KeyBindingFactory {
     if (!rundown.isActive) {
       return
     }
-    this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to deactivate the Rundown?\n\nThis will clear the outputs.', 'Deactivate', () =>
-      this.rundownService.deactivate(rundown.id).subscribe()
+    this.dialogService.createConfirmDialog(
+      rundown.name,
+      'Are you sure you want to deactivate the Rundown?\n\nThis will clear the outputs.',
+      'Deactivate',
+      () => this.rundownService.deactivate(rundown.id).subscribe(),
+      DialogSeverity.DANGER
     )
   }
 
@@ -161,6 +166,24 @@ export class KeyBindingFactory {
       keys,
       label,
       onMatched,
+      shouldMatchOnKeyRelease: true,
+      shouldPreventDefaultBehaviourForPartialMatches: true,
+      shouldPreventDefaultBehaviourOnKeyPress: true,
+      useExclusiveMatching: true,
+      useOrderedMatching: false,
+    }
+  }
+
+  public createTransitionKeyBindingsFromActions(transitionActions: Tv2TransitionAction[], rundownId: string): StyledKeyBinding[] {
+    const keys: [string, ...string[]][] = [['KeyZ'], ['KeyX'], ['KeyC'], ['KeyV'], ['KeyB']]
+    return transitionActions.slice(0, 5).map((action, actionIndex) => this.createTransitionKeyBinding(action, rundownId, keys[actionIndex]))
+  }
+
+  private createTransitionKeyBinding(action: Tv2TransitionAction, rundownId: string, keys: [string, ...string[]]): StyledKeyBinding {
+    return {
+      keys,
+      label: action.name,
+      onMatched: () => this.actionService.executeAction(action.id, rundownId).subscribe(),
       shouldMatchOnKeyRelease: true,
       shouldPreventDefaultBehaviourForPartialMatches: true,
       shouldPreventDefaultBehaviourOnKeyPress: true,

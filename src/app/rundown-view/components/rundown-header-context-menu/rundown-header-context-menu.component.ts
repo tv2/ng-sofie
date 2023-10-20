@@ -3,6 +3,7 @@ import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Rundown } from '../../../core/models/rundown'
 import { DialogService } from '../../../shared/services/dialog.service'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
+import { DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
@@ -19,18 +20,18 @@ export class RundownHeaderContextMenuComponent {
   private readonly contextMenuOptionsForInactiveRundown: ContextMenuOption[] = [
     {
       label: 'Activate (On Air)',
-      contextAction: (): void => this.openActivationDialog(),
+      contextAction: (): void => this.openActivateRundownDialog(),
     },
     {
       label: 'Reset Rundown',
-      contextAction: (): void => this.resetRundown(),
+      contextAction: (): void => this.openResetRundownDialog(),
     },
   ]
 
   private readonly contextMenuOptionsForActiveRundown: ContextMenuOption[] = [
     {
       label: 'Deactivate',
-      contextAction: (): void => this.openDeactivationDialog(),
+      contextAction: (): void => this.openDeactivateRundownDialog(),
     },
     {
       label: 'Take',
@@ -38,7 +39,7 @@ export class RundownHeaderContextMenuComponent {
     },
     {
       label: 'Reset Rundown',
-      contextAction: (): void => this.resetRundown(),
+      contextAction: (): void => this.openResetRundownDialog(),
     },
   ]
 
@@ -51,27 +52,37 @@ export class RundownHeaderContextMenuComponent {
     private readonly dialogService: DialogService
   ) {}
 
-  public openActivationDialog(): void {
-    this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to activate the Rundown?`, 'Activate', () => this.activate())
+  public openActivateRundownDialog(): void {
+    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.activateRundown())
   }
 
-  public openDeactivationDialog(): void {
-    this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to deactivate this Rundown?`, 'Deactivate', () => this.deactivate())
-  }
-
-  public activate(): void {
+  public activateRundown(): void {
     this.rundownService.activate(this.rundown.id).subscribe()
   }
 
-  public deactivate(): void {
+  public openDeactivateRundownDialog(): void {
+    this.dialogService.createConfirmDialog(
+      this.rundown.name,
+      'Are you sure you want to deactivate the Rundown?\n\nThis will clear the outputs.',
+      'Deactivate',
+      () => this.deactivateRundown(),
+      DialogSeverity.DANGER
+    )
+  }
+
+  private deactivateRundown(): void {
     this.rundownService.deactivate(this.rundown.id).subscribe()
   }
 
-  public take(): void {
+  private take(): void {
     this.rundownService.takeNext(this.rundown.id).subscribe()
   }
 
-  public resetRundown(): void {
+  public openResetRundownDialog(): void {
+    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to reset the Rundown?', 'Deactivate', () => this.resetRundown())
+  }
+
+  private resetRundown(): void {
     this.rundownService.reset(this.rundown.id).subscribe()
   }
 }

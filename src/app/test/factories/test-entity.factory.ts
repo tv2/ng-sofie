@@ -38,6 +38,7 @@ export class TestEntityFactory {
       pieces: [],
       executedAt: 0,
       playedDuration: 0,
+      isPlanned: true,
       ...part,
     }
   }
@@ -50,6 +51,7 @@ export class TestEntityFactory {
       type: PieceType.UNKNOWN,
       layer: 'layer-id',
       start: 0,
+      isPlanned: true,
       ...piece,
     }
   }

@@ -1,5 +1,16 @@
 import { Injectable } from '@angular/core'
-import { RundownInfinitePieceAddedEvent, RundownActivatedEvent, RundownDeactivatedEvent, RundownResetEvent, PartSetAsNextEvent, PartTakenEvent, RundownDeletedEvent } from '../models/rundown-event'
+import {
+  RundownInfinitePieceAddedEvent,
+  RundownActivatedEvent,
+  RundownDeactivatedEvent,
+  RundownResetEvent,
+  PartSetAsNextEvent,
+  PartTakenEvent,
+  RundownDeletedEvent,
+  RundownPartInsertedAsOnAirEvent,
+  RundownPartInsertedAsNextEvent,
+  RundownPieceInsertedEvent,
+} from '../models/rundown-event'
 
 @Injectable()
 export abstract class RundownEventParser {
@@ -15,5 +26,11 @@ export abstract class RundownEventParser {
 
   public abstract parseSetNextEvent(maybeEvent: unknown): PartSetAsNextEvent
 
-  public abstract parseInfinitePieceAdded(maybeEvent: unknown): RundownInfinitePieceAddedEvent
+  public abstract parseInfinitePieceAddedEvent(maybeEvent: unknown): RundownInfinitePieceAddedEvent
+
+  public abstract parsePartInsertedAsOnAirEvent(maybeEvent: unknown): RundownPartInsertedAsOnAirEvent
+
+  public abstract parsePartInsertedAsNextEvent(maybeEvent: unknown): RundownPartInsertedAsNextEvent
+
+  public abstract parsePieceInsertedEvent(maybeEvent: unknown): RundownPieceInsertedEvent
 }

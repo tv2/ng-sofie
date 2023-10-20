@@ -8,7 +8,7 @@ export class ZodTv2ActionParser implements Tv2ActionParser {
     .object({
       contentType: zod.nativeEnum(Tv2ActionContentType),
     })
-    .nonstrict()
+    .passthrough()
   public parseTv2Action(action: Action): Tv2Action {
     return {
       ...action,

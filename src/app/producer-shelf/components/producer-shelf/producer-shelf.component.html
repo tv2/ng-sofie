@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div class="main">
-        <sofie-tv2-action-panel *ngIf="cameraActions.length > 0" title="ADLIB PANEL: Camera (Scrollable)" [actions]="cameraActions" (executeAction)="executeAction($event)"></sofie-tv2-action-panel>
+        <sofie-tv2-action-panel *ngIf="cameraActions.length > 0" title="ADLIB PANEL: All (Scrollable)" [actions]="actions" (executeAction)="executeAction($event)"></sofie-tv2-action-panel>
         <sofie-tv2-action-panel *ngIf="cameraActions.length > 0" title="ADLIB PANEL: Camera (Wrapping)" [actions]="cameraActions" [isScrollable]="false" (executeAction)="executeAction($event)"></sofie-tv2-action-panel>
         <sofie-tv2-action-panel *ngIf="videoClipActions.length > 0" title="ADLIB PANEL: SERVER" [actions]="videoClipActions" (executeAction)="executeAction($event)"></sofie-tv2-action-panel>
 
