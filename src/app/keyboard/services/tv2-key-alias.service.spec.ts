@@ -77,7 +77,7 @@ describe(Tv2KeyAliasService.name, () => {
     })
 
     describe('when key has no aliases', () => {
-      ['KeyA', 'KeyC', 'Space', 'Digit1', 'Digit9', 'Backquote', 'Enter', 'ControlLeft'].forEach(key => runGetKeysFromAliasTestForKeyWithoutAliases(key))
+      ;['KeyA', 'KeyC', 'Space', 'Digit1', 'Digit9', 'Backquote', 'Enter', 'ControlLeft'].forEach(key => runGetKeysFromAliasTestForKeyWithoutAliases(key))
     })
   })
 
@@ -252,7 +252,7 @@ describe(Tv2KeyAliasService.name, () => {
     })
 
     describe('when key is not a modifier key', () => {
-      ['KeyA', 'KeyC', 'Space', 'Digit1', 'Digit9', 'Backquote', 'Enter', 'Backspace'].forEach(key => runIsModifierKeyOrAliasedModifierKeyTestForNonModifierKey(key))
+      ;['KeyA', 'KeyC', 'Space', 'Digit1', 'Digit9', 'Backquote', 'Enter', 'Backspace'].forEach(key => runIsModifierKeyOrAliasedModifierKeyTestForNonModifierKey(key))
     })
   })
 
