@@ -1,4 +1,4 @@
-<div class="piece-layers">
+<div [cdkContextMenuTriggerFor]="contextMenu" class="piece-layers">
     <div
         *ngFor="let pieceLayer of pieceLayers"
         class="piece-layer"
@@ -15,3 +15,7 @@
     </div>
 </div>
 <sofie-timeline-flag [label]="part.isNext ? 'NEXT' : undefined" [turnedOn]="part.isNext"></sofie-timeline-flag>
+
+<ng-template #contextMenu>
+    <sofie-part-context-menu *ngIf="isRundownActive" [part]="part" [rundownId]="rundownId"></sofie-part-context-menu >
+</ng-template>

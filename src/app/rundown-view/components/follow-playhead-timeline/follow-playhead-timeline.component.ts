@@ -24,6 +24,9 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   @Input()
   public pieceLayers: PieceLayer[]
 
+  @Input()
+  public isRundownActive: boolean
+
   public pixelsPerSecond: number = 50
 
   public onAirPart?: Part

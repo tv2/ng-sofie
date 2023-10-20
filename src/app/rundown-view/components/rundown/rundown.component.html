@@ -2,5 +2,6 @@
     <sofie-segment
         *ngFor="let segment of rundown?.segments; trackBy: trackSegment"
         [segment]="segment"
+        [isRundownActive]="rundown ? rundown.isActive : false"
     ></sofie-segment>
 </div>
