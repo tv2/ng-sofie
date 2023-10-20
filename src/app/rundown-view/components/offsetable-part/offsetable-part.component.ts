@@ -32,6 +32,12 @@ export class OffsetablePartComponent implements OnChanges {
   @Input()
   public postPlayheadDurationInMs: number = 0
 
+  @Input()
+  public rundownId: string
+
+  @Input()
+  public isRundownActive: boolean
+
   public piecesGroupedByPieceLayer: Record<PieceLayer, Piece[]> = {} as Record<PieceLayer, Piece[]>
 
   constructor(
