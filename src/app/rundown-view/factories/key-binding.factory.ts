@@ -6,6 +6,7 @@ import { PartActionType } from '../../shared/models/action-type'
 import { RundownService } from '../../core/abstractions/rundown.service'
 import { Rundown } from '../../core/models/rundown'
 import { DialogService } from '../../shared/services/dialog.service'
+import { DialogSeverity } from '../../shared/components/confirmation-dialog/confirmation-dialog.component'
 import { RundownNavigationService } from '../../shared/services/rundown-navigation-service'
 import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
@@ -103,8 +104,12 @@ export class KeyBindingFactory {
     if (!rundown.isActive) {
       return
     }
-    this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to deactivate the Rundown?\n\nThis will clear the outputs.', 'Deactivate', () =>
-      this.rundownService.deactivate(rundown.id).subscribe()
+    this.dialogService.createConfirmDialog(
+      rundown.name,
+      'Are you sure you want to deactivate the Rundown?\n\nThis will clear the outputs.',
+      'Deactivate',
+      () => this.rundownService.deactivate(rundown.id).subscribe(),
+      DialogSeverity.DANGER
     )
   }
 

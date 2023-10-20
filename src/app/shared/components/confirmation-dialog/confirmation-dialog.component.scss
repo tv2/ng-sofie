@@ -17,6 +17,12 @@
     padding: 8px 24px;
 }
 
+:host.danger {
+    .c-dialog-header {
+        background-color: #c62828;
+    }
+}
+
 .c-dialog-body {
     padding: 24px;
 }
