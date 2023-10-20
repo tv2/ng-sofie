@@ -52,7 +52,7 @@ export class KeyBindingFactory {
   private createInsertCameraAsNextKeyBinding(cameraAction: Tv2CameraAction, rundownId: string): KeyBinding {
     const cameraNumber: number = cameraAction.metadata.cameraNumber
     return {
-      keys: ['AltLeft', `Digit${cameraNumber}`],
+      keys: ['Alt', `Digit${cameraNumber}`],
       label: `KAM ${cameraNumber}`,
       onMatched: () => this.actionService.executeAction(cameraAction.id, rundownId).subscribe(),
       shouldMatchOnKeyRelease: true,
@@ -66,13 +66,13 @@ export class KeyBindingFactory {
   public createRundownKeyBindings(rundown: Rundown): KeyBinding[] {
     if (rundown.isActive) {
       return [
-        this.createRundownKeyBinding('Take', ['Enter'], () => this.takeNext(rundown)),
+        this.createRundownKeyBinding('Take', ['AnyEnter'], () => this.takeNext(rundown)),
         this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
-        this.createRundownKeyBinding('Deactivate Rundown', ['ControlLeft', 'ShiftLeft', 'Backquote'], () => this.deactivateRundown(rundown)),
-        this.createRundownKeyBinding('Set Segment Above as Next', ['ShiftLeft', 'ArrowUp'], () => this.setSegmentAboveNextAsNext(rundown)),
-        this.createRundownKeyBinding('Set Segment Below as Next', ['ShiftLeft', 'ArrowDown'], () => this.setSegmentBelowNextAsNext(rundown)),
-        this.createRundownKeyBinding('Set Earlier Part as Next', ['ShiftLeft', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
-        this.createRundownKeyBinding('Set Later Part as Next', ['ShiftLeft', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
+        this.createRundownKeyBinding('Deactivate Rundown', ['Control', 'Shift', 'Backquote'], () => this.deactivateRundown(rundown)),
+        this.createRundownKeyBinding('Set Segment Above as Next', ['Shift', 'ArrowUp'], () => this.setSegmentAboveNextAsNext(rundown)),
+        this.createRundownKeyBinding('Set Segment Below as Next', ['Shift', 'ArrowDown'], () => this.setSegmentBelowNextAsNext(rundown)),
+        this.createRundownKeyBinding('Set Earlier Part as Next', ['Shift', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
+        this.createRundownKeyBinding('Set Later Part as Next', ['Shift', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
       ]
     }
     return [

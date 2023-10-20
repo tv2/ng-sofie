@@ -1,8 +1,13 @@
 import { KeyBindingMatcher } from '../abstractions/key-binding-matcher.service'
 import { KeyBinding } from '../models/key-binding'
 import { KeyEventType } from '../value-objects/key-event-type'
+import { Injectable } from '@angular/core'
+import { KeyAliasService } from '../abstractions/key-alias-service'
 
+@Injectable()
 export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
+  constructor(private readonly keyAliasService: KeyAliasService) {}
+
   public isMatching(keyBinding: KeyBinding, keystrokes: string[], keyEventType: KeyEventType): boolean {
     return this.doesKeystrokeRelatedPropertiesMatch(keyBinding, keystrokes) && this.doesKeyEventTypeMatch(keyBinding, keyEventType)
   }
@@ -11,15 +16,15 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
     return this.doesExclusivityMatch(keyBinding, keystrokes) && this.doesOrderingMatch(keyBinding, keystrokes)
   }
 
-  private doesKeystrokesContainAllKeys(keyBinding: KeyBinding, keystrokes: string[]): boolean {
-    return keyBinding.keys.every(key => keystrokes.includes(key))
-  }
-
   private doesExclusivityMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
     if (!keyBinding.useExclusiveMatching) {
       return this.doesKeystrokesContainAllKeys(keyBinding, keystrokes)
     }
     return this.isKeyBindingAnExclusiveMatch(keyBinding, keystrokes)
+  }
+
+  private doesKeystrokesContainAllKeys(keyBinding: KeyBinding, keystrokes: string[]): boolean {
+    return keyBinding.keys.every(key => this.keyAliasService.getAliasesForKey(key).some(keyAlias => keystrokes.includes(keyAlias)))
   }
 
   private isKeyBindingAnExclusiveMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
@@ -36,7 +41,13 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
   private doesKeystrokesMatchKeyBindingOrder(keyBinding: KeyBinding, keystrokes: string[]): boolean {
     const exclusiveKeystrokes: string[] = keystrokes.filter(keystroke => keyBinding.keys.includes(keystroke))
     const hasSameLength: boolean = keyBinding.keys.length === exclusiveKeystrokes.length
-    return hasSameLength && keyBinding.keys.every((key, index) => exclusiveKeystrokes[index] === key)
+    return hasSameLength && keyBinding.keys.every((key, index) => this.areKeysMatching(exclusiveKeystrokes[index], key))
+  }
+
+  private areKeysMatching(firstKey: string, secondKey: string): boolean {
+    const firstKeyAliases: string[] = this.keyAliasService.getAliasesForKey(firstKey)
+    const secondKeyAliases: string[] = this.keyAliasService.getAliasesForKey(secondKey)
+    return [...firstKeyAliases].some(firstKeyAlias => secondKeyAliases.includes(firstKeyAlias))
   }
 
   private doesKeyEventTypeMatch(keyBinding: KeyBinding, keyEventType: KeyEventType): boolean {
@@ -65,18 +76,20 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
   }
 
   private isKeyBindingAPartialExclusiveMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
-    return keystrokes.every(keystroke => keyBinding.keys.includes(keystroke))
+    const keyAliases: string[] = keyBinding.keys.flatMap(key => this.keyAliasService.getAliasesForKey(key))
+    return keystrokes.every(keystroke => keyAliases.includes(keystroke))
   }
 
   private isKeyBindingAPartialNonExclusiveMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
-    return keyBinding.keys.some(key => keystrokes.includes(key))
+    const keyAliases: string[] = keyBinding.keys.flatMap(key => this.keyAliasService.getAliasesForKey(key))
+    return keyAliases.some(key => keystrokes.includes(key))
   }
 
   private doesKeystrokeOrderMatchIntersectionWithKeyBinding(keyBinding: KeyBinding, keystrokes: string[]): boolean {
     const exclusiveKeys = keyBinding.keys.filter(key => keystrokes.includes(key))
     const exclusiveKeystrokes: string[] = keystrokes.filter(keystroke => exclusiveKeys.includes(keystroke))
     const hasSameLength: boolean = exclusiveKeys.length === exclusiveKeystrokes.length
-    return hasSameLength && exclusiveKeys.every((key, index) => exclusiveKeystrokes[index] === key)
+    return hasSameLength && exclusiveKeys.every((key, index) => this.areKeysMatching(exclusiveKeystrokes[index], key))
   }
 
   private doesKeyEventTypePreventDefaultBehaviour(keyBinding: KeyBinding, keystrokes: string[], keyEventType: KeyEventType): boolean {
