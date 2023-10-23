@@ -5,6 +5,7 @@ import { StyledKeyBinding } from '../../value-objects/styled-key-binding'
 import { KeyAliasService } from '../../abstractions/key-alias-service'
 import { PhysicalKeyboardLayoutService } from '../../services/physical-keyboard-layout.service'
 import { KeyboardLayout, KeyboardLayoutKey } from '../../value-objects/keyboard-layout'
+import { KeyBinding } from '../../value-objects/key-binding'
 
 @Component({
   selector: 'sofie-virtual-keyboard',
@@ -53,7 +54,7 @@ export class VirtualKeyboardComponent implements OnChanges {
   private updateAvailableKeyBindings(): void {
     this.currentModifierKeystrokes = this.keystrokes.filter(keystroke => this.keyAliasService.isModifierKeyOrAliasedModifierKey(keystroke))
     this.keyBindingsFilteredByModifiers = this.keyBindings.filter(keyBinding => {
-      const modifierKeys: string[] = keyBinding.keys.filter(key => this.keyAliasService.isModifierKeyOrAliasedModifierKey(key))
+      const modifierKeys: string[] = (keyBinding.reroutedKeys ?? keyBinding.keys).filter(key => this.keyAliasService.isModifierKeyOrAliasedModifierKey(key))
       if (modifierKeys.length !== this.currentModifierKeystrokes.length) {
         return false
       }
@@ -70,17 +71,28 @@ export class VirtualKeyboardComponent implements OnChanges {
 
   public getLabelOfKey(keystroke: string): string | undefined {
     const emulatedKeystrokes: string[] = [...this.currentModifierKeystrokes, keystroke]
-    return this.keyBindingsFilteredByModifiers.find(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))?.label
+    return this.keyBindingsFilteredByModifiers.find(keyBinding => this.isMatchingKeystrokes(keyBinding,emulatedKeystrokes))?.label
+  }
+
+  private isMatchingKeystrokes(keyBinding: StyledKeyBinding, keystrokes: string[]): boolean {
+    return this.keyBindingMatcher.isMatchingKeystrokes(this.getKeyBindingToDisplay(keyBinding), keystrokes)
+  }
+
+  private getKeyBindingToDisplay(keyBinding: StyledKeyBinding): KeyBinding {
+    return {
+       ...keyBinding,
+       keys: keyBinding.reroutedKeys ?? keyBinding.keys
+    }
   }
 
   public getBackgroundForKey(key: string): string | undefined {
     const emulatedKeystrokes: string[] = [...this.currentModifierKeystrokes, key]
-    return this.keyBindingsFilteredByModifiers.find(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))?.background
+    return this.keyBindingsFilteredByModifiers.find(keyBinding => this.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))?.background
   }
 
   public onExecuteActionsForKeystroke(keystroke: string): void {
     const emulatedKeystrokes: string[] = [...this.currentModifierKeystrokes, keystroke]
-    this.keyBindingsFilteredByModifiers.filter(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes)).forEach(keyBinding => keyBinding.onMatched())
+    this.keyBindingsFilteredByModifiers.filter(keyBinding => this.isMatchingKeystrokes(keyBinding, emulatedKeystrokes)).forEach(keyBinding => keyBinding.onMatched())
   }
 
   public trackKeyboardLayoutKey(_index: number, keyboardLayoutKey: KeyboardLayoutKey): string {
