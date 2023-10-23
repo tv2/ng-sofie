@@ -61,7 +61,7 @@ export class VirtualKeyboardComponent implements OnChanges {
   private updateAvailableKeyBindings(): void {
     this.currentModifierKeystrokes = this.keystrokes.filter(keystroke => this.keyAliasService.isModifierKeyOrAliasedModifierKey(keystroke))
     this.keyBindingsFilteredByModifiers = this.keyBindings.filter(keyBinding => {
-      if (keyBinding.reroutedKeys && this.doesModifiersMatchExclusively(this.getKeyBindingToDisplay(keyBinding))) {
+      if (keyBinding.mappedKeys && this.doesModifiersMatchExclusively(this.getKeyBindingToDisplay(keyBinding))) {
         return true
       }
       return this.doesModifiersMatchExclusively(keyBinding)
@@ -89,7 +89,7 @@ export class VirtualKeyboardComponent implements OnChanges {
   }
 
   private isMatchingKeystrokes(keyBinding: StyledKeyBinding, keystrokes: string[]): boolean {
-    if (keyBinding.reroutedKeys && this.keyBindingMatcher.isMatchingKeystrokes(this.getKeyBindingToDisplay(keyBinding), keystrokes)) {
+    if (keyBinding.mappedKeys && this.keyBindingMatcher.isMatchingKeystrokes(this.getKeyBindingToDisplay(keyBinding), keystrokes)) {
       return true
     }
     return this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, keystrokes)
@@ -98,7 +98,7 @@ export class VirtualKeyboardComponent implements OnChanges {
   private getKeyBindingToDisplay(keyBinding: StyledKeyBinding): KeyBinding {
     return {
       ...keyBinding,
-      keys: keyBinding.reroutedKeys ?? keyBinding.keys,
+      keys: keyBinding.mappedKeys ?? keyBinding.keys,
     }
   }
 
