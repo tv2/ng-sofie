@@ -38,7 +38,7 @@ export class VirtualKeyboardComponent implements OnChanges {
     this.updatePhysicalKeyboardLayout()
     navigator.keyboard
       ?.getLayoutMap()
-      //.then(keyboardLayoutMap => (this.keyboardLayoutMap = new Map(keyboardLayoutMap)))
+      .then(keyboardLayoutMap => (this.keyboardLayoutMap = new Map(keyboardLayoutMap)))
       .catch(error => this.logger.data(error).warn('Failed getting keyboard layout.'))
       .finally(() => this.updatePhysicalKeyboardLayout())
   }
