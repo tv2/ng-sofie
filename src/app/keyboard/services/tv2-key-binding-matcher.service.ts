@@ -85,6 +85,9 @@ export class Tv2KeyBindingMatcher implements KeyBindingMatcher {
   }
 
   private isKeyBindingAPartialNonExclusiveMatch(keyBinding: KeyBinding, keystrokes: string[]): boolean {
+    if (keystrokes.length === 0) {
+      return true
+    }
     const keyAliases: string[] = keyBinding.keys.flatMap(key => this.keyAliasService.getKeysFromKeyAlias(key))
     return keyAliases.some(key => keystrokes.includes(key))
   }
