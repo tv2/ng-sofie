@@ -6,6 +6,7 @@ import { KeyAliasService } from '../../abstractions/key-alias-service'
 import { PhysicalKeyboardLayoutService } from '../../services/physical-keyboard-layout.service'
 import { KeyboardLayout, KeyboardLayoutKey } from '../../value-objects/keyboard-layout'
 import { KeyBinding } from '../../value-objects/key-binding'
+import { DefaultKeyboardLayoutMapService } from '../../services/default-keyboard-layout-map.service'
 
 @Component({
   selector: 'sofie-virtual-keyboard',
@@ -29,15 +30,21 @@ export class VirtualKeyboardComponent implements OnChanges {
   constructor(
     private readonly keyBindingMatcher: KeyBindingMatcher,
     private readonly keyAliasService: KeyAliasService,
+    private readonly defaultKeyboardLayoutMapService: DefaultKeyboardLayoutMapService,
     logger: Logger
   ) {
     this.logger = logger.tag('VirtualKeyboardComponent')
+    this.setFallbackKeyboardLayoutMap()
     this.updatePhysicalKeyboardLayout()
     navigator.keyboard
       ?.getLayoutMap()
-      .then(keyboardLayoutMap => (this.keyboardLayoutMap = new Map(keyboardLayoutMap)))
+      //.then(keyboardLayoutMap => (this.keyboardLayoutMap = new Map(keyboardLayoutMap)))
       .catch(error => this.logger.data(error).warn('Failed getting keyboard layout.'))
       .finally(() => this.updatePhysicalKeyboardLayout())
+  }
+
+  private setFallbackKeyboardLayoutMap(): void {
+    this.keyboardLayoutMap = this.defaultKeyboardLayoutMapService.createDefaultKeyboardLayoutMap()
   }
 
   private updatePhysicalKeyboardLayout(): void {
