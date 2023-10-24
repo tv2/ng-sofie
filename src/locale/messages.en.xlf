@@ -150,6 +150,32 @@
                     <context context-type="linenumber">26</context>
                 </context-group>
             </trans-unit>
+            <trans-unit id="8437407560350077331" datatype="html">
+                <source>rundown-overview-component.deletion-dialog-tittle:Delete Rundown?</source>
+                <target>Delete Rundown?</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
+                    <context context-type="linenumber">49</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="660627860253572462" datatype="html">
+                <source>rundown-overview-component.deletion-dialog-question:Are you sure you want to delete the Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?
+
+                    Please note: This action is irreversible!</source>
+                <target>Are you sure you want to delete the Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Please note: This action is irreversible!</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
+                    <context context-type="linenumber">50</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="864257219992232713" datatype="html">
+                <source>rundown-overview-component.deletion-dialog.delete-button:Delete</source>
+                <target>Delete</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
+                    <context context-type="linenumber">51</context>
+                </context-group>
+            </trans-unit>
         </body>
     </file>
 </xliff>
