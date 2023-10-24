@@ -1,6 +1,6 @@
 <div [cdkContextMenuTriggerFor]="contextMenu" class="c-rundown-header" [class.c-rundown-header--active]="rundown.isActive">
     <ng-template #contextMenu>
-        <sofie-rundown-header-context-menu class="c-context-access-surface" [rundown]="rundown"> </sofie-rundown-header-context-menu>
+        <sofie-rundown-header-context-menu class="c-context-access-surface" [rundown]="rundown" [shortenedRundownName]="rundownName"> </sofie-rundown-header-context-menu>
     </ng-template>
 
     <sofie-logo></sofie-logo>
@@ -11,5 +11,5 @@
     <sofie-rundown-header-panel label="Design">{{design}}</sofie-rundown-header-panel>
     <sofie-rundown-header-panel label="Local Time">{{currentLocalDate | date: 'H:mm:ss'}}</sofie-rundown-header-panel>
 
-    <sofie-icon-button class="exit-button" [iconButton]=IconButton.XMARK [iconButtonSize]="IconButtonSize.XL" routerLink="/rundowns"></sofie-icon-button>
+    <sofie-icon-button class="exit-button" [iconButton]="IconButton.XMARK" [iconButtonSize]="IconButtonSize.XL" routerLink="/rundowns"></sofie-icon-button>
 </div>

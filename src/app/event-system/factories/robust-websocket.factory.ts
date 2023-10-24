@@ -3,6 +3,8 @@ import { ExponentiallyDelayedReconnectStrategy } from '../services/exponentially
 import { Injectable } from '@angular/core'
 import { Logger } from '../../core/abstractions/logger.service'
 import { environment } from '../../../environments/environment'
+import { ReconnectStrategy } from '../abstractions/reconnect-strategy.service'
+import { FixedIntervalReconnectStrategy } from '../services/fixed-interval-reconnect-strategy.service'
 
 @Injectable()
 export class RobustWebSocketFactory {
@@ -14,6 +16,13 @@ export class RobustWebSocketFactory {
 
   public createRobustWebSocket(): RobustWebSocket {
     const webSocketUrl = environment.eventStreamUrl
-    return new RobustWebSocket(webSocketUrl, new ExponentiallyDelayedReconnectStrategy(this.logger), this.logger)
+    return new RobustWebSocket(webSocketUrl, this.getReconnectStrategy(), this.logger)
+  }
+
+  private getReconnectStrategy(): ReconnectStrategy {
+    if (environment.production) {
+      return new ExponentiallyDelayedReconnectStrategy(this.logger)
+    }
+    return new FixedIntervalReconnectStrategy(this.logger)
   }
 }

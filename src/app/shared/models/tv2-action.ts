@@ -33,3 +33,9 @@ export interface Tv2CameraAction extends Tv2PartAction {
     cameraNumber: number
   }
 }
+
+export interface Tv2TransitionAction extends Tv2PartAction {
+  metadata: {
+    contentType: Tv2ActionContentType.TRANSITION
+  }
+}

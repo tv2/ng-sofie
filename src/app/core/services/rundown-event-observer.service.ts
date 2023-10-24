@@ -2,7 +2,18 @@ import { EventConsumer, EventObserver, TypedEvent, EventSubscription } from '../
 import { Injectable } from '@angular/core'
 import { RundownEventParser } from '../abstractions/rundown-event.parser'
 import { RundownEventType } from '../models/rundown-event-type'
-import { RundownActivatedEvent, RundownDeactivatedEvent, RundownDeletedEvent, RundownInfinitePieceAddedEvent, RundownResetEvent, PartSetAsNextEvent, PartTakenEvent } from '../models/rundown-event'
+import {
+  RundownActivatedEvent,
+  RundownDeactivatedEvent,
+  RundownDeletedEvent,
+  RundownInfinitePieceAddedEvent,
+  RundownResetEvent,
+  PartSetAsNextEvent,
+  PartTakenEvent,
+  RundownPartInsertedAsOnAirEvent,
+  RundownPartInsertedAsNextEvent,
+  RundownPieceInsertedEvent,
+} from '../models/rundown-event'
 import { Logger } from '../abstractions/logger.service'
 
 @Injectable()
@@ -44,7 +55,28 @@ export class RundownEventObserver {
   public subscribeToRundownInfinitePieceAdded(onInfinitePieceAdded: (event: RundownInfinitePieceAddedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.INFINITE_PIECE_ADDED,
-      this.createEventValidatingConsumer(onInfinitePieceAdded, this.rundownEventParser.parseInfinitePieceAdded.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onInfinitePieceAdded, this.rundownEventParser.parseInfinitePieceAddedEvent.bind(this.rundownEventParser))
+    )
+  }
+
+  public subscribeToRundownPartInsertedAsOnAir(onPartInsertedAsOnAir: (event: RundownPartInsertedAsOnAirEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(
+      RundownEventType.PART_INSERTED_AS_ON_AIR,
+      this.createEventValidatingConsumer(onPartInsertedAsOnAir, this.rundownEventParser.parsePartInsertedAsOnAirEvent.bind(this.rundownEventParser))
+    )
+  }
+
+  public subscribeToRundownPartInsertedAsNext(onPartInsertedAsNext: (event: RundownPartInsertedAsNextEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(
+      RundownEventType.PART_INSERTED_AS_NEXT,
+      this.createEventValidatingConsumer(onPartInsertedAsNext, this.rundownEventParser.parsePartInsertedAsNextEvent.bind(this.rundownEventParser))
+    )
+  }
+
+  public subscribeToRundownPieceInserted(onPieceInserted: (event: RundownPieceInsertedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(
+      RundownEventType.PIECE_INSERTED,
+      this.createEventValidatingConsumer(onPieceInserted, this.rundownEventParser.parsePieceInsertedEvent.bind(this.rundownEventParser))
     )
   }
 

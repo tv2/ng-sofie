@@ -8,4 +8,5 @@ export interface Piece {
   readonly layer: string
   readonly start: number
   readonly duration?: number
+  readonly isPlanned: boolean
 }
