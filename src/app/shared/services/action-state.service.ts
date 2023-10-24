@@ -23,9 +23,9 @@ export class ActionStateService {
   ) {
     this.logger = logger.tag('ActionStateService')
     this.eventSubscriptions = [
-        this.connectionStatusObserver.subscribeToReconnect(this.onReconnected.bind(this)),
-        this.rundownEventObserver.subscribeToRundownActivation(this.onRundownActivated.bind(this)),
-        this.rundownEventObserver.subscribeToRundownDeactivation(this.onRundownDeactivated.bind(this)),
+      this.connectionStatusObserver.subscribeToReconnect(this.onReconnected.bind(this)),
+      this.rundownEventObserver.subscribeToRundownActivation(this.onRundownActivated.bind(this)),
+      this.rundownEventObserver.subscribeToRundownDeactivation(this.onRundownDeactivated.bind(this)),
     ]
   }
 
