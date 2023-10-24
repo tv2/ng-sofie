@@ -16,7 +16,9 @@
       constructor(
           @Inject(LOCALE_ID) public activeLocale: string
 
-      ) {
-         localStorage.setItem(this.selectedLocal, this.selectedLocal)
-      }
+      ) {}
+
+        onChange() {
+            window.location.href = `/${this.activeLocale}`;
+        }
     }

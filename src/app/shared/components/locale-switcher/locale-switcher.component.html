@@ -1,6 +1,6 @@
 
-<mat-select [(value)]="selectedLocal">
-    <mat-option *ngFor="let locale of locales" [value]="locale.name">
+<mat-select [(value)]="activeLocale">
+    <mat-option *ngFor="let locale of locales" [value]="locale.code">
         {{ locale.name }}
     </mat-option>
 </mat-select>
