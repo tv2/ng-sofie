@@ -30,53 +30,18 @@
           <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="172210689759305381" datatype="html">
+        <source>rundown-overview-component.rundown-label</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4359206169774515973" datatype="html">
         <source>rundown-overview-component.last-updated.label</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
           <context context-type="linenumber">33</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="690878947555894079" datatype="html">
-        <source>rundown-header-context-menu-component.reset-rundown.button</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
-          <context context-type="linenumber">4</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="221016838323992979" datatype="html">
-        <source>rundown-header-context-menu-component.activate.button</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
-          <context context-type="linenumber">8</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2175030815390487298" datatype="html">
-        <source>rundown-header-context-menu-component.deactivate.button</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
-          <context context-type="linenumber">12</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1013806782562403538" datatype="html">
-        <source>rundown-header-context-menu-component.take.button</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
-          <context context-type="linenumber">13</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2136327373490001416" datatype="html">
-        <source>rundown-component.take-next.button</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown/components/rundown/rundown.component.html</context>
-          <context context-type="linenumber">4</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="410553181106118867" datatype="html">
-        <source>Loading the rundown...</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown/components/rundown/rundown.component.html</context>
-          <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6602960182549626686" datatype="html">
@@ -90,7 +55,7 @@
         <source>Are you sure?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
-          <context context-type="linenumber">20</context>
+          <context context-type="linenumber">27</context>
         </context-group>
         <note priority="1" from="description">confirmation-dialog.are-you-sure.title</note>
       </trans-unit>
@@ -98,7 +63,7 @@
         <source>Yes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">29</context>
         </context-group>
         <note priority="1" from="description">confirmation-dialog.yes.button</note>
       </trans-unit>
@@ -106,7 +71,7 @@
         <source>Cancel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">30</context>
         </context-group>
         <note priority="1" from="description">confirmation-dialog.cancel.button</note>
       </trans-unit>

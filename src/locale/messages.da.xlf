@@ -34,6 +34,14 @@
           <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="172210689759305381" datatype="html">
+        <source>rundown-overview-component.rundown-label</source>
+        <target>Rundown</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4359206169774515973" datatype="html">
         <source>rundown-overview-component.last-updated.label</source>
         <target>Senest opdateret:</target>

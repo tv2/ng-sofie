@@ -23,7 +23,7 @@
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <mat-header-cell i18>rundown-overview-component.rundown-label</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef i18n>rundown-overview-component.rundown-label</mat-header-cell>
       <mat-cell *matCellDef="let basicRundown" class="c-rundown-name" (click)="navigateToRundown(basicRundown)">
         {{basicRundown.name}}
       </mat-cell>
