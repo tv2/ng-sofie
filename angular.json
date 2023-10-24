@@ -12,7 +12,7 @@
             "translation": "src/locale/messages.da.xlf"
           },
           "en": {
-            "translation": "scr/locale/messages.en.xlf"
+            "translation": "src/locale/messages.en.xlf"
           }
         }
       },
