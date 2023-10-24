@@ -7,6 +7,7 @@ import { BasicRundown } from '../models/basic-rundown'
 import { BasicRundownService } from '../abstractions/basic-rundown.service'
 import { RundownEvent } from '../models/rundown-event'
 import { BasicRundownEntityService } from './models/basic-rundown-entity.service'
+import { Logger } from '../abstractions/logger.service'
 
 @Injectable()
 export class BasicRundownStateService implements OnDestroy {
@@ -17,12 +18,16 @@ export class BasicRundownStateService implements OnDestroy {
   private readonly isLoadingSubject: BehaviorSubject<boolean>
   private isLoading = true
 
+  private readonly logger: Logger
+
   constructor(
     private readonly basicRundownService: BasicRundownService,
     private readonly rundownEventObserver: RundownEventObserver,
     private readonly connectionStatusObserver: ConnectionStatusObserver,
-    private readonly basicRundownEntityService: BasicRundownEntityService
+    private readonly basicRundownEntityService: BasicRundownEntityService,
+    logger: Logger
   ) {
+    this.logger = logger.tag('BasicRundownStateService')
     this.basicRundownsSubject = new BehaviorSubject<BasicRundown[]>(this.basicRundowns)
     this.isLoadingSubject = new BehaviorSubject<boolean>(this.isLoading)
     this.subscribeToEvents()
@@ -44,7 +49,7 @@ export class BasicRundownStateService implements OnDestroy {
     this.fetchBasicRundowns()
       .then(basicRundowns => (this.basicRundowns = basicRundowns))
       .then(() => this.basicRundownsSubject.next(this.basicRundowns))
-      .catch(error => console.error('[error]', 'Encountered error while fetching basic rundowns:', error))
+      .catch(error => this.logger.data(error).error('Encountered error while fetching basic rundowns:'))
       .finally(() => this.setIsLoading(false))
   }
 
@@ -68,7 +73,7 @@ export class BasicRundownStateService implements OnDestroy {
       if (basicRundown.id !== event.rundownId) {
         return basicRundown
       }
-      return this.basicRundownEntityService.deactivate(basicRundown)
+      return this.basicRundownEntityService.activate(basicRundown)
     })
     this.basicRundownsSubject.next(this.basicRundowns)
   }

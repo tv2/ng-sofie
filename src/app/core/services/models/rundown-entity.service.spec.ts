@@ -6,6 +6,7 @@ import { TestEntityFactory } from './test-entity.factory'
 import { Segment } from '../../models/segment'
 import { Piece } from '../../models/piece'
 import { RundownCursor } from '../../models/rundown-cursor'
+import { Part } from '../../models/part'
 
 describe(RundownEntityService.name, () => {
   describe(RundownEntityService.prototype.activate.name, () => {
@@ -83,7 +84,7 @@ describe(RundownEntityService.name, () => {
 
       testee.deactivate(rundown, Date.now())
 
-      verify(mockedSegmentEntityService.removeAsNextSegment(segments[1])).once()
+      verify(mockedSegmentEntityService.unmarkSegmentAsNext(segments[1])).once()
     })
 
     it('clears infinite pieces', () => {
@@ -185,7 +186,8 @@ describe(RundownEntityService.name, () => {
         const segment: Segment = testEntityFactory.createSegment({ id: rundownCursor.segmentId, isOnAir: true, isNext: true })
         const rundown: Rundown = testEntityFactory.createRundown({ segments: [segment] })
         const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
-        when(mockedSegmentEntityService.removeAsNextSegment(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.unmarkSegmentAsNext(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.removeUnplannedUnplayedPartsAndPieces(anything())).thenCall(segment => segment)
         const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
 
         testee.setNext(rundown, rundownCursor)
@@ -199,14 +201,15 @@ describe(RundownEntityService.name, () => {
         const segment: Segment = testEntityFactory.createSegment({ id: rundownCursor.segmentId, isOnAir: true, isNext: true })
         const rundown: Rundown = testEntityFactory.createRundown({ segments: [segment] })
         const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
-        when(mockedSegmentEntityService.removeAsNextSegment(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.unmarkSegmentAsNext(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.removeUnplannedUnplayedPartsAndPieces(anything())).thenCall(segment => segment)
         const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
 
         testee.setNext(rundown, rundownCursor)
 
-        verify(mockedSegmentEntityService.removeAsNextSegment(segment)).once()
+        verify(mockedSegmentEntityService.unmarkSegmentAsNext(segment)).once()
         verify(mockedSegmentEntityService.setAsNextSegment(segment, rundownCursor.partId)).once()
-        verify(mockedSegmentEntityService.setAsNextSegment(segment, rundownCursor.partId)).calledAfter(mockedSegmentEntityService.removeAsNextSegment(segment))
+        verify(mockedSegmentEntityService.setAsNextSegment(segment, rundownCursor.partId)).calledAfter(mockedSegmentEntityService.unmarkSegmentAsNext(segment))
       })
     })
 
@@ -234,12 +237,13 @@ describe(RundownEntityService.name, () => {
         const rundown: Rundown = testEntityFactory.createRundown({ segments })
         const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
         when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
-        when(mockedSegmentEntityService.removeAsNextSegment(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.unmarkSegmentAsNext(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.removeUnplannedUnplayedPartsAndPieces(anything())).thenCall(segment => segment)
         const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
 
         testee.setNext(rundown, rundownCursor)
 
-        verify(mockedSegmentEntityService.removeAsNextSegment(segments[0])).once()
+        verify(mockedSegmentEntityService.unmarkSegmentAsNext(segments[0])).once()
       })
 
       it('marks the segment as next', () => {
@@ -250,12 +254,104 @@ describe(RundownEntityService.name, () => {
         const rundown: Rundown = testEntityFactory.createRundown({ segments })
         const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
         when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
-        when(mockedSegmentEntityService.removeAsNextSegment(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.unmarkSegmentAsNext(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.removeUnplannedUnplayedPartsAndPieces(anything())).thenCall(segment => segment)
         const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
 
         testee.setNext(rundown, rundownCursor)
 
         verify(mockedSegmentEntityService.setAsNextSegment(segments[1], rundownCursor.partId)).once()
+      })
+    })
+  })
+
+  describe(RundownEntityService.prototype.addInfinitePiece.name, () => {
+    describe('when an already existing infinite piece is added', () => {
+      it('overwrites the previous one', () => {
+        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+        const infinitePiece: Piece = testEntityFactory.createPiece({ id: 'some-id', name: 'some-name' })
+        const rundown: Rundown = testEntityFactory.createRundown({ infinitePieces: [infinitePiece] })
+        const updatedInfinitePiece: Piece = { ...infinitePiece, name: 'some-other-name' }
+        const testee: RundownEntityService = createTestee()
+
+        expect(rundown.infinitePieces).toContain(infinitePiece)
+        expect(rundown.infinitePieces).not.toContain(updatedInfinitePiece)
+
+        const result: Rundown = testee.addInfinitePiece(rundown, updatedInfinitePiece)
+
+        expect(result.infinitePieces).not.toContain(infinitePiece)
+        expect(result.infinitePieces).toContain(updatedInfinitePiece)
+      })
+    })
+    describe('when a non-existing infinite piece is added', () => {
+      it('is added to the rundown', () => {
+        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+        const infinitePiece: Piece = testEntityFactory.createPiece({ id: 'some-id' })
+        const rundown: Rundown = testEntityFactory.createRundown({ infinitePieces: [] })
+        const testee: RundownEntityService = createTestee()
+
+        expect(rundown.infinitePieces).not.toContain(infinitePiece)
+
+        const result: Rundown = testee.addInfinitePiece(rundown, infinitePiece)
+
+        expect(result.infinitePieces).toContain(infinitePiece)
+      })
+    })
+  })
+
+  describe(RundownEntityService.prototype.insertPartAsOnAir.name, () => {
+    it('inserts the part as on-air', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const newPart: Part = testEntityFactory.createPart()
+      const onAirPart: Part = testEntityFactory.createPart({ isOnAir: true })
+      const segment: Segment = testEntityFactory.createSegment({ isOnAir: true, parts: [onAirPart] })
+      const rundown: Rundown = testEntityFactory.createRundown({ segments: [segment] })
+      const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
+      when(mockedSegmentEntityService.takeOffAir(anything(), anyNumber())).thenCall(segment => segment)
+      when(mockedSegmentEntityService.insertPartAsOnAir(anything(), anything(), anyNumber())).thenCall(segment => segment)
+      const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
+
+      testee.insertPartAsOnAir(rundown, newPart, Date.now())
+
+      verify(mockedSegmentEntityService.insertPartAsOnAir(segment, newPart, anyNumber())).once()
+    })
+  })
+
+  describe(RundownEntityService.prototype.insertPartAsNext.name, () => {
+    describe('when segment is marked as next', () => {
+      it('unmarks the segment before inserting the part as next', () => {
+        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+        const newPart: Part = testEntityFactory.createPart()
+        const onAirPart: Part = testEntityFactory.createPart({ isOnAir: true })
+        const segment: Segment = testEntityFactory.createSegment({ isOnAir: true, isNext: true, parts: [onAirPart] })
+        const rundown: Rundown = testEntityFactory.createRundown({ segments: [segment] })
+        const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
+        when(mockedSegmentEntityService.unmarkSegmentAsNext(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.insertPartAsNext(anything(), anything())).thenCall(segment => segment)
+        const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
+
+        testee.insertPartAsNext(rundown, newPart)
+
+        verify(mockedSegmentEntityService.unmarkSegmentAsNext(segment)).calledBefore(mockedSegmentEntityService.insertPartAsNext(segment, newPart))
+      })
+    })
+
+    describe('when segment is not marked as next', () => {
+      it('unmarks the current next segment as next before inserting the part as next', () => {
+        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+        const newPart: Part = testEntityFactory.createPart()
+        const onAirPart: Part = testEntityFactory.createPart({ isOnAir: true })
+        const segment: Segment = testEntityFactory.createSegment({ isOnAir: true, isNext: false, parts: [onAirPart] })
+        const nextSegment: Segment = testEntityFactory.createSegment({ isNext: true })
+        const rundown: Rundown = testEntityFactory.createRundown({ segments: [segment, nextSegment] })
+        const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
+        when(mockedSegmentEntityService.unmarkSegmentAsNext(anything())).thenCall(segment => segment)
+        when(mockedSegmentEntityService.insertPartAsNext(anything(), anything())).thenCall(segment => segment)
+        const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
+
+        testee.insertPartAsNext(rundown, newPart)
+
+        verify(mockedSegmentEntityService.unmarkSegmentAsNext(nextSegment)).calledBefore(mockedSegmentEntityService.insertPartAsNext(segment, newPart))
       })
     })
   })

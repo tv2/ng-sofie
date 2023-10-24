@@ -1,0 +1,32 @@
+.c-rundown-header {
+  display: flex;
+  flex-direction: row;
+
+  width: auto;
+  min-height: 70px;
+
+  background-color: #252627;
+  overflow: auto;
+
+  transition: background-color .3s;
+
+  &--active {
+    background-color: #761912;
+  }
+
+  .exit-button {
+    align-self: center;
+
+    padding: 0 20px;
+    height: 100%;
+    color: #888888;
+    border-radius: 8px;
+
+    transition: color .2s;
+
+    &:hover {
+      color: white;
+      cursor: pointer;
+    }
+  }
+}

@@ -1,5 +1,15 @@
 import { Injectable, OnDestroy } from '@angular/core'
-import { RundownInfinitePieceAddedEvent, PartSetAsNextEvent, RundownResetEvent, PartTakenEvent, RundownActivatedEvent, RundownDeactivatedEvent } from '../models/rundown-event'
+import {
+  RundownInfinitePieceAddedEvent,
+  PartSetAsNextEvent,
+  RundownResetEvent,
+  PartTakenEvent,
+  RundownActivatedEvent,
+  RundownDeactivatedEvent,
+  RundownPartInsertedAsOnAirEvent,
+  RundownPartInsertedAsNextEvent,
+  RundownPieceInsertedEvent,
+} from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
 import { Rundown } from '../models/rundown'
 import { RundownService } from '../abstractions/rundown.service'
@@ -8,18 +18,22 @@ import { EventSubscription } from '../../event-system/abstractions/event-observe
 import { ManagedSubscription } from './managed-subscription.service'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { RundownEntityService } from './models/rundown-entity.service'
+import { Logger } from '../abstractions/logger.service'
 
 @Injectable()
 export class RundownStateService implements OnDestroy {
   private readonly rundownSubjects: Map<string, BehaviorSubject<Rundown>> = new Map()
   private eventSubscriptions: EventSubscription[]
+  private readonly logger: Logger
 
   constructor(
     private readonly rundownService: RundownService,
     private readonly rundownEventObserver: RundownEventObserver,
     private readonly connectionStatusObserver: ConnectionStatusObserver,
-    private readonly rundownEntityService: RundownEntityService
+    private readonly rundownEntityService: RundownEntityService,
+    logger: Logger
   ) {
+    this.logger = logger.tag('RundownStateService')
     this.subscribeToEvents()
   }
 
@@ -40,10 +54,10 @@ export class RundownStateService implements OnDestroy {
   }
 
   private resetRundownSubject(rundownSubject: BehaviorSubject<Rundown>, rundownId: string): void {
-    console.log('[debug][RundownStateService]', 'Resetting rundown with id: ', rundownId)
+    this.logger.debug(`Resetting rundown with id: ${rundownId}`)
     this.fetchRundown(rundownId)
       .then(rundown => rundownSubject.next(rundown))
-      .catch(error => console.error('[error]', `Encountered error while fetching rundown with id '${rundownId}':`, error))
+      .catch(error => this.logger.data(error).error(`Encountered an error while fetching rundown with id '${rundownId}':`))
   }
 
   private subscribeToRundownEvents(): EventSubscription[] {
@@ -54,6 +68,9 @@ export class RundownStateService implements OnDestroy {
       this.rundownEventObserver.subscribeToRundownTake(this.takePartInRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownSetNext(this.setNextPartInRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownInfinitePieceAdded(this.addInfinitePieceToRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownPartInsertedAsOnAir(this.insertPartAsOnAirFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownPartInsertedAsNext(this.insertPartAsNextFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownPieceInserted(this.insertPieceFromEvent.bind(this)),
     ]
   }
 
@@ -107,8 +124,35 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    // TODO: Out-commented due to current changes in AdLib API. Wait until that is somewhat stable.
-    //rundownSubject.value.addInfinitePiece(event.infinitePiece)
+    const rundownWithPiece: Rundown = this.rundownEntityService.addInfinitePiece(rundownSubject.value, event.infinitePiece)
+    rundownSubject.next(rundownWithPiece)
+  }
+
+  private insertPartAsOnAirFromEvent(event: RundownPartInsertedAsOnAirEvent): void {
+    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
+    const rundownWithPart: Rundown = this.rundownEntityService.insertPartAsOnAir(rundownSubject.value, event.part, event.timestamp)
+    rundownSubject.next(rundownWithPart)
+  }
+
+  private insertPartAsNextFromEvent(event: RundownPartInsertedAsNextEvent): void {
+    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
+    const rundownWithPart: Rundown = this.rundownEntityService.insertPartAsNext(rundownSubject.value, event.part)
+    rundownSubject.next(rundownWithPart)
+  }
+
+  private insertPieceFromEvent(event: RundownPieceInsertedEvent): void {
+    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
+    const rundownWithPiece: Rundown = this.rundownEntityService.insertPiece(rundownSubject.value, event, event.piece)
+    rundownSubject.next(rundownWithPiece)
   }
 
   public async subscribeToRundown(rundownId: string, consumer: (rundown: Rundown) => void): Promise<SubscriptionLike> {

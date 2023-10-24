@@ -1,0 +1,28 @@
+:host {
+  position: absolute;
+  top: 10px;
+  bottom: 0;
+  z-index: 300;
+  margin-left: -1px;
+  pointer-events: none;
+}
+
+.c-timeline-playhead {
+  &__label {
+    height: 20px;
+    background-color: #c40000;
+    font-weight: bold;
+    line-height: 1em;
+    white-space: nowrap;
+    border-radius: 4px 11px 11px 0;
+    padding: 4px 12px 4px 6px;
+    color: var(--text-color);
+    font-size: 0.9rem;
+  }
+
+  &__bar {
+    height: 100%;
+    width: 4px;
+    background-color: #c40000;
+  }
+}

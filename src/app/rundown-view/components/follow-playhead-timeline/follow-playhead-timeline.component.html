@@ -1,0 +1,54 @@
+<sofie-timeline-markers
+    [time]="time - prePlayheadDurationInMs | maximum: 0"
+    [pixelsPerSecond]="pixelsPerSecond"
+></sofie-timeline-markers>
+
+<div class="parts">
+    <sofie-offsetable-part
+            *ngFor="let previousPart of previousParts; trackBy: trackPart"
+            [part]="previousPart"
+            [pieceLayers]="pieceLayers"
+            [pixelsPerSecond]="pixelsPerSecond"
+            [offsetDurationInMs]="getPreviousPartOffsetInMs(previousPart)"
+            [rundownId]="segment.rundownId"
+            [isRundownActive]="isRundownActive"
+    ></sofie-offsetable-part>
+
+    <sofie-offsetable-part
+            *ngIf="onAirPart"
+            [part]="onAirPart"
+            [pieceLayers]="pieceLayers"
+            [pixelsPerSecond]="pixelsPerSecond"
+            [offsetDurationInMs]="getOnAirPartOffsetInMs()"
+            [prePlayheadDurationInMs]="this.prePlayheadDurationInMs"
+            [postPlayheadDurationInMs]="postPlayheadDurationInMs"
+            [rundownId]="segment.rundownId"
+            [isRundownActive]="isRundownActive"
+    ></sofie-offsetable-part>
+
+    <sofie-offsetable-part
+            *ngFor="let futurePart of futureParts; trackBy: trackPart"
+            [part]="futurePart"
+            [pieceLayers]="pieceLayers"
+            [pixelsPerSecond]="pixelsPerSecond"
+            [offsetDurationInMs]="0"
+            [rundownId]="segment.rundownId"
+            [isRundownActive]="isRundownActive"
+    ></sofie-offsetable-part>
+
+    <sofie-segment-end-indicator
+            [lastPartInSegment]="segment.parts[segment.parts.length - 1]"
+    ></sofie-segment-end-indicator>
+</div>
+
+<sofie-timeline-playhead
+        [time]="time | minimum: prePlayheadDurationInMs"
+        [pixelsPerSecond]="pixelsPerSecond"
+></sofie-timeline-playhead>
+
+<sofie-editorial-line
+    *ngIf="segment.budgetDuration !== undefined && time - prePlayheadDurationInMs <= segment.budgetDuration"
+    [budgetDurationInMs]="segment.budgetDuration"
+    [pixelsPerSecond]="pixelsPerSecond"
+    [offsetInMs]="time - prePlayheadDurationInMs | maximum: 0"
+></sofie-editorial-line>

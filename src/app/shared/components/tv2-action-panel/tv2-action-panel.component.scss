@@ -1,0 +1,57 @@
+:host {
+  position: relative;
+  display: block;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background-color: #222222;
+  overflow: hidden;
+
+  .title {
+    color: var(--text-color);
+    font-weight: bold;
+    padding: 10px 20px;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    padding: 0 20px 20px 20px;
+
+    & > * {
+      flex-shrink: 0;
+    }
+  }
+
+  &.scrollable {
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 20px;
+      background: linear-gradient(90deg, #222222FF 0%, #222222FF 10%, #22222200 100%);
+      pointer-events: none;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 20px;
+      background: linear-gradient(-90deg, #222222FF 0%, #222222FF 10%, #22222200 100%);
+      pointer-events: none;
+    }
+
+    .actions {
+      flex-wrap: nowrap;
+      overflow: auto;
+    }
+  }
+}

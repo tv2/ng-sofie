@@ -3,14 +3,14 @@ import { anyString, anything, instance, mock, verify, when } from '@typestrong/t
 import { EventObserver, EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { RundownEventParser } from '../abstractions/rundown-event.parser'
 import { RundownEventType } from '../models/rundown-event-type'
+import { Logger } from '../abstractions/logger.service'
 
 describe(RundownEventObserver.name, () => {
   describe(RundownEventObserver.prototype.subscribeToRundownActivation.name, () => {
     it('subscribes to rundown activated events', () => {
       const mockedEventObserver = mock<EventObserver>()
-      const mockedRundownEventParser = createMockOfRundownEventParser()
       const subject = RundownEventType.ACTIVATED
-      const testee = new RundownEventObserver(instance(mockedEventObserver), instance(mockedRundownEventParser))
+      const testee: RundownEventObserver = createTestee({ eventObserver: instance(mockedEventObserver) })
 
       testee.subscribeToRundownActivation(() => {
         return
@@ -21,9 +21,8 @@ describe(RundownEventObserver.name, () => {
 
     it('subscribes to rundown deactivated events', () => {
       const mockedEventObserver = mock<EventObserver>()
-      const mockedRundownEventParser = createMockOfRundownEventParser()
       const subject = RundownEventType.DEACTIVATED
-      const testee = new RundownEventObserver(instance(mockedEventObserver), instance(mockedRundownEventParser))
+      const testee: RundownEventObserver = createTestee({ eventObserver: instance(mockedEventObserver) })
 
       testee.subscribeToRundownDeactivation(() => {
         return
@@ -34,10 +33,9 @@ describe(RundownEventObserver.name, () => {
 
     it('calls the return value and unsubscribes from rundown activated events', () => {
       const mockedEventObserver = mock<EventObserver>()
-      const mockedRundownEventParser = createMockOfRundownEventParser()
       const subject = RundownEventType.ACTIVATED
       const mockedEventSubscription = configureEventSubscriptionMock(subject, mockedEventObserver)
-      const testee = new RundownEventObserver(instance(mockedEventObserver), instance(mockedRundownEventParser))
+      const testee: RundownEventObserver = createTestee({ eventObserver: instance(mockedEventObserver) })
 
       const eventSubscription = testee.subscribeToRundownActivation(() => {
         return
@@ -49,10 +47,9 @@ describe(RundownEventObserver.name, () => {
 
     it('calls the return value and unsubscribes from rundown deactivated events', () => {
       const mockedEventObserver = mock<EventObserver>()
-      const mockedRundownEventParser = createMockOfRundownEventParser()
       const subject = RundownEventType.DEACTIVATED
       const mockedEventSubscription = configureEventSubscriptionMock(subject, mockedEventObserver)
-      const testee = new RundownEventObserver(instance(mockedEventObserver), instance(mockedRundownEventParser))
+      const testee: RundownEventObserver = createTestee({ eventObserver: instance(mockedEventObserver) })
 
       const eventSubscription = testee.subscribeToRundownDeactivation(() => {
         return
@@ -64,6 +61,13 @@ describe(RundownEventObserver.name, () => {
   })
 })
 
+function createTestee(parameters: { eventObserver?: EventObserver; rundownEventParser?: RundownEventParser; logger?: Logger } = {}): RundownEventObserver {
+  const mockedEventObserver: EventObserver = parameters.eventObserver ?? instance(mock<EventObserver>())
+  const mockedRundownEventParser: RundownEventParser = parameters.rundownEventParser ?? instance(createMockOfRundownEventParser())
+  const mockedLogger: Logger = parameters.logger ?? instance(createMockOfLogger())
+  return new RundownEventObserver(mockedEventObserver, mockedRundownEventParser, mockedLogger)
+}
+
 function createMockOfRundownEventParser(): RundownEventParser {
   const mockedRundownEventParser = mock<RundownEventParser>()
   when(mockedRundownEventParser.parseActivatedEvent(anything())).thenCall(value => value)
@@ -71,7 +75,7 @@ function createMockOfRundownEventParser(): RundownEventParser {
   when(mockedRundownEventParser.parseResetEvent(anything())).thenCall(value => value)
   when(mockedRundownEventParser.parseTakenEvent(anything())).thenCall(value => value)
   when(mockedRundownEventParser.parseSetNextEvent(anything())).thenCall(value => value)
-  when(mockedRundownEventParser.parseInfinitePieceAdded(anything())).thenCall(value => value)
+  when(mockedRundownEventParser.parseInfinitePieceAddedEvent(anything())).thenCall(value => value)
   return mockedRundownEventParser
 }
 
@@ -80,4 +84,13 @@ function configureEventSubscriptionMock(subject: string, mockedEventObserver: Ev
   when(mockedEventObserver.subscribe(anyString(), anything())).thenReturn({ unsubscribe: () => {} })
   when(mockedEventObserver.subscribe(subject, anything())).thenReturn(instance(mockedUnsubscribeObject))
   return mockedUnsubscribeObject
+}
+
+// TODO: Extract to one place
+function createMockOfLogger(): Logger {
+  const mockedLogger: Logger = mock<Logger>()
+  when(mockedLogger.tag(anyString())).thenCall(() => instance(createMockOfLogger()))
+  when(mockedLogger.data(anything())).thenCall(() => instance(createMockOfLogger()))
+  when(mockedLogger.metadata(anything())).thenCall(() => instance(createMockOfLogger()))
+  return mockedLogger
 }
