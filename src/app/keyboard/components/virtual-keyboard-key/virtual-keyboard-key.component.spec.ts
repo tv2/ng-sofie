@@ -14,7 +14,6 @@ describe('VirtualKeyboardKeyComponent', () => {
     fixture = TestBed.createComponent(VirtualKeyboardKeyComponent)
     component = fixture.componentInstance
     component.keyLabel = 'KeyA'
-    component.keyboardLayout = new Map()
     fixture.detectChanges()
   })
 
