@@ -2,7 +2,7 @@
     <div class="function-key-row key-row">
         <sofie-virtual-keyboard-key
                 *ngFor="let keyboardLayoutKey of physicalKeyboardLayout.functionKeyRow"
-                [key]="keyboardLayoutKey.key"
+                [keyLabel]="getKeyboardLayoutMappedKey(keyboardLayoutKey.key)"
                 [label]="getLabelOfKey(keyboardLayoutKey.key)"
                 [keyboardLayout]="keyboardLayoutMap"
                 [weight]="keyboardLayoutKey.widthScale"
@@ -15,7 +15,7 @@
     <div *ngFor="let keyboardLayoutKeys of physicalKeyboardLayout.mainKeyRows" class="key-row">
         <sofie-virtual-keyboard-key
                 *ngFor="let keyboardLayoutKey of keyboardLayoutKeys; trackBy: trackKeyboardLayoutKey"
-                [key]="keyboardLayoutKey.key"
+                [keyLabel]="getKeyboardLayoutMappedKey(keyboardLayoutKey.key)"
                 [label]="getLabelOfKey(keyboardLayoutKey.key)"
                 [keyboardLayout]="keyboardLayoutMap"
                 [weight]="keyboardLayoutKey.widthScale"
@@ -30,7 +30,7 @@
     <div *ngFor="let keyboardLayoutKeys of physicalKeyboardLayout.controlKeyRows" class="key-row control-key-row">
         <sofie-virtual-keyboard-key
                 *ngFor="let keyboardLayoutKey of keyboardLayoutKeys; trackBy: trackKeyboardLayoutKey"
-                [key]="keyboardLayoutKey.key"
+                [keyLabel]="getKeyboardLayoutMappedKey(keyboardLayoutKey.key)"
                 [label]="getLabelOfKey(keyboardLayoutKey.key)"
                 [keyboardLayout]="keyboardLayoutMap"
                 [weight]="keyboardLayoutKey.widthScale"

@@ -64,6 +64,10 @@ export class VirtualKeyboardComponent implements OnChanges {
     })
   }
 
+  public getKeyboardLayoutMappedKey(key: string): string {
+    return this.keyboardLayoutMap.get(key) ?? key
+  }
+
   public isKeystrokeMatched(keystroke: string): boolean {
     return this.keystrokes.includes(keystroke)
   }

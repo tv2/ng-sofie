@@ -117,7 +117,7 @@ export class PhysicalKeyboardLayoutService {
       [this.createKeyboardKey('Insert'), this.createKeyboardKey('Home'), this.createKeyboardKey('PageUp')],
       [this.createKeyboardKey('Delete'), this.createKeyboardKey('End'), this.createKeyboardKey('PageDown')],
       [],
-      [this.createKeyboardKey(''), this.createKeyboardKey('ArrowUp'), this.createKeyboardKey('')],
+      [this.createKeyboardKey('<none>'), this.createKeyboardKey('ArrowUp'), this.createKeyboardKey('<none>')],
       [this.createKeyboardKey('ArrowLeft'), this.createKeyboardKey('ArrowDown'), this.createKeyboardKey('ArrowRight')],
     ]
   }
