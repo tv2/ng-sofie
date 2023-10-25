@@ -23,9 +23,6 @@ export class VirtualKeyboardKeyComponent {
   public isMatched: boolean = false
 
   @Input()
-  public keyboardLayout: KeyboardLayoutMap
-
-  @Input()
   @HostBinding('style.--key-weight')
   public weight: number = 1
 
