@@ -8,11 +8,11 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 })
 export class VirtualKeyboardKeyComponent {
   @Input()
-  public key: string
+  public keyLabel: string
 
   @HostBinding('class')
   public get keyClass(): string {
-    return this.key ? this.key.toLowerCase() : 'none'
+    return this.keyLabel === '<none>' ? 'none' : this.keyLabel.toLowerCase()
   }
 
   @Input()
@@ -30,15 +30,10 @@ export class VirtualKeyboardKeyComponent {
   public weight: number = 1
 
   @Input()
+  @HostBinding('style.background')
   public background?: string
 
-  @HostBinding('style.background')
-  public get displayBackground(): string {
-    return this.background ?? '#333333'
-  }
-
-  public get mappedKey(): string {
-    const mappedKey: string = this.keyboardLayout.get(this.key) ?? this.key
-    return mappedKey.length === 1 ? mappedKey.toUpperCase() : mappedKey
+  public get capitalizedKey(): string {
+    return `${this.keyLabel.charAt(0).toUpperCase()}${this.keyLabel.slice(1)}`
   }
 }

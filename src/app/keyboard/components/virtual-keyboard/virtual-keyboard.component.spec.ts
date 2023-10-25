@@ -5,9 +5,9 @@ import { KeyBindingMatcher } from '../../abstractions/key-binding-matcher.servic
 import { instance, mock, when } from '@typestrong/ts-mockito'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
-import { PhysicalKeyboardLayoutService } from '../../services/physical-keyboard-layout.service'
 import { KeyAliasService } from '../../abstractions/key-alias-service'
-import { DefaultKeyboardLayoutMapService } from '../../services/default-keyboard-layout-map.service'
+import { PhysicalKeyboardLayoutService } from '../../abstractions/physical-keyboard-layout.service'
+import { KeyboardKeyLabelService } from '../../abstractions/keyboard-key-label.service'
 
 describe('VirtualKeyboardComponent', () => {
   let component: VirtualKeyboardComponent
@@ -15,16 +15,17 @@ describe('VirtualKeyboardComponent', () => {
 
   beforeEach(async () => {
     const testLoggerFactory: TestLoggerFactory = new TestLoggerFactory()
-    const mockedDefaultKeyboardLayoutMapService: DefaultKeyboardLayoutMapService = mock<DefaultKeyboardLayoutMapService>()
-    when(mockedDefaultKeyboardLayoutMapService.createDefaultKeyboardLayoutMap()).thenReturn(new Map())
+    const mockedKeyboardKeyLabelService: KeyboardKeyLabelService = createMockOfKeyboardKeyLabelService()
+    const mockedPhysicalKeyboardLayoutService: PhysicalKeyboardLayoutService = createMockOfPhysicalKeyboardLayoutService()
+
     await TestBed.configureTestingModule({
       declarations: [VirtualKeyboardComponent],
       providers: [
         { provide: KeyBindingMatcher, useValue: instance(mock<KeyBindingMatcher>()) },
         { provide: KeyAliasService, useValue: instance(mock<KeyAliasService>()) },
         { provide: Logger, useValue: testLoggerFactory.createLogger() },
-        { provide: PhysicalKeyboardLayoutService, useValue: instance(mock<PhysicalKeyboardLayoutService>()) },
-        { provide: DefaultKeyboardLayoutMapService, useValue: instance(mockedDefaultKeyboardLayoutMapService) },
+        { provide: PhysicalKeyboardLayoutService, useValue: instance(mockedPhysicalKeyboardLayoutService) },
+        { provide: KeyboardKeyLabelService, useValue: instance(mockedKeyboardKeyLabelService) },
       ],
     }).compileComponents()
 
@@ -39,3 +40,15 @@ describe('VirtualKeyboardComponent', () => {
     expect(component).toBeTruthy()
   })
 })
+
+function createMockOfKeyboardKeyLabelService(): KeyboardKeyLabelService {
+  const mockedKeyboardKeyLabelService: KeyboardKeyLabelService = mock<KeyboardKeyLabelService>()
+  when(mockedKeyboardKeyLabelService.getLocalKeyboardKeyLabels()).thenResolve(new Map())
+  return mockedKeyboardKeyLabelService
+}
+
+function createMockOfPhysicalKeyboardLayoutService(): PhysicalKeyboardLayoutService {
+  const mockedPhysicalKeyboardLayoutService: PhysicalKeyboardLayoutService = mock<PhysicalKeyboardLayoutService>()
+  when(mockedPhysicalKeyboardLayoutService.getPhysicalKeyboardLayout()).thenReturn({ controlKeyRows: [], functionKeyRow: [], mainKeyRows: [], name: 'empty-layout' })
+  return mockedPhysicalKeyboardLayoutService
+}

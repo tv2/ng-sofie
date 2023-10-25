@@ -8,7 +8,10 @@ import { KeyAliasService } from './abstractions/key-alias-service'
 import { Tv2KeyAliasService } from './services/tv2-key-alias.service'
 import { VirtualKeyboardComponent } from './components/virtual-keyboard/virtual-keyboard.component'
 import { VirtualKeyboardKeyComponent } from './components/virtual-keyboard-key/virtual-keyboard-key.component'
-import { DefaultKeyboardLayoutMapService } from './services/default-keyboard-layout-map.service'
+import { PhysicalKeyboardLayoutService } from './abstractions/physical-keyboard-layout.service'
+import { Iso102PhysicalKeyboardLayoutService } from './services/iso-102-physical-keyboard-layout.service'
+import { KeyboardKeyLabelService } from './abstractions/keyboard-key-label.service'
+import { Tv2KeyboardKeyLabelService } from './services/tv2-keyboard-key-label.service'
 
 @NgModule({
   declarations: [VirtualKeyboardComponent, VirtualKeyboardKeyComponent],
@@ -16,7 +19,8 @@ import { DefaultKeyboardLayoutMapService } from './services/default-keyboard-lay
     { provide: KeyBindingEventService, useClass: Tv2KeyBindingEventService },
     { provide: KeyBindingMatcher, useClass: Tv2KeyBindingMatcher },
     { provide: KeyAliasService, useClass: Tv2KeyAliasService },
-    DefaultKeyboardLayoutMapService,
+    { provide: PhysicalKeyboardLayoutService, useClass: Iso102PhysicalKeyboardLayoutService },
+    { provide: KeyboardKeyLabelService, useClass: Tv2KeyboardKeyLabelService },
   ],
   imports: [CommonModule],
   exports: [VirtualKeyboardComponent],
