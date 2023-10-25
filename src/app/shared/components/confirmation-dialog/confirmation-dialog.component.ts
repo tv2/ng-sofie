@@ -24,9 +24,9 @@ export interface ConfirmationDialogData {
   styleUrls: ['./confirmation-dialog.component.scss'],
 })
 export class ConfirmationDialogComponent extends StronglyTypedDialog<ConfirmationDialogData, boolean> {
-  public title: string = $localize `:confirmation-dialog.are-you-sure.title:Are you sure?`
+  public title: string = $localize`:confirmation-dialog.are-you-sure.title:Are you sure?`
   public message: string = ''
-  public okButtonText: string = $localize `:confirmation-dialog.yes.button:Yes`
+  public okButtonText: string = $localize`:confirmation-dialog.yes.button:Yes`
   public cancelButtonText: string = $localize`:confirmation-dialog.cancel.button:Cancel`
   public severity: DialogSeverity
 

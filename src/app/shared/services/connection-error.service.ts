@@ -12,7 +12,7 @@ export class ConnectionErrorService implements OnDestroy {
     private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {
     this.subscriptions = [
-      this.connectionStatusObserver.subscribeToClosed(() => this.openDangerSnackBar($localize `:connection-error:Lost connection to backend. Attempting to reconnect...`)),
+      this.connectionStatusObserver.subscribeToClosed(() => this.openDangerSnackBar($localize`:connection-error:Lost connection to backend. Attempting to reconnect...`)),
       this.connectionStatusObserver.subscribeToReconnect(() => this.openSnackBar('Reconnected to backend.')),
     ]
   }
