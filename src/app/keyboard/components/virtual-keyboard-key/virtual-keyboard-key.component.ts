@@ -30,12 +30,8 @@ export class VirtualKeyboardKeyComponent {
   public weight: number = 1
 
   @Input()
-  public background?: string
-
   @HostBinding('style.background')
-  public get displayBackground(): string {
-    return this.background ?? '#333333'
-  }
+  public background?: string
 
   public get mappedKey(): string {
     const mappedKey: string = this.keyboardLayout.get(this.key) ?? this.key
