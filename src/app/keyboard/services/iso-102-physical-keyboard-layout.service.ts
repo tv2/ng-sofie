@@ -1,36 +1,14 @@
 import { KeyboardLayoutKey, KeyboardLayout } from '../value-objects/keyboard-layout'
+import { PhysicalKeyboardLayoutService } from '../abstractions/physical-keyboard-layout.service'
 
-export class PhysicalKeyboardLayoutService {
-  constructor(private readonly keyboardLayoutMap: KeyboardLayoutMap) {
-    this.registerCustomKeyboardLayoutMapEntries()
+export class Iso102PhysicalKeyboardLayoutService implements PhysicalKeyboardLayoutService {
+  private keyLabels: KeyboardLayoutMap = new Map()
+
+  public registerKeyboardKeyLabels(keyLabels: KeyboardLayoutMap): void {
+    this.keyLabels = keyLabels
   }
 
-  private registerCustomKeyboardLayoutMapEntries(): void {
-    this.keyboardLayoutMap.set('Tab', '\u{21E5} Tab')
-    this.keyboardLayoutMap.set('ControlLeft', '\u{2303} Control')
-    this.keyboardLayoutMap.set('ControlRight', '\u{2303} Control')
-    this.keyboardLayoutMap.set('ShiftLeft', '\u{21E7} Shift')
-    this.keyboardLayoutMap.set('ShiftRight', '\u{21E7} Shift')
-    this.keyboardLayoutMap.set('CapsLock', '\u{21EA} CapsLock')
-    this.keyboardLayoutMap.set('AltLeft', '\u{2325}')
-    this.keyboardLayoutMap.set('AltRight', '\u{2325}')
-    this.keyboardLayoutMap.set('Space', 'Space')
-    this.keyboardLayoutMap.set('Backspace', '\u{232B} Backspace')
-    this.keyboardLayoutMap.set('Escape', '\u{238B} Esc')
-    this.keyboardLayoutMap.set('MetaLeft', '\u{2318}')
-    this.keyboardLayoutMap.set('MetaRight', '\u{2318}')
-    this.keyboardLayoutMap.set('ArrowUp', '\u{2191}')
-    this.keyboardLayoutMap.set('ArrowDown', '\u{2193}')
-    this.keyboardLayoutMap.set('ArrowLeft', '\u{2190}')
-    this.keyboardLayoutMap.set('ArrowRight', '\u{2192}')
-    this.keyboardLayoutMap.set('Delete', '\u{2326}')
-    this.keyboardLayoutMap.set('Space', '')
-    this.keyboardLayoutMap.set('PageUp', 'PgUp')
-    this.keyboardLayoutMap.set('PageDown', 'PgDn')
-    this.keyboardLayoutMap.set('ContextMenu', '\u{2630}')
-  }
-
-  public createIso102KeyboardLayout(): KeyboardLayout {
+  public getPhysicalKeyboardLayout(): KeyboardLayout {
     return {
       name: 'ISO 102',
       functionKeyRow: this.createIso102FunctionKeyRow(),
@@ -123,7 +101,7 @@ export class PhysicalKeyboardLayoutService {
   }
 
   private createKeyboardKey(key: string, widthScale: number = 1): KeyboardLayoutKey {
-    const label: string = this.keyboardLayoutMap.get(key) ?? key
+    const label: string = this.keyLabels.get(key) ?? key
     return { key, label, widthScale }
   }
 }

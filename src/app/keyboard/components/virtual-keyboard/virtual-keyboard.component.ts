@@ -3,8 +3,9 @@ import { KeyBindingMatcher } from '../../abstractions/key-binding-matcher.servic
 import { Logger } from '../../../core/abstractions/logger.service'
 import { StyledKeyBinding } from '../../value-objects/styled-key-binding'
 import { KeyAliasService } from '../../abstractions/key-alias-service'
-import { PhysicalKeyboardLayoutService } from '../../services/physical-keyboard-layout.service'
 import { KeyboardLayout, KeyboardLayoutKey } from '../../value-objects/keyboard-layout'
+import { PhysicalKeyboardLayoutService } from '../../abstractions/physical-keyboard-layout.service'
+import { KeyboardKeyLabelService } from '../../abstractions/keyboard-key-label.service'
 
 @Component({
   selector: 'sofie-virtual-keyboard',
@@ -18,7 +19,7 @@ export class VirtualKeyboardComponent implements OnChanges {
   @Input()
   public keystrokes: string[]
 
-  public keyboardLayoutMap: KeyboardLayoutMap = new Map()
+  public keyLabels: KeyboardLayoutMap = new Map()
   public physicalKeyboardLayout: KeyboardLayout
 
   private keyBindingsFilteredByModifiers: StyledKeyBinding[] = []
@@ -26,22 +27,25 @@ export class VirtualKeyboardComponent implements OnChanges {
   private readonly logger: Logger
 
   constructor(
+    private readonly physicalKeyboardLayoutService: PhysicalKeyboardLayoutService,
+    private readonly keyboardKeyLabelService: KeyboardKeyLabelService,
     private readonly keyBindingMatcher: KeyBindingMatcher,
     private readonly keyAliasService: KeyAliasService,
     logger: Logger
   ) {
     this.logger = logger.tag('VirtualKeyboardComponent')
+    this.keyLabels = this.keyboardKeyLabelService.getDefaultKeyLabels()
     this.updatePhysicalKeyboardLayout()
-    navigator.keyboard
-      ?.getLayoutMap()
-      .then(keyboardLayoutMap => (this.keyboardLayoutMap = new Map(keyboardLayoutMap)))
+    this.keyboardKeyLabelService
+      .getLocalKeyboardKeyLabels()
+      .then(keyLabels => (this.keyLabels = new Map(keyLabels)))
       .catch(error => this.logger.data(error).warn('Failed getting keyboard layout.'))
       .finally(() => this.updatePhysicalKeyboardLayout())
   }
 
   private updatePhysicalKeyboardLayout(): void {
-    const physicalKeyboardLayoutService: PhysicalKeyboardLayoutService = new PhysicalKeyboardLayoutService(this.keyboardLayoutMap)
-    this.physicalKeyboardLayout = physicalKeyboardLayoutService.createIso102KeyboardLayout()
+    this.physicalKeyboardLayoutService.registerKeyboardKeyLabels(this.keyLabels)
+    this.physicalKeyboardLayout = this.physicalKeyboardLayoutService.getPhysicalKeyboardLayout()
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -65,7 +69,7 @@ export class VirtualKeyboardComponent implements OnChanges {
   }
 
   public getKeyboardLayoutMappedKey(key: string): string {
-    return this.keyboardLayoutMap.get(key) ?? key
+    return this.keyLabels.get(key) ?? key
   }
 
   public isKeystrokeMatched(keystroke: string): boolean {
