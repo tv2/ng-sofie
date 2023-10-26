@@ -8,5 +8,5 @@ export interface Tv2Piece extends Piece {
 
 export interface Tv2PieceMetadata {
   readonly type: Tv2PieceType
-  readonly outputLayer: Tv2OutputLayer
+  readonly outputLayer?: Tv2OutputLayer
 }

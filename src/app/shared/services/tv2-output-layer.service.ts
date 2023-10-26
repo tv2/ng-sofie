@@ -1,11 +1,11 @@
-import { Piece } from '../../core/models/piece'
 import { Part } from '../../core/models/part'
 import { Tv2OutputLayer } from '../../core/models/tv2-output-layer'
+import { Tv2Piece } from '../../core/models/tv2-piece'
 
-export class OutputLayerService {
+export class Tv2OutputLayerService {
   public getOutputLayersForParts(parts: Part[]): Set<Tv2OutputLayer> {
-    const pieces: Piece[] = parts.flatMap(part => part.pieces)
-    const outputLayersWithDuplicates: Tv2OutputLayer[] = pieces.map(piece => (piece.metadata as any)?.outputLayer).filter(outputLayer => outputLayer !== undefined)
+    const pieces: Tv2Piece[] = parts.flatMap(part => part.pieces as Tv2Piece[])
+    const outputLayersWithDuplicates: Tv2OutputLayer[] = pieces.map(piece => piece.metadata.outputLayer).filter((outputLayer): outputLayer is Tv2OutputLayer => outputLayer !== undefined)
     return new Set(outputLayersWithDuplicates)
   }
 

@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnDestroy } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
-import { OutputLayerService } from '../../../shared/services/output-layer.service'
+import { Tv2OutputLayerService } from '../../../shared/services/tv2-output-layer.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
@@ -25,7 +25,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   private readonly logger: Logger
 
   constructor(
-    private readonly outputLayerService: OutputLayerService,
+    private readonly outputLayerService: Tv2OutputLayerService,
     private readonly partEntityService: PartEntityService,
     logger: Logger
   ) {

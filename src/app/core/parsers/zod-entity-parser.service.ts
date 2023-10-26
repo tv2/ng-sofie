@@ -1,11 +1,13 @@
 import { EntityParser } from '../abstractions/entity-parser.service'
 import { BasicRundown } from '../models/basic-rundown'
 import { Part } from '../models/part'
-import { Piece } from '../models/piece'
 import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
 import * as zod from 'zod'
 import { ShowStyleVariant } from '../models/show-style-variant'
+import { Tv2PieceType } from '../enums/tv2-piece-type'
+import { Tv2OutputLayer } from '../models/tv2-output-layer'
+import { Tv2Piece } from '../models/tv2-piece'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -47,10 +49,22 @@ export class ZodEntityParser implements EntityParser {
     start: zod.number(),
     duration: zod
       .number()
+      // TODO: Remove when fixed on backend
       .nullish()
       .transform(duration => duration ?? undefined),
     isPlanned: zod.boolean(),
-    metadata: zod.unknown(),
+    // TODO: Should this be less TV2 specific.
+    metadata: zod
+      .object({
+        type: zod.nativeEnum(Tv2PieceType).default(Tv2PieceType.UNKNOWN),
+        outputLayer: zod.nativeEnum(Tv2OutputLayer).optional(),
+      })
+      // TODO: Remove after testing
+      .nullish()
+      .transform(metadata => metadata ?? undefined)
+      .default({
+        type: Tv2PieceType.UNKNOWN,
+      }),
   })
 
   private readonly partParser = zod.object({
@@ -93,7 +107,7 @@ export class ZodEntityParser implements EntityParser {
     infinitePieces: this.pieceParser.array(),
   })
 
-  public parsePiece(piece: unknown): Piece {
+  public parsePiece(piece: unknown): Tv2Piece {
     return this.pieceParser.parse(piece)
   }
 
