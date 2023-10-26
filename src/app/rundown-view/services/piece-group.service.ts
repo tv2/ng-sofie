@@ -1,23 +1,21 @@
 import { Piece } from '../../core/models/piece'
-import { PieceLayer } from '../../shared/enums/piece-layer'
-import { PieceLayerService } from '../../shared/services/piece-layer.service'
 import { Injectable } from '@angular/core'
+import { Tv2OutputLayer } from '../../core/models/tv2-output-layer'
 
 @Injectable()
 export class PieceGroupService {
-  constructor(private readonly pieceLayerService: PieceLayerService) {}
-
-  public groupByPieceLayer(pieces: Piece[]): Record<PieceLayer, Piece[]> {
+  public groupByOutputLayer(pieces: Piece[]): Record<Tv2OutputLayer, Piece[]> {
     return pieces.reduce(
-      (pieceLayerGroups: Record<PieceLayer, Piece[]>, piece: Piece) => {
-        const pieceLayer: PieceLayer = this.pieceLayerService.getPieceLayer(piece)
-        if (!(pieceLayer in pieceLayerGroups)) {
-          pieceLayerGroups[pieceLayer] = []
+      (outputLayerGroups: Record<Tv2OutputLayer, Piece[]>, piece: Piece) => {
+         // TODO: check why this is called so many times.
+        const outputLayer: Tv2OutputLayer = piece.outputLayer
+        if (!(outputLayer in outputLayerGroups)) {
+          outputLayerGroups[outputLayer] = []
         }
-        pieceLayerGroups[pieceLayer].push(piece)
-        return pieceLayerGroups
+        outputLayerGroups[outputLayer].push(piece)
+        return outputLayerGroups
       },
-      {} as Record<PieceLayer, Piece[]>
+      {} as Record<Tv2OutputLayer, Piece[]>
     )
   }
 }

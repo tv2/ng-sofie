@@ -1,8 +1,8 @@
 import { Component, HostListener, Input } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
-import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { Part } from '../../../core/models/part'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
+import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 
 const LEFT_MOUSE_BUTTON_IDENTIFIER: number = 0
 
@@ -16,7 +16,7 @@ export class ScrollableTimelineComponent {
   public segment: Segment
 
   @Input()
-  public pieceLayers: PieceLayer[]
+  public outputLayers: Tv2OutputLayer[]
 
   @Input()
   public isRundownActive: boolean

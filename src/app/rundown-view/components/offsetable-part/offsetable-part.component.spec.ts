@@ -4,7 +4,7 @@ import { OffsetablePartComponent } from './offsetable-part.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { instance, mock, when } from '@typestrong/ts-mockito'
 import { Part } from '../../../core/models/part'
-import { PieceLayerService } from '../../../shared/services/piece-layer.service'
+import { OutputLayerService } from '../../../shared/services/output-layer.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { PieceGroupService } from '../../services/piece-group.service'
@@ -32,7 +32,6 @@ function getMockedPart(): Part {
 }
 
 async function configureTestBed(): Promise<void> {
-  const mockedPieceLayerService: PieceLayerService = mock<PieceLayerService>()
   const mockedRundownService: RundownService = mock<RundownService>()
   const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
   const mockedPieceGroupService: PieceGroupService = mock<PieceGroupService>()
@@ -40,7 +39,6 @@ async function configureTestBed(): Promise<void> {
     declarations: [OffsetablePartComponent],
     imports: [BrowserAnimationsModule],
     providers: [
-      { provide: PieceLayerService, useValue: instance(mockedPieceLayerService) },
       { provide: RundownService, useValue: instance(mockedRundownService) },
       { provide: PartEntityService, useValue: instance(mockedPartEntityService) },
       { provide: PieceGroupService, useValue: instance(mockedPieceGroupService) },

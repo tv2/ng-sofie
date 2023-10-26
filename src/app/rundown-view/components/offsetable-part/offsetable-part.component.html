@@ -1,10 +1,10 @@
 <div [cdkContextMenuTriggerFor]="contextMenu" class="piece-layers">
     <div
-        *ngFor="let pieceLayer of pieceLayers"
+        *ngFor="let outputLayer of outputLayers"
         class="piece-layer"
     >
         <sofie-offsetable-piece
-                *ngFor="let piece of piecesGroupedByPieceLayer[pieceLayer]; trackBy: trackPiece"
+                *ngFor="let piece of piecesGroupedByOutputLayer[outputLayer]; trackBy: trackPiece"
                 [piece]="piece"
                 [pixelsPerSecond]="pixelsPerSecond"
                 [partDuration]="partDurationInMs()"

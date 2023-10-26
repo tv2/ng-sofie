@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core'
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Part } from '../../../core/models/part'
 import { PieceGroupService } from '../../services/piece-group.service'
-import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { Piece } from '../../../core/models/piece'
+import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 
 const KEEP_VISIBLE_DURATION_IN_MS: number = 20_000
 
@@ -18,7 +18,7 @@ export class OffsetablePartComponent implements OnChanges {
   public part: Part
 
   @Input()
-  public pieceLayers: PieceLayer[]
+  public outputLayers: Tv2OutputLayer[]
 
   @Input()
   public pixelsPerSecond: number
@@ -38,7 +38,7 @@ export class OffsetablePartComponent implements OnChanges {
   @Input()
   public isRundownActive: boolean
 
-  public piecesGroupedByPieceLayer: Record<PieceLayer, Piece[]> = {} as Record<PieceLayer, Piece[]>
+  public piecesGroupedByOutputLayer: Record<Tv2OutputLayer, Piece[]> = {} as Record<Tv2OutputLayer, Piece[]>
 
   constructor(
     private readonly partEntityService: PartEntityService,
@@ -69,9 +69,9 @@ export class OffsetablePartComponent implements OnChanges {
     return this.partEntityService.getDuration(this.part)
   }
 
-  public ngOnChanges(): void {
+  public ngOnChanges(changes:SimpleChanges): void {
     const visiblePieces: Piece[] = this.getVisiblePieces()
-    this.piecesGroupedByPieceLayer = this.pieceGroupService.groupByPieceLayer(visiblePieces)
+    this.piecesGroupedByOutputLayer = this.pieceGroupService.groupByOutputLayer(visiblePieces)
   }
 
   private getVisiblePieces(): Piece[] {
@@ -80,6 +80,9 @@ export class OffsetablePartComponent implements OnChanges {
   }
 
   private isPieceVisible(piece: Piece, displayDurationInMs: number): boolean {
+    if (!piece.hasContent) {
+      return false
+    }
     const partDurationInMsAtEndOfPartViewport: number = this.offsetDurationInMs + displayDurationInMs
     if (!piece.duration) {
       return piece.start <= partDurationInMsAtEndOfPartViewport

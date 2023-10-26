@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, OnDestroy } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
-import { PieceLayerService } from '../../../shared/services/piece-layer.service'
-import { PieceLayer } from '../../../shared/enums/piece-layer'
+import { OutputLayerService } from '../../../shared/services/output-layer.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 
 @Component({
   selector: 'sofie-segment',
@@ -19,27 +19,27 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   public isRundownActive: boolean
 
   public timeReference: number = 0
-  public pieceLayers: PieceLayer[] = []
+  public outputLayers: Tv2OutputLayer[] = []
 
   private animationFrameId?: number
   private readonly logger: Logger
 
   constructor(
-    private readonly pieceLayerService: PieceLayerService,
+    private readonly outputLayerService: OutputLayerService,
     private readonly partEntityService: PartEntityService,
     logger: Logger
   ) {
     this.logger = logger.tag('SegmentComponent')
   }
 
-  private getUsedPieceLayersInOrder(): PieceLayer[] {
-    const pieceLayersInOrder: PieceLayer[] = this.pieceLayerService.getPieceLayersInOrder()
-    const usedPieceLayers: Set<PieceLayer> = this.pieceLayerService.getPieceLayersForParts(this.segment.parts)
-    return pieceLayersInOrder.filter(layer => usedPieceLayers.has(layer))
+  private getUsedOutputLayersInOrder(): Tv2OutputLayer[] {
+    const outputLayersInOrder: Tv2OutputLayer[] = this.outputLayerService.getOutputLayersInOrder()
+    const usedOutputLayers: Set<Tv2OutputLayer> = this.outputLayerService.getOutputLayersForParts(this.segment.parts)
+    return outputLayersInOrder.filter(layer => usedOutputLayers.has(layer))
   }
 
   public ngOnChanges(): void {
-    this.pieceLayers = this.getUsedPieceLayersInOrder()
+    this.outputLayers = this.getUsedOutputLayersInOrder()
 
     if (this.isGoingOnAir()) {
       this.startAnimation()

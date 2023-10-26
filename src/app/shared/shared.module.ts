@@ -14,7 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog'
 import { DialogService } from './services/dialog.service'
 import { ConnectionErrorService } from './services/connection-error.service'
 import { TimestampPipe } from './pipes/timestamp.pipe'
-import { PieceLayerService } from './services/piece-layer.service'
+import { OutputLayerService } from './services/output-layer.service'
 import { MinimumPipe } from './pipes/minimum.pipe'
 import { MaximumPipe } from './pipes/maximum.pipe'
 import { SofieLogoComponent } from './components/sofie-logo/sofie-logo.component'
@@ -85,7 +85,7 @@ import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-
     { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
     DialogService,
     ConnectionErrorService,
-    PieceLayerService,
+    OutputLayerService,
     TimestampPipe,
     ActionStateService,
     RundownNavigationService,
