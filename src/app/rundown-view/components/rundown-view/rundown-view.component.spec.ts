@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownViewComponent } from './rundown-view.component'
 import { KeyboardConfigurationService } from '../../abstractions/keyboard-configuration.service'
+import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 
 describe('RundownViewComponent', () => {
   it('should create', async () => {
@@ -24,7 +25,7 @@ async function configureTestBed(params: { mockedRundownStateService?: RundownSta
       { provide: ActivatedRoute, useValue: instance(createMockOfActivatedRoute()) },
       { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
       { provide: KeyboardConfigurationService, useValue: instance(mockedKeyboardConfigurationService) },
-      { provide: Logger, useValue: instance(createMockOfLogger()) },
+      { provide: Logger, useValue: createLogger() },
     ],
     declarations: [RundownViewComponent],
   }).compileComponents()
@@ -53,11 +54,7 @@ function createMockOfActivatedRoute(params: { paramMap?: ParamMap } = {}): Activ
   return mockedActivatedRoute
 }
 
-// TODO: Extract to one place
-function createMockOfLogger(): Logger {
-  const mockedLogger: Logger = mock<Logger>()
-  when(mockedLogger.tag(anyString())).thenCall(() => instance(createMockOfLogger()))
-  when(mockedLogger.data(anything())).thenCall(() => instance(createMockOfLogger()))
-  when(mockedLogger.metadata(anything())).thenCall(() => instance(createMockOfLogger()))
-  return mockedLogger
+function createLogger(): Logger {
+  const testLoggerFactory: TestLoggerFactory = new TestLoggerFactory()
+  return testLoggerFactory.createLogger()
 }

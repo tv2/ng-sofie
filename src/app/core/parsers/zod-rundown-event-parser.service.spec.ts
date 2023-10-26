@@ -14,8 +14,8 @@ import {
   RundownResetEvent,
 } from '../models/rundown-event'
 import { EntityParser } from '../abstractions/entity-parser.service'
-import { TestEntityFactory } from '../services/models/test-entity.factory'
 import { Piece } from '../models/piece'
+import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 
 describe(ZodRundownEventParser.name, () => {
   describe(ZodRundownEventParser.prototype.parseActivatedEvent.name, () => {

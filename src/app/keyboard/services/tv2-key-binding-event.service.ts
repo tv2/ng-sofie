@@ -1,5 +1,5 @@
 import { KeyBindingEventService } from '../abstractions/key-binding-event.service'
-import { KeyBinding } from '../models/key-binding'
+import { KeyBinding } from '../value-objects/key-binding'
 import { BehaviorSubject, fromEvent, Observable, Subject, Subscription } from 'rxjs'
 import { KeyBindingMatcher } from '../abstractions/key-binding-matcher.service'
 import { Injectable } from '@angular/core'

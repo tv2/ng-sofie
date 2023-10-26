@@ -1,11 +1,6 @@
 <mat-toolbar class="c-header">
   <mat-toolbar-row>
-    <div class="c-header__logo" (click)="navigateHome()">
-      <img src="assets/sofie-logo.svg" style="width: 32px;">
-      <span class="c-header__logo-header">
-        {{title}}
-      </span>
-    </div>
+    <sofie-logo [withText]="true" (click)="navigateHome()"></sofie-logo>
   </mat-toolbar-row>
 
   <mat-toolbar-row class="c-header__main-menu">

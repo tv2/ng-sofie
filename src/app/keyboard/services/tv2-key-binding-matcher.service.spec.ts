@@ -1,5 +1,5 @@
 import { Tv2KeyBindingMatcher } from './tv2-key-binding-matcher.service'
-import { KeyBinding, Keys } from '../models/key-binding'
+import { KeyBinding, Keys } from '../value-objects/key-binding'
 import { KeyEventType } from '../value-objects/key-event-type'
 import { Tv2KeyAliasService } from './tv2-key-alias.service'
 

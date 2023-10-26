@@ -1,7 +1,7 @@
-import { Part } from '../../models/part'
-import { Segment } from '../../models/segment'
-import { Rundown } from '../../models/rundown'
-import { Piece } from '../../models/piece'
+import { Part } from '../../core/models/part'
+import { Segment } from '../../core/models/segment'
+import { Rundown } from '../../core/models/rundown'
+import { Piece } from '../../core/models/piece'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -42,7 +42,7 @@ export class TestEntityFactory {
     }
   }
 
-  public createPiece<PieceType extends Piece = Piece>(piece: Partial<PieceType> = {}): PieceType {
+  public createPiece(piece: Partial<Piece> = {}): Piece {
     return {
       id: 'piece-id',
       partId: 'partId',
@@ -51,6 +51,6 @@ export class TestEntityFactory {
       start: 0,
       isPlanned: true,
       ...piece,
-    } as PieceType
+    }
   }
 }

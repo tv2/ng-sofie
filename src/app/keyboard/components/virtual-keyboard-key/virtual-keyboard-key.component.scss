@@ -1,0 +1,63 @@
+:host {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  width: calc(var(--key-weight) * var(--key-size));
+  height: var(--key-size);
+  padding: calc(var(--key-size) / 10);
+
+  background-color: #333333;
+  color: var(--text-color);
+  border-radius: calc(var(--key-size) / 10);
+  border: 2px solid #FFFFFF09;
+
+  overflow: hidden;
+
+  font-size: calc(var(--key-size) / 5.6);
+  font-weight: bold;
+
+  cursor: pointer;
+  transition: transform .08s, border-color .08s;
+
+  &.enter {
+    margin-top: calc(-1 * var(--key-size) - var(--key-gap));
+    height: calc(2 * var(--key-size) + var(--key-gap));
+  }
+
+  &.none {
+    visibility: hidden;
+  }
+
+  .key {
+    font-size: calc(var(--key-size) / 5);
+    text-align: center;
+    opacity: 0.7;
+  }
+
+  .label {
+    text-align: center;
+  }
+
+  :after {
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition: box-shadow .08s, background-color .08s;
+  }
+
+  &:active, &.matched {
+    position: relative;
+    transform: scale(0.98);
+    border-color: #111111;
+
+    :after {
+      background-color: #00000066;
+      box-shadow: inset 0 0 8px 1px #00000099;
+    }
+  }
+}
