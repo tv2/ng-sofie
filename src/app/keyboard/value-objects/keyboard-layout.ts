@@ -10,3 +10,5 @@ export interface KeyboardLayoutKey {
   label: string
   widthScale: number
 }
+
+export const EMPTY_KEY = '<empty>'

@@ -95,7 +95,7 @@ export class Iso102PhysicalKeyboardLayoutService implements PhysicalKeyboardLayo
       [this.createKeyboardKey('Insert'), this.createKeyboardKey('Home'), this.createKeyboardKey('PageUp')],
       [this.createKeyboardKey('Delete'), this.createKeyboardKey('End'), this.createKeyboardKey('PageDown')],
       [],
-      [this.createKeyboardKey('<none>'), this.createKeyboardKey('ArrowUp'), this.createKeyboardKey('<none>')],
+      [this.createKeyboardKey('EMPTY_KEY'), this.createKeyboardKey('ArrowUp'), this.createKeyboardKey('EMPTY_KEY')],
       [this.createKeyboardKey('ArrowLeft'), this.createKeyboardKey('ArrowDown'), this.createKeyboardKey('ArrowRight')],
     ]
   }
