@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core'
 import { EMPTY_KEY } from '../../value-objects/keyboard-layout'
 
+const EMPTY_KEY_CLASS: string = 'none'
+
 @Component({
   selector: 'sofie-virtual-keyboard-key',
   templateUrl: './virtual-keyboard-key.component.html',
@@ -13,7 +15,7 @@ export class VirtualKeyboardKeyComponent {
 
   @HostBinding('class')
   public get keyClass(): string {
-    return this.keyLabel === EMPTY_KEY ? 'none' : this.keyLabel.toLowerCase()
+    return this.keyLabel === EMPTY_KEY ? EMPTY_KEY_CLASS : this.keyLabel.toLowerCase()
   }
 
   @Input()
