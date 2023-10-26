@@ -1,9 +1,9 @@
-import { PieceType } from '../enums/piece-type'
+import { Tv2PieceType } from '../enums/tv2-piece-type'
 import { Tv2OutputLayer } from './tv2-output-layer'
 
 export interface Piece {
   readonly id: string
-  readonly type: PieceType
+  readonly type: Tv2PieceType
   readonly outputLayer: Tv2OutputLayer
   readonly partId: string
   readonly name: string

@@ -1,4 +1,4 @@
-export enum PieceType {
+export enum Tv2PieceType {
   CAMERA = 'CAMERA',
   REPLAY = 'REPLAY',
   REMOTE = 'REMOTE',

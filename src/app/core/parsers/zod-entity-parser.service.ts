@@ -5,7 +5,7 @@ import { Piece } from '../models/piece'
 import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
 import * as zod from 'zod'
-import { PieceType } from '../enums/piece-type'
+import { Tv2PieceType } from '../enums/tv2-piece-type'
 import { ShowStyleVariant } from '../models/show-style-variant'
 import { Tv2OutputLayer } from '../models/tv2-output-layer'
 
@@ -136,48 +136,48 @@ export class ZodEntityParser implements EntityParser {
     return this.showStyleVariantParser.parse(showStyleVariant)
   }
 
-  private convertToPieceType(pieceLayer: string): PieceType {
+  private convertToPieceType(pieceLayer: string): Tv2PieceType {
     if (this.cameraPieceLayers.includes(pieceLayer)) {
-      return PieceType.CAMERA
+      return Tv2PieceType.CAMERA
     }
 
     if (this.replayPieceLayers.includes(pieceLayer)) {
-      return PieceType.REPLAY
+      return Tv2PieceType.REPLAY
     }
 
     if (this.remotePieceLayers.includes(pieceLayer)) {
-      return PieceType.REMOTE
+      return Tv2PieceType.REMOTE
     }
 
     if (this.graphicsPieceLayers.includes(pieceLayer)) {
-      return PieceType.GRAPHICS
+      return Tv2PieceType.GRAPHICS
     }
 
     if (this.splitScreenPieceLayers.includes(pieceLayer)) {
-      return PieceType.SPLIT_SCREEN
+      return Tv2PieceType.SPLIT_SCREEN
     }
 
     if (this.videoClipPieceLayers.includes(pieceLayer)) {
-      return PieceType.VIDEO_CLIP
+      return Tv2PieceType.VIDEO_CLIP
     }
 
     if (this.voiceOverPieceLayers.includes(pieceLayer)) {
-      return PieceType.VOICE_OVER
+      return Tv2PieceType.VOICE_OVER
     }
 
     if (this.audioPieceLayers.includes(pieceLayer)) {
-      return PieceType.AUDIO
+      return Tv2PieceType.AUDIO
     }
 
     if (this.manusPieceLayers.includes(pieceLayer)) {
-      return PieceType.MANUS
+      return Tv2PieceType.MANUS
     }
 
     if (this.transitionPieceLayers.includes(pieceLayer)) {
-      return PieceType.TRANSITION
+      return Tv2PieceType.TRANSITION
     }
 
-    return PieceType.UNKNOWN
+    return Tv2PieceType.UNKNOWN
   }
 
   private convertToOutputLayer(rawOutputLayer: string, pieceLayer: string): Tv2OutputLayer {
