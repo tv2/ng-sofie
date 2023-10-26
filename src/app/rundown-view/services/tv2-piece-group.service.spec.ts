@@ -1,8 +1,8 @@
 import { Tv2PieceGroupService } from './tv2-piece-group.service'
-import { TestEntityFactory } from '../../core/services/models/test-entity.factory'
 import { Tv2OutputLayer } from '../../core/models/tv2-output-layer'
 import { Tv2PieceType } from '../../core/enums/tv2-piece-type'
 import { Tv2Piece } from '../../core/models/tv2-piece'
+import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 
 describe(Tv2PieceGroupService.name, () => {
   describe(Tv2PieceGroupService.prototype.groupByOutputLayer.name, () => {
