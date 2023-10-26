@@ -12,7 +12,7 @@ export class VirtualKeyboardKeyComponent {
 
   @HostBinding('class')
   public get keyClass(): string {
-    return this.keyLabel === 'EMPTY_KEY' ? 'none' : this.keyLabel.toLowerCase()
+    return this.keyLabel === EMPTY_KEY ? 'none' : this.keyLabel.toLowerCase()
   }
 
   @Input()
