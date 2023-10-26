@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { KeyBinding } from '../../../keyboard/models/key-binding'
+import { KeyBinding } from '../../../keyboard/value-objects/key-binding'
 import { Rundown } from '../../../core/models/rundown'
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'
@@ -26,6 +26,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
 
   private actionsSubscription?: EventSubscription
 
+  public actions: Tv2Action[] = []
   public cameraActions: Tv2Action[] = []
   public videoClipActions: Tv2Action[] = []
 
@@ -50,6 +51,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
   private onActionsChanged(actions: Action[]): void {
     const tv2Actions: Tv2Action[] = this.getValidTv2Actions(actions)
     // TODO: create Tv2ActionsStateService that also groups them
+    this.actions = tv2Actions
     this.cameraActions = tv2Actions.filter(action => action.metadata.contentType === Tv2ActionContentType.CAMERA)
     this.videoClipActions = tv2Actions.filter(action => action.metadata.contentType === Tv2ActionContentType.VIDEO_CLIP)
   }

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs'
-import { KeyBinding } from '../models/key-binding'
+import { KeyBinding } from '../value-objects/key-binding'
 
 export abstract class KeyBindingEventService {
   public abstract subscribeToKeystrokesOn(node: Node): Observable<string[]>

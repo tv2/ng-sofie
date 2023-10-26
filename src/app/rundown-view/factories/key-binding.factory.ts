@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
-import { KeyBinding, Keys } from '../../keyboard/models/key-binding'
+import { Keys } from '../../keyboard/value-objects/key-binding'
+import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
 import { Tv2CameraAction, Tv2TransitionAction } from '../../shared/models/tv2-action'
 import { PartActionType } from '../../shared/models/action-type'
@@ -25,18 +26,18 @@ export class KeyBindingFactory {
     this.logger = logger.tag('KeyBindingFactory')
   }
 
-  public createCameraKeyBindingsFromActions(cameraActions: Tv2CameraAction[], rundownId: string): KeyBinding[] {
+  public createCameraKeyBindingsFromActions(cameraActions: Tv2CameraAction[], rundownId: string): StyledKeyBinding[] {
     return cameraActions.map(cameraAction => this.createCameraKeyBindingFromAction(cameraAction, rundownId))
   }
 
-  private createCameraKeyBindingFromAction(cameraAction: Tv2CameraAction, rundownId: string): KeyBinding {
+  private createCameraKeyBindingFromAction(cameraAction: Tv2CameraAction, rundownId: string): StyledKeyBinding {
     if (cameraAction.type === PartActionType.INSERT_PART_AS_ON_AIR) {
       return this.createInsertCameraOnAirKeyBinding(cameraAction, rundownId)
     }
     return this.createInsertCameraAsNextKeyBinding(cameraAction, rundownId)
   }
 
-  private createInsertCameraOnAirKeyBinding(cameraAction: Tv2CameraAction, rundownId: string): KeyBinding {
+  private createInsertCameraOnAirKeyBinding(cameraAction: Tv2CameraAction, rundownId: string): StyledKeyBinding {
     const cameraNumber: number = cameraAction.metadata.cameraNumber
     return {
       keys: [`Digit${cameraNumber}`],
@@ -47,24 +48,26 @@ export class KeyBindingFactory {
       shouldPreventDefaultBehaviourForPartialMatches: true,
       useExclusiveMatching: true,
       useOrderedMatching: false,
+      background: '#005919',
     }
   }
 
-  private createInsertCameraAsNextKeyBinding(cameraAction: Tv2CameraAction, rundownId: string): KeyBinding {
+  private createInsertCameraAsNextKeyBinding(cameraAction: Tv2CameraAction, rundownId: string): StyledKeyBinding {
     const cameraNumber: number = cameraAction.metadata.cameraNumber
     return {
       keys: ['Alt', `Digit${cameraNumber}`],
-      label: `KAM ${cameraNumber}`,
+      label: cameraAction.name,
       onMatched: () => this.actionService.executeAction(cameraAction.id, rundownId).subscribe(),
       shouldMatchOnKeyRelease: true,
       shouldPreventDefaultBehaviourOnKeyPress: true,
       shouldPreventDefaultBehaviourForPartialMatches: true,
       useExclusiveMatching: true,
       useOrderedMatching: false,
+      background: '#005919',
     }
   }
 
-  public createRundownKeyBindings(rundown: Rundown): KeyBinding[] {
+  public createRundownKeyBindings(rundown: Rundown): StyledKeyBinding[] {
     if (rundown.isActive) {
       return [
         this.createRundownKeyBinding('Take', ['AnyEnter'], () => this.takeNext(rundown)),
@@ -158,7 +161,7 @@ export class KeyBindingFactory {
     }
   }
 
-  public createRundownKeyBinding(label: string, keys: Keys, onMatched: () => void): KeyBinding {
+  public createRundownKeyBinding(label: string, keys: Keys, onMatched: () => void): StyledKeyBinding {
     return {
       keys,
       label,
@@ -171,12 +174,12 @@ export class KeyBindingFactory {
     }
   }
 
-  public createTransitionKeyBindingsFromActions(transitionActions: Tv2TransitionAction[], rundownId: string): KeyBinding[] {
+  public createTransitionKeyBindingsFromActions(transitionActions: Tv2TransitionAction[], rundownId: string): StyledKeyBinding[] {
     const keys: [string, ...string[]][] = [['KeyZ'], ['KeyX'], ['KeyC'], ['KeyV'], ['KeyB']]
     return transitionActions.slice(0, 5).map((action, actionIndex) => this.createTransitionKeyBinding(action, rundownId, keys[actionIndex]))
   }
 
-  private createTransitionKeyBinding(action: Tv2TransitionAction, rundownId: string, keys: [string, ...string[]]): KeyBinding {
+  private createTransitionKeyBinding(action: Tv2TransitionAction, rundownId: string, keys: [string, ...string[]]): StyledKeyBinding {
     return {
       keys,
       label: action.name,

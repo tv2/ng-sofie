@@ -1,7 +1,8 @@
 import { ExponentiallyDelayedReconnectStrategy } from './exponentially-delayed-reconnect-strategy.service'
 import { ReconnectStrategy } from '../abstractions/reconnect-strategy.service'
-import { anyString, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
+import { instance, mock, verify, when } from '@typestrong/ts-mockito'
 import { Logger } from '../../core/abstractions/logger.service'
+import { TestLoggerFactory } from '../../test/factories/test-logger.factory'
 
 describe(ExponentiallyDelayedReconnectStrategy.name, () => {
   beforeEach(() => jasmine.clock().install())
@@ -157,8 +158,7 @@ describe(ExponentiallyDelayedReconnectStrategy.name, () => {
 })
 
 function createTestee(): ExponentiallyDelayedReconnectStrategy {
-  const mockedLogger: Logger = createMockOfLogger()
-  return new ExponentiallyDelayedReconnectStrategy(instance(mockedLogger))
+  return new ExponentiallyDelayedReconnectStrategy(createLogger())
 }
 
 function createObservableConnectObject(): { connect: () => void } {
@@ -167,11 +167,7 @@ function createObservableConnectObject(): { connect: () => void } {
   return observableFunctionObject
 }
 
-// TODO: Extract to one place
-function createMockOfLogger(): Logger {
-  const mockedLogger: Logger = mock<Logger>()
-  when(mockedLogger.tag(anyString())).thenCall(() => instance(createMockOfLogger()))
-  when(mockedLogger.data(anything())).thenCall(() => instance(createMockOfLogger()))
-  when(mockedLogger.metadata(anything())).thenCall(() => instance(createMockOfLogger()))
-  return mockedLogger
+function createLogger(): Logger {
+  const testLoggerFactory: TestLoggerFactory = new TestLoggerFactory()
+  return testLoggerFactory.createLogger()
 }

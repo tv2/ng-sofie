@@ -1,8 +1,8 @@
-import { Part } from '../../models/part'
-import { Segment } from '../../models/segment'
-import { Rundown } from '../../models/rundown'
-import { Piece } from '../../models/piece'
-import { PieceType } from '../../enums/piece-type'
+import { Part } from '../../core/models/part'
+import { Segment } from '../../core/models/segment'
+import { Rundown } from '../../core/models/rundown'
+import { Piece } from '../../core/models/piece'
+import { PieceType } from '../../core/enums/piece-type'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {

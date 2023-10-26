@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { Rundown } from '../../../core/models/rundown'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 
 describe('RundownHeaderComponent', () => {
   it('should create', async () => {
@@ -23,7 +24,7 @@ async function configureTestBed(params: { mockedShowStyleVariantStateService?: S
     imports: [RouterModule.forRoot([])],
     providers: [
       { provide: ShowStyleVariantStateService, useValue: instance(mockedShowStyleVariantStateService) },
-      { provide: Logger, useValue: instance(mock<Logger>()) },
+      { provide: Logger, useValue: createLogger() },
     ],
     declarations: [RundownHeaderComponent],
   }).compileComponents()
@@ -43,4 +44,9 @@ function getMockedRundown(): Rundown {
   when(mockedRundown.id).thenReturn('some-part-id')
   when(mockedRundown.name).thenReturn('my.rundown.name')
   return mockedRundown
+}
+
+function createLogger(): Logger {
+  const testLoggerFactory: TestLoggerFactory = new TestLoggerFactory()
+  return testLoggerFactory.createLogger()
 }

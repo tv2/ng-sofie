@@ -1,7 +1,7 @@
 import { BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { Injectable } from '@angular/core'
 import { KeyBindingEventService } from '../../keyboard/abstractions/key-binding-event.service'
-import { KeyBinding } from '../../keyboard/models/key-binding'
+import { KeyBinding } from '../../keyboard/value-objects/key-binding'
 import { KeyBindingService } from '../abstractions/key-binding.service'
 import { KeyboardConfigurationService } from '../abstractions/keyboard-configuration.service'
 

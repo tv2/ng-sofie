@@ -6,6 +6,7 @@ import { RundownService } from '../../../core/abstractions/rundown.service'
 import { DialogService } from '../../../shared/services/dialog.service'
 import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 
 describe('RundownOverviewComponent', () => {
   it('should create', async () => {
@@ -25,11 +26,16 @@ async function configureTestBed(
       { provide: BasicRundownStateService, useValue: instance(mockedBasicRundownStateService) },
       { provide: RundownService, useValue: instance(mockedRundownService) },
       { provide: DialogService, useValue: instance(mockedDialogService) },
-      { provide: Logger, useValue: instance(mock<Logger>()) },
+      { provide: Logger, useValue: createLogger() },
     ],
     declarations: [RundownOverviewComponent],
   }).compileComponents()
 
   const fixture: ComponentFixture<RundownOverviewComponent> = TestBed.createComponent(RundownOverviewComponent)
   return fixture.componentInstance
+}
+
+function createLogger(): Logger {
+  const testLoggerFactory: TestLoggerFactory = new TestLoggerFactory()
+  return testLoggerFactory.createLogger()
 }

@@ -1,25 +1,32 @@
 import { KeyAliasService } from '../abstractions/key-alias-service'
+import { KeyAlias } from '../value-objects/key-alias'
 
 export class Tv2KeyAliasService implements KeyAliasService {
-  public getAliasesForKey(key: string): string[] {
-    switch (key) {
-      case 'AnyEnter':
+  private readonly modifierKeys: string[] = ['ShiftLeft', 'ShiftRight', 'ControlLeft', 'ControlRight', 'AltLeft', 'AltRight', 'MetaLeft', 'MetaRight', 'OSLeft', 'OSRight']
+
+  public getKeysFromKeyAlias(keyAlias: string): string[] {
+    switch (keyAlias) {
+      case KeyAlias.ANY_ENTER:
         return ['Enter', 'NumpadEnter']
-      case 'Shift':
+      case KeyAlias.SHIFT:
         return ['ShiftLeft', 'ShiftRight']
-      case 'Control':
+      case KeyAlias.CONTROL:
         return ['ControlLeft', 'ControlRight']
-      case 'Alt':
-      case 'Option':
+      case KeyAlias.ALT:
+      case KeyAlias.OPTION:
         return ['AltLeft', 'AltRight']
-      case 'Meta':
+      case KeyAlias.META:
         return ['MetaLeft', 'MetaRight']
-      case 'OS':
-      case 'Command':
-      case 'Windows':
-        return ['OSLeft', 'OSRight']
       default:
-        return [key]
+        return [keyAlias]
     }
+  }
+
+  public isModifierKeyOrAliasedModifierKey(keyAlias: string): boolean {
+    return this.getKeysFromKeyAlias(keyAlias).some(key => this.modifierKeys.includes(key))
+  }
+
+  public isKeyPartOfAlias(key: string, keyAlias: string): boolean {
+    return this.getKeysFromKeyAlias(keyAlias).includes(key)
   }
 }

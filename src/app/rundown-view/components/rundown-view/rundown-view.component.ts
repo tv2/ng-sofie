@@ -5,7 +5,7 @@ import { RundownStateService } from '../../../core/services/rundown-state.servic
 import { ActivatedRoute } from '@angular/router'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { KeyboardConfigurationService } from '../../abstractions/keyboard-configuration.service'
-import { KeyBinding } from '../../../keyboard/models/key-binding'
+import { KeyBinding } from '../../../keyboard/value-objects/key-binding'
 
 @Component({
   selector: 'sofie-rundown-view',

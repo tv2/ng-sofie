@@ -1,5 +1,5 @@
 import { RundownNavigationService } from './rundown-navigation-service'
-import { TestEntityFactory } from '../../core/services/models/test-entity.factory'
+import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 import { Segment } from '../../core/models/segment'
 import { Rundown } from '../../core/models/rundown'
 import { RundownCursor } from '../../core/models/rundown-cursor'

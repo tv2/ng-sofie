@@ -5,7 +5,8 @@ import { ActionStateService } from '../../../shared/services/action-state.servic
 import { Tv2ActionParser } from '../../../shared/abstractions/tv2-action-parser.service'
 import { ActionService } from '../../../shared/abstractions/action.service'
 import { Logger } from '../../../core/abstractions/logger.service'
-import { TestEntityFactory } from '../../../core/services/models/test-entity.factory'
+import { TestEntityFactory } from '../../../test/factories/test-entity.factory'
+import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 
 describe(ProducerShelfComponent.name, () => {
   let component: ProducerShelfComponent
@@ -25,7 +26,7 @@ describe(ProducerShelfComponent.name, () => {
         { provide: ActionStateService, useValue: instance(mockedActionStateService) },
         { provide: Tv2ActionParser, useValue: instance(mock<Tv2ActionParser>()) },
         { provide: ActionService, useValue: instance(mock<ActionService>()) },
-        { provide: Logger, useValue: instance(mock<Logger>()) },
+        { provide: Logger, useValue: createLogger() },
       ],
     }).compileComponents()
 
@@ -42,3 +43,8 @@ describe(ProducerShelfComponent.name, () => {
     expect(component).toBeTruthy()
   })
 })
+
+function createLogger(): Logger {
+  const testLoggerFactory: TestLoggerFactory = new TestLoggerFactory()
+  return testLoggerFactory.createLogger()
+}

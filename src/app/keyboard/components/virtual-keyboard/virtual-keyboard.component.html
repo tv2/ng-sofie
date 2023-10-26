@@ -1,13 +1,39 @@
-<div
-    *ngFor="let keyBinding of keyBindings" (click)="keyBinding.onMatched()"
-    class="key"
-    [class.key--matched]="isKeyBindingMatched(keyBinding)"
->
-    <span class="key-label">{{ keyBinding.label }}</span>
-    <span class="key-keys">{{ displayKeyBinding(keyBinding) }}</span>
+<div class="key-row-column">
+    <div class="function-key-row key-row">
+        <sofie-virtual-keyboard-key
+                *ngFor="let keyboardLayoutKey of physicalKeyboardLayout.functionKeyRow"
+                [keyLabel]="getKeyboardLayoutMappedKey(keyboardLayoutKey.key)"
+                [label]="getLabelOfKey(keyboardLayoutKey.key)"
+                [weight]="keyboardLayoutKey.widthScale"
+                [isMatched]="isKeystrokeMatched(keyboardLayoutKey.key)"
+                [background]="getBackgroundForKey(keyboardLayoutKey.key)"
+                (click)="onExecuteActionsForKeystroke(keyboardLayoutKey.key)"
+        ></sofie-virtual-keyboard-key>
+    </div>
+
+    <div *ngFor="let keyboardLayoutKeys of physicalKeyboardLayout.mainKeyRows" class="key-row">
+        <sofie-virtual-keyboard-key
+                *ngFor="let keyboardLayoutKey of keyboardLayoutKeys; trackBy: trackKeyboardLayoutKey"
+                [keyLabel]="getKeyboardLayoutMappedKey(keyboardLayoutKey.key)"
+                [label]="getLabelOfKey(keyboardLayoutKey.key)"
+                [weight]="keyboardLayoutKey.widthScale"
+                [isMatched]="isKeystrokeMatched(keyboardLayoutKey.key)"
+                [background]="getBackgroundForKey(keyboardLayoutKey.key)"
+                (click)="onExecuteActionsForKeystroke(keyboardLayoutKey.key)"
+        ></sofie-virtual-keyboard-key>
+    </div>
 </div>
 
-<pre class="keystrokes">
-Pressed:keys
-{{ keystrokes }}
-</pre>
+<div class="key-row-column control">
+    <div *ngFor="let keyboardLayoutKeys of physicalKeyboardLayout.controlKeyRows" class="key-row control-key-row">
+        <sofie-virtual-keyboard-key
+                *ngFor="let keyboardLayoutKey of keyboardLayoutKeys; trackBy: trackKeyboardLayoutKey"
+                [keyLabel]="getKeyboardLayoutMappedKey(keyboardLayoutKey.key)"
+                [label]="getLabelOfKey(keyboardLayoutKey.key)"
+                [weight]="keyboardLayoutKey.widthScale"
+                [isMatched]="isKeystrokeMatched(keyboardLayoutKey.key)"
+                [background]="getBackgroundForKey(keyboardLayoutKey.key)"
+                (click)="onExecuteActionsForKeystroke(keyboardLayoutKey.key)"
+        ></sofie-virtual-keyboard-key>
+    </div>
+</div>
