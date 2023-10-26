@@ -5,7 +5,7 @@ import { Tv2OutputLayer } from '../../core/models/tv2-output-layer'
 export class OutputLayerService {
   public getOutputLayersForParts(parts: Part[]): Set<Tv2OutputLayer> {
     const pieces: Piece[] = parts.flatMap(part => part.pieces)
-    const outputLayersWithDuplicates: Tv2OutputLayer[] = pieces.map(piece => piece.outputLayer)
+    const outputLayersWithDuplicates: Tv2OutputLayer[] = pieces.map(piece => (piece.metadata as any)?.outputLayer).filter(outputLayer => outputLayer !== undefined)
     return new Set(outputLayersWithDuplicates)
   }
 

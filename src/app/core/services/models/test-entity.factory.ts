@@ -2,7 +2,6 @@ import { Part } from '../../models/part'
 import { Segment } from '../../models/segment'
 import { Rundown } from '../../models/rundown'
 import { Piece } from '../../models/piece'
-import { Tv2PieceType } from '../../enums/tv2-piece-type'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -43,16 +42,15 @@ export class TestEntityFactory {
     }
   }
 
-  public createPiece(piece: Partial<Piece> = {}): Piece {
+  public createPiece<PieceType extends Piece = Piece>(piece: Partial<PieceType> = {}): PieceType {
     return {
       id: 'piece-id',
       partId: 'partId',
       name: 'Piece',
-      type: Tv2PieceType.UNKNOWN,
       layer: 'layer-id',
       start: 0,
       isPlanned: true,
       ...piece,
-    }
+    } as PieceType
   }
 }

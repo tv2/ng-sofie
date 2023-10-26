@@ -13,7 +13,6 @@ import {
   RundownPieceInsertedEvent,
   RundownResetEvent,
 } from '../models/rundown-event'
-import { Tv2PieceType } from '../enums/tv2-piece-type'
 import { EntityParser } from '../abstractions/entity-parser.service'
 import { TestEntityFactory } from '../services/models/test-entity.factory'
 import { Piece } from '../models/piece'
@@ -202,7 +201,6 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
         infinitePiece: {
           id: 'some-piece-id',
-          type: Tv2PieceType.UNKNOWN,
           name: 'some-piece',
           partId: 'some-part-id',
           layer: 'some-layer',

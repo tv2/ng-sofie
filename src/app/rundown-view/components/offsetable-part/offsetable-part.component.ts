@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core'
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Part } from '../../../core/models/part'
-import { PieceGroupService } from '../../services/piece-group.service'
+import { Tv2PieceGroupService } from '../../services/tv2-piece-group.service'
 import { Piece } from '../../../core/models/piece'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
+import { Tv2Piece } from '../../../core/models/tv2-piece'
 
 const KEEP_VISIBLE_DURATION_IN_MS: number = 20_000
 
@@ -42,7 +43,7 @@ export class OffsetablePartComponent implements OnChanges {
 
   constructor(
     private readonly partEntityService: PartEntityService,
-    private readonly pieceGroupService: PieceGroupService
+    private readonly pieceGroupService: Tv2PieceGroupService
   ) {}
 
   @HostBinding('style.width.px')
@@ -69,9 +70,10 @@ export class OffsetablePartComponent implements OnChanges {
     return this.partEntityService.getDuration(this.part)
   }
 
-  public ngOnChanges(changes:SimpleChanges): void {
+  public ngOnChanges(): void {
     const visiblePieces: Piece[] = this.getVisiblePieces()
-    this.piecesGroupedByOutputLayer = this.pieceGroupService.groupByOutputLayer(visiblePieces)
+    // TODO: How do we convert this correctly from Piece to Tv2Piece?
+    this.piecesGroupedByOutputLayer = this.pieceGroupService.groupByOutputLayer(visiblePieces as Tv2Piece[])
   }
 
   private getVisiblePieces(): Piece[] {
@@ -80,9 +82,6 @@ export class OffsetablePartComponent implements OnChanges {
   }
 
   private isPieceVisible(piece: Piece, displayDurationInMs: number): boolean {
-    if (!piece.hasContent) {
-      return false
-    }
     const partDurationInMsAtEndOfPartViewport: number = this.offsetDurationInMs + displayDurationInMs
     if (!piece.duration) {
       return piece.start <= partDurationInMsAtEndOfPartViewport

@@ -4,10 +4,9 @@ import { OffsetablePartComponent } from './offsetable-part.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { instance, mock, when } from '@typestrong/ts-mockito'
 import { Part } from '../../../core/models/part'
-import { OutputLayerService } from '../../../shared/services/output-layer.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
-import { PieceGroupService } from '../../services/piece-group.service'
+import { Tv2PieceGroupService } from '../../services/tv2-piece-group.service'
 
 describe(OffsetablePartComponent.name, () => {
   it('should create', async () => {
@@ -34,14 +33,14 @@ function getMockedPart(): Part {
 async function configureTestBed(): Promise<void> {
   const mockedRundownService: RundownService = mock<RundownService>()
   const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
-  const mockedPieceGroupService: PieceGroupService = mock<PieceGroupService>()
+  const mockedPieceGroupService: Tv2PieceGroupService = mock<Tv2PieceGroupService>()
   await TestBed.configureTestingModule({
     declarations: [OffsetablePartComponent],
     imports: [BrowserAnimationsModule],
     providers: [
       { provide: RundownService, useValue: instance(mockedRundownService) },
       { provide: PartEntityService, useValue: instance(mockedPartEntityService) },
-      { provide: PieceGroupService, useValue: instance(mockedPieceGroupService) },
+      { provide: Tv2PieceGroupService, useValue: instance(mockedPieceGroupService) },
     ],
   }).compileComponents()
 }
