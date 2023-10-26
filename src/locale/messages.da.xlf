@@ -52,7 +52,7 @@
       </trans-unit>
       <trans-unit id="690878947555894079" datatype="html">
         <source>rundown-header-context-menu-component.reset-rundown.button</source>
-        <target>Nulstille</target>
+        <target>Nulstil</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
           <context context-type="linenumber">4</context>
@@ -60,7 +60,7 @@
       </trans-unit>
       <trans-unit id="221016838323992979" datatype="html">
         <source>rundown-header-context-menu-component.activate.button</source>
-        <target>Aktivere</target>
+        <target>Aktiver</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
           <context context-type="linenumber">8</context>
@@ -68,7 +68,7 @@
       </trans-unit>
       <trans-unit id="2175030815390487298" datatype="html">
         <source>rundown-header-context-menu-component.deactivate.button</source>
-        <target>Deaktivere</target>
+        <target>Deaktiver</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
           <context context-type="linenumber">12</context>
@@ -126,7 +126,7 @@
       </trans-unit>
       <trans-unit id="2159130950882492111" datatype="html">
         <source>Cancel</source>
-        <target>Annullere</target>
+        <target>Annuller</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
           <context context-type="linenumber">23</context>
@@ -143,35 +143,35 @@
       </trans-unit>
       <trans-unit id="1079134994533846284" datatype="html">
         <source>Lost connection to backend. Attempting to reconnect...</source>
-        <target>Mistet forbindelse til backend. Forsøger at genoprette forbindelse...</target>
+        <target>Mistet forbindelse til server. Forsøger at genoprette forbindelse...</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/services/connection-error.service.ts</context>
           <context context-type="linenumber">15</context>
         </context-group>
         <note priority="1" from="description">connection-error</note>
       </trans-unit>
-      <trans-unit id="8437407560350077331" datatype="html">
-        <source>rundown-overview-component.deletion-dialog-tittle:Delete Rundown?</source>
+      <trans-unit id="4435140212952096113" datatype="html">
+        <source>rundown-overview-component.deletion-dialog-tittle</source>
         <target>Slet Rundown?</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
-          <context context-type="linenumber">49</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="660627860253572462" datatype="html">
-        <source>rundown-overview-component.deletion-dialog-question:Are you sure you want to delete the Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;? Please note: This action is irreversible!</source>
-        <target>Er du sikker at du vil slette Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Vær opmærksom på: Denne handling er uigenkaldelig!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
           <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="864257219992232713" datatype="html">
-        <source>rundown-overview-component.deletion-dialog.delete-button:Delete</source>
-        <target>Slet</target>
+      <trans-unit id="3796920100771349539" datatype="html">
+        <source>rundown-overview-component.deletion-dialog-question &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;? Please note: This action is irreversible!</source>
+        <target>Er du sikker at du vil slette Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Vær opmærksom på: Denne handling er uigenkaldelig!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
           <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5314808199366684814" datatype="html">
+        <source>rundown-overview-component.deletion-dialog.delete-button</source>
+        <target>Slet</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
+          <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="672684067026346719" datatype="html">
