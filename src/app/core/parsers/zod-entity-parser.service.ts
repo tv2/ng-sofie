@@ -61,10 +61,9 @@ export class ZodEntityParser implements EntityParser {
       })
       // TODO: Remove after testing
       .nullish()
-      .transform(metadata => metadata ?? undefined)
-      .default({
+      .transform(metadata => metadata ?? {
         type: Tv2PieceType.UNKNOWN,
-      }),
+      })
   })
 
   private readonly partParser = zod.object({
