@@ -1,4 +1,4 @@
-import { KeyboardLayoutKey, KeyboardLayout } from '../value-objects/keyboard-layout'
+import { KeyboardLayoutKey, KeyboardLayout, EMPTY_KEY } from '../value-objects/keyboard-layout'
 import { PhysicalKeyboardLayoutService } from '../abstractions/physical-keyboard-layout.service'
 
 export class Iso102PhysicalKeyboardLayoutService implements PhysicalKeyboardLayoutService {

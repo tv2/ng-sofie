@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core'
+import { EMPTY_KEY } from '../../value-objects/keyboard-layout'
 
 @Component({
   selector: 'sofie-virtual-keyboard-key',
