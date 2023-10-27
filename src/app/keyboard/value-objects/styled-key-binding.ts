@@ -1,5 +1,6 @@
-import { KeyBinding } from './key-binding'
+import { KeyBinding, Keys } from './key-binding'
 
 export interface StyledKeyBinding extends KeyBinding {
-  background?: string
+  readonly background?: string
+  readonly mappedKeys?: Keys
 }

@@ -1,8 +1,25 @@
 import { KeyboardKeyLabelService } from '../abstractions/keyboard-key-label.service'
 
 export class Tv2KeyboardKeyLabelService implements KeyboardKeyLabelService {
-  public getDefaultKeyLabels(): KeyboardLayoutMap {
-    return this.getKeyLabelsForSpecialKeys()
+  private readonly defaultKeyLabels: KeyboardLayoutMap
+
+  constructor() {
+    this.defaultKeyLabels = new Map([...this.getDigitKeyLabels(), ...this.getLetterKeyLabels(), ...this.getKeyLabelsForSpecialKeys()])
+  }
+
+  private getDigitKeyLabels(): KeyboardLayoutMap {
+    return new Map(
+      [...Array(10)]
+        .map((_, index: number) => index.toString())
+        .flatMap(digit => [
+          [`Digit${digit}`, digit],
+          [`NumpadDigit${digit}`, digit],
+        ])
+    )
+  }
+
+  private getLetterKeyLabels(): KeyboardLayoutMap {
+    return new Map([...Array(26)].map((_, index: number) => String.fromCharCode(index + 65)).map(character => [`Key${character}`, character]))
   }
 
   private getKeyLabelsForSpecialKeys(): KeyboardLayoutMap {
@@ -29,7 +46,28 @@ export class Tv2KeyboardKeyLabelService implements KeyboardKeyLabelService {
     specialKeyLabels.set('PageUp', 'PgUp')
     specialKeyLabels.set('PageDown', 'PgDn')
     specialKeyLabels.set('ContextMenu', '\u{2630}')
+    specialKeyLabels.set('BracketLeft', '[')
+    specialKeyLabels.set('BracketRight', ']')
+    specialKeyLabels.set('Comma', ',')
+    specialKeyLabels.set('Period', '.')
+    specialKeyLabels.set('Semicolon', ';')
+    specialKeyLabels.set('Backslash', '\\')
+    specialKeyLabels.set('IntlBackslash', '<')
+    specialKeyLabels.set('Slash', '/')
+    specialKeyLabels.set('Minus', '-')
+    specialKeyLabels.set('NumpadMinus', '-')
+    specialKeyLabels.set('Plus', '+')
+    specialKeyLabels.set('NumpadPlus', '+')
+    specialKeyLabels.set('NumpadMultiply', '*')
+    specialKeyLabels.set('Equal', '=')
+    specialKeyLabels.set('NumpadEqual', '=')
+    specialKeyLabels.set('Quote', '"')
+    specialKeyLabels.set('Backquote', '`')
     return specialKeyLabels
+  }
+
+  public getDefaultKeyLabels(): KeyboardLayoutMap {
+    return this.defaultKeyLabels
   }
 
   public async getLocalKeyboardKeyLabels(): Promise<KeyboardLayoutMap> {

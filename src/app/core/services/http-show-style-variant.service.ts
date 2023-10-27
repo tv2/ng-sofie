@@ -5,8 +5,9 @@ import { HttpErrorService } from './http-error.service'
 import { EntityParser } from '../abstractions/entity-parser.service'
 import { ShowStyleVariantService } from '../abstractions/show-style-variant.service'
 import { ShowStyleVariant } from '../models/show-style-variant'
+import { environment } from '../../../environments/environment'
 
-const CONFIGURATION_URL: string = 'http://localhost:3005/api/configurations'
+const CONFIGURATION_URL: string = `${environment.apiBaseUrl}/configurations`
 
 @Injectable()
 export class HttpShowStyleVariantService implements ShowStyleVariantService {

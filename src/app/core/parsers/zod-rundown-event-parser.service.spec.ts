@@ -80,7 +80,7 @@ describe(ZodRundownEventParser.name, () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
       const event: RundownDeletedEvent = {
-        type: RundownEventType.DELETED,
+        type: RundownEventType.RUNDOWN_DELETED,
         timestamp: Date.now(),
         rundownId: 'some-rundown-id',
       }
@@ -94,7 +94,7 @@ describe(ZodRundownEventParser.name, () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
       const event: Partial<RundownDeletedEvent> = {
-        type: RundownEventType.DELETED,
+        type: RundownEventType.RUNDOWN_DELETED,
       }
 
       const result = (): RundownDeletedEvent => testee.parseDeletedEvent(event)
