@@ -6,6 +6,7 @@ import { KeyAliasService } from '../../abstractions/key-alias-service'
 import { KeyboardLayout, KeyboardLayoutKey } from '../../value-objects/keyboard-layout'
 import { PhysicalKeyboardLayoutService } from '../../abstractions/physical-keyboard-layout.service'
 import { KeyboardKeyLabelService } from '../../abstractions/keyboard-key-label.service'
+import { KeyBinding } from '../../value-objects/key-binding'
 
 @Component({
   selector: 'sofie-virtual-keyboard',
@@ -57,15 +58,22 @@ export class VirtualKeyboardComponent implements OnChanges {
   private updateAvailableKeyBindings(): void {
     this.currentModifierKeystrokes = this.keystrokes.filter(keystroke => this.keyAliasService.isModifierKeyOrAliasedModifierKey(keystroke))
     this.keyBindingsFilteredByModifiers = this.keyBindings.filter(keyBinding => {
-      const modifierKeys: string[] = keyBinding.keys.filter(key => this.keyAliasService.isModifierKeyOrAliasedModifierKey(key))
-      if (modifierKeys.length !== this.currentModifierKeystrokes.length) {
-        return false
+      if (keyBinding.mappedKeys && this.doesModifiersMatchExclusively(this.getKeyBindingToDisplay(keyBinding))) {
+        return true
       }
-      const isModifiersPartialOfKeyBindingModifiers: boolean = this.currentModifierKeystrokes.every(keystroke =>
-        modifierKeys.some(modifierKey => this.keyAliasService.isKeyPartOfAlias(keystroke, modifierKey))
-      )
-      return isModifiersPartialOfKeyBindingModifiers
+      return this.doesModifiersMatchExclusively(keyBinding)
     })
+  }
+
+  private doesModifiersMatchExclusively(keyBinding: StyledKeyBinding): boolean {
+    const modifierKeysForKeyBinding: string[] = keyBinding.keys.filter(key => this.keyAliasService.isModifierKeyOrAliasedModifierKey(key))
+
+    if (modifierKeysForKeyBinding.length !== this.currentModifierKeystrokes.length) {
+      return false
+    }
+
+    // TODO: Respect key order and exclusivity
+    return this.currentModifierKeystrokes.every(keystroke => modifierKeysForKeyBinding.some(modifierKey => this.keyAliasService.isKeyPartOfAlias(keystroke, modifierKey)))
   }
 
   public getKeyboardLayoutMappedKey(key: string): string {
@@ -78,17 +86,31 @@ export class VirtualKeyboardComponent implements OnChanges {
 
   public getLabelOfKey(keystroke: string): string | undefined {
     const emulatedKeystrokes: string[] = [...this.currentModifierKeystrokes, keystroke]
-    return this.keyBindingsFilteredByModifiers.find(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))?.label
+    return this.keyBindingsFilteredByModifiers.find(keyBinding => this.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))?.label
+  }
+
+  private isMatchingKeystrokes(keyBinding: StyledKeyBinding, keystrokes: string[]): boolean {
+    if (keyBinding.mappedKeys && this.keyBindingMatcher.isMatchingKeystrokes(this.getKeyBindingToDisplay(keyBinding), keystrokes)) {
+      return true
+    }
+    return this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, keystrokes)
+  }
+
+  private getKeyBindingToDisplay(keyBinding: StyledKeyBinding): KeyBinding {
+    return {
+      ...keyBinding,
+      keys: keyBinding.mappedKeys ?? keyBinding.keys,
+    }
   }
 
   public getBackgroundForKey(key: string): string | undefined {
     const emulatedKeystrokes: string[] = [...this.currentModifierKeystrokes, key]
-    return this.keyBindingsFilteredByModifiers.find(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))?.background
+    return this.keyBindingsFilteredByModifiers.find(keyBinding => this.isMatchingKeystrokes(keyBinding, emulatedKeystrokes))?.background
   }
 
   public onExecuteActionsForKeystroke(keystroke: string): void {
     const emulatedKeystrokes: string[] = [...this.currentModifierKeystrokes, keystroke]
-    this.keyBindingsFilteredByModifiers.filter(keyBinding => this.keyBindingMatcher.isMatchingKeystrokes(keyBinding, emulatedKeystrokes)).forEach(keyBinding => keyBinding.onMatched())
+    this.keyBindingsFilteredByModifiers.filter(keyBinding => this.isMatchingKeystrokes(keyBinding, emulatedKeystrokes)).forEach(keyBinding => keyBinding.onMatched())
   }
 
   public trackKeyboardLayoutKey(_index: number, keyboardLayoutKey: KeyboardLayoutKey): string {
