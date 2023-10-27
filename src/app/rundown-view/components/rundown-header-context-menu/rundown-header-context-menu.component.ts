@@ -79,7 +79,7 @@ export class RundownHeaderContextMenuComponent {
   }
 
   public openResetRundownDialog(): void {
-    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to reset the Rundown?', 'Deactivate', () => this.resetRundown())
+    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to reset the Rundown?', 'Reset', () => this.resetRundown())
   }
 
   private resetRundown(): void {
