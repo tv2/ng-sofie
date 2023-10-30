@@ -124,20 +124,23 @@ describe(PartEntityService.name, () => {
     describe('part is on-air', () => {
       describe('part has auto-next', () => {
         describe('auto-next overlap duration is longer than the time since part was taken', () => {
-          it('returns the auto-next overlap duration', () => {
-            const autoNextOverlapDuration: number = 3456
+          it('returns the auto-next overlap duration subtracted from the expected duration', () => {
+            const autoNextOverlapDuration: number = 1234
+            const expectedPartDuration: number = 3456
             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
             const part: Part = testEntityFactory.createPart({
               isOnAir: true,
               autoNext: { overlap: autoNextOverlapDuration },
               executedAt: Date.now(),
+              expectedDuration: expectedPartDuration,
             })
             jasmine.clock().tick(100)
             const testee: PartEntityService = new PartEntityService()
+            const expectedResult: number = expectedPartDuration - autoNextOverlapDuration
 
             const result: number = testee.getDuration(part)
 
-            expect(result).toBe(autoNextOverlapDuration)
+            expect(result).toBe(expectedResult)
           })
         })
 
@@ -263,18 +266,21 @@ describe(PartEntityService.name, () => {
         })
 
         describe('part has no played duration', () => {
-          it('returns the auto-next overlap duration', () => {
-            const autoNextOverlapDuration: number = 3456
+          it('returns the auto-next overlap duration subtracted from the expected duration', () => {
+            const autoNextOverlapDuration: number = 1234
             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+            const expectedPartDuration: number = 4321
             const part: Part = testEntityFactory.createPart({
               isOnAir: false,
               autoNext: { overlap: autoNextOverlapDuration },
+              expectedDuration: expectedPartDuration,
             })
             const testee: PartEntityService = new PartEntityService()
+            const expectedResult: number = expectedPartDuration - autoNextOverlapDuration
 
             const result: number = testee.getDuration(part)
 
-            expect(result).toBe(autoNextOverlapDuration)
+            expect(result).toBe(expectedResult)
           })
         })
       })
