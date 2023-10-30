@@ -1,7 +1,10 @@
 export enum IconButton {
-  XMARK = 'xmark',
-  DELETE = 'delete',
-  BARS = 'bars',
+  XMARK = 'XMARK',
+  TRASH_CAN = 'TRASH_CAN',
+  BARS = 'BARS',
+  PLUS = 'PLUS',
+  MINUS = 'MINUS',
+  HORIZONTAL_ARROWS = 'HORIZONTAL_ARROWS',
 }
 
 export enum IconButtonSize {

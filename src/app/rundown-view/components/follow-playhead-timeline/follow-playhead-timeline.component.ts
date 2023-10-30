@@ -27,14 +27,20 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   @Input()
   public isRundownActive: boolean
 
-  public pixelsPerSecond: number = 50
+  @Input()
+  public pixelsPerSecond: number
 
   public onAirPart?: Part
   public previousParts: Part[] = []
   public futureParts: Part[] = []
 
-  public prePlayheadDurationInMs: number = (PRE_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
-  public postPlayheadDurationInMs: number = (POST_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
+  public get prePlayheadDurationInMs(): number {
+    return (PRE_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
+  }
+
+  public get postPlayheadDurationInMs(): number {
+    return (POST_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
+  }
 
   constructor(
     private readonly partEntityService: PartEntityService,

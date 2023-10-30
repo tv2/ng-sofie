@@ -21,7 +21,9 @@ export class ScrollableTimelineComponent {
   @Input()
   public isRundownActive: boolean
 
-  public pixelsPerSecond: number = 50
+  @Input()
+  public pixelsPerSecond: number
+
   public scrollOffsetInMs: number = 0
 
   private horizontalDragStartPoint?: number
