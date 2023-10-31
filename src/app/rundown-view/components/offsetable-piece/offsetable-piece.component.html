@@ -1,6 +1,15 @@
 <div
-  class="label"
-  [style.margin-left.px]="labelOffsetInPixels"
+  class="piece"
+  [style.width.px]="getPieceDisplayWidthInPixels()"
 >
-  <span #labelTextElement>{{piece.name}}</span>
+  <div
+    class="label"
+    [style.margin-left.px]="getLabelOffsetInPixels()"
+    [style.width.px]="availableWidthInPixels - getLabelOffsetInPixels()"
+  >
+    <span #labelTextElement>
+      {{ availableWidthInPixels}}
+      {{piece.name}}
+    </span>
+  </div>
 </div>

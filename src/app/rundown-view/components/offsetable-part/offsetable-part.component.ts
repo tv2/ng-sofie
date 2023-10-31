@@ -40,6 +40,7 @@ export class OffsetablePartComponent implements OnChanges {
   public isRundownActive: boolean
 
   public piecesGroupedByOutputLayer: Record<Tv2OutputLayer, Piece[]> = {} as Record<Tv2OutputLayer, Piece[]>
+  public pieceAvailableDurationsInMs: Record<string, number> = {}
 
   constructor(
     private readonly partEntityService: PartEntityService,
@@ -73,8 +74,27 @@ export class OffsetablePartComponent implements OnChanges {
   public ngOnChanges(): void {
     const visiblePieces: Piece[] = this.getVisiblePieces()
     // TODO: How do we convert this correctly from Piece to Tv2Piece?
-    this.piecesGroupedByOutputLayer = this.pieceGroupService.groupByOutputLayer(visiblePieces as Tv2Piece[])
+    const visibleTv2Pieces: Tv2Piece[] = visiblePieces as Tv2Piece[]
+    this.piecesGroupedByOutputLayer = this.pieceGroupService.groupByOutputLayer(visibleTv2Pieces)
+    this.pieceAvailableDurationsInMs = this.createPieceAvailableDurationsInMs()
   }
+
+  private createPieceAvailableDurationsInMs(): Record<string, number> {
+    const piecesOnLayer: Piece[][] = Object.values(this.piecesGroupedByOutputLayer)
+    const partDisplayDurationInMs: number = this.getDisplayDurationInMs()
+    const availableDurationsInMsEntries: [string, number][] = piecesOnLayer.map((pieces) =>
+      pieces.map((piece, pieceIndex): [string, number] => {
+        const nextPiece: Piece | undefined = pieces.slice(pieceIndex).find(maybeNextPiece => maybeNextPiece.start > piece.start)
+        if (!nextPiece) {
+          return [piece.id, partDisplayDurationInMs - piece.start]
+        }
+        const availableDurationInMs: number = nextPiece.start - piece.start
+        return [piece.id, availableDurationInMs]
+      })
+    ).flat()
+    return Object.fromEntries(availableDurationsInMsEntries)
+  }
+
 
   private getVisiblePieces(): Piece[] {
     const displayDurationInMs = this.getDisplayDurationInMs()

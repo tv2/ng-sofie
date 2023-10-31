@@ -18,10 +18,20 @@ export class OffsetablePieceComponent {
   public pixelsPerSecond: number
 
   @Input()
-  public partDuration: number
+  public playedDurationForPartInMs: number
 
   @Input()
-  public playedDurationForPartInMs: number
+  public availableDisplayDurationForPieceInMs: number
+
+  @HostBinding('style.width.px')
+  public get availableWidthInPixels(): number {
+    return Math.floor(this.availableDisplayDurationForPieceInMs * this.pixelsPerSecond / 1000)
+  }
+
+  @HostBinding('attr.title')
+  public get pieceName(): string {
+    return this.piece.name
+  }
 
   @Input()
   public prePlayheadDurationInMs: number
@@ -36,50 +46,49 @@ export class OffsetablePieceComponent {
   public get leftInPixels(): number {
     const offsetInMs: number = this.piece.start - Math.max(0, this.playedDurationForPartInMs - this.prePlayheadDurationInMs)
     const displayOffsetInMs: number = Math.max(0, offsetInMs)
-    return (displayOffsetInMs * this.pixelsPerSecond) / 1000
+    return this.convertDurationToPixels(displayOffsetInMs)
   }
 
-  @HostBinding('style.width.px')
-  public get widthInPixels(): number {
-    const displayDurationInMs: number = this.getDisplayDurationInMs()
-    return Math.floor((this.pixelsPerSecond * displayDurationInMs) / 1000)
+  public getPieceDisplayWidthInPixels(): number {
+    return this.convertDurationToPixels(this.getPieceDisplayDurationInMs())
   }
 
-  private getDisplayDurationInMs(): number {
-    const durationInMs: number = this.piece.duration || this.getDurationForPieceWithNoEnding()
-    const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start - this.prePlayheadDurationInMs)
-    return durationInMs - playedDurationForPieceInMs
+  private getPieceDisplayDurationInMs(): number {
+    const pieceDurationInMs: number | undefined = this.piece.duration
+    if (pieceDurationInMs === undefined) {
+      return this.availableDisplayDurationForPieceInMs
+    }
+    const playedPieceDisplayDurationInMs: number = Math.max(0, this.getPlayedPieceDuration() - this.prePlayheadDurationInMs)
+    return pieceDurationInMs - playedPieceDisplayDurationInMs
   }
 
-  private getDurationForPieceWithNoEnding(): number {
-    const availablePieceDurationInPartInMs: number = this.partDuration - this.piece.start
-    const minimumDisplayDurationInMs: number = this.prePlayheadDurationInMs + this.postPlayheadDurationInMs
-    return availablePieceDurationInPartInMs + minimumDisplayDurationInMs
+  private getPlayedPieceDuration(): number {
+    return Math.max(0, this.playedDurationForPartInMs - this.piece.start)
   }
 
-  public get labelOffsetInPixels(): number {
-    const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start)
-    const displayOffsetInMs: number = Math.min(playedDurationForPieceInMs, this.prePlayheadDurationInMs)
-    const displayOffsetWithLabelTextOffsetInMs: number = displayOffsetInMs - this.getDurationInMsSpendAfterLabelTextEnds()
-    return (displayOffsetWithLabelTextOffsetInMs * this.pixelsPerSecond) / 1000
+  public getLabelOffsetInPixels(): number {
+    const labelFadeInOffsetInMs: number = Math.min(this.getPlayedPieceDuration(), this.prePlayheadDurationInMs)
+    const labelDisplayOffsetInMs: number = labelFadeInOffsetInMs - this.getDurationLeftAfterLabelTextEndsInMs()
+    return this.convertDurationToPixels(labelDisplayOffsetInMs)
   }
 
-  public getDurationInMsSpendAfterLabelTextEnds(): number {
-    if (!this.piece.duration) {
+  private getDurationLeftAfterLabelTextEndsInMs(): number {
+    const pieceDuration: number | undefined = this.piece.duration
+    if (!pieceDuration) {
       return 0
     }
+    const labelTextWidthInPixels: number = this.labelTextElement?.nativeElement.offsetWidth ?? 0
+    const labelTextDurationInMs: number = this.convertPixelsToDuration(labelTextWidthInPixels + LABEL_TEXT_INSET_IN_PIXELS)
+    const clippedLabelTextDurationInMs: number = Math.min(labelTextDurationInMs, pieceDuration)
+    return Math.max(0, this.getPlayedPieceDuration() + clippedLabelTextDurationInMs - pieceDuration)
+  }
 
-    const labelTextWidthInPixels: number = this.labelTextElement?.nativeElement.offsetWidth
-    if (!labelTextWidthInPixels) {
-      return 0
-    }
+  private convertDurationToPixels(durationInMs: number): number {
+    return Math.round(durationInMs * this.pixelsPerSecond / 1000)
+  }
 
-    const labelTextDurationInMs: number = ((labelTextWidthInPixels + LABEL_TEXT_INSET_IN_PIXELS) * 1000) / this.pixelsPerSecond
-    const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start)
-    if (labelTextDurationInMs > this.piece.duration) {
-      return -Math.min(0, this.piece.duration - playedDurationForPieceInMs)
-    }
-    return Math.max(0, playedDurationForPieceInMs + labelTextDurationInMs - this.piece.duration)
+  private convertPixelsToDuration(pixels: number): number {
+    return pixels * 1000 / this.pixelsPerSecond
   }
 
   @HostBinding('class')
@@ -87,3 +96,4 @@ export class OffsetablePieceComponent {
     return (this.piece as Tv2Piece).metadata.type.toLowerCase().replace(/_/g, '-')
   }
 }
+

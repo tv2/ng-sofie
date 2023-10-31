@@ -7,8 +7,8 @@
                 *ngFor="let piece of piecesGroupedByOutputLayer[outputLayer]; trackBy: trackPiece"
                 [piece]="piece"
                 [pixelsPerSecond]="pixelsPerSecond"
-                [partDuration]="partDurationInMs()"
                 [playedDurationForPartInMs]="playedDurationInMs"
+                [availableDisplayDurationForPieceInMs]="pieceAvailableDurationsInMs[piece.id]"
                 [prePlayheadDurationInMs]="prePlayheadDurationInMs"
                 [postPlayheadDurationInMs]="postPlayheadDurationInMs"
         ></sofie-offsetable-piece>

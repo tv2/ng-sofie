@@ -1,52 +1,61 @@
 :host {
+  display: block;
   position: absolute;
   top: 0;
-  background-color: rgb(50,50,50);
-  overflow: visible;
+  background-color: #ff000055;
+  overflow: hidden;
+
+  .piece {
+    position: relative;
+    background-color: rgb(50,50,50);
+    overflow: visible;
+  }
 
   .label {
     display: block;
 
     height: 22px;
     padding: 2px 6px;
-
     color: var(--text-color);
-
-    font-weight: normal;
-    text-shadow: rgba(0,0,0, 0.8) 0 0 8px;
     text-overflow: ellipsis;
     white-space: nowrap;
+    overflow: hidden;
+
+    span {
+      font-weight: normal;
+      text-shadow: rgba(0, 0, 0, 0.8) 0 0 8px;
+    }
   }
 
-  &.camera {
+  &.camera .piece {
     background-color: #005919;
   }
 
-  &.lower-third {
+  &.lower-third .piece {
     background-color: #ca9d00;
   }
 
-  &.graphics {
+  &.graphics .piece {
     background-color: #ca9d00;
   }
 
-  &.remote {
+  &.remote .piece {
     background-color: #ac29a5;
   }
 
-  &.video-clip {
+  &.video-clip .piece {
     background-color: #1769ff;
   }
 
-  &.live-speak {
+  &.live-speak .piece {
     background-color: #370020;
   }
 
-  &.local {
+  &.local .piece {
     background-color: #8d1010;
   }
 
-  &.manus {
+  &.manus .piece {
     font-style: italic;
     background-color: #370020;
   }
