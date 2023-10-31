@@ -7,6 +7,7 @@
                 *ngFor="let piece of piecesGroupedByOutputLayer[outputLayer]; trackBy: trackPiece"
                 [piece]="piece"
                 [pixelsPerSecond]="pixelsPerSecond"
+                [offsetInMs]="playedDurationInMs"
                 [playedDurationForPartInMs]="playedDurationInMs"
                 [availableDisplayDurationForPieceInMs]="pieceAvailableDurationsInMs[piece.id]"
                 [prePlayheadDurationInMs]="prePlayheadDurationInMs"

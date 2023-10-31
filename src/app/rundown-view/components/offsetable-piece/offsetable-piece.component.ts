@@ -21,6 +21,9 @@ export class OffsetablePieceComponent {
   public playedDurationForPartInMs: number
 
   @Input()
+  public offsetInMs: number
+
+  @Input()
   public availableDisplayDurationForPieceInMs: number
 
   @HostBinding('style.width.px')
@@ -58,7 +61,7 @@ export class OffsetablePieceComponent {
     if (pieceDurationInMs === undefined) {
       return this.availableDisplayDurationForPieceInMs
     }
-    const playedPieceDisplayDurationInMs: number = Math.max(0, this.getPlayedPieceDuration() - this.prePlayheadDurationInMs)
+    const playedPieceDisplayDurationInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start - this.prePlayheadDurationInMs)
     return pieceDurationInMs - playedPieceDisplayDurationInMs
   }
 

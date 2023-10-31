@@ -4,8 +4,9 @@ import { Segment } from '../../../core/models/segment'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
+import { SegmentEntityService } from '../../../core/services/models/segment-entity.service'
 
-const PRE_PLAYHEAD_INSET_IN_PIXELS: number = 40
+const PRE_PLAYHEAD_INSET_IN_PIXELS: number = 40 * 4
 const POST_PLAYHEAD_INSET_IN_PIXELS: number = 200
 
 @Component({
@@ -37,6 +38,7 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   public postPlayheadDurationInMs: number = (POST_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
 
   constructor(
+    private readonly segmentEntityService: SegmentEntityService,
     private readonly partEntityService: PartEntityService,
     private readonly rundownService: RundownService
   ) {}
@@ -56,25 +58,12 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   }
 
   private getPreviousParts(onAirPartIndex: number): Part[] {
-    const previousParts: Part[] = this.segment.parts.slice(0, onAirPartIndex).filter(part => this.getDisplayDurationInMs(part) > 0)
-
-    // TODO: Take into account more than the closest previous part and not only if none was found in the first step.
-    // In order to jump in from anywhere and display the correct transition this is needed.
-    const partBeforeOnAirPart: Part | undefined = this.segment.parts[onAirPartIndex - 1]
-    if (previousParts.length === 0 && partBeforeOnAirPart && this.isUnplayedPart(partBeforeOnAirPart)) {
-      return [partBeforeOnAirPart]
-    }
-    return previousParts
+    return this.segment.parts.slice(0, onAirPartIndex).filter(part => this.isPreviousPartVisible(part))
   }
 
-  private getDisplayDurationInMs(part: Part): number {
-    const takenOffAirAt: number = part.executedAt + part.playedDuration
-    const durationInMsSinceTakenOfAir = Date.now() - takenOffAirAt
-    return this.prePlayheadDurationInMs - durationInMsSinceTakenOfAir
-  }
-
-  private isUnplayedPart(part: Part): boolean {
-    return part.playedDuration === 0 && part.executedAt === 0
+  private isPreviousPartVisible(part: Part): boolean {
+    const partEndOffsetInMs: number = this.segmentEntityService.getPartEndOffsetInMs(this.segment, part.id)
+    return partEndOffsetInMs >= this.time - this.prePlayheadDurationInMs
   }
 
   private getFutureParts(onAirPartIndex: number): Part[] {
@@ -90,28 +79,15 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   }
 
   public getPreviousPartOffsetInMs(part: Part): number {
-    if (this.isUnplayedPart(part)) {
-      return this.getUnplayedPreviousPartOffsetInMs(part)
-    }
-    if (!this.isFirstPartInPreviousParts(part)) {
-      return 0
-    }
-
-    const displayDurationInMs: number = this.getDisplayDurationInMs(part)
-    return Math.max(0, part.playedDuration - displayDurationInMs)
+    const duration: number = part.playedDuration ? part.playedDuration : this.partEntityService.getDuration(part)
+    const viewportDurationInMs: number = this.getViewportDurationInMsForPreviousPart(part)
+    return Math.max(0, duration - viewportDurationInMs)
   }
 
-  private getUnplayedPreviousPartOffsetInMs(part: Part): number {
-    if (!this.onAirPart) {
-      return 0
-    }
-    const expectedPartDuration: number = this.partEntityService.getDuration(part)
-    const playedDurationInOnAirPart: number = Date.now() - this.onAirPart.executedAt
-    return expectedPartDuration - (this.prePlayheadDurationInMs - playedDurationInOnAirPart)
-  }
-
-  private isFirstPartInPreviousParts(part: Part): boolean {
-    return this.previousParts[0]?.id === part.id
+  private getViewportDurationInMsForPreviousPart(previousPart: Part): number {
+    const partEndTimeInMs: number = this.segmentEntityService.getPartEndOffsetInMs(this.segment, previousPart.id)
+    const durationSinceTakenOffAirInMs: number = Math.min(this.prePlayheadDurationInMs, this.time - partEndTimeInMs)
+    return this.prePlayheadDurationInMs - durationSinceTakenOffAirInMs
   }
 
   public trackPart(_: number, part: Part): string {

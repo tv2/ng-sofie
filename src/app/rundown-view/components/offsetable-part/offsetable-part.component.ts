@@ -48,21 +48,21 @@ export class OffsetablePartComponent implements OnChanges {
   ) {}
 
   @HostBinding('style.width.px')
-  public get displayDurationInPixels(): number {
-    return (this.pixelsPerSecond * this.getDisplayDurationInMs()) / 1000
+  public get viewportDurationInPixels(): number {
+    return (this.pixelsPerSecond * this.getViewportDurationInMs()) / 1000
   }
 
-  public getDisplayDurationInMs(): number {
-    const visibleDurationInMs: number = Math.max(0, this.partDurationInMs() - Math.max(0, this.offsetDurationInMs))
+  public getViewportDurationInMs(): number {
+    const viewportDurationInMs: number = Math.max(0, this.partDurationInMs() - Math.max(0, this.offsetDurationInMs))
     if (this.part.autoNext) {
-      return visibleDurationInMs
+      return viewportDurationInMs
     }
-    return Math.max(visibleDurationInMs, this.prePlayheadDurationInMs + this.postPlayheadDurationInMs)
+    return Math.max(viewportDurationInMs, this.prePlayheadDurationInMs + this.postPlayheadDurationInMs)
   }
 
   public get playedDurationInMs(): number {
     if (!this.part.isOnAir) {
-      return 0
+      return this.part.playedDuration - this.viewportDurationInPixels
     }
     return Date.now() - this.part.executedAt
   }
@@ -81,7 +81,7 @@ export class OffsetablePartComponent implements OnChanges {
 
   private createPieceAvailableDurationsInMs(): Record<string, number> {
     const piecesOnLayer: Piece[][] = Object.values(this.piecesGroupedByOutputLayer)
-    const partDisplayDurationInMs: number = this.getDisplayDurationInMs()
+    const partDisplayDurationInMs: number = this.getViewportDurationInMs()
     const availableDurationsInMsEntries: [string, number][] = piecesOnLayer.map((pieces) =>
       pieces.map((piece, pieceIndex): [string, number] => {
         const nextPiece: Piece | undefined = pieces.slice(pieceIndex).find(maybeNextPiece => maybeNextPiece.start > piece.start)
@@ -97,7 +97,7 @@ export class OffsetablePartComponent implements OnChanges {
 
 
   private getVisiblePieces(): Piece[] {
-    const displayDurationInMs = this.getDisplayDurationInMs()
+    const displayDurationInMs = this.getViewportDurationInMs()
     return this.part.pieces.filter(piece => this.isPieceVisible(piece, displayDurationInMs))
   }
 
