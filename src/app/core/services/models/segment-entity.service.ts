@@ -106,4 +106,26 @@ export class SegmentEntityService {
       parts: segment.parts.map(part => (part.id === partId ? this.partEntityService.insertPiece(part, piece) : part)),
     }
   }
+
+  public getPartStartOffsetInMs(segment: Segment, partId: string): number {
+    const partIndex: number = segment.parts.findIndex(part => part.id === partId)
+    if (partIndex < 0) {
+      throw new Error(`Can't find part with id '${partId}' in segment '${segment.name}' with id '${segment.id}'.`)
+    }
+    return segment.parts.slice(0, partIndex).reduce((accumulatedPartStart: number, part: Part) =>
+        accumulatedPartStart + this.partEntityService.getDuration(part),
+      0
+    )
+  }
+
+  public getPartEndOffsetInMs(segment: Segment, partId: string): number {
+    const partIndex: number = segment.parts.findIndex(part => part.id === partId)
+    if (partIndex < 0) {
+      throw new Error(`Can't find part with id '${partId}' in segment '${segment.name}' with id '${segment.id}'.`)
+    }
+    return segment.parts.slice(0, partIndex + 1).reduce((accumulatedPartStart: number, part: Part) =>
+      accumulatedPartStart + this.partEntityService.getDuration(part),
+      0
+    )
+  }
 }

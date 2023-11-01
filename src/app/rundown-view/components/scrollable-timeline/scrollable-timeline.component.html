@@ -10,6 +10,7 @@
             [outputLayers]="outputLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="0"
+            [viewportDurationInMs]="getViewportDurationForPartInMs(part)"
             [rundownId]="segment.rundownId"
             [isRundownActive]="isRundownActive"
     ></sofie-offsetable-part>

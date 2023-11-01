@@ -17,9 +17,10 @@ export class OffsetablePieceComponent {
   @Input()
   public pixelsPerSecond: number
 
-  @Input()
-  public playedDurationForPartInMs: number
+  //@Input()
+  //public playedDurationForPartInMs: number
 
+  //TODO: Is this something that should be used?
   @Input()
   public offsetInMs: number
 
@@ -29,6 +30,10 @@ export class OffsetablePieceComponent {
   @HostBinding('style.width.px')
   public get availableWidthInPixels(): number {
     return Math.floor(this.availableDisplayDurationForPieceInMs * this.pixelsPerSecond / 1000)
+  }
+
+  public getLabelWidthInPixels(): number {
+    return this.availableWidthInPixels - Math.max(0, this.getLabelOffsetInPixels())
   }
 
   @HostBinding('attr.title')
@@ -47,7 +52,7 @@ export class OffsetablePieceComponent {
 
   @HostBinding('style.left.px')
   public get leftInPixels(): number {
-    const offsetInMs: number = this.piece.start - Math.max(0, this.playedDurationForPartInMs - this.prePlayheadDurationInMs)
+    const offsetInMs: number = this.piece.start - Math.max(0, this.offsetInMs - this.prePlayheadDurationInMs)
     const displayOffsetInMs: number = Math.max(0, offsetInMs)
     return this.convertDurationToPixels(displayOffsetInMs)
   }
@@ -61,12 +66,12 @@ export class OffsetablePieceComponent {
     if (pieceDurationInMs === undefined) {
       return this.availableDisplayDurationForPieceInMs
     }
-    const playedPieceDisplayDurationInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start - this.prePlayheadDurationInMs)
+    const playedPieceDisplayDurationInMs: number = Math.max(0, this.offsetInMs - this.piece.start - this.prePlayheadDurationInMs)
     return pieceDurationInMs - playedPieceDisplayDurationInMs
   }
 
   private getPlayedPieceDuration(): number {
-    return Math.max(0, this.playedDurationForPartInMs - this.piece.start)
+    return Math.max(0, this.offsetInMs - this.piece.start)
   }
 
   public getLabelOffsetInPixels(): number {
@@ -87,7 +92,7 @@ export class OffsetablePieceComponent {
   }
 
   private convertDurationToPixels(durationInMs: number): number {
-    return Math.round(durationInMs * this.pixelsPerSecond / 1000)
+    return Math.floor(durationInMs * this.pixelsPerSecond / 1000)
   }
 
   private convertPixelsToDuration(pixels: number): number {

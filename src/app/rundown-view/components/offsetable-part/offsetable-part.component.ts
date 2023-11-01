@@ -28,6 +28,14 @@ export class OffsetablePartComponent implements OnChanges {
   public offsetDurationInMs: number
 
   @Input()
+  public viewportDurationInMs: number
+
+  @HostBinding('style.width.px')
+  public get viewportWidthInPixels(): number {
+    return this.convertDurationToPixels(this.viewportDurationInMs)
+  }
+
+  @Input()
   public prePlayheadDurationInMs: number = 0
 
   @Input()
@@ -47,22 +55,9 @@ export class OffsetablePartComponent implements OnChanges {
     private readonly pieceGroupService: Tv2PieceGroupService
   ) {}
 
-  @HostBinding('style.width.px')
-  public get viewportDurationInPixels(): number {
-    return (this.pixelsPerSecond * this.getViewportDurationInMs()) / 1000
-  }
-
-  public getViewportDurationInMs(): number {
-    const viewportDurationInMs: number = Math.max(0, this.partDurationInMs() - Math.max(0, this.offsetDurationInMs))
-    if (this.part.autoNext) {
-      return viewportDurationInMs
-    }
-    return Math.max(viewportDurationInMs, this.prePlayheadDurationInMs + this.postPlayheadDurationInMs)
-  }
-
   public get playedDurationInMs(): number {
     if (!this.part.isOnAir) {
-      return this.part.playedDuration - this.viewportDurationInPixels
+      return 0
     }
     return Date.now() - this.part.executedAt
   }
@@ -81,7 +76,7 @@ export class OffsetablePartComponent implements OnChanges {
 
   private createPieceAvailableDurationsInMs(): Record<string, number> {
     const piecesOnLayer: Piece[][] = Object.values(this.piecesGroupedByOutputLayer)
-    const partDisplayDurationInMs: number = this.getViewportDurationInMs()
+    const partDisplayDurationInMs: number = this.viewportDurationInMs
     const availableDurationsInMsEntries: [string, number][] = piecesOnLayer.map((pieces) =>
       pieces.map((piece, pieceIndex): [string, number] => {
         const nextPiece: Piece | undefined = pieces.slice(pieceIndex).find(maybeNextPiece => maybeNextPiece.start > piece.start)
@@ -97,7 +92,7 @@ export class OffsetablePartComponent implements OnChanges {
 
 
   private getVisiblePieces(): Piece[] {
-    const displayDurationInMs = this.getViewportDurationInMs()
+    const displayDurationInMs = this.viewportDurationInMs
     return this.part.pieces.filter(piece => this.isPieceVisible(piece, displayDurationInMs))
   }
 
@@ -108,6 +103,10 @@ export class OffsetablePartComponent implements OnChanges {
     }
     const pieceEndTimeInMs: number = piece.start + piece.duration
     return piece.start - KEEP_VISIBLE_DURATION_IN_MS <= partDurationInMsAtEndOfPartViewport && pieceEndTimeInMs + KEEP_VISIBLE_DURATION_IN_MS >= this.offsetDurationInMs
+  }
+
+  private convertDurationToPixels(durationInMs: number): number {
+    return Math.floor(durationInMs * this.pixelsPerSecond / 1000)
   }
 
   public trackPiece(_: number, piece: Piece): string {

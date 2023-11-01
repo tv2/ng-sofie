@@ -79,15 +79,29 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   }
 
   public getPreviousPartOffsetInMs(part: Part): number {
-    const duration: number = part.playedDuration ? part.playedDuration : this.partEntityService.getDuration(part)
+    const partDurationInMs: number = this.partEntityService.getDuration(part)
     const viewportDurationInMs: number = this.getViewportDurationInMsForPreviousPart(part)
-    return Math.max(0, duration - viewportDurationInMs)
+    return Math.max(0, partDurationInMs - viewportDurationInMs)
   }
 
-  private getViewportDurationInMsForPreviousPart(previousPart: Part): number {
+  public getViewportDurationInMsForPreviousPart(previousPart: Part): number {
     const partEndTimeInMs: number = this.segmentEntityService.getPartEndOffsetInMs(this.segment, previousPart.id)
     const durationSinceTakenOffAirInMs: number = Math.min(this.prePlayheadDurationInMs, this.time - partEndTimeInMs)
     return this.prePlayheadDurationInMs - durationSinceTakenOffAirInMs
+  }
+
+  public getViewportDurationInMsForOnAirPart(): number {
+    if (!this.onAirPart) {
+      return 0
+    }
+    const partDurationInMs: number = this.partEntityService.getDuration(this.onAirPart)
+    const minimumViewportDurationInMs: number = this.onAirPart.autoNext ? 0 : this.prePlayheadDurationInMs + this.postPlayheadDurationInMs
+    const clippedOnAirPartOffsetInMs: number = Math.max(0, this.getOnAirPartOffsetInMs())
+    return Math.max(minimumViewportDurationInMs, partDurationInMs - clippedOnAirPartOffsetInMs)
+  }
+
+  public getViewportDurationInMsForFuturePart(part: Part): number {
+    return this.partEntityService.getDuration(part)
   }
 
   public trackPart(_: number, part: Part): string {

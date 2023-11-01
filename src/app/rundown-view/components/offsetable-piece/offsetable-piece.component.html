@@ -5,10 +5,9 @@
   <div
     class="label"
     [style.margin-left.px]="getLabelOffsetInPixels()"
-    [style.width.px]="availableWidthInPixels - getLabelOffsetInPixels()"
+    [style.width.px]="getLabelWidthInPixels()"
   >
     <span #labelTextElement>
-      {{piece.name}}
       {{piece.name}}
     </span>
   </div>

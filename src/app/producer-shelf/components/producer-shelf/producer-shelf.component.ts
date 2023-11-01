@@ -9,6 +9,10 @@ import { Tv2Action, Tv2ActionContentType } from '../../../shared/models/tv2-acti
 import { Tv2ActionParser } from '../../../shared/abstractions/tv2-action-parser.service'
 import { ActionService } from '../../../shared/abstractions/action.service'
 
+const STATIC_BUTTON_ACTION_IDS: string[] = [
+  'clearGraphicsAction'
+]
+
 @Component({
   selector: 'sofie-producer-shelf',
   templateUrl: './producer-shelf.component.html',
@@ -29,6 +33,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
   public actions: Tv2Action[] = []
   public cameraActions: Tv2Action[] = []
   public videoClipActions: Tv2Action[] = []
+  public staticButtonsActions: Tv2Action[] = []
 
   private readonly logger: Logger
 
@@ -54,6 +59,10 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
     this.actions = tv2Actions
     this.cameraActions = tv2Actions.filter(action => action.metadata.contentType === Tv2ActionContentType.CAMERA)
     this.videoClipActions = tv2Actions.filter(action => action.metadata.contentType === Tv2ActionContentType.VIDEO_CLIP)
+    this.staticButtonsActions = STATIC_BUTTON_ACTION_IDS.reduce((staticButtonsActions, actionId) => {
+      const staticButtonAction: Tv2Action | undefined = tv2Actions.find(action => action.id === actionId)
+      return staticButtonAction ? [...staticButtonsActions, staticButtonAction] : staticButtonsActions
+    }, [] as Tv2Action[])
   }
 
   private getValidTv2Actions(actions: Action[]): Tv2Action[] {

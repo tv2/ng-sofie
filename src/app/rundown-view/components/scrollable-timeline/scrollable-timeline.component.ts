@@ -66,6 +66,10 @@ export class ScrollableTimelineComponent {
     this.scrollOffsetInMs = Math.min(upperBoundInMs, Math.max(0, this.scrollOffsetInMs + horizontalDeltaInMs))
   }
 
+  public getViewportDurationForPartInMs(part: Part): number {
+    return this.partEntityService.getDuration(part)
+  }
+
   public trackPart(_: number, part: Part): string {
     return part.id
   }
