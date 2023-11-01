@@ -16,8 +16,10 @@ export interface Tv2PieceAction extends PieceAction {
 export enum Tv2ActionContentType {
   CAMERA = 'CAMERA',
   VIDEO_CLIP = 'VIDEO_CLIP',
-  AUDIO = 'AUDIO',
   TRANSITION = 'TRANSITION',
+  GRAPHICS = 'GRAPHICS',
+  AUDIO = 'AUDIO',
+  UNKNOWN = 'UNKNOWN',
 }
 
 export interface Tv2VideoClipAction extends Tv2PartAction {

@@ -22,7 +22,7 @@ export interface RundownDeactivatedEvent extends RundownEvent {
 }
 
 export interface RundownDeletedEvent extends RundownEvent {
-  type: RundownEventType.DELETED
+  type: RundownEventType.RUNDOWN_DELETED
 }
 
 export interface RundownResetEvent extends RundownEvent {

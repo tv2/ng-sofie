@@ -1,6 +1,6 @@
 import { FixedIntervalReconnectStrategy } from './fixed-interval-reconnect-strategy.service'
 import { Logger } from '../../core/abstractions/logger.service'
-import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockito'
+import { TestLoggerFactory } from '../../test/factories/test-logger.factory'
 
 describe(FixedIntervalReconnectStrategy.name, () => {
   beforeEach(() => jasmine.clock().install())
@@ -40,15 +40,10 @@ describe(FixedIntervalReconnectStrategy.name, () => {
   })
 })
 function createTestee(): FixedIntervalReconnectStrategy {
-  const mockedLogger: Logger = createMockOfLogger()
-  return new FixedIntervalReconnectStrategy(instance(mockedLogger))
+  return new FixedIntervalReconnectStrategy(createLogger())
 }
 
-// TODO: Extract to one place
-function createMockOfLogger(): Logger {
-  const mockedLogger: Logger = mock<Logger>()
-  when(mockedLogger.tag(anyString())).thenCall(() => instance(createMockOfLogger()))
-  when(mockedLogger.data(anything())).thenCall(() => instance(createMockOfLogger()))
-  when(mockedLogger.metadata(anything())).thenCall(() => instance(createMockOfLogger()))
-  return mockedLogger
+function createLogger(): Logger {
+  const testLoggerFactory: TestLoggerFactory = new TestLoggerFactory()
+  return testLoggerFactory.createLogger()
 }

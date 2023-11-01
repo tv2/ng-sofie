@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs'
-import { KeyBinding } from '../../keyboard/models/key-binding'
+import { KeyBinding } from '../../keyboard/value-objects/key-binding'
 import { Injectable } from '@angular/core'
 
 @Injectable()

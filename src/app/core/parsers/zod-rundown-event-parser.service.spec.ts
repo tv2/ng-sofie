@@ -15,8 +15,8 @@ import {
 } from '../models/rundown-event'
 import { PieceType } from '../enums/piece-type'
 import { EntityParser } from '../abstractions/entity-parser.service'
-import { TestEntityFactory } from '../services/models/test-entity.factory'
 import { Piece } from '../models/piece'
+import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 
 describe(ZodRundownEventParser.name, () => {
   describe(ZodRundownEventParser.prototype.parseActivatedEvent.name, () => {
@@ -81,7 +81,7 @@ describe(ZodRundownEventParser.name, () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
       const event: RundownDeletedEvent = {
-        type: RundownEventType.DELETED,
+        type: RundownEventType.RUNDOWN_DELETED,
         timestamp: Date.now(),
         rundownId: 'some-rundown-id',
       }
@@ -95,7 +95,7 @@ describe(ZodRundownEventParser.name, () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
       const event: Partial<RundownDeletedEvent> = {
-        type: RundownEventType.DELETED,
+        type: RundownEventType.RUNDOWN_DELETED,
       }
 
       const result = (): RundownDeletedEvent => testee.parseDeletedEvent(event)

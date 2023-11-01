@@ -1,4 +1,5 @@
 export type Keys = [string, ...string[]]
+
 export interface KeyBinding {
   readonly keys: Keys
   readonly label: string

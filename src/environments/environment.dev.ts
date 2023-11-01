@@ -3,7 +3,7 @@ import { LogLevel } from '../app/core/abstractions/logger.service'
 
 export const environment: Environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:3005/api',
+  apiBaseUrl: `http://${window.location.hostname}:3005/api`,
   logLevel: LogLevel.DEBUG,
-  eventStreamUrl: 'ws://localhost:3006',
+  eventStreamUrl: `ws://${window.location.hostname}:3006`,
 }

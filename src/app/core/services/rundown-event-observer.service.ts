@@ -37,7 +37,7 @@ export class RundownEventObserver {
   }
 
   public subscribeToRundownDeletion(onDeleted: (event: RundownDeletedEvent) => void): EventSubscription {
-    return this.eventObserver.subscribe(RundownEventType.DELETED, this.createEventValidatingConsumer(onDeleted, this.rundownEventParser.parseDeletedEvent.bind(this.rundownEventParser)))
+    return this.eventObserver.subscribe(RundownEventType.RUNDOWN_DELETED, this.createEventValidatingConsumer(onDeleted, this.rundownEventParser.parseDeletedEvent.bind(this.rundownEventParser)))
   }
 
   public subscribeToRundownReset(onReset: (event: RundownResetEvent) => void): EventSubscription {

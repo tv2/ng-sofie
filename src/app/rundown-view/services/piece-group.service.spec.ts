@@ -3,7 +3,7 @@ import { PieceLayerService } from '../../shared/services/piece-layer.service'
 import { anything, instance, mock, when } from '@typestrong/ts-mockito'
 import { PieceLayer } from '../../shared/enums/piece-layer'
 import { Piece } from '../../core/models/piece'
-import { TestEntityFactory } from '../../core/services/models/test-entity.factory'
+import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 
 describe(PieceGroupService.name, () => {
   describe(PieceGroupService.prototype.groupByPieceLayer.name, () => {

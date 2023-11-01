@@ -48,7 +48,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
     private readonly timestampPipe: TimestampPipe
   ) {}
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   public onResize(): void {
     this.resizeSubject.next()
   }
