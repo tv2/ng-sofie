@@ -19,6 +19,7 @@ export enum Tv2ActionContentType {
   TRANSITION = 'TRANSITION',
   GRAPHICS = 'GRAPHICS',
   AUDIO = 'AUDIO',
+  DVE = 'DVE',
   UNKNOWN = 'UNKNOWN',
 }
 
