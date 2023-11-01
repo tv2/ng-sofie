@@ -4,6 +4,7 @@ import { Rundown } from '../../../core/models/rundown'
 import { DialogService } from '../../../shared/services/dialog.service'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
 import { DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
+import { IngestService } from '../../../core/abstractions/ingest-service'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
@@ -41,6 +42,10 @@ export class RundownHeaderContextMenuComponent {
       label: 'Reset Rundown',
       contextAction: (): void => this.openResetRundownDialog(),
     },
+    {
+      label: 'Reingest data',
+      contextAction: (): void => this.reingestData(),
+    },
   ]
 
   public get contextMenuOptions(): ContextMenuOption[] {
@@ -49,7 +54,8 @@ export class RundownHeaderContextMenuComponent {
 
   constructor(
     private readonly rundownService: RundownService,
-    private readonly dialogService: DialogService
+    private readonly dialogService: DialogService,
+    private readonly ingestService: IngestService
   ) {}
 
   public openActivateRundownDialog(): void {
@@ -79,10 +85,14 @@ export class RundownHeaderContextMenuComponent {
   }
 
   public openResetRundownDialog(): void {
-    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to reset the Rundown?', 'Deactivate', () => this.resetRundown())
+    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to reset the Rundown?', 'Reset', () => this.resetRundown())
   }
 
   private resetRundown(): void {
     this.rundownService.reset(this.rundown.id).subscribe()
+  }
+
+  public reingestData(): void {
+    this.ingestService.reingestRundownData(this.rundown.id).subscribe()
   }
 }
