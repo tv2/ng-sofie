@@ -6,7 +6,6 @@
     "ng-sofie": {
       "i18n": {
         "sourceLocale": "en-US",
-        "sourceLocale": "da-DK",
         "locales": {
           "da": {
             "translation": "src/locale/messages.da.xlf"
@@ -30,6 +29,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "localize": true,
+            "aot": true,
             "i18nMissingTranslation": "error",
             "outputPath": "dist/ng-sofie",
             "index": "src/index.html",
@@ -50,6 +50,9 @@
           "configurations": {
             "da": {
               "localize": ["da"]
+            },
+            "en": {
+              "localize": ["en"]
             },
             "production": {
               "tsConfig": "./tsconfig.build.json",
@@ -96,6 +99,9 @@
             "da": {
               "browserTarget": "ng-sofie:build:development,da"
             },
+            "en": {
+              "browserTarget": "ng-sofie:build:development,en"
+            },
             "production": {
               "browserTarget": "ng-sofie:build:production"
             },
@@ -103,7 +109,7 @@
               "browserTarget": "ng-sofie:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "en"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
