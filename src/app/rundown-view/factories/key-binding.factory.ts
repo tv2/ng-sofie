@@ -40,7 +40,6 @@ export class KeyBindingFactory {
     return this.createInsertCameraAsNextKeyBinding(cameraAction, rundownId)
   }
 
-
   private createInsertCameraOnAirKeyBinding(cameraAction: Tv2CameraAction, rundownId: string): StyledKeyBinding {
     const cameraNumber: number = parseInt(cameraAction.metadata.cameraNumber)
     if (Number.isNaN(cameraNumber)) {
@@ -78,9 +77,7 @@ export class KeyBindingFactory {
   }
 
   public createRemoteKeyBindingsFromActions(remoteActions: Tv2RemoteAction[], rundownId: string): StyledKeyBinding[] {
-    return remoteActions
-      .filter(remoteAction => remoteAction.type === PartActionType.INSERT_PART_AS_NEXT)
-      .map(remoteAction => this.createInsertRemoteAsNextKeyBinding(remoteAction, rundownId))
+    return remoteActions.filter(remoteAction => remoteAction.type === PartActionType.INSERT_PART_AS_NEXT).map(remoteAction => this.createInsertRemoteAsNextKeyBinding(remoteAction, rundownId))
   }
 
   private createInsertRemoteAsNextKeyBinding(remoteAction: Tv2RemoteAction, rundownId: string): StyledKeyBinding {
@@ -101,7 +98,6 @@ export class KeyBindingFactory {
       background: REMOTE_COLOR,
     }
   }
-
 
   public createRundownKeyBindings(rundown: Rundown): StyledKeyBinding[] {
     if (rundown.isActive) {
