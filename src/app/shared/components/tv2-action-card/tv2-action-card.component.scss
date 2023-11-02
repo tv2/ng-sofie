@@ -35,6 +35,10 @@
     }
   }
 
+  &.remote {
+    background-color: #ac29a5;
+  }
+
   &:active {
     opacity: .7;
   }
