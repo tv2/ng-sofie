@@ -34,7 +34,14 @@ export interface Tv2VideoClipAction extends Tv2PartAction {
 export interface Tv2CameraAction extends Tv2PartAction {
   metadata: {
     contentType: Tv2ActionContentType.CAMERA
-    cameraNumber: number
+    cameraNumber: string
+  }
+}
+
+export interface Tv2RemoteAction extends Tv2PartAction {
+  metadata: {
+    contentType: Tv2ActionContentType.REMOTE
+    remoteNumber: string
   }
 }
 

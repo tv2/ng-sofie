@@ -70,6 +70,7 @@ export class HardcodedProducerKeyBindingService implements KeyBindingService {
     return [
       ...this.keyBindingFactory.createRundownKeyBindings(this.rundown),
       ...this.keyBindingFactory.createCameraKeyBindingsFromActions(actionsGroupedByContentType.camera, this.rundown.id),
+      ...this.keyBindingFactory.createRemoteKeyBindingsFromActions(actionsGroupedByContentType.remote, this.rundown.id),
       ...this.keyBindingFactory.createTransitionKeyBindingsFromActions(actionsGroupedByContentType.transition, this.rundown.id),
     ]
   }
