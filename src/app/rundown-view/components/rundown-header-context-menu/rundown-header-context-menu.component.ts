@@ -4,7 +4,6 @@ import { Rundown } from '../../../core/models/rundown'
 import { DialogService } from '../../../shared/services/dialog.service'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
 import { DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
-import { IngestService } from '../../../core/abstractions/ingest-service'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
@@ -54,8 +53,7 @@ export class RundownHeaderContextMenuComponent {
 
   constructor(
     private readonly rundownService: RundownService,
-    private readonly dialogService: DialogService,
-    private readonly ingestService: IngestService
+    private readonly dialogService: DialogService
   ) {}
 
   public openActivateRundownDialog(): void {
@@ -93,6 +91,6 @@ export class RundownHeaderContextMenuComponent {
   }
 
   public reingestData(): void {
-    this.ingestService.reingestRundownData(this.rundown.id).subscribe()
+    this.rundownService.reingest(this.rundown.id).subscribe()
   }
 }

@@ -29,8 +29,6 @@ import { PartContextMenuComponent } from './components/part-context-menu/part-co
 import { KeyboardConfigurationService } from './abstractions/keyboard-configuration.service'
 import { ProducerKeyboardConfigurationService } from './services/producer-keyboard-configuration.service'
 import { KeyBindingFactory } from './factories/key-binding.factory'
-import { HttpIngestService } from '../core/services/http-ingest.service'
-import { IngestService } from '../core/abstractions/ingest-service'
 
 @NgModule({
   declarations: [
@@ -55,7 +53,6 @@ import { IngestService } from '../core/abstractions/ingest-service'
   exports: [SegmentComponent],
   providers: [
     PieceGroupService,
-    { provide: IngestService, useClass: HttpIngestService },
     { provide: KeyBindingService, useClass: HardcodedProducerKeyBindingService },
     Tv2ActionGroupService,
     { provide: KeyboardConfigurationService, useClass: ProducerKeyboardConfigurationService },
