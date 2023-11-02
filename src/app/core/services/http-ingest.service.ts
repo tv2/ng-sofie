@@ -5,7 +5,7 @@ import { HttpErrorService } from './http-error.service'
 import { IngestService } from '../abstractions/ingest-service'
 import { catchError, Observable } from 'rxjs'
 
-const INGEST_URL: string = `${environment.apiBaseUrl}/ingest`
+const INGEST_URL: string = `${environment.apiBaseUrl}/ingest-operations`
 
 @Injectable()
 export class HttpIngestService implements IngestService {
@@ -15,7 +15,7 @@ export class HttpIngestService implements IngestService {
   ) {}
 
   public reingestRundownData(rundownId: string): Observable<void> {
-    const url: string = `${INGEST_URL}/reloadData/rundowns/${rundownId}`
+    const url: string = `${INGEST_URL}/rundowns/${rundownId}/reingest-data`
     return this.http.post<void>(url, null).pipe(catchError(error => this.httpErrorService.catchError(error)))
   }
 }
