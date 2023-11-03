@@ -1,6 +1,7 @@
 export enum PieceType {
   UNKNOWN = 'UNKNOWN',
   CAMERA = 'CAMERA',
+  REMOTE = 'REMOTE',
   LIVE = 'LIVE',
   GRAPHIC = 'GRAPHIC',
   VIDEO_CLIP = 'VIDEO_CLIP',

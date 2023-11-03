@@ -15,6 +15,7 @@ export interface Tv2PieceAction extends PieceAction {
 
 export enum Tv2ActionContentType {
   CAMERA = 'CAMERA',
+  REMOTE = 'REMOTE',
   VIDEO_CLIP = 'VIDEO_CLIP',
   TRANSITION = 'TRANSITION',
   GRAPHICS = 'GRAPHICS',
@@ -33,7 +34,14 @@ export interface Tv2VideoClipAction extends Tv2PartAction {
 export interface Tv2CameraAction extends Tv2PartAction {
   metadata: {
     contentType: Tv2ActionContentType.CAMERA
-    cameraNumber: number
+    cameraNumber: string
+  }
+}
+
+export interface Tv2RemoteAction extends Tv2PartAction {
+  metadata: {
+    contentType: Tv2ActionContentType.REMOTE
+    remoteNumber: string
   }
 }
 
