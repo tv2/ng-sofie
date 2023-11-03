@@ -17,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: `${Paths.RUNDOWNS}/:rundownId`,
-    loadChildren: () => import('./rundown/rundown.module').then(m => m.RundownModule),
+    loadChildren: () => import('./rundown-view/rundown-view.module').then(m => m.RundownViewModule),
   },
 ]
 

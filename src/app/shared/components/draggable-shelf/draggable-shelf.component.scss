@@ -1,0 +1,45 @@
+:host {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  flex-grow: 0;
+  background-color: var(--background-color);
+  border-top: 2px solid #555;
+  --shadow-thickness: 10px;
+  box-shadow: 0 0 var(--shadow-thickness) rgba(0, 0, 0, 0.6);
+
+  .drag-handle {
+    position: absolute;
+
+    bottom: 100%;
+    left: calc(50% - 40px);
+    width: 80px;
+    height: 40px;
+    padding: 10px 20px;
+    z-index: 1000;
+
+    border-radius: 40px 40px 0 0;
+    border-color: #555 #555 transparent #555;
+    border-style: solid;
+    border-width: 2px;
+    background-color: var(--background-color);
+    color: #555;
+    cursor: grab;
+
+    text-align: center;
+    transition: color .2s, background-color .2s;
+    pointer-events: all;
+    touch-action: none;
+    box-shadow: 0 0 var(--shadow-thickness) black;
+    clip-path: inset(calc(-1 * var(--shadow-thickness)) calc(-1 * var(--shadow-thickness)) 0 calc(-1 *var(--shadow-thickness)));
+
+    &:hover, &:active {
+      color: #888;
+    }
+
+    &:active {
+      background-color: #555;
+      cursor: grabbing;
+    }
+  }
+}

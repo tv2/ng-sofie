@@ -7,13 +7,14 @@ import {
     PartSetAsNextEvent,
     PartTakenEvent,
     RundownDeletedEvent,
-    SegmentCreatedEvent,
-    SegmentDeletedEvent,
+    RundownPartInsertedAsOnAirEvent,
+    RundownPartInsertedAsNextEvent,
+    RundownPieceInsertedEvent,
     PartCreatedEvent,
-    PartDeletedEvent,
     PartUpdatedEvent,
+    PartDeletedEvent,
     SegmentUpdatedEvent,
-    RundownCreatedEvent, RundownUpdatedEvent
+    SegmentDeletedEvent, SegmentCreatedEvent, RundownUpdatedEvent, RundownCreatedEvent,
 } from '../models/rundown-event'
 
 @Injectable()
@@ -28,7 +29,13 @@ export abstract class RundownEventParser {
 
   public abstract parseSetNextEvent(maybeEvent: unknown): PartSetAsNextEvent
 
-  public abstract parseInfinitePieceAdded(maybeEvent: unknown): RundownInfinitePieceAddedEvent
+  public abstract parseInfinitePieceAddedEvent(maybeEvent: unknown): RundownInfinitePieceAddedEvent
+
+  public abstract parsePartInsertedAsOnAirEvent(maybeEvent: unknown): RundownPartInsertedAsOnAirEvent
+
+  public abstract parsePartInsertedAsNextEvent(maybeEvent: unknown): RundownPartInsertedAsNextEvent
+
+  public abstract parsePieceInsertedEvent(maybeEvent: unknown): RundownPieceInsertedEvent
 
     public abstract parseRundownCreatedEvent(maybeEvent: unknown): RundownCreatedEvent
     public abstract parseRundownUpdatedEvent(maybeEvent: unknown): RundownUpdatedEvent

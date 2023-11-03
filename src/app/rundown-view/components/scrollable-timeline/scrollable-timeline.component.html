@@ -1,0 +1,26 @@
+<sofie-timeline-markers
+    [time]="scrollOffsetInMs"
+    [pixelsPerSecond]="pixelsPerSecond"
+></sofie-timeline-markers>
+
+<div class="parts" [style.margin-left.px]="-scrollOffsetInMs * pixelsPerSecond / 1000">
+    <sofie-offsetable-part
+            *ngFor="let part of segment.parts; trackBy: trackPart"
+            [part]="part"
+            [pieceLayers]="pieceLayers"
+            [pixelsPerSecond]="pixelsPerSecond"
+            [offsetDurationInMs]="0"
+            [rundownId]="segment.rundownId"
+            [isRundownActive]="isRundownActive"
+    ></sofie-offsetable-part>
+    <sofie-segment-end-indicator
+            [lastPartInSegment]="segment.parts[segment.parts.length - 1]"
+    ></sofie-segment-end-indicator>
+</div>
+
+<sofie-editorial-line
+        *ngIf="segment.budgetDuration !== undefined"
+        [budgetDurationInMs]="segment.budgetDuration"
+        [pixelsPerSecond]="pixelsPerSecond"
+        [offsetInMs]="scrollOffsetInMs"
+></sofie-editorial-line>

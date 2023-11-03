@@ -1,4 +1,5 @@
 import { Part } from '../../models/part'
+import { Piece } from '../../models/piece'
 
 export class PartEntityService {
   public readonly defaultPartDurationInMs: number = 4000
@@ -7,6 +8,7 @@ export class PartEntityService {
     return {
       ...part,
       isOnAir: true,
+      isNext: false,
       executedAt,
       playedDuration: 0,
     }
@@ -31,7 +33,7 @@ export class PartEntityService {
     }
   }
 
-  public removeAsNextPart(part: Part): Part {
+  public unmarkPartAsNext(part: Part): Part {
     return {
       ...part,
       isNext: false,
@@ -43,6 +45,7 @@ export class PartEntityService {
       ...part,
       playedDuration: 0,
       executedAt: 0,
+      pieces: part.pieces.filter(piece => piece.isPlanned),
     }
   }
 
@@ -62,5 +65,12 @@ export class PartEntityService {
 
   private getMinimumDuration(part: Part): number {
     return part.autoNext?.overlap ?? part.expectedDuration ?? this.defaultPartDurationInMs
+  }
+
+  public insertPiece(part: Part, piece: Piece): Part {
+    return {
+      ...part,
+      pieces: [...part.pieces, piece],
+    }
   }
 }

@@ -1,0 +1,66 @@
+:host {
+  --key-size: 4.9cqw;
+  --key-gap: calc(var(--key-size) / 8);
+
+  display: flex;
+  background-color: #111111;
+  padding: 20px;
+  border-radius: 16px;
+  container-type: inline-size;
+
+  .key-row-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--key-gap);
+  }
+  .key-row {
+    display: flex;
+    height: var(--key-size);
+    gap: var(--key-gap);
+  }
+
+  .function-key-row {
+    padding-bottom: var(--key-gap);
+  }
+
+  .control-key-row {
+    padding-left: calc(4 * var(--key-gap));
+  }
+}
+
+
+.key {
+  display: inline-block;
+  padding: 12px 20px;
+  margin: 10px;
+  background-color: gray;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+  min-width: 120px;
+
+  &-label {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  &-keys {
+    display: block;
+    text-align: center;
+    font-style: italic;
+  }
+
+  &:hover {
+    background-color: lightgray;
+  }
+
+  &--matched,
+  &:active {
+    background-color: green
+  }
+}
+
+.keystrokes {
+  color: white;
+}

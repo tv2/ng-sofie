@@ -1,0 +1,46 @@
+.c-rundown-header {
+  --scrollbar-color: #252627;
+  display: flex;
+  flex-direction: row;
+
+  width: auto;
+  min-height: 70px;
+
+  background-color: #252627;
+  overflow: auto;
+
+  transition: background-color .3s;
+
+  &--active {
+    --scrollbar-color: #761912;
+    --scrollbar-thumb-color: #561612;
+    background-color: #761912;
+  }
+
+  .exit-button {
+    align-self: center;
+
+    padding: 0 20px;
+    height: 100%;
+    color: #888888;
+    border-radius: 8px;
+
+    transition: color .2s;
+    outline: none;
+
+    &:hover {
+      color: white;
+      cursor: pointer;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+    background-color: var(--scrollbar-color);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color);
+  }
+}

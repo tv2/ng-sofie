@@ -37,12 +37,18 @@ $sofie-blue: (
 
 $sofie-primary: mat.define-palette($sofie-blue, 500);
 $sofie-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$sofie-danger: mat.define-palette(mat.$red-palette, 800);
 
 $sofie-theme: mat.define-light-theme((
   color: (
     primary: $sofie-primary,
     accent: $sofie-accent,
+    warn: $sofie-danger,
   ),
   density: 0,
 ));
 @include mat.button-theme($sofie-theme);
+
+:root {
+  --background-color: #343434;
+}
