@@ -15,6 +15,9 @@ import { Logger } from '../../core/abstractions/logger.service'
 const CAMERA_COLOR: string = '#005919'
 const REMOTE_COLOR: string = '#ac29a5'
 
+const FUNCTION_KEY_PREFIX: string = 'F'
+const DIGIT_KEY_PREFIX: string = 'Digit'
+
 @Injectable()
 export class KeyBindingFactory {
   private readonly logger: Logger
@@ -46,7 +49,7 @@ export class KeyBindingFactory {
       throw new Error('Expected camera number to be an integer.')
     }
     return {
-      keys: [`F${cameraNumber}`],
+      keys: [`${FUNCTION_KEY_PREFIX}${cameraNumber}`],
       label: cameraAction.name,
       onMatched: () => this.actionService.executeAction(cameraAction.id, rundownId).subscribe(),
       shouldMatchOnKeyRelease: true,
@@ -64,7 +67,7 @@ export class KeyBindingFactory {
       throw new Error('Expected camera number to be an integer.')
     }
     return {
-      keys: ['Alt', `F${cameraNumber}`],
+      keys: ['Alt', `${FUNCTION_KEY_PREFIX}${cameraNumber}`],
       label: cameraAction.name,
       onMatched: () => this.actionService.executeAction(cameraAction.id, rundownId).subscribe(),
       shouldMatchOnKeyRelease: true,
@@ -87,7 +90,7 @@ export class KeyBindingFactory {
     }
     const keyDigit: number = remoteNumber !== 10 ? remoteNumber : 0
     return {
-      keys: [`Digit${keyDigit}`],
+      keys: [`${DIGIT_KEY_PREFIX}${keyDigit}`],
       label: remoteAction.name,
       onMatched: () => this.actionService.executeAction(remoteAction.id, rundownId).subscribe(),
       shouldMatchOnKeyRelease: true,
