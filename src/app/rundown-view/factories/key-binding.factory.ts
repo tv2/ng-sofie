@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Keys } from '../../keyboard/value-objects/key-binding'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
-import { Tv2CameraAction, Tv2TransitionAction } from '../../shared/models/tv2-action'
+import { Tv2CameraAction, Tv2RemoteAction, Tv2TransitionAction } from '../../shared/models/tv2-action'
 import { PartActionType } from '../../shared/models/action-type'
 import { RundownService } from '../../core/abstractions/rundown.service'
 import { Rundown } from '../../core/models/rundown'
@@ -11,6 +11,12 @@ import { DialogSeverity } from '../../shared/components/confirmation-dialog/conf
 import { RundownNavigationService } from '../../shared/services/rundown-navigation-service'
 import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
+
+const CAMERA_COLOR: string = '#005919'
+const REMOTE_COLOR: string = '#ac29a5'
+
+const FUNCTION_KEY_PREFIX: string = 'F'
+const DIGIT_KEY_PREFIX: string = 'Digit'
 
 @Injectable()
 export class KeyBindingFactory {
@@ -38,9 +44,12 @@ export class KeyBindingFactory {
   }
 
   private createInsertCameraOnAirKeyBinding(cameraAction: Tv2CameraAction, rundownId: string): StyledKeyBinding {
-    const cameraNumber: number = cameraAction.metadata.cameraNumber
+    const cameraNumber: number = parseInt(cameraAction.metadata.cameraNumber)
+    if (Number.isNaN(cameraNumber)) {
+      throw new Error('Expected camera number to be an integer.')
+    }
     return {
-      keys: [`Digit${cameraNumber}`],
+      keys: [`${FUNCTION_KEY_PREFIX}${cameraNumber}`],
       label: cameraAction.name,
       onMatched: () => this.actionService.executeAction(cameraAction.id, rundownId).subscribe(),
       shouldMatchOnKeyRelease: true,
@@ -48,14 +57,17 @@ export class KeyBindingFactory {
       shouldPreventDefaultBehaviourForPartialMatches: true,
       useExclusiveMatching: true,
       useOrderedMatching: false,
-      background: '#005919',
+      background: CAMERA_COLOR,
     }
   }
 
   private createInsertCameraAsNextKeyBinding(cameraAction: Tv2CameraAction, rundownId: string): StyledKeyBinding {
-    const cameraNumber: number = cameraAction.metadata.cameraNumber
+    const cameraNumber: number = parseInt(cameraAction.metadata.cameraNumber)
+    if (Number.isNaN(cameraNumber)) {
+      throw new Error('Expected camera number to be an integer.')
+    }
     return {
-      keys: ['Alt', `Digit${cameraNumber}`],
+      keys: ['Alt', `${FUNCTION_KEY_PREFIX}${cameraNumber}`],
       label: cameraAction.name,
       onMatched: () => this.actionService.executeAction(cameraAction.id, rundownId).subscribe(),
       shouldMatchOnKeyRelease: true,
@@ -63,7 +75,30 @@ export class KeyBindingFactory {
       shouldPreventDefaultBehaviourForPartialMatches: true,
       useExclusiveMatching: true,
       useOrderedMatching: false,
-      background: '#005919',
+      background: CAMERA_COLOR,
+    }
+  }
+
+  public createRemoteKeyBindingsFromActions(remoteActions: Tv2RemoteAction[], rundownId: string): StyledKeyBinding[] {
+    return remoteActions.filter(remoteAction => remoteAction.type === PartActionType.INSERT_PART_AS_NEXT).map(remoteAction => this.createInsertRemoteAsNextKeyBinding(remoteAction, rundownId))
+  }
+
+  private createInsertRemoteAsNextKeyBinding(remoteAction: Tv2RemoteAction, rundownId: string): StyledKeyBinding {
+    const remoteNumber: number = parseInt(remoteAction.metadata.remoteNumber)
+    if (Number.isNaN(remoteNumber)) {
+      throw new Error('Expected remote number to be an integer.')
+    }
+    const keyDigit: number = remoteNumber !== 10 ? remoteNumber : 0
+    return {
+      keys: [`${DIGIT_KEY_PREFIX}${keyDigit}`],
+      label: remoteAction.name,
+      onMatched: () => this.actionService.executeAction(remoteAction.id, rundownId).subscribe(),
+      shouldMatchOnKeyRelease: true,
+      shouldPreventDefaultBehaviourOnKeyPress: true,
+      shouldPreventDefaultBehaviourForPartialMatches: true,
+      useExclusiveMatching: true,
+      useOrderedMatching: false,
+      background: REMOTE_COLOR,
     }
   }
 

@@ -47,4 +47,8 @@ export class HttpRundownService implements RundownService {
   public delete(rundownId: string): Observable<void> {
     return this.http.delete<void>(`${RUNDOWN_URL}/${rundownId}`).pipe(catchError(error => this.httpErrorService.catchError(error)))
   }
+
+  public reingest(rundownId: string): Observable<void> {
+    return this.http.post<void>(`${RUNDOWN_URL}/${rundownId}/reingest`, null).pipe(catchError(error => this.httpErrorService.catchError(error)))
+  }
 }

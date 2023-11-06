@@ -41,6 +41,10 @@ export class RundownHeaderContextMenuComponent {
       label: 'Reset Rundown',
       contextAction: (): void => this.openResetRundownDialog(),
     },
+    {
+      label: 'Reingest data',
+      contextAction: (): void => this.reingestData(),
+    },
   ]
 
   public get contextMenuOptions(): ContextMenuOption[] {
@@ -84,5 +88,9 @@ export class RundownHeaderContextMenuComponent {
 
   private resetRundown(): void {
     this.rundownService.reset(this.rundown.id).subscribe()
+  }
+
+  public reingestData(): void {
+    this.rundownService.reingest(this.rundown.id).subscribe()
   }
 }
