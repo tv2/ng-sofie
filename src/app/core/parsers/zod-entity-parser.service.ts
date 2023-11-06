@@ -47,26 +47,13 @@ export class ZodEntityParser implements EntityParser {
     name: zod.string().min(1),
     layer: zod.string().min(1),
     start: zod.number(),
-    duration: zod
-      .number()
-      // TODO: Remove when fixed on backend
-      .nullish()
-      .transform(duration => duration ?? undefined),
+    duration: zod.number().optional(),
     isPlanned: zod.boolean(),
     // TODO: Should this be less TV2 specific.
-    metadata: zod
-      .object({
-        type: zod.nativeEnum(Tv2PieceType).default(Tv2PieceType.UNKNOWN),
-        outputLayer: zod.nativeEnum(Tv2OutputLayer).optional(),
-      })
-      // TODO: Remove after testing
-      .nullish()
-      .transform(
-        metadata =>
-          metadata ?? {
-            type: Tv2PieceType.UNKNOWN,
-          }
-      ),
+    metadata: zod.object({
+      type: zod.nativeEnum(Tv2PieceType),
+      outputLayer: zod.nativeEnum(Tv2OutputLayer).optional(),
+    }),
   })
 
   private readonly partParser = zod.object({
