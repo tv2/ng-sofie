@@ -20,7 +20,7 @@ export enum Tv2ActionContentType {
   TRANSITION = 'TRANSITION',
   GRAPHICS = 'GRAPHICS',
   AUDIO = 'AUDIO',
-  SPLIT_SCREEN = 'SPLIT_SCREEN',
+  DVE = 'DVE',
   UNKNOWN = 'UNKNOWN',
 }
 
