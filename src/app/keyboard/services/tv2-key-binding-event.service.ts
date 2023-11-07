@@ -4,6 +4,7 @@ import { BehaviorSubject, fromEvent, Observable, Subject, Subscription } from 'r
 import { KeyBindingMatcher } from '../abstractions/key-binding-matcher.service'
 import { Injectable } from '@angular/core'
 import { KeyEventType } from '../value-objects/key-event-type'
+import { KeyAliasService } from '../abstractions/key-alias-service'
 
 @Injectable()
 export class Tv2KeyBindingEventService implements KeyBindingEventService {
@@ -12,7 +13,10 @@ export class Tv2KeyBindingEventService implements KeyBindingEventService {
   private keyBindings: KeyBinding[] = []
   private elementSubscriptions?: Subscription[]
 
-  constructor(private readonly keyBindingMatcher: KeyBindingMatcher) {
+  constructor(
+    private readonly keyBindingMatcher: KeyBindingMatcher,
+    private readonly keyAliasService: KeyAliasService
+  ) {
     this.keystrokesSubject = new BehaviorSubject(this.keystrokes)
   }
 
@@ -28,7 +32,7 @@ export class Tv2KeyBindingEventService implements KeyBindingEventService {
 
   private registerKeyRelease(event: KeyboardEvent, eventAreaNode: Node): void {
     const keyCode: string = event.code
-    if (!this.isTargetingEventAreaNode(event, eventAreaNode)) {
+    if (!this.isTargetingEventAreaNode(event, eventAreaNode) || this.isModifierKey(keyCode)) {
       this.deregisterKeystroke(keyCode)
       return
     }
@@ -46,6 +50,10 @@ export class Tv2KeyBindingEventService implements KeyBindingEventService {
 
   private isTargetingEventAreaNode(event: KeyboardEvent, eventAreaNode: Node): boolean {
     return eventAreaNode.contains(event.target as Node | null) || event.target === document.body
+  }
+
+  private isModifierKey(key: string): boolean {
+    return this.keyAliasService.isModifierKeyOrAliasedModifierKey(key)
   }
 
   private deregisterKeystroke(keystrokeToUnregister: string): void {
