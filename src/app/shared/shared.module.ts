@@ -34,7 +34,6 @@ import { ZodTv2ActionParser } from './services/zod-tv2-action-parser.service'
 import { RundownNavigationService } from './services/rundown-navigation-service'
 import { Tv2ActionPanelComponent } from './components/tv2-action-panel/tv2-action-panel.component'
 import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-card.component'
-import { LocaleSwitcherComponent } from './components/locale-switcher/locale-switcher.component'
 import { MatSelectModule } from '@angular/material/select'
 
 @NgModule({
@@ -51,7 +50,6 @@ import { MatSelectModule } from '@angular/material/select'
     ContextMenuComponent,
     Tv2ActionPanelComponent,
     Tv2ActionCardComponent,
-    LocaleSwitcherComponent,
   ],
   imports: [
     CommonModule,

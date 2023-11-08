@@ -160,7 +160,7 @@
       </trans-unit>
       <trans-unit id="3796920100771349539" datatype="html">
         <source>rundown-overview-component.deletion-dialog-question &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;? Please note: This action is irreversible!</source>
-        <target>Er du sikker at du vil slette Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Vær opmærksom på: Denne handling er uigenkaldelig!</target>
+        <target>Er du sikker på at du vil slette Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Vær opmærksom på: Denne handling er uigenkaldelig!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
           <context context-type="linenumber">51</context>
@@ -176,7 +176,7 @@
       </trans-unit>
       <trans-unit id="672684067026346719" datatype="html">
         <source>dialog.cancel-button:Cancel</source>
-        <target>Annulere</target>
+        <target>Annuler</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/services/dialog.service.ts</context>
           <context context-type="linenumber">25</context>

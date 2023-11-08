@@ -11,7 +11,7 @@
             "translation": "src/locale/messages.da.xlf"
           },
           "en": {
-            "translation": "src/locale/messages.en.xlf"
+            "translation": "src/locale/messages.en-US.xlf"
           }
         }
       },
@@ -52,7 +52,7 @@
               "localize": ["da"]
             },
             "en": {
-              "localize": ["en"]
+              "localize": ["en-US"]
             },
             "production": {
               "tsConfig": "./tsconfig.build.json",
@@ -96,9 +96,6 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "da": {
-              "browserTarget": "ng-sofie:build:development,da"
-            },
             "en": {
               "browserTarget": "ng-sofie:build:development,en"
             },
@@ -106,10 +103,10 @@
               "browserTarget": "ng-sofie:build:production"
             },
             "development": {
-              "browserTarget": "ng-sofie:build:development"
+              "browserTarget": "ng-sofie:build:development,en"
             }
           },
-          "defaultConfiguration": "en"
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
