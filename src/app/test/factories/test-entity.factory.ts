@@ -2,6 +2,7 @@ import { Part } from '../../core/models/part'
 import { Segment } from '../../core/models/segment'
 import { Rundown } from '../../core/models/rundown'
 import { Piece } from '../../core/models/piece'
+import { RundownTimingType } from '../../core/enums/rundown-timing-type'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -12,6 +13,9 @@ export class TestEntityFactory {
       segments: [],
       infinitePieces: [],
       modifiedAt: 0,
+      timing: {
+        type: RundownTimingType.UNSCHEDULED,
+      },
       ...rundown,
     }
   }
