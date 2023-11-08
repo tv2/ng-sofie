@@ -8,4 +8,5 @@ export enum PieceType {
   AUDIO = 'AUDIO',
   TRANSITION = 'TRANSITION',
   DVE = 'DVE',
+  REPLAY = 'REPLAY'
 }
