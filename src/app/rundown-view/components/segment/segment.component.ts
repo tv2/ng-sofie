@@ -7,6 +7,11 @@ import { Logger } from '../../../core/abstractions/logger.service'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 import { Tv2Piece } from '../../../core/models/tv2-piece'
 import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
+import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
+
+const MINIMUM_PIXELS_PER_SECOND: number = 20
+const PIXELS_PER_SECOND_STEP_FACTOR: number = 1.5
+const INITIAL_PIXELS_PER_SECOND: number = MINIMUM_PIXELS_PER_SECOND * Math.pow(PIXELS_PER_SECOND_STEP_FACTOR, 3)
 
 @Component({
   selector: 'sofie-segment',
@@ -24,6 +29,11 @@ export class SegmentComponent implements OnChanges, OnDestroy {
 
   public timeReference: number = 0
   public outputLayers: Tv2OutputLayer[] = []
+
+  public pixelsPerSecond: number = INITIAL_PIXELS_PER_SECOND
+  public get isAtMinimumZoomLevel(): boolean {
+    return this.pixelsPerSecond <= MINIMUM_PIXELS_PER_SECOND
+  }
 
   private animationFrameId?: number
   private readonly logger: Logger
@@ -103,7 +113,22 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     return pieces.some(piece => piece.metadata.type === Tv2PieceType.REMOTE)
   }
 
+  public zoomIn(): void {
+    this.pixelsPerSecond = Math.max(MINIMUM_PIXELS_PER_SECOND, this.pixelsPerSecond / PIXELS_PER_SECOND_STEP_FACTOR)
+  }
+
+  public zoomOut(): void {
+    this.pixelsPerSecond = this.pixelsPerSecond * PIXELS_PER_SECOND_STEP_FACTOR
+  }
+
+  public resetZoom(): void {
+    this.pixelsPerSecond = INITIAL_PIXELS_PER_SECOND
+  }
+
   public ngOnDestroy(): void {
     this.stopAnimation()
   }
+
+  public IconButton = IconButton
+  public IconButtonSize = IconButtonSize
 }

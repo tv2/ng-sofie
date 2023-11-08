@@ -13,7 +13,11 @@
     </div>
   </div>
   <div class="c-segment__controls">
-    <div class="c-segment__controls-toolbar">Hello</div>
+    <div class="c-segment__controls-toolbar">
+      <sofie-icon-button [iconButton]="IconButton.MINUS" [iconButtonSize]="IconButtonSize.S" (click)="zoomIn()" [disabled]="isAtMinimumZoomLevel" title="Zoom out"></sofie-icon-button>
+      <sofie-icon-button [iconButton]="IconButton.HORIZONTAL_ARROWS" [iconButtonSize]="IconButtonSize.S" (click)="resetZoom()" title="Reset zoom"></sofie-icon-button>
+      <sofie-icon-button [iconButton]="IconButton.PLUS"  [iconButtonSize]="IconButtonSize.S" (click)="zoomOut()" title="Zoom in"></sofie-icon-button>
+    </div>
     <div class="c-segment__piece-layers">
       <div *ngFor="let outputLayer of outputLayers" class="c-segment__piece-layer">
         {{ outputLayer }}
@@ -28,6 +32,7 @@
     [segment]="segment"
     [outputLayers]="outputLayers"
     [isRundownActive]="isRundownActive"
+    [pixelsPerSecond]="pixelsPerSecond"
   ></sofie-scrollable-timeline>
 
   <ng-template #onAirTimeline>
@@ -37,6 +42,7 @@
       [segment]="segment"
       [outputLayers]="outputLayers"
       [isRundownActive]="isRundownActive"
+      [pixelsPerSecond]="pixelsPerSecond"
     ></sofie-follow-playhead-timeline>
   </ng-template>
 </div>

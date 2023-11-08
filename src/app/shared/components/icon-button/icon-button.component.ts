@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, HostBinding, Input, OnInit } from '@angular/core'
 import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core'
 import { IconButton, IconButtonSize } from '../../enums/icon-button'
-import { faTrashCan, faXmark, faBars } from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan, faXmark, faBars, faPlus, faMinus, faArrowsH } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'sofie-icon-button',
   templateUrl: './icon-button.component.html',
+  styleUrls: ['./icon-button.component.scss'],
 })
 export class IconButtonComponent implements OnInit {
   @Input()
@@ -13,6 +14,10 @@ export class IconButtonComponent implements OnInit {
 
   @Input()
   public iconButtonSize: IconButtonSize
+
+  @Input()
+  @HostBinding('attr.disabled')
+  public disabled: boolean = false
 
   public iconButtonProp: IconProp
   public iconButtonSizeProp: SizeProp
@@ -26,16 +31,22 @@ export class IconButtonComponent implements OnInit {
     switch (iconButton) {
       case IconButton.XMARK:
         return faXmark
-      case IconButton.DELETE:
+      case IconButton.TRASH_CAN:
         return faTrashCan
       case IconButton.BARS:
         return faBars
+      case IconButton.PLUS:
+        return faPlus
+      case IconButton.MINUS:
+        return faMinus
+      case IconButton.HORIZONTAL_ARROWS:
+        return faArrowsH
       default:
         return faXmark
     }
   }
 
-  public getIconSizeProperty(iconButtonSize?: IconButtonSize): SizeProp {
+  public getIconSizeProperty(iconButtonSize: IconButtonSize): SizeProp {
     switch (iconButtonSize) {
       case IconButtonSize.XS:
         return 'xs'
