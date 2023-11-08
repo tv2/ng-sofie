@@ -9,6 +9,8 @@ import { SubscriptionLike } from 'rxjs'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { RundownTiming } from '../../../core/models/rundown-timing'
+import { RundownTimingType } from '../../../core/enums/rundown-timing-type'
 
 @Component({
   selector: 'sofie-rundown-overview',
@@ -53,6 +55,40 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
 
   private deleteRundown(rundownId: string): void {
     this.rundownService.delete(rundownId).subscribe()
+  }
+
+  public getPlannedStart(basicRundown: BasicRundown): number | undefined {
+    const rundownTiming: RundownTiming = basicRundown.timing
+    switch (rundownTiming.type) {
+      case RundownTimingType.FORWARD:
+        return rundownTiming.expectedStartEpochTime
+      case RundownTimingType.BACKWARD:
+        if (rundownTiming.expectedStartEpochTime) {
+          return rundownTiming.expectedStartEpochTime
+        }
+        if (rundownTiming.expectedDurationInMs) {
+          return rundownTiming.expectedEndEpochTime - rundownTiming.expectedDurationInMs
+        }
+        return undefined
+      default:
+        return undefined
+    }
+  }
+
+  public getDurationInMs(basicRundown: BasicRundown): number | undefined {
+    const rundownTiming: RundownTiming = basicRundown.timing
+    return rundownTiming.expectedDurationInMs
+  }
+
+  public getPlannedEnd(basicRundown: BasicRundown): number | undefined {
+    const rundownTiming: RundownTiming = basicRundown.timing
+    switch (rundownTiming.type) {
+      case RundownTimingType.FORWARD:
+      case RundownTimingType.BACKWARD:
+        return rundownTiming.expectedEndEpochTime
+      default:
+        return undefined
+    }
   }
 
   public ngOnDestroy(): void {

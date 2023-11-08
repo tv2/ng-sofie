@@ -8,6 +8,7 @@ import { ShowStyleVariant } from '../models/show-style-variant'
 import { Tv2PieceType } from '../enums/tv2-piece-type'
 import { Tv2OutputLayer } from '../models/tv2-output-layer'
 import { Tv2Piece } from '../models/tv2-piece'
+import { RundownTimingType } from '../enums/rundown-timing-type'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -87,6 +88,20 @@ export class ZodEntityParser implements EntityParser {
     name: zod.string().min(1),
     isActive: zod.boolean(),
     modifiedAt: zod.number(),
+    timing: zod.object({
+      type: zod.literal(RundownTimingType.UNSCHEDULED),
+      expectedDurationInMs: zod.number().optional(),
+    }).or(zod.object({
+      type: zod.literal(RundownTimingType.FORWARD),
+      expectedStartEpochTime: zod.number(),
+      expectedDurationInMs: zod.number().optional(),
+      expectedEndEpochTime: zod.number().optional(),
+    })).or(zod.object({
+      type: zod.literal(RundownTimingType.BACKWARD),
+      expectedStartEpochTime: zod.number().optional(),
+      expectedDurationInMs: zod.number().optional(),
+      expectedEndEpochTime: zod.number(),
+    }))
   })
 
   private readonly basicRundownsParser = this.basicRundownParser.array()
