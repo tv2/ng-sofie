@@ -106,7 +106,7 @@
           <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="7515883357904500238" datatype="html">
+      <trans-unit id="770901610469150867" datatype="html">
         <source>Are you sure?</source>
         <target>Er du sikker?</target>
         <context-group purpose="location">
@@ -115,8 +115,8 @@
         </context-group>
         <note priority="1" from="description">confirmation-dialog.are-you-sure.title</note>
       </trans-unit>
-      <trans-unit id="2807800733729323332" datatype="html">
-        <source>Yes</source>
+      <trans-unit id="2002860888965051390" datatype="html">
+        <source>confirmation-dialog.yes.button</source>
         <target>Ja</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
@@ -124,8 +124,8 @@
         </context-group>
         <note priority="1" from="description">confirmation-dialog.yes.button</note>
       </trans-unit>
-      <trans-unit id="2159130950882492111" datatype="html">
-        <source>Cancel</source>
+      <trans-unit id="4527235810099606771" datatype="html">
+        <source>confirmation-dialog.cancel.button</source>
         <target>Annuller</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
@@ -138,7 +138,7 @@
         <target>Rundowns</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/components/header/header.component.html</context>
-          <context context-type="linenumber">13</context>
+          <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1079134994533846284" datatype="html">
