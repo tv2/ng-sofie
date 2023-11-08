@@ -45,24 +45,34 @@ export class RundownTimingService {
     if (!rundown.isActive) {
       return Date.now() - this.getEndEpochTime(rundown)
     }
-    return 0
+
+    const remainingDuration: number = this.getRemainingRundownDuration(rundown)
+    if (remainingDuration + Date.now() > this.getEndEpochTime(rundown)) {
+      return remainingDuration
+    }
+    return -remainingDuration
   }
 
   public getEndEpochTime(rundown: Rundown): number {
-    const expectedEndEpochTime = this.getExpectedEndEpochTime(rundown.timing)
+    const expectedEndEpochTime: number | undefined = this.getExpectedEndEpochTime(rundown.timing)
     if (expectedEndEpochTime) {
       return expectedEndEpochTime
     }
 
     if (!rundown.isActive) {
       const expectedDurationInMs: number = this.getExpectedDurationInMs(rundown.timing) ?? 0
-      return  Date.now() + expectedDurationInMs
+      return Date.now() + expectedDurationInMs
     }
 
+    return Date.now() + this.getRemainingRundownDuration(rundown)
+  }
+
+  // TODO: This should also add the remaining time from within the on air segment (use expectedDuration and playedDuration on Parts?)
+  private getRemainingRundownDuration(rundown: Rundown): number {
     const nextSegmentIndex: number = rundown.segments.findIndex(segment => segment.isNext)
     if (nextSegmentIndex < 0) {
       throw new Error(`Expected an on air segment in the rundown '${rundown.name}' with id '${rundown.id}'.`)
     }
-    return Date.now() + rundown.segments.slice(nextSegmentIndex).reduce((accumulatedEndEpochTime: number, segment: Segment) => accumulatedEndEpochTime + (segment.budgetDuration ?? 0), 0)
+    return rundown.segments.slice(nextSegmentIndex).reduce((accumulatedEndEpochTime: number, segment: Segment) => accumulatedEndEpochTime + (segment.budgetDuration ?? 0), 0)
   }
 }
