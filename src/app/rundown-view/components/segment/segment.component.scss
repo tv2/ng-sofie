@@ -15,6 +15,10 @@
     transition: background-color .2s;
   }
 
+  &--has-remote-piece &__header {
+    background-color: #ac29a5;
+  }
+
   &--set-as-next &__header {
     background-color: #00ac17;
   }

@@ -1,4 +1,8 @@
-<div class="c-segment" [class.c-segment--on-air]="segment.isOnAir" [class.c-segment--set-as-next]="segment.isNext">
+<div class="c-segment"
+  [class.c-segment--on-air]="segment.isOnAir"
+  [class.c-segment--set-as-next]="segment.isNext"
+  [class.c-segment--has-remote-piece]="hasRemotePiece"
+>
   <div [cdkContextMenuTriggerFor]="contextMenu" class="c-segment__header">
     <div class="c-segment__header-toolbar">
       <span>123</span>
@@ -11,8 +15,8 @@
   <div class="c-segment__controls">
     <div class="c-segment__controls-toolbar">Hello</div>
     <div class="c-segment__piece-layers">
-      <div *ngFor="let pieceLayer of pieceLayers" class="c-segment__piece-layer">
-        {{ pieceLayer }}
+      <div *ngFor="let outputLayer of outputLayers" class="c-segment__piece-layer">
+        {{ outputLayer }}
       </div>
     </div>
   </div>
@@ -22,7 +26,7 @@
     *ngIf="!segment.isOnAir; else onAirTimeline"
     class="c-segment__timeline"
     [segment]="segment"
-    [pieceLayers]="pieceLayers"
+    [outputLayers]="outputLayers"
     [isRundownActive]="isRundownActive"
   ></sofie-scrollable-timeline>
 
@@ -31,7 +35,7 @@
       class="c-segment__timeline"
       [time]="timeReference"
       [segment]="segment"
-      [pieceLayers]="pieceLayers"
+      [outputLayers]="outputLayers"
       [isRundownActive]="isRundownActive"
     ></sofie-follow-playhead-timeline>
   </ng-template>

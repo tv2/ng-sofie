@@ -1,10 +1,12 @@
-import { Component, Input, OnChanges, OnDestroy } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
-import { PieceLayerService } from '../../../shared/services/piece-layer.service'
-import { PieceLayer } from '../../../shared/enums/piece-layer'
+import { Tv2OutputLayerService } from '../../../shared/services/tv2-output-layer.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
+import { Tv2Piece } from '../../../core/models/tv2-piece'
+import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
 
 @Component({
   selector: 'sofie-segment',
@@ -18,34 +20,41 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   @Input()
   public isRundownActive: boolean
 
+  public hasRemotePiece: boolean = false
+
   public timeReference: number = 0
-  public pieceLayers: PieceLayer[] = []
+  public outputLayers: Tv2OutputLayer[] = []
 
   private animationFrameId?: number
   private readonly logger: Logger
 
   constructor(
-    private readonly pieceLayerService: PieceLayerService,
+    private readonly outputLayerService: Tv2OutputLayerService,
     private readonly partEntityService: PartEntityService,
     logger: Logger
   ) {
     this.logger = logger.tag('SegmentComponent')
   }
 
-  private getUsedPieceLayersInOrder(): PieceLayer[] {
-    const pieceLayersInOrder: PieceLayer[] = this.pieceLayerService.getPieceLayersInOrder()
-    const usedPieceLayers: Set<PieceLayer> = this.pieceLayerService.getPieceLayersForParts(this.segment.parts)
-    return pieceLayersInOrder.filter(layer => usedPieceLayers.has(layer))
+  private getUsedOutputLayersInOrder(): Tv2OutputLayer[] {
+    const outputLayersInOrder: Tv2OutputLayer[] = this.outputLayerService.getOutputLayersInOrder()
+    const usedOutputLayers: Set<Tv2OutputLayer> = this.outputLayerService.getOutputLayersForParts(this.segment.parts)
+    return outputLayersInOrder.filter(layer => usedOutputLayers.has(layer))
   }
 
-  public ngOnChanges(): void {
-    this.pieceLayers = this.getUsedPieceLayersInOrder()
+  public ngOnChanges(changes: SimpleChanges): void {
+    this.outputLayers = this.getUsedOutputLayersInOrder()
 
     if (this.isGoingOnAir()) {
       this.startAnimation()
     }
     if (this.isGoingOffAir()) {
       this.stopAnimation()
+    }
+
+    const segmentChange: SimpleChange | undefined = changes['segment']
+    if (segmentChange && segmentChange.previousValue?.parts !== segmentChange.currentValue?.parts) {
+      this.hasRemotePiece = this.segment.parts.some(part => this.hasPartRemotePiece(part))
     }
   }
 
@@ -87,6 +96,11 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     // TODO: Is this the right place to compute it or should it be the part that does it?
     const timeSpendInActivePart: number = activePart.executedAt > 0 ? Date.now() - activePart.executedAt : 0
     this.timeReference = timeSpendUntilActivePart + timeSpendInActivePart
+  }
+
+  private hasPartRemotePiece(part: Part): boolean {
+    const pieces: Tv2Piece[] = part.pieces as Tv2Piece[]
+    return pieces.some(piece => piece.metadata.type === Tv2PieceType.REMOTE)
   }
 
   public ngOnDestroy(): void {
