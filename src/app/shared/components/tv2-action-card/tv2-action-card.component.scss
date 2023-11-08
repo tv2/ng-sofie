@@ -13,9 +13,11 @@
   font-size: 0.9rem;
   font-weight: 500;
   text-shadow: 1px 1px 2px black;
+  word-break: break-word;
 
   cursor: pointer;
   transition: opacity .1s;
+  overflow: hidden;
 
   &.camera {
     background-color: #005919;
@@ -33,6 +35,10 @@
         #1769FF 15px
       );
     }
+  }
+
+  &.remote {
+    background-color: #ac29a5;
   }
 
   &:active {
