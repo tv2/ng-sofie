@@ -64,7 +64,13 @@ export class PartEntityService {
   }
 
   private getMinimumDuration(part: Part): number {
-    return part.autoNext?.overlap ?? part.expectedDuration ?? this.defaultPartDurationInMs
+    if (!part.expectedDuration) {
+      return this.defaultPartDurationInMs
+    }
+    if (part.autoNext) {
+      return part.expectedDuration - part.autoNext.overlap
+    }
+    return part.expectedDuration
   }
 
   public insertPiece(part: Part, piece: Piece): Part {

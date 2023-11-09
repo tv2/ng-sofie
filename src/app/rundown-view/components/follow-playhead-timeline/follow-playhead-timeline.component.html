@@ -7,7 +7,7 @@
     <sofie-offsetable-part
             *ngFor="let previousPart of previousParts; trackBy: trackPart"
             [part]="previousPart"
-            [pieceLayers]="pieceLayers"
+            [outputLayers]="outputLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="getPreviousPartOffsetInMs(previousPart)"
             [rundownId]="segment.rundownId"
@@ -17,7 +17,7 @@
     <sofie-offsetable-part
             *ngIf="onAirPart"
             [part]="onAirPart"
-            [pieceLayers]="pieceLayers"
+            [outputLayers]="outputLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="getOnAirPartOffsetInMs()"
             [prePlayheadDurationInMs]="this.prePlayheadDurationInMs"
@@ -29,7 +29,7 @@
     <sofie-offsetable-part
             *ngFor="let futurePart of futureParts; trackBy: trackPart"
             [part]="futurePart"
-            [pieceLayers]="pieceLayers"
+            [outputLayers]="outputLayers"
             [pixelsPerSecond]="pixelsPerSecond"
             [offsetDurationInMs]="0"
             [rundownId]="segment.rundownId"
