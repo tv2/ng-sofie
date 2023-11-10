@@ -27,11 +27,8 @@ export class RundownSubheaderComponent implements OnChanges {
   private setEndWords(): void {
     this.endWords = this.rundown.segments
       .find(segment => segment.isOnAir)
-      ?.parts
-      .find(part => part.isOnAir && this.doesPartContainVideoClipPiece(part))
-      ?.pieces
-      .find(piece => this.isManusPiece(piece))
-      ?.name
+      ?.parts.find(part => part.isOnAir && this.doesPartContainVideoClipPiece(part))
+      ?.pieces.find(piece => this.isManusPiece(piece))?.name
   }
 
   private doesPartContainVideoClipPiece(part: Part): boolean {

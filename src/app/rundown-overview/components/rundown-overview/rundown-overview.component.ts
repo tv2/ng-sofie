@@ -9,8 +9,6 @@ import { SubscriptionLike } from 'rxjs'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 import { Logger } from '../../../core/abstractions/logger.service'
-import { RundownTiming } from '../../../core/models/rundown-timing'
-import { RundownTimingType } from '../../../core/enums/rundown-timing-type'
 import { RundownTimingService } from '../../../core/services/rundown-timing.service'
 
 @Component({

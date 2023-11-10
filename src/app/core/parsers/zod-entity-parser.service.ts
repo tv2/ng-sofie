@@ -88,20 +88,27 @@ export class ZodEntityParser implements EntityParser {
     name: zod.string().min(1),
     isActive: zod.boolean(),
     modifiedAt: zod.number(),
-    timing: zod.object({
-      type: zod.literal(RundownTimingType.UNSCHEDULED),
-      expectedDurationInMs: zod.number().optional(),
-    }).or(zod.object({
-      type: zod.literal(RundownTimingType.FORWARD),
-      expectedStartEpochTime: zod.number(),
-      expectedDurationInMs: zod.number().optional(),
-      expectedEndEpochTime: zod.number().optional(),
-    })).or(zod.object({
-      type: zod.literal(RundownTimingType.BACKWARD),
-      expectedStartEpochTime: zod.number().optional(),
-      expectedDurationInMs: zod.number().optional(),
-      expectedEndEpochTime: zod.number(),
-    }))
+    timing: zod
+      .object({
+        type: zod.literal(RundownTimingType.UNSCHEDULED),
+        expectedDurationInMs: zod.number().optional(),
+      })
+      .or(
+        zod.object({
+          type: zod.literal(RundownTimingType.FORWARD),
+          expectedStartEpochTime: zod.number(),
+          expectedDurationInMs: zod.number().optional(),
+          expectedEndEpochTime: zod.number().optional(),
+        })
+      )
+      .or(
+        zod.object({
+          type: zod.literal(RundownTimingType.BACKWARD),
+          expectedStartEpochTime: zod.number().optional(),
+          expectedDurationInMs: zod.number().optional(),
+          expectedEndEpochTime: zod.number(),
+        })
+      ),
   })
 
   private readonly basicRundownsParser = this.basicRundownParser.array()

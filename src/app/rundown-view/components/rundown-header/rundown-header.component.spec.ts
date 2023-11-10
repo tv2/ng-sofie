@@ -7,6 +7,10 @@ import { Subscription } from 'rxjs'
 import { Rundown } from '../../../core/models/rundown'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
+import { RundownTimingService } from '../../../core/services/rundown-timing.service'
+import { TimestampPipe } from '../../../shared/pipes/timestamp.pipe'
+import { RundownHeaderPanelComponent } from '../rundown-header-panel/rundown-header-panel.component'
+import { SofieLogoComponent } from '../../../shared/components/sofie-logo/sofie-logo.component'
 
 describe('RundownHeaderComponent', () => {
   it('should create', async () => {
@@ -25,8 +29,9 @@ async function configureTestBed(params: { mockedShowStyleVariantStateService?: S
     providers: [
       { provide: ShowStyleVariantStateService, useValue: instance(mockedShowStyleVariantStateService) },
       { provide: Logger, useValue: createLogger() },
+      { provide: RundownTimingService, useValue: instance(mock<RundownTimingService>()) },
     ],
-    declarations: [RundownHeaderComponent],
+    declarations: [RundownHeaderComponent, TimestampPipe],
   }).compileComponents()
   const fixture: ComponentFixture<RundownHeaderComponent> = TestBed.createComponent(RundownHeaderComponent)
   return fixture.componentInstance

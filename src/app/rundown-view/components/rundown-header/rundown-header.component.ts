@@ -85,7 +85,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
       this.setSchemaFromInfinitePieces()
     }
 
-    if(rundownChange) {
+    if (rundownChange) {
       this.setRundownTiming()
     }
   }
