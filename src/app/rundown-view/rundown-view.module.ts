@@ -7,15 +7,11 @@ import { TimelineMarkersComponent } from './components/timeline-markers/timeline
 import { TimelinePlayheadComponent } from './components/timeline-playhead/timeline-playhead.component'
 import { RundownHeaderComponent } from './components/rundown-header/rundown-header.component'
 import { MatButtonModule } from '@angular/material/button'
-import {
-  RundownHeaderContextMenuComponent
-} from './components/rundown-header-context-menu/rundown-header-context-menu.component'
+import { RundownHeaderContextMenuComponent } from './components/rundown-header-context-menu/rundown-header-context-menu.component'
 import { CdkMenuModule } from '@angular/cdk/menu'
 import { SegmentEndIndicatorComponent } from './components/segment-end-indicator/segment-end-indicator.component'
 import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.component'
-import {
-  FollowPlayheadTimelineComponent
-} from './components/follow-playhead-timeline/follow-playhead-timeline.component'
+import { FollowPlayheadTimelineComponent } from './components/follow-playhead-timeline/follow-playhead-timeline.component'
 import { ScrollableTimelineComponent } from './components/scrollable-timeline/scrollable-timeline.component'
 import { OffsetablePartComponent } from './components/offsetable-part/offsetable-part.component'
 import { Tv2PieceGroupService } from './services/tv2-piece-group.service'

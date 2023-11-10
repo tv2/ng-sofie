@@ -8,16 +8,15 @@ import { environment } from '../../../environments/environment'
 
 @Injectable()
 export class HttpActionTriggerService extends ActionTriggerService {
-
-  constructor(private readonly http: HttpClient,
-              private readonly httpErrorService: HttpErrorService) {
+  constructor(
+    private readonly http: HttpClient,
+    private readonly httpErrorService: HttpErrorService
+  ) {
     super()
   }
 
   public getActionTriggers(): Observable<ActionTrigger[]> {
     const url: string = `${environment.apiBaseUrl}/actions/triggers`
-    return this.http.get<ActionTrigger[]>(url).pipe(
-        catchError(error => this.httpErrorService.catchError(error))
-    )
+    return this.http.get<ActionTrigger[]>(url).pipe(catchError(error => this.httpErrorService.catchError(error)))
   }
 }

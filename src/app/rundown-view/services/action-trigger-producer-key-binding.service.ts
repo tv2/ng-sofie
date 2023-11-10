@@ -19,10 +19,9 @@ const REMOTE_COLOR: string = '#ac29a5'
 
 @Injectable()
 export class ActionTriggerProducerKeyBindingService implements KeyBindingService {
-
   private actionTriggers: ActionTrigger[] = []
   private actions: Tv2Action[] = []
-  private actionTriggersWithAction: Map<ActionTrigger, Tv2Action> = new Map()
+  private readonly actionTriggersWithAction: Map<ActionTrigger, Tv2Action> = new Map()
 
   private rundown?: Rundown
 
@@ -32,13 +31,14 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   private rundownSubscription?: SubscriptionLike
   private readonly logger: Logger
 
-  constructor(private readonly actionStateService: ActionStateService,
-              private readonly keyBindingFactory: KeyBindingFactory,
-              private readonly tv2ActionParser: Tv2ActionParser,
-              private readonly rundownStateService: RundownStateService,
-              private readonly actionTriggerService: ActionTriggerService,
-              private readonly actionService: ActionService,
-              logger: Logger
+  constructor(
+    private readonly actionStateService: ActionStateService,
+    private readonly keyBindingFactory: KeyBindingFactory,
+    private readonly tv2ActionParser: Tv2ActionParser,
+    private readonly rundownStateService: RundownStateService,
+    private readonly actionTriggerService: ActionTriggerService,
+    private readonly actionService: ActionService,
+    logger: Logger
   ) {
     this.logger = logger.tag('ActionTriggerProducerKeyBindingService')
     this.keyBindingsSubject = new BehaviorSubject(this.keyBindings)
@@ -51,14 +51,14 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     })
 
     this.actionStateService
-        .subscribeToRundownActions(rundownId, this.onActionsChanged.bind(this))
-        .then(subscription => (this.actionsSubscription = subscription))
-        .catch(error => this.logger.data(error).error('Encountered an error while subscribing to actions.'))
+      .subscribeToRundownActions(rundownId, this.onActionsChanged.bind(this))
+      .then(subscription => (this.actionsSubscription = subscription))
+      .catch(error => this.logger.data(error).error('Encountered an error while subscribing to actions.'))
 
     this.rundownStateService
-        .subscribeToRundown(rundownId, this.onRundownChanged.bind(this))
-        .then(subscription => (this.rundownSubscription = subscription))
-        .catch(error => this.logger.data(error).error(`Encountered an error while subscribing to rundown with id '${rundownId}'.`))
+      .subscribeToRundown(rundownId, this.onRundownChanged.bind(this))
+      .then(subscription => (this.rundownSubscription = subscription))
+      .catch(error => this.logger.data(error).error(`Encountered an error while subscribing to rundown with id '${rundownId}'.`))
   }
 
   private mapActionTriggersToActions(): void {
