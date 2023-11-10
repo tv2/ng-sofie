@@ -34,6 +34,8 @@ import { ZodTv2ActionParser } from './services/zod-tv2-action-parser.service'
 import { RundownNavigationService } from './services/rundown-navigation-service'
 import { Tv2ActionPanelComponent } from './components/tv2-action-panel/tv2-action-panel.component'
 import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-card.component'
+import { ActionTriggerService } from './abstractions/action-trigger.service'
+import { HttpActionTriggerService } from './services/http-action-trigger.service'
 
 @NgModule({
   declarations: [
@@ -81,6 +83,7 @@ import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
     { provide: ActionService, useClass: HttpActionService },
+    { provide: ActionTriggerService, useClass: HttpActionTriggerService },
     { provide: ActionParser, useClass: ZodActionParser },
     { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
     DialogService,
