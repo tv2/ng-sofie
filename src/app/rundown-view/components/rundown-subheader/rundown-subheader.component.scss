@@ -1,0 +1,37 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  background-color: #111111;
+  border-bottom: 1px solid var(--background-color);
+  color: var(--text-color);
+
+  .subheader-panel {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 8px 20px;
+
+    &__label {
+      display: inline-block;
+      font-size: .65rem;
+      text-transform: uppercase;
+      opacity: .7;
+    }
+
+    &__value {
+      display: inline-block;
+      font-size: 1.125rem;
+    }
+  }
+
+  .end-words {
+    width: 300px;
+
+    .subheader-panel__value {
+      text-overflow: ellipsis;
+      direction: rtl;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+}

@@ -29,6 +29,7 @@ import { PartContextMenuComponent } from './components/part-context-menu/part-co
 import { KeyboardConfigurationService } from './abstractions/keyboard-configuration.service'
 import { ProducerKeyboardConfigurationService } from './services/producer-keyboard-configuration.service'
 import { KeyBindingFactory } from './factories/key-binding.factory'
+import { RundownSubheaderComponent } from './components/rundown-subheader/rundown-subheader.component'
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
     TimelineMarkersComponent,
     TimelinePlayheadComponent,
     RundownHeaderComponent,
+    RundownSubheaderComponent,
     RundownHeaderContextMenuComponent,
     EditorialLineComponent,
     SegmentEndIndicatorComponent,

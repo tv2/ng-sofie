@@ -1,5 +1,6 @@
 <ng-container *ngIf="rundown; else loadingRundown">
     <sofie-rundown-header [rundown]="rundown"></sofie-rundown-header>
+    <sofie-rundown-subheader *ngIf="rundown.isActive" [rundown]="rundown"></sofie-rundown-subheader>
     <sofie-rundown [rundown]="rundown"></sofie-rundown>
     <sofie-draggable-shelf localStorageKey="producer-shelf">
         <sofie-producer-shelf
