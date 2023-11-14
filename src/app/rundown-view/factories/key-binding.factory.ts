@@ -80,8 +80,7 @@ export class KeyBindingFactory {
   }
 
   public createRemoteKeyBindingsFromActions(remoteActions: Tv2RemoteAction[], rundownId: string): StyledKeyBinding[] {
-    return remoteActions
-      .filter(remoteAction => remoteAction.type === PartActionType.INSERT_PART_AS_NEXT && remoteAction.metadata.remoteNumber)
+    return remoteActions.filter(remoteAction => remoteAction.type === PartActionType.INSERT_PART_AS_NEXT && remoteAction.metadata.remoteNumber)
       .map(remoteAction => this.createInsertRemoteAsNextKeyBinding(remoteAction, rundownId))
   }
 
