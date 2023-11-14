@@ -246,6 +246,7 @@ describe(ZodRundownEventParser.name, () => {
           playedDuration: 0,
           segmentId: '',
           isPlanned: false,
+          isUntimed: false,
         },
       }
 
@@ -286,6 +287,7 @@ describe(ZodRundownEventParser.name, () => {
           playedDuration: 0,
           segmentId: '',
           isPlanned: false,
+          isUntimed: false,
         },
       }
 

@@ -43,6 +43,7 @@ export class TestEntityFactory {
       executedAt: 0,
       playedDuration: 0,
       isPlanned: true,
+      isUntimed: false,
       ...part,
     }
   }
