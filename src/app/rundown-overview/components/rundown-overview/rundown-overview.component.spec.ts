@@ -29,7 +29,6 @@ async function configureTestBed(
       { provide: DialogService, useValue: instance(mockedDialogService) },
       { provide: RundownTimingService, useValue: instance(mock<RundownTimingService>()) },
       { provide: Logger, useValue: createLogger() },
-      { provide: RundownTimingService, useValue: instance(mock<RundownTimingService>()) },
     ],
     declarations: [RundownOverviewComponent],
   }).compileComponents()
