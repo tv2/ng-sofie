@@ -1,194 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en-US" datatype="plaintext" original="ng2.template">
-        <body>
-            <trans-unit id="487362280897426487" datatype="html">
-                <source>rundown-overview-component.rundown-header.label</source>
-                <target>Rundowns</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
-                    <context context-type="linenumber">3</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="6408855480151636220" datatype="html">
-                <source>rundown-overview-component.loading-rundowns.message</source>
-                <target>Loading rundowns...</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
-                    <context context-type="linenumber">6</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="4244324227350096273" datatype="html">
-                <source>rundown-overview-component.no-rundowns-available.message</source>
-                <target>There are no rundowns available</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
-                    <context context-type="linenumber">11</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="3521974238403661262" datatype="html">
-                <source>rundown-overview-component.check-connection-configure-ingest-gateway.message</source>
-                <target>Check your connection if you have configured Ingest Gateway. </target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
-                    <context context-type="linenumber">12</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="4359206169774515973" datatype="html">
-                <source>rundown-overview-component.last-updated.label</source>
-                <target>Last updated:</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
-                    <context context-type="linenumber">33</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="690878947555894079" datatype="html">
-                <source>rundown-header-context-menu-component.reset-rundown.button</source>
-                <target>Reset rundown</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
-                    <context context-type="linenumber">4</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="221016838323992979" datatype="html">
-                <source>rundown-header-context-menu-component.activate.button</source>
-                <target>Activate</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
-                    <context context-type="linenumber">8</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="2175030815390487298" datatype="html">
-                <source>rundown-header-context-menu-component.deactivate.button</source>
-                <target>Deactivate</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
-                    <context context-type="linenumber">12</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="1013806782562403538" datatype="html">
-                <source>rundown-header-context-menu-component.take.button</source>
-                <target>Take</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown/components/rundown-header-context-menu/rundown-header-context-menu.component.html</context>
-                    <context context-type="linenumber">13</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="2136327373490001416" datatype="html">
-                <source>rundown-component.take-next.button</source>
-                <target>Take next</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown/components/rundown/rundown.component.html</context>
-                    <context context-type="linenumber">4</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="410553181106118867" datatype="html">
-                <source>Loading the rundown...</source>
-                <target>Loading the rundown...</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown/components/rundown/rundown.component.html</context>
-                    <context context-type="linenumber">8</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="6602960182549626686" datatype="html">
-                <source>confirmation-dialog.close.label</source>
-                <target>Close</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.html</context>
-                    <context context-type="linenumber">6</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="770901610469150867" datatype="html">
-                <source>confirmation-dialog.are-you-sure.title</source>
-                <target>Are you sure?</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
-                    <context context-type="linenumber">20</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="2002860888965051390" datatype="html">
-                <source>confirmation-dialog.yes.button</source>
-                <target>Yes</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
-                    <context context-type="linenumber">22</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="4527235810099606771" datatype="html">
-                <source>confirmation-dialog.cancel.button</source>
-                <target>Cancel</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
-                    <context context-type="linenumber">23</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="2638363041233817949" datatype="html">
-                <source>header-component.rundowns.label</source>
-                <target>Rundowns</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/shared/components/header/header.component.html</context>
-                    <context context-type="linenumber">8</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="1079134994533846284" datatype="html">
-                <source>Lost connection to backend. Attempting to reconnect...</source>
-                <target>Lost connection to backend. Attempting to reconnect...</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/shared/services/connection-error.service.ts</context>
-                    <context context-type="linenumber">15</context>
-                </context-group>
-                <note priority="1" from="description">connection-error</note>
-            </trans-unit>
-            <trans-unit id="172210689759305381" datatype="html">
-                <source>rundown-overview-component.rundown-label</source>
-                <target>Rundown</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
-                    <context context-type="linenumber">26</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="4435140212952096113" datatype="html">
-                <source>rundown-overview-component.deletion-dialog-tittle</source>
-                <target>Delete Rundown?</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
-                    <context context-type="linenumber">50</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="3796920100771349539" datatype="html">
-                <source>rundown-overview-component.deletion-dialog-question &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?
-
-                    Please note: This action is irreversible!</source>
-                <target>Are you sure you want to delete the Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Please note: This action is irreversible!</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
-                    <context context-type="linenumber">51</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="5314808199366684814" datatype="html">
-                <source>rundown-overview-component.deletion-dialog.delete-button</source>
-                <target>Delete</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
-                    <context context-type="linenumber">52</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="672684067026346719" datatype="html">
-                <source>dialog.cancel-button:Cancel</source>
-                <target>Cancel</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/shared/services/dialog.service.ts</context>
-                    <context context-type="linenumber">25</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="6373029241912635510" datatype="html">
-                <source>rundown-overview-component.deletion-dialog-title</source>
-                <target>Delete rundown?</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
-                    <context context-type="linenumber">50</context>
-                </context-group>
-            </trans-unit>
-        </body>
-    </file>
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="608129622036865992" datatype="html">
+        <source>rundown-overview.rundown-overview.title</source>
+        <target>Rundowns</target>
+      </trans-unit>
+      <trans-unit id="4244324227350096273" datatype="html">
+        <source>rundown-overview-component.no-rundowns-available.message</source>
+        <target>There are no rundowns available</target>
+      </trans-unit>
+      <trans-unit id="3521974238403661262" datatype="html">
+        <source>rundown-overview-component.check-connection-configure-ingest-gateway.message</source>
+        <target>Check your connection if you have configured Ingest Gateway. </target>
+      </trans-unit>
+      <trans-unit id="4359206169774515973" datatype="html">
+        <source>rundown-overview-component.last-updated.label</source>
+        <target>Last updated:</target>
+      </trans-unit>
+      <trans-unit id="770901610469150867" datatype="html">
+        <source>confirmation-dialog.are-you-sure.title</source>
+        <target>Are you sure?</target>
+      </trans-unit>
+      <trans-unit id="2002860888965051390" datatype="html">
+        <source>confirmation-dialog.yes.button</source>
+        <target>Yes</target>
+      </trans-unit>
+      <trans-unit id="4527235810099606771" datatype="html">
+        <source>confirmation-dialog.cancel.button</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="2638363041233817949" datatype="html">
+        <source>header-component.rundowns.label</source>
+        <target>Rundowns</target>
+      </trans-unit>
+      <trans-unit id="1079134994533846284" datatype="html">
+        <source>Lost connection to backend. Attempting to reconnect...</source>
+        <target>Lost connection to backend. Attempting to reconnect...</target>
+      </trans-unit>
+      <trans-unit id="172210689759305381" datatype="html">
+        <source>rundown-overview-component.rundown-label</source>
+        <target>Rundown</target>
+      </trans-unit>
+      <trans-unit id="3796920100771349539" datatype="html">
+        <source>rundown-overview-component.deletion-dialog-question &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;</source>
+        <target state="new">Are you sure you want to delete the Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Please note: This action is irreversible!</target>
+      </trans-unit>
+      <trans-unit id="5314808199366684814" datatype="html">
+        <source>rundown-overview-component.deletion-dialog.delete-button</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="672684067026346719" datatype="html">
+        <source>dialog.cancel-button:Cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="6373029241912635510" datatype="html">
+        <source>rundown-overview-component.deletion-dialog-title</source>
+        <target>Delete rundown?</target>
+      </trans-unit>
+      <trans-unit id="221700254079718655" datatype="html">
+        <source>rundown-overview-component.rundown-overview.loading-rundowns.message</source>
+        <target state="new">rundown-overview-component.rundown-overview.loading-rundowns.message</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

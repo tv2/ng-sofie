@@ -51,7 +51,7 @@
             "da": {
               "localize": ["da"]
             },
-            "en": {
+            "en-US": {
               "localize": ["en-US"]
             },
             "production": {
@@ -109,11 +109,15 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "ng-extract-i18n-merge:ng-extract-i18n-merge",
           "options": {
             "browserTarget": "ng-sofie:build",
             "format": "xlf",
-            "outputPath": "src/locale"
+            "outputPath": "src/locale",
+            "targetFiles": [
+              "messages.da.xlf",
+              "messages.en-US.xlf"
+            ]
           }
         },
         "test": {

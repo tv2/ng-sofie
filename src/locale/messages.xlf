@@ -2,111 +2,50 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="487362280897426487" datatype="html">
-        <source>rundown-overview-component.rundown-header.label</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6408855480151636220" datatype="html">
-        <source>rundown-overview-component.loading-rundowns.message</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
-          <context context-type="linenumber">6</context>
-        </context-group>
+      <trans-unit id="608129622036865992" datatype="html">
+        <source>rundown-overview.rundown-overview.title</source>
       </trans-unit>
       <trans-unit id="4244324227350096273" datatype="html">
         <source>rundown-overview-component.no-rundowns-available.message</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
-          <context context-type="linenumber">11</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="3521974238403661262" datatype="html">
         <source>rundown-overview-component.check-connection-configure-ingest-gateway.message</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
-          <context context-type="linenumber">12</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="172210689759305381" datatype="html">
         <source>rundown-overview-component.rundown-label</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
-          <context context-type="linenumber">26</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="4359206169774515973" datatype="html">
         <source>rundown-overview-component.last-updated.label</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.html</context>
-          <context context-type="linenumber">33</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="6373029241912635510" datatype="html">
         <source>rundown-overview-component.deletion-dialog-title</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
-          <context context-type="linenumber">50</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="3796920100771349539" datatype="html">
         <source>rundown-overview-component.deletion-dialog-question &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
-          <context context-type="linenumber">51</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="5314808199366684814" datatype="html">
         <source>rundown-overview-component.deletion-dialog.delete-button</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/rundown-overview/components/rundown-overview/rundown-overview.component.ts</context>
-          <context context-type="linenumber">52</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="770901610469150867" datatype="html">
         <source>confirmation-dialog.are-you-sure.title</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
-          <context context-type="linenumber">27</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="2002860888965051390" datatype="html">
         <source>confirmation-dialog.yes.button</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
-          <context context-type="linenumber">29</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="4527235810099606771" datatype="html">
         <source>confirmation-dialog.cancel.button</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/shared/components/confirmation-dialog/confirmation-dialog.component.ts</context>
-          <context context-type="linenumber">30</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="2638363041233817949" datatype="html">
         <source>header-component.rundowns.label</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/shared/components/header/header.component.html</context>
-          <context context-type="linenumber">8</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="1079134994533846284" datatype="html">
         <source>Lost connection to backend. Attempting to reconnect...</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/shared/services/connection-error.service.ts</context>
-          <context context-type="linenumber">15</context>
-        </context-group>
-        <note priority="1" from="description">connection-error</note>
       </trans-unit>
       <trans-unit id="672684067026346719" datatype="html">
         <source>dialog.cancel-button:Cancel</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/shared/services/dialog.service.ts</context>
-          <context context-type="linenumber">25</context>
-        </context-group>
+      </trans-unit>
+      <trans-unit id="221700254079718655" datatype="html">
+        <source>rundown-overview-component.rundown-overview.loading-rundowns.message</source>
       </trans-unit>
     </body>
   </file>
