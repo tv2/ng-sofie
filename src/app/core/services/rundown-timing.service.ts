@@ -117,6 +117,9 @@ export class RundownTimingService {
   }
 
   private getPartDuration(part: Part): number {
+    if (part.isUntimed) {
+      return 0
+    }
     return part.playedDuration > 0 ? part.playedDuration : part.expectedDuration ?? 0
   }
 }
