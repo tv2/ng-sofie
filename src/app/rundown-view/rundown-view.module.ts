@@ -29,6 +29,7 @@ import { PartContextMenuComponent } from './components/part-context-menu/part-co
 import { KeyboardConfigurationService } from './abstractions/keyboard-configuration.service'
 import { ProducerKeyboardConfigurationService } from './services/producer-keyboard-configuration.service'
 import { KeyBindingFactory } from './factories/key-binding.factory'
+import { TimerPipe } from './pipes/timer/timer.pipe'
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
     SegmentContextMenuComponent,
     PartContextMenuComponent,
     RundownViewComponent,
+    TimerPipe,
   ],
   exports: [SegmentComponent],
   providers: [
