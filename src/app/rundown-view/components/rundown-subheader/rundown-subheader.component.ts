@@ -18,7 +18,7 @@ export class RundownSubheaderComponent implements OnChanges {
   public endWords?: string
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const rundownChange: SimpleChange = changes['rundown']
+    const rundownChange: SimpleChange | undefined = changes['rundown']
     if (rundownChange) {
       this.setEndWords()
     }
