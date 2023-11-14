@@ -14,7 +14,7 @@ import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.
 import { FollowPlayheadTimelineComponent } from './components/follow-playhead-timeline/follow-playhead-timeline.component'
 import { ScrollableTimelineComponent } from './components/scrollable-timeline/scrollable-timeline.component'
 import { OffsetablePartComponent } from './components/offsetable-part/offsetable-part.component'
-import { PieceGroupService } from './services/piece-group.service'
+import { Tv2PieceGroupService } from './services/tv2-piece-group.service'
 import { OffsetablePieceComponent } from './components/offsetable-piece/offsetable-piece.component'
 import { EditorialLineComponent } from './components/editorial-line/editorial-line.component'
 import { MatCardModule } from '@angular/material/card'
@@ -52,7 +52,7 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
   ],
   exports: [SegmentComponent],
   providers: [
-    PieceGroupService,
+    Tv2PieceGroupService,
     { provide: KeyBindingService, useClass: HardcodedProducerKeyBindingService },
     Tv2ActionGroupService,
     { provide: KeyboardConfigurationService, useClass: ProducerKeyboardConfigurationService },

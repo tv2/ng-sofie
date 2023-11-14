@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core'
 import { Part } from '../../../core/models/part'
 import { Segment } from '../../../core/models/segment'
-import { PieceLayer } from '../../../shared/enums/piece-layer'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
+import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 
 const PRE_PLAYHEAD_INSET_IN_PIXELS: number = 40
 const POST_PLAYHEAD_INSET_IN_PIXELS: number = 200
@@ -22,19 +22,25 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   public segment: Segment
 
   @Input()
-  public pieceLayers: PieceLayer[]
+  public outputLayers: Tv2OutputLayer[]
 
   @Input()
   public isRundownActive: boolean
 
-  public pixelsPerSecond: number = 50
+  @Input()
+  public pixelsPerSecond: number
 
   public onAirPart?: Part
   public previousParts: Part[] = []
   public futureParts: Part[] = []
 
-  public prePlayheadDurationInMs: number = (PRE_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
-  public postPlayheadDurationInMs: number = (POST_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
+  public get prePlayheadDurationInMs(): number {
+    return (PRE_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
+  }
+
+  public get postPlayheadDurationInMs(): number {
+    return (POST_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
+  }
 
   constructor(
     private readonly partEntityService: PartEntityService,

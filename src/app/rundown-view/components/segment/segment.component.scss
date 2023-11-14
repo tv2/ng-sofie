@@ -12,7 +12,12 @@
     flex: 0;
     min-width: 270px;
     background-color: rgb(75,75,75);
+    color: var(--text-color);
     transition: background-color .2s;
+  }
+
+  &--has-remote-piece &__header {
+    background-color: #ac29a5;
   }
 
   &--set-as-next &__header {
@@ -26,7 +31,6 @@
   &__header-toolbar {
     height: var(--toolbar-height);
     background: black;
-    color: var(--text-color);
     padding: 8px;
   }
 
@@ -44,7 +48,34 @@
   }
 
   &__controls-toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 12px;
     height: var(--toolbar-height);
+    padding: 0 20px;
+    color: var(--text-color);
+
+    sofie-icon-button {
+      aspect-ratio: 1 / 1;
+      height: 21px;
+      padding: 1px;
+      border-radius: 100%;
+      background-color: var(--background-color);
+      text-align: center;
+      transition: opacity .2s, background-color .2s;
+
+      &:hover {
+        background-color: #666666;
+      }
+
+      &[disabled=true] {
+        background-color: var(--background-color);
+        cursor: default;
+        opacity: .4;
+      }
+    }
   }
 
   &__piece-layer {
