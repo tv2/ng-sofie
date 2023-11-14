@@ -134,5 +134,6 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   private setRundownTiming(): void {
     this.plannedStart = this.rundownTimingService.getExpectedStartEpochTime(this.rundown.timing)
     this.plannedEnd = this.rundownTimingService.getEndEpochTime(this.rundown)
+    this.diff = this.rundownTimingService.getRundownScheduleOffsetInMs(this.rundown)
   }
 }

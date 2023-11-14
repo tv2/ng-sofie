@@ -30,6 +30,7 @@ import { KeyboardConfigurationService } from './abstractions/keyboard-configurat
 import { ProducerKeyboardConfigurationService } from './services/producer-keyboard-configuration.service'
 import { KeyBindingFactory } from './factories/key-binding.factory'
 import { RundownSubheaderComponent } from './components/rundown-subheader/rundown-subheader.component'
+import { TimerPipe } from './pipes/timer/timer.pipe'
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { RundownSubheaderComponent } from './components/rundown-subheader/rundow
     SegmentContextMenuComponent,
     PartContextMenuComponent,
     RundownViewComponent,
+    TimerPipe,
   ],
   exports: [SegmentComponent],
   providers: [

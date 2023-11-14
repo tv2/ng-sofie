@@ -27,6 +27,7 @@ async function configureTestBed(
       { provide: BasicRundownStateService, useValue: instance(mockedBasicRundownStateService) },
       { provide: RundownService, useValue: instance(mockedRundownService) },
       { provide: DialogService, useValue: instance(mockedDialogService) },
+      { provide: RundownTimingService, useValue: instance(mock<RundownTimingService>()) },
       { provide: Logger, useValue: createLogger() },
       { provide: RundownTimingService, useValue: instance(mock<RundownTimingService>()) },
     ],
