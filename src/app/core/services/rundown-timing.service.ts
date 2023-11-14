@@ -4,6 +4,7 @@ import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
 import { PartEntityService } from './models/part-entity.service'
 import { Part } from '../models/part'
+import * as querystring from 'querystring'
 
 export class RundownTimingService {
   private readonly partEntityService: PartEntityService = new PartEntityService()
@@ -75,7 +76,6 @@ export class RundownTimingService {
 
     const remainingDuration: number = this.getRemainingRundownDuration(rundown)
     const estimatedEndEpochTime: number = Date.now() + remainingDuration
-
     return estimatedEndEpochTime - this.getAggregatedEndEpochTime(rundown)
   }
 
@@ -94,7 +94,7 @@ export class RundownTimingService {
   }
 
   private getRemainingRundownDuration(rundown: Rundown): number {
-    const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)
+    const onAirSegment: Segment | undefined = rundown.segments.filter(segment => !segment.isUntimed).find(segment => segment.isOnAir)
     const remainingOnAirSegmentBudgetDuration: number = onAirSegment?.budgetDuration ? Math.max(0, onAirSegment.budgetDuration - this.getOnAirSegmentPlayedDuration(onAirSegment)) : 0
 
     const nextSegmentIndex: number = rundown.segments.findIndex(segment => segment.isNext)
@@ -103,9 +103,8 @@ export class RundownTimingService {
     }
     const segmentBudgetRemainingFromNext: number = rundown.segments
       .slice(nextSegmentIndex)
-      .filter(segment => !segment.isOnAir)
+      .filter(segment => !segment.isOnAir && !segment.isUntimed)
       .reduce((accumulatedEndEpochTime: number, segment: Segment) => accumulatedEndEpochTime + this.getSegmentDurationInMs(segment), 0)
-
     return segmentBudgetRemainingFromNext + remainingOnAirSegmentBudgetDuration
   }
 

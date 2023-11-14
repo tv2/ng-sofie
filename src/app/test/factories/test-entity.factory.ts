@@ -27,6 +27,7 @@ export class TestEntityFactory {
       name: 'Segment',
       isNext: false,
       isOnAir: false,
+      isUntimed: false,
       parts: [],
       ...segment,
     }

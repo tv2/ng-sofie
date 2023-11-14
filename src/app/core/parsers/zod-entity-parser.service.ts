@@ -79,6 +79,7 @@ export class ZodEntityParser implements EntityParser {
     name: zod.string().min(1),
     isOnAir: zod.boolean(),
     isNext: zod.boolean(),
+    isUntimed: zod.boolean(),
     parts: this.partParser.array(),
     budgetDuration: zod.number().optional(),
   })
