@@ -18,7 +18,7 @@ export class TimerPipe implements PipeTransform {
   }
 
   private getSign(durationInSeconds: number): string {
-    return durationInSeconds < 0 ? NEGATIVE_SIGN : POSITIVE_SIGN
+    return durationInSeconds <= 0 ? NEGATIVE_SIGN : POSITIVE_SIGN
   }
 
   private formatDigits(digits: number): string {
