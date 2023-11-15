@@ -83,6 +83,19 @@ export class PartEntityService {
     return 0
   }
 
+  public getExpectedDuration(part: Part): number {
+    if (part.isUntimed) {
+      return 0
+    }
+    if (!part.expectedDuration) {
+      return 0
+    }
+    if (part.autoNext) {
+      return part.expectedDuration - part.autoNext.overlap
+    }
+    return part.expectedDuration
+  }
+
   public insertPiece(part: Part, piece: Piece): Part {
     return {
       ...part,

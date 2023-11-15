@@ -12,6 +12,7 @@ export class SegmentEntityService {
     return {
       ...segment,
       isOnAir: true,
+      executedAtEpochTime: segment.executedAtEpochTime ?? timestamp,
       parts: this.putPartOnAir(segment, partId, timestamp),
     }
   }
@@ -24,6 +25,7 @@ export class SegmentEntityService {
     return {
       ...segment,
       isOnAir: false,
+      executedAtEpochTime: undefined,
       parts: this.takeOnAirPartsOffAir(segment, timestamp),
     }
   }

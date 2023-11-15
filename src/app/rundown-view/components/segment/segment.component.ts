@@ -106,8 +106,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     const activePart: Part = this.segment.parts[activePartIndex]
     const partsUntilActivePart: Part[] = this.segment.parts.slice(0, activePartIndex)
     const timeSpendUntilActivePart: number = partsUntilActivePart.reduce((duration, part) => duration + this.partEntityService.getDuration(part), 0)
-    // TODO: Is this the right place to compute it or should it be the part that does it?
-    const timeSpendInActivePart: number = activePart.executedAt > 0 ? Date.now() - activePart.executedAt : 0
+    const timeSpendInActivePart: number = this.partEntityService.getPlayedDuration(activePart)
     this.timeReference = timeSpendUntilActivePart + timeSpendInActivePart
   }
 

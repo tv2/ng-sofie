@@ -9,4 +9,5 @@ export interface Segment {
   readonly isUntimed: boolean
   readonly parts: Part[]
   readonly budgetDuration?: number
+  readonly executedAtEpochTime?: number
 }

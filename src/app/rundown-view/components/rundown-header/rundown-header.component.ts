@@ -8,7 +8,7 @@ import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownTimingService } from '../../../core/services/rundown-timing.service'
 
-const TIME_RESOLUTION_INTERVAL: number = 1000
+const TIME_RESOLUTION_INTERVAL: number = 250
 const DESIGN_TEMPLATE_IDENTIFIER: string = 'DESIGN_'
 const SKEMA_TEMPLATE_IDENTIFIER: string = 'SKEMA_'
 

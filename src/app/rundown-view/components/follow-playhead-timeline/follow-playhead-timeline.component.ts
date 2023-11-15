@@ -4,6 +4,8 @@ import { Segment } from '../../../core/models/segment'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
+import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
+import { Tv2PieceMetadata } from '../../../core/models/tv2-piece'
 
 const PRE_PLAYHEAD_INSET_IN_PIXELS: number = 40
 const POST_PLAYHEAD_INSET_IN_PIXELS: number = 200
@@ -33,6 +35,7 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   public onAirPart?: Part
   public previousParts: Part[] = []
   public futureParts: Part[] = []
+  public onAirPartCountdownDurationInMs?: number
 
   public get prePlayheadDurationInMs(): number {
     return (PRE_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
@@ -59,6 +62,19 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
     this.onAirPart = this.segment.parts[onAirPartIndex]
     this.previousParts = this.getPreviousParts(onAirPartIndex)
     this.futureParts = this.getFutureParts(onAirPartIndex)
+    this.setPartCountdownDuration()
+  }
+
+  private setPartCountdownDuration(): void {
+    if (!this.onAirPart || !this.doesPartContainVideoClipOrVoiceOverPiece(this.onAirPart)) {
+      this.onAirPartCountdownDurationInMs = undefined
+      return
+    }
+    this.onAirPartCountdownDurationInMs = this.partEntityService.getPlayedDuration(this.onAirPart) - this.partEntityService.getExpectedDuration(this.onAirPart)
+  }
+
+  private doesPartContainVideoClipOrVoiceOverPiece(part: Part): boolean {
+    return part.pieces.some(piece => ([Tv2PieceType.VIDEO_CLIP, Tv2PieceType.VOICE_OVER] as (string | undefined)[]).includes((piece.metadata as Tv2PieceMetadata | undefined)?.type))
   }
 
   private getPreviousParts(onAirPartIndex: number): Part[] {

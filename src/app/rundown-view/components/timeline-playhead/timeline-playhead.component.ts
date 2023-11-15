@@ -12,6 +12,9 @@ export class TimelinePlayheadComponent {
   @Input()
   public pixelsPerSecond: number
 
+  @Input()
+  public timerDurationInMs?: number
+
   @HostBinding('style.left.px')
   public get left(): number {
     return Math.floor((this.time * this.pixelsPerSecond) / 1000)

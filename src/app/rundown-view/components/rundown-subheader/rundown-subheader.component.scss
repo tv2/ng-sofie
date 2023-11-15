@@ -34,4 +34,13 @@
       overflow: hidden;
     }
   }
+
+  .timer {
+    transition: color .2s, font-weight .2s, text-shadow .2s;
+
+    &.overtime {
+      color: #c40000;
+      font-weight: bold;
+    }
+  }
 }

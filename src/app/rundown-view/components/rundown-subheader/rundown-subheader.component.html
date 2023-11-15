@@ -2,20 +2,20 @@
 
 <div class="subheader-panel">
     <span class="subheader-panel__label">Part countdown</span>
-    <span class="subheader-panel__value">00:04</span>
+    <span class="subheader-panel__value"><span *ngIf="remainingDurationInMsForOnAirPart !== undefined" [class.overtime]="remainingDurationInMsForOnAirPart >= 1000" class="timer">{{ remainingDurationInMsForOnAirPart | timer: '+' }}</span></span>
 </div>
 
 <div class="subheader-panel">
     <span class="subheader-panel__label">Segment countdown</span>
-    <span class="subheader-panel__value">00:12</span>
+    <span class="subheader-panel__value"><span [class.overtime]="remainingDurationInMsForOnAirSegment >= 1000" class="timer">{{ remainingDurationInMsForOnAirSegment | timer: '+' }}</span></span>
 </div>
 
 <div class="subheader-panel">
     <span class="subheader-panel__label">Segment timer</span>
-    <span class="subheader-panel__value">00:08</span>
+    <span class="subheader-panel__value"><span *ngIf="durationInMsSpendInOnAirSegment">{{ durationInMsSpendInOnAirSegment | timer }}</span></span>
 </div>
 
-<div class="subheader-panel end-words">
+<div *ngIf="endWords" class="subheader-panel end-words">
     <span class="subheader-panel__label">End words</span>
     <span class="subheader-panel__value">{{ endWords }}</span>
 </div>
