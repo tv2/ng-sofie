@@ -57,10 +57,10 @@ export class RundownTimingService {
   }
 
   private getAggregatedDurationInMs(rundown: Rundown): number {
-    return rundown.timing.expectedDurationInMs ?? rundown.segments.reduce((accumulatedDurationInMs, segment) => accumulatedDurationInMs + this.getSegmentDurationInMs(segment), 0)
+    return rundown.timing.expectedDurationInMs ?? rundown.segments.reduce((accumulatedDurationInMs, segment) => accumulatedDurationInMs + this.getExpectedDurationInMsForSegment(segment), 0)
   }
 
-  private getSegmentDurationInMs(segment: Segment): number {
+  public getExpectedDurationInMsForSegment(segment: Segment): number {
     return segment.budgetDuration !== undefined
       ? segment.budgetDuration
       : segment.parts.reduce((accumulatedPartDuration: number, part: Part) => accumulatedPartDuration + this.getPartDuration(part), 0)
@@ -103,7 +103,7 @@ export class RundownTimingService {
     const segmentBudgetRemainingFromNext: number = rundown.segments
       .slice(nextSegmentIndex)
       .filter(segment => !segment.isOnAir && !segment.isUntimed)
-      .reduce((accumulatedEndEpochTime: number, segment: Segment) => accumulatedEndEpochTime + this.getSegmentDurationInMs(segment), 0)
+      .reduce((accumulatedEndEpochTime: number, segment: Segment) => accumulatedEndEpochTime + this.getExpectedDurationInMsForSegment(segment), 0)
     return segmentBudgetRemainingFromNext + remainingOnAirSegmentBudgetDuration
   }
 

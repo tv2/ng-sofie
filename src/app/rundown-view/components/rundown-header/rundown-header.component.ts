@@ -3,10 +3,12 @@ import { Rundown } from '../../../core/models/rundown'
 import { Piece } from '../../../core/models/piece'
 import { ShowStyleVariantStateService } from '../../../core/services/show-style-variant-state.service'
 import { ShowStyleVariant } from '../../../core/models/show-style-variant'
-import { SubscriptionLike } from 'rxjs'
+import { Subscription } from 'rxjs'
 import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 import { Logger } from '../../../core/abstractions/logger.service'
-import { RundownTimingService } from '../../../core/services/rundown-timing.service'
+//import { RundownTimingService } from '../../../core/services/rundown-timing.service'
+import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
+import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
 
 const TIME_RESOLUTION_INTERVAL: number = 250
 const DESIGN_TEMPLATE_IDENTIFIER: string = 'DESIGN_'
@@ -24,7 +26,8 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public showStyleVariant?: ShowStyleVariant
   public currentLocalDate: Date = new Date()
   private timeResolutionIntervalId: ReturnType<typeof setInterval>
-  private showStyleVariantSubscription?: SubscriptionLike
+  private showStyleVariantSubscription?: Subscription
+  private rundownTimingContextSubscription?: Subscription
   public readonly IconButton = IconButton
   public readonly IconButtonSize = IconButtonSize
 
@@ -40,7 +43,8 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     private readonly showStyleVariantStateService: ShowStyleVariantStateService,
-    private readonly rundownTimingService: RundownTimingService,
+    //private readonly rundownTimingService: RundownTimingService,
+    private readonly rundownTimingContextStateService: RundownTimingContextStateService,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownHeaderComponent')
@@ -55,6 +59,12 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
       .then(showStyleVariantObservable => showStyleVariantObservable.subscribe(this.onShowStylVariantChanged.bind(this)))
       .then(unsubscribeFromShowStyleVariant => (this.showStyleVariantSubscription = unsubscribeFromShowStyleVariant))
       .catch(error => this.logger.data(error).error('Failed subscribing to show style variant changes.'))
+
+    this.rundownTimingContextStateService
+      .subscribeToRundownTimingContext(this.rundown.id)
+      .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
+      .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
+      .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
   }
 
   private onShowStylVariantChanged(showStyleVariant: ShowStyleVariant): void {
@@ -135,8 +145,13 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private setRundownTiming(): void {
-    this.plannedStart = this.rundownTimingService.getExpectedStartEpochTime(this.rundown.timing)
-    this.plannedEnd = this.rundownTimingService.getEndEpochTime(this.rundown)
-    this.diff = this.rundownTimingService.getRundownScheduleOffsetInMs(this.rundown)
+    //this.plannedStart = this.rundownTimingService.getExpectedStartEpochTime(this.rundown.timing)
+    //this.plannedEnd = this.rundownTimingService.getEndEpochTime(this.rundown)
+    //this.diff = this.rundownTimingService.getRundownScheduleOffsetInMs(this.rundown)
+  }
+
+  private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
+    this.plannedStart = rundownTimingContext.expectedStartEpochTime
+    this.plannedEnd = rundownTimingContext.expectedEndEpochTime
   }
 }
