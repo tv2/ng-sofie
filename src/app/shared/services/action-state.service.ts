@@ -1,7 +1,6 @@
-import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
+import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs'
 import { Action } from '../models/action'
 import { ActionService } from '../abstractions/action.service'
-import { ManagedSubscription } from '../../core/services/managed-subscription.service'
 import { Injectable } from '@angular/core'
 import { ConnectionStatusObserver } from '../../core/services/connection-status-observer.service'
 import { Logger } from '../../core/abstractions/logger.service'
@@ -34,7 +33,7 @@ export class ActionStateService {
   }
 
   private resetActionsSubject(rundownId: string): void {
-    const actionsSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundownId)
+    const actionsSubject: BehaviorSubject<Action[]> | undefined = this.getActionsSubject(rundownId)
     if (!actionsSubject) {
       return
     }
@@ -42,6 +41,24 @@ export class ActionStateService {
     this.fetchActions(rundownId)
       .then(actions => actionsSubject.next(actions))
       .catch(error => this.logger.data(error).error(`Encountered an error while fetching actions for rundown with id '${rundownId}':`))
+  }
+
+  private getActionsSubject(rundownId: string): BehaviorSubject<Action[]> | undefined {
+    const actionsSubject = this.actionsSubjects.get(rundownId)
+    if (!actionsSubject) {
+      return
+    }
+    const { wasRemoved } = this.removeSubjectIfHasNoObservers(actionsSubject, rundownId)
+    return wasRemoved ? undefined : actionsSubject
+  }
+
+  private removeSubjectIfHasNoObservers(actionsSubject: BehaviorSubject<Action[]>, rundownId: string): { wasRemoved: boolean } {
+    if (actionsSubject.observed) {
+      return { wasRemoved: false }
+    }
+    actionsSubject.unsubscribe()
+    this.actionsSubjects.delete(rundownId)
+    return { wasRemoved: true }
   }
 
   private onRundownActivated(event: RundownActivatedEvent): void {
@@ -52,13 +69,12 @@ export class ActionStateService {
     this.resetActionsSubject(event.rundownId)
   }
 
-  public async subscribeToRundownActions(rundownId: string, onActionsChanged: (actions: Action[]) => void): Promise<SubscriptionLike> {
-    const actionsSubject: BehaviorSubject<Action[]> = await this.getActionsSubject(rundownId)
-    const subscription: Subscription = actionsSubject.subscribe(onActionsChanged)
-    return new ManagedSubscription(subscription, () => this.unsubscribeFromRundownActions(rundownId))
+  public async subscribeToRundownActions(rundownId: string): Promise<Observable<Action[]>> {
+    const actionsSubject: BehaviorSubject<Action[]> = await this.createActionsSubject(rundownId)
+    return actionsSubject.asObservable()
   }
 
-  private async getActionsSubject(rundownId: string): Promise<BehaviorSubject<Action[]>> {
+  private async createActionsSubject(rundownId: string): Promise<BehaviorSubject<Action[]>> {
     const actionsSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundownId)
     if (actionsSubject) {
       return actionsSubject
@@ -75,18 +91,6 @@ export class ActionStateService {
 
   private fetchActions(rundownId: string): Promise<Action[]> {
     return lastValueFrom(this.actionService.getActions(rundownId))
-  }
-
-  private unsubscribeFromRundownActions(rundownId: string): void {
-    const actionsSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundownId)
-    if (!actionsSubject) {
-      return
-    }
-    if (actionsSubject.observed) {
-      return
-    }
-    actionsSubject.unsubscribe()
-    this.actionsSubjects.delete(rundownId)
   }
 
   public destroy(): void {

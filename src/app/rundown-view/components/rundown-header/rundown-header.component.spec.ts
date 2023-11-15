@@ -3,12 +3,13 @@ import { RundownHeaderComponent } from './rundown-header.component'
 import { ShowStyleVariantStateService } from '../../../core/services/show-style-variant-state.service'
 import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockito'
 import { RouterModule } from '@angular/router'
-import { Subscription } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import { Rundown } from '../../../core/models/rundown'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 import { RundownTimingService } from '../../../core/services/rundown-timing.service'
 import { TimerPipe } from '../../pipes/timer/timer.pipe'
+import { ShowStyleVariant } from '../../../core/models/show-style-variant'
 
 describe('RundownHeaderComponent', () => {
   it('should create', async () => {
@@ -38,7 +39,9 @@ async function configureTestBed(params: { mockedShowStyleVariantStateService?: S
 function createMockOfShowStyleVariantStateService(): ShowStyleVariantStateService {
   const mockedShowStyleVariantStateService: ShowStyleVariantStateService = mock<ShowStyleVariantStateService>()
   const mockedSubscription: Subscription = mock<Subscription>()
-  when(mockedShowStyleVariantStateService.subscribeToShowStyleVariant(anyString(), anything())).thenResolve(instance(mockedSubscription))
+  const mockedObservable: Observable<ShowStyleVariant> = mock<Observable<ShowStyleVariant>>()
+  when(mockedObservable.subscribe(anything())).thenReturn(instance(mockedSubscription))
+  when(mockedShowStyleVariantStateService.subscribeToShowStyleVariant(anyString())).thenResolve(instance(mockedObservable))
   return mockedShowStyleVariantStateService
 }
 

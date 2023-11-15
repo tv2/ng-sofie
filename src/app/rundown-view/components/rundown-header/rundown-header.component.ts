@@ -51,12 +51,15 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     this.timeResolutionIntervalId = setInterval(this.onTimeResolutionUpdated.bind(this), TIME_RESOLUTION_INTERVAL)
 
     this.showStyleVariantStateService
-      .subscribeToShowStyleVariant(this.rundown.id, showStyleVariant => {
-        this.showStyleVariant = showStyleVariant
-        this.setDefaultHeaderInformation()
-      })
+      .subscribeToShowStyleVariant(this.rundown.id)
+      .then(showStyleVariantObservable => showStyleVariantObservable.subscribe(this.onShowStylVariantChanged.bind(this)))
       .then(unsubscribeFromShowStyleVariant => (this.showStyleVariantSubscription = unsubscribeFromShowStyleVariant))
       .catch(error => this.logger.data(error).error('Failed subscribing to show style variant changes.'))
+  }
+
+  private onShowStylVariantChanged(showStyleVariant: ShowStyleVariant): void {
+    this.showStyleVariant = showStyleVariant
+    this.setDefaultHeaderInformation()
   }
 
   private setRundownNameAndPath(): void {
