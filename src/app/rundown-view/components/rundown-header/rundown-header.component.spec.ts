@@ -10,6 +10,8 @@ import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 import { RundownTimingService } from '../../../core/services/rundown-timing.service'
 import { TimerPipe } from '../../pipes/timer/timer.pipe'
 import { ShowStyleVariant } from '../../../core/models/show-style-variant'
+import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
+import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
 
 describe('RundownHeaderComponent', () => {
   it('should create', async () => {
@@ -28,6 +30,7 @@ async function configureTestBed(params: { mockedShowStyleVariantStateService?: S
     providers: [
       { provide: ShowStyleVariantStateService, useValue: instance(mockedShowStyleVariantStateService) },
       { provide: RundownTimingService, useValue: instance(mock<RundownTimingService>()) },
+      { provide: RundownTimingContextStateService, useValue: instance(createMockOfRundownTimingContextStateService()) },
       { provide: Logger, useValue: createLogger() },
     ],
     declarations: [RundownHeaderComponent, TimerPipe],
@@ -43,6 +46,15 @@ function createMockOfShowStyleVariantStateService(): ShowStyleVariantStateServic
   when(mockedObservable.subscribe(anything())).thenReturn(instance(mockedSubscription))
   when(mockedShowStyleVariantStateService.subscribeToShowStyleVariant(anyString())).thenResolve(instance(mockedObservable))
   return mockedShowStyleVariantStateService
+}
+
+function createMockOfRundownTimingContextStateService(): RundownTimingContextStateService {
+  const mockedRundownTimingContextStateService: RundownTimingContextStateService = mock<RundownTimingContextStateService>()
+  const mockedSubscription: Subscription = mock<Subscription>()
+  const mockedObservable: Observable<RundownTimingContext> = mock<Observable<RundownTimingContext>>()
+  when(mockedObservable.subscribe(anything())).thenReturn(instance(mockedSubscription))
+  when(mockedRundownTimingContextStateService.subscribeToRundownTimingContext(anything())).thenResolve(instance(mockedObservable))
+  return mockedRundownTimingContextStateService
 }
 
 function getMockedRundown(): Rundown {

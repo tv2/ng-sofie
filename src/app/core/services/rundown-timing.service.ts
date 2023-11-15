@@ -61,6 +61,9 @@ export class RundownTimingService {
   }
 
   public getExpectedDurationInMsForSegment(segment: Segment): number {
+    if (segment.isUntimed) {
+      return 0
+    }
     return segment.budgetDuration !== undefined
       ? segment.budgetDuration
       : segment.parts.reduce((accumulatedPartDuration: number, part: Part) => accumulatedPartDuration + this.getPartDuration(part), 0)

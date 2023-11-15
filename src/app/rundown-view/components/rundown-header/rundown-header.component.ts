@@ -10,7 +10,7 @@ import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
 import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
 
-const TIME_RESOLUTION_INTERVAL: number = 250
+//const TIME_RESOLUTION_INTERVAL: number = 250
 const DESIGN_TEMPLATE_IDENTIFIER: string = 'DESIGN_'
 const SKEMA_TEMPLATE_IDENTIFIER: string = 'SKEMA_'
 
@@ -24,8 +24,8 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public rundown: Rundown
 
   public showStyleVariant?: ShowStyleVariant
-  public currentLocalDate: Date = new Date()
-  private timeResolutionIntervalId: ReturnType<typeof setInterval>
+  public currentLocalDate: number
+  //private timeResolutionIntervalId: ReturnType<typeof setInterval>
   private showStyleVariantSubscription?: Subscription
   private rundownTimingContextSubscription?: Subscription
   public readonly IconButton = IconButton
@@ -52,7 +52,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnInit(): void {
     this.setRundownNameAndPath()
-    this.timeResolutionIntervalId = setInterval(this.onTimeResolutionUpdated.bind(this), TIME_RESOLUTION_INTERVAL)
+    //this.timeResolutionIntervalId = setInterval(this.onTimeResolutionUpdated.bind(this), TIME_RESOLUTION_INTERVAL)
 
     this.showStyleVariantStateService
       .subscribeToShowStyleVariant(this.rundown.id)
@@ -81,14 +81,15 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     this.rundownName = rundownPathSegments[rundownPathSegments.length - 1]
   }
 
-  private onTimeResolutionUpdated(): void {
-    this.currentLocalDate = new Date()
-    this.setRundownTiming()
-  }
+  //private onTimeResolutionUpdated(): void {
+  //  //this.currentLocalDate = new Date()
+  //  this.setRundownTiming()
+  //}
 
   public ngOnDestroy(): void {
-    clearInterval(this.timeResolutionIntervalId)
+    //clearInterval(this.timeResolutionIntervalId)
     this.showStyleVariantSubscription?.unsubscribe()
+    this.rundownTimingContextSubscription?.unsubscribe()
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -98,9 +99,9 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
       this.setSchemaFromInfinitePieces()
     }
 
-    if (rundownChange) {
-      this.setRundownTiming()
-    }
+    //if (rundownChange) {
+    //  this.setRundownTiming()
+    //}
   }
 
   private setDefaultHeaderInformation(): void {
@@ -144,14 +145,16 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     return gfxName ?? template
   }
 
-  private setRundownTiming(): void {
-    //this.plannedStart = this.rundownTimingService.getExpectedStartEpochTime(this.rundown.timing)
-    //this.plannedEnd = this.rundownTimingService.getEndEpochTime(this.rundown)
-    //this.diff = this.rundownTimingService.getRundownScheduleOffsetInMs(this.rundown)
-  }
+  //private setRundownTiming(): void {
+  //this.plannedStart = this.rundownTimingService.getExpectedStartEpochTime(this.rundown.timing)
+  //this.plannedEnd = this.rundownTimingService.getEndEpochTime(this.rundown)
+  //this.diff = this.rundownTimingService.getRundownScheduleOffsetInMs(this.rundown)
+  //}
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
+    this.currentLocalDate = rundownTimingContext.currentEpochTime
     this.plannedStart = rundownTimingContext.expectedStartEpochTime
     this.plannedEnd = rundownTimingContext.expectedEndEpochTime
+    this.diff = Date.now() + rundownTimingContext.remainingDurationInMs - rundownTimingContext.expectedEndEpochTime
   }
 }
