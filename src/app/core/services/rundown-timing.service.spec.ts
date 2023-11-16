@@ -817,9 +817,9 @@ describe(RundownTimingService.name, () => {
     })
   })
 
-  describe(RundownTimingService.prototype.getStartEpochTime.name, () => {
+  describe(RundownTimingService.prototype.getExpectedStartEpochTimeForRundown.name, () => {
     describe('when rundown has forward timing', () => {
-      it('returns the set start epoch time', () => {
+      it('returns the set expected start epoch time', () => {
         const currentEpochTime: number = Date.now()
         const expectedStartEpochTime: number = currentEpochTime + 1000
         const timing: ForwardRundownTiming = {
@@ -829,18 +829,19 @@ describe(RundownTimingService.name, () => {
         const rundown: Rundown = testEntityFactory.createRundown({ timing })
         const testee: RundownTimingService = createTestee()
 
-        const result: number = testee.getStartEpochTime(rundown, 0, currentEpochTime)
+        const result: number = testee.getExpectedStartEpochTimeForRundown(rundown, 0, currentEpochTime)
 
         expect(result).toBe(expectedStartEpochTime)
       })
     })
 
     describe('when rundown has backward timing', () => {
-      describe('when start epoch time is set', () => {
-        it('returns the start epoch time', () => {
-          const currentEpochTime: number = Date.now()
+      const currentEpochTime: number = Date.now()
+      const expectedEndEpochTime: number = currentEpochTime + 10000
+
+      describe('when the expected start epoch time is set', () => {
+        it('returns the expected start epoch time', () => {
           const expectedStartEpochTime: number = currentEpochTime + 1000
-          const expectedEndEpochTime: number = currentEpochTime + 10000
           const timing: BackwardRundownTiming = {
             type: RundownTimingType.BACKWARD,
             expectedStartEpochTime,
@@ -849,25 +850,23 @@ describe(RundownTimingService.name, () => {
           const rundown: Rundown = testEntityFactory.createRundown({ timing })
           const testee: RundownTimingService = createTestee()
 
-          const result: number = testee.getStartEpochTime(rundown, 0, currentEpochTime)
+          const result: number = testee.getExpectedStartEpochTimeForRundown(rundown, 0, currentEpochTime)
 
           expect(result).toBe(expectedStartEpochTime)
         })
       })
 
-      describe('when start epoch time is not set', () => {
-        it('returns the start epoch time', () => {
-          const currentEpochTime: number = Date.now()
-          const expectedEndEpochTime: number = currentEpochTime + 10000
-          const expectedDurationInMs: number = 5000
+      describe('when the expected start epoch time is not set', () => {
+        it('returns the epoch time subtracted the expected duration', () => {
           const timing: BackwardRundownTiming = {
             type: RundownTimingType.BACKWARD,
             expectedEndEpochTime,
           }
+          const expectedDurationInMs: number = 5000
           const rundown: Rundown = testEntityFactory.createRundown({ timing })
           const testee: RundownTimingService = createTestee()
 
-          const result: number = testee.getStartEpochTime(rundown, expectedDurationInMs, currentEpochTime)
+          const result: number = testee.getExpectedStartEpochTimeForRundown(rundown, expectedDurationInMs, currentEpochTime)
 
           expect(result).toBe(expectedEndEpochTime - expectedDurationInMs)
         })
@@ -883,9 +882,79 @@ describe(RundownTimingService.name, () => {
         const rundown: Rundown = testEntityFactory.createRundown({ timing })
         const testee: RundownTimingService = createTestee()
 
-        const result: number = testee.getStartEpochTime(rundown, 0, currentEpochTime)
+        const result: number = testee.getExpectedStartEpochTimeForRundown(rundown, 0, currentEpochTime)
 
         expect(result).toBe(currentEpochTime)
+      })
+    })
+  })
+
+  describe(RundownTimingService.prototype.getExpectedEndEpochTimeForRundown.name, () => {
+    const currentEpochTime: number = Date.now()
+    const expectedDurationInMsForRundown: number = 4000
+
+    describe('when rundown has backward timing', () => {
+      it('returns the expected end epoch time', () => {
+        const expectedEndEpochTime: number = currentEpochTime + 40000
+        const timing: BackwardRundownTiming = {
+          type: RundownTimingType.BACKWARD,
+          expectedEndEpochTime,
+        }
+        const rundown: Rundown = testEntityFactory.createRundown({ timing })
+        const testee: RundownTimingService = createTestee()
+
+        const result: number = testee.getExpectedEndEpochTimeForRundown(rundown, expectedDurationInMsForRundown, currentEpochTime)
+
+        expect(result).toBe(expectedEndEpochTime)
+      })
+    })
+
+    describe('when rundown has forward timing', () => {
+      const expectedStartEpochTime: number = currentEpochTime + 1000
+      describe('when the expected end epoch time is set', () => {
+        it('returns the expected end epoch time', () => {
+          const expectedEndEpochTime: number = currentEpochTime + 40000
+          const timing: ForwardRundownTiming = {
+            type: RundownTimingType.FORWARD,
+            expectedStartEpochTime,
+            expectedEndEpochTime,
+          }
+          const rundown: Rundown = testEntityFactory.createRundown({ timing })
+          const testee: RundownTimingService = createTestee()
+
+          const result: number = testee.getExpectedEndEpochTimeForRundown(rundown, expectedDurationInMsForRundown, currentEpochTime)
+
+          expect(result).toBe(expectedEndEpochTime)
+        })
+      })
+
+      describe('when the expected end epoch time is not set', () => {
+        it('returns the sum of the expected start epoch time and the expected duration', () => {
+          const timing: ForwardRundownTiming = {
+            type: RundownTimingType.FORWARD,
+            expectedStartEpochTime,
+          }
+          const rundown: Rundown = testEntityFactory.createRundown({ timing })
+          const testee: RundownTimingService = createTestee()
+
+          const result: number = testee.getExpectedEndEpochTimeForRundown(rundown, expectedDurationInMsForRundown, currentEpochTime)
+
+          expect(result).toBe(expectedStartEpochTime + expectedDurationInMsForRundown)
+        })
+      })
+    })
+
+    describe('when rundown has unscheduled timing', () => {
+      it('returns the sum of the current epoch time and the expected duration', () => {
+        const timing: UnscheduledRundownTiming = {
+          type: RundownTimingType.UNSCHEDULED,
+        }
+        const rundown: Rundown = testEntityFactory.createRundown({ timing })
+        const testee: RundownTimingService = createTestee()
+
+        const result: number = testee.getExpectedEndEpochTimeForRundown(rundown, expectedDurationInMsForRundown, currentEpochTime)
+
+        expect(result).toBe(currentEpochTime + expectedDurationInMsForRundown)
       })
     })
   })

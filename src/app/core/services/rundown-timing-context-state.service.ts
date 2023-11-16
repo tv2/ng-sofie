@@ -2,7 +2,6 @@ import { Rundown } from '../models/rundown'
 import { BehaviorSubject, Observable, Subscription, SubscriptionLike } from 'rxjs'
 import { RundownStateService } from './rundown-state.service'
 import { RundownTimingService } from './rundown-timing.service'
-import { RundownTimingType } from '../enums/rundown-timing-type'
 import { RundownTimingContext } from '../models/rundown-timing-context'
 import { Injectable } from '@angular/core'
 import { Segment } from '../models/segment'
@@ -48,8 +47,12 @@ export class RundownTimingContextStateService {
       }
       const currentEpochTime: number = Date.now()
       const previousRundownTimingContext: RundownTimingContext = rundownTimingContextSubject.value
-      const expectedStartEpochTimeForRundown: number = this.rundownTimingService.getStartEpochTime(rundown, previousRundownTimingContext.expectedDurationInMsForRundown, currentEpochTime)
-      const expectedEndEpochTimeForRundown: number = this.getEndEpochTime(rundown, previousRundownTimingContext.expectedDurationInMsForRundown, currentEpochTime)
+      const expectedStartEpochTimeForRundown: number = this.rundownTimingService.getExpectedStartEpochTimeForRundown(
+        rundown,
+        previousRundownTimingContext.expectedDurationInMsForRundown,
+        currentEpochTime
+      )
+      const expectedEndEpochTimeForRundown: number = this.rundownTimingService.getExpectedEndEpochTimeForRundown(rundown, previousRundownTimingContext.expectedDurationInMsForRundown, currentEpochTime)
       const playedDurationInMsForOnAirPart: number = this.getPlayedDurationInMsForOnAirPart(rundown)
       const playedDurationInMsForOnAirSegment: number = this.getPlayedDurationInMsForOnAirSegment(rundown)
       const durationInMsSpentInOnAirSegment: number = this.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
@@ -129,8 +132,8 @@ export class RundownTimingContextStateService {
     const currentEpochTime: number = Date.now()
     const expectedDurationsInMsForSegments: Record<string, number> = this.rundownTimingService.getExpectedDurationInMsForSegments(rundown)
     const expectedDurationInMsForRundown: number = this.rundownTimingService.getExpectedDurationInMsForRundown(rundown, expectedDurationsInMsForSegments)
-    const expectedStartEpochTimeForRundown: number = this.rundownTimingService.getStartEpochTime(rundown, expectedDurationInMsForRundown, currentEpochTime)
-    const expectedEndEpochTimeForRundown: number = this.getEndEpochTime(rundown, expectedDurationInMsForRundown, currentEpochTime)
+    const expectedStartEpochTimeForRundown: number = this.rundownTimingService.getExpectedStartEpochTimeForRundown(rundown, expectedDurationInMsForRundown, currentEpochTime)
+    const expectedEndEpochTimeForRundown: number = this.rundownTimingService.getExpectedEndEpochTimeForRundown(rundown, expectedDurationInMsForRundown, currentEpochTime)
     const playedDurationInMsForOnAirPart: number = this.getPlayedDurationInMsForOnAirPart(rundown)
     const playedDurationInMsForOnAirSegment: number = this.getPlayedDurationInMsForOnAirSegment(rundown)
     const durationInMsSpentInOnAirSegment: number = this.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
@@ -177,18 +180,6 @@ export class RundownTimingContextStateService {
 
   private isDuringSetupOfSubscription(rundownId: string): boolean {
     return !this.rundownSubscriptions.has(rundownId)
-  }
-
-  private getEndEpochTime(rundown: Rundown, expectedDurationInMs: number, currentEpochTime: number): number {
-    switch (rundown.timing.type) {
-      case RundownTimingType.BACKWARD:
-        return rundown.timing.expectedEndEpochTime
-      case RundownTimingType.FORWARD:
-        return rundown.timing.expectedStartEpochTime ?? rundown.timing.expectedStartEpochTime + expectedDurationInMs
-      default:
-        // TODO: We should set on the rundown when it is activated, in order to show correct start time for unscheduled rundowns.
-        return currentEpochTime + expectedDurationInMs
-    }
   }
 
   private getPlayedDurationInMsForOnAirPart(rundown: Rundown): number {

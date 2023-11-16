@@ -81,19 +81,19 @@ export class RundownTimingService {
     return estimatedEndEpochTime - this.getAggregatedEndEpochTime(rundown)
   }
 
-  public getEndEpochTime(rundown: Rundown): number {
-    const expectedEndEpochTime: number | undefined = this.getExpectedEndEpochTime(rundown.timing)
-    if (expectedEndEpochTime) {
-      return expectedEndEpochTime
-    }
+  //public getEndEpochTimeForRundown(rundown: Rundown): number {
+  //  const expectedEndEpochTime: number | undefined = this.getExpectedEndEpochTime(rundown.timing)
+  //  if (expectedEndEpochTime) {
+  //    return expectedEndEpochTime
+  //  }
 
-    if (!rundown.isActive) {
-      const expectedDurationInMs: number = this.getExpectedDurationInMs(rundown.timing) ?? 0
-      return Date.now() + expectedDurationInMs
-    }
+  //  if (!rundown.isActive) {
+  //    const expectedDurationInMs: number = this.getExpectedDurationInMs(rundown.timing) ?? 0
+  //    return Date.now() + expectedDurationInMs
+  //  }
 
-    return Date.now() + this.getRemainingRundownDuration(rundown)
-  }
+  //  return Date.now() + this.getRemainingRundownDuration(rundown)
+  //}
 
   private getRemainingRundownDuration(rundown: Rundown): number {
     const onAirSegment: Segment | undefined = rundown.segments.filter(segment => !segment.isUntimed).find(segment => segment.isOnAir)
@@ -127,7 +127,7 @@ export class RundownTimingService {
     return rundown.timing.expectedDurationInMs ?? rundown.segments.reduce((segmentDurationInMsSum, segment) => segmentDurationInMsSum + (expectedDurationsInMsForSegments[segment.id] ?? 0), 0)
   }
 
-  public getStartEpochTime(rundown: Rundown, expectedDurationInMs: number, currentEpochTime: number): number {
+  public getExpectedStartEpochTimeForRundown(rundown: Rundown, expectedDurationInMs: number, currentEpochTime: number): number {
     switch (rundown.timing.type) {
       case RundownTimingType.FORWARD:
         return rundown.timing.expectedStartEpochTime
@@ -136,6 +136,18 @@ export class RundownTimingService {
       default:
         // TODO: We should set on the rundown when it is activated, in order to show correct start time for unscheduled rundowns.
         return currentEpochTime
+    }
+  }
+
+  public getExpectedEndEpochTimeForRundown(rundown: Rundown, expectedDurationInMs: number, currentEpochTime: number): number {
+    switch (rundown.timing.type) {
+      case RundownTimingType.BACKWARD:
+        return rundown.timing.expectedEndEpochTime
+      case RundownTimingType.FORWARD:
+        return rundown.timing.expectedEndEpochTime ?? rundown.timing.expectedStartEpochTime + expectedDurationInMs
+      default:
+        // TODO: We should set on the rundown when it is activated, in order to show correct start time for unscheduled rundowns.
+        return currentEpochTime + expectedDurationInMs
     }
   }
 }
