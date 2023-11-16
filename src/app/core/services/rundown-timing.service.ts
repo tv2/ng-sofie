@@ -1,4 +1,3 @@
-import { BackwardRundownTiming, RundownTiming } from '../models/rundown-timing'
 import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
@@ -9,43 +8,6 @@ import { Injectable } from '@angular/core'
 @Injectable()
 export class RundownTimingService {
   constructor(private readonly partEntityService: PartEntityService) {}
-
-  public getExpectedStartEpochTime(rundownTiming: RundownTiming): number | undefined {
-    switch (rundownTiming.type) {
-      case RundownTimingType.FORWARD:
-        return rundownTiming.expectedStartEpochTime
-      case RundownTimingType.BACKWARD:
-        return this.getExpectedStartFromBackwardRundownTiming(rundownTiming)
-      default:
-        return undefined
-    }
-  }
-
-  private getExpectedStartFromBackwardRundownTiming(backwardRundownTiming: BackwardRundownTiming): number | undefined {
-    if (backwardRundownTiming.expectedStartEpochTime) {
-      return backwardRundownTiming.expectedStartEpochTime
-    }
-
-    if (backwardRundownTiming.expectedDurationInMs) {
-      return backwardRundownTiming.expectedEndEpochTime - backwardRundownTiming.expectedDurationInMs
-    }
-
-    return undefined
-  }
-
-  public getExpectedDurationInMs(rundownTiming: RundownTiming): number | undefined {
-    return rundownTiming.expectedDurationInMs
-  }
-
-  public getExpectedEndEpochTime(rundownTiming: RundownTiming): number | undefined {
-    switch (rundownTiming.type) {
-      case RundownTimingType.FORWARD:
-      case RundownTimingType.BACKWARD:
-        return rundownTiming.expectedEndEpochTime
-      default:
-        return undefined
-    }
-  }
 
   private getAggregatedEndEpochTime(rundown: Rundown): number {
     switch (rundown.timing.type) {
@@ -80,20 +42,6 @@ export class RundownTimingService {
     const estimatedEndEpochTime: number = Date.now() + remainingDuration
     return estimatedEndEpochTime - this.getAggregatedEndEpochTime(rundown)
   }
-
-  //public getEndEpochTimeForRundown(rundown: Rundown): number {
-  //  const expectedEndEpochTime: number | undefined = this.getExpectedEndEpochTime(rundown.timing)
-  //  if (expectedEndEpochTime) {
-  //    return expectedEndEpochTime
-  //  }
-
-  //  if (!rundown.isActive) {
-  //    const expectedDurationInMs: number = this.getExpectedDurationInMs(rundown.timing) ?? 0
-  //    return Date.now() + expectedDurationInMs
-  //  }
-
-  //  return Date.now() + this.getRemainingRundownDuration(rundown)
-  //}
 
   private getRemainingRundownDuration(rundown: Rundown): number {
     const onAirSegment: Segment | undefined = rundown.segments.filter(segment => !segment.isUntimed).find(segment => segment.isOnAir)
