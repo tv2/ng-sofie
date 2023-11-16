@@ -5,6 +5,8 @@ import { BackwardRundownTiming, RundownTiming } from '../models/rundown-timing'
 import { Segment } from '../models/segment'
 import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Part } from '../models/part'
+import { PartEntityService } from './models/part-entity.service'
+import { instance, mock } from '@typestrong/ts-mockito'
 
 describe(RundownTimingService.name, () => {
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
@@ -22,7 +24,7 @@ describe(RundownTimingService.name, () => {
           const durationInMsToPlannedEndFromNow: number = 10_000
           const rundownExpectedDurationInMs: number = 30_000
           const numberOfSegments: number = 4
-          const segments: Segment[] = [...Array(numberOfSegments)].map((_, index) =>
+          const segments: Segment[] = Array(numberOfSegments).map((_, index) =>
             testEntityFactory.createSegment({
               id: index.toString(),
               budgetDuration: rundownExpectedDurationInMs / numberOfSegments,
@@ -34,7 +36,8 @@ describe(RundownTimingService.name, () => {
             expectedDurationInMs: rundownExpectedDurationInMs,
           }
           const rundown: Rundown = testEntityFactory.createRundown({ isActive: false, segments, timing })
-          const testee: RundownTimingService = createTestee()
+          const partEntityService: PartEntityService = new PartEntityService()
+          const testee: RundownTimingService = createTestee({ partEntityService: partEntityService })
           const estimatedEndEpochTime: number = Date.now() + rundownExpectedDurationInMs
           const expectedResult: number = estimatedEndEpochTime - timing.expectedEndEpochTime
 
@@ -43,13 +46,14 @@ describe(RundownTimingService.name, () => {
           expect(result).toBe(expectedResult)
         })
       })
+
       describe('when planned end is in the past', () => {
         it('return the time difference between estimated and planned end', () => {
           const durationInMsToPlannedEndFromNow: number = -10_000
           const rundownExpectedDurationInMs: number = 30_000
           const numberOfSegments: number = 4
           const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const segments: Segment[] = [...Array(numberOfSegments)].map((_, index) =>
+          const segments: Segment[] = Array(numberOfSegments).map((_, index) =>
             testEntityFactory.createSegment({
               id: index.toString(),
               budgetDuration: rundownExpectedDurationInMs / numberOfSegments,
@@ -61,7 +65,8 @@ describe(RundownTimingService.name, () => {
             expectedDurationInMs: rundownExpectedDurationInMs,
           }
           const rundown: Rundown = testEntityFactory.createRundown({ isActive: false, segments, timing })
-          const testee: RundownTimingService = createTestee()
+          const partEntityService: PartEntityService = new PartEntityService()
+          const testee: RundownTimingService = createTestee({ partEntityService: partEntityService })
           const estimatedEndEpochTime: number = Date.now() + rundownExpectedDurationInMs
           const expectedResult: number = estimatedEndEpochTime - timing.expectedEndEpochTime
 
@@ -99,7 +104,8 @@ describe(RundownTimingService.name, () => {
               expectedDurationInMs: rundownExpectedDurationInMs,
             }
             const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments, timing })
-            const testee: RundownTimingService = createTestee()
+            const partEntityService: PartEntityService = new PartEntityService()
+            const testee: RundownTimingService = createTestee({ partEntityService: partEntityService })
             const estimateEndEpocTime: number = Date.now() + rundownExpectedDurationInMs + nextSegmentDuration
             const expectedResult: number = estimateEndEpocTime - timing.expectedEndEpochTime
 
@@ -109,6 +115,7 @@ describe(RundownTimingService.name, () => {
           })
         })
       })
+
       describe('when rundown has untimed segment', () => {
         it('returns the difference with remaining time being based on all subsequent segments between the start of the next segment and the last segment', () => {
           const durationInMsToPlannedEndFromNow: number = 12_000
@@ -138,7 +145,8 @@ describe(RundownTimingService.name, () => {
             expectedDurationInMs: rundownExpectedDurationInMs,
           }
           const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments, timing })
-          const testee: RundownTimingService = createTestee()
+          const partEntityService: PartEntityService = new PartEntityService()
+          const testee: RundownTimingService = createTestee({ partEntityService: partEntityService })
 
           const estimateEndEpocTime: number = Date.now() + rundownExpectedDurationInMs + nextSegmentDuration
           const expectedResult: number = estimateEndEpocTime - timing.expectedEndEpochTime
@@ -186,7 +194,8 @@ describe(RundownTimingService.name, () => {
               expectedDurationInMs: rundownExpectedDurationInMs,
             }
             const rundown: Rundown = testEntityFactory.createRundown({ timing, segments, isActive: true })
-            const testee: RundownTimingService = createTestee()
+            const partEntityService: PartEntityService = new PartEntityService()
+            const testee: RundownTimingService = createTestee({ partEntityService: partEntityService })
             const expectedResult: number = 0
 
             jasmine.clock().tick(playedDurationInMsForOnAirPart)
@@ -196,6 +205,7 @@ describe(RundownTimingService.name, () => {
             expect(result).toBe(expectedResult)
           })
         })
+
         describe('when next segment is also the on air segment', () => {
           it('returns the difference using remaining time in on air/next segment and the rest of the rundown', () => {
             const rundownExpectedDurationInMs: number = 30_000
@@ -229,7 +239,8 @@ describe(RundownTimingService.name, () => {
               expectedDurationInMs: rundownExpectedDurationInMs,
             }
             const rundown: Rundown = testEntityFactory.createRundown({ timing, segments, isActive: true })
-            const testee: RundownTimingService = createTestee()
+            const partEntityService: PartEntityService = new PartEntityService()
+            const testee: RundownTimingService = createTestee({ partEntityService: partEntityService })
             const expectedResult: number = 0
 
             jasmine.clock().tick(playedDurationInMsForOnAirPart)
@@ -239,6 +250,7 @@ describe(RundownTimingService.name, () => {
             expect(result).toBe(expectedResult)
           })
         })
+
         describe('when next segment is after the on air segment', () => {
           it('return the difference using remaining onAir segment time and the rest of rundown segments from next segment', () => {
             const rundownExpectedDurationInMs: number = 30_000
@@ -273,7 +285,8 @@ describe(RundownTimingService.name, () => {
               expectedDurationInMs: rundownExpectedDurationInMs,
             }
             const rundown: Rundown = testEntityFactory.createRundown({ timing, segments, isActive: true })
-            const testee: RundownTimingService = createTestee()
+            const partEntityService: PartEntityService = new PartEntityService()
+            const testee: RundownTimingService = createTestee({ partEntityService: partEntityService })
             const expectedResult: number = 0
 
             jasmine.clock().tick(playedDurationInMsForOnAirPart)
@@ -284,6 +297,7 @@ describe(RundownTimingService.name, () => {
           })
         })
       })
+
       describe('when rundown has untimed segment', () => {
         describe('when next segment is before the on air segment', () => {
           it('return the difference starting from the segment with the next cursor', () => {
@@ -321,7 +335,8 @@ describe(RundownTimingService.name, () => {
               expectedDurationInMs: rundownExpectedDurationInMs,
             }
             const rundown: Rundown = testEntityFactory.createRundown({ timing, segments, isActive: true })
-            const testee: RundownTimingService = createTestee()
+            const partEntityService: PartEntityService = new PartEntityService()
+            const testee: RundownTimingService = createTestee({ partEntityService: partEntityService })
             const expectedResult: number = 0
 
             jasmine.clock().tick(playedDurationInMsForOnAirPart)
@@ -330,6 +345,7 @@ describe(RundownTimingService.name, () => {
 
             expect(result).toBe(expectedResult)
           })
+
           describe('when next segment is the on air segment', () => {
             it('returns the difference using remaining time in on air/next segment and the rest of the rundown', () => {
               const rundownExpectedDurationInMs: number = 30_000
@@ -361,7 +377,8 @@ describe(RundownTimingService.name, () => {
                 expectedDurationInMs: rundownExpectedDurationInMs,
               }
               const rundown: Rundown = testEntityFactory.createRundown({ timing, segments, isActive: true })
-              const testee: RundownTimingService = createTestee()
+              const partEntityService: PartEntityService = new PartEntityService()
+              const testee: RundownTimingService = createTestee({ partEntityService: partEntityService })
               const expectedResult: number = 0
 
               jasmine.clock().tick(playedDurationInMsForOnAirPart)
@@ -371,6 +388,7 @@ describe(RundownTimingService.name, () => {
               expect(result).toBe(expectedResult)
             })
           })
+
           describe('when next segment is after the on air segment', () => {
             it('return the difference using remaining onAir segment time and the rest of rundown segments from next segment', () => {
               const rundownExpectedDurationInMs: number = 30_000
@@ -407,7 +425,8 @@ describe(RundownTimingService.name, () => {
                 expectedDurationInMs: rundownExpectedDurationInMs,
               }
               const rundown: Rundown = testEntityFactory.createRundown({ timing, segments, isActive: true })
-              const testee: RundownTimingService = createTestee()
+              const partEntityService: PartEntityService = new PartEntityService()
+              const testee: RundownTimingService = createTestee({ partEntityService: partEntityService })
               const expectedResult: number = 0
 
               jasmine.clock().tick(playedDurationInMsForOnAirPart)
@@ -423,6 +442,7 @@ describe(RundownTimingService.name, () => {
   })
 })
 
-function createTestee(): RundownTimingService {
-  return new RundownTimingService()
+function createTestee(params: { partEntityService?: PartEntityService }): RundownTimingService {
+  const partEntityService: PartEntityService = params.partEntityService ?? instance(mock<PartEntityService>())
+  return new RundownTimingService(partEntityService)
 }
