@@ -52,7 +52,7 @@
       </trans-unit>
       <trans-unit id="672684067026346719" datatype="html">
         <source>dialog.cancel-button:Cancel</source>
-        <target>Annuler</target>
+        <target>Annuller</target>
       </trans-unit>
       <trans-unit id="6373029241912635510" datatype="html">
         <source>rundown-overview-component.deletion-dialog-title</source>
