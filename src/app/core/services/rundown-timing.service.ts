@@ -150,4 +150,16 @@ export class RundownTimingService {
         return currentEpochTime + expectedDurationInMs
     }
   }
+
+  public getPlayedDurationInMsForOnAirPart(rundown: Rundown): number {
+    const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)
+    if (!onAirSegment || onAirSegment.isUntimed) {
+      return 0
+    }
+    const onAirPart: Part | undefined = onAirSegment.parts.find(part => part.isOnAir)
+    if (!onAirPart || onAirPart.isUntimed) {
+      return 0
+    }
+    return this.partEntityService.getPlayedDuration(onAirPart)
+  }
 }

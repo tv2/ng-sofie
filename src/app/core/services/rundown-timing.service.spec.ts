@@ -6,7 +6,7 @@ import { Segment } from '../models/segment'
 import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Part } from '../models/part'
 import { PartEntityService } from './models/part-entity.service'
-import { instance, mock } from '@typestrong/ts-mockito'
+import { instance, mock, when } from '@typestrong/ts-mockito'
 
 describe(RundownTimingService.name, () => {
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
@@ -955,6 +955,53 @@ describe(RundownTimingService.name, () => {
         const result: number = testee.getExpectedEndEpochTimeForRundown(rundown, expectedDurationInMsForRundown, currentEpochTime)
 
         expect(result).toBe(currentEpochTime + expectedDurationInMsForRundown)
+      })
+    })
+  })
+
+  describe(RundownTimingService.prototype.getPlayedDurationInMsForOnAirPart.name, () => {
+    describe('when rundown has no part on air', () => {
+      it('returns 0', () => {
+        const rundown: Rundown = testEntityFactory.createRundown({ segments: [] })
+        const testee: RundownTimingService = createTestee()
+
+        const result: number = testee.getPlayedDurationInMsForOnAirPart(rundown)
+
+        expect(result).toBe(0)
+      })
+    })
+
+    describe('when rundown has part on air', () => {
+      describe('when on air part is timed', () => {
+        it('returns the aggregated played duration for the part', () => {
+          const playedDurationInMsForOnAirPart: number = 123456
+          const onAirPart: Part = testEntityFactory.createPart({ isOnAir: true })
+          const onAirSegment: Segment = testEntityFactory.createSegment({ isOnAir: true, parts: [onAirPart] })
+          const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
+          when(mockedPartEntityService.getPlayedDuration(onAirPart)).thenReturn(playedDurationInMsForOnAirPart)
+          const rundown: Rundown = testEntityFactory.createRundown({ segments: [onAirSegment] })
+          const testee: RundownTimingService = createTestee({ partEntityService: instance(mockedPartEntityService) })
+
+          const result: number = testee.getPlayedDurationInMsForOnAirPart(rundown)
+
+          expect(result).toBe(playedDurationInMsForOnAirPart)
+        })
+      })
+
+      describe('when on air part is untimed', () => {
+        it('returns 0', () => {
+          const playedDurationInMsForOnAirPart: number = 123456
+          const onAirPart: Part = testEntityFactory.createPart({ isOnAir: true, isUntimed: true })
+          const onAirSegment: Segment = testEntityFactory.createSegment({ isOnAir: true, parts: [onAirPart] })
+          const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
+          when(mockedPartEntityService.getPlayedDuration(onAirPart)).thenReturn(playedDurationInMsForOnAirPart)
+          const rundown: Rundown = testEntityFactory.createRundown({ segments: [onAirSegment] })
+          const testee: RundownTimingService = createTestee({ partEntityService: instance(mockedPartEntityService) })
+
+          const result: number = testee.getPlayedDurationInMsForOnAirPart(rundown)
+
+          expect(result).toBe(0)
+        })
       })
     })
   })
