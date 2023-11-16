@@ -136,4 +136,30 @@ export class RundownTimingService {
     }
     return currentEpochTime - onAirSegment.executedAtEpochTime
   }
+
+  public getRemainingDurationInMsForRundown(rundown: Rundown, expectedDurationsInMsForSegments: Record<string, number>, playedDurationInMsForOnAirSegment: number): number {
+    const remainingDurationInMsForOnAirSegment: number = this.getRemainingDurationInMsForOnAirSegment(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
+    const remainingDurationInMsFromSegmentMarkedAsNext: number = this.getRemainingDurationInMsFromSegmentMarkedAsNext(rundown, expectedDurationsInMsForSegments)
+    return remainingDurationInMsForOnAirSegment + remainingDurationInMsFromSegmentMarkedAsNext
+  }
+
+  private getRemainingDurationInMsForOnAirSegment(rundown: Rundown, expectedDurationsInMsForSegments: Record<string, number>, playedDurationInMsForOnAirSegment: number): number {
+    const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir && !segment.isUntimed)
+    if (!onAirSegment) {
+      return 0
+    }
+    const expectedDurationForOnAirSegment: number = expectedDurationsInMsForSegments[onAirSegment.id] ?? 0
+    return Math.max(0, expectedDurationForOnAirSegment - playedDurationInMsForOnAirSegment)
+  }
+
+  private getRemainingDurationInMsFromSegmentMarkedAsNext(rundown: Rundown, expectedDurationsInMsForSegments: Record<string, number>): number {
+    const nextSegmentIndex: number = rundown.segments.findIndex(segment => segment.isNext)
+    if (nextSegmentIndex < 0) {
+      return 0
+    }
+    return rundown.segments
+      .slice(nextSegmentIndex)
+      .filter(segment => !segment.isOnAir)
+      .reduce((sumOfExpectedDurationsInMs, segment) => sumOfExpectedDurationsInMs + expectedDurationsInMsForSegments[segment.id] ?? 0, 0)
+  }
 }

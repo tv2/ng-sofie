@@ -1070,6 +1070,101 @@ describe(RundownTimingService.name, () => {
       })
     })
   })
+
+  describe(RundownTimingService.prototype.getRemainingDurationInMsForRundown.name, () => {
+    const expectedDurationsInMsForSegments: Record<string, number> = {
+      segmentA: 100,
+      segmentB: 110,
+      segmentC: 120,
+      segmentD: 130,
+    }
+
+    describe('when rundown is inactive', () => {
+      it('returns 0', () => {
+        const segments: Segment[] = [testEntityFactory.createSegment({ id: 'segmentA' }), testEntityFactory.createSegment({ id: 'segmentB' })]
+        const rundown: Rundown = testEntityFactory.createRundown({ isActive: false, segments })
+        const testee: RundownTimingService = createTestee()
+
+        const result: number = testee.getRemainingDurationInMsForRundown(rundown, expectedDurationsInMsForSegments, 0)
+
+        expect(result).toBe(0)
+      })
+    })
+
+    describe('when rundown has an on air segment', () => {
+      describe('when the on air segment is marked as next', () => {
+        it('returns the sum of expected durations for consecutive segments after the on air segment and the remaining duration for the on air segment', () => {
+          const playedDurationInMsForOnAirSegment: number = 50
+          const onAirAndNextSegment: Segment = testEntityFactory.createSegment({ id: 'segmentA', isOnAir: true, isNext: true })
+          const segments: Segment[] = [onAirAndNextSegment, testEntityFactory.createSegment({ id: 'segmentB' })]
+          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
+          const testee: RundownTimingService = createTestee()
+          const expectedResult: number = expectedDurationsInMsForSegments['segmentB'] + expectedDurationsInMsForSegments['segmentA'] - playedDurationInMsForOnAirSegment
+
+          const result: number = testee.getRemainingDurationInMsForRundown(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
+
+          expect(result).toBe(expectedResult)
+        })
+      })
+
+      describe('when an segment marked as next is placed before the on air segment', () => {
+        it('returns the sum of the expected durations for the consecutive segments form the segment marked as next, without the on air segment, and the remaining duration for the on air segment', () => {
+          const playedDurationInMsForOnAirSegment: number = 50
+          const onAirAndNextSegment: Segment = testEntityFactory.createSegment({ id: 'segmentA', isOnAir: true })
+          const segments: Segment[] = [testEntityFactory.createSegment({ id: 'segmentC', isNext: true }), onAirAndNextSegment, testEntityFactory.createSegment({ id: 'segmentB' })]
+          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
+          const testee: RundownTimingService = createTestee()
+          const expectedResult: number =
+            expectedDurationsInMsForSegments['segmentB'] + +expectedDurationsInMsForSegments['segmentC'] + expectedDurationsInMsForSegments['segmentA'] - playedDurationInMsForOnAirSegment
+
+          const result: number = testee.getRemainingDurationInMsForRundown(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
+
+          expect(result).toBe(expectedResult)
+        })
+      })
+
+      describe('when an segment marked as next is placed after the on air segment', () => {
+        it('returns the sum of expected durations for consecutive segments from the on air segment and the remaining duration for the on air segment', () => {
+          const playedDurationInMsForOnAirSegment: number = 50
+          const onAirAndNextSegment: Segment = testEntityFactory.createSegment({ id: 'segmentA', isOnAir: true })
+          const segments: Segment[] = [
+            onAirAndNextSegment,
+            testEntityFactory.createSegment({ id: 'segmentB' }),
+            testEntityFactory.createSegment({ id: 'segmentC', isNext: true }),
+            testEntityFactory.createSegment({ id: 'segmentD' }),
+          ]
+          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
+          const testee: RundownTimingService = createTestee()
+          const expectedResult: number =
+            expectedDurationsInMsForSegments['segmentC'] + +expectedDurationsInMsForSegments['segmentD'] + expectedDurationsInMsForSegments['segmentA'] - playedDurationInMsForOnAirSegment
+
+          const result: number = testee.getRemainingDurationInMsForRundown(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
+
+          expect(result).toBe(expectedResult)
+        })
+      })
+    })
+
+    describe('when rundown has a segment marked as next', () => {
+      describe('when rundown has no segment on air', () => {
+        it('returns the sum of expected durations for consecutive segments from the segment marked as next', () => {
+          const playedDurationInMsForOnAirSegment: number = 50
+          const segments: Segment[] = [
+            testEntityFactory.createSegment({ id: 'segmentB' }),
+            testEntityFactory.createSegment({ id: 'segmentC', isNext: true }),
+            testEntityFactory.createSegment({ id: 'segmentD' }),
+          ]
+          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
+          const testee: RundownTimingService = createTestee()
+          const expectedResult: number = expectedDurationsInMsForSegments['segmentC'] + +expectedDurationsInMsForSegments['segmentD']
+
+          const result: number = testee.getRemainingDurationInMsForRundown(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
+
+          expect(result).toBe(expectedResult)
+        })
+      })
+    })
+  })
 })
 
 function createTestee(params: { partEntityService?: PartEntityService } = {}): RundownTimingService {
