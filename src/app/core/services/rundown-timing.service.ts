@@ -9,6 +9,18 @@ import { Injectable } from '@angular/core'
 export class RundownTimingService {
   constructor(private readonly partEntityService: PartEntityService) {}
 
+  public getRundownScheduleOffsetInMs(rundown: Rundown): number {
+    if (!rundown.isActive) {
+      const rundownPlannedEndEpochTime: number = this.getAggregatedEndEpochTime(rundown)
+      const estimatedRundownEndEpochTime: number = Date.now() + this.getAggregatedDurationInMs(rundown)
+      return estimatedRundownEndEpochTime - rundownPlannedEndEpochTime
+    }
+
+    const remainingDuration: number = this.getRemainingRundownDuration(rundown)
+    const estimatedEndEpochTime: number = Date.now() + remainingDuration
+    return estimatedEndEpochTime - this.getAggregatedEndEpochTime(rundown)
+  }
+
   private getAggregatedEndEpochTime(rundown: Rundown): number {
     switch (rundown.timing.type) {
       case RundownTimingType.FORWARD:
@@ -29,18 +41,6 @@ export class RundownTimingService {
       return 0
     }
     return segment.budgetDuration ?? segment.parts.reduce((accumulatedPartDuration: number, part: Part) => accumulatedPartDuration + (part.expectedDuration ?? 0), 0)
-  }
-
-  public getRundownScheduleOffsetInMs(rundown: Rundown): number {
-    if (!rundown.isActive) {
-      const rundownPlannedEndEpochTime: number = this.getAggregatedEndEpochTime(rundown)
-      const estimatedRundownEndEpochTime: number = Date.now() + this.getAggregatedDurationInMs(rundown)
-      return estimatedRundownEndEpochTime - rundownPlannedEndEpochTime
-    }
-
-    const remainingDuration: number = this.getRemainingRundownDuration(rundown)
-    const estimatedEndEpochTime: number = Date.now() + remainingDuration
-    return estimatedEndEpochTime - this.getAggregatedEndEpochTime(rundown)
   }
 
   private getRemainingRundownDuration(rundown: Rundown): number {
@@ -109,5 +109,23 @@ export class RundownTimingService {
       return 0
     }
     return this.partEntityService.getPlayedDuration(onAirPart)
+  }
+
+  public getPlayedDurationInMsForOnAirSegment(rundown: Rundown): number {
+    const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)
+    if (!onAirSegment) {
+      return 0
+    }
+    const onAirPartIndex: number = onAirSegment.parts.findIndex(part => part.isOnAir)
+    if (onAirPartIndex < 0) {
+      return 0
+    }
+    const onAirPart: Part = onAirSegment.parts[onAirPartIndex]
+    // TODO: Use currentEpochTime for getPlayedDuration instead of Date.now inside
+    const playedDurationInMsForOnAirPart: number = this.partEntityService.getPlayedDuration(onAirPart)
+    const playedDurationInMsForPastPartsInSegment: number = onAirSegment.parts
+      .slice(0, onAirPartIndex)
+      .reduce((sumOfPartDurationsInMs, part) => sumOfPartDurationsInMs + this.partEntityService.getDuration(part), 0)
+    return playedDurationInMsForPastPartsInSegment + playedDurationInMsForOnAirPart
   }
 }

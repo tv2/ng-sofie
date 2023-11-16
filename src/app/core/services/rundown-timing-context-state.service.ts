@@ -5,8 +5,6 @@ import { RundownTimingService } from './rundown-timing.service'
 import { RundownTimingContext } from '../models/rundown-timing-context'
 import { Injectable } from '@angular/core'
 import { Segment } from '../models/segment'
-import { PartEntityService } from './models/part-entity.service'
-import { Part } from '../models/part'
 
 const HIGH_RESOLUTION_INTERVAL_DURATION_IN_MS: number = Math.floor(1000 / 30)
 const LOW_RESOLUTION_INTERVAL_DURATION_IN_MS: number = Math.floor(1000 / 4)
@@ -22,8 +20,7 @@ export class RundownTimingContextStateService {
 
   constructor(
     private readonly rundownStateService: RundownStateService,
-    private readonly rundownTimingService: RundownTimingService,
-    private readonly partEntityService: PartEntityService
+    private readonly rundownTimingService: RundownTimingService
   ) {
     this.startLowResolutionTimer()
   }
@@ -54,9 +51,9 @@ export class RundownTimingContextStateService {
       )
       const expectedEndEpochTimeForRundown: number = this.rundownTimingService.getExpectedEndEpochTimeForRundown(rundown, previousRundownTimingContext.expectedDurationInMsForRundown, currentEpochTime)
       const playedDurationInMsForOnAirPart: number = this.rundownTimingService.getPlayedDurationInMsForOnAirPart(rundown)
-      const playedDurationInMsForOnAirSegment: number = this.getPlayedDurationInMsForOnAirSegment(rundown)
+      const playedDurationInMsForOnAirSegment: number = this.rundownTimingService.getPlayedDurationInMsForOnAirSegment(rundown)
       const durationInMsSpentInOnAirSegment: number = this.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
-      const remainingDurationInMs: number = this.getRemainingDurationInMs(rundown, previousRundownTimingContext.expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
+      const remainingDurationInMs: number = this.getRemainingDurationInMsForRundown(rundown, previousRundownTimingContext.expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
       const rundownTimingContext: RundownTimingContext = {
         ...rundownTimingContextSubject.value,
         currentEpochTime,
@@ -135,9 +132,9 @@ export class RundownTimingContextStateService {
     const expectedStartEpochTimeForRundown: number = this.rundownTimingService.getExpectedStartEpochTimeForRundown(rundown, expectedDurationInMsForRundown, currentEpochTime)
     const expectedEndEpochTimeForRundown: number = this.rundownTimingService.getExpectedEndEpochTimeForRundown(rundown, expectedDurationInMsForRundown, currentEpochTime)
     const playedDurationInMsForOnAirPart: number = this.rundownTimingService.getPlayedDurationInMsForOnAirPart(rundown)
-    const playedDurationInMsForOnAirSegment: number = this.getPlayedDurationInMsForOnAirSegment(rundown)
+    const playedDurationInMsForOnAirSegment: number = this.rundownTimingService.getPlayedDurationInMsForOnAirSegment(rundown)
     const durationInMsSpentInOnAirSegment: number = this.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
-    const remainingDurationInMsForRundown: number = this.getRemainingDurationInMs(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
+    const remainingDurationInMsForRundown: number = this.getRemainingDurationInMsForRundown(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
     const rundownTimingContext: RundownTimingContext = {
       currentEpochTime,
       expectedDurationInMsForRundown: expectedDurationInMsForRundown,
@@ -182,25 +179,7 @@ export class RundownTimingContextStateService {
     return !this.rundownSubscriptions.has(rundownId)
   }
 
-  private getPlayedDurationInMsForOnAirSegment(rundown: Rundown): number {
-    const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)
-    if (!onAirSegment) {
-      return 0
-    }
-    const onAirPartIndex: number = onAirSegment.parts.findIndex(part => part.isOnAir)
-    if (onAirPartIndex < 0) {
-      return 0
-    }
-    const onAirPart: Part = onAirSegment.parts[onAirPartIndex]
-    // TODO: Use currentEpochTime for getPlayedDuration instead of Date.now inside
-    const playedDurationInMsForOnAirPart: number = this.partEntityService.getPlayedDuration(onAirPart)
-    const playedDurationInMsForPastPartsInSegment: number = onAirSegment.parts
-      .slice(0, onAirPartIndex)
-      .reduce((sumOfPartDurationsInMs, part) => sumOfPartDurationsInMs + this.partEntityService.getDuration(part), 0)
-    return playedDurationInMsForPastPartsInSegment + playedDurationInMsForOnAirPart
-  }
-
-  private getRemainingDurationInMs(rundown: Rundown, expectedDurationsInMsForSegments: Record<string, number>, playedDurationInMsForOnAirSegment: number): number {
+  private getRemainingDurationInMsForRundown(rundown: Rundown, expectedDurationsInMsForSegments: Record<string, number>, playedDurationInMsForOnAirSegment: number): number {
     const remainingDurationInMsForOnAirSegment: number = this.getRemainingDurationInMsForOnAirSegment(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
     const remainingDurationInMsFromSegmentMarkedAsNext: number = this.getRemainingDurationInMsFromSegmentMarkedAsNext(rundown, expectedDurationsInMsForSegments)
     return remainingDurationInMsForOnAirSegment + remainingDurationInMsFromSegmentMarkedAsNext
