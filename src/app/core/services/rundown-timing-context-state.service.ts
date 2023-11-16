@@ -125,7 +125,6 @@ export class RundownTimingContextStateService {
     const expectedEndEpochTime: number = this.getEndEpochTime(rundown, expectedDurationInMs)
     const playedDurationInMsForOnAirSegment: number = this.getPlayedDurationInMsForOnAirSegment(rundown)
     const remainingDurationInMs: number = this.getRemainingDurationInMs(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
-
     const rundownTimingContext: RundownTimingContext = {
       currentEpochTime,
       expectedDurationInMs,
@@ -204,18 +203,19 @@ export class RundownTimingContextStateService {
 
   private getPlayedDurationInMsForOnAirSegment(rundown: Rundown): number {
     // TODO: Should we check for untimed when finding on air segment??
-    const onAirSegmentIndex: number = rundown.segments.findIndex(segment => segment.isOnAir)
-    if (onAirSegmentIndex < 0) {
+    const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)
+    if (!onAirSegment) {
       return 0
     }
-    const onAirSegment: Segment = rundown.segments[onAirSegmentIndex]
-    const onAirPart: Part | undefined = onAirSegment.parts.find(part => part.isOnAir)
-    if (!onAirPart) {
+    const onAirPartIndex: number = onAirSegment.parts.findIndex(part => part.isOnAir)
+    if (onAirPartIndex < 0) {
       return 0
     }
+    const onAirPart: Part = onAirSegment.parts[onAirPartIndex]
+    // TODO: Use currentEpochTime for getPlayedDuration instead of Date.now inside
     const playedDurationInMsForOnAirPart: number = this.partEntityService.getPlayedDuration(onAirPart)
     const playedDurationInMsForPastPartsInSegment: number = onAirSegment.parts
-      .slice(0, onAirSegmentIndex)
+      .slice(0, onAirPartIndex)
       .reduce((sumOfPartDurationsInMs, part) => sumOfPartDurationsInMs + this.partEntityService.getDuration(part), 0)
     return playedDurationInMsForPastPartsInSegment + playedDurationInMsForOnAirPart
   }
