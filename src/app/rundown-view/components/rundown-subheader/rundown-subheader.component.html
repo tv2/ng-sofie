@@ -12,7 +12,7 @@
 
 <div class="subheader-panel">
     <span class="subheader-panel__label">Segment timer</span>
-    <span class="subheader-panel__value"><span *ngIf="durationInMsSpendInOnAirSegment">{{ durationInMsSpendInOnAirSegment | timer }}</span></span>
+    <span class="subheader-panel__value"><span *ngIf="durationInMsSpentInOnAirSegment">{{ durationInMsSpentInOnAirSegment | timer: '+' }}</span></span>
 </div>
 
 <div *ngIf="endWords" class="subheader-panel end-words">

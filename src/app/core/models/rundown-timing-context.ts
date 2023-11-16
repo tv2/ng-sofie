@@ -1,12 +1,12 @@
 // TODO: describe what each attribute does
 export interface RundownTimingContext {
   currentEpochTime: number
-  expectedDurationInMs: number
-  expectedStartEpochTime: number
-  expectedEndEpochTime: number
-  remainingDurationInMs: number
-  onAirPartTimerDurationInMs: number // Should this be played duration instead?
-  playedDurationInMsForOnAirSegment: number // Should this be played duration instead?
+  expectedDurationInMsForRundown: number
+  expectedStartEpochTimeForRundown: number
+  expectedEndEpochTimeForRundown: number
+  remainingDurationInMsForRundown: number
+  playedDurationInMsForOnAirPart: number
+  playedDurationInMsForOnAirSegment: number
   durationInMsSpentInOnAirSegment: number
   expectedDurationsInMsForSegments: Record<string, number>
   startOffsetsInMsFromNextCursorForSegments: Record<string, number>

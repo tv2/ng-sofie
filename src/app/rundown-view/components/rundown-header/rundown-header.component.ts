@@ -35,7 +35,6 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public plannedStart?: number
   public plannedEnd: number = Date.now()
   public diff: number = 0
-  public oldDiff: number = 0
 
   private readonly logger: Logger
 
@@ -133,12 +132,12 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
     this.currentLocalDate = rundownTimingContext.currentEpochTime
-    this.plannedStart = rundownTimingContext.expectedStartEpochTime
-    this.plannedEnd = rundownTimingContext.expectedEndEpochTime
+    this.plannedStart = rundownTimingContext.expectedStartEpochTimeForRundown
+    this.plannedEnd = rundownTimingContext.expectedEndEpochTimeForRundown
     if (this.rundown.isActive) {
-      this.diff = rundownTimingContext.currentEpochTime + rundownTimingContext.remainingDurationInMs - rundownTimingContext.expectedEndEpochTime
+      this.diff = rundownTimingContext.currentEpochTime + rundownTimingContext.remainingDurationInMsForRundown - rundownTimingContext.expectedEndEpochTimeForRundown
     } else {
-      this.diff = rundownTimingContext.currentEpochTime + rundownTimingContext.expectedDurationInMs - rundownTimingContext.expectedEndEpochTime
+      this.diff = rundownTimingContext.currentEpochTime + rundownTimingContext.expectedDurationInMsForRundown - rundownTimingContext.expectedEndEpochTimeForRundown
     }
   }
 }

@@ -25,6 +25,9 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   @Input()
   public isRundownActive: boolean
 
+  @Input()
+  public remainingDurationInMsForOnAirPart?: number
+
   public hasRemotePiece: boolean = false
 
   public timeReference: number = 0

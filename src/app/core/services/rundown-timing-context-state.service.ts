@@ -48,13 +48,17 @@ export class RundownTimingContextStateService {
       }
       const currentEpochTime: number = Date.now()
       const previousRundownTimingContext: RundownTimingContext = rundownTimingContextSubject.value
+      const playedDurationInMsForOnAirPart: number = this.getPlayedDurationInMsForOnAirPart(rundown)
       const playedDurationInMsForOnAirSegment: number = this.getPlayedDurationInMsForOnAirSegment(rundown)
+      const durationInMsSpentInOnAirSegment: number = this.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
       const remainingDurationInMs: number = this.getRemainingDurationInMs(rundown, previousRundownTimingContext.expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
       const rundownTimingContext: RundownTimingContext = {
         ...rundownTimingContextSubject.value,
         currentEpochTime,
+        playedDurationInMsForOnAirPart,
         playedDurationInMsForOnAirSegment,
-        remainingDurationInMs,
+        durationInMsSpentInOnAirSegment,
+        remainingDurationInMsForRundown: remainingDurationInMs,
       }
       rundownTimingContextSubject.next(rundownTimingContext)
     })
@@ -102,12 +106,12 @@ export class RundownTimingContextStateService {
     return {
       currentEpochTime: Date.now(),
       durationInMsSpentInOnAirSegment: 0,
-      expectedDurationInMs: 0,
-      expectedEndEpochTime: 0,
-      expectedStartEpochTime: 0,
-      onAirPartTimerDurationInMs: 0,
+      expectedDurationInMsForRundown: 0,
+      expectedEndEpochTimeForRundown: 0,
+      expectedStartEpochTimeForRundown: 0,
+      playedDurationInMsForOnAirPart: 0,
       playedDurationInMsForOnAirSegment: 0,
-      remainingDurationInMs: 0,
+      remainingDurationInMsForRundown: 0,
       expectedDurationsInMsForSegments: {},
       startOffsetsInMsFromNextCursorForSegments: {},
     }
@@ -119,21 +123,23 @@ export class RundownTimingContextStateService {
       return
     }
     const currentEpochTime: number = Date.now()
-    const expectedDurationsInMsForSegments: Record<string, number> = this.getExpectedDurationInMsForSegments(rundown)
-    const expectedDurationInMs: number = this.getExpectedDurationInMs(rundown, expectedDurationsInMsForSegments)
-    const expectedStartEpochTime: number = this.getStartEpochTime(rundown, expectedDurationInMs)
-    const expectedEndEpochTime: number = this.getEndEpochTime(rundown, expectedDurationInMs)
+    const expectedDurationsInMsForSegments: Record<string, number> = this.rundownTimingService.getExpectedDurationInMsForSegments(rundown)
+    const expectedDurationInMsForRundown: number = this.rundownTimingService.getExpectedDurationInMsForRundown(rundown, expectedDurationsInMsForSegments)
+    const expectedStartEpochTimeForRundown: number = this.getStartEpochTime(rundown, expectedDurationInMsForRundown)
+    const expectedEndEpochTimeForRundown: number = this.getEndEpochTime(rundown, expectedDurationInMsForRundown)
+    const playedDurationInMsForOnAirPart: number = this.getPlayedDurationInMsForOnAirPart(rundown)
     const playedDurationInMsForOnAirSegment: number = this.getPlayedDurationInMsForOnAirSegment(rundown)
-    const remainingDurationInMs: number = this.getRemainingDurationInMs(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
+    const durationInMsSpentInOnAirSegment: number = this.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
+    const remainingDurationInMsForRundown: number = this.getRemainingDurationInMs(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
     const rundownTimingContext: RundownTimingContext = {
       currentEpochTime,
-      expectedDurationInMs,
-      expectedStartEpochTime,
-      expectedEndEpochTime,
-      remainingDurationInMs,
-      onAirPartTimerDurationInMs: 0,
-      playedDurationInMsForOnAirSegment: 0,
-      durationInMsSpentInOnAirSegment: 0,
+      expectedDurationInMsForRundown: expectedDurationInMsForRundown,
+      expectedStartEpochTimeForRundown: expectedStartEpochTimeForRundown,
+      expectedEndEpochTimeForRundown: expectedEndEpochTimeForRundown,
+      remainingDurationInMsForRundown: remainingDurationInMsForRundown,
+      playedDurationInMsForOnAirSegment,
+      durationInMsSpentInOnAirSegment,
+      playedDurationInMsForOnAirPart,
       expectedDurationsInMsForSegments,
       startOffsetsInMsFromNextCursorForSegments: {},
     }
@@ -169,14 +175,6 @@ export class RundownTimingContextStateService {
     return !this.rundownSubscriptions.has(rundownId)
   }
 
-  private getExpectedDurationInMsForSegments(rundown: Rundown): Record<string, number> {
-    return Object.fromEntries(rundown.segments.map(segment => [segment.id, this.rundownTimingService.getExpectedDurationInMsForSegment(segment)]))
-  }
-
-  private getExpectedDurationInMs(rundown: Rundown, expectedDurationsInMsForSegments: Record<string, number>): number {
-    return rundown.timing.expectedDurationInMs ?? rundown.segments.reduce((segmentDurationInMsSum, segment) => segmentDurationInMsSum + (expectedDurationsInMsForSegments[segment.id] ?? 0), 0)
-  }
-
   private getStartEpochTime(rundown: Rundown, expectedDurationInMs: number): number {
     switch (rundown.timing.type) {
       case RundownTimingType.FORWARD:
@@ -201,8 +199,19 @@ export class RundownTimingContextStateService {
     }
   }
 
+  private getPlayedDurationInMsForOnAirPart(rundown: Rundown): number {
+    const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)
+    if (!onAirSegment || onAirSegment.isUntimed) {
+      return 0
+    }
+    const onAirPart: Part | undefined = onAirSegment.parts.find(part => part.isOnAir)
+    if (!onAirPart || onAirPart.isUntimed) {
+      return 0
+    }
+    return this.partEntityService.getPlayedDuration(onAirPart)
+  }
+
   private getPlayedDurationInMsForOnAirSegment(rundown: Rundown): number {
-    // TODO: Should we check for untimed when finding on air segment??
     const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)
     if (!onAirSegment) {
       return 0
@@ -244,5 +253,13 @@ export class RundownTimingContextStateService {
       .slice(nextSegmentIndex)
       .filter(segment => !segment.isOnAir)
       .reduce((sumOfExpectedDurationsInMs, segment) => sumOfExpectedDurationsInMs + expectedDurationsInMsForSegments[segment.id] ?? 0, 0)
+  }
+
+  private getDurationInMsSpentInOnAirSegment(rundown: Rundown, currentEpochTime: number): number {
+    const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)
+    if (!onAirSegment?.executedAtEpochTime) {
+      return 0
+    }
+    return currentEpochTime - onAirSegment.executedAtEpochTime
   }
 }

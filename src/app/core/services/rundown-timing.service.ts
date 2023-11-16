@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core'
 
 @Injectable()
 export class RundownTimingService {
-  constructor(private readonly partEntityService: PartEntityService) {}
+  public constructor(private readonly partEntityService: PartEntityService) {}
 
   public getExpectedStartEpochTime(rundownTiming: RundownTiming): number | undefined {
     switch (rundownTiming.type) {
@@ -66,9 +66,7 @@ export class RundownTimingService {
     if (segment.isUntimed) {
       return 0
     }
-    return segment.budgetDuration !== undefined
-      ? segment.budgetDuration
-      : segment.parts.reduce((accumulatedPartDuration: number, part: Part) => accumulatedPartDuration + this.getPartDuration(part), 0)
+    return segment.budgetDuration ?? segment.parts.reduce((accumulatedPartDuration: number, part: Part) => accumulatedPartDuration + (part.expectedDuration ?? 0), 0)
   }
 
   public getRundownScheduleOffsetInMs(rundown: Rundown): number {
@@ -126,5 +124,13 @@ export class RundownTimingService {
       return 0
     }
     return part.playedDuration > 0 ? part.playedDuration : part.expectedDuration ?? 0
+  }
+
+  public getExpectedDurationInMsForSegments(rundown: Rundown): Record<string, number> {
+    return Object.fromEntries(rundown.segments.map(segment => [segment.id, this.getExpectedDurationInMsForSegment(segment)]))
+  }
+
+  public getExpectedDurationInMsForRundown(rundown: Rundown, expectedDurationsInMsForSegments: Record<string, number>): number {
+    return rundown.timing.expectedDurationInMs ?? rundown.segments.reduce((segmentDurationInMsSum, segment) => segmentDurationInMsSum + (expectedDurationsInMsForSegments[segment.id] ?? 0), 0)
   }
 }
