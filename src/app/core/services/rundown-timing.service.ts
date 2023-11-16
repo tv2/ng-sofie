@@ -4,9 +4,11 @@ import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
 import { PartEntityService } from './models/part-entity.service'
 import { Part } from '../models/part'
+import { Injectable } from '@angular/core'
 
+@Injectable()
 export class RundownTimingService {
-  private readonly partEntityService: PartEntityService = new PartEntityService()
+  constructor(private readonly partEntityService: PartEntityService) {}
 
   public getExpectedStartEpochTime(rundownTiming: RundownTiming): number | undefined {
     switch (rundownTiming.type) {
