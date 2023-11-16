@@ -48,6 +48,8 @@ export class RundownTimingContextStateService {
       }
       const currentEpochTime: number = Date.now()
       const previousRundownTimingContext: RundownTimingContext = rundownTimingContextSubject.value
+      const expectedStartEpochTimeForRundown: number = this.rundownTimingService.getStartEpochTime(rundown, previousRundownTimingContext.expectedDurationInMsForRundown, currentEpochTime)
+      const expectedEndEpochTimeForRundown: number = this.getEndEpochTime(rundown, previousRundownTimingContext.expectedDurationInMsForRundown, currentEpochTime)
       const playedDurationInMsForOnAirPart: number = this.getPlayedDurationInMsForOnAirPart(rundown)
       const playedDurationInMsForOnAirSegment: number = this.getPlayedDurationInMsForOnAirSegment(rundown)
       const durationInMsSpentInOnAirSegment: number = this.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
@@ -55,6 +57,8 @@ export class RundownTimingContextStateService {
       const rundownTimingContext: RundownTimingContext = {
         ...rundownTimingContextSubject.value,
         currentEpochTime,
+        expectedStartEpochTimeForRundown,
+        expectedEndEpochTimeForRundown,
         playedDurationInMsForOnAirPart,
         playedDurationInMsForOnAirSegment,
         durationInMsSpentInOnAirSegment,
@@ -125,8 +129,8 @@ export class RundownTimingContextStateService {
     const currentEpochTime: number = Date.now()
     const expectedDurationsInMsForSegments: Record<string, number> = this.rundownTimingService.getExpectedDurationInMsForSegments(rundown)
     const expectedDurationInMsForRundown: number = this.rundownTimingService.getExpectedDurationInMsForRundown(rundown, expectedDurationsInMsForSegments)
-    const expectedStartEpochTimeForRundown: number = this.getStartEpochTime(rundown, expectedDurationInMsForRundown)
-    const expectedEndEpochTimeForRundown: number = this.getEndEpochTime(rundown, expectedDurationInMsForRundown)
+    const expectedStartEpochTimeForRundown: number = this.rundownTimingService.getStartEpochTime(rundown, expectedDurationInMsForRundown, currentEpochTime)
+    const expectedEndEpochTimeForRundown: number = this.getEndEpochTime(rundown, expectedDurationInMsForRundown, currentEpochTime)
     const playedDurationInMsForOnAirPart: number = this.getPlayedDurationInMsForOnAirPart(rundown)
     const playedDurationInMsForOnAirSegment: number = this.getPlayedDurationInMsForOnAirSegment(rundown)
     const durationInMsSpentInOnAirSegment: number = this.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
@@ -175,19 +179,7 @@ export class RundownTimingContextStateService {
     return !this.rundownSubscriptions.has(rundownId)
   }
 
-  private getStartEpochTime(rundown: Rundown, expectedDurationInMs: number): number {
-    switch (rundown.timing.type) {
-      case RundownTimingType.FORWARD:
-        return rundown.timing.expectedStartEpochTime
-      case RundownTimingType.BACKWARD:
-        return rundown.timing.expectedStartEpochTime ?? rundown.timing.expectedEndEpochTime - expectedDurationInMs
-      default:
-        // TODO: We should set on the rundown when it is activated, in order to show correct start time for unscheduled rundowns.
-        return Date.now()
-    }
-  }
-
-  private getEndEpochTime(rundown: Rundown, expectedDurationInMs: number): number {
+  private getEndEpochTime(rundown: Rundown, expectedDurationInMs: number, currentEpochTime: number): number {
     switch (rundown.timing.type) {
       case RundownTimingType.BACKWARD:
         return rundown.timing.expectedEndEpochTime
@@ -195,7 +187,7 @@ export class RundownTimingContextStateService {
         return rundown.timing.expectedStartEpochTime ?? rundown.timing.expectedStartEpochTime + expectedDurationInMs
       default:
         // TODO: We should set on the rundown when it is activated, in order to show correct start time for unscheduled rundowns.
-        return Date.now() + expectedDurationInMs
+        return currentEpochTime + expectedDurationInMs
     }
   }
 

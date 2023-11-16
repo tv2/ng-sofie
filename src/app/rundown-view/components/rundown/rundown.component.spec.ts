@@ -4,6 +4,9 @@ import { instance, mock } from '@typestrong/ts-mockito'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { DialogService } from '../../../shared/services/dialog.service'
+import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
+import { PartEntityService } from '../../../core/services/models/part-entity.service'
+import { Logger } from '../../../core/abstractions/logger.service'
 
 describe('RundownComponent', () => {
   it('should create', async () => {
@@ -13,15 +16,24 @@ describe('RundownComponent', () => {
 })
 
 async function configureTestBed(
-  params: { mockedRundownService?: RundownService; mockedRundownStateService?: RundownStateService; mockedDialogService?: DialogService } = {}
+  params: {
+    mockedRundownService?: RundownService
+    mockedRundownStateService?: RundownStateService
+    mockedDialogService?: DialogService
+    mockedRundownTimingContextStateService?: RundownTimingContextStateService
+  } = {}
 ): Promise<RundownComponent> {
-  const mockedRundownService = params.mockedRundownService ?? mock<RundownService>()
-  const mockedDialogService = params.mockedDialogService ?? mock<DialogService>()
+  const mockedRundownService: RundownService = params.mockedRundownService ?? mock<RundownService>()
+  const mockedDialogService: DialogService = params.mockedDialogService ?? mock<DialogService>()
+  const mockedRundownTimingContextStateService: RundownTimingContextStateService = params.mockedRundownTimingContextStateService ?? mock<RundownTimingContextStateService>()
 
   await TestBed.configureTestingModule({
     providers: [
       { provide: RundownService, useValue: instance(mockedRundownService) },
       { provide: DialogService, useValue: instance(mockedDialogService) },
+      { provide: PartEntityService, useValue: instance(mock<PartEntityService>()) },
+      { provide: RundownTimingContextStateService, useValue: instance(mockedRundownTimingContextStateService) },
+      { provide: Logger, useValue: instance(mock<Logger>()) },
     ],
     declarations: [RundownComponent],
   }).compileComponents()

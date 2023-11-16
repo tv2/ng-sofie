@@ -1,7 +1,7 @@
 import { RundownTimingService } from './rundown-timing.service'
 import { Rundown } from '../models/rundown'
 import { TestEntityFactory } from '../../test/factories/test-entity.factory'
-import { BackwardRundownTiming, RundownTiming } from '../models/rundown-timing'
+import { BackwardRundownTiming, ForwardRundownTiming, RundownTiming, UnscheduledRundownTiming } from '../models/rundown-timing'
 import { Segment } from '../models/segment'
 import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Part } from '../models/part'
@@ -728,10 +728,10 @@ describe(RundownTimingService.name, () => {
         expectedEndEpochTime: Number.POSITIVE_INFINITY,
       }
       const expectedDurationsInMsForSegments: Record<string, number> = {
-        'segmentA': 100,
-        'segmentB': 110,
-        'segmentC': 120,
-        'segmentD': 130,
+        segmentA: 100,
+        segmentB: 110,
+        segmentC: 120,
+        segmentD: 130,
       }
 
       describe('when all segments have a cached expected duration', () => {
@@ -754,12 +754,12 @@ describe(RundownTimingService.name, () => {
       describe('when no segments have a cached expected duration', () => {
         it('returns the set expected duration for the rundown', () => {
           const segments: Segment[] = [
-            testEntityFactory.createSegment({id: 'segmentH'}),
-            testEntityFactory.createSegment({id: 'segmentJ'}),
-            testEntityFactory.createSegment({id: 'segmentK'}),
-            testEntityFactory.createSegment({id: 'segmentL'}),
+            testEntityFactory.createSegment({ id: 'segmentH' }),
+            testEntityFactory.createSegment({ id: 'segmentJ' }),
+            testEntityFactory.createSegment({ id: 'segmentK' }),
+            testEntityFactory.createSegment({ id: 'segmentL' }),
           ]
-          const rundown: Rundown = testEntityFactory.createRundown({segments, timing})
+          const rundown: Rundown = testEntityFactory.createRundown({ segments, timing })
           const testee: RundownTimingService = createTestee()
 
           const result: number = testee.getExpectedDurationInMsForRundown(rundown, expectedDurationsInMsForSegments)
@@ -775,10 +775,10 @@ describe(RundownTimingService.name, () => {
         expectedEndEpochTime: Number.POSITIVE_INFINITY,
       }
       const expectedDurationsInMsForSegments: Record<string, number> = {
-        'segmentA': 100,
-        'segmentB': 110,
-        'segmentC': 120,
-        'segmentD': 130,
+        segmentA: 100,
+        segmentB: 110,
+        segmentC: 120,
+        segmentD: 130,
       }
 
       describe('when all segments have a cached expected duration', () => {
@@ -801,18 +801,91 @@ describe(RundownTimingService.name, () => {
       describe('when no segments have a cached expected duration', () => {
         it('returns 0', () => {
           const segments: Segment[] = [
-            testEntityFactory.createSegment({id: 'segmentH'}),
-            testEntityFactory.createSegment({id: 'segmentJ'}),
-            testEntityFactory.createSegment({id: 'segmentK'}),
-            testEntityFactory.createSegment({id: 'segmentL'}),
+            testEntityFactory.createSegment({ id: 'segmentH' }),
+            testEntityFactory.createSegment({ id: 'segmentJ' }),
+            testEntityFactory.createSegment({ id: 'segmentK' }),
+            testEntityFactory.createSegment({ id: 'segmentL' }),
           ]
-          const rundown: Rundown = testEntityFactory.createRundown({segments, timing})
+          const rundown: Rundown = testEntityFactory.createRundown({ segments, timing })
           const testee: RundownTimingService = createTestee()
 
           const result: number = testee.getExpectedDurationInMsForRundown(rundown, expectedDurationsInMsForSegments)
 
           expect(result).toBe(0)
         })
+      })
+    })
+  })
+
+  describe(RundownTimingService.prototype.getStartEpochTime.name, () => {
+    describe('when rundown has forward timing', () => {
+      it('returns the set start epoch time', () => {
+        const currentEpochTime: number = Date.now()
+        const expectedStartEpochTime: number = currentEpochTime + 1000
+        const timing: ForwardRundownTiming = {
+          type: RundownTimingType.FORWARD,
+          expectedStartEpochTime,
+        }
+        const rundown: Rundown = testEntityFactory.createRundown({ timing })
+        const testee: RundownTimingService = createTestee()
+
+        const result: number = testee.getStartEpochTime(rundown, 0, currentEpochTime)
+
+        expect(result).toBe(expectedStartEpochTime)
+      })
+    })
+
+    describe('when rundown has backward timing', () => {
+      describe('when start epoch time is set', () => {
+        it('returns the start epoch time', () => {
+          const currentEpochTime: number = Date.now()
+          const expectedStartEpochTime: number = currentEpochTime + 1000
+          const expectedEndEpochTime: number = currentEpochTime + 10000
+          const timing: BackwardRundownTiming = {
+            type: RundownTimingType.BACKWARD,
+            expectedStartEpochTime,
+            expectedEndEpochTime,
+          }
+          const rundown: Rundown = testEntityFactory.createRundown({ timing })
+          const testee: RundownTimingService = createTestee()
+
+          const result: number = testee.getStartEpochTime(rundown, 0, currentEpochTime)
+
+          expect(result).toBe(expectedStartEpochTime)
+        })
+      })
+
+      describe('when start epoch time is not set', () => {
+        it('returns the start epoch time', () => {
+          const currentEpochTime: number = Date.now()
+          const expectedEndEpochTime: number = currentEpochTime + 10000
+          const expectedDurationInMs: number = 5000
+          const timing: BackwardRundownTiming = {
+            type: RundownTimingType.BACKWARD,
+            expectedEndEpochTime,
+          }
+          const rundown: Rundown = testEntityFactory.createRundown({ timing })
+          const testee: RundownTimingService = createTestee()
+
+          const result: number = testee.getStartEpochTime(rundown, expectedDurationInMs, currentEpochTime)
+
+          expect(result).toBe(expectedEndEpochTime - expectedDurationInMs)
+        })
+      })
+    })
+
+    describe('when rundown has unscheduled timing', () => {
+      it('returns the current epoch time', () => {
+        const currentEpochTime: number = Date.now()
+        const timing: UnscheduledRundownTiming = {
+          type: RundownTimingType.UNSCHEDULED,
+        }
+        const rundown: Rundown = testEntityFactory.createRundown({ timing })
+        const testee: RundownTimingService = createTestee()
+
+        const result: number = testee.getStartEpochTime(rundown, 0, currentEpochTime)
+
+        expect(result).toBe(currentEpochTime)
       })
     })
   })

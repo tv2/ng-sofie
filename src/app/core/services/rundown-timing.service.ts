@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core'
 
 @Injectable()
 export class RundownTimingService {
-  public constructor(private readonly partEntityService: PartEntityService) {}
+  constructor(private readonly partEntityService: PartEntityService) {}
 
   public getExpectedStartEpochTime(rundownTiming: RundownTiming): number | undefined {
     switch (rundownTiming.type) {
@@ -119,18 +119,23 @@ export class RundownTimingService {
     return playedPartDuration + onAirPartPlayedDuration
   }
 
-  private getPartDuration(part: Part): number {
-    if (part.isUntimed) {
-      return 0
-    }
-    return part.playedDuration > 0 ? part.playedDuration : part.expectedDuration ?? 0
-  }
-
   public getExpectedDurationInMsForSegments(rundown: Rundown): Record<string, number> {
     return Object.fromEntries(rundown.segments.map(segment => [segment.id, this.getExpectedDurationInMsForSegment(segment)]))
   }
 
   public getExpectedDurationInMsForRundown(rundown: Rundown, expectedDurationsInMsForSegments: Record<string, number>): number {
     return rundown.timing.expectedDurationInMs ?? rundown.segments.reduce((segmentDurationInMsSum, segment) => segmentDurationInMsSum + (expectedDurationsInMsForSegments[segment.id] ?? 0), 0)
+  }
+
+  public getStartEpochTime(rundown: Rundown, expectedDurationInMs: number, currentEpochTime: number): number {
+    switch (rundown.timing.type) {
+      case RundownTimingType.FORWARD:
+        return rundown.timing.expectedStartEpochTime
+      case RundownTimingType.BACKWARD:
+        return rundown.timing.expectedStartEpochTime ?? rundown.timing.expectedEndEpochTime - expectedDurationInMs
+      default:
+        // TODO: We should set on the rundown when it is activated, in order to show correct start time for unscheduled rundowns.
+        return currentEpochTime
+    }
   }
 }

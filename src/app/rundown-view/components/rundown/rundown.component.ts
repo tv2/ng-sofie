@@ -23,7 +23,7 @@ export class RundownComponent implements OnInit, OnDestroy {
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
 
-  public constructor(
+  constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
     private readonly partEntityService: PartEntityService,
     logger: Logger
@@ -51,9 +51,7 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   private doesPartContainVideoClipOrVoiceOver(part: Part): boolean {
     const supportedPieceTypes: (string | undefined)[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.VOICE_OVER]
-    return part.pieces.some(piece =>
-      supportedPieceTypes.includes((piece.metadata as Tv2PieceMetadata | undefined)?.type)
-    ) ?? false
+    return part.pieces.some(piece => supportedPieceTypes.includes((piece.metadata as Tv2PieceMetadata | undefined)?.type)) ?? false
   }
 
   public ngOnDestroy(): void {

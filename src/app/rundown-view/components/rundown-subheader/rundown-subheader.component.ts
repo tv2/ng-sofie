@@ -60,9 +60,7 @@ export class RundownSubheaderComponent implements OnChanges, OnInit, OnDestroy {
 
   private doesPartContainVideoClipOrVoiceOver(part: Part): boolean {
     const supportedPieceTypes: (string | undefined)[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.VOICE_OVER]
-    return part.pieces.some(piece =>
-      supportedPieceTypes.includes((piece.metadata as Tv2PieceMetadata | undefined)?.type)
-    ) ?? false
+    return part.pieces.some(piece => supportedPieceTypes.includes((piece.metadata as Tv2PieceMetadata | undefined)?.type)) ?? false
   }
 
   private updateOnAirSegmentTiming(rundownTimingContext: RundownTimingContext): void {
