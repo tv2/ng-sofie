@@ -44,7 +44,7 @@
       </trans-unit>
       <trans-unit id="3796920100771349539" datatype="html">
         <source>rundown-overview-component.deletion-dialog-question &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;</source>
-        <target state="new">Er du sikker på at du vil slette Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Vær opmærksom på: Denne handling er uigenkaldelig!</target>
+        <target state="new">Er du sikker på at du vil slette Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Vær opmærksom på: Denne handling er uoprettelig!</target>
       </trans-unit>
       <trans-unit id="5314808199366684814" datatype="html">
         <source>rundown-overview-component.deletion-dialog.delete-button</source>
