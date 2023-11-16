@@ -121,11 +121,19 @@ export class RundownTimingService {
       return 0
     }
     const onAirPart: Part = onAirSegment.parts[onAirPartIndex]
-    // TODO: Use currentEpochTime for getPlayedDuration instead of Date.now inside
+    // TODO: Use currentEpochTime for getPlayedDuration instead of Date.now inside PartEntityService.getPlayedDuration
     const playedDurationInMsForOnAirPart: number = this.partEntityService.getPlayedDuration(onAirPart)
     const playedDurationInMsForPastPartsInSegment: number = onAirSegment.parts
       .slice(0, onAirPartIndex)
       .reduce((sumOfPartDurationsInMs, part) => sumOfPartDurationsInMs + this.partEntityService.getDuration(part), 0)
     return playedDurationInMsForPastPartsInSegment + playedDurationInMsForOnAirPart
+  }
+
+  public getDurationInMsSpentInOnAirSegment(rundown: Rundown, currentEpochTime: number): number {
+    const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)
+    if (!onAirSegment?.executedAtEpochTime) {
+      return 0
+    }
+    return currentEpochTime - onAirSegment.executedAtEpochTime
   }
 }

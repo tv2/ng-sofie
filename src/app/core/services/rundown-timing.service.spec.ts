@@ -1041,6 +1041,35 @@ describe(RundownTimingService.name, () => {
       })
     })
   })
+
+  describe(RundownTimingService.prototype.getDurationInMsSpentInOnAirSegment.name, () => {
+    describe('when rundown has no on air segment', () => {
+      it('returns 0', () => {
+        const rundown: Rundown = testEntityFactory.createRundown({ segments: [] })
+        const currentEpochTime: number = Date.now()
+        const testee: RundownTimingService = createTestee()
+
+        const result: number = testee.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
+
+        expect(result).toBe(0)
+      })
+    })
+
+    describe('when rundown has an on air segment', () => {
+      it('returns the duration from current epoch time to the epoch time that the segment was executed', () => {
+        const currentEpochTime: number = Date.now()
+        const durationInMsSpentInOnAirSegment: number = 5000
+        const executedAtEpochTime: number = currentEpochTime - durationInMsSpentInOnAirSegment
+        const onAirSegment: Segment = testEntityFactory.createSegment({ isOnAir: true, executedAtEpochTime })
+        const rundown: Rundown = testEntityFactory.createRundown({ segments: [onAirSegment] })
+        const testee: RundownTimingService = createTestee()
+
+        const result: number = testee.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
+
+        expect(result).toBe(durationInMsSpentInOnAirSegment)
+      })
+    })
+  })
 })
 
 function createTestee(params: { partEntityService?: PartEntityService } = {}): RundownTimingService {
