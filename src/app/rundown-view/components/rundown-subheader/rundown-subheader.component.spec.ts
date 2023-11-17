@@ -3,7 +3,7 @@ import { TestEntityFactory } from '../../../test/factories/test-entity.factory'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { instance, mock } from '@typestrong/ts-mockito'
-import { TimerPipe } from '../../pipes/timer/timer.pipe'
+import { TimerPipe } from '../../../shared/pipes/timer/timer.pipe'
 import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
 import { Logger } from '../../../core/abstractions/logger.service'
 

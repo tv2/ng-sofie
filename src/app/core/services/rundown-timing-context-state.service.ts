@@ -4,6 +4,7 @@ import { RundownStateService } from './rundown-state.service'
 import { RundownTimingService } from './rundown-timing.service'
 import { RundownTimingContext } from '../models/rundown-timing-context'
 import { Injectable } from '@angular/core'
+import { Segment } from '../models/segment'
 
 const HIGH_RESOLUTION_INTERVAL_DURATION_IN_MS: number = Math.floor(1000 / 30)
 const LOW_RESOLUTION_INTERVAL_DURATION_IN_MS: number = Math.floor(1000 / 4)
@@ -129,6 +130,7 @@ export class RundownTimingContextStateService {
     if (!rundownTimingContextSubject) {
       return
     }
+    const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)
     const currentEpochTime: number = Date.now()
     const expectedDurationsInMsForSegments: Record<string, number> = this.rundownTimingService.getExpectedDurationInMsForSegments(rundown)
     const expectedDurationInMsForRundown: number = this.rundownTimingService.getExpectedDurationInMsForRundown(rundown, expectedDurationsInMsForSegments)
@@ -139,6 +141,7 @@ export class RundownTimingContextStateService {
     const durationInMsSpentInOnAirSegment: number = this.rundownTimingService.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
     const remainingDurationInMsForRundown: number = this.rundownTimingService.getRemainingDurationInMsForRundown(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
     const rundownTimingContext: RundownTimingContext = {
+      onAirSegmentId: onAirSegment?.id,
       currentEpochTime,
       expectedDurationInMsForRundown: expectedDurationInMsForRundown,
       expectedStartEpochTimeForRundown: expectedStartEpochTimeForRundown,

@@ -20,6 +20,7 @@ export class RundownComponent implements OnInit, OnDestroy {
   public rundown: Rundown
 
   public remainingDurationInMsForOnAirPart?: number
+  public onAirSegmentIdForRundownTimingContext?: string
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
 
@@ -40,6 +41,8 @@ export class RundownComponent implements OnInit, OnDestroy {
   }
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
+    this.onAirSegmentIdForRundownTimingContext = rundownTimingContext.onAirSegmentId
+
     const onAirPart: Part | undefined = this.rundown.segments.find(segment => segment.isOnAir)?.parts.find(part => part.isOnAir)
 
     if (!onAirPart || !this.doesPartContainVideoClipOrVoiceOver(onAirPart)) {

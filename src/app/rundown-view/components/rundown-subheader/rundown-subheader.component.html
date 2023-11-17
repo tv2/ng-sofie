@@ -2,17 +2,17 @@
 
 <div class="subheader-panel">
     <span class="subheader-panel__label">Part countdown</span>
-    <span class="subheader-panel__value"><span *ngIf="remainingDurationInMsForOnAirPart !== undefined" [class.overtime]="remainingDurationInMsForOnAirPart >= 1000" class="timer">{{ remainingDurationInMsForOnAirPart | timer: '+' }}</span></span>
+    <span class="subheader-panel__value"><span *ngIf="remainingDurationInMsForOnAirPart !== undefined" [class.overtime]="remainingDurationInMsForOnAirPart > 0" class="timer">{{ remainingDurationInMsForOnAirPart | timer: '#+HH?:mm:ss' }}</span></span>
 </div>
 
 <div class="subheader-panel">
     <span class="subheader-panel__label">Segment countdown</span>
-    <span class="subheader-panel__value"><span [class.overtime]="remainingDurationInMsForOnAirSegment >= 1000" class="timer">{{ remainingDurationInMsForOnAirSegment | timer: '+' }}</span></span>
+    <span class="subheader-panel__value"><span [class.overtime]="remainingDurationInMsForOnAirSegment > 0" class="timer">{{ remainingDurationInMsForOnAirSegment | timer: '#+HH?:mm:ss' }}</span></span>
 </div>
 
 <div class="subheader-panel">
     <span class="subheader-panel__label">Segment timer</span>
-    <span class="subheader-panel__value"><span *ngIf="durationInMsSpentInOnAirSegment">{{ durationInMsSpentInOnAirSegment | timer: '+' }}</span></span>
+    <span class="subheader-panel__value"><span *ngIf="durationInMsSpentInOnAirSegment">{{ durationInMsSpentInOnAirSegment | timer: 'HH?:mm:ss' }}</span></span>
 </div>
 
 <div *ngIf="endWords" class="subheader-panel end-words">

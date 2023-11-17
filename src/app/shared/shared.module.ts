@@ -13,7 +13,6 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { MatDialogModule } from '@angular/material/dialog'
 import { DialogService } from './services/dialog.service'
 import { ConnectionErrorService } from './services/connection-error.service'
-import { TimestampPipe } from './pipes/timestamp.pipe'
 import { Tv2OutputLayerService } from './services/tv2-output-layer.service'
 import { MinimumPipe } from './pipes/minimum.pipe'
 import { MaximumPipe } from './pipes/maximum.pipe'
@@ -34,6 +33,7 @@ import { ZodTv2ActionParser } from './services/zod-tv2-action-parser.service'
 import { RundownNavigationService } from './services/rundown-navigation-service'
 import { Tv2ActionPanelComponent } from './components/tv2-action-panel/tv2-action-panel.component'
 import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-card.component'
+import { TimerPipe } from './pipes/timer/timer.pipe'
 
 @NgModule({
   declarations: [
@@ -41,7 +41,6 @@ import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-
     ConfirmationDialogComponent,
     MinimumPipe,
     MaximumPipe,
-    TimestampPipe,
     SofieLogoComponent,
     SpacerComponent,
     IconButtonComponent,
@@ -49,6 +48,7 @@ import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-
     ContextMenuComponent,
     Tv2ActionPanelComponent,
     Tv2ActionCardComponent,
+    TimerPipe,
   ],
   imports: [
     CommonModule,
@@ -69,7 +69,7 @@ import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-
     HeaderComponent,
     MinimumPipe,
     MaximumPipe,
-    TimestampPipe,
+    TimerPipe,
     SofieLogoComponent,
     SpacerComponent,
     IconButtonComponent,
@@ -86,9 +86,9 @@ import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-
     DialogService,
     ConnectionErrorService,
     Tv2OutputLayerService,
-    TimestampPipe,
     ActionStateService,
     RundownNavigationService,
+    TimerPipe,
   ],
 })
 export class SharedModule {}
