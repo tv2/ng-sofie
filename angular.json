@@ -96,14 +96,11 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "en": {
-              "browserTarget": "ng-sofie:build:development,en"
-            },
             "production": {
-              "browserTarget": "ng-sofie:build:production"
+              "browserTarget": "ng-sofie:build:production,en-US"
             },
             "development": {
-              "browserTarget": "ng-sofie:build:development,en"
+              "browserTarget": "ng-sofie:build:development,en-US"
             }
           },
           "defaultConfiguration": "development"
