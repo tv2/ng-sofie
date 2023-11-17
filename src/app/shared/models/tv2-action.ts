@@ -21,6 +21,7 @@ export enum Tv2ActionContentType {
   GRAPHICS = 'GRAPHICS',
   AUDIO = 'AUDIO',
   SPLIT_SCREEN = 'SPLIT_SCREEN',
+  REPLAY = 'REPLAY',
   UNKNOWN = 'UNKNOWN',
 }
 
