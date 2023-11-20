@@ -6,7 +6,7 @@ import { Segment } from '../models/segment'
 import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Part } from '../models/part'
 import { PartEntityService } from './models/part-entity.service'
-import { anything, instance, mock, when } from '@typestrong/ts-mockito'
+import { anyNumber, anything, instance, mock, when } from '@typestrong/ts-mockito'
 
 describe(RundownTimingService.name, () => {
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
@@ -541,7 +541,7 @@ describe(RundownTimingService.name, () => {
         const rundown: Rundown = testEntityFactory.createRundown({ segments: [] })
         const testee: RundownTimingService = createTestee()
 
-        const result: number = testee.getPlayedDurationInMsForOnAirPart(rundown)
+        const result: number = testee.getPlayedDurationInMsForOnAirPart(rundown, Date.now())
 
         expect(result).toBe(0)
       })
@@ -554,11 +554,11 @@ describe(RundownTimingService.name, () => {
           const onAirPart: Part = testEntityFactory.createPart({ isOnAir: true })
           const onAirSegment: Segment = testEntityFactory.createSegment({ isOnAir: true, parts: [onAirPart] })
           const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
-          when(mockedPartEntityService.getPlayedDuration(onAirPart)).thenReturn(playedDurationInMsForOnAirPart)
+          when(mockedPartEntityService.getPlayedDuration(onAirPart, anyNumber())).thenReturn(playedDurationInMsForOnAirPart)
           const rundown: Rundown = testEntityFactory.createRundown({ segments: [onAirSegment] })
           const testee: RundownTimingService = createTestee({ partEntityService: instance(mockedPartEntityService) })
 
-          const result: number = testee.getPlayedDurationInMsForOnAirPart(rundown)
+          const result: number = testee.getPlayedDurationInMsForOnAirPart(rundown, Date.now())
 
           expect(result).toBe(playedDurationInMsForOnAirPart)
         })
@@ -570,11 +570,11 @@ describe(RundownTimingService.name, () => {
           const onAirPart: Part = testEntityFactory.createPart({ isOnAir: true, isUntimed: true })
           const onAirSegment: Segment = testEntityFactory.createSegment({ isOnAir: true, parts: [onAirPart] })
           const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
-          when(mockedPartEntityService.getPlayedDuration(onAirPart)).thenReturn(playedDurationInMsForOnAirPart)
+          when(mockedPartEntityService.getPlayedDuration(onAirPart, anyNumber())).thenReturn(playedDurationInMsForOnAirPart)
           const rundown: Rundown = testEntityFactory.createRundown({ segments: [onAirSegment] })
           const testee: RundownTimingService = createTestee({ partEntityService: instance(mockedPartEntityService) })
 
-          const result: number = testee.getPlayedDurationInMsForOnAirPart(rundown)
+          const result: number = testee.getPlayedDurationInMsForOnAirPart(rundown, Date.now())
 
           expect(result).toBe(0)
         })
@@ -588,7 +588,7 @@ describe(RundownTimingService.name, () => {
         const rundown: Rundown = testEntityFactory.createRundown({ segments: [] })
         const testee: RundownTimingService = createTestee()
 
-        const result: number = testee.getPlayedDurationInMsForOnAirSegment(rundown)
+        const result: number = testee.getPlayedDurationInMsForOnAirSegment(rundown, Date.now())
 
         expect(result).toBe(0)
       })
@@ -606,12 +606,12 @@ describe(RundownTimingService.name, () => {
         const onAirSegment: Segment = testEntityFactory.createSegment({ isOnAir: true, parts })
         const rundown: Rundown = testEntityFactory.createRundown({ segments: [onAirSegment] })
         const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
-        when(mockedPartEntityService.getPlayedDuration(anything())).thenReturn(playedDurationForOnAirPart)
-        when(mockedPartEntityService.getDuration(anything())).thenCall(part => part.expectedDuration ?? 4000)
+        when(mockedPartEntityService.getPlayedDuration(anything(), anyNumber())).thenReturn(playedDurationForOnAirPart)
+        when(mockedPartEntityService.getDuration(anything(), anyNumber())).thenCall(part => part.expectedDuration ?? 4000)
         const testee: RundownTimingService = createTestee({ partEntityService: instance(mockedPartEntityService) })
         jasmine.clock().tick(playedDurationForOnAirPart)
 
-        const result: number = testee.getPlayedDurationInMsForOnAirSegment(rundown)
+        const result: number = testee.getPlayedDurationInMsForOnAirSegment(rundown, Date.now())
 
         expect(result).toBe(8000)
       })
