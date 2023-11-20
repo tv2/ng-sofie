@@ -1,8 +1,9 @@
 :host {
   display: flex;
   flex-direction: row;
-  background-color: #111111;
+  min-height: 50px;
   border-bottom: 1px solid var(--background-color);
+  background-color: #000000;
   color: var(--text-color);
 
   .subpanel {

@@ -24,7 +24,7 @@ export class OnAirDetailsPanelComponent implements OnChanges, OnInit, OnDestroy 
   public onAirPart?: Part
   public endWords?: string
   public remainingDurationInMsForOnAirPart?: number
-  public remainingDurationInMsForOnAirSegment: number = 0
+  public remainingDurationInMsForOnAirSegment?: number
   public durationInMsSpentInOnAirSegment?: number
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
@@ -65,13 +65,13 @@ export class OnAirDetailsPanelComponent implements OnChanges, OnInit, OnDestroy 
 
   private updateOnAirSegmentTiming(rundownTimingContext: RundownTimingContext): void {
     if (!this.onAirSegment || this.onAirSegment.isUntimed) {
-      this.remainingDurationInMsForOnAirSegment = 0
+      this.remainingDurationInMsForOnAirSegment = undefined
     } else {
       const expectedDurationInMsForOnAirSegment: number = rundownTimingContext.expectedDurationsInMsForSegments[this.onAirSegment.id] ?? 0
       this.remainingDurationInMsForOnAirSegment = rundownTimingContext.playedDurationInMsForOnAirSegment - expectedDurationInMsForOnAirSegment
     }
 
-    if (!this.onAirSegment?.executedAtEpochTime || this.onAirSegment.isUntimed) {
+    if (!this.onAirSegment?.executedAtEpochTime) {
       this.durationInMsSpentInOnAirSegment = undefined
     } else {
       this.durationInMsSpentInOnAirSegment = rundownTimingContext.durationInMsSpentInOnAirSegment

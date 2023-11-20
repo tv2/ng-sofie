@@ -7,15 +7,15 @@
 
 <div class="subpanel">
     <span class="subpanel__label">Segment countdown</span>
-    <span class="subpanel__value"><span [class.overtime]="remainingDurationInMsForOnAirSegment > 0" class="timer">{{ remainingDurationInMsForOnAirSegment | timer: '#+HH?:mm:ss' }}</span></span>
+    <span class="subpanel__value"><span *ngIf="remainingDurationInMsForOnAirSegment !== undefined" [class.overtime]="remainingDurationInMsForOnAirSegment > 0" class="timer">{{ remainingDurationInMsForOnAirSegment | timer: '#+HH?:mm:ss' }}</span></span>
 </div>
 
 <div class="subpanel">
     <span class="subpanel__label">Segment timer</span>
-    <span class="subpanel__value"><span *ngIf="durationInMsSpentInOnAirSegment">{{ durationInMsSpentInOnAirSegment | timer: 'HH?:mm:ss' }}</span></span>
+    <span class="subpanel__value"><span *ngIf="durationInMsSpentInOnAirSegment !== undefined">{{ durationInMsSpentInOnAirSegment | timer: 'HH?:mm:ss' }}</span></span>
 </div>
 
-<div *ngIf="endWords" class="subpanel end-words">
+<div class="subpanel end-words">
     <span class="subpanel__label">End words</span>
     <span class="subpanel__value">{{ endWords }}</span>
 </div>
