@@ -27,7 +27,7 @@ describe(RundownTimingService.name, () => {
         describe('when segment has no parts', () => {
           it('returns 0', () => {
             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts: [], budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts: [], expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -44,7 +44,7 @@ describe(RundownTimingService.name, () => {
               testEntityFactory.createPart({ expectedDuration: undefined }),
               testEntityFactory.createPart({ expectedDuration: 1000 }),
             ]
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -61,7 +61,7 @@ describe(RundownTimingService.name, () => {
               testEntityFactory.createPart({ expectedDuration: undefined }),
               testEntityFactory.createPart({ expectedDuration: undefined }),
             ]
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -78,7 +78,7 @@ describe(RundownTimingService.name, () => {
               testEntityFactory.createPart({ expectedDuration: 2000 }),
               testEntityFactory.createPart({ expectedDuration: 3000 }),
             ]
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -94,7 +94,7 @@ describe(RundownTimingService.name, () => {
         describe('when segment has no parts', () => {
           it('returns 0', () => {
             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts: [], budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts: [], expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -111,7 +111,7 @@ describe(RundownTimingService.name, () => {
               testEntityFactory.createPart({ expectedDuration: undefined }),
               testEntityFactory.createPart({ expectedDuration: 1000 }),
             ]
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -128,7 +128,7 @@ describe(RundownTimingService.name, () => {
               testEntityFactory.createPart({ expectedDuration: undefined }),
               testEntityFactory.createPart({ expectedDuration: undefined }),
             ]
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -145,7 +145,7 @@ describe(RundownTimingService.name, () => {
               testEntityFactory.createPart({ expectedDuration: 2000 }),
               testEntityFactory.createPart({ expectedDuration: 3000 }),
             ]
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -165,7 +165,7 @@ describe(RundownTimingService.name, () => {
         describe('when segment has no parts', () => {
           it('returns 0', () => {
             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts: [], budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts: [], expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -182,7 +182,7 @@ describe(RundownTimingService.name, () => {
               testEntityFactory.createPart({ expectedDuration: undefined }),
               testEntityFactory.createPart({ expectedDuration: 1000 }),
             ]
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -199,7 +199,7 @@ describe(RundownTimingService.name, () => {
               testEntityFactory.createPart({ expectedDuration: undefined }),
               testEntityFactory.createPart({ expectedDuration: undefined }),
             ]
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -216,7 +216,7 @@ describe(RundownTimingService.name, () => {
               testEntityFactory.createPart({ expectedDuration: 2000 }),
               testEntityFactory.createPart({ expectedDuration: 3000 }),
             ]
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -232,7 +232,7 @@ describe(RundownTimingService.name, () => {
         describe('when segment has no parts', () => {
           it('returns 0', () => {
             const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts: [], budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts: [], expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -249,7 +249,7 @@ describe(RundownTimingService.name, () => {
               testEntityFactory.createPart({ expectedDuration: undefined }),
               testEntityFactory.createPart({ expectedDuration: 1000 }),
             ]
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -266,7 +266,7 @@ describe(RundownTimingService.name, () => {
               testEntityFactory.createPart({ expectedDuration: undefined }),
               testEntityFactory.createPart({ expectedDuration: undefined }),
             ]
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)
@@ -283,7 +283,7 @@ describe(RundownTimingService.name, () => {
               testEntityFactory.createPart({ expectedDuration: 2000 }),
               testEntityFactory.createPart({ expectedDuration: 3000 }),
             ]
-            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, budgetDuration: expectedDurationInMsForSegment })
+            const segment: Segment = testEntityFactory.createSegment({ isUntimed, parts, expectedDurationInMs: expectedDurationInMsForSegment })
             const testee: RundownTimingService = createTestee()
 
             const result: number = testee.getExpectedDurationInMsForSegment(segment)

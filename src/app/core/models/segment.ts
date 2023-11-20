@@ -8,7 +8,6 @@ export interface Segment {
   readonly isNext: boolean
   readonly isUntimed: boolean
   readonly parts: Part[]
-  // TODO: Rename budget duration to expected duration
-  readonly budgetDuration?: number
+  readonly expectedDurationInMs?: number
   readonly executedAtEpochTime?: number
 }

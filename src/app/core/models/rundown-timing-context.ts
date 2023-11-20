@@ -1,4 +1,3 @@
-// TODO: describe what each attribute does
 export interface RundownTimingContext {
   onAirSegmentId?: string
   currentEpochTime: number

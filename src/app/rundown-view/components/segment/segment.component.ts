@@ -70,7 +70,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     const segmentChange: SimpleChange | undefined = changes['segment']
     if (segmentChange && segmentChange.previousValue?.parts !== segmentChange.currentValue?.parts) {
       this.hasRemotePiece = this.segment.parts.some(part => this.hasPartRemotePiece(part))
-      this.expectedDurationInMs = this.segment.parts.reduce((accumulatedExpectedDurationInMs, part) => accumulatedExpectedDurationInMs + (part.expectedDuration ?? 0), 0)
+      this.expectedDurationInMs = this.segment.parts.reduce((sumOfExpectedDurationsInMsForParts, part) => sumOfExpectedDurationsInMsForParts + (part.expectedDuration ?? 0), 0)
     }
   }
 

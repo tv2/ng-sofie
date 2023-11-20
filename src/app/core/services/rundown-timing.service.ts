@@ -17,7 +17,7 @@ export class RundownTimingService {
     if (segment.isUntimed) {
       return 0
     }
-    return segment.budgetDuration ?? segment.parts.reduce((accumulatedPartDuration: number, part: Part) => accumulatedPartDuration + (part.expectedDuration ?? 0), 0)
+    return segment.expectedDurationInMs ?? segment.parts.reduce((sumOfExpectedDurationsInMsForParts: number, part: Part) => sumOfExpectedDurationsInMsForParts + (part.expectedDuration ?? 0), 0)
   }
 
   public getExpectedDurationInMsForRundown(rundown: Rundown, expectedDurationsInMsForSegments: Record<string, number>): number {

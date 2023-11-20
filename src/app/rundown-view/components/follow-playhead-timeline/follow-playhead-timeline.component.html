@@ -48,8 +48,8 @@
 ></sofie-timeline-playhead>
 
 <sofie-editorial-line
-    *ngIf="segment.budgetDuration !== undefined && time - prePlayheadDurationInMs <= segment.budgetDuration"
-    [budgetDurationInMs]="segment.budgetDuration"
+    *ngIf="segment.expectedDurationInMs !== undefined && time - prePlayheadDurationInMs <= segment.expectedDurationInMs"
+    [expectedDurationInMs]="segment.expectedDurationInMs"
     [pixelsPerSecond]="pixelsPerSecond"
     [offsetInMs]="time - prePlayheadDurationInMs | maximum: 0"
 ></sofie-editorial-line>
