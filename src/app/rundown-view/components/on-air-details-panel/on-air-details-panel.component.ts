@@ -6,12 +6,12 @@ import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
 import { Part } from '../../../core/models/part'
 
 @Component({
-  selector: 'sofie-rundown-subheader',
-  templateUrl: './rundown-subheader.component.html',
-  styleUrls: ['./rundown-subheader.component.scss'],
+  selector: 'sofie-on-air-details-panel',
+  templateUrl: './on-air-details-panel.component.html',
+  styleUrls: ['./on-air-details-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RundownSubheaderComponent implements OnChanges {
+export class OnAirDetailsPanelComponent implements OnChanges {
   @Input()
   public rundown: Rundown
 
