@@ -67,7 +67,7 @@ export class OffsetablePartComponent implements OnChanges {
   }
 
   public partDurationInMs(): number {
-    return this.partEntityService.getDuration(this.part)
+    return this.partEntityService.getDuration(this.part, Date.now())
   }
 
   public ngOnChanges(): void {

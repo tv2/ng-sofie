@@ -50,8 +50,8 @@ export class RundownTimingContextStateService {
         currentEpochTime
       )
       const expectedEndEpochTimeForRundown: number = this.rundownTimingService.getExpectedEndEpochTimeForRundown(rundown, previousRundownTimingContext.expectedDurationInMsForRundown, currentEpochTime)
-      const playedDurationInMsForOnAirPart: number = this.rundownTimingService.getPlayedDurationInMsForOnAirPart(rundown)
-      const playedDurationInMsForOnAirSegment: number = this.rundownTimingService.getPlayedDurationInMsForOnAirSegment(rundown)
+      const playedDurationInMsForOnAirPart: number = this.rundownTimingService.getPlayedDurationInMsForOnAirPart(rundown, currentEpochTime)
+      const playedDurationInMsForOnAirSegment: number = this.rundownTimingService.getPlayedDurationInMsForOnAirSegment(rundown, currentEpochTime)
       const durationInMsSpentInOnAirSegment: number = this.rundownTimingService.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
       const remainingDurationInMs: number = this.rundownTimingService.getRemainingDurationInMsForRundown(
         rundown,
@@ -136,8 +136,8 @@ export class RundownTimingContextStateService {
     const expectedDurationInMsForRundown: number = this.rundownTimingService.getExpectedDurationInMsForRundown(rundown, expectedDurationsInMsForSegments)
     const expectedStartEpochTimeForRundown: number = this.rundownTimingService.getExpectedStartEpochTimeForRundown(rundown, expectedDurationInMsForRundown, currentEpochTime)
     const expectedEndEpochTimeForRundown: number = this.rundownTimingService.getExpectedEndEpochTimeForRundown(rundown, expectedDurationInMsForRundown, currentEpochTime)
-    const playedDurationInMsForOnAirPart: number = this.rundownTimingService.getPlayedDurationInMsForOnAirPart(rundown)
-    const playedDurationInMsForOnAirSegment: number = this.rundownTimingService.getPlayedDurationInMsForOnAirSegment(rundown)
+    const playedDurationInMsForOnAirPart: number = this.rundownTimingService.getPlayedDurationInMsForOnAirPart(rundown, currentEpochTime)
+    const playedDurationInMsForOnAirSegment: number = this.rundownTimingService.getPlayedDurationInMsForOnAirSegment(rundown, currentEpochTime)
     const durationInMsSpentInOnAirSegment: number = this.rundownTimingService.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
     const remainingDurationInMsForRundown: number = this.rundownTimingService.getRemainingDurationInMsForRundown(rundown, expectedDurationsInMsForSegments, playedDurationInMsForOnAirSegment)
     const rundownTimingContext: RundownTimingContext = {

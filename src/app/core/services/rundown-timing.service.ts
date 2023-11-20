@@ -48,7 +48,7 @@ export class RundownTimingService {
     }
   }
 
-  public getPlayedDurationInMsForOnAirPart(rundown: Rundown): number {
+  public getPlayedDurationInMsForOnAirPart(rundown: Rundown, currentEpochTime: number): number {
     const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)
     if (!onAirSegment || onAirSegment.isUntimed) {
       return 0
@@ -57,10 +57,10 @@ export class RundownTimingService {
     if (!onAirPart || onAirPart.isUntimed) {
       return 0
     }
-    return this.partEntityService.getPlayedDuration(onAirPart)
+    return this.partEntityService.getPlayedDuration(onAirPart, currentEpochTime)
   }
 
-  public getPlayedDurationInMsForOnAirSegment(rundown: Rundown): number {
+  public getPlayedDurationInMsForOnAirSegment(rundown: Rundown, currentEpochTime: number): number {
     const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)
     if (!onAirSegment) {
       return 0
@@ -71,10 +71,10 @@ export class RundownTimingService {
     }
     const onAirPart: Part = onAirSegment.parts[onAirPartIndex]
     // TODO: Use currentEpochTime for getPlayedDuration instead of Date.now inside PartEntityService.getPlayedDuration
-    const playedDurationInMsForOnAirPart: number = this.partEntityService.getPlayedDuration(onAirPart)
+    const playedDurationInMsForOnAirPart: number = this.partEntityService.getPlayedDuration(onAirPart, currentEpochTime)
     const playedDurationInMsForPastPartsInSegment: number = onAirSegment.parts
       .slice(0, onAirPartIndex)
-      .reduce((sumOfPartDurationsInMs, part) => sumOfPartDurationsInMs + this.partEntityService.getDuration(part), 0)
+      .reduce((sumOfPartDurationsInMs, part) => sumOfPartDurationsInMs + this.partEntityService.getDuration(part, currentEpochTime), 0)
     return playedDurationInMsForPastPartsInSegment + playedDurationInMsForOnAirPart
   }
 

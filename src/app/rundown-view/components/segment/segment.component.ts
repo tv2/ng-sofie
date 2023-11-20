@@ -108,8 +108,9 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     }
     const activePart: Part = this.segment.parts[activePartIndex]
     const partsUntilActivePart: Part[] = this.segment.parts.slice(0, activePartIndex)
-    const timeSpendUntilActivePart: number = partsUntilActivePart.reduce((duration, part) => duration + this.partEntityService.getDuration(part), 0)
-    const timeSpendInActivePart: number = this.partEntityService.getPlayedDuration(activePart)
+    const currentEpochTime: number = Date.now()
+    const timeSpendUntilActivePart: number = partsUntilActivePart.reduce((duration, part) => duration + this.partEntityService.getDuration(part, currentEpochTime), 0)
+    const timeSpendInActivePart: number = this.partEntityService.getPlayedDuration(activePart, currentEpochTime)
     this.timeReference = timeSpendUntilActivePart + timeSpendInActivePart
   }
 
