@@ -12,11 +12,11 @@ import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
 
 @Component({
-  selector: 'sofie-rundown-subheader',
-  templateUrl: './rundown-subheader.component.html',
-  styleUrls: ['./rundown-subheader.component.scss'],
+  selector: 'sofie-on-air-details-panel',
+  templateUrl: './on-air-details-panel.component.html',
+  styleUrls: ['./on-air-details-panel.component.scss'],
 })
-export class RundownSubheaderComponent implements OnChanges, OnInit, OnDestroy {
+export class OnAirDetailsPanelComponent implements OnChanges, OnInit, OnDestroy {
   @Input()
   public rundown: Rundown
 
@@ -83,7 +83,7 @@ export class RundownSubheaderComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const rundownChange: SimpleChange = changes['rundown']
+    const rundownChange: SimpleChange | undefined = changes['rundown']
     if (rundownChange) {
       this.setEndWords()
     }
