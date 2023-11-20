@@ -5,7 +5,7 @@
   border-bottom: 1px solid var(--background-color);
   color: var(--text-color);
 
-  .subheader-panel {
+  .sub-panel {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -27,7 +27,7 @@
   .end-words {
     width: 300px;
 
-    .subheader-panel__value {
+    .sub-panel__value {
       text-overflow: ellipsis;
       direction: rtl;
       white-space: nowrap;
