@@ -1,6 +1,6 @@
 import { TimestampPipe } from './timestamp.pipe'
 
-describe('TimestampPipe', () => {
+describe(TimestampPipe.name, () => {
   it('create an instance', () => {
     const testee: TimestampPipe = new TimestampPipe()
     expect(testee).toBeTruthy()

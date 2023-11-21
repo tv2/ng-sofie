@@ -4,17 +4,17 @@ import { Pipe, PipeTransform } from '@angular/core'
   name: 'timestamp',
 })
 export class TimestampPipe implements PipeTransform {
-  public transform(durationInMs: number): string {
+  public transform(durationInMs: number, shouldDisplayZeroHours: boolean = false): string {
     const durationInSeconds: number = Math.floor(durationInMs / 1000)
     const seconds: number = durationInSeconds % 60
     const minutes: number = Math.floor((durationInSeconds % 3600) / 60)
     const hours: number = Math.floor(durationInSeconds / 3600)
 
-    return `${this.formatHours(hours)}${this.formatMinutes(minutes)}${this.formatSeconds(seconds)}`
+    return `${this.formatHours(hours, shouldDisplayZeroHours)}${this.formatMinutes(minutes)}${this.formatSeconds(seconds)}`
   }
 
-  private formatHours(hours: number): string {
-    if (hours <= 0) {
+  private formatHours(hours: number, shouldDisplayZeroHours: boolean): string {
+    if (hours <= 0 && !shouldDisplayZeroHours) {
       return ''
     }
     return hours.toString().padStart(2, '0') + ':'

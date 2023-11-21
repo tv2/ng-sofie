@@ -29,6 +29,8 @@ import { PartContextMenuComponent } from './components/part-context-menu/part-co
 import { KeyboardConfigurationService } from './abstractions/keyboard-configuration.service'
 import { ProducerKeyboardConfigurationService } from './services/producer-keyboard-configuration.service'
 import { KeyBindingFactory } from './factories/key-binding.factory'
+import { OnAirDetailsPanelComponent } from './components/on-air-details-panel/on-air-details-panel.component'
+import { TimerPipe } from './pipes/timer/timer.pipe'
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
     TimelineMarkersComponent,
     TimelinePlayheadComponent,
     RundownHeaderComponent,
+    OnAirDetailsPanelComponent,
     RundownHeaderContextMenuComponent,
     EditorialLineComponent,
     SegmentEndIndicatorComponent,
@@ -49,6 +52,7 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
     SegmentContextMenuComponent,
     PartContextMenuComponent,
     RundownViewComponent,
+    TimerPipe,
   ],
   exports: [SegmentComponent],
   providers: [

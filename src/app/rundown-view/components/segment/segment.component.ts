@@ -30,6 +30,8 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   public timeReference: number = 0
   public outputLayers: Tv2OutputLayer[] = []
 
+  public expectedDurationInMs: number = 0
+
   public pixelsPerSecond: number = INITIAL_PIXELS_PER_SECOND
   public get isAtMinimumZoomLevel(): boolean {
     return this.pixelsPerSecond <= MINIMUM_PIXELS_PER_SECOND
@@ -65,6 +67,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     const segmentChange: SimpleChange | undefined = changes['segment']
     if (segmentChange && segmentChange.previousValue?.parts !== segmentChange.currentValue?.parts) {
       this.hasRemotePiece = this.segment.parts.some(part => this.hasPartRemotePiece(part))
+      this.expectedDurationInMs = this.segment.parts.reduce((accumulatedExpectedDurationInMs, part) => accumulatedExpectedDurationInMs + (part.expectedDuration ?? 0), 0)
     }
   }
 
