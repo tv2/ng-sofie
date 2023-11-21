@@ -3,6 +3,8 @@
         *ngFor="let segment of rundown?.segments; trackBy: trackSegment"
         [segment]="segment"
         [isRundownActive]="rundown ? rundown.isActive : false"
-        [remainingDurationInMsForOnAirPart]="segment.id === onAirSegmentIdForRundownTimingContext ? remainingDurationInMsForOnAirPart : undefined"
+        [durationInMsUntilSegmentIsPutOnAir]="startOffsetsInMsFromPlayheadForSegments[segment.id]"
+        [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
+        [currentEpochTime]="currentEpochTime"
     ></sofie-segment>
 </div>

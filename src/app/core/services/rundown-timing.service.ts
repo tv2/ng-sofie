@@ -5,6 +5,11 @@ import { PartEntityService } from './models/part-entity.service'
 import { Part } from '../models/part'
 import { Injectable } from '@angular/core'
 
+interface AccumulatedResult<Result, Accumulator> {
+  result: Result,
+  accumulator: Accumulator
+}
+
 @Injectable()
 export class RundownTimingService {
   constructor(private readonly partEntityService: PartEntityService) {}
@@ -110,5 +115,25 @@ export class RundownTimingService {
       .slice(nextSegmentIndex)
       .filter(segment => !segment.isOnAir)
       .reduce((sumOfExpectedDurationsInMs, segment) => sumOfExpectedDurationsInMs + expectedDurationsInMsForSegments[segment.id] ?? 0, 0)
+  }
+
+  public getStartOffsetsInMsFromNextCursorForSegments(rundown: Rundown, expectedDurationsInMsForSegments: Record<string, number>): Record<string, number> {
+    const nextSegmentIndex: number = rundown.segments.findIndex(segment => segment.isNext)
+    const futureSegments: Segment[] = nextSegmentIndex < 0
+      ? rundown.segments
+      : rundown.segments.slice(nextSegmentIndex).filter(segment => !segment.isOnAir)
+
+    const initialReducerValue: AccumulatedResult<Record<string, number>, number> = {
+      result: {},
+      accumulator: 0,
+    }
+    return futureSegments.reduce(({ result, accumulator }: AccumulatedResult<Record<string, number>, number>, segment: Segment) => {
+      const expectedDurationInMsForSegment: number = expectedDurationsInMsForSegments[segment.id] ?? 0
+      const updatedAccumulator: number = accumulator + expectedDurationInMsForSegment
+      return {
+        result: { ...result, [segment.id]: accumulator },
+        accumulator: updatedAccumulator,
+      }
+    }, initialReducerValue).result
   }
 }

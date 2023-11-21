@@ -5,8 +5,15 @@
 >
   <div [cdkContextMenuTriggerFor]="contextMenu" class="c-segment__header">
     <div class="c-segment__header-toolbar">
-      <span>123</span>
-      <span class="c-segment__budget-duration">{{(!segment.isUntimed ? segment.expectedDurationInMs ?? expectedDurationInMs : 0) | timer: 'HH?:mm:ss' }}</span>
+      <span class="segment-identifier">123</span>
+      <span class="segment-expected-duration">{{(!segment.isUntimed ? expectedDurationInMs : 0) | timer: 'HH?:mm:ss' }}</span>
+      <span class="segment-countdown">
+        <sofie-countdown-label
+          *ngIf="hasRemotePiece && durationInMsUntilSegmentIsPutOnAir !== undefined"
+          [durationInMs]="durationInMsUntilSegmentIsPutOnAir"
+          [currentEpochTime]="currentEpochTime"
+        ></sofie-countdown-label>
+      </span>
     </div>
     <div class="c-segment__title">
       {{ segment.name }}

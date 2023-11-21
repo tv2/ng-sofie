@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core'
 import { Part } from '../../../core/models/part'
 import { Segment } from '../../../core/models/segment'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
+import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
+import { Tv2PieceMetadata } from '../../../core/models/tv2-piece'
 
 const PRE_PLAYHEAD_INSET_IN_PIXELS: number = 40
 const POST_PLAYHEAD_INSET_IN_PIXELS: number = 200
@@ -37,6 +39,8 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   public previousParts: Part[] = []
   public futureParts: Part[] = []
 
+  public shouldShowPartCountdown: boolean = false
+
   public get prePlayheadDurationInMs(): number {
     return (PRE_PLAYHEAD_INSET_IN_PIXELS * 1000) / this.pixelsPerSecond
   }
@@ -54,7 +58,7 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
     this.rundownService.setNext(this.segment.rundownId, part.segmentId, part.id).subscribe()
   }
 
-  public ngOnChanges(): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     const onAirPartIndex: number = this.segment.parts.findIndex(part => part.isOnAir)
     if (onAirPartIndex < 0) {
       return
@@ -62,6 +66,12 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
     this.onAirPart = this.segment.parts[onAirPartIndex]
     this.previousParts = this.getPreviousParts(onAirPartIndex)
     this.futureParts = this.getFutureParts(onAirPartIndex)
+
+    const segmentChange: SimpleChange | undefined = changes['segment']
+    if (segmentChange) {
+      const segment: Segment = segmentChange.currentValue
+      this.shouldShowPartCountdown = segment.parts.some(part => this.doesPartContainVideoClipOrVoiceOver(part))
+    }
   }
 
   private getPreviousParts(onAirPartIndex: number): Part[] {
@@ -124,6 +134,11 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
 
   private isFirstPartInPreviousParts(part: Part): boolean {
     return this.previousParts[0]?.id === part.id
+  }
+
+  private doesPartContainVideoClipOrVoiceOver(part: Part): boolean {
+    const supportedPieceTypes: (string | undefined)[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.VOICE_OVER]
+    return part.pieces.some(piece => supportedPieceTypes.includes((piece.metadata as Tv2PieceMetadata | undefined)?.type)) ?? false
   }
 
   public trackPart(_: number, part: Part): string {
