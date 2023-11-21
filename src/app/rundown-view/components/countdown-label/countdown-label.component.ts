@@ -14,8 +14,9 @@ export class CountdownLabelComponent {
   public currentEpochTime: number
 
   @HostListener('click', ['$event'])
-  private toggleDisplayMode(): void {
+  public toggleDisplayMode(): void {
     this.showTimestamp = !this.showTimestamp
   }
+
   public showTimestamp: boolean = false
 }

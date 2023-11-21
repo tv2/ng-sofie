@@ -60,9 +60,7 @@ export class RundownComponent implements OnInit, OnDestroy {
   private getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext: RundownTimingContext): Record<string, number> {
     const remainingDurationInMsForOnAirSegment = this.getRemainingDurationInMsForOnAirPart(rundownTimingContext)
     return Object.fromEntries(
-      Object.entries<number>(rundownTimingContext.startOffsetsInMsFromNextCursorForSegments).map(
-        ([segmentId, startOffsetInMs]) => [segmentId, startOffsetInMs + remainingDurationInMsForOnAirSegment]
-      )
+      Object.entries<number>(rundownTimingContext.startOffsetsInMsFromNextCursorForSegments).map(([segmentId, startOffsetInMs]) => [segmentId, startOffsetInMs + remainingDurationInMsForOnAirSegment])
     )
   }
 

@@ -776,13 +776,13 @@ describe(RundownTimingService.name, () => {
       describe('when next segment is after on air segment', () => {
         it('only returns entries for segments after next segment', () => {
           const segments: Segment[] = [
-            testEntityFactory.createSegment({id: 'segmentA', isOnAir: true}),
-            testEntityFactory.createSegment({id: 'segmentB', isNext: true}),
-            testEntityFactory.createSegment({id: 'segmentC'}),
-            testEntityFactory.createSegment({id: 'segmentD'}),
+            testEntityFactory.createSegment({ id: 'segmentA', isOnAir: true }),
+            testEntityFactory.createSegment({ id: 'segmentB', isNext: true }),
+            testEntityFactory.createSegment({ id: 'segmentC' }),
+            testEntityFactory.createSegment({ id: 'segmentD' }),
           ]
 
-          const rundown: Rundown = testEntityFactory.createRundown({isActive: true, segments})
+          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
           const testee: RundownTimingService = createTestee()
 
           const result: Record<string, number> = testee.getStartOffsetsInMsFromNextCursorForSegments(rundown, expectedDurationsInMsForSegments)
@@ -798,13 +798,13 @@ describe(RundownTimingService.name, () => {
       describe('when next segment is before on air segment', () => {
         it('only returns entries for off air segments after next segment', () => {
           const segments: Segment[] = [
-            testEntityFactory.createSegment({id: 'segmentA', isNext: true}),
-            testEntityFactory.createSegment({id: 'segmentB', isOnAir: true}),
-            testEntityFactory.createSegment({id: 'segmentC'}),
-            testEntityFactory.createSegment({id: 'segmentD'}),
+            testEntityFactory.createSegment({ id: 'segmentA', isNext: true }),
+            testEntityFactory.createSegment({ id: 'segmentB', isOnAir: true }),
+            testEntityFactory.createSegment({ id: 'segmentC' }),
+            testEntityFactory.createSegment({ id: 'segmentD' }),
           ]
 
-          const rundown: Rundown = testEntityFactory.createRundown({isActive: true, segments})
+          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
           const testee: RundownTimingService = createTestee()
 
           const result: Record<string, number> = testee.getStartOffsetsInMsFromNextCursorForSegments(rundown, expectedDurationsInMsForSegments)
