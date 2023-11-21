@@ -1,11 +1,12 @@
 import { Component, ElementRef, HostBinding, OnDestroy, OnInit } from '@angular/core'
 import { Rundown } from '../../../core/models/rundown'
-import { SubscriptionLike } from 'rxjs'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { ActivatedRoute } from '@angular/router'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { KeyboardConfigurationService } from '../../abstractions/keyboard-configuration.service'
 import { KeyBinding } from '../../../keyboard/value-objects/key-binding'
+import { ConnectionStatusObserver } from '../../../core/services/connection-status-observer.service'
+import { EventSubscription } from '../../../event-system/abstractions/event-observer.service'
 
 @Component({
   selector: 'sofie-rundown-view',
@@ -14,7 +15,8 @@ import { KeyBinding } from '../../../keyboard/value-objects/key-binding'
 })
 export class RundownViewComponent implements OnInit, OnDestroy {
   public rundown?: Rundown
-  private rundownSubscription?: SubscriptionLike
+  private connectionStatusSubscription: EventSubscription
+  private rundownSubscription?: EventSubscription
   private readonly logger: Logger
   public keyBindings: KeyBinding[] = []
   public keystrokes: string[] = []
@@ -27,6 +29,7 @@ export class RundownViewComponent implements OnInit, OnDestroy {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly rundownStateService: RundownStateService,
+    private readonly connectionStatusObserver: ConnectionStatusObserver,
     private readonly keyboardConfigurationService: KeyboardConfigurationService,
     logger: Logger,
     private readonly hostElement: ElementRef
@@ -40,10 +43,17 @@ export class RundownViewComponent implements OnInit, OnDestroy {
       this.logger.error("No rundownId found. Can't fetch Rundown")
       return
     }
+    this.connectionStatusSubscription = this.connectionStatusObserver.subscribeToReconnect(() => this.subscribeToRundown(rundownId))
+    this.subscribeToRundown(rundownId)
+  }
+
+  private subscribeToRundown(rundownId: string): void {
+    if (this.rundownSubscription) {
+      return
+    }
     this.rundownStateService
       .subscribeToRundown(rundownId)
-      .then(rundownObservable => rundownObservable.subscribe(this.setRundown.bind(this)))
-      .then(rundownSubscription => (this.rundownSubscription = rundownSubscription))
+      .then(rundownObservable => (this.rundownSubscription = rundownObservable.subscribe(this.setRundown.bind(this))))
       .catch(error => this.logger.data(error).error(`Failed subscribing to rundown with id '${rundownId}'.`))
   }
 
@@ -59,6 +69,7 @@ export class RundownViewComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.rundownSubscription?.unsubscribe()
+    this.connectionStatusSubscription?.unsubscribe
     this.keyboardConfigurationService.destroy()
   }
 }
