@@ -12,7 +12,6 @@ const LOW_RESOLUTION_INTERVAL_DURATION_IN_MS: number = Math.floor(1000 / 4)
 @Injectable()
 export class RundownTimingContextStateService {
   private timeResolutionTimerId?: ReturnType<typeof setTimeout>
-  private isHighResolutionTimer: boolean = false
   private readonly rundownSubscriptions: Map<string, SubscriptionLike> = new Map()
   private readonly rundowns: Map<string, Rundown> = new Map()
   private readonly rundownTimingContextSubjects: Map<string, BehaviorSubject<RundownTimingContext>> = new Map()
@@ -21,26 +20,13 @@ export class RundownTimingContextStateService {
     private readonly rundownStateService: RundownStateService,
     private readonly rundownTimingService: RundownTimingService
   ) {
-    this.startLowResolutionTimer()
-  }
-
-  private startLowResolutionTimer(): void {
-    this.stopTimeResolutionTimer()
-    this.isHighResolutionTimer = false
-    this.timeResolutionTimerId = setInterval(this.onTimeTick.bind(this), LOW_RESOLUTION_INTERVAL_DURATION_IN_MS)
-  }
-
-  private stopTimeResolutionTimer(): void {
-    if (this.timeResolutionTimerId === undefined) {
-      return
-    }
-    clearInterval(this.timeResolutionTimerId)
+    this.onTimeTick()
   }
 
   private onTimeTick(): void {
     const currentEpochTime: number = Date.now()
     this.rundowns.forEach(rundown => this.updateRundownTimingContextWithEpochTime(rundown, currentEpochTime))
-    this.adjustTimerInterval()
+    this.rescheduleTimeTick()
   }
 
   private updateRundownTimingContextWithEpochTime(rundown: Rundown, currentEpochTime: number): void {
@@ -104,13 +90,14 @@ export class RundownTimingContextStateService {
     return !this.rundownSubscriptions.has(rundownId)
   }
 
-  private adjustTimerInterval(): void {
-    const hasActiveRundown: boolean = [...this.rundowns.values()].some(rundown => rundown.isActive)
-    if (hasActiveRundown && !this.isHighResolutionTimer) {
-      this.startHighResolutionTimer()
-    } else if (!hasActiveRundown && this.isHighResolutionTimer) {
-      this.startLowResolutionTimer()
-    }
+  private rescheduleTimeTick(): void {
+    clearTimeout(this.timeResolutionTimerId)
+    const timeTickDurationInMs: number = this.hasActiveRundown() ? HIGH_RESOLUTION_INTERVAL_DURATION_IN_MS : LOW_RESOLUTION_INTERVAL_DURATION_IN_MS
+    this.timeResolutionTimerId = setTimeout(this.onTimeTick.bind(this), timeTickDurationInMs)
+  }
+
+  private hasActiveRundown(): boolean {
+    return [...this.rundowns.values()].some(rundown => rundown.isActive)
   }
 
   public async subscribeToRundownTimingContext(rundownId: string): Promise<Observable<RundownTimingContext>> {
@@ -180,11 +167,5 @@ export class RundownTimingContextStateService {
     }
     rundownTimingContextSubject.next(rundownTimingContext)
     this.rundowns.set(rundown.id, rundown)
-  }
-
-  private startHighResolutionTimer(): void {
-    this.stopTimeResolutionTimer()
-    this.isHighResolutionTimer = true
-    this.timeResolutionTimerId = setInterval(this.onTimeTick.bind(this), HIGH_RESOLUTION_INTERVAL_DURATION_IN_MS)
   }
 }
