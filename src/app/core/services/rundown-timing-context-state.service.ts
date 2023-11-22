@@ -81,11 +81,11 @@ export class RundownTimingContextStateService {
     if (!rundownTimingContextSubject) {
       return
     }
-    const wasRemoved: boolean = this.removeSubjectIfHasNoObserversOrSubscriptions(rundownTimingContextSubject, rundownId).wasRemoved
+    const wasRemoved: boolean = this.removeSubjectIfItHasNoObserversOrSubscriptions(rundownTimingContextSubject, rundownId).wasRemoved
     return wasRemoved ? undefined : rundownTimingContextSubject
   }
 
-  private removeSubjectIfHasNoObserversOrSubscriptions(rundownTimingContextSubject: BehaviorSubject<RundownTimingContext>, rundownId: string): { wasRemoved: boolean } {
+  private removeSubjectIfItHasNoObserversOrSubscriptions(rundownTimingContextSubject: BehaviorSubject<RundownTimingContext>, rundownId: string): { wasRemoved: boolean } {
     if (rundownTimingContextSubject.observed) {
       return { wasRemoved: false }
     }
