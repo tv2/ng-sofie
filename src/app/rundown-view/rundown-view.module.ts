@@ -14,7 +14,7 @@ import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.
 import { FollowPlayheadTimelineComponent } from './components/follow-playhead-timeline/follow-playhead-timeline.component'
 import { ScrollableTimelineComponent } from './components/scrollable-timeline/scrollable-timeline.component'
 import { OffsetablePartComponent } from './components/offsetable-part/offsetable-part.component'
-import { PieceGroupService } from './services/piece-group.service'
+import { Tv2PieceGroupService } from './services/tv2-piece-group.service'
 import { OffsetablePieceComponent } from './components/offsetable-piece/offsetable-piece.component'
 import { EditorialLineComponent } from './components/editorial-line/editorial-line.component'
 import { MatCardModule } from '@angular/material/card'
@@ -29,6 +29,8 @@ import { PartContextMenuComponent } from './components/part-context-menu/part-co
 import { KeyboardConfigurationService } from './abstractions/keyboard-configuration.service'
 import { ProducerKeyboardConfigurationService } from './services/producer-keyboard-configuration.service'
 import { KeyBindingFactory } from './factories/key-binding.factory'
+import { OnAirDetailsPanelComponent } from './components/on-air-details-panel/on-air-details-panel.component'
+import { TimerPipe } from './pipes/timer/timer.pipe'
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
     TimelineMarkersComponent,
     TimelinePlayheadComponent,
     RundownHeaderComponent,
+    OnAirDetailsPanelComponent,
     RundownHeaderContextMenuComponent,
     EditorialLineComponent,
     SegmentEndIndicatorComponent,
@@ -49,10 +52,11 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
     SegmentContextMenuComponent,
     PartContextMenuComponent,
     RundownViewComponent,
+    TimerPipe,
   ],
   exports: [SegmentComponent],
   providers: [
-    PieceGroupService,
+    Tv2PieceGroupService,
     { provide: KeyBindingService, useClass: HardcodedProducerKeyBindingService },
     Tv2ActionGroupService,
     { provide: KeyboardConfigurationService, useClass: ProducerKeyboardConfigurationService },

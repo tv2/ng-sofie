@@ -1,12 +1,14 @@
 import { EntityParser } from '../abstractions/entity-parser.service'
 import { BasicRundown } from '../models/basic-rundown'
 import { Part } from '../models/part'
-import { Piece } from '../models/piece'
 import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
 import * as zod from 'zod'
-import { PieceType } from '../enums/piece-type'
 import { ShowStyleVariant } from '../models/show-style-variant'
+import { Tv2PieceType } from '../enums/tv2-piece-type'
+import { Tv2OutputLayer } from '../models/tv2-output-layer'
+import { Tv2Piece } from '../models/tv2-piece'
+import { RundownTimingType } from '../enums/rundown-timing-type'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -42,13 +44,17 @@ export class ZodEntityParser implements EntityParser {
 
   private readonly pieceParser = zod.object({
     id: zod.string().min(1),
-    type: zod.nativeEnum(PieceType),
     partId: zod.string().min(1),
     name: zod.string().min(1),
     layer: zod.string().min(1),
     start: zod.number(),
     duration: zod.number().optional(),
     isPlanned: zod.boolean(),
+    // TODO: Should this be less TV2 specific.
+    metadata: zod.object({
+      type: zod.nativeEnum(Tv2PieceType),
+      outputLayer: zod.nativeEnum(Tv2OutputLayer).optional(),
+    }),
   })
 
   private readonly partParser = zod.object({
@@ -66,6 +72,7 @@ export class ZodEntityParser implements EntityParser {
     playedDuration: zod.number(),
     autoNext: zod.object({ overlap: zod.number() }).optional(),
     isPlanned: zod.boolean(),
+    isUntimed: zod.boolean(),
   })
 
   private readonly segmentParser = zod.object({
@@ -75,6 +82,7 @@ export class ZodEntityParser implements EntityParser {
     isOnAir: zod.boolean(),
     isNext: zod.boolean(),
     isUnsynced: zod.boolean(),
+    isUntimed: zod.boolean(),
     parts: this.partParser.array(),
     budgetDuration: zod.number().optional(),
   })
@@ -84,16 +92,37 @@ export class ZodEntityParser implements EntityParser {
     name: zod.string().min(1),
     isActive: zod.boolean(),
     modifiedAt: zod.number(),
+    timing: zod
+      .object({
+        type: zod.literal(RundownTimingType.UNSCHEDULED),
+        expectedDurationInMs: zod.number().optional(),
+      })
+      .or(
+        zod.object({
+          type: zod.literal(RundownTimingType.FORWARD),
+          expectedStartEpochTime: zod.number(),
+          expectedDurationInMs: zod.number().optional(),
+          expectedEndEpochTime: zod.number().optional(),
+        })
+      )
+      .or(
+        zod.object({
+          type: zod.literal(RundownTimingType.BACKWARD),
+          expectedStartEpochTime: zod.number().optional(),
+          expectedDurationInMs: zod.number().optional(),
+          expectedEndEpochTime: zod.number(),
+        })
+      ),
   })
 
   private readonly basicRundownsParser = this.basicRundownParser.array()
 
   private readonly rundownParser = this.basicRundownParser.extend({
-    segments: zod.array(this.segmentParser),
-    infinitePieces: zod.array(this.pieceParser),
+    segments: this.segmentParser.array(),
+    infinitePieces: this.pieceParser.array(),
   })
 
-  public parsePiece(piece: unknown): Piece {
+  public parsePiece(piece: unknown): Tv2Piece {
     return this.pieceParser.parse(piece)
   }
 

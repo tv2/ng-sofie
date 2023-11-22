@@ -13,7 +13,6 @@ import {
   RundownPieceInsertedEvent,
   RundownResetEvent,
 } from '../models/rundown-event'
-import { PieceType } from '../enums/piece-type'
 import { EntityParser } from '../abstractions/entity-parser.service'
 import { Piece } from '../models/piece'
 import { TestEntityFactory } from '../../test/factories/test-entity.factory'
@@ -202,7 +201,6 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
         infinitePiece: {
           id: 'some-piece-id',
-          type: PieceType.UNKNOWN,
           name: 'some-piece',
           partId: 'some-part-id',
           layer: 'some-layer',
@@ -248,6 +246,7 @@ describe(ZodRundownEventParser.name, () => {
           playedDuration: 0,
           segmentId: '',
           isPlanned: false,
+          isUntimed: false,
         },
       }
 
@@ -288,6 +287,7 @@ describe(ZodRundownEventParser.name, () => {
           playedDuration: 0,
           segmentId: '',
           isPlanned: false,
+          isUntimed: false,
         },
       }
 

@@ -1,18 +1,26 @@
-<div class="c-segment" [class.c-segment--on-air]="segment.isOnAir" [class.c-segment--set-as-next]="segment.isNext">
+<div class="c-segment"
+  [class.c-segment--on-air]="segment.isOnAir"
+  [class.c-segment--set-as-next]="segment.isNext"
+  [class.c-segment--has-remote-piece]="hasRemotePiece"
+>
   <div [cdkContextMenuTriggerFor]="contextMenu" class="c-segment__header">
     <div class="c-segment__header-toolbar">
       <span>123</span>
-      <span class="c-segment__budget-duration">{{segment.budgetDuration ?? 0 | timestamp }}</span>
+      <span class="c-segment__budget-duration">{{!segment.isUntimed ? (segment.budgetDuration ?? expectedDurationInMs | timestamp ) : 0 | timestamp }}</span>
     </div>
     <div class="c-segment__title">
       {{ segment.name }}
     </div>
   </div>
   <div class="c-segment__controls">
-    <div class="c-segment__controls-toolbar">Hello</div>
+    <div class="c-segment__controls-toolbar">
+      <sofie-icon-button [iconButton]="IconButton.MINUS" [iconButtonSize]="IconButtonSize.S" (click)="zoomIn()" [disabled]="isAtMinimumZoomLevel" title="Zoom out"></sofie-icon-button>
+      <sofie-icon-button [iconButton]="IconButton.HORIZONTAL_ARROWS" [iconButtonSize]="IconButtonSize.S" (click)="resetZoom()" title="Reset zoom"></sofie-icon-button>
+      <sofie-icon-button [iconButton]="IconButton.PLUS"  [iconButtonSize]="IconButtonSize.S" (click)="zoomOut()" title="Zoom in"></sofie-icon-button>
+    </div>
     <div class="c-segment__piece-layers">
-      <div *ngFor="let pieceLayer of pieceLayers" class="c-segment__piece-layer">
-        {{ pieceLayer }}
+      <div *ngFor="let outputLayer of outputLayers" class="c-segment__piece-layer">
+        {{ outputLayer }}
       </div>
     </div>
   </div>
@@ -22,8 +30,9 @@
     *ngIf="!segment.isOnAir; else onAirTimeline"
     class="c-segment__timeline"
     [segment]="segment"
-    [pieceLayers]="pieceLayers"
+    [outputLayers]="outputLayers"
     [isRundownActive]="isRundownActive"
+    [pixelsPerSecond]="pixelsPerSecond"
   ></sofie-scrollable-timeline>
 
   <ng-template #onAirTimeline>
@@ -31,8 +40,9 @@
       class="c-segment__timeline"
       [time]="timeReference"
       [segment]="segment"
-      [pieceLayers]="pieceLayers"
+      [outputLayers]="outputLayers"
       [isRundownActive]="isRundownActive"
+      [pixelsPerSecond]="pixelsPerSecond"
     ></sofie-follow-playhead-timeline>
   </ng-template>
 </div>

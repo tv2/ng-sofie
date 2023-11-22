@@ -2406,10 +2406,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tv2media/logger@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@tv2media/logger@npm:2.0.1"
-  checksum: f3ddc23e5efc6750bedda64ecb898d3b4cfe2e5f4373f6a263ea0464088cb599e5d9995ec96e34adca2ae1cb6a003b4e11581eda88eade1f8b7c64883981f0aa
+"@tv2media/logger@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@tv2media/logger@npm:2.0.2"
+  checksum: 7d451be831b04641fc99ee70d20dcff8c2adc9127e95f518e05d1e506fc1d2ec7eb9c8ae1334b54398bef24264e06de78738de4d0264505b1b950f33683ee944
   languageName: node
   linkType: hard
 
@@ -7601,7 +7601,7 @@ __metadata:
     "@fortawesome/angular-fontawesome": 0.11.1
     "@fortawesome/fontawesome-svg-core": ^6.4.2
     "@fortawesome/free-solid-svg-icons": ^6.4.2
-    "@tv2media/logger": ^2.0.1
+    "@tv2media/logger": ^2.0.2
     "@types/jasmine": ~4.0.0
     "@typescript-eslint/eslint-plugin": 5.43.0
     "@typescript-eslint/parser": 5.43.0

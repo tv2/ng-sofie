@@ -7,6 +7,7 @@ export interface Segment {
   readonly isOnAir: boolean
   readonly isNext: boolean
   readonly isUnsynced: boolean
+  readonly isUntimed: boolean
   readonly parts: Part[]
   readonly budgetDuration?: number
 }

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core'
 import { Piece } from '../../../core/models/piece'
+import { Tv2Piece } from '../../../core/models/tv2-piece'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 
@@ -83,46 +84,6 @@ export class OffsetablePieceComponent {
 
   @HostBinding('class')
   public get getPieceTypeModifierClass(): string {
-    return this.getPieceType()
-  }
-
-  // TODO: Use either piece.type or source layer types for determining style.
-  public getPieceType(): string {
-    const layerType = this.piece.layer.replace(/^studio\d+_/, '')
-    switch (layerType) {
-      case 'camera':
-        return 'camera'
-      case 'script':
-        return 'manus'
-      case 'graphicsLower':
-      case 'graphicsIdent':
-      case 'graphicsHeadline':
-      case 'graphicsTop':
-        return 'lower-third'
-      case 'graphicsTelefon':
-      case 'selected_graphicsFull':
-      case 'graphicsTema':
-      case 'overlay':
-      case 'pilot':
-      case 'pilotOverlay':
-      case 'wall_graphics':
-      case 'graphic_show_lifecycle':
-        return 'graphics'
-      case 'live':
-        return 'remote'
-      case 'clip':
-      case 'selected-clip':
-        return 'clip'
-      case 'voiceover':
-      case 'selected_voiceover':
-        return 'live-speak'
-      case 'local':
-        return 'local'
-      case 'dve':
-      case 'dve_adlib':
-        return 'dve'
-      default:
-        return 'unknown'
-    }
+    return (this.piece as Tv2Piece).metadata.type.toLowerCase().replace(/_/g, '-')
   }
 }
