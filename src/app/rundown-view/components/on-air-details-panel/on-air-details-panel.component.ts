@@ -51,11 +51,11 @@ export class OnAirDetailsPanelComponent implements OnChanges, OnInit, OnDestroy 
   }
 
   private updateOnAirPartTiming(rundownTimingContext: RundownTimingContext): void {
-    if (!this.onAirPart || !this.doesPartContainVideoClipOrVoiceOver(this.onAirPart)) {
-      this.remainingDurationInMsForOnAirPart = undefined
-    } else {
+    if (this.onAirPart && this.doesPartContainVideoClipOrVoiceOver(this.onAirPart)) {
       this.remainingDurationInMsForOnAirPart = rundownTimingContext.playedDurationInMsForOnAirPart - this.partEntityService.getExpectedDuration(this.onAirPart)
+      return
     }
+    this.remainingDurationInMsForOnAirPart = undefined
   }
 
   private doesPartContainVideoClipOrVoiceOver(part: Part): boolean {
@@ -68,18 +68,14 @@ export class OnAirDetailsPanelComponent implements OnChanges, OnInit, OnDestroy 
   }
 
   private updateOnAirSegmentTiming(rundownTimingContext: RundownTimingContext): void {
-    if (!this.onAirSegment || this.onAirSegment.isUntimed) {
-      this.remainingDurationInMsForOnAirSegment = undefined
-    } else {
+    this.durationInMsSpentInOnAirSegment = this.onAirSegment?.executedAtEpochTime ? rundownTimingContext.durationInMsSpentInOnAirSegment : undefined
+
+    if(this.onAirSegment && !this.onAirSegment.isUntimed) {
       const expectedDurationInMsForOnAirSegment: number = rundownTimingContext.expectedDurationsInMsForSegments[this.onAirSegment.id] ?? 0
       this.remainingDurationInMsForOnAirSegment = rundownTimingContext.playedDurationInMsForOnAirSegment - expectedDurationInMsForOnAirSegment
+      return
     }
-
-    if (!this.onAirSegment?.executedAtEpochTime) {
-      this.durationInMsSpentInOnAirSegment = undefined
-    } else {
-      this.durationInMsSpentInOnAirSegment = rundownTimingContext.durationInMsSpentInOnAirSegment
-    }
+    this.remainingDurationInMsForOnAirSegment = undefined
   }
 
   public ngOnDestroy(): void {
