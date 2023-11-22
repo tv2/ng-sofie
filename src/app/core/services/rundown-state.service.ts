@@ -87,7 +87,7 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    const { wasRemoved } = this.removeSubjectIfHasNoObservers(rundownSubject)
+    const wasRemoved: boolean = this.removeSubjectIfHasNoObservers(rundownSubject).wasRemoved
     return wasRemoved ? undefined : rundownSubject
   }
 

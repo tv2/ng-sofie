@@ -86,7 +86,7 @@ export class RundownTimingContextStateService {
     if (!rundownTimingContextSubject) {
       return
     }
-    const { wasRemoved } = this.removeSubjectIfHasNoObserversOrSubscriptions(rundownTimingContextSubject, rundownId)
+    const wasRemoved: boolean = this.removeSubjectIfHasNoObserversOrSubscriptions(rundownTimingContextSubject, rundownId).wasRemoved
     return wasRemoved ? undefined : rundownTimingContextSubject
   }
 
