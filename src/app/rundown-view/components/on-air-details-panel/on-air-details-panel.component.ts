@@ -70,7 +70,7 @@ export class OnAirDetailsPanelComponent implements OnChanges, OnInit, OnDestroy 
   private updateOnAirSegmentTiming(rundownTimingContext: RundownTimingContext): void {
     this.durationInMsSpentInOnAirSegment = this.onAirSegment?.executedAtEpochTime ? rundownTimingContext.durationInMsSpentInOnAirSegment : undefined
 
-    if(this.onAirSegment && !this.onAirSegment.isUntimed) {
+    if (this.onAirSegment && !this.onAirSegment.isUntimed) {
       const expectedDurationInMsForOnAirSegment: number = rundownTimingContext.expectedDurationsInMsForSegments[this.onAirSegment.id] ?? 0
       this.remainingDurationInMsForOnAirSegment = rundownTimingContext.playedDurationInMsForOnAirSegment - expectedDurationInMsForOnAirSegment
       return
