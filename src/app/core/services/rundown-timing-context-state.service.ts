@@ -15,7 +15,6 @@ export class RundownTimingContextStateService {
   private isHighResolutionTimer: boolean = false
   private readonly rundownSubscriptions: Map<string, SubscriptionLike> = new Map()
   private readonly rundowns: Map<string, Rundown> = new Map()
-
   private readonly rundownTimingContextSubjects: Map<string, BehaviorSubject<RundownTimingContext>> = new Map()
 
   constructor(
@@ -25,15 +24,18 @@ export class RundownTimingContextStateService {
     this.startLowResolutionTimer()
   }
 
-  public async subscribeToRundownTimingContext(rundownId: string): Promise<Observable<RundownTimingContext>> {
-    const rundownTimingContextSubject: BehaviorSubject<RundownTimingContext> = await this.createRundownTimingContextSubject(rundownId)
-    return rundownTimingContextSubject.asObservable()
+  private startLowResolutionTimer(): void {
+    this.stopTimeResolutionTimer()
+    this.isHighResolutionTimer = false
+    this.timeResolutionTimerId = setInterval(this.onTimeTick.bind(this), LOW_RESOLUTION_INTERVAL_DURATION_IN_MS)
   }
 
-  private startHighResolutionTimer(): void {
-    this.stopTimeResolutionTimer()
-    this.isHighResolutionTimer = true
-    this.timeResolutionTimerId = setInterval(this.onTimeTick.bind(this), HIGH_RESOLUTION_INTERVAL_DURATION_IN_MS)
+  private stopTimeResolutionTimer(): void {
+    if (this.timeResolutionTimerId === undefined) {
+      return
+    }
+    this.isHighResolutionTimer = false
+    clearInterval(this.timeResolutionTimerId)
   }
 
   private onTimeTick(): void {
@@ -79,18 +81,37 @@ export class RundownTimingContextStateService {
     }
   }
 
-  private startLowResolutionTimer(): void {
-    this.stopTimeResolutionTimer()
-    this.isHighResolutionTimer = false
-    this.timeResolutionTimerId = setInterval(this.onTimeTick.bind(this), LOW_RESOLUTION_INTERVAL_DURATION_IN_MS)
-  }
-
-  private stopTimeResolutionTimer(): void {
-    if (this.timeResolutionTimerId === undefined) {
+  private getRundownTimingContextSubject(rundownId: string): BehaviorSubject<RundownTimingContext> | undefined {
+    const rundownTimingContextSubject: BehaviorSubject<RundownTimingContext> | undefined = this.rundownTimingContextSubjects.get(rundownId)
+    if (!rundownTimingContextSubject) {
       return
     }
-    this.isHighResolutionTimer = false
-    clearInterval(this.timeResolutionTimerId)
+    const { wasRemoved } = this.removeSubjectIfHasNoObserversOrSubscriptions(rundownTimingContextSubject, rundownId)
+    return wasRemoved ? undefined : rundownTimingContextSubject
+  }
+
+  private removeSubjectIfHasNoObserversOrSubscriptions(rundownTimingContextSubject: BehaviorSubject<RundownTimingContext>, rundownId: string): { wasRemoved: boolean } {
+    if (rundownTimingContextSubject.observed) {
+      return { wasRemoved: false }
+    }
+    if (this.isDuringSetupOfSubscription(rundownId)) {
+      return { wasRemoved: false }
+    }
+    rundownTimingContextSubject.unsubscribe()
+    this.rundownTimingContextSubjects.delete(rundownId)
+    this.rundownSubscriptions.get(rundownId)?.unsubscribe()
+    this.rundownSubscriptions.delete(rundownId)
+    this.rundowns.delete(rundownId)
+    return { wasRemoved: true }
+  }
+
+  private isDuringSetupOfSubscription(rundownId: string): boolean {
+    return !this.rundownSubscriptions.has(rundownId)
+  }
+
+  public async subscribeToRundownTimingContext(rundownId: string): Promise<Observable<RundownTimingContext>> {
+    const rundownTimingContextSubject: BehaviorSubject<RundownTimingContext> = await this.createRundownTimingContextSubject(rundownId)
+    return rundownTimingContextSubject.asObservable()
   }
 
   private async createRundownTimingContextSubject(rundownId: string): Promise<BehaviorSubject<RundownTimingContext>> {
@@ -157,31 +178,9 @@ export class RundownTimingContextStateService {
     this.rundowns.set(rundown.id, rundown)
   }
 
-  private getRundownTimingContextSubject(rundownId: string): BehaviorSubject<RundownTimingContext> | undefined {
-    const rundownTimingContextSubject: BehaviorSubject<RundownTimingContext> | undefined = this.rundownTimingContextSubjects.get(rundownId)
-    if (!rundownTimingContextSubject) {
-      return
-    }
-    const { wasRemoved } = this.removeSubjectIfHasNoObserversOrSubscriptions(rundownTimingContextSubject, rundownId)
-    return wasRemoved ? undefined : rundownTimingContextSubject
-  }
-
-  private removeSubjectIfHasNoObserversOrSubscriptions(rundownTimingContextSubject: BehaviorSubject<RundownTimingContext>, rundownId: string): { wasRemoved: boolean } {
-    if (rundownTimingContextSubject.observed) {
-      return { wasRemoved: false }
-    }
-    if (this.isDuringSetupOfSubscription(rundownId)) {
-      return { wasRemoved: false }
-    }
-    rundownTimingContextSubject.unsubscribe()
-    this.rundownTimingContextSubjects.delete(rundownId)
-    this.rundownSubscriptions.get(rundownId)?.unsubscribe()
-    this.rundownSubscriptions.delete(rundownId)
-    this.rundowns.delete(rundownId)
-    return { wasRemoved: true }
-  }
-
-  private isDuringSetupOfSubscription(rundownId: string): boolean {
-    return !this.rundownSubscriptions.has(rundownId)
+  private startHighResolutionTimer(): void {
+    this.stopTimeResolutionTimer()
+    this.isHighResolutionTimer = true
+    this.timeResolutionTimerId = setInterval(this.onTimeTick.bind(this), HIGH_RESOLUTION_INTERVAL_DURATION_IN_MS)
   }
 }
