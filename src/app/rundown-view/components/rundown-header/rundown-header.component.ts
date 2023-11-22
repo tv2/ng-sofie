@@ -23,10 +23,6 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
   public showStyleVariant?: ShowStyleVariant
   public currentLocalDate: number
-  private showStyleVariantSubscription?: Subscription
-  private rundownTimingContextSubscription?: Subscription
-  public readonly IconButton = IconButton
-  public readonly IconButtonSize = IconButtonSize
 
   public rundownName: string = ''
   public rundownPath: string = ''
@@ -35,7 +31,11 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public plannedStart?: number
   public plannedEnd: number = Date.now()
   public diff: number = 0
+  public readonly IconButton = IconButton
+  public readonly IconButtonSize = IconButtonSize
 
+  private showStyleVariantSubscription?: Subscription
+  private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
 
   constructor(
