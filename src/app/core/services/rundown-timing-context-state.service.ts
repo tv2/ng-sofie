@@ -34,51 +34,46 @@ export class RundownTimingContextStateService {
     if (this.timeResolutionTimerId === undefined) {
       return
     }
-    this.isHighResolutionTimer = false
     clearInterval(this.timeResolutionTimerId)
   }
 
   private onTimeTick(): void {
-    this.rundowns.forEach(rundown => {
-      const rundownTimingContextSubject: BehaviorSubject<RundownTimingContext> | undefined = this.getRundownTimingContextSubject(rundown.id)
-      if (!rundownTimingContextSubject) {
-        return
-      }
-      const currentEpochTime: number = Date.now()
-      const previousRundownTimingContext: RundownTimingContext = rundownTimingContextSubject.value
-      const expectedStartEpochTimeForRundown: number = this.rundownTimingService.getExpectedStartEpochTimeForRundown(
-        rundown,
-        previousRundownTimingContext.expectedDurationInMsForRundown,
-        currentEpochTime
-      )
-      const expectedEndEpochTimeForRundown: number = this.rundownTimingService.getExpectedEndEpochTimeForRundown(rundown, previousRundownTimingContext.expectedDurationInMsForRundown, currentEpochTime)
-      const playedDurationInMsForOnAirPart: number = this.rundownTimingService.getPlayedDurationInMsForOnAirPart(rundown, currentEpochTime)
-      const playedDurationInMsForOnAirSegment: number = this.rundownTimingService.getPlayedDurationInMsForOnAirSegment(rundown, currentEpochTime)
-      const durationInMsSpentInOnAirSegment: number = this.rundownTimingService.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
-      const remainingDurationInMs: number = this.rundownTimingService.getRemainingDurationInMsForRundown(
-        rundown,
-        previousRundownTimingContext.expectedDurationsInMsForSegments,
-        playedDurationInMsForOnAirSegment
-      )
-      const rundownTimingContext: RundownTimingContext = {
-        ...rundownTimingContextSubject.value,
-        currentEpochTime,
-        expectedStartEpochTimeForRundown,
-        expectedEndEpochTimeForRundown,
-        playedDurationInMsForOnAirPart,
-        playedDurationInMsForOnAirSegment,
-        durationInMsSpentInOnAirSegment,
-        remainingDurationInMsForRundown: remainingDurationInMs,
-      }
-      rundownTimingContextSubject.next(rundownTimingContext)
-    })
+    const currentEpochTime: number = Date.now()
+    this.rundowns.forEach(rundown => this.updateRundownTimingContextWithEpochTime(rundown, currentEpochTime))
+    this.adjustTimerInterval()
+  }
 
-    const hasActiveRundown: boolean = [...this.rundowns.values()].some(rundown => rundown.isActive)
-    if (hasActiveRundown && !this.isHighResolutionTimer) {
-      this.startHighResolutionTimer()
-    } else if (!hasActiveRundown && this.isHighResolutionTimer) {
-      this.startLowResolutionTimer()
+  private updateRundownTimingContextWithEpochTime(rundown: Rundown, currentEpochTime: number): void {
+    const rundownTimingContextSubject: BehaviorSubject<RundownTimingContext> | undefined = this.getRundownTimingContextSubject(rundown.id)
+    if (!rundownTimingContextSubject) {
+      return
     }
+    const previousRundownTimingContext: RundownTimingContext = rundownTimingContextSubject.value
+    const expectedStartEpochTimeForRundown: number = this.rundownTimingService.getExpectedStartEpochTimeForRundown(
+      rundown,
+      previousRundownTimingContext.expectedDurationInMsForRundown,
+      currentEpochTime
+    )
+    const expectedEndEpochTimeForRundown: number = this.rundownTimingService.getExpectedEndEpochTimeForRundown(rundown, previousRundownTimingContext.expectedDurationInMsForRundown, currentEpochTime)
+    const playedDurationInMsForOnAirPart: number = this.rundownTimingService.getPlayedDurationInMsForOnAirPart(rundown, currentEpochTime)
+    const playedDurationInMsForOnAirSegment: number = this.rundownTimingService.getPlayedDurationInMsForOnAirSegment(rundown, currentEpochTime)
+    const durationInMsSpentInOnAirSegment: number = this.rundownTimingService.getDurationInMsSpentInOnAirSegment(rundown, currentEpochTime)
+    const remainingDurationInMs: number = this.rundownTimingService.getRemainingDurationInMsForRundown(
+      rundown,
+      previousRundownTimingContext.expectedDurationsInMsForSegments,
+      playedDurationInMsForOnAirSegment
+    )
+    const rundownTimingContext: RundownTimingContext = {
+      ...previousRundownTimingContext,
+      currentEpochTime,
+      expectedStartEpochTimeForRundown,
+      expectedEndEpochTimeForRundown,
+      playedDurationInMsForOnAirPart,
+      playedDurationInMsForOnAirSegment,
+      durationInMsSpentInOnAirSegment,
+      remainingDurationInMsForRundown: remainingDurationInMs,
+    }
+    rundownTimingContextSubject.next(rundownTimingContext)
   }
 
   private getRundownTimingContextSubject(rundownId: string): BehaviorSubject<RundownTimingContext> | undefined {
@@ -107,6 +102,15 @@ export class RundownTimingContextStateService {
 
   private isDuringSetupOfSubscription(rundownId: string): boolean {
     return !this.rundownSubscriptions.has(rundownId)
+  }
+
+  private adjustTimerInterval(): void {
+    const hasActiveRundown: boolean = [...this.rundowns.values()].some(rundown => rundown.isActive)
+    if (hasActiveRundown && !this.isHighResolutionTimer) {
+      this.startHighResolutionTimer()
+    } else if (!hasActiveRundown && this.isHighResolutionTimer) {
+      this.startLowResolutionTimer()
+    }
   }
 
   public async subscribeToRundownTimingContext(rundownId: string): Promise<Observable<RundownTimingContext>> {
