@@ -70,7 +70,6 @@ export class RundownTimingService {
       return 0
     }
     const onAirPart: Part = onAirSegment.parts[onAirPartIndex]
-    // TODO: Use currentEpochTime for getPlayedDuration instead of Date.now inside PartEntityService.getPlayedDuration
     const playedDurationInMsForOnAirPart: number = this.partEntityService.getPlayedDuration(onAirPart, currentEpochTime)
     const playedDurationInMsForPastPartsInSegment: number = onAirSegment.parts
       .slice(0, onAirPartIndex)
