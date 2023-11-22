@@ -53,8 +53,12 @@ export class RundownComponent implements OnInit, OnDestroy {
   }
 
   private doesPartContainVideoClipOrVoiceOver(part: Part): boolean {
-    const supportedPieceTypes: (string | undefined)[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.VOICE_OVER]
-    return part.pieces.some(piece => supportedPieceTypes.includes((piece.metadata as Tv2PieceMetadata | undefined)?.type)) ?? false
+    const supportedPieceTypes: Tv2PieceType[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.VOICE_OVER]
+    return part.pieces.some(piece => {
+      const tv2PieceMetadata: Tv2PieceMetadata | undefined = piece.metadata as Tv2PieceMetadata | undefined
+      const pieceType: Tv2PieceType | undefined = tv2PieceMetadata?.type
+      return pieceType !== undefined && supportedPieceTypes.includes(pieceType)
+    })
   }
 
   public ngOnDestroy(): void {
