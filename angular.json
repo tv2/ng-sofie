@@ -5,12 +5,12 @@
   "projects": {
     "ng-sofie": {
       "i18n": {
-        "sourceLocale": "en-US",
+        "sourceLocale": "en-x-source",
         "locales": {
           "da": {
             "translation": "src/locale/messages.da.xlf"
           },
-          "en": {
+          "en-US": {
             "translation": "src/locale/messages.en-US.xlf"
           }
         }

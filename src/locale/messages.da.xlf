@@ -15,7 +15,7 @@
         <target>Tjek din forbindelse og om du har konfigureret Ingest Gateway.</target>
       </trans-unit>
       <trans-unit id="172210689759305381" datatype="html">
-        <source>rundown-overview-component.rundown-label</source>
+        <source>rundown-overview.rundown-overview.title</source>
         <target>Rundown</target>
       </trans-unit>
       <trans-unit id="4359206169774515973" datatype="html">
