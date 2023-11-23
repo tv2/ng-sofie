@@ -6,8 +6,9 @@ import { ShowStyleVariant } from '../../../core/models/show-style-variant'
 import { SubscriptionLike } from 'rxjs'
 import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { RundownTimingService } from '../../../core/services/rundown-timing.service'
 
-const UPDATE_LOCAL_CLOCK_INTERVAL: number = 1000
+const TIME_RESOLUTION_INTERVAL: number = 1000
 const DESIGN_TEMPLATE_IDENTIFIER: string = 'DESIGN_'
 const SKEMA_TEMPLATE_IDENTIFIER: string = 'SKEMA_'
 
@@ -22,7 +23,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
   public showStyleVariant?: ShowStyleVariant
   public currentLocalDate: Date = new Date()
-  private updateCurrentLocalDateIntervalId: ReturnType<typeof setInterval>
+  private timeResolutionIntervalId: ReturnType<typeof setInterval>
   private showStyleVariantSubscription?: SubscriptionLike
   public readonly IconButton = IconButton
   public readonly IconButtonSize = IconButtonSize
@@ -31,11 +32,15 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public rundownPath: string = ''
   public schema: string = ''
   public design: string = ''
+  public plannedStart?: number
+  public plannedEnd: number = Date.now()
+  public diff: number = 0
 
   private readonly logger: Logger
 
   constructor(
     private readonly showStyleVariantStateService: ShowStyleVariantStateService,
+    private readonly rundownTimingService: RundownTimingService,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownHeaderComponent')
@@ -43,7 +48,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnInit(): void {
     this.setRundownNameAndPath()
-    this.updateCurrentLocalDateIntervalId = setInterval(() => (this.currentLocalDate = new Date()), UPDATE_LOCAL_CLOCK_INTERVAL)
+    this.timeResolutionIntervalId = setInterval(this.onTimeResolutionUpdated.bind(this), TIME_RESOLUTION_INTERVAL)
 
     this.showStyleVariantStateService
       .subscribeToShowStyleVariant(this.rundown.id, showStyleVariant => {
@@ -63,8 +68,13 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     this.rundownName = rundownPathSegments[rundownPathSegments.length - 1]
   }
 
+  private onTimeResolutionUpdated(): void {
+    this.currentLocalDate = new Date()
+    this.setRundownTiming()
+  }
+
   public ngOnDestroy(): void {
-    clearInterval(this.updateCurrentLocalDateIntervalId)
+    clearInterval(this.timeResolutionIntervalId)
     this.showStyleVariantSubscription?.unsubscribe()
   }
 
@@ -73,6 +83,10 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     if (rundownChange.currentValue.infinitePieces.length > 0 && rundownChange.currentValue.infinitePieces !== rundownChange.previousValue?.infinitePieces) {
       this.setDesignFromInfinitePieces()
       this.setSchemaFromInfinitePieces()
+    }
+
+    if (rundownChange) {
+      this.setRundownTiming()
     }
   }
 
@@ -115,5 +129,11 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     const pattern: RegExp = /^.+_(?<gfxName>\w+)$/
     const { gfxName } = template.match(pattern)?.groups ?? {}
     return gfxName ?? template
+  }
+
+  private setRundownTiming(): void {
+    this.plannedStart = this.rundownTimingService.getExpectedStartEpochTime(this.rundown.timing)
+    this.plannedEnd = this.rundownTimingService.getEndEpochTime(this.rundown)
+    this.diff = this.rundownTimingService.getRundownScheduleOffsetInMs(this.rundown)
   }
 }

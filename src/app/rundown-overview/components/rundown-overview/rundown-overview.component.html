@@ -29,6 +29,27 @@
       </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="plannedStart">
+      <mat-header-cell *matHeaderCellDef>Planned start</mat-header-cell>
+      <mat-cell *matCellDef="let basicRundown">
+        {{ getPlannedStart(basicRundown) ? (getPlannedStart(basicRundown) | date: 'HH:mm:ss') : 'Not set' }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="duration">
+      <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
+      <mat-cell *matCellDef="let basicRundown">
+        {{ getDurationInMs(basicRundown) ? (getDurationInMs(basicRundown)! | timestamp: true) : 'Not set' }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="plannedEnd">
+      <mat-header-cell *matHeaderCellDef>Planned end</mat-header-cell>
+      <mat-cell *matCellDef="let basicRundown">
+        {{ getPlannedEnd(basicRundown) ? (getPlannedEnd(basicRundown) | date: 'HH:mm:ss') : 'Not set' }}
+      </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="modifiedAt">
       <mat-header-cell *matHeaderCellDef i18n>rundown-overview-component.last-updated.label</mat-header-cell>
       <mat-cell *matCellDef="let basicRundown">
@@ -43,7 +64,7 @@
       </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="['status', 'name', 'modifiedAt', 'delete']"></mat-header-row>
-    <mat-row *matRowDef="let basicRundown; columns: ['status','name', 'modifiedAt', 'delete']"></mat-row>
+    <mat-header-row *matHeaderRowDef="['status', 'name', 'plannedStart', 'duration', 'plannedEnd', 'modifiedAt', 'delete']"></mat-header-row>
+    <mat-row *matRowDef="let basicRundown; columns: ['status','name', 'plannedStart', 'duration', 'plannedEnd', 'modifiedAt', 'delete']"></mat-row>
   </table>
 </ng-template>

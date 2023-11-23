@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs'
 import { Rundown } from '../../../core/models/rundown'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
+import { RundownTimingService } from '../../../core/services/rundown-timing.service'
+import { TimerPipe } from '../../pipes/timer/timer.pipe'
 
 describe('RundownHeaderComponent', () => {
   it('should create', async () => {
@@ -24,9 +26,10 @@ async function configureTestBed(params: { mockedShowStyleVariantStateService?: S
     imports: [RouterModule.forRoot([])],
     providers: [
       { provide: ShowStyleVariantStateService, useValue: instance(mockedShowStyleVariantStateService) },
+      { provide: RundownTimingService, useValue: instance(mock<RundownTimingService>()) },
       { provide: Logger, useValue: createLogger() },
     ],
-    declarations: [RundownHeaderComponent],
+    declarations: [RundownHeaderComponent, TimerPipe],
   }).compileComponents()
   const fixture: ComponentFixture<RundownHeaderComponent> = TestBed.createComponent(RundownHeaderComponent)
   return fixture.componentInstance

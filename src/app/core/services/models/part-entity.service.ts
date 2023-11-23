@@ -52,7 +52,7 @@ export class PartEntityService {
   public getDuration(part: Part): number {
     if (part.isOnAir) {
       const minimumDuration: number = this.getMinimumDuration(part)
-      const playedDuration: number = Date.now() - part.executedAt
+      const playedDuration: number = this.getPlayedDuration(part)
       return Math.max(minimumDuration, playedDuration)
     }
 
@@ -71,6 +71,16 @@ export class PartEntityService {
       return part.expectedDuration - part.autoNext.overlap
     }
     return part.expectedDuration
+  }
+
+  public getPlayedDuration(part: Part): number {
+    if (part.playedDuration) {
+      return part.playedDuration
+    }
+    if (part.executedAt > 0) {
+      return Date.now() - part.executedAt
+    }
+    return 0
   }
 
   public insertPiece(part: Part, piece: Piece): Part {
