@@ -38,7 +38,7 @@
     background-color: #1769ff;
   }
 
-  &.live-speak {
+  &.voice-over {
     background-color: #370020;
   }
 
@@ -54,6 +54,19 @@
   &.split-screen {
     background: linear-gradient(to bottom,  #00a99c 0%,#00a99c 50%,#265753 50%,#265753 100%);
   }
+
+  &.replay {
+    background-color: #8d1010;
+  }
+
+  &.video-clip-voice-over {
+    background: linear-gradient(to bottom,  #1769ff 0%,#1769ff 50%, #005919 50%,#005919 100%);
+  }
+
+  &.replay-voice-over {
+    background: linear-gradient(to bottom,  #8d1010 0%,#8d1010 50%, #005919 50%,#005919 100%);
+  }
+
 }
 
 
