@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core'
 import { Piece } from '../../../core/models/piece'
 import { Tv2Piece } from '../../../core/models/tv2-piece'
+import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 
@@ -86,7 +87,7 @@ export class OffsetablePieceComponent {
   public get getPieceTypeModifierClass(): string {
     const piece: Tv2Piece = this.piece as Tv2Piece
     const pieceTypeModifierClass: string = piece.metadata.type.toLowerCase().replace(/_/g, '-')
-    if (piece.metadata.audioMode) {
+    if (piece.metadata.audioMode && piece.metadata.audioMode === Tv2AudioMode.VOICE_OVER) {
       return pieceTypeModifierClass + '-voice-over'
     }
     return pieceTypeModifierClass
