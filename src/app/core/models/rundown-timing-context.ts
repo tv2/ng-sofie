@@ -1,13 +1,13 @@
 export interface RundownTimingContext {
-  onAirSegmentId?: string
-  currentEpochTime: number
-  expectedDurationInMsForRundown: number
-  expectedStartEpochTimeForRundown: number
-  expectedEndEpochTimeForRundown: number
-  remainingDurationInMsForRundown: number
-  playedDurationInMsForOnAirPart: number
-  playedDurationInMsForOnAirSegment: number
-  durationInMsSpentInOnAirSegment: number
-  expectedDurationsInMsForSegments: Record<string, number>
-  startOffsetsInMsFromNextCursorForSegments: Record<string, number>
+  readonly onAirSegmentId?: string
+  readonly currentEpochTime: number
+  readonly expectedDurationInMsForRundown: number
+  readonly expectedStartEpochTimeForRundown: number
+  readonly expectedEndEpochTimeForRundown: number
+  readonly remainingDurationInMsForRundown: number
+  readonly playedDurationInMsForOnAirPart: number
+  readonly playedDurationInMsForOnAirSegment: number
+  readonly durationInMsSpentInOnAirSegment: number
+  readonly expectedDurationsInMsForSegments: Readonly<Record<string, number>>
+  readonly startOffsetsInMsFromNextCursorForSegments: Readonly<Record<string, number>>
 }

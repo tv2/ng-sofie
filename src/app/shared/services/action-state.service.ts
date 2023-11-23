@@ -48,11 +48,11 @@ export class ActionStateService {
     if (!actionsSubject) {
       return
     }
-    const { wasRemoved } = this.removeSubjectIfHasNoObservers(actionsSubject, rundownId)
+    const wasRemoved: boolean = this.removeSubjectIfItHasNoObservers(actionsSubject, rundownId).wasRemoved
     return wasRemoved ? undefined : actionsSubject
   }
 
-  private removeSubjectIfHasNoObservers(actionsSubject: BehaviorSubject<Action[]>, rundownId: string): { wasRemoved: boolean } {
+  private removeSubjectIfItHasNoObservers(actionsSubject: BehaviorSubject<Action[]>, rundownId: string): { wasRemoved: boolean } {
     if (actionsSubject.observed) {
       return { wasRemoved: false }
     }
