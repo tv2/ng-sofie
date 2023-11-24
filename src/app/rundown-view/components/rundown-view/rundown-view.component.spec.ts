@@ -2,11 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { ActivatedRoute, ActivatedRouteSnapshot, convertToParamMap, ParamMap, RouterModule } from '@angular/router'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockito'
-import { Subscription } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownViewComponent } from './rundown-view.component'
 import { KeyboardConfigurationService } from '../../abstractions/keyboard-configuration.service'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
+import { Rundown } from '../../../core/models/rundown'
 
 describe('RundownViewComponent', () => {
   it('should create', async () => {
@@ -39,7 +40,9 @@ async function configureTestBed(params: { mockedRundownStateService?: RundownSta
 function createMockOfRundownStateService(): RundownStateService {
   const mockedRundownStateService = mock<RundownStateService>()
   const mockedSubscription = mock<Subscription>()
-  when(mockedRundownStateService.subscribeToRundown(anyString(), anything())).thenResolve(instance(mockedSubscription))
+  const mockedObservable = mock<Observable<Rundown>>()
+  when(mockedObservable.subscribe(anything)).thenReturn(instance(mockedSubscription))
+  when(mockedRundownStateService.subscribeToRundown(anyString())).thenResolve(instance(mockedObservable))
   return mockedRundownStateService
 }
 

@@ -102,7 +102,7 @@ describe(RundownEntityService.name, () => {
 
   describe(RundownEntityService.prototype.takeNext.name, () => {
     describe('when given a rundown cursor that points to an already on-air segment', () => {
-      it('marks the segment as off-air', () => {
+      it('does not mark the segment as off-air', () => {
         const rundownCursor: RundownCursor = {
           segmentId: 'segment-id',
           partId: 'part-id',
@@ -117,7 +117,7 @@ describe(RundownEntityService.name, () => {
 
         testee.takeNext(rundown, rundownCursor, takenAt)
 
-        verify(mockedSegmentEntityService.takeOffAir(segment, takenAt)).once()
+        verify(mockedSegmentEntityService.takeOffAir(segment, anyNumber())).never()
       })
 
       it('puts segment on-air', () => {

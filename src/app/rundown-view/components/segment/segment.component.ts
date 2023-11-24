@@ -25,6 +25,9 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   @Input()
   public isRundownActive: boolean
 
+  @Input()
+  public remainingDurationInMsForOnAirPart?: number
+
   public hasRemotePiece: boolean = false
 
   public timeReference: number = 0
@@ -67,7 +70,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     const segmentChange: SimpleChange | undefined = changes['segment']
     if (segmentChange && segmentChange.previousValue?.parts !== segmentChange.currentValue?.parts) {
       this.hasRemotePiece = this.segment.parts.some(part => this.hasPartRemotePiece(part))
-      this.expectedDurationInMs = this.segment.parts.reduce((accumulatedExpectedDurationInMs, part) => accumulatedExpectedDurationInMs + (part.expectedDuration ?? 0), 0)
+      this.expectedDurationInMs = this.segment.parts.reduce((sumOfExpectedDurationsInMsForParts, part) => sumOfExpectedDurationsInMsForParts + (part.expectedDuration ?? 0), 0)
     }
   }
 
@@ -105,9 +108,9 @@ export class SegmentComponent implements OnChanges, OnDestroy {
     }
     const activePart: Part = this.segment.parts[activePartIndex]
     const partsUntilActivePart: Part[] = this.segment.parts.slice(0, activePartIndex)
-    const timeSpendUntilActivePart: number = partsUntilActivePart.reduce((duration, part) => duration + this.partEntityService.getDuration(part), 0)
-    // TODO: Is this the right place to compute it or should it be the part that does it?
-    const timeSpendInActivePart: number = activePart.executedAt > 0 ? Date.now() - activePart.executedAt : 0
+    const currentEpochTime: number = Date.now()
+    const timeSpendUntilActivePart: number = partsUntilActivePart.reduce((duration, part) => duration + this.partEntityService.getDuration(part, currentEpochTime), 0)
+    const timeSpendInActivePart: number = this.partEntityService.getPlayedDuration(activePart, currentEpochTime)
     this.timeReference = timeSpendUntilActivePart + timeSpendInActivePart
   }
 

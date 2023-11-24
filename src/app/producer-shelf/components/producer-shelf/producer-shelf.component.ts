@@ -43,7 +43,8 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.actionStateService
-      .subscribeToRundownActions(this.rundown.id, this.onActionsChanged.bind(this))
+      .subscribeToRundownActions(this.rundown.id)
+      .then(actionsObservable => actionsObservable.subscribe(this.onActionsChanged.bind(this)))
       .then(actionsSubscription => (this.actionsSubscription = actionsSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to actions.'))
   }

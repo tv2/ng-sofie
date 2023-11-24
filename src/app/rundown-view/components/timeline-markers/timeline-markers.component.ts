@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnChanges, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
-import { TimestampPipe } from '../../../shared/pipes/timestamp.pipe'
 import { debounceTime, Subject } from 'rxjs'
+import { TimerPipe } from '../../../shared/pipes/timer/timer.pipe'
 
 interface Point {
   x: number
@@ -45,7 +45,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   constructor(
     private readonly containerElement: ElementRef,
-    private readonly timestampPipe: TimestampPipe
+    private readonly timerPipe: TimerPipe
   ) {}
 
   @HostListener('window:resize')
@@ -139,7 +139,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
   private drawTimestampFromIndex(sectionIndex: number, sectionWidth: number): void {
     const x: number = sectionIndex * sectionWidth - this.pixelsPerSecond * ((this.time / 1000) % this.secondsPerSection)
     const sectionTimestampInSeconds: number = this.getSectionTimestampInSeconds(sectionIndex)
-    const formattedTimestamp: string = this.timestampPipe.transform(sectionTimestampInSeconds * 1000)
+    const formattedTimestamp: string = this.timerPipe.transform(sectionTimestampInSeconds * 1000, 'HH?:mm:ss')
     this.drawText(formattedTimestamp, x, TEXT_MIDDLE_POSITION)
   }
 

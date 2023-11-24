@@ -36,12 +36,14 @@ export class HardcodedProducerKeyBindingService implements KeyBindingService {
 
   public init(rundownId: string): void {
     this.actionStateService
-      .subscribeToRundownActions(rundownId, this.onActionsChanged.bind(this))
+      .subscribeToRundownActions(rundownId)
+      .then(actionsObservable => actionsObservable.subscribe(this.onActionsChanged.bind(this)))
       .then(subscription => (this.actionsSubscription = subscription))
       .catch(error => this.logger.data(error).error('Encountered an error while subscribing to actions.'))
 
     this.rundownStateService
-      .subscribeToRundown(rundownId, this.onRundownChanged.bind(this))
+      .subscribeToRundown(rundownId)
+      .then(rundownObservable => rundownObservable.subscribe(this.onRundownChanged.bind(this)))
       .then(subscription => (this.rundownSubscription = subscription))
       .catch(error => this.logger.data(error).error(`Encountered an error while subscribing to rundown with id '${rundownId}'.`))
   }

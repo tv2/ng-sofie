@@ -19,8 +19,8 @@
 </div>
 
 <sofie-editorial-line
-        *ngIf="segment.budgetDuration !== undefined"
-        [budgetDurationInMs]="segment.budgetDuration"
+        *ngIf="segment.expectedDurationInMs !== undefined"
+        [expectedDurationInMs]="segment.expectedDurationInMs"
         [pixelsPerSecond]="pixelsPerSecond"
         [offsetInMs]="scrollOffsetInMs"
 ></sofie-editorial-line>
