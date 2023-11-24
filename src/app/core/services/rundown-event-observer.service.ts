@@ -12,7 +12,7 @@ import {
   PartTakenEvent,
   RundownPartInsertedAsOnAirEvent,
   RundownPartInsertedAsNextEvent,
-  RundownPieceInsertedEvent,
+  RundownPieceInsertedEvent, RundownCreatedEvent, RundownUpdatedEvent,
 } from '../models/rundown-event'
 import { Logger } from '../abstractions/logger.service'
 
@@ -29,19 +29,15 @@ export class RundownEventObserver {
   }
 
   public subscribeToRundownActivation(onActivated: (event: RundownActivatedEvent) => void): EventSubscription {
-    return this.eventObserver.subscribe(RundownEventType.ACTIVATED, this.createEventValidatingConsumer(onActivated, this.rundownEventParser.parseActivatedEvent.bind(this.rundownEventParser)))
+    return this.eventObserver.subscribe(RundownEventType.ACTIVATED, this.createEventValidatingConsumer(onActivated, this.rundownEventParser.parseRundownActivatedEvent.bind(this.rundownEventParser)))
   }
 
   public subscribeToRundownDeactivation(onDeactivated: (event: RundownDeactivatedEvent) => void): EventSubscription {
-    return this.eventObserver.subscribe(RundownEventType.DEACTIVATED, this.createEventValidatingConsumer(onDeactivated, this.rundownEventParser.parseDeactivatedEvent.bind(this.rundownEventParser)))
-  }
-
-  public subscribeToRundownDeletion(onDeleted: (event: RundownDeletedEvent) => void): EventSubscription {
-    return this.eventObserver.subscribe(RundownEventType.RUNDOWN_DELETED, this.createEventValidatingConsumer(onDeleted, this.rundownEventParser.parseDeletedEvent.bind(this.rundownEventParser)))
+    return this.eventObserver.subscribe(RundownEventType.DEACTIVATED, this.createEventValidatingConsumer(onDeactivated, this.rundownEventParser.parseRundownDeactivatedEvent.bind(this.rundownEventParser)))
   }
 
   public subscribeToRundownReset(onReset: (event: RundownResetEvent) => void): EventSubscription {
-    return this.eventObserver.subscribe(RundownEventType.RESET, this.createEventValidatingConsumer(onReset, this.rundownEventParser.parseResetEvent.bind(this.rundownEventParser)))
+    return this.eventObserver.subscribe(RundownEventType.RESET, this.createEventValidatingConsumer(onReset, this.rundownEventParser.parseRundownResetEvent.bind(this.rundownEventParser)))
   }
 
   public subscribeToRundownTake(onTaken: (event: PartTakenEvent) => void): EventSubscription {
@@ -78,6 +74,24 @@ export class RundownEventObserver {
       RundownEventType.PIECE_INSERTED,
       this.createEventValidatingConsumer(onPieceInserted, this.rundownEventParser.parsePieceInsertedEvent.bind(this.rundownEventParser))
     )
+  }
+
+  public subscribeToRundownCreation(onRundownCreated: (event: RundownCreatedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(
+      RundownEventType.RUNDOWN_CREATED,
+      this.createEventValidatingConsumer(onRundownCreated, this.rundownEventParser.parseRundownCreatedEvent.bind(this.rundownEventParser))
+    )
+  }
+
+  public subscribeToRundownUpdates(onRundownCreated: (event: RundownUpdatedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(
+      RundownEventType.RUNDOWN_UPDATED,
+      this.createEventValidatingConsumer(onRundownCreated, this.rundownEventParser.parseRundownUpdatedEvent.bind(this.rundownEventParser))
+    )
+  }
+
+  public subscribeToRundownDeletion(onDeleted: (event: RundownDeletedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(RundownEventType.RUNDOWN_DELETED, this.createEventValidatingConsumer(onDeleted, this.rundownEventParser.parseRundownDeletedEvent.bind(this.rundownEventParser)))
   }
 
   private createEventValidatingConsumer<T>(consumer: (event: T) => void, parser: (maybeEvent: unknown) => T): EventConsumer {

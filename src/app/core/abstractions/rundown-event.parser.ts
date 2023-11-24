@@ -10,27 +10,32 @@ import {
   RundownPartInsertedAsOnAirEvent,
   RundownPartInsertedAsNextEvent,
   RundownPieceInsertedEvent,
+  RundownCreatedEvent, RundownUpdatedEvent,
 } from '../models/rundown-event'
 
 @Injectable()
 export abstract class RundownEventParser {
-  public abstract parseActivatedEvent(maybeEvent: unknown): RundownActivatedEvent
+  public abstract parseRundownActivatedEvent(event: unknown): RundownActivatedEvent
 
-  public abstract parseDeactivatedEvent(maybeEvent: unknown): RundownDeactivatedEvent
+  public abstract parseRundownDeactivatedEvent(event: unknown): RundownDeactivatedEvent
 
-  public abstract parseDeletedEvent(maybeEvent: unknown): RundownDeletedEvent
+  public abstract parseRundownResetEvent(event: unknown): RundownResetEvent
 
-  public abstract parseResetEvent(maybeEvent: unknown): RundownResetEvent
+  public abstract parseTakenEvent(event: unknown): PartTakenEvent
 
-  public abstract parseTakenEvent(maybeEvent: unknown): PartTakenEvent
+  public abstract parseSetNextEvent(event: unknown): PartSetAsNextEvent
 
-  public abstract parseSetNextEvent(maybeEvent: unknown): PartSetAsNextEvent
+  public abstract parseInfinitePieceAddedEvent(event: unknown): RundownInfinitePieceAddedEvent
 
-  public abstract parseInfinitePieceAddedEvent(maybeEvent: unknown): RundownInfinitePieceAddedEvent
+  public abstract parsePartInsertedAsOnAirEvent(event: unknown): RundownPartInsertedAsOnAirEvent
 
-  public abstract parsePartInsertedAsOnAirEvent(maybeEvent: unknown): RundownPartInsertedAsOnAirEvent
+  public abstract parsePartInsertedAsNextEvent(event: unknown): RundownPartInsertedAsNextEvent
 
-  public abstract parsePartInsertedAsNextEvent(maybeEvent: unknown): RundownPartInsertedAsNextEvent
+  public abstract parsePieceInsertedEvent(event: unknown): RundownPieceInsertedEvent
 
-  public abstract parsePieceInsertedEvent(maybeEvent: unknown): RundownPieceInsertedEvent
+  public abstract parseRundownCreatedEvent(event: unknown): RundownCreatedEvent
+
+  public abstract parseRundownUpdatedEvent(event: unknown): RundownUpdatedEvent
+
+  public abstract parseRundownDeletedEvent(event: unknown): RundownDeletedEvent
 }

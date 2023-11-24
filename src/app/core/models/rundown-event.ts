@@ -2,6 +2,7 @@ import { RundownEventType } from './rundown-event-type'
 import { Piece } from './piece'
 import { TypedEvent } from '../../event-system/abstractions/event-observer.service'
 import { Part } from './part'
+import { BasicRundown } from './basic-rundown'
 
 export interface RundownEvent extends TypedEvent {
   type: RundownEventType
@@ -19,10 +20,6 @@ export interface RundownActivatedEvent extends RundownEvent {
 
 export interface RundownDeactivatedEvent extends RundownEvent {
   type: RundownEventType.DEACTIVATED
-}
-
-export interface RundownDeletedEvent extends RundownEvent {
-  type: RundownEventType.RUNDOWN_DELETED
 }
 
 export interface RundownResetEvent extends RundownEvent {
@@ -55,4 +52,18 @@ export interface RundownPartInsertedAsNextEvent extends RundownEvent {
 export interface RundownPieceInsertedEvent extends PartEvent {
   type: RundownEventType.PIECE_INSERTED
   piece: Piece
+}
+
+export interface RundownCreatedEvent extends RundownEvent {
+  type: RundownEventType.RUNDOWN_CREATED
+  basicRundown: BasicRundown
+}
+
+export interface RundownUpdatedEvent extends RundownEvent {
+  type: RundownEventType.RUNDOWN_UPDATED
+  basicRundown: BasicRundown
+}
+
+export interface RundownDeletedEvent extends RundownEvent {
+  type: RundownEventType.RUNDOWN_DELETED
 }
