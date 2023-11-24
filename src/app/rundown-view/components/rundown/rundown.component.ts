@@ -50,11 +50,7 @@ export class RundownComponent implements OnInit, OnDestroy {
       this.remainingDurationInMsForOnAirPart = this.partEntityService.getExpectedDuration(onAirPart) - rundownTimingContext.playedDurationInMsForOnAirPart
     }
 
-    if (!onAirPart) {
-      this.startOffsetsInMsFromPlayheadForSegments = {}
-    } else {
-      this.startOffsetsInMsFromPlayheadForSegments = this.getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext)
-    }
+    this.startOffsetsInMsFromPlayheadForSegments = this.getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext)
   }
 
   private getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext: RundownTimingContext): Record<string, number> {

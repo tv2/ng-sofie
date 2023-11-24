@@ -124,7 +124,8 @@ export class RundownTimingService {
       startOffsetsInMsFromNextCursorForSegments: {},
       accumulatedStartOffsetInMsFromNextCursor: 0,
     }
-    return futureSegments.reduce(this.createStartOffsetsInMsFromNextCursorForSegmentsReducer(expectedDurationsInMsForSegments), initialAccumulatedStartOffsetInMsForSegmentsData).startOffsetsInMsFromNextCursorForSegments
+    return futureSegments.reduce(this.createStartOffsetsInMsFromNextCursorForSegmentsReducer(expectedDurationsInMsForSegments), initialAccumulatedStartOffsetInMsForSegmentsData)
+      .startOffsetsInMsFromNextCursorForSegments
   }
 
   private createStartOffsetsInMsFromNextCursorForSegmentsReducer(
