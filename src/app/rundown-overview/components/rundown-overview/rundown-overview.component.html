@@ -39,7 +39,7 @@
     <ng-container matColumnDef="duration">
       <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
       <mat-cell *matCellDef="let basicRundown">
-        {{ getDurationInMs(basicRundown) ? (getDurationInMs(basicRundown)! | timestamp: true) : 'Not set' }}
+        {{ getDurationInMs(basicRundown) ? (getDurationInMs(basicRundown)! | timer: 'HH:mm:ss') : 'Not set' }}
       </mat-cell>
     </ng-container>
 

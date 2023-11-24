@@ -8,5 +8,6 @@ export interface Segment {
   readonly isNext: boolean
   readonly isUntimed: boolean
   readonly parts: Part[]
-  readonly budgetDuration?: number
+  readonly expectedDurationInMs?: number
+  readonly executedAtEpochTime?: number
 }

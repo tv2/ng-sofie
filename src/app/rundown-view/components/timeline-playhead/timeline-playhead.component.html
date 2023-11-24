@@ -1,3 +1,10 @@
-<div class="c-timeline-playhead__label">ON AIR</div>
+<div class="c-timeline-playhead__label">
+    <span>ON AIR</span>
+    <div
+        *ngIf="timerDurationInMs !== undefined"
+        [class.overtime]="timerDurationInMs > 0"
+        class="timer"
+    >{{ timerDurationInMs | timer: '#+HH?:mm:ss' }}</div>
+</div>
 <div class="c-timeline-playhead__bar"></div>
 

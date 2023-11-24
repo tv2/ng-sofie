@@ -138,7 +138,7 @@ describe(PartEntityService.name, () => {
             const testee: PartEntityService = new PartEntityService()
             const expectedResult: number = expectedPartDuration - autoNextOverlapDuration
 
-            const result: number = testee.getDuration(part)
+            const result: number = testee.getDuration(part, Date.now())
 
             expect(result).toBe(expectedResult)
           })
@@ -157,7 +157,7 @@ describe(PartEntityService.name, () => {
             jasmine.clock().tick(playedDuration)
             const testee: PartEntityService = new PartEntityService()
 
-            const result: number = testee.getDuration(part)
+            const result: number = testee.getDuration(part, Date.now())
 
             expect(result).toBe(playedDuration)
           })
@@ -179,7 +179,7 @@ describe(PartEntityService.name, () => {
               jasmine.clock().tick(playedDuration)
               const testee: PartEntityService = new PartEntityService()
 
-              const result: number = testee.getDuration(part)
+              const result: number = testee.getDuration(part, Date.now())
 
               expect(result).toBe(expectedDuration)
             })
@@ -198,7 +198,7 @@ describe(PartEntityService.name, () => {
               jasmine.clock().tick(playedDuration)
               const testee: PartEntityService = new PartEntityService()
 
-              const result: number = testee.getDuration(part)
+              const result: number = testee.getDuration(part, Date.now())
 
               expect(result).toBe(playedDuration)
             })
@@ -217,7 +217,7 @@ describe(PartEntityService.name, () => {
               })
               jasmine.clock().tick(playedDuration)
 
-              const result: number = testee.getDuration(part)
+              const result: number = testee.getDuration(part, Date.now())
 
               expect(result).toBe(testee.defaultPartDurationInMs)
             })
@@ -234,7 +234,7 @@ describe(PartEntityService.name, () => {
               })
               jasmine.clock().tick(playedDuration)
 
-              const result: number = testee.getDuration(part)
+              const result: number = testee.getDuration(part, Date.now())
 
               expect(result).toBe(playedDuration)
             })
@@ -259,7 +259,7 @@ describe(PartEntityService.name, () => {
             jasmine.clock().tick(playedDuration)
             const testee: PartEntityService = new PartEntityService()
 
-            const result: number = testee.getDuration(part)
+            const result: number = testee.getDuration(part, Date.now())
 
             expect(result).toBe(playedDuration)
           })
@@ -278,7 +278,7 @@ describe(PartEntityService.name, () => {
             const testee: PartEntityService = new PartEntityService()
             const expectedResult: number = expectedPartDuration - autoNextOverlapDuration
 
-            const result: number = testee.getDuration(part)
+            const result: number = testee.getDuration(part, Date.now())
 
             expect(result).toBe(expectedResult)
           })
@@ -297,7 +297,7 @@ describe(PartEntityService.name, () => {
             jasmine.clock().tick(playedDuration)
             const testee: PartEntityService = new PartEntityService()
 
-            const result: number = testee.getDuration(part)
+            const result: number = testee.getDuration(part, Date.now())
 
             expect(result).toBe(playedDuration)
           })
@@ -315,7 +315,7 @@ describe(PartEntityService.name, () => {
               jasmine.clock().tick(expectedDuration)
               const testee: PartEntityService = new PartEntityService()
 
-              const result: number = testee.getDuration(part)
+              const result: number = testee.getDuration(part, Date.now())
 
               expect(result).toBe(expectedDuration)
             })
@@ -327,7 +327,7 @@ describe(PartEntityService.name, () => {
               const part: Part = testEntityFactory.createPart({ isOnAir: false })
               const testee: PartEntityService = new PartEntityService()
 
-              const result: number = testee.getDuration(part)
+              const result: number = testee.getDuration(part, Date.now())
 
               expect(result).toBe(testee.defaultPartDurationInMs)
             })

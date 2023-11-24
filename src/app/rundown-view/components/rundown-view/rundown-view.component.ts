@@ -41,7 +41,8 @@ export class RundownViewComponent implements OnInit, OnDestroy {
       return
     }
     this.rundownStateService
-      .subscribeToRundown(rundownId, this.setRundown.bind(this))
+      .subscribeToRundown(rundownId)
+      .then(rundownObservable => rundownObservable.subscribe(this.setRundown.bind(this)))
       .then(rundownSubscription => (this.rundownSubscription = rundownSubscription))
       .catch(error => this.logger.data(error).error(`Failed subscribing to rundown with id '${rundownId}'.`))
   }
