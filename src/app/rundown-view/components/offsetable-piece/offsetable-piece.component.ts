@@ -86,10 +86,6 @@ export class OffsetablePieceComponent {
   @HostBinding('class')
   public get getPieceTypeModifierClass(): string {
     const piece: Tv2Piece = this.piece as Tv2Piece
-    const pieceTypeModifierClass: string = piece.metadata.type.toLowerCase().replace(/_/g, '-')
-    if (piece.metadata.audioMode && piece.metadata.audioMode === Tv2AudioMode.VOICE_OVER) {
-      return pieceTypeModifierClass + '-voice-over'
-    }
-    return pieceTypeModifierClass
+    return [piece.metadata.type.toLowerCase().replace(/_/g, '-'), (piece.metadata.audioMode ?? Tv2AudioMode.FULL).toLowerCase().replace('_', '-')].join(' ')
   }
 }
