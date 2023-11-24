@@ -9,10 +9,15 @@ export class SegmentEntityService {
   constructor(private readonly partEntityService: PartEntityService) {}
 
   public putOnAir(segment: Segment, partId: string, timestamp: number): Segment {
-    return {
+    const segmentWithoutOnAirParts: Segment = {
       ...segment,
+      parts: this.takeOnAirPartsOffAir(segment, timestamp),
+    }
+    return {
+      ...segmentWithoutOnAirParts,
       isOnAir: true,
-      parts: this.putPartOnAir(segment, partId, timestamp),
+      executedAtEpochTime: segment.executedAtEpochTime ?? timestamp,
+      parts: this.putPartOnAir(segmentWithoutOnAirParts, partId, timestamp),
     }
   }
 
@@ -24,6 +29,7 @@ export class SegmentEntityService {
     return {
       ...segment,
       isOnAir: false,
+      executedAtEpochTime: undefined,
       parts: this.takeOnAirPartsOffAir(segment, timestamp),
     }
   }

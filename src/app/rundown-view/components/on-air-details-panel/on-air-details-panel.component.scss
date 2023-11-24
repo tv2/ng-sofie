@@ -1,11 +1,12 @@
 :host {
   display: flex;
   flex-direction: row;
-  background-color: #111111;
+  min-height: 50px;
   border-bottom: 1px solid var(--background-color);
+  background-color: #000000;
   color: var(--text-color);
 
-  .sub-panel {
+  .subpanel {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -27,11 +28,20 @@
   .end-words {
     width: 300px;
 
-    .sub-panel__value {
+    .subpanel__value {
       text-overflow: ellipsis;
       direction: rtl;
       white-space: nowrap;
       overflow: hidden;
+    }
+  }
+
+  .timer {
+    transition: color .2s, font-weight .2s, text-shadow .2s;
+
+    &.overtime {
+      color: #c40000;
+      font-weight: bold;
     }
   }
 }

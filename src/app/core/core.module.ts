@@ -26,6 +26,7 @@ import { BasicRundownEntityService } from './services/models/basic-rundown-entit
 import { Logger } from './abstractions/logger.service'
 import { Tv2LoggerService } from './services/tv2-logger.service'
 import { RundownTimingService } from './services/rundown-timing.service'
+import { RundownTimingContextStateService } from './services/rundown-timing-context-state.service'
 
 @NgModule({
   declarations: [],
@@ -50,6 +51,7 @@ import { RundownTimingService } from './services/rundown-timing.service'
     SegmentEntityService,
     PartEntityService,
     RundownTimingService,
+    RundownTimingContextStateService,
   ],
 })
 export class CoreModule extends EnsureLoadedOnceGuard {

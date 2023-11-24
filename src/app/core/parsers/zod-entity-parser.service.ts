@@ -84,7 +84,8 @@ export class ZodEntityParser implements EntityParser {
     isNext: zod.boolean(),
     isUntimed: zod.boolean(),
     parts: this.partParser.array(),
-    budgetDuration: zod.number().optional(),
+    expectedDurationInMs: zod.number().optional(),
+    executedAtEpochTime: zod.number().optional(),
   })
 
   private readonly basicRundownParser = zod.object({

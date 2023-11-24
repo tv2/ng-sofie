@@ -7,7 +7,7 @@ import { Component, HostBinding, Input } from '@angular/core'
 })
 export class EditorialLineComponent {
   @Input()
-  public budgetDurationInMs: number
+  public expectedDurationInMs: number
 
   @Input()
   public pixelsPerSecond: number
@@ -17,6 +17,6 @@ export class EditorialLineComponent {
 
   @HostBinding('style.left.px')
   public get left(): number {
-    return Math.ceil(((this.budgetDurationInMs - this.offsetInMs) * this.pixelsPerSecond) / 1000)
+    return Math.ceil(((this.expectedDurationInMs - this.offsetInMs) * this.pixelsPerSecond) / 1000)
   }
 }

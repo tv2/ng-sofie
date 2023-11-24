@@ -9,7 +9,8 @@ import { SubscriptionLike } from 'rxjs'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 import { Logger } from '../../../core/abstractions/logger.service'
-import { RundownTimingService } from '../../../core/services/rundown-timing.service'
+import { RundownTimingType } from '../../../core/enums/rundown-timing-type'
+import { BackwardRundownTiming } from '../../../core/models/rundown-timing'
 
 @Component({
   selector: 'sofie-rundown-overview',
@@ -27,7 +28,6 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
     private readonly basicRundownStateService: BasicRundownStateService,
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService,
-    private readonly rundownTimingService: RundownTimingService,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownOverviewComponent')
@@ -58,15 +58,40 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   }
 
   public getPlannedStart(basicRundown: BasicRundown): number | undefined {
-    return this.rundownTimingService.getExpectedStartEpochTime(basicRundown.timing)
+    switch (basicRundown.timing.type) {
+      case RundownTimingType.FORWARD:
+        return basicRundown.timing.expectedStartEpochTime
+      case RundownTimingType.BACKWARD:
+        return this.getExpectedStartFromBackwardRundownTiming(basicRundown.timing)
+      default:
+        return undefined
+    }
+  }
+
+  private getExpectedStartFromBackwardRundownTiming(backwardRundownTiming: BackwardRundownTiming): number | undefined {
+    if (backwardRundownTiming.expectedStartEpochTime) {
+      return backwardRundownTiming.expectedStartEpochTime
+    }
+
+    if (backwardRundownTiming.expectedDurationInMs) {
+      return backwardRundownTiming.expectedEndEpochTime - backwardRundownTiming.expectedDurationInMs
+    }
+
+    return undefined
   }
 
   public getDurationInMs(basicRundown: BasicRundown): number | undefined {
-    return this.rundownTimingService.getExpectedDurationInMs(basicRundown.timing)
+    return basicRundown.timing.expectedDurationInMs
   }
 
   public getPlannedEnd(basicRundown: BasicRundown): number | undefined {
-    return this.rundownTimingService.getExpectedEndEpochTime(basicRundown.timing)
+    switch (basicRundown.timing.type) {
+      case RundownTimingType.FORWARD:
+      case RundownTimingType.BACKWARD:
+        return basicRundown.timing.expectedEndEpochTime
+      default:
+        return undefined
+    }
   }
 
   public ngOnDestroy(): void {

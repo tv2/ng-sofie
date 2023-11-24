@@ -5,8 +5,8 @@
 
     <sofie-logo></sofie-logo>
     <sofie-rundown-header-panel [label]="rundownPath">{{rundownName}}</sofie-rundown-header-panel>
-    <sofie-rundown-header-panel *ngIf="plannedStart" label="Planned start">{{ plannedStart | date: 'H:mm:ss' }}</sofie-rundown-header-panel>
-    <sofie-rundown-header-panel label="Diff"><span [class.overtime]="diff>= 0" class="timer">{{ diff | timer }}</span></sofie-rundown-header-panel>
+    <sofie-rundown-header-panel *ngIf="plannedStart" label="Planned start">{{ plannedStart | date: 'HH:mm:ss' }}</sofie-rundown-header-panel>
+    <sofie-rundown-header-panel label="Diff"><span [class.overtime]="diff>= 0" class="timer">{{ diff | timer: '#HH:mm:ss' }}</span></sofie-rundown-header-panel>
     <sofie-rundown-header-panel label="Planned end">{{ plannedEnd | date: 'HH:mm:ss' }}</sofie-rundown-header-panel>
     <sofie-spacer></sofie-spacer>
     <sofie-rundown-header-panel label="Show Style Variant">{{showStyleVariant?.name ?? ''}}</sofie-rundown-header-panel>

@@ -10,12 +10,11 @@ import {
   RundownPartInsertedAsNextEvent,
   RundownPieceInsertedEvent,
 } from '../models/rundown-event'
-import { BehaviorSubject, lastValueFrom, Subscription, SubscriptionLike } from 'rxjs'
+import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs'
 import { Rundown } from '../models/rundown'
 import { RundownService } from '../abstractions/rundown.service'
 import { RundownEventObserver } from './rundown-event-observer.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
-import { ManagedSubscription } from './managed-subscription.service'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { RundownEntityService } from './models/rundown-entity.service'
 import { Logger } from '../abstractions/logger.service'
@@ -75,7 +74,7 @@ export class RundownStateService implements OnDestroy {
   }
 
   private activateRundownFromEvent(event: RundownActivatedEvent): void {
-    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject) {
       return
     }
@@ -83,8 +82,26 @@ export class RundownStateService implements OnDestroy {
     rundownSubject.next(activeRundown)
   }
 
+  private getRundownSubject(rundownId: string): BehaviorSubject<Rundown> | undefined {
+    const rundownSubject = this.rundownSubjects.get(rundownId)
+    if (!rundownSubject) {
+      return
+    }
+    const wasRemoved: boolean = this.removeSubjectIfItHasNoObservers(rundownSubject).wasRemoved
+    return wasRemoved ? undefined : rundownSubject
+  }
+
+  private removeSubjectIfItHasNoObservers(rundownSubject: BehaviorSubject<Rundown>): { wasRemoved: boolean } {
+    if (rundownSubject.observed) {
+      return { wasRemoved: false }
+    }
+    rundownSubject.unsubscribe()
+    this.rundownSubjects.delete(rundownSubject.value.id)
+    return { wasRemoved: true }
+  }
+
   private deactivateRundownFromEvent(event: RundownDeactivatedEvent): void {
-    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject) {
       return
     }
@@ -93,7 +110,7 @@ export class RundownStateService implements OnDestroy {
   }
 
   private resetRundownFromEvent(event: RundownResetEvent): void {
-    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject) {
       return
     }
@@ -101,7 +118,7 @@ export class RundownStateService implements OnDestroy {
   }
 
   private takePartInRundownFromEvent(event: PartTakenEvent): void {
-    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject) {
       return
     }
@@ -111,7 +128,7 @@ export class RundownStateService implements OnDestroy {
   }
 
   private setNextPartInRundownFromEvent(event: PartSetAsNextEvent): void {
-    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject) {
       return
     }
@@ -120,7 +137,7 @@ export class RundownStateService implements OnDestroy {
   }
 
   private addInfinitePieceToRundownFromEvent(event: RundownInfinitePieceAddedEvent): void {
-    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject) {
       return
     }
@@ -129,7 +146,7 @@ export class RundownStateService implements OnDestroy {
   }
 
   private insertPartAsOnAirFromEvent(event: RundownPartInsertedAsOnAirEvent): void {
-    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject) {
       return
     }
@@ -138,7 +155,7 @@ export class RundownStateService implements OnDestroy {
   }
 
   private insertPartAsNextFromEvent(event: RundownPartInsertedAsNextEvent): void {
-    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject) {
       return
     }
@@ -147,7 +164,7 @@ export class RundownStateService implements OnDestroy {
   }
 
   private insertPieceFromEvent(event: RundownPieceInsertedEvent): void {
-    const rundownSubject = this.rundownSubjects.get(event.rundownId)
+    const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject) {
       return
     }
@@ -155,13 +172,12 @@ export class RundownStateService implements OnDestroy {
     rundownSubject.next(rundownWithPiece)
   }
 
-  public async subscribeToRundown(rundownId: string, consumer: (rundown: Rundown) => void): Promise<SubscriptionLike> {
-    const rundownSubject: BehaviorSubject<Rundown> = await this.getRundownSubject(rundownId)
-    const subscription: Subscription = rundownSubject.subscribe(consumer)
-    return new ManagedSubscription(subscription, this.createUnsubscribeFromRundownHandler(rundownId))
+  public async subscribeToRundown(rundownId: string): Promise<Observable<Rundown>> {
+    const rundownSubject: BehaviorSubject<Rundown> = await this.createRundownSubject(rundownId)
+    return rundownSubject.asObservable()
   }
 
-  private async getRundownSubject(rundownId: string): Promise<BehaviorSubject<Rundown>> {
+  private async createRundownSubject(rundownId: string): Promise<BehaviorSubject<Rundown>> {
     const rundownSubject: BehaviorSubject<Rundown> | undefined = this.rundownSubjects.get(rundownId)
     if (rundownSubject) {
       return rundownSubject
@@ -178,22 +194,6 @@ export class RundownStateService implements OnDestroy {
 
   private fetchRundown(rundownId: string): Promise<Rundown> {
     return lastValueFrom(this.rundownService.fetchRundown(rundownId))
-  }
-
-  private createUnsubscribeFromRundownHandler(rundownId: string): () => void {
-    return () => this.unsubscribeFromRundown(rundownId)
-  }
-
-  private unsubscribeFromRundown(rundownId: string): void {
-    const rundownSubject: BehaviorSubject<Rundown> | undefined = this.rundownSubjects.get(rundownId)
-    if (!rundownSubject) {
-      return
-    }
-    if (rundownSubject.observed) {
-      return
-    }
-    rundownSubject.unsubscribe()
-    this.rundownSubjects.delete(rundownId)
   }
 
   public ngOnDestroy(): void {
