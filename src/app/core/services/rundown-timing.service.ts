@@ -5,10 +5,10 @@ import { PartEntityService } from './models/part-entity.service'
 import { Part } from '../models/part'
 import { Injectable } from '@angular/core'
 
-interface AccumulatedStartOffsetInMsForSegmentsData {
-  startOffsetsInMsFromNextCursorForSegments: Record<string, number>
-  accumulatedStartOffsetInMsFromNextCursor: number
-}
+// interface AccumulatedStartOffsetInMsForSegmentsData {
+//   startOffsetsInMsFromNextCursorForSegments: Record<string, number>
+//   accumulatedStartOffsetInMsFromNextCursor: number
+// }
 
 @Injectable()
 export class RundownTimingService {
@@ -120,20 +120,30 @@ export class RundownTimingService {
     const nextSegmentIndex: number = rundown.segments.findIndex(segment => segment.isNext)
     const futureSegments: Segment[] = nextSegmentIndex < 0 ? rundown.segments : rundown.segments.slice(nextSegmentIndex).filter(segment => !segment.isOnAir)
 
-    const initialAccumulatedStartOffsetInMsForSegmentsData: AccumulatedStartOffsetInMsForSegmentsData = {
-      startOffsetsInMsFromNextCursorForSegments: {},
-      accumulatedStartOffsetInMsFromNextCursor: 0,
-    }
-    return futureSegments.reduce(this.createStartOffsetsInMsFromNextCursorForSegmentsReducer(expectedDurationsInMsForSegments), initialAccumulatedStartOffsetInMsForSegmentsData)
-      .startOffsetsInMsFromNextCursorForSegments
+    let accumulatedOffsetInMs: number = 0
+    const outputRecord: Record<string, number> = {}
+
+    futureSegments.forEach(segment => {
+      outputRecord[segment.id] = accumulatedOffsetInMs
+      accumulatedOffsetInMs += expectedDurationsInMsForSegments[segment.id] ?? 0
+    })
+
+    return outputRecord
+
+    // const initialAccumulatedStartOffsetInMsForSegmentsData: AccumulatedStartOffsetInMsForSegmentsData = {
+    //   startOffsetsInMsFromNextCursorForSegments: {},
+    //   accumulatedStartOffsetInMsFromNextCursor: 0,
+    // }
+    // return futureSegments.reduce(this.createStartOffsetsInMsFromNextCursorForSegmentsReducer(expectedDurationsInMsForSegments), initialAccumulatedStartOffsetInMsForSegmentsData)
+    //   .startOffsetsInMsFromNextCursorForSegments
   }
 
-  private createStartOffsetsInMsFromNextCursorForSegmentsReducer(
-    expectedDurationsInMsForSegments: Record<string, number>
-  ): (accumulatedData: AccumulatedStartOffsetInMsForSegmentsData, segment: Segment) => AccumulatedStartOffsetInMsForSegmentsData {
-    return ({ startOffsetsInMsFromNextCursorForSegments, accumulatedStartOffsetInMsFromNextCursor }: AccumulatedStartOffsetInMsForSegmentsData, segment: Segment) => ({
-      startOffsetsInMsFromNextCursorForSegments: { ...startOffsetsInMsFromNextCursorForSegments, [segment.id]: accumulatedStartOffsetInMsFromNextCursor },
-      accumulatedStartOffsetInMsFromNextCursor: accumulatedStartOffsetInMsFromNextCursor + (expectedDurationsInMsForSegments[segment.id] ?? 0),
-    })
-  }
+  // private createStartOffsetsInMsFromNextCursorForSegmentsReducer(
+  //   expectedDurationsInMsForSegments: Record<string, number>
+  // ): (accumulatedData: AccumulatedStartOffsetInMsForSegmentsData, segment: Segment) => AccumulatedStartOffsetInMsForSegmentsData {
+  //   return ({ startOffsetsInMsFromNextCursorForSegments, accumulatedStartOffsetInMsFromNextCursor }: AccumulatedStartOffsetInMsForSegmentsData, segment: Segment) => ({
+  //     startOffsetsInMsFromNextCursorForSegments: { ...startOffsetsInMsFromNextCursorForSegments, [segment.id]: accumulatedStartOffsetInMsFromNextCursor },
+  //     accumulatedStartOffsetInMsFromNextCursor: accumulatedStartOffsetInMsFromNextCursor + (expectedDurationsInMsForSegments[segment.id] ?? 0),
+  //   })
+  // }
 }
