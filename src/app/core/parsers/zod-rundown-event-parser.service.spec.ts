@@ -12,7 +12,8 @@ import {
   RundownPartInsertedAsNextEvent,
   RundownPartInsertedAsOnAirEvent,
   RundownPieceInsertedEvent,
-  RundownResetEvent, RundownUpdatedEvent,
+  RundownResetEvent,
+  RundownUpdatedEvent,
 } from '../models/rundown-event'
 import { EntityParser } from '../abstractions/entity-parser.service'
 import { Piece } from '../models/piece'
@@ -334,8 +335,8 @@ describe(ZodRundownEventParser.name, () => {
           modifiedAt: Date.now(),
           timing: {
             type: RundownTimingType.UNSCHEDULED,
-          }
-        }
+          },
+        },
       }
 
       const result = testee.parseRundownCreatedEvent(event)
@@ -371,8 +372,8 @@ describe(ZodRundownEventParser.name, () => {
           modifiedAt: Date.now(),
           timing: {
             type: RundownTimingType.UNSCHEDULED,
-          }
-        }
+          },
+        },
       }
 
       const result = testee.parseRundownUpdatedEvent(event)

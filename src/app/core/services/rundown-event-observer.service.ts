@@ -12,7 +12,9 @@ import {
   PartTakenEvent,
   RundownPartInsertedAsOnAirEvent,
   RundownPartInsertedAsNextEvent,
-  RundownPieceInsertedEvent, RundownCreatedEvent, RundownUpdatedEvent,
+  RundownPieceInsertedEvent,
+  RundownCreatedEvent,
+  RundownUpdatedEvent,
 } from '../models/rundown-event'
 import { Logger } from '../abstractions/logger.service'
 
@@ -33,7 +35,10 @@ export class RundownEventObserver {
   }
 
   public subscribeToRundownDeactivation(onDeactivated: (event: RundownDeactivatedEvent) => void): EventSubscription {
-    return this.eventObserver.subscribe(RundownEventType.DEACTIVATED, this.createEventValidatingConsumer(onDeactivated, this.rundownEventParser.parseRundownDeactivatedEvent.bind(this.rundownEventParser)))
+    return this.eventObserver.subscribe(
+      RundownEventType.DEACTIVATED,
+      this.createEventValidatingConsumer(onDeactivated, this.rundownEventParser.parseRundownDeactivatedEvent.bind(this.rundownEventParser))
+    )
   }
 
   public subscribeToRundownReset(onReset: (event: RundownResetEvent) => void): EventSubscription {

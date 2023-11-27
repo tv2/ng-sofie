@@ -9,7 +9,9 @@ import {
   RundownDeletedEvent,
   RundownPartInsertedAsOnAirEvent,
   RundownPartInsertedAsNextEvent,
-  RundownPieceInsertedEvent, RundownCreatedEvent, RundownUpdatedEvent,
+  RundownPieceInsertedEvent,
+  RundownCreatedEvent,
+  RundownUpdatedEvent,
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'

@@ -94,7 +94,7 @@ export class BasicRundownStateService implements OnDestroy {
   }
 
   private updateBasicRundownFromEvent(event: RundownUpdatedEvent): void {
-    this.basicRundowns = this.basicRundowns.map(basicRundown => basicRundown.id === event.basicRundown.id ? event.basicRundown : basicRundown)
+    this.basicRundowns = this.basicRundowns.map(basicRundown => (basicRundown.id === event.basicRundown.id ? event.basicRundown : basicRundown))
     this.basicRundownsSubject.next(this.basicRundowns)
   }
 
