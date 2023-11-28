@@ -110,4 +110,17 @@ export class RundownTimingService {
       .filter(segment => !segment.isOnAir)
       .reduce((sumOfExpectedDurationsInMs, segment) => sumOfExpectedDurationsInMs + expectedDurationsInMsForSegments[segment.id] ?? 0, 0)
   }
+
+  public getStartOffsetsInMsFromNextCursorForSegments(rundown: Rundown, expectedDurationsInMsForSegments: Record<string, number>): Record<string, number> {
+    const nextSegmentIndex: number = rundown.segments.findIndex(segment => segment.isNext)
+    const futureSegments: Segment[] = nextSegmentIndex < 0 ? rundown.segments : rundown.segments.slice(nextSegmentIndex).filter(segment => !segment.isOnAir)
+
+    let accumulatedStartOffsetInMs: number = 0
+    const startOffsetsInMsForFutureSegments: Record<string, number> = {}
+    futureSegments.forEach(segment => {
+      startOffsetsInMsForFutureSegments[segment.id] = accumulatedStartOffsetInMs
+      accumulatedStartOffsetInMs += expectedDurationsInMsForSegments[segment.id] ?? 0
+    })
+    return startOffsetsInMsForFutureSegments
+  }
 }

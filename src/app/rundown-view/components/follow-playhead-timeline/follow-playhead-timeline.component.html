@@ -44,7 +44,7 @@
 <sofie-timeline-playhead
         [time]="time | minimum: prePlayheadDurationInMs"
         [pixelsPerSecond]="pixelsPerSecond"
-        [timerDurationInMs]="remainingDurationInMsForOnAirPart"
+        [timerDurationInMs]="shouldShowPartCountdown && remainingDurationInMsForOnAirPart !== undefined ? -remainingDurationInMsForOnAirPart! : undefined"
 ></sofie-timeline-playhead>
 
 <sofie-editorial-line

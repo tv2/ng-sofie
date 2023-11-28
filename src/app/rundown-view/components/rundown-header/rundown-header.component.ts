@@ -51,7 +51,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
     this.showStyleVariantStateService
       .subscribeToShowStyleVariant(this.rundown.id)
-      .then(showStyleVariantObservable => showStyleVariantObservable.subscribe(this.onShowStylVariantChanged.bind(this)))
+      .then(showStyleVariantObservable => showStyleVariantObservable.subscribe(this.onShowStyleVariantChanged.bind(this)))
       .then(unsubscribeFromShowStyleVariant => (this.showStyleVariantSubscription = unsubscribeFromShowStyleVariant))
       .catch(error => this.logger.data(error).error('Failed subscribing to show style variant changes.'))
 
@@ -62,7 +62,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
   }
 
-  private onShowStylVariantChanged(showStyleVariant: ShowStyleVariant): void {
+  private onShowStyleVariantChanged(showStyleVariant: ShowStyleVariant): void {
     this.showStyleVariant = showStyleVariant
     this.setDefaultHeaderInformation()
   }

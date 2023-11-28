@@ -5,8 +5,6 @@ import { RundownTimingContextStateService } from '../../../core/services/rundown
 import { Logger } from '../../../core/abstractions/logger.service'
 import { Part } from '../../../core/models/part'
 import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
-import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
-import { Tv2PieceMetadata } from '../../../core/models/tv2-piece'
 import { Subscription } from 'rxjs'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
@@ -19,8 +17,9 @@ export class RundownComponent implements OnInit, OnDestroy {
   @Input()
   public rundown: Rundown
 
+  public currentEpochTime: number = Date.now()
   public remainingDurationInMsForOnAirPart?: number
-  public onAirSegmentIdForRundownTimingContext?: string
+  public startOffsetsInMsFromPlayheadForSegments: Record<string, number> = {}
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
 
@@ -41,24 +40,26 @@ export class RundownComponent implements OnInit, OnDestroy {
   }
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
-    this.onAirSegmentIdForRundownTimingContext = rundownTimingContext.onAirSegmentId
-
+    this.currentEpochTime = rundownTimingContext.currentEpochTime
     const onAirPart: Part | undefined = this.rundown.segments.find(segment => segment.isOnAir)?.parts.find(part => part.isOnAir)
 
-    if (!onAirPart || !this.doesPartContainVideoClipOrVoiceOver(onAirPart)) {
-      this.remainingDurationInMsForOnAirPart = undefined
-    } else {
-      this.remainingDurationInMsForOnAirPart = rundownTimingContext.playedDurationInMsForOnAirPart - this.partEntityService.getExpectedDuration(onAirPart)
-    }
+    this.remainingDurationInMsForOnAirPart = onAirPart ? this.partEntityService.getExpectedDuration(onAirPart) - rundownTimingContext.playedDurationInMsForOnAirPart : undefined
+    this.startOffsetsInMsFromPlayheadForSegments = this.getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext)
   }
 
-  private doesPartContainVideoClipOrVoiceOver(part: Part): boolean {
-    const supportedPieceTypes: Tv2PieceType[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.VOICE_OVER]
-    return part.pieces.some(piece => {
-      const tv2PieceMetadata: Tv2PieceMetadata | undefined = piece.metadata as Tv2PieceMetadata | undefined
-      const pieceType: Tv2PieceType | undefined = tv2PieceMetadata?.type
-      return pieceType !== undefined && supportedPieceTypes.includes(pieceType)
-    })
+  private getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext: RundownTimingContext): Record<string, number> {
+    const remainingDurationInMsForOnAirSegment = this.getRemainingDurationInMsForOnAirPart(rundownTimingContext)
+    return Object.fromEntries(
+      Object.entries<number>(rundownTimingContext.startOffsetsInMsFromNextCursorForSegments).map(([segmentId, startOffsetInMs]) => [segmentId, startOffsetInMs + remainingDurationInMsForOnAirSegment])
+    )
+  }
+
+  private getRemainingDurationInMsForOnAirPart(rundownTimingContext: RundownTimingContext): number {
+    if (!rundownTimingContext.onAirSegmentId) {
+      return 0
+    }
+    const expectedDurationInMsForOnAirSegment: number = rundownTimingContext.expectedDurationsInMsForSegments[rundownTimingContext.onAirSegmentId] ?? 0
+    return Math.max(0, expectedDurationInMsForOnAirSegment - rundownTimingContext.playedDurationInMsForOnAirSegment)
   }
 
   public ngOnDestroy(): void {

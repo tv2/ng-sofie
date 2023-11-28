@@ -741,6 +741,83 @@ describe(RundownTimingService.name, () => {
       })
     })
   })
+
+  describe(RundownTimingService.prototype.getStartOffsetsInMsFromNextCursorForSegments.name, () => {
+    const expectedDurationsInMsForSegments: Record<string, number> = {
+      segmentA: 1000,
+      segmentB: 2000,
+      segmentC: 3000,
+      segmentD: 4000,
+    }
+    describe('when rundown is inactive', () => {
+      it('returns entries for all segments', () => {
+        const segments: Segment[] = [
+          testEntityFactory.createSegment({ id: 'segmentA' }),
+          testEntityFactory.createSegment({ id: 'segmentB' }),
+          testEntityFactory.createSegment({ id: 'segmentC' }),
+          testEntityFactory.createSegment({ id: 'segmentD' }),
+        ]
+
+        const rundown: Rundown = testEntityFactory.createRundown({ segments })
+        const testee: RundownTimingService = createTestee()
+
+        const result: Record<string, number> = testee.getStartOffsetsInMsFromNextCursorForSegments(rundown, expectedDurationsInMsForSegments)
+
+        expect(result).toEqual({
+          segmentA: 0,
+          segmentB: 1000,
+          segmentC: 3000,
+          segmentD: 6000,
+        })
+      })
+    })
+
+    describe('when rundown is active', () => {
+      describe('when next segment is after on air segment', () => {
+        it('only returns entries for segments after next segment', () => {
+          const segments: Segment[] = [
+            testEntityFactory.createSegment({ id: 'segmentA', isOnAir: true }),
+            testEntityFactory.createSegment({ id: 'segmentB', isNext: true }),
+            testEntityFactory.createSegment({ id: 'segmentC' }),
+            testEntityFactory.createSegment({ id: 'segmentD' }),
+          ]
+
+          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
+          const testee: RundownTimingService = createTestee()
+
+          const result: Record<string, number> = testee.getStartOffsetsInMsFromNextCursorForSegments(rundown, expectedDurationsInMsForSegments)
+
+          expect(result).toEqual({
+            segmentB: 0,
+            segmentC: 2000,
+            segmentD: 5000,
+          })
+        })
+      })
+
+      describe('when next segment is before on air segment', () => {
+        it('only returns entries for off air segments after next segment', () => {
+          const segments: Segment[] = [
+            testEntityFactory.createSegment({ id: 'segmentA', isNext: true }),
+            testEntityFactory.createSegment({ id: 'segmentB', isOnAir: true }),
+            testEntityFactory.createSegment({ id: 'segmentC' }),
+            testEntityFactory.createSegment({ id: 'segmentD' }),
+          ]
+
+          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
+          const testee: RundownTimingService = createTestee()
+
+          const result: Record<string, number> = testee.getStartOffsetsInMsFromNextCursorForSegments(rundown, expectedDurationsInMsForSegments)
+
+          expect(result).toEqual({
+            segmentA: 0,
+            segmentC: 1000,
+            segmentD: 4000,
+          })
+        })
+      })
+    })
+  })
 })
 
 function createTestee(params: { partEntityService?: PartEntityService } = {}): RundownTimingService {

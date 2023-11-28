@@ -29,9 +29,32 @@
   }
 
   &__header-toolbar {
+    display: flex;
+    justify-content: space-between;
     height: var(--toolbar-height);
     background: black;
-    padding: 8px;
+    padding: 6px;
+
+    .segment-identifier {
+      flex: 1;
+    }
+
+    .segment-expected-duration {
+      flex: 1;
+      text-align: center;
+    }
+
+    .segment-countdown {
+      flex: 1;
+      text-align: right;
+      font-weight: bolder;
+      opacity: 0.5;
+      transition: opacity .2s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 
   &__title {
@@ -88,9 +111,6 @@
 
   &__timeline {
     overflow: hidden;
-  }
-  &__budget-duration {
-    margin-left: 50px;
   }
 }
 
