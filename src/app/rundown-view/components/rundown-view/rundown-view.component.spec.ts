@@ -8,6 +8,7 @@ import { RundownViewComponent } from './rundown-view.component'
 import { KeyboardConfigurationService } from '../../abstractions/keyboard-configuration.service'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 import { Rundown } from '../../../core/models/rundown'
+import { ConnectionStatusObserver } from '../../../core/services/connection-status-observer.service'
 
 describe('RundownViewComponent', () => {
   it('should create', async () => {
@@ -16,16 +17,20 @@ describe('RundownViewComponent', () => {
   })
 })
 
-async function configureTestBed(params: { mockedRundownStateService?: RundownStateService; mockedKeyboardConfigurationService?: KeyboardConfigurationService } = {}): Promise<RundownViewComponent> {
-  const mockedRundownStateService = params.mockedRundownStateService ?? createMockOfRundownStateService()
-  const mockedKeyboardConfigurationService = params.mockedKeyboardConfigurationService ?? mock<KeyboardConfigurationService>()
+async function configureTestBed(
+  params: { rundownStateService?: RundownStateService; keyboardConfigurationService?: KeyboardConfigurationService; connectionStatusObserver?: ConnectionStatusObserver } = {}
+): Promise<RundownViewComponent> {
+  const mockedRundownStateService: RundownStateService = params.rundownStateService ?? instance(createMockOfRundownStateService())
+  const mockedConnectionStatusObserver: ConnectionStatusObserver = params.connectionStatusObserver ?? instance(createMockOfConnectionStatusObserver())
+  const mockedKeyboardConfigurationService: KeyboardConfigurationService = params.keyboardConfigurationService ?? instance(mock<KeyboardConfigurationService>())
 
   await TestBed.configureTestingModule({
     imports: [RouterModule.forRoot([])],
     providers: [
       { provide: ActivatedRoute, useValue: instance(createMockOfActivatedRoute()) },
-      { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
-      { provide: KeyboardConfigurationService, useValue: instance(mockedKeyboardConfigurationService) },
+      { provide: RundownStateService, useValue: mockedRundownStateService },
+      { provide: ConnectionStatusObserver, useValue: mockedConnectionStatusObserver },
+      { provide: KeyboardConfigurationService, useValue: mockedKeyboardConfigurationService },
       { provide: Logger, useValue: createLogger() },
     ],
     declarations: [RundownViewComponent],
@@ -44,6 +49,10 @@ function createMockOfRundownStateService(): RundownStateService {
   when(mockedObservable.subscribe(anything)).thenReturn(instance(mockedSubscription))
   when(mockedRundownStateService.subscribeToRundown(anyString())).thenResolve(instance(mockedObservable))
   return mockedRundownStateService
+}
+
+function createMockOfConnectionStatusObserver(): ConnectionStatusObserver {
+  return mock<ConnectionStatusObserver>()
 }
 
 function createMockOfActivatedRoute(params: { paramMap?: ParamMap } = {}): ActivatedRoute {
