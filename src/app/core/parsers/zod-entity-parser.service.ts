@@ -9,6 +9,7 @@ import { Tv2PieceType } from '../enums/tv2-piece-type'
 import { Tv2OutputLayer } from '../models/tv2-output-layer'
 import { Tv2Piece } from '../models/tv2-piece'
 import { RundownTimingType } from '../enums/rundown-timing-type'
+import { Tv2AudioMode } from '../enums/tv2-audio-mode'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -54,6 +55,7 @@ export class ZodEntityParser implements EntityParser {
     metadata: zod.object({
       type: zod.nativeEnum(Tv2PieceType),
       outputLayer: zod.nativeEnum(Tv2OutputLayer).optional(),
+      audioMode: zod.nativeEnum(Tv2AudioMode).optional(),
     }),
   })
 

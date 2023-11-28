@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core'
 import { Piece } from '../../../core/models/piece'
 import { Tv2Piece } from '../../../core/models/tv2-piece'
+import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 
@@ -84,6 +85,7 @@ export class OffsetablePieceComponent {
 
   @HostBinding('class')
   public get getPieceTypeModifierClass(): string {
-    return (this.piece as Tv2Piece).metadata.type.toLowerCase().replace(/_/g, '-')
+    const piece: Tv2Piece = this.piece as Tv2Piece
+    return [piece.metadata.type.toLowerCase().replace(/_/g, '-'), (piece.metadata.audioMode ?? Tv2AudioMode.FULL).toLowerCase().replace('_', '-')].join(' ')
   }
 }
