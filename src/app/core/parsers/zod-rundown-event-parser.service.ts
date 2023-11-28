@@ -10,6 +10,8 @@ import {
   RundownPartInsertedAsOnAirEvent,
   RundownPartInsertedAsNextEvent,
   RundownPieceInsertedEvent,
+  RundownCreatedEvent,
+  RundownUpdatedEvent,
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
@@ -26,12 +28,6 @@ export class ZodRundownEventParser implements RundownEventParser {
 
   private readonly rundownDeactivatedEventParser = zod.object({
     type: zod.literal(RundownEventType.DEACTIVATED),
-    timestamp: zod.number(),
-    rundownId: zod.string().min(1),
-  })
-
-  private readonly rundownDeletedEventParser = zod.object({
-    type: zod.literal(RundownEventType.RUNDOWN_DELETED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
   })
@@ -100,44 +96,78 @@ export class ZodRundownEventParser implements RundownEventParser {
       .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
   })
 
+  private readonly rundownCreatedEventParser = zod.object({
+    type: zod.literal(RundownEventType.RUNDOWN_CREATED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    basicRundown: zod
+      .object({})
+      .passthrough()
+      .transform((basicRundown: unknown) => this.entityParser.parseBasicRundown(basicRundown)),
+  })
+
+  private readonly rundownUpdatedEventParser = zod.object({
+    type: zod.literal(RundownEventType.RUNDOWN_UPDATED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    basicRundown: zod
+      .object({})
+      .passthrough()
+      .transform((basicRundown: unknown) => this.entityParser.parseBasicRundown(basicRundown)),
+  })
+
+  private readonly rundownDeletedEventParser = zod.object({
+    type: zod.literal(RundownEventType.RUNDOWN_DELETED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+  })
+
   constructor(private readonly entityParser: EntityParser) {}
 
-  public parseActivatedEvent(maybeEvent: unknown): RundownActivatedEvent {
-    return this.rundownActivatedEventParser.parse(maybeEvent)
+  public parseRundownActivatedEvent(event: unknown): RundownActivatedEvent {
+    return this.rundownActivatedEventParser.parse(event)
   }
-  public parseDeactivatedEvent(maybeEvent: unknown): RundownDeactivatedEvent {
-    return this.rundownDeactivatedEventParser.parse(maybeEvent)
-  }
-
-  public parseDeletedEvent(maybeEvent: unknown): RundownDeletedEvent {
-    return this.rundownDeletedEventParser.parse(maybeEvent)
+  public parseRundownDeactivatedEvent(event: unknown): RundownDeactivatedEvent {
+    return this.rundownDeactivatedEventParser.parse(event)
   }
 
-  public parseResetEvent(maybeEvent: unknown): RundownResetEvent {
-    return this.rundownResetEventParser.parse(maybeEvent)
+  public parseRundownResetEvent(event: unknown): RundownResetEvent {
+    return this.rundownResetEventParser.parse(event)
   }
 
-  public parseTakenEvent(maybeEvent: unknown): PartTakenEvent {
-    return this.rundownTakenEventParser.parse(maybeEvent)
+  public parseTakenEvent(event: unknown): PartTakenEvent {
+    return this.rundownTakenEventParser.parse(event)
   }
 
-  public parseSetNextEvent(maybeEvent: unknown): PartSetAsNextEvent {
-    return this.rundownSetNextEventParser.parse(maybeEvent)
+  public parseSetNextEvent(event: unknown): PartSetAsNextEvent {
+    return this.rundownSetNextEventParser.parse(event)
   }
 
-  public parseInfinitePieceAddedEvent(maybeEvent: unknown): RundownInfinitePieceAddedEvent {
-    return this.rundownInfinitePieceAddedEventParser.parse(maybeEvent)
+  public parseInfinitePieceAddedEvent(event: unknown): RundownInfinitePieceAddedEvent {
+    return this.rundownInfinitePieceAddedEventParser.parse(event)
   }
 
-  public parsePartInsertedAsOnAirEvent(maybeEvent: unknown): RundownPartInsertedAsOnAirEvent {
-    return this.rundownPartInsertedAsOnAirEventParser.parse(maybeEvent)
+  public parsePartInsertedAsOnAirEvent(event: unknown): RundownPartInsertedAsOnAirEvent {
+    return this.rundownPartInsertedAsOnAirEventParser.parse(event)
   }
 
-  public parsePartInsertedAsNextEvent(maybeEvent: unknown): RundownPartInsertedAsNextEvent {
-    return this.rundownPartInsertedAsNextEventParser.parse(maybeEvent)
+  public parsePartInsertedAsNextEvent(event: unknown): RundownPartInsertedAsNextEvent {
+    return this.rundownPartInsertedAsNextEventParser.parse(event)
   }
 
-  public parsePieceInsertedEvent(maybeEvent: unknown): RundownPieceInsertedEvent {
-    return this.rundownPieceInsertedEventParser.parse(maybeEvent)
+  public parsePieceInsertedEvent(event: unknown): RundownPieceInsertedEvent {
+    return this.rundownPieceInsertedEventParser.parse(event)
+  }
+
+  public parseRundownCreatedEvent(event: unknown): RundownCreatedEvent {
+    return this.rundownCreatedEventParser.parse(event)
+  }
+
+  public parseRundownUpdatedEvent(event: unknown): RundownUpdatedEvent {
+    return this.rundownUpdatedEventParser.parse(event)
+  }
+
+  public parseRundownDeletedEvent(event: unknown): RundownDeletedEvent {
+    return this.rundownDeletedEventParser.parse(event)
   }
 }

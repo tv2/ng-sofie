@@ -5,7 +5,7 @@ import { EventSubscription } from '../../event-system/abstractions/event-observe
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { BasicRundown } from '../models/basic-rundown'
 import { BasicRundownService } from '../abstractions/basic-rundown.service'
-import { RundownEvent } from '../models/rundown-event'
+import { RundownCreatedEvent, RundownEvent, RundownUpdatedEvent } from '../models/rundown-event'
 import { BasicRundownEntityService } from './models/basic-rundown-entity.service'
 import { Logger } from '../abstractions/logger.service'
 
@@ -62,9 +62,9 @@ export class BasicRundownStateService implements OnDestroy {
     return [
       this.rundownEventObserver.subscribeToRundownActivation(this.activateBasicRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownDeactivation(this.deactivateBasicRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownCreation(this.createBasicRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownUpdates(this.updateBasicRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownDeletion(this.deleteBasicRundownFromEvent.bind(this)),
-      // TODO: Add listener(s) for updating the modifiedAt attribute when we implement modifiedAt.
-      // TODO: Add listener(s) for when a rundown is created.
     ]
   }
 
@@ -85,6 +85,16 @@ export class BasicRundownStateService implements OnDestroy {
       }
       return this.basicRundownEntityService.deactivate(basicRundown)
     })
+    this.basicRundownsSubject.next(this.basicRundowns)
+  }
+
+  private createBasicRundownFromEvent(event: RundownCreatedEvent): void {
+    this.basicRundowns = [...this.basicRundowns.filter(basicRundown => basicRundown.id !== event.rundownId), event.basicRundown]
+    this.basicRundownsSubject.next(this.basicRundowns)
+  }
+
+  private updateBasicRundownFromEvent(event: RundownUpdatedEvent): void {
+    this.basicRundowns = this.basicRundowns.map(basicRundown => (basicRundown.id === event.basicRundown.id ? event.basicRundown : basicRundown))
     this.basicRundownsSubject.next(this.basicRundowns)
   }
 

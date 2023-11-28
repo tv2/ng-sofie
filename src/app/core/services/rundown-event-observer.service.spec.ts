@@ -71,9 +71,9 @@ function createTestee(parameters: { eventObserver?: EventObserver; rundownEventP
 
 function createMockOfRundownEventParser(): RundownEventParser {
   const mockedRundownEventParser = mock<RundownEventParser>()
-  when(mockedRundownEventParser.parseActivatedEvent(anything())).thenCall(value => value)
-  when(mockedRundownEventParser.parseDeactivatedEvent(anything())).thenCall(value => value)
-  when(mockedRundownEventParser.parseResetEvent(anything())).thenCall(value => value)
+  when(mockedRundownEventParser.parseRundownActivatedEvent(anything())).thenCall(value => value)
+  when(mockedRundownEventParser.parseRundownDeactivatedEvent(anything())).thenCall(value => value)
+  when(mockedRundownEventParser.parseRundownResetEvent(anything())).thenCall(value => value)
   when(mockedRundownEventParser.parseTakenEvent(anything())).thenCall(value => value)
   when(mockedRundownEventParser.parseSetNextEvent(anything())).thenCall(value => value)
   when(mockedRundownEventParser.parseInfinitePieceAddedEvent(anything())).thenCall(value => value)
