@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="608129622036865992" datatype="html">
+        <source>rundown-overview.rundown-overview.title</source>
+        <target>Rundowns</target>
+      </trans-unit>
+      <trans-unit id="4244324227350096273" datatype="html">
+        <source>rundown-overview-component.no-rundowns-available.message</source>
+        <target>Der er i øjeblikket ingen Rundowns tilgængelige.</target>
+      </trans-unit>
+      <trans-unit id="3521974238403661262" datatype="html">
+        <source>rundown-overview-component.check-connection-configure-ingest-gateway.message</source>
+        <target>Tjek din forbindelse og om du har konfigureret Ingest Gateway.</target>
+      </trans-unit>
+      <trans-unit id="172210689759305381" datatype="html">
+        <source>rundown-overview.rundown-overview.title</source>
+        <target>Rundown</target>
+      </trans-unit>
+      <trans-unit id="4359206169774515973" datatype="html">
+        <source>rundown-overview-component.last-updated.label</source>
+        <target>Senest opdateret:</target>
+      </trans-unit>
+      <trans-unit id="770901610469150867" datatype="html">
+        <source>confirmation-dialog.are-you-sure.title</source>
+        <target state="new">Er du sikker?</target>
+      </trans-unit>
+      <trans-unit id="2002860888965051390" datatype="html">
+        <source>confirmation-dialog.yes.button</source>
+        <target>Ja</target>
+      </trans-unit>
+      <trans-unit id="4527235810099606771" datatype="html">
+        <source>confirmation-dialog.cancel.button</source>
+        <target>Annuller</target>
+      </trans-unit>
+      <trans-unit id="2638363041233817949" datatype="html">
+        <source>header-component.rundowns.label</source>
+        <target>Rundowns</target>
+      </trans-unit>
+      <trans-unit id="1079134994533846284" datatype="html">
+        <source>Lost connection to backend. Attempting to reconnect...</source>
+        <target>Mistet forbindelse til server. Forsøger at genoprette forbindelse...</target>
+      </trans-unit>
+      <trans-unit id="3796920100771349539" datatype="html">
+        <source>rundown-overview-component.deletion-dialog-question &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;</source>
+        <target state="new">Er du sikker på at du vil slette Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Vær opmærksom på: Denne handling er uoprettelig!</target>
+      </trans-unit>
+      <trans-unit id="5314808199366684814" datatype="html">
+        <source>rundown-overview-component.deletion-dialog.delete-button</source>
+        <target>Slet</target>
+      </trans-unit>
+      <trans-unit id="672684067026346719" datatype="html">
+        <source>dialog.cancel-button:Cancel</source>
+        <target>Annuller</target>
+      </trans-unit>
+      <trans-unit id="6373029241912635510" datatype="html">
+        <source>rundown-overview-component.deletion-dialog-title</source>
+        <target>Slet rundown?</target>
+      </trans-unit>
+      <trans-unit id="221700254079718655" datatype="html">
+        <source>rundown-overview-component.rundown-overview.loading-rundowns.message</source>
+        <target state="new">rundown-overview-component.rundown-overview.loading-rundowns.message</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

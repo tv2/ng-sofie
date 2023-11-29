@@ -22,7 +22,7 @@ export class DialogService {
         message: message,
         buttonText: {
           ok: okButtonText,
-          cancel: 'Cancel',
+          cancel: $localize`dialog.cancel-button:Cancel`,
         },
         severity,
       },
