@@ -9,8 +9,8 @@
       <span class="segment-expected-duration">{{(!segment.isUntimed ? expectedDurationInMs : 0) | timer: 'HH?:mm:ss' }}</span>
       <span class="segment-countdown">
         <sofie-countdown-label
-          *ngIf="hasRemotePiece && durationInMsUntilSegmentIsPutOnAir !== undefined"
-          [durationInMs]="durationInMsUntilSegmentIsPutOnAir"
+          *ngIf="hasRemotePiece && roundedDurationInMsUntilSegmentIsPutOnAir !== undefined"
+          [durationInMs]="roundedDurationInMsUntilSegmentIsPutOnAir"
           [currentEpochTime]="currentEpochTime"
         ></sofie-countdown-label>
       </span>
