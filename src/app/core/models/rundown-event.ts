@@ -3,6 +3,7 @@ import { Piece } from './piece'
 import { TypedEvent } from '../../event-system/abstractions/event-observer.service'
 import { Part } from './part'
 import { BasicRundown } from './basic-rundown'
+import { Segment } from './segment'
 
 export interface RundownEvent extends TypedEvent {
   type: RundownEventType
@@ -66,4 +67,35 @@ export interface RundownUpdatedEvent extends RundownEvent {
 
 export interface RundownDeletedEvent extends RundownEvent {
   type: RundownEventType.RUNDOWN_DELETED
+}
+
+export interface SegmentCreatedEvent extends RundownEvent {
+  type: RundownEventType.SEGMENT_CREATED
+  segment: Segment
+}
+
+export interface SegmentUpdatedEvent extends RundownEvent {
+  type: RundownEventType.SEGMENT_UPDATED
+  segment: Segment
+}
+
+export interface SegmentDeletedEvent extends RundownEvent {
+  type: RundownEventType.SEGMENT_DELETED
+  segmentId: string
+}
+
+export interface PartCreatedEvent extends RundownEvent {
+  type: RundownEventType.PART_CREATED
+  part: Part
+}
+
+export interface PartUpdatedEvent extends RundownEvent {
+  type: RundownEventType.PART_UPDATED
+  part: Part
+}
+
+export interface PartDeletedEvent extends RundownEvent {
+  type: RundownEventType.PART_DELETED
+  segmentId: string
+  partId: string
 }

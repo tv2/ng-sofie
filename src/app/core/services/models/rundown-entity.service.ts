@@ -5,6 +5,7 @@ import { RundownCursor } from '../../models/rundown-cursor'
 import { Injectable } from '@angular/core'
 import { Piece } from '../../models/piece'
 import { Part } from '../../models/part'
+import { BasicRundown } from '../../models/basic-rundown'
 
 @Injectable()
 export class RundownEntityService {
@@ -110,5 +111,63 @@ export class RundownEntityService {
       ...rundown,
       segments: rundown.segments.map(segment => (segment.id === rundownCursor.segmentId ? this.segmentEntityService.insertPiece(segment, rundownCursor.partId, piece) : segment)),
     }
+  }
+
+  public updateRundownFromBasicRundown(rundown: Rundown, basicRundown: BasicRundown): Rundown {
+    return {
+      ...rundown,
+      ...basicRundown,
+    }
+  }
+
+  public updateRundownSegment(rundown: Rundown, segment: Segment): Rundown {
+    const segmentToUpdateIndex: number | undefined = rundown.segments.findIndex(existingSegment => existingSegment.id === segment.id)
+    if (segmentToUpdateIndex) {
+      rundown.segments[segmentToUpdateIndex] = segment
+    }
+    return rundown
+  }
+
+  public removeRundownSegment(rundown: Rundown, segmentId: string): Rundown {
+    const segmentToRemoveIndex: number | undefined = rundown.segments.findIndex(existingSegment => existingSegment.id === segmentId)
+    rundown.segments.splice(segmentToRemoveIndex, 1)
+    return rundown
+  }
+
+  public createRundownSegment(rundown: Rundown, segment: Segment): Rundown {
+    const insertAtIndex: number = rundown.segments.findIndex(existingSegment => existingSegment.rank > segment.rank)
+    rundown.segments.splice(insertAtIndex, 0, segment)
+    return rundown
+  }
+
+  public createRundownPart(rundown: Rundown, part: Part): Rundown {
+    const segmentForPartIndex: number | undefined = rundown.segments.findIndex(segment => segment.id === part.segmentId)
+    if (!segmentForPartIndex) {
+      return rundown
+    }
+    rundown.segments[segmentForPartIndex].parts.push(part)
+    return rundown
+  }
+
+  public updateRundownPart(rundown: Rundown, part: Part): Rundown {
+    const segmentForPartIndex: number | undefined = rundown.segments.findIndex(segment => segment.id === part.segmentId)
+    if (!segmentForPartIndex) {
+      return rundown
+    }
+    const partToUpdateIndex: number | undefined = rundown.segments[segmentForPartIndex].parts.findIndex(existingPart => existingPart.id === part.id)
+    if (partToUpdateIndex) {
+      rundown.segments[segmentForPartIndex].parts[partToUpdateIndex] = part
+    }
+    return rundown
+  }
+
+  public removeRundownPart(rundown: Rundown, segmentId: string, partId: string): Rundown {
+    const segmentForPartIndex: number | undefined = rundown.segments.findIndex(existingSegment => existingSegment.id === segmentId)
+    if (!rundown.segments[segmentForPartIndex].parts) {
+      return rundown
+    }
+    const partToRemoveIndex: number | undefined = rundown.segments[segmentForPartIndex].parts.findIndex(existingPart => existingPart.id === partId)
+    rundown.segments[segmentForPartIndex].parts.splice(partToRemoveIndex, 1)
+    return rundown
   }
 }

@@ -15,6 +15,12 @@ import {
   RundownPieceInsertedEvent,
   RundownCreatedEvent,
   RundownUpdatedEvent,
+  SegmentUpdatedEvent,
+  SegmentDeletedEvent,
+  SegmentCreatedEvent,
+  PartCreatedEvent,
+  PartUpdatedEvent,
+  PartDeletedEvent,
 } from '../models/rundown-event'
 import { Logger } from '../abstractions/logger.service'
 
@@ -99,13 +105,46 @@ export class RundownEventObserver {
     return this.eventObserver.subscribe(RundownEventType.RUNDOWN_DELETED, this.createEventValidatingConsumer(onDeleted, this.rundownEventParser.parseRundownDeletedEvent.bind(this.rundownEventParser)))
   }
 
+  public subscribeToSegmentCreation(onSegmentCreated: (event: SegmentCreatedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(
+      RundownEventType.SEGMENT_CREATED,
+      this.createEventValidatingConsumer(onSegmentCreated, this.rundownEventParser.parseSegmentCreatedEvent.bind(this.rundownEventParser))
+    )
+  }
+
+  public subscribeToSegmentUpdates(onSegmentUpdated: (event: SegmentUpdatedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(
+      RundownEventType.SEGMENT_UPDATED,
+      this.createEventValidatingConsumer(onSegmentUpdated, this.rundownEventParser.parseSegmentUpdatedEvent.bind(this.rundownEventParser))
+    )
+  }
+
+  public subscribeToSegmentDeletion(onSegmentDeleted: (event: SegmentDeletedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(
+      RundownEventType.SEGMENT_DELETED,
+      this.createEventValidatingConsumer(onSegmentDeleted, this.rundownEventParser.parseSegmentDeletedEvent.bind(this.rundownEventParser))
+    )
+  }
+
+  public subscribeToPartCreation(onPartCreated: (event: PartCreatedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(RundownEventType.PART_CREATED, this.createEventValidatingConsumer(onPartCreated, this.rundownEventParser.parsePartCreatedEvent.bind(this.rundownEventParser)))
+  }
+
+  public subscribeToPartUpdates(onPartUpdated: (event: PartUpdatedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(RundownEventType.PART_UPDATED, this.createEventValidatingConsumer(onPartUpdated, this.rundownEventParser.parsePartUpdatedEvent.bind(this.rundownEventParser)))
+  }
+
+  public subscribeToPartDeletion(onPartDeleted: (event: PartDeletedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(RundownEventType.PART_DELETED, this.createEventValidatingConsumer(onPartDeleted, this.rundownEventParser.parsePartDeletedEvent.bind(this.rundownEventParser)))
+  }
+
   private createEventValidatingConsumer<T>(consumer: (event: T) => void, parser: (maybeEvent: unknown) => T): EventConsumer {
     return (event: TypedEvent) => {
       try {
         const activationEvent: T = parser(event)
         consumer(activationEvent)
       } catch (error) {
-        this.logger.data({ error, event }).error('Failed to parse activation event.')
+        this.logger.data({ error, event }).error('Failed to parse event.')
       }
     }
   }
