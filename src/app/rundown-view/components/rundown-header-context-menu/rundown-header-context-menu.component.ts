@@ -23,8 +23,8 @@ export class RundownHeaderContextMenuComponent {
       contextAction: (): void => this.openActivateRundownDialog(),
     },
     {
-      label: 'Reset Rundown',
-      contextAction: (): void => this.openResetRundownDialog(),
+      label: 'Reingest data',
+      contextAction: (): void => this.reingestData(),
     },
   ]
 

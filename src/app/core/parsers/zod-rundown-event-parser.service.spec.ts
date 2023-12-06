@@ -215,6 +215,7 @@ describe(ZodRundownEventParser.name, () => {
         part: {
           executedAt: 0,
           id: '',
+          rank: 1,
           isNext: false,
           isOnAir: false,
           pieces: [],
@@ -222,6 +223,7 @@ describe(ZodRundownEventParser.name, () => {
           segmentId: '',
           isPlanned: false,
           isUntimed: false,
+          isUnsynced: false,
         },
       }
 
@@ -256,6 +258,7 @@ describe(ZodRundownEventParser.name, () => {
         part: {
           executedAt: 0,
           id: '',
+          rank: 1,
           isNext: false,
           isOnAir: false,
           pieces: [],
@@ -263,6 +266,7 @@ describe(ZodRundownEventParser.name, () => {
           segmentId: '',
           isPlanned: false,
           isUntimed: false,
+          isUnsynced: false,
         },
       }
 

@@ -14,7 +14,12 @@ import {
   RundownUpdatedEvent,
   SegmentUpdatedEvent,
   SegmentDeletedEvent,
-  PartCreatedEvent, PartDeletedEvent, SegmentCreatedEvent, PartUpdatedEvent,
+  PartCreatedEvent,
+  PartDeletedEvent,
+  SegmentCreatedEvent,
+  PartUpdatedEvent,
+  SegmentUnsyncedEvent,
+  PartUnsyncedEvent,
 } from '../models/rundown-event'
 
 @Injectable()
@@ -49,9 +54,13 @@ export abstract class RundownEventParser {
 
   public abstract parseSegmentDeletedEvent(event: unknown): SegmentDeletedEvent
 
+  public abstract parseSegmentUnsyncedEvent(event: unknown): SegmentUnsyncedEvent
+
   public abstract parsePartCreatedEvent(event: unknown): PartCreatedEvent
 
   public abstract parsePartUpdatedEvent(event: unknown): PartUpdatedEvent
 
   public abstract parsePartDeletedEvent(event: unknown): PartDeletedEvent
+
+  public abstract parsePartUnsyncedEvent(event: unknown): PartUnsyncedEvent
 }

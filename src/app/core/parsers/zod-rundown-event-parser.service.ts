@@ -18,6 +18,8 @@ import {
   PartCreatedEvent,
   PartDeletedEvent,
   PartUpdatedEvent,
+  SegmentUnsyncedEvent,
+  PartUnsyncedEvent,
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
@@ -155,6 +157,17 @@ export class ZodRundownEventParser implements RundownEventParser {
     segmentId: zod.string().min(1),
   })
 
+  private readonly segmentUnsyncedEventParser = zod.object({
+    type: zod.literal(RundownEventType.SEGMENT_UNSYNCED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    unsyncedSegment: zod
+      .object({})
+      .passthrough()
+      .transform((segment: unknown) => this.entityParser.parseSegment(segment)),
+    originalSegmentId: zod.string().min(1),
+  })
+
   private readonly partCreatedEventParser = zod.object({
     type: zod.literal(RundownEventType.PART_CREATED),
     timestamp: zod.number(),
@@ -181,6 +194,16 @@ export class ZodRundownEventParser implements RundownEventParser {
     rundownId: zod.string().min(1),
     segmentId: zod.string().min(1),
     partId: zod.string().min(1),
+  })
+
+  private readonly partUnsyncedEventParser = zod.object({
+    type: zod.literal(RundownEventType.PART_UNSYNCED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    part: zod
+      .object({})
+      .passthrough()
+      .transform((part: unknown) => this.entityParser.parsePart(part)),
   })
 
   constructor(private readonly entityParser: EntityParser) {}
@@ -244,6 +267,10 @@ export class ZodRundownEventParser implements RundownEventParser {
     return this.segmentDeletedEventParser.parse(event)
   }
 
+  public parseSegmentUnsyncedEvent(event: unknown): SegmentUnsyncedEvent {
+    return this.segmentUnsyncedEventParser.parse(event)
+  }
+
   public parsePartCreatedEvent(event: unknown): PartCreatedEvent {
     return this.partCreatedEventParser.parse(event)
   }
@@ -254,5 +281,9 @@ export class ZodRundownEventParser implements RundownEventParser {
 
   public parsePartDeletedEvent(event: unknown): PartDeletedEvent {
     return this.partDeletedEventParser.parse(event)
+  }
+
+  public parsePartUnsyncedEvent(event: unknown): PartUnsyncedEvent {
+    return this.partUnsyncedEventParser.parse(event)
   }
 }

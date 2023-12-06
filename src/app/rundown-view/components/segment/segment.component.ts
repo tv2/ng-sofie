@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges } from '@angular/core'
+import { Component, HostBinding, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
 import { Tv2OutputLayerService } from '../../../shared/services/tv2-output-layer.service'
@@ -56,6 +56,9 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   ) {
     this.logger = logger.tag('SegmentComponent')
   }
+
+  @HostBinding('style.background-color')
+  public background: string
 
   private getUsedOutputLayersInOrder(): Tv2OutputLayer[] {
     const outputLayersInOrder: Tv2OutputLayer[] = this.outputLayerService.getOutputLayersInOrder()

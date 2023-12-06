@@ -16,6 +16,8 @@ import {
   SegmentCreatedEvent,
   PartUpdatedEvent,
   PartDeletedEvent,
+  SegmentUnsyncedEvent,
+  PartUnsyncedEvent,
 } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs'
 import { Rundown } from '../models/rundown'
@@ -84,6 +86,8 @@ export class RundownStateService implements OnDestroy {
       this.rundownEventObserver.subscribeToPartCreation(this.createPartFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToPartUpdates(this.updatePartFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToPartDeletion(this.deletePartFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToSegmentUnsync(this.unsyncSegmentFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToPartUnsynced(this.unsyncPartFromEvent.bind(this)),
     ]
   }
 
@@ -159,6 +163,15 @@ export class RundownStateService implements OnDestroy {
     rundownSubject.next(updatedRundown)
   }
 
+  private unsyncSegmentFromEvent(event: SegmentUnsyncedEvent): void {
+    const rundownSubject = this.getRundownSubject(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
+    const updateRundown: Rundown = this.rundownEntityService.unsyncRundownSegment(rundownSubject.value, event.unsyncedSegment, event.originalSegmentId)
+    rundownSubject.next(updateRundown)
+  }
+
   private createPartFromEvent(event: PartCreatedEvent): void {
     const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject) {
@@ -182,8 +195,17 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject) {
       return
     }
-    const updateRundown: Rundown = this.rundownEntityService.removeRundownPart(rundownSubject.value, event.segmentId, event.partId)
-    rundownSubject.next(updateRundown)
+    const updatedRundown: Rundown = this.rundownEntityService.removeRundownPart(rundownSubject.value, event.segmentId, event.partId)
+    rundownSubject.next(updatedRundown)
+  }
+
+  public unsyncPartFromEvent(event: PartUnsyncedEvent): void {
+    const rundownSubject = this.getRundownSubject(event.rundownId)
+    if (!rundownSubject) {
+      return
+    }
+    const updatedRundown: Rundown = this.rundownEntityService.unsyncRundownPart(rundownSubject.value, event.part)
+    rundownSubject.next(updatedRundown)
   }
 
   private resetRundownFromEvent(event: RundownResetEvent): void {

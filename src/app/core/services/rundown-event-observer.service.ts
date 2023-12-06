@@ -21,6 +21,8 @@ import {
   PartCreatedEvent,
   PartUpdatedEvent,
   PartDeletedEvent,
+  SegmentUnsyncedEvent,
+  PartUnsyncedEvent,
 } from '../models/rundown-event'
 import { Logger } from '../abstractions/logger.service'
 
@@ -126,6 +128,13 @@ export class RundownEventObserver {
     )
   }
 
+  public subscribeToSegmentUnsync(onSegmentUnsync: (event: SegmentUnsyncedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(
+      RundownEventType.SEGMENT_UNSYNCED,
+      this.createEventValidatingConsumer(onSegmentUnsync, this.rundownEventParser.parseSegmentUnsyncedEvent.bind(this.rundownEventParser))
+    )
+  }
+
   public subscribeToPartCreation(onPartCreated: (event: PartCreatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(RundownEventType.PART_CREATED, this.createEventValidatingConsumer(onPartCreated, this.rundownEventParser.parsePartCreatedEvent.bind(this.rundownEventParser)))
   }
@@ -136,6 +145,13 @@ export class RundownEventObserver {
 
   public subscribeToPartDeletion(onPartDeleted: (event: PartDeletedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(RundownEventType.PART_DELETED, this.createEventValidatingConsumer(onPartDeleted, this.rundownEventParser.parsePartDeletedEvent.bind(this.rundownEventParser)))
+  }
+
+  public subscribeToPartUnsynced(onPartUnsynced: (event: PartUnsyncedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(
+      RundownEventType.PART_UNSYNCED,
+      this.createEventValidatingConsumer(onPartUnsynced, this.rundownEventParser.parsePartUnsyncedEvent.bind(this.rundownEventParser))
+    )
   }
 
   private createEventValidatingConsumer<T>(consumer: (event: T) => void, parser: (maybeEvent: unknown) => T): EventConsumer {

@@ -25,9 +25,11 @@ export class TestEntityFactory {
       id: 'segment-id',
       rundownId: 'rundown-id',
       name: 'Segment',
+      rank: 0,
       isNext: false,
       isOnAir: false,
       isUntimed: false,
+      isUnsynced: false,
       parts: [],
       ...segment,
     }
@@ -37,6 +39,7 @@ export class TestEntityFactory {
     return {
       id: 'part-id',
       segmentId: 'segment-id',
+      rank: 0,
       isNext: false,
       isOnAir: false,
       pieces: [],
@@ -44,6 +47,7 @@ export class TestEntityFactory {
       playedDuration: 0,
       isPlanned: true,
       isUntimed: false,
+      isUnsynced: false,
       ...part,
     }
   }
