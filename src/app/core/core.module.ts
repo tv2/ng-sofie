@@ -27,6 +27,8 @@ import { Logger } from './abstractions/logger.service'
 import { Tv2LoggerService } from './services/tv2-logger.service'
 import { RundownTimingService } from './services/rundown-timing.service'
 import { RundownTimingContextStateService } from './services/rundown-timing-context-state.service'
+import { ResponseParser } from './abstractions/response-parser.service'
+import { ZodResponseParser } from './parsers/zod-response-parser.service'
 
 @NgModule({
   declarations: [],
@@ -45,6 +47,7 @@ import { RundownTimingContextStateService } from './services/rundown-timing-cont
     ShowStyleVariantStateService,
     { provide: RundownEventParser, useClass: ZodRundownEventParser },
     { provide: EntityParser, useClass: ZodEntityParser },
+    { provide: ResponseParser, useClass: ZodResponseParser },
     { provide: Logger, useClass: Tv2LoggerService },
     RundownEntityService,
     BasicRundownEntityService,
