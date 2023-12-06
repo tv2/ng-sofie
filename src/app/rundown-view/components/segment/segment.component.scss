@@ -35,6 +35,11 @@
     background: black;
     padding: 6px;
 
+    &--unsynced {
+      background: yellow;
+      color: black;
+    }
+
     .segment-identifier {
       flex: 1;
     }

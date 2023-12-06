@@ -19,4 +19,14 @@
       background-color: rgba(26,26,26, .8);
     }
   }
+
+  .unsynced {
+    background: repeating-linear-gradient(
+                    120deg,
+                    #1f1f1b,
+                    #1f1f1b 10px,
+                    yellow 10px,
+                    yellow 20px
+    );
+  }
 }
