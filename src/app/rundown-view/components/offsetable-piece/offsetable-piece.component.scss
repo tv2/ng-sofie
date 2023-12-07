@@ -5,6 +5,7 @@
   overflow: visible;
 
   .label {
+    position: relative;
     display: block;
 
     height: 22px;
@@ -16,6 +17,7 @@
     text-shadow: rgba(0,0,0, 0.8) 0 0 8px;
     text-overflow: ellipsis;
     white-space: nowrap;
+    z-index: 11;
   }
 
   &.camera {
