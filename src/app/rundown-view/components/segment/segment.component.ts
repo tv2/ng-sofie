@@ -40,6 +40,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   public outputLayers: Tv2OutputLayer[] = []
 
   public expectedDurationInMs: number = 0
+  public roundedDurationInMsUntilSegmentIsPutOnAir?: number
 
   public pixelsPerSecond: number = INITIAL_PIXELS_PER_SECOND
   public get isAtMinimumZoomLevel(): boolean {
@@ -78,6 +79,10 @@ export class SegmentComponent implements OnChanges, OnDestroy {
       this.hasRemotePiece = this.segment.parts.some(part => this.hasPartRemotePiece(part))
       this.expectedDurationInMs =
         this.segment.expectedDurationInMs ?? this.segment.parts.reduce((sumOfExpectedDurationsInMsForParts, part) => sumOfExpectedDurationsInMsForParts + (part.expectedDuration ?? 0), 0)
+    }
+
+    if ('durationInMsUntilSegmentIsPutOnAir' in changes) {
+      this.roundedDurationInMsUntilSegmentIsPutOnAir = this.durationInMsUntilSegmentIsPutOnAir !== undefined ? 1000 * Math.ceil(this.durationInMsUntilSegmentIsPutOnAir / 1000) : undefined
     }
   }
 

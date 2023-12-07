@@ -4,6 +4,17 @@
   "newProjectRoot": "projects",
   "projects": {
     "ng-sofie": {
+      "i18n": {
+        "sourceLocale": "en-x-source",
+        "locales": {
+          "da": {
+            "translation": "src/locale/messages.da.xlf"
+          },
+          "en-US": {
+            "translation": "src/locale/messages.en-US.xlf"
+          }
+        }
+      },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,6 +28,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "localize": true,
+            "aot": true,
+            "i18nMissingTranslation": "error",
             "outputPath": "dist/ng-sofie",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -34,6 +48,12 @@
             "scripts": []
           },
           "configurations": {
+            "da": {
+              "localize": ["da"]
+            },
+            "en-US": {
+              "localize": ["en-US"]
+            },
             "production": {
               "tsConfig": "./tsconfig.build.json",
               "budgets": [
@@ -77,18 +97,24 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ng-sofie:build:production"
+              "browserTarget": "ng-sofie:build:production,en-US"
             },
             "development": {
-              "browserTarget": "ng-sofie:build:development"
+              "browserTarget": "ng-sofie:build:development,en-US"
             }
           },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "ng-extract-i18n-merge:ng-extract-i18n-merge",
           "options": {
-            "browserTarget": "ng-sofie:build"
+            "browserTarget": "ng-sofie:build",
+            "format": "xlf",
+            "outputPath": "src/locale",
+            "targetFiles": [
+              "messages.da.xlf",
+              "messages.en-US.xlf"
+            ]
           }
         },
         "test": {
