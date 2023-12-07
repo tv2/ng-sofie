@@ -6,7 +6,6 @@ import { HttpErrorService } from './http-error.service'
 import { Rundown } from '../models/rundown'
 import { EntityParser } from '../abstractions/entity-parser.service'
 import { environment } from '../../../environments/environment'
-import { ResponseParser } from '../abstractions/response-parser.service'
 
 const RUNDOWN_URL: string = `${environment.apiBaseUrl}/rundowns`
 
@@ -15,25 +14,14 @@ export class HttpRundownService implements RundownService {
   constructor(
     private readonly http: HttpClient,
     private readonly httpErrorService: HttpErrorService,
-    private readonly entityParser: EntityParser,
-    private readonly responseParser: ResponseParser
+    private readonly entityParser: EntityParser
   ) {}
 
   public fetchRundown(rundownId: string): Observable<Rundown> {
-    return this.http.get<unknown>(`${RUNDOWN_URL}/${rundownId}`).pipe(
-      map(this.responseParser.parseResponse.bind(this.responseParser)),
-      map(this.assertType.bind(this)),
+    return this.http.get<{ data: unknown }>(`${RUNDOWN_URL}/${rundownId}`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
-      map(data => this.entityParser.parseRundown(data.rundown))
+      map(data => this.entityParser.parseRundown(data.data))
     )
-  }
-
-  private assertType(data: unknown): { rundown: unknown } {
-    if (data && typeof data === 'object' && 'rundown' in data) {
-      return data as { rundown: unknown }
-    }
-    // TODO: do we use 'HttpRundownService.prototype.fetchRundown.name' in frontend outside tests?
-    throw new Error("Response data for fetchRundown doesn't match expected type")
   }
 
   public activate(rundownId: string): Observable<void> {

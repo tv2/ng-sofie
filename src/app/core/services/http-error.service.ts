@@ -4,7 +4,6 @@ import { HttpErrorResponse } from '@angular/common/http'
 import { EMPTY, Observable } from 'rxjs'
 import { Logger } from '../abstractions/logger.service'
 
-//TODO: should this still have 'Http' in its name, as it is capable of handling normal errors?
 @Injectable()
 export class HttpErrorService {
   constructor(
@@ -12,13 +11,9 @@ export class HttpErrorService {
     private readonly logger: Logger
   ) {}
 
-  public catchError(error: unknown): Observable<never> {
+  public catchError(error: HttpErrorResponse): Observable<never> {
     this.logger.data(error).error('Caught Error:')
-    if (error instanceof HttpErrorResponse) {
-      this.openSnackBarIfError(error)
-    } else if (error instanceof Error) {
-      this.openDangerSnackbar(error)
-    }
+    this.openSnackBarIfError(error)
     return EMPTY
   }
 
@@ -40,11 +35,5 @@ export class HttpErrorService {
     }
     // Unknown status - using default CSS
     return ''
-  }
-
-  private openDangerSnackbar(error: Error): void {
-    this.snackBar.open(error.message, 'DISMISS', {
-      panelClass: 'snackbar-danger',
-    })
   }
 }
