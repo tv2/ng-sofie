@@ -105,7 +105,7 @@ export class RundownEventObserver {
         const activationEvent: T = parser(event)
         consumer(activationEvent)
       } catch (error) {
-        this.logger.data({ error, event }).error('Failed to parse activation event.')
+        this.logger.data({ error, event }).error('Failed to parse Rundown event.')
       }
     }
   }

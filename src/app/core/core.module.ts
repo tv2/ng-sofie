@@ -27,6 +27,10 @@ import { Logger } from './abstractions/logger.service'
 import { Tv2LoggerService } from './services/tv2-logger.service'
 import { RundownTimingService } from './services/rundown-timing.service'
 import { RundownTimingContextStateService } from './services/rundown-timing-context-state.service'
+import { ActionTriggerStateService } from './services/action-trigger-state.service'
+import { ActionTriggerEventObserver } from './models/action-trigger-event-observer.service'
+import { ActionTriggerEventParser } from './abstractions/action-trigger-event-parser'
+import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-parser.service'
 
 @NgModule({
   declarations: [],
@@ -52,6 +56,9 @@ import { RundownTimingContextStateService } from './services/rundown-timing-cont
     PartEntityService,
     RundownTimingService,
     RundownTimingContextStateService,
+    ActionTriggerStateService,
+    ActionTriggerEventObserver,
+    { provide: ActionTriggerEventParser, useClass: ZodActionTriggerEventParser }
   ],
 })
 export class CoreModule extends EnsureLoadedOnceGuard {
