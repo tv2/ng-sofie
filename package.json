@@ -10,7 +10,9 @@
     "test:ci": "ng test --browsers=ChromeHeadless --watch=false",
     "lint": "ng lint",
     "lint-fix": "ng lint --fix",
-    "validate": "yarn npm audit --environment production --severity moderate"
+    "validate": "yarn npm audit --environment production --severity moderate",
+    "clean": "rimraf dist",
+    "reset": "rimraf dist node_modules coverage"
   },
   "private": true,
   "dependencies": {
@@ -60,6 +62,7 @@
     "ng-extract-i18n-merge": "2.8.3",
     "prettier": "^3.0.3",
     "prettier-eslint": "^15.0.1",
+    "rimraf": "^5.0.5",
     "typescript": "~4.7.2"
   },
   "packageManager": "yarn@3.6.3"
