@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+  <file source-language="en-x-source" datatype="plaintext" original="ng2.template">
     <body>
       <trans-unit id="608129622036865992" datatype="html">
         <source>rundown-overview.rundown-overview.title</source>
@@ -46,6 +46,9 @@
       </trans-unit>
       <trans-unit id="221700254079718655" datatype="html">
         <source>rundown-overview-component.rundown-overview.loading-rundowns.message</source>
+      </trans-unit>
+      <trans-unit id="9014307158606167673" datatype="html">
+        <source>header-component.status.label</source>
       </trans-unit>
     </body>
   </file>

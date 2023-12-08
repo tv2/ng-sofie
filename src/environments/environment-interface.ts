@@ -5,4 +5,5 @@ export interface Environment {
   apiBaseUrl: string
   logLevel: LogLevel
   eventStreamUrl: string
+  oldSofieBaseUrl: string
 }

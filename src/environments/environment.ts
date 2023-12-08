@@ -10,6 +10,7 @@ export const environment: Environment = {
   apiBaseUrl: 'http://localhost:3005/api',
   logLevel: LogLevel.DEBUG,
   eventStreamUrl: 'ws://localhost:3006',
+  oldSofieBaseUrl: 'http://localhost:3000',
 }
 
 /*

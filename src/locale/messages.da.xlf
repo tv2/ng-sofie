@@ -15,7 +15,7 @@
         <target>Tjek din forbindelse og om du har konfigureret Ingest Gateway.</target>
       </trans-unit>
       <trans-unit id="172210689759305381" datatype="html">
-        <source>rundown-overview.rundown-overview.title</source>
+        <source>rundown-overview-component.rundown-label</source>
         <target>Rundown</target>
       </trans-unit>
       <trans-unit id="4359206169774515973" datatype="html">
@@ -24,7 +24,7 @@
       </trans-unit>
       <trans-unit id="770901610469150867" datatype="html">
         <source>confirmation-dialog.are-you-sure.title</source>
-        <target state="new">Er du sikker?</target>
+        <target>Er du sikker?</target>
       </trans-unit>
       <trans-unit id="2002860888965051390" datatype="html">
         <source>confirmation-dialog.yes.button</source>
@@ -44,7 +44,7 @@
       </trans-unit>
       <trans-unit id="3796920100771349539" datatype="html">
         <source>rundown-overview-component.deletion-dialog-question &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;</source>
-        <target state="new">Er du sikker på at du vil slette Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Vær opmærksom på: Denne handling er uoprettelig!</target>
+        <target>Er du sikker på at du vil slette Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Vær opmærksom på: Denne handling er uoprettelig!</target>
       </trans-unit>
       <trans-unit id="5314808199366684814" datatype="html">
         <source>rundown-overview-component.deletion-dialog.delete-button</source>
@@ -60,7 +60,11 @@
       </trans-unit>
       <trans-unit id="221700254079718655" datatype="html">
         <source>rundown-overview-component.rundown-overview.loading-rundowns.message</source>
-        <target state="new">rundown-overview-component.rundown-overview.loading-rundowns.message</target>
+        <target>Indlæser rundowns...</target>
+      </trans-unit>
+      <trans-unit id="9014307158606167673" datatype="html">
+        <source>header-component.status.label</source>
+        <target>Status</target>
       </trans-unit>
     </body>
   </file>
