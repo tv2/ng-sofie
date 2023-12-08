@@ -20,7 +20,7 @@ export class HttpShowStyleVariantService implements ShowStyleVariantService {
   public getShowStyleVariant(rundownId: string): Observable<ShowStyleVariant> {
     return this.http.get<{ data: unknown }>(`${CONFIGURATION_URL}/rundowns/${rundownId}`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
-      map(data => this.entityParser.parseShowStyleVariant(data.data))
+      map(response => this.entityParser.parseShowStyleVariant(response.data))
     )
   }
 }

@@ -19,7 +19,7 @@ export class HttpActionService implements ActionService {
     const url: string = this.getGetActionsUrl(rundownId)
     return this.http.get<{ data: unknown }>(url).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
-      map(data => this.actionParser.parseActions(data.data))
+      map(response => this.actionParser.parseActions(response.data))
     )
   }
 

@@ -18,7 +18,7 @@ export class HttpBasicRundownService implements BasicRundownService {
   public fetchBasicRundowns(): Observable<BasicRundown[]> {
     return this.http.get<{ data: unknown }>(`${environment.apiBaseUrl}/rundowns/basic`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
-      map(data => this.entityParser.parseBasicRundowns(data.data)) // TODO: Catch this and display/log it
+      map(response => this.entityParser.parseBasicRundowns(response.data)) // TODO: Catch this and display/log it
     )
   }
 }
