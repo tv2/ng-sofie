@@ -12,7 +12,8 @@
     "lint-fix": "ng lint --fix",
     "validate": "yarn npm audit --environment production --severity moderate",
     "clean": "rimraf dist",
-    "reset": "rimraf dist node_modules coverage"
+    "reset": "rimraf dist node_modules coverage",
+    "extract-translations": "ng extract-i18n"
   },
   "private": true,
   "dependencies": {

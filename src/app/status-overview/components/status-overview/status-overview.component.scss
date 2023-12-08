@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .clip-mask {
+    flex: 1;
+    overflow: hidden;
+  }
+
+  iframe {
+    width: 100%;
+    border: none;
+    margin-top: -70px;
+    height: calc(100% + 70px);
+  }
+}
