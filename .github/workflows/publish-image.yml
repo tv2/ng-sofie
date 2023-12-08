@@ -32,4 +32,4 @@ jobs:
           context: '.'
           push: true
           tags: |
-            'tv2media/sofie-web-client:${{ inputs.versionTag }}'
+            tv2media/sofie-web-client:${{ inputs.versionTag }}
