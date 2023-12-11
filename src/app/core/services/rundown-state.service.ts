@@ -75,7 +75,6 @@ export class RundownStateService implements OnDestroy {
 
   private subscribeToRundownEvents(): EventSubscription[] {
     return [
-      //TODO: ADD RUNDOWN DELETED (RETURN UNDEFINED RUNDOWN) AND RUNDOWN CREATED EVENTS)
       this.rundownEventObserver.subscribeToRundownActivation(this.activateRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownDeactivation(this.deactivateRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownCreation(this.createRundownFromEvent.bind(this)),
