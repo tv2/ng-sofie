@@ -27,9 +27,9 @@ export class HttpActionService implements ActionService {
     return `${environment.apiBaseUrl}/actions/rundowns/${rundownId}`
   }
 
-  public executeAction(actionId: string, rundownId: string): Observable<void> {
+  public executeAction(actionId: string, rundownId: string, actionArguments?: unknown): Observable<void> {
     const url: string = this.getExecuteActionUrl(actionId, rundownId)
-    return this.http.put(url, { actionId, rundownId }).pipe(
+    return this.http.put(url, { actionArguments }).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
       map(() => undefined)
     )

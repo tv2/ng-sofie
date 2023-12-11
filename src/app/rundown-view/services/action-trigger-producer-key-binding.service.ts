@@ -24,7 +24,8 @@ const VIDEO_CLIP_COLOR: string = '#1769ff'
 const GRAPHICS_COLOR: string = '#ca9d00'
 
 interface KeyboardTriggerData {
-  keys: Keys
+  keys: Keys,
+  actionArguments?: unknown
 }
 
 @Injectable()
@@ -123,7 +124,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     return {
       keys: actionTrigger.data.keys,
       label: action.name,
-      onMatched: () => this.actionService.executeAction(action.id, rundownId).subscribe(), // TODO: Action parameters
+      onMatched: () => this.actionService.executeAction(action.id, rundownId, actionTrigger.data.actionArguments).subscribe(),
       shouldMatchOnKeyRelease: true,
       shouldPreventDefaultBehaviourOnKeyPress: true,
       shouldPreventDefaultBehaviourForPartialMatches: true,
