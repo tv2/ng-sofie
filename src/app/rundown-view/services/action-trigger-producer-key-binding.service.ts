@@ -64,11 +64,13 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
       .subscribeToRundownActions(rundownId)
       .then(observable => observable.subscribe(actions => this.onActionsChanged(actions)))
       .then(subscription => (this.actionSubscription = subscription))
+      .catch(error => this.logger.data(error).error('Error while listening to Action events'))
 
     this.rundownStateService
       .subscribeToRundown(rundownId)
       .then(observable => observable.subscribe(rundown => this.onRundownChanged(rundown)))
       .then(subscription => (this.rundownSubscription = subscription))
+      .catch(error => this.logger.data(error).error('Error while listening to Rundown events'))
   }
 
   private onActionTriggersChanged(actionTriggers: ActionTrigger[]): void {
@@ -164,7 +166,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     this.emitNewKeybindings()
   }
 
-  private setValidActions(actions: Action[]) {
+  private setValidActions(actions: Action[]): void {
     this.actions = actions.reduce((tv2Actions: Tv2Action[], action: Action) => {
       try {
         return [...tv2Actions, this.actionParser.parseTv2Action(action)]
