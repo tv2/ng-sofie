@@ -12,7 +12,7 @@
     "lint-fix": "ng lint --fix",
     "validate": "yarn npm audit --environment production --severity moderate",
     "clean": "rimraf dist",
-    "reset": "rimraf dist node_modules coverage && rimraf *.log",
+    "reset": "rimraf *.log && rimraf dist node_modules coverage",
     "extract-translations": "ng extract-i18n"
   },
   "private": true,
