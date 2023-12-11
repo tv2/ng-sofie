@@ -6,7 +6,7 @@ import {
   RundownActivatedEvent,
   RundownDeactivatedEvent,
   RundownDeletedEvent,
-  RundownInfinitePieceAddedEvent,
+  RundownInfinitePiecesUpdatedEvent,
   RundownResetEvent,
   PartSetAsNextEvent,
   PartTakenEvent,
@@ -61,9 +61,9 @@ export class RundownEventObserver {
     return this.eventObserver.subscribe(RundownEventType.SET_NEXT, this.createEventValidatingConsumer(onSetNext, this.rundownEventParser.parseSetNextEvent.bind(this.rundownEventParser)))
   }
 
-  public subscribeToRundownInfinitePieceAdded(onInfinitePieceAdded: (event: RundownInfinitePieceAddedEvent) => void): EventSubscription {
+  public subscribeToRundownInfinitePieceAdded(onInfinitePieceAdded: (event: RundownInfinitePiecesUpdatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
-      RundownEventType.INFINITE_PIECE_ADDED,
+      RundownEventType.INFINITE_PIECES_UPDATED,
       this.createEventValidatingConsumer(onInfinitePieceAdded, this.rundownEventParser.parseInfinitePieceAddedEvent.bind(this.rundownEventParser))
     )
   }

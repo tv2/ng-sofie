@@ -83,10 +83,10 @@ export class RundownEntityService {
     return segments.map(segment => (segment.id === rundownCursor.segmentId ? this.segmentEntityService.setAsNextSegment(segment, rundownCursor.partId) : segment))
   }
 
-  public addInfinitePiece(rundown: Rundown, infinitePieceToAdd: Piece): Rundown {
+  public updateInfinitePieces(rundown: Rundown, infinitePieces: Piece[]): Rundown {
     return {
       ...rundown,
-      infinitePieces: [...rundown.infinitePieces.filter(infinitePiece => infinitePiece.id !== infinitePieceToAdd.id), infinitePieceToAdd],
+      infinitePieces: [...infinitePieces],
     }
   }
 

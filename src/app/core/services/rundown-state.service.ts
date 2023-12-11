@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core'
 import {
-  RundownInfinitePieceAddedEvent,
+  RundownInfinitePiecesUpdatedEvent,
   PartSetAsNextEvent,
   RundownResetEvent,
   PartTakenEvent,
@@ -83,7 +83,7 @@ export class RundownStateService implements OnDestroy {
       this.rundownEventObserver.subscribeToRundownReset(this.resetRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownTake(this.takePartInRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownSetNext(this.setNextPartInRundownFromEvent.bind(this)),
-      this.rundownEventObserver.subscribeToRundownInfinitePieceAdded(this.addInfinitePieceToRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownInfinitePieceAdded(this.updateInfinitePiecesFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownPartInsertedAsOnAir(this.insertPartAsOnAirFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownPartInsertedAsNext(this.insertPartAsNextFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownPieceInserted(this.insertPieceFromEvent.bind(this)),
@@ -269,12 +269,12 @@ export class RundownStateService implements OnDestroy {
     rundownSubject.next(progressedRundown)
   }
 
-  private addInfinitePieceToRundownFromEvent(event: RundownInfinitePieceAddedEvent): void {
+  private updateInfinitePiecesFromEvent(event: RundownInfinitePiecesUpdatedEvent): void {
     const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject || !rundownSubject.value) {
       return
     }
-    const rundownWithPiece: Rundown = this.rundownEntityService.addInfinitePiece(rundownSubject.value, event.infinitePiece)
+    const rundownWithPiece: Rundown = this.rundownEntityService.updateInfinitePieces(rundownSubject.value, event.infinitePieces)
     rundownSubject.next(rundownWithPiece)
   }
 
