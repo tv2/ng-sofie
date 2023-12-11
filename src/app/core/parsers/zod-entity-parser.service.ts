@@ -1,4 +1,4 @@
-import { EntityParser } from '../../shared/abstractions/entity-parser.service'
+import { EntityParser } from '../abstractions/entity-parser.service'
 import { BasicRundown } from '../models/basic-rundown'
 import { Part } from '../models/part'
 import { Rundown } from '../models/rundown'

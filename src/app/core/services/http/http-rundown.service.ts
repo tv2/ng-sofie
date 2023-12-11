@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { catchError, map, Observable } from 'rxjs'
 import { RundownService } from '../../abstractions/rundown.service'
-import { HttpErrorService } from './http-error.service'
-import { Rundown } from '../../../core/models/rundown'
+import { HttpErrorService } from '../../../shared/services/http/http-error.service'
+import { Rundown } from '../../models/rundown'
 import { EntityParser } from '../../abstractions/entity-parser.service'
 import { environment } from '../../../../environments/environment'
-import { HttpResponse } from './http-response'
+import { HttpResponse } from '../../../shared/services/http/http-response'
 
 const RUNDOWN_URL: string = `${environment.apiBaseUrl}/rundowns`
 

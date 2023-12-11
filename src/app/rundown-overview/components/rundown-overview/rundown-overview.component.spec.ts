@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { RundownOverviewComponent } from './rundown-overview.component'
 import { instance, mock } from '@typestrong/ts-mockito'
-import { RundownService } from '../../../shared/abstractions/rundown.service'
+import { RundownService } from '../../../core/abstractions/rundown.service'
 import { DialogService } from '../../../shared/services/dialog.service'
 import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
 import { Logger } from '../../../core/abstractions/logger.service'

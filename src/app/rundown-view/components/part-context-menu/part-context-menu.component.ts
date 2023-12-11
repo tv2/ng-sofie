@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { Part } from '../../../core/models/part'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
-import { RundownService } from '../../../shared/abstractions/rundown.service'
+import { RundownService } from '../../../core/abstractions/rundown.service'
 
 @Component({
   selector: 'sofie-part-context-menu',

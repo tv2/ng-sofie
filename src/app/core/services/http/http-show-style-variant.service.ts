@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { catchError, map, Observable } from 'rxjs'
-import { HttpErrorService } from './http-error.service'
+import { HttpErrorService } from '../../../shared/services/http/http-error.service'
 import { EntityParser } from '../../abstractions/entity-parser.service'
 import { ShowStyleVariantService } from '../../abstractions/show-style-variant.service'
-import { ShowStyleVariant } from '../../../core/models/show-style-variant'
+import { ShowStyleVariant } from '../../models/show-style-variant'
 import { environment } from '../../../../environments/environment'
-import { HttpResponse } from './http-response'
+import { HttpResponse } from '../../../shared/services/http/http-response'
 
 const CONFIGURATION_URL: string = `${environment.apiBaseUrl}/configurations`
 

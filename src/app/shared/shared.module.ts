@@ -35,16 +35,10 @@ import { Tv2ActionPanelComponent } from './components/tv2-action-panel/tv2-actio
 import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-card.component'
 import { TimerPipe } from './pipes/timer/timer.pipe'
 import { MatSelectModule } from '@angular/material/select'
-import { ShowStyleVariantService } from './abstractions/show-style-variant.service'
-import { HttpShowStyleVariantService } from './services/http/http-show-style-variant.service'
-import { RundownService } from './abstractions/rundown.service'
-import { HttpRundownService } from './services/http/http-rundown.service'
-import { BasicRundownService } from './abstractions/basic-rundown.service'
-import { HttpBasicRundownService } from './services/http/http-basic-rundown.service'
 import { HttpClientModule } from '@angular/common/http'
 import { HttpErrorService } from './services/http/http-error.service'
-import { EntityParser } from './abstractions/entity-parser.service'
-import { ZodEntityParser } from '../core/parsers/zod-entity-parser.service'
+import { Logger } from '../core/abstractions/logger.service'
+import { Tv2LoggerService } from '../core/services/tv2-logger.service'
 
 @NgModule({
   declarations: [
@@ -94,12 +88,9 @@ import { ZodEntityParser } from '../core/parsers/zod-entity-parser.service'
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
     { provide: ActionService, useClass: HttpActionService },
-    { provide: ShowStyleVariantService, useClass: HttpShowStyleVariantService },
-    { provide: RundownService, useClass: HttpRundownService },
-    { provide: BasicRundownService, useClass: HttpBasicRundownService },
+    { provide: Logger, useClass: Tv2LoggerService },
     { provide: ActionParser, useClass: ZodActionParser },
     { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
-    { provide: EntityParser, useClass: ZodEntityParser },
     HttpErrorService,
     HttpClientModule,
     DialogService,

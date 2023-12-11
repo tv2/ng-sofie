@@ -1,9 +1,9 @@
-import { BasicRundown } from '../../core/models/basic-rundown'
-import { Rundown } from '../../core/models/rundown'
-import { Segment } from '../../core/models/segment'
-import { Part } from '../../core/models/part'
-import { Piece } from '../../core/models/piece'
-import { ShowStyleVariant } from '../../core/models/show-style-variant'
+import { BasicRundown } from '../models/basic-rundown'
+import { Rundown } from '../models/rundown'
+import { Segment } from '../models/segment'
+import { Part } from '../models/part'
+import { Piece } from '../models/piece'
+import { ShowStyleVariant } from '../models/show-style-variant'
 
 export abstract class EntityParser {
   public abstract parseBasicRundown(basicRundown: unknown): BasicRundown

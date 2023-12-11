@@ -15,7 +15,7 @@ import {
   RundownResetEvent,
   RundownUpdatedEvent,
 } from '../models/rundown-event'
-import { EntityParser } from '../../shared/abstractions/entity-parser.service'
+import { EntityParser } from '../abstractions/entity-parser.service'
 import { Piece } from '../models/piece'
 import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 import { RundownTimingType } from '../enums/rundown-timing-type'
