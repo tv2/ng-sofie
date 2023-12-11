@@ -3,7 +3,7 @@ import { RundownHeaderContextMenuComponent } from './rundown-header-context-menu
 import { Rundown } from '../../../core/models/rundown'
 import { instance, mock, when } from '@typestrong/ts-mockito'
 import { RouterModule } from '@angular/router'
-import { RundownService } from '../../../core/abstractions/rundown.service'
+import { RundownService } from '../../../shared/abstractions/rundown.service'
 import { DialogService } from '../../../shared/services/dialog.service'
 
 describe(RundownHeaderContextMenuComponent.name, () => {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { HttpErrorResponse } from '@angular/common/http'
 import { EMPTY, Observable } from 'rxjs'
-import { Logger } from '../abstractions/logger.service'
+import { Logger } from '../../../core/abstractions/logger.service'
 
 @Injectable()
 export class HttpErrorService {

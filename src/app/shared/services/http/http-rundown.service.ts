@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { catchError, map, Observable } from 'rxjs'
-import { RundownService } from '../abstractions/rundown.service'
+import { RundownService } from '../../abstractions/rundown.service'
 import { HttpErrorService } from './http-error.service'
-import { Rundown } from '../models/rundown'
-import { EntityParser } from '../abstractions/entity-parser.service'
-import { environment } from '../../../environments/environment'
+import { Rundown } from '../../../core/models/rundown'
+import { EntityParser } from '../../abstractions/entity-parser.service'
+import { environment } from '../../../../environments/environment'
+import { HttpResponse } from './http-response'
 
 const RUNDOWN_URL: string = `${environment.apiBaseUrl}/rundowns`
 
@@ -18,7 +19,7 @@ export class HttpRundownService implements RundownService {
   ) {}
 
   public fetchRundown(rundownId: string): Observable<Rundown> {
-    return this.http.get<{ data: unknown }>(`${RUNDOWN_URL}/${rundownId}`).pipe(
+    return this.http.get<HttpResponse<Rundown>>(`${RUNDOWN_URL}/${rundownId}`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
       map(response => this.entityParser.parseRundown(response.data))
     )

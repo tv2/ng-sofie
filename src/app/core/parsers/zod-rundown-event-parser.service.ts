@@ -15,7 +15,7 @@ import {
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
-import { EntityParser } from '../abstractions/entity-parser.service'
+import { EntityParser } from '../../shared/abstractions/entity-parser.service'
 import { RundownEventParser } from '../abstractions/rundown-event.parser'
 
 @Injectable()

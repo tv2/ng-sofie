@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { PartContextMenuComponent } from './part-context-menu.component'
-import { RundownService } from '../../../core/abstractions/rundown.service'
+import { RundownService } from '../../../shared/abstractions/rundown.service'
 import { instance, mock } from '@typestrong/ts-mockito'
 import { TestEntityFactory } from '../../../test/factories/test-entity.factory'
 

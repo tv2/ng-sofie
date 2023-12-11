@@ -1,6 +1,6 @@
 import { RundownStateService } from './rundown-state.service'
 import { instance, mock } from '@typestrong/ts-mockito'
-import { RundownService } from '../abstractions/rundown.service'
+import { RundownService } from '../../shared/abstractions/rundown.service'
 import { RundownEventObserver } from './rundown-event-observer.service'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { RundownEntityService } from './models/rundown-entity.service'

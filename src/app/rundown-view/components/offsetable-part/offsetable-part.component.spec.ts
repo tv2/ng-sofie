@@ -4,7 +4,7 @@ import { OffsetablePartComponent } from './offsetable-part.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { instance, mock, when } from '@typestrong/ts-mockito'
 import { Part } from '../../../core/models/part'
-import { RundownService } from '../../../core/abstractions/rundown.service'
+import { RundownService } from '../../../shared/abstractions/rundown.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Tv2PieceGroupService } from '../../services/tv2-piece-group.service'
 

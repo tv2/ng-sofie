@@ -12,7 +12,7 @@ import {
 } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs'
 import { Rundown } from '../models/rundown'
-import { RundownService } from '../abstractions/rundown.service'
+import { RundownService } from '../../shared/abstractions/rundown.service'
 import { RundownEventObserver } from './rundown-event-observer.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { ConnectionStatusObserver } from './connection-status-observer.service'

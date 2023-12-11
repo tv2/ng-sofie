@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core'
 import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs'
 import { ShowStyleVariant } from '../models/show-style-variant'
-import { ShowStyleVariantService } from '../abstractions/show-style-variant.service'
+import { ShowStyleVariantService } from '../../shared/abstractions/show-style-variant.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
-import { RundownService } from '../../../core/abstractions/rundown.service'
+import { RundownService } from '../../../shared/abstractions/rundown.service'
 import { Rundown } from '../../../core/models/rundown'
 import { DialogService } from '../../../shared/services/dialog.service'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'

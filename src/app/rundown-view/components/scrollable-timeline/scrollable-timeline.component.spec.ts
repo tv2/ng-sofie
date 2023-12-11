@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { ScrollableTimelineComponent } from './scrollable-timeline.component'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
-import { RundownService } from '../../../core/abstractions/rundown.service'
+import { RundownService } from '../../../shared/abstractions/rundown.service'
 import { instance, mock } from '@typestrong/ts-mockito'
 import { SharedModule } from '../../../shared/shared.module'
 

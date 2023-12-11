@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChange, Sim
 import { Part } from '../../../core/models/part'
 import { Segment } from '../../../core/models/segment'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
-import { RundownService } from '../../../core/abstractions/rundown.service'
+import { RundownService } from '../../../shared/abstractions/rundown.service'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
 import { Tv2PieceMetadata } from '../../../core/models/tv2-piece'
