@@ -13,11 +13,7 @@ describe(ActionTriggerStateService.name, () => {
     const connectionStatusObserver: ConnectionStatusObserver = mock(ConnectionStatusObserver)
     const actionTriggerEventObserver: ActionTriggerEventObserver = mock(ActionTriggerEventObserver)
 
-    const testee: ActionTriggerStateService = new ActionTriggerStateService(
-      instance(actionTriggerService),
-      instance(connectionStatusObserver),
-      instance(actionTriggerEventObserver)
-    )
+    const testee: ActionTriggerStateService = new ActionTriggerStateService(instance(actionTriggerService), instance(connectionStatusObserver), instance(actionTriggerEventObserver))
 
     expect(testee).toBeTruthy()
   })

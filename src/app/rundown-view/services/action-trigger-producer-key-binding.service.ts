@@ -24,20 +24,19 @@ const VIDEO_CLIP_COLOR: string = '#1769ff'
 const GRAPHICS_COLOR: string = '#ca9d00'
 
 interface KeyboardTriggerData {
-  keys: Keys,
+  keys: Keys
   actionArguments?: unknown
 }
 
 @Injectable()
 export class ActionTriggerProducerKeyBindingService implements KeyBindingService {
-
   private actions: Tv2Action[] = []
   private rundown?: Rundown
   private keyBindings: KeyBinding[] = []
   private readonly keyBindingsSubject: Subject<KeyBinding[]>
 
   private actionTriggers: ActionTrigger<KeyboardTriggerData>[] = []
-  private actionTriggersWithAction: Map<ActionTrigger<KeyboardTriggerData>, Tv2Action> = new Map()
+  private readonly actionTriggersWithAction: Map<ActionTrigger<KeyboardTriggerData>, Tv2Action> = new Map()
 
   private actionTriggerSubscription?: SubscriptionLike
   private actionSubscription?: SubscriptionLike
@@ -59,16 +58,17 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   }
 
   public init(rundownId: string): void {
-    this.actionTriggerSubscription =this.actionTriggerStateService.getActionTriggerObservable()
-      .subscribe(actionTriggers => this.onActionTriggersChanged(actionTriggers))
+    this.actionTriggerSubscription = this.actionTriggerStateService.getActionTriggerObservable().subscribe(actionTriggers => this.onActionTriggersChanged(actionTriggers))
 
-    this.actionStateService.subscribeToRundownActions(rundownId)
+    this.actionStateService
+      .subscribeToRundownActions(rundownId)
       .then(observable => observable.subscribe(actions => this.onActionsChanged(actions)))
-      .then(subscription => this.actionSubscription = subscription)
+      .then(subscription => (this.actionSubscription = subscription))
 
-    this.rundownStateService.subscribeToRundown(rundownId)
+    this.rundownStateService
+      .subscribeToRundown(rundownId)
       .then(observable => observable.subscribe(rundown => this.onRundownChanged(rundown)))
-      .then(subscription => this.rundownSubscription = subscription)
+      .then(subscription => (this.rundownSubscription = subscription))
   }
 
   private onActionTriggersChanged(actionTriggers: ActionTrigger[]): void {
@@ -78,9 +78,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   }
 
   private setValidKeyboardActionTriggers(actionTriggers: ActionTrigger[]): void {
-    this.actionTriggers = actionTriggers
-      .map(actionTrigger => actionTrigger as ActionTrigger<KeyboardTriggerData>)
-      .filter(actionTrigger => 'keys' in actionTrigger.data)
+    this.actionTriggers = actionTriggers.map(actionTrigger => actionTrigger as ActionTrigger<KeyboardTriggerData>).filter(actionTrigger => 'keys' in actionTrigger.data)
   }
 
   private mapActionTriggersToActions(): void {
@@ -171,7 +169,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
       try {
         return [...tv2Actions, this.actionParser.parseTv2Action(action)]
       } catch (error) {
-        this.logger.data({error, action}).warn('Received invalid Tv2Action')
+        this.logger.data({ error, action }).warn('Received invalid Tv2Action')
       }
       return tv2Actions
     }, [] as Tv2Action[])

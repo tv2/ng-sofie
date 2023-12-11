@@ -1,19 +1,14 @@
-import { Injectable, OnDestroy } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { ActionTrigger } from '../../shared/models/action-trigger'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { ActionTriggerService } from '../../shared/abstractions/action-trigger-service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
-import {
-  ActionTriggerCreatedEvent,
-  ActionTriggerDeletedEvent,
-  ActionTriggerUpdatedEvent
-} from '../models/action-trigger-event'
+import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpdatedEvent } from '../models/action-trigger-event'
 import { ActionTriggerEventObserver } from '../models/action-trigger-event-observer.service'
 
 @Injectable()
 export class ActionTriggerStateService {
-
   private readonly actionTriggerSubject: BehaviorSubject<ActionTrigger[]> = new BehaviorSubject<ActionTrigger[]>([])
 
   private readonly subscriptions: EventSubscription[] = []
@@ -29,8 +24,7 @@ export class ActionTriggerStateService {
   }
 
   private resetActionTriggers(): void {
-    this.actionTriggerService.getActionTriggers()
-      .subscribe(actionTriggers => this.actionTriggerSubject.next(actionTriggers))
+    this.actionTriggerService.getActionTriggers().subscribe(actionTriggers => this.actionTriggerSubject.next(actionTriggers))
   }
 
   private subscribeToActionTriggerEvents(): void {

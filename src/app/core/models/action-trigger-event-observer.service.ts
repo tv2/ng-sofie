@@ -1,10 +1,5 @@
-import { Injectable } from '@angular/core';
-import {
-  EventConsumer,
-  EventObserver,
-  EventSubscription,
-  TypedEvent
-} from '../../event-system/abstractions/event-observer.service'
+import { Injectable } from '@angular/core'
+import { EventConsumer, EventObserver, EventSubscription, TypedEvent } from '../../event-system/abstractions/event-observer.service'
 import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpdatedEvent } from './action-trigger-event'
 import { ActionTriggerEventType } from './action-trigger-event-type'
 import { ActionTriggerEventParser } from '../abstractions/action-trigger-event-parser'
@@ -12,7 +7,6 @@ import { Logger } from '../abstractions/logger.service'
 
 @Injectable()
 export class ActionTriggerEventObserver {
-
   private readonly logger: Logger
 
   constructor(

@@ -58,7 +58,7 @@ import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-
     RundownTimingContextStateService,
     ActionTriggerStateService,
     ActionTriggerEventObserver,
-    { provide: ActionTriggerEventParser, useClass: ZodActionTriggerEventParser }
+    { provide: ActionTriggerEventParser, useClass: ZodActionTriggerEventParser },
   ],
 })
 export class CoreModule extends EnsureLoadedOnceGuard {
