@@ -1,5 +1,5 @@
-export interface ActionTrigger {
+export interface ActionTrigger<Data = unknown> {
   id: string
   actionId: string
-  data?: unknown
+  data: Data
 }

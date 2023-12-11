@@ -12,7 +12,7 @@ import {
 import { ActionTriggerEventObserver } from '../models/action-trigger-event-observer.service'
 
 @Injectable()
-export class ActionTriggerStateService implements OnDestroy {
+export class ActionTriggerStateService {
 
   private readonly actionTriggerSubject: BehaviorSubject<ActionTrigger[]> = new BehaviorSubject<ActionTrigger[]>([])
 
@@ -77,7 +77,7 @@ export class ActionTriggerStateService implements OnDestroy {
     return this.actionTriggerSubject.asObservable()
   }
 
-  public ngOnDestroy(): void {
+  public destroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe)
   }
 }

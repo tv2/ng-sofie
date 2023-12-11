@@ -18,7 +18,7 @@ export class ZodActionTriggerEventParser implements ActionTriggerEventParser {
       actionTrigger: zod.object({
         id: zod.string(),
         actionId: zod.string(),
-        data: zod.unknown()
+        data: zod.object({}).passthrough()
       })
     }).parse(event)
   }
@@ -30,7 +30,7 @@ export class ZodActionTriggerEventParser implements ActionTriggerEventParser {
       actionTrigger: zod.object({
         id: zod.string(),
         actionId: zod.string(),
-        data: zod.unknown()
+        data: zod.object({}).passthrough()
       })
     }).parse(event)
   }
