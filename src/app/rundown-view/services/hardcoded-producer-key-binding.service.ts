@@ -77,7 +77,10 @@ export class HardcodedProducerKeyBindingService implements KeyBindingService {
     ]
   }
 
-  private onRundownChanged(rundown: Rundown): void {
+  private onRundownChanged(rundown: Rundown | undefined): void {
+    if (!rundown) {
+      return
+    }
     this.rundown = rundown
     this.keyBindings = this.createKeyBindings()
     this.keyBindingsSubject.next(this.keyBindings)
