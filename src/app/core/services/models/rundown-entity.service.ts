@@ -155,7 +155,7 @@ export class RundownEntityService {
   public insertPartInSegment(rundown: Rundown, part: Part): Rundown {
     const segmentForPartIndex: number = rundown.segments.findIndex(segment => segment.id === part.segmentId)
     rundown.segments[segmentForPartIndex].parts.push(part)
-    rundown.segments.sort((a, b) => a.rank - b.rank)
+    rundown.segments[segmentForPartIndex].parts.sort((a, b) => a.rank - b.rank)
     return rundown
   }
 
