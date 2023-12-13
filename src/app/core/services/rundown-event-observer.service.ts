@@ -61,10 +61,10 @@ export class RundownEventObserver {
     return this.eventObserver.subscribe(RundownEventType.SET_NEXT, this.createEventValidatingConsumer(onSetNext, this.rundownEventParser.parseSetNextEvent.bind(this.rundownEventParser)))
   }
 
-  public subscribeToRundownInfinitePieceAdded(onInfinitePieceAdded: (event: RundownInfinitePiecesUpdatedEvent) => void): EventSubscription {
+  public subscribeToRundownInfinitePiecesUpdated(onInfinitePiecesUpdated: (event: RundownInfinitePiecesUpdatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.INFINITE_PIECES_UPDATED,
-      this.createEventValidatingConsumer(onInfinitePieceAdded, this.rundownEventParser.parseInfinitePieceAddedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onInfinitePiecesUpdated, this.rundownEventParser.parseInfinitePiecesUpdatedEvent.bind(this.rundownEventParser))
     )
   }
 

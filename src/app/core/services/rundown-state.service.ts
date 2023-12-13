@@ -83,7 +83,7 @@ export class RundownStateService implements OnDestroy {
       this.rundownEventObserver.subscribeToRundownReset(this.resetRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownTake(this.takePartInRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownSetNext(this.setNextPartInRundownFromEvent.bind(this)),
-      this.rundownEventObserver.subscribeToRundownInfinitePieceAdded(this.updateInfinitePiecesFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownInfinitePiecesUpdated(this.updateInfinitePiecesFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownPartInsertedAsOnAir(this.insertPartAsOnAirFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownPartInsertedAsNext(this.insertPartAsNextFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownPieceInserted(this.insertPieceFromEvent.bind(this)),

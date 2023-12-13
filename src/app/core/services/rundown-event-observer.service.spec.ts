@@ -76,7 +76,7 @@ function createMockOfRundownEventParser(): RundownEventParser {
   when(mockedRundownEventParser.parseRundownResetEvent(anything())).thenCall(value => value)
   when(mockedRundownEventParser.parseTakenEvent(anything())).thenCall(value => value)
   when(mockedRundownEventParser.parseSetNextEvent(anything())).thenCall(value => value)
-  when(mockedRundownEventParser.parseInfinitePieceAddedEvent(anything())).thenCall(value => value)
+  when(mockedRundownEventParser.parseInfinitePiecesUpdatedEvent(anything())).thenCall(value => value)
   return mockedRundownEventParser
 }
 

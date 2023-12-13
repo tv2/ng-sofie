@@ -34,7 +34,7 @@ export abstract class RundownEventParser {
 
   public abstract parseSetNextEvent(event: unknown): PartSetAsNextEvent
 
-  public abstract parseInfinitePieceAddedEvent(event: unknown): RundownInfinitePiecesUpdatedEvent
+  public abstract parseInfinitePiecesUpdatedEvent(event: unknown): RundownInfinitePiecesUpdatedEvent
 
   public abstract parsePartInsertedAsOnAirEvent(event: unknown): RundownPartInsertedAsOnAirEvent
 

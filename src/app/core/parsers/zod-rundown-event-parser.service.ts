@@ -62,7 +62,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     partId: zod.string().min(1),
   })
 
-  private readonly rundownInfinitePieceAddedEventParser = zod.object({
+  private readonly rundownInfinitePiecesUpdatedEventParser = zod.object({
     type: zod.literal(RundownEventType.INFINITE_PIECES_UPDATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
@@ -228,8 +228,8 @@ export class ZodRundownEventParser implements RundownEventParser {
     return this.rundownSetNextEventParser.parse(event)
   }
 
-  public parseInfinitePieceAddedEvent(event: unknown): RundownInfinitePiecesUpdatedEvent {
-    return this.rundownInfinitePieceAddedEventParser.parse(event)
+  public parseInfinitePiecesUpdatedEvent(event: unknown): RundownInfinitePiecesUpdatedEvent {
+    return this.rundownInfinitePiecesUpdatedEventParser.parse(event)
   }
 
   public parsePartInsertedAsOnAirEvent(event: unknown): RundownPartInsertedAsOnAirEvent {

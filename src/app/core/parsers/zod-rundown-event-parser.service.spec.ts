@@ -166,7 +166,7 @@ describe(ZodRundownEventParser.name, () => {
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parseInfinitePieceAddedEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.parseInfinitePiecesUpdatedEvent.name, () => {
     it('parses a rundown infinite pieces updated event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
@@ -194,12 +194,12 @@ describe(ZodRundownEventParser.name, () => {
         ],
       }
 
-      const result = testee.parseInfinitePieceAddedEvent(event)
+      const result = testee.parseInfinitePiecesUpdatedEvent(event)
 
       expect(result).toEqual(event)
     })
 
-    it('does not parse a partial rundown infinite piece added event', () => {
+    it('does not parse a partial rundown infinite piece updated event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
       const event: Partial<RundownInfinitePiecesUpdatedEvent> = {
@@ -207,7 +207,7 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = (): RundownInfinitePiecesUpdatedEvent => testee.parseInfinitePieceAddedEvent(event)
+      const result = (): RundownInfinitePiecesUpdatedEvent => testee.parseInfinitePiecesUpdatedEvent(event)
 
       expect(result).toThrow()
     })
