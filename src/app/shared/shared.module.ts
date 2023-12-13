@@ -35,8 +35,10 @@ import { Tv2ActionPanelComponent } from './components/tv2-action-panel/tv2-actio
 import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-card.component'
 import { TimerPipe } from './pipes/timer/timer.pipe'
 import { MatSelectModule } from '@angular/material/select'
-import { ActionTriggerService } from './abstractions/action-trigger-service'
+import { ActionTriggerService } from './abstractions/action-trigger.service'
 import { HttpActionTriggerService } from './services/http-action-trigger.service'
+import { ActionTriggerParser } from './abstractions/action-trigger-parser.service'
+import { ZodActionTriggerParser } from './services/zod-action-trigger-parser.service'
 
 @NgModule({
   declarations: [
@@ -87,6 +89,7 @@ import { HttpActionTriggerService } from './services/http-action-trigger.service
     { provide: ActionService, useClass: HttpActionService },
     { provide: ActionTriggerService, useClass: HttpActionTriggerService },
     { provide: ActionParser, useClass: ZodActionParser },
+    { provide: ActionTriggerParser, useClass: ZodActionTriggerParser },
     { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
     DialogService,
     ConnectionErrorService,
