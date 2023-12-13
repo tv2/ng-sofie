@@ -10,7 +10,8 @@
     "test:ci": "ng test --browsers=ChromeHeadless --watch=false",
     "lint": "ng lint",
     "lint-fix": "ng lint --fix",
-    "validate": "yarn npm audit --environment production --severity moderate"
+    "validate": "yarn npm audit --environment production --severity moderate",
+    "extract-translations": "ng extract-i18n"
   },
   "private": true,
   "dependencies": {

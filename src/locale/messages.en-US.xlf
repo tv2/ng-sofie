@@ -44,7 +44,7 @@
       </trans-unit>
       <trans-unit id="3796920100771349539" datatype="html">
         <source>rundown-overview-component.deletion-dialog-question &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;</source>
-        <target state="new">Are you sure you want to delete the Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Please note: This action is irreversible!</target>
+        <target>Are you sure you want to delete the Rundown &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;?Please note: This action is irreversible!</target>
       </trans-unit>
       <trans-unit id="5314808199366684814" datatype="html">
         <source>rundown-overview-component.deletion-dialog.delete-button</source>
@@ -60,7 +60,11 @@
       </trans-unit>
       <trans-unit id="221700254079718655" datatype="html">
         <source>rundown-overview-component.rundown-overview.loading-rundowns.message</source>
-        <target state="new">rundown-overview-component.rundown-overview.loading-rundowns.message</target>
+        <target>Loading rundowns...</target>
+      </trans-unit>
+      <trans-unit id="9014307158606167673" datatype="html">
+        <source>header-component.status.label</source>
+        <target>Status</target>
       </trans-unit>
     </body>
   </file>

@@ -3,9 +3,9 @@ import { catchError, map, Observable } from 'rxjs'
 import { ActionTriggerService } from '../abstractions/action-trigger.service'
 import { ActionTrigger } from '../models/action-trigger'
 import { HttpClient } from '@angular/common/http'
-import { HttpErrorService } from '../../core/services/http-error.service'
 import { environment } from '../../../environments/environment'
 import { ActionTriggerParser } from '../abstractions/action-trigger-parser.service'
+import { HttpErrorService } from './http/http-error.service'
 
 const ACTION_TRIGGER_URL: string = `${environment.apiBaseUrl}/actionTriggers`
 

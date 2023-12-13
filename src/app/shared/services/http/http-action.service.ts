@@ -1,11 +1,12 @@
-import { ActionService } from '../abstractions/action.service'
+import { ActionService } from '../../abstractions/action.service'
 import { catchError, map, Observable } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
-import { environment } from '../../../environments/environment'
-import { HttpErrorService } from '../../core/services/http-error.service'
+import { environment } from '../../../../environments/environment'
+import { HttpErrorService } from './http-error.service'
 import { Injectable } from '@angular/core'
-import { Action } from '../models/action'
-import { ActionParser } from '../abstractions/action-parser.service'
+import { Action } from '../../models/action'
+import { ActionParser } from '../../abstractions/action-parser.service'
+import { HttpResponse } from './http-response'
 
 @Injectable()
 export class HttpActionService implements ActionService {
@@ -17,9 +18,9 @@ export class HttpActionService implements ActionService {
 
   public getActions(rundownId: string): Observable<Action[]> {
     const url: string = this.getGetActionsUrl(rundownId)
-    return this.http.get<unknown>(url).pipe(
+    return this.http.get<HttpResponse<Action[]>>(url).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
-      map(actions => this.actionParser.parseActions(actions))
+      map(response => this.actionParser.parseActions(response.data))
     )
   }
 

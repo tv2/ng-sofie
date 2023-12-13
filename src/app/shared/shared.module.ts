@@ -22,7 +22,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { IconButtonComponent } from './components/icon-button/icon-button.component'
 import { DraggableShelfComponent } from './components/draggable-shelf/draggable-shelf.component'
 import { ActionService } from './abstractions/action.service'
-import { HttpActionService } from './services/http-action.service'
+import { HttpActionService } from './services/http/http-action.service'
 import { ContextMenuComponent } from './components/context-menu/context-menu.component'
 import { CdkMenuModule } from '@angular/cdk/menu'
 import { ActionStateService } from './services/action-state.service'
@@ -39,6 +39,10 @@ import { ActionTriggerService } from './abstractions/action-trigger.service'
 import { HttpActionTriggerService } from './services/http-action-trigger.service'
 import { ActionTriggerParser } from './abstractions/action-trigger-parser.service'
 import { ZodActionTriggerParser } from './services/zod-action-trigger-parser.service'
+import { HttpClientModule } from '@angular/common/http'
+import { HttpErrorService } from './services/http/http-error.service'
+import { Logger } from '../core/abstractions/logger.service'
+import { Tv2LoggerService } from '../core/services/tv2-logger.service'
 
 @NgModule({
   declarations: [
@@ -57,6 +61,7 @@ import { ZodActionTriggerParser } from './services/zod-action-trigger-parser.ser
   ],
   imports: [
     CommonModule,
+    HttpClientModule,
     MatSnackBarModule,
     MatToolbarModule,
     MatIconModule,
@@ -86,11 +91,14 @@ import { ZodActionTriggerParser } from './services/zod-action-trigger-parser.ser
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
+    { provide: Logger, useClass: Tv2LoggerService },
     { provide: ActionService, useClass: HttpActionService },
     { provide: ActionTriggerService, useClass: HttpActionTriggerService },
     { provide: ActionParser, useClass: ZodActionParser },
     { provide: ActionTriggerParser, useClass: ZodActionTriggerParser },
     { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
+    HttpErrorService,
+    HttpClientModule,
     DialogService,
     ConnectionErrorService,
     Tv2OutputLayerService,
