@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http'
 import { environment } from '../../../environments/environment'
 import { ActionTriggerParser } from '../abstractions/action-trigger-parser.service'
 import { HttpErrorService } from './http/http-error.service'
+import { HttpResponse } from './http/http-response'
 
 const ACTION_TRIGGER_URL: string = `${environment.apiBaseUrl}/actionTriggers`
 
@@ -20,9 +21,9 @@ export class HttpActionTriggerService extends ActionTriggerService {
   }
 
   public getActionTriggers(): Observable<ActionTrigger[]> {
-    return this.http.get<ActionTrigger[]>(ACTION_TRIGGER_URL).pipe(
+    return this.http.get<HttpResponse<ActionTrigger[]>>(ACTION_TRIGGER_URL).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
-      map(actionTriggers => this.actionTriggerParser.parseActionTriggers(actionTriggers))
+      map(response => this.actionTriggerParser.parseActionTriggers(response.data))
     )
   }
 }
