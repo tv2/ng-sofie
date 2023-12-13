@@ -109,7 +109,7 @@ export class RundownStateService implements OnDestroy {
 
   private getRundownSubject(rundownId: string): BehaviorSubject<Rundown | undefined> | undefined {
     const rundownSubject = this.rundownSubjects.get(rundownId)
-    if (!rundownSubject || !rundownSubject.value) {
+    if (!rundownSubject) {
       return
     }
     const wasRemoved: boolean = this.removeSubjectIfItHasNoObservers(rundownSubject).wasRemoved
@@ -138,19 +138,11 @@ export class RundownStateService implements OnDestroy {
 
   private createRundownFromEvent(event: RundownCreatedEvent): void {
     const rundownSubject = this.getRundownSubject(event.rundownId)
-    if (!rundownSubject) {
-      this.createRundownSubject(event.rundownId)
-        .then(rundownSubject => {
-          setTimeout(
-            () =>
-              void this.fetchRundown(event.rundownId).then(rundown => {
-                rundownSubject.next(rundown)
-              }),
-            500
-          )
-        })
-        .catch(error => this.logger.data(error).warn(`Failed while creating rundown with id '${event.rundownId}':`))
+    if (rundownSubject) {
+      rundownSubject.next(event.rundown)
+      return
     }
+    this.rundownSubjects.set(event.rundownId, new BehaviorSubject<Rundown | undefined>(event.rundown))
   }
 
   private updateRundownFromEvent(event: RundownUpdatedEvent): void {

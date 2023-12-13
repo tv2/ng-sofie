@@ -112,6 +112,10 @@ export class ZodRundownEventParser implements RundownEventParser {
       .object({})
       .passthrough()
       .transform((basicRundown: unknown) => this.entityParser.parseBasicRundown(basicRundown)),
+    rundown: zod
+      .object({})
+      .passthrough()
+      .transform((rundown: unknown) => this.entityParser.parseRundown(rundown)),
   })
 
   private readonly rundownUpdatedEventParser = zod.object({

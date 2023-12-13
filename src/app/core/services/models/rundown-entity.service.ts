@@ -138,11 +138,8 @@ export class RundownEntityService {
   }
 
   public insertSegmentInRundown(rundown: Rundown, segment: Segment): Rundown {
-    const insertAtIndex: number = rundown.segments.findIndex(existingSegment => existingSegment.rank > segment.rank)
-    if (insertAtIndex < 0) {
-      return rundown
-    }
-    rundown.segments.splice(insertAtIndex, 0, segment)
+    rundown.segments.push(segment)
+    rundown.segments.sort((a, b) => a.rank - b.rank)
     return rundown
   }
 
@@ -157,10 +154,8 @@ export class RundownEntityService {
 
   public insertPartInSegment(rundown: Rundown, part: Part): Rundown {
     const segmentForPartIndex: number = rundown.segments.findIndex(segment => segment.id === part.segmentId)
-    if (segmentForPartIndex < 0) {
-      return rundown
-    }
-    rundown.segments[segmentForPartIndex].parts.splice(part.rank, 0, part)
+    rundown.segments[segmentForPartIndex].parts.push(part)
+    rundown.segments.sort((a, b) => a.rank - b.rank)
     return rundown
   }
 
