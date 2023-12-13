@@ -35,6 +35,10 @@ import { Tv2ActionPanelComponent } from './components/tv2-action-panel/tv2-actio
 import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-card.component'
 import { TimerPipe } from './pipes/timer/timer.pipe'
 import { MatSelectModule } from '@angular/material/select'
+import { ActionTriggerService } from './abstractions/action-trigger.service'
+import { HttpActionTriggerService } from './services/http/http-action-trigger.service'
+import { ActionTriggerParser } from './abstractions/action-trigger-parser.service'
+import { ZodActionTriggerParser } from './services/zod-action-trigger-parser.service'
 import { HttpClientModule } from '@angular/common/http'
 import { HttpErrorService } from './services/http/http-error.service'
 import { Logger } from '../core/abstractions/logger.service'
@@ -87,9 +91,11 @@ import { Tv2LoggerService } from '../core/services/tv2-logger.service'
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
-    { provide: ActionService, useClass: HttpActionService },
     { provide: Logger, useClass: Tv2LoggerService },
+    { provide: ActionService, useClass: HttpActionService },
+    { provide: ActionTriggerService, useClass: HttpActionTriggerService },
     { provide: ActionParser, useClass: ZodActionParser },
+    { provide: ActionTriggerParser, useClass: ZodActionTriggerParser },
     { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
     HttpErrorService,
     HttpClientModule,

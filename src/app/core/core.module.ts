@@ -23,6 +23,10 @@ import { BasicRundownService } from './abstractions/basic-rundown.service'
 import { HttpBasicRundownService } from './services/http/http-basic-rundown.service'
 import { EntityParser } from './abstractions/entity-parser.service'
 import { ZodEntityParser } from './parsers/zod-entity-parser.service'
+import { ActionTriggerStateService } from './services/action-trigger-state.service'
+import { ActionTriggerEventObserver } from './models/action-trigger-event-observer.service'
+import { ActionTriggerEventParser } from './abstractions/action-trigger-event-parser'
+import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-parser.service'
 
 @NgModule({
   declarations: [],
@@ -44,6 +48,9 @@ import { ZodEntityParser } from './parsers/zod-entity-parser.service'
     PartEntityService,
     RundownTimingService,
     RundownTimingContextStateService,
+    ActionTriggerStateService,
+    ActionTriggerEventObserver,
+    { provide: ActionTriggerEventParser, useClass: ZodActionTriggerEventParser },
   ],
 })
 export class CoreModule extends EnsureLoadedOnceGuard {

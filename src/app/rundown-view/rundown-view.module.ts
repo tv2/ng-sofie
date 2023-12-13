@@ -22,7 +22,6 @@ import { ProducerShelfModule } from '../producer-shelf/producer-shelf.module'
 import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component'
 import { RundownViewComponent } from './components/rundown-view/rundown-view.component'
 import { KeyBindingService } from './abstractions/key-binding.service'
-import { HardcodedProducerKeyBindingService } from './services/hardcoded-producer-key-binding.service'
 import { Tv2ActionGroupService } from './services/tv2-action-group.service'
 import { SegmentContextMenuComponent } from './components/segment-context-menu/segment-context-menu.component'
 import { PartContextMenuComponent } from './components/part-context-menu/part-context-menu.component'
@@ -31,6 +30,7 @@ import { ProducerKeyboardConfigurationService } from './services/producer-keyboa
 import { KeyBindingFactory } from './factories/key-binding.factory'
 import { OnAirDetailsPanelComponent } from './components/on-air-details-panel/on-air-details-panel.component'
 import { CountdownLabelComponent } from './components/countdown-label/countdown-label.component'
+import { ActionTriggerProducerKeyBindingService } from './services/action-trigger-producer-key-binding.service'
 
 @NgModule({
   declarations: [
@@ -57,7 +57,7 @@ import { CountdownLabelComponent } from './components/countdown-label/countdown-
   exports: [SegmentComponent],
   providers: [
     Tv2PieceGroupService,
-    { provide: KeyBindingService, useClass: HardcodedProducerKeyBindingService },
+    { provide: KeyBindingService, useClass: ActionTriggerProducerKeyBindingService },
     Tv2ActionGroupService,
     { provide: KeyboardConfigurationService, useClass: ProducerKeyboardConfigurationService },
     KeyBindingFactory,
