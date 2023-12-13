@@ -36,7 +36,7 @@ import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-
 import { TimerPipe } from './pipes/timer/timer.pipe'
 import { MatSelectModule } from '@angular/material/select'
 import { ActionTriggerService } from './abstractions/action-trigger.service'
-import { HttpActionTriggerService } from './services/http-action-trigger.service'
+import { HttpActionTriggerService } from './services/http/http-action-trigger.service'
 import { ActionTriggerParser } from './abstractions/action-trigger-parser.service'
 import { ZodActionTriggerParser } from './services/zod-action-trigger-parser.service'
 import { HttpClientModule } from '@angular/common/http'

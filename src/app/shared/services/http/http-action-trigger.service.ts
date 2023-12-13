@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
 import { catchError, map, Observable } from 'rxjs'
-import { ActionTriggerService } from '../abstractions/action-trigger.service'
-import { ActionTrigger } from '../models/action-trigger'
+import { ActionTriggerService } from '../../abstractions/action-trigger.service'
+import { ActionTrigger } from '../../models/action-trigger'
 import { HttpClient } from '@angular/common/http'
-import { environment } from '../../../environments/environment'
-import { ActionTriggerParser } from '../abstractions/action-trigger-parser.service'
-import { HttpErrorService } from './http/http-error.service'
-import { HttpResponse } from './http/http-response'
+import { environment } from '../../../../environments/environment'
+import { ActionTriggerParser } from '../../abstractions/action-trigger-parser.service'
+import { HttpErrorService } from './http-error.service'
+import { HttpResponse } from './http-response'
 
 const ACTION_TRIGGER_URL: string = `${environment.apiBaseUrl}/actionTriggers`
 
