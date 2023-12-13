@@ -19,6 +19,7 @@ import { EntityParser } from '../abstractions/entity-parser.service'
 import { Piece } from '../models/piece'
 import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 import { RundownTimingType } from '../enums/rundown-timing-type'
+import { BasicRundown } from '../models/basic-rundown'
 
 describe(ZodRundownEventParser.name, () => {
   describe(ZodRundownEventParser.prototype.parseRundownActivatedEvent.name, () => {
@@ -328,18 +329,24 @@ describe(ZodRundownEventParser.name, () => {
     it('parses a rundown created event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
+      const basicRundown: BasicRundown = {
+        id: 'rundownId',
+        name: 'RundownName',
+        isActive: false,
+        modifiedAt: Date.now(),
+        timing: {
+          type: RundownTimingType.UNSCHEDULED,
+        },
+      }
       const event: RundownCreatedEvent = {
         type: RundownEventType.RUNDOWN_CREATED,
         timestamp: Date.now(),
         rundownId: 'some-rundown-id',
-        basicRundown: {
-          id: 'rundownId',
-          name: 'RundownName',
-          isActive: false,
-          modifiedAt: Date.now(),
-          timing: {
-            type: RundownTimingType.UNSCHEDULED,
-          },
+        basicRundown: basicRundown,
+        rundown: {
+          ...basicRundown,
+          segments: [],
+          infinitePieces: [],
         },
       }
 
@@ -431,5 +438,6 @@ function createMockOfEntityParser(): EntityParser {
   const mockedEntityParser = mock<EntityParser>()
   when(mockedEntityParser.parsePiece(anything())).thenCall(piece => piece)
   when(mockedEntityParser.parseBasicRundown(anything())).thenCall(basicRundown => basicRundown)
+  when(mockedEntityParser.parseRundown(anything())).thenCall(rundown => rundown)
   return mockedEntityParser
 }

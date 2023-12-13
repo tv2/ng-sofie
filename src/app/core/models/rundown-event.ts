@@ -4,7 +4,7 @@ import { TypedEvent } from '../../event-system/abstractions/event-observer.servi
 import { Part } from './part'
 import { BasicRundown } from './basic-rundown'
 import { Segment } from './segment'
-import {Rundown} from "./rundown";
+import { Rundown } from './rundown'
 
 export interface RundownEvent extends TypedEvent {
   type: RundownEventType
