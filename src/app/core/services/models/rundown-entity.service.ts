@@ -124,6 +124,7 @@ export class RundownEntityService {
     const segmentToUpdateIndex: number = rundown.segments.findIndex(existingSegment => existingSegment.id === segment.id)
     if (segmentToUpdateIndex >= 0) {
       rundown.segments[segmentToUpdateIndex] = segment
+      rundown.segments.sort((a, b) => a.rank - b.rank)
     }
     return rundown
   }
