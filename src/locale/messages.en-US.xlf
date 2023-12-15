@@ -66,6 +66,18 @@
         <source>header-component.status.label</source>
         <target>Status</target>
       </trans-unit>
+      <trans-unit id="7774679192134693239" datatype="html">
+        <source>rundown-overview.settings.title</source>
+        <target state="new">Settings</target>
+      </trans-unit>
+      <trans-unit id="212168824510245649" datatype="html">
+        <source>settings.action-triggers.label</source>
+        <target state="new">Action triggers</target>
+      </trans-unit>
+      <trans-unit id="4380077604653787346" datatype="html">
+        <source>settings.clear-cache.label</source>
+        <target state="new">Clear cache</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

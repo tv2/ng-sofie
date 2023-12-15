@@ -5,6 +5,7 @@ export enum Paths {
   HOME = '',
   RUNDOWNS = 'rundowns',
   STATUS = 'status',
+  SETTINGS = 'settings',
 }
 
 const routes: Routes = [
@@ -15,6 +16,10 @@ const routes: Routes = [
   {
     path: Paths.RUNDOWNS,
     loadChildren: () => import('./rundown-overview/rundown-overview.module').then(module => module.RundownOverviewModule),
+  },
+  {
+    path: Paths.SETTINGS,
+    loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
   },
   {
     path: `${Paths.RUNDOWNS}/:rundownId`,

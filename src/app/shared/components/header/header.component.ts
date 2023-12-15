@@ -33,4 +33,9 @@ export class HeaderComponent {
     const segmentedPath: string[] = [Paths.STATUS]
     this.router.navigate(segmentedPath).catch(error => this.logger.data(error).warn(`Failed navigating to /${segmentedPath.join('/')}.`))
   }
+
+  public navigateToSettings(): void {
+    const segmentedPath: string[] = [Paths.SETTINGS]
+    this.router.navigate(segmentedPath).catch(error => this.logger.data(error).warn(`Failed navigating to /${segmentedPath.join('/')}.`))
+  }
 }

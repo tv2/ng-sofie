@@ -1,0 +1,30 @@
+.c-side-bar {
+  --text-color: white;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  background-color: transparent;
+  align-items: flex-start;
+  padding: 0;
+
+  &__nav-item {
+    font-weight: lighter;
+    width: 100%;
+    padding-top: 0;
+    a {
+      padding: 0.5rem 1em;
+      font-size: medium;
+      display: block;
+      &.active-tab {
+        background-color: #343434;
+        color: #5ebaf4;
+      }
+    }
+  }
+
+  &__nav-item:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
