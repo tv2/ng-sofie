@@ -11,6 +11,7 @@
             "translation": "src/locale/messages.da.xlf"
           },
           "en-US": {
+            "baseHref": "",
             "translation": "src/locale/messages.en-US.xlf"
           }
         }
