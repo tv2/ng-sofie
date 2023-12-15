@@ -1,28 +1,33 @@
-import { EventConsumer, EventObserver, TypedEvent, EventSubscription } from '../../event-system/abstractions/event-observer.service'
+import {
+  EventConsumer,
+  EventObserver,
+  EventSubscription,
+  TypedEvent
+} from '../../event-system/abstractions/event-observer.service'
 import { Injectable } from '@angular/core'
 import { RundownEventParser } from '../abstractions/rundown-event.parser'
 import { RundownEventType } from '../models/rundown-event-type'
 import {
+  PartCreatedEvent,
+  PartDeletedEvent,
+  PartSetAsNextEvent,
+  PartTakenEvent,
+  PartUnsyncedEvent,
+  PartUpdatedEvent,
   RundownActivatedEvent,
+  RundownCreatedEvent,
   RundownDeactivatedEvent,
   RundownDeletedEvent,
   RundownInfinitePieceAddedEvent,
-  RundownResetEvent,
-  PartSetAsNextEvent,
-  PartTakenEvent,
-  RundownPartInsertedAsOnAirEvent,
   RundownPartInsertedAsNextEvent,
+  RundownPartInsertedAsOnAirEvent,
   RundownPieceInsertedEvent,
-  RundownCreatedEvent,
+  RundownResetEvent,
   RundownUpdatedEvent,
-  SegmentUpdatedEvent,
-  SegmentDeletedEvent,
   SegmentCreatedEvent,
-  PartCreatedEvent,
-  PartUpdatedEvent,
-  PartDeletedEvent,
+  SegmentDeletedEvent,
   SegmentUnsyncedEvent,
-  PartUnsyncedEvent,
+  SegmentUpdatedEvent,
 } from '../models/rundown-event'
 import { Logger } from '../abstractions/logger.service'
 
@@ -160,7 +165,7 @@ export class RundownEventObserver {
         const activationEvent: T = parser(event)
         consumer(activationEvent)
       } catch (error) {
-        this.logger.data({ error, event }).error('Failed to parse event.')
+        this.logger.data({ error, event }).error('Failed to parse Rundown event.')
       }
     }
   }

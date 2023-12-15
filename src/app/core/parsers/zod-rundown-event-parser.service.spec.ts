@@ -342,7 +342,6 @@ describe(ZodRundownEventParser.name, () => {
         type: RundownEventType.RUNDOWN_CREATED,
         timestamp: Date.now(),
         rundownId: 'some-rundown-id',
-        basicRundown: basicRundown,
         rundown: {
           ...basicRundown,
           segments: [],
