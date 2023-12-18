@@ -1,4 +1,6 @@
-<div [cdkContextMenuTriggerFor]="contextMenu" class="piece-layers">
+<div [cdkContextMenuTriggerFor]="contextMenu" class="piece-layers"
+     [class.unsynced]="part.isUnsynced"
+>
     <div
         *ngFor="let outputLayer of outputLayers"
         class="piece-layer"

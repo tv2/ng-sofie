@@ -177,7 +177,10 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     }, [] as Tv2Action[])
   }
 
-  private onRundownChanged(rundown: Rundown): void {
+  private onRundownChanged(rundown?: Rundown): void {
+    if (!rundown) {
+      return
+    }
     this.rundown = rundown
     this.emitNewKeybindings()
   }

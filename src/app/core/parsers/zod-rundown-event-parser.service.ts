@@ -12,6 +12,14 @@ import {
   RundownPieceInsertedEvent,
   RundownCreatedEvent,
   RundownUpdatedEvent,
+  SegmentUpdatedEvent,
+  SegmentDeletedEvent,
+  SegmentCreatedEvent,
+  PartCreatedEvent,
+  PartDeletedEvent,
+  PartUpdatedEvent,
+  SegmentUnsyncedEvent,
+  PartUnsyncedEvent,
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
@@ -100,10 +108,10 @@ export class ZodRundownEventParser implements RundownEventParser {
     type: zod.literal(RundownEventType.RUNDOWN_CREATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
-    basicRundown: zod
+    rundown: zod
       .object({})
       .passthrough()
-      .transform((basicRundown: unknown) => this.entityParser.parseBasicRundown(basicRundown)),
+      .transform((rundown: unknown) => this.entityParser.parseRundown(rundown)),
   })
 
   private readonly rundownUpdatedEventParser = zod.object({
@@ -120,6 +128,82 @@ export class ZodRundownEventParser implements RundownEventParser {
     type: zod.literal(RundownEventType.RUNDOWN_DELETED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
+  })
+
+  private readonly segmentCreatedEventParser = zod.object({
+    type: zod.literal(RundownEventType.SEGMENT_CREATED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    segment: zod
+      .object({})
+      .passthrough()
+      .transform((segment: unknown) => this.entityParser.parseSegment(segment)),
+  })
+
+  private readonly segmentUpdatedEventParser = zod.object({
+    type: zod.literal(RundownEventType.SEGMENT_UPDATED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    segment: zod
+      .object({})
+      .passthrough()
+      .transform((segment: unknown) => this.entityParser.parseSegment(segment)),
+  })
+
+  private readonly segmentDeletedEventParser = zod.object({
+    type: zod.literal(RundownEventType.SEGMENT_DELETED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    segmentId: zod.string().min(1),
+  })
+
+  private readonly segmentUnsyncedEventParser = zod.object({
+    type: zod.literal(RundownEventType.SEGMENT_UNSYNCED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    unsyncedSegment: zod
+      .object({})
+      .passthrough()
+      .transform((segment: unknown) => this.entityParser.parseSegment(segment)),
+    originalSegmentId: zod.string().min(1),
+  })
+
+  private readonly partCreatedEventParser = zod.object({
+    type: zod.literal(RundownEventType.PART_CREATED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    part: zod
+      .object({})
+      .passthrough()
+      .transform((part: unknown) => this.entityParser.parsePart(part)),
+  })
+
+  private readonly partUpdatedEventParser = zod.object({
+    type: zod.literal(RundownEventType.PART_UPDATED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    part: zod
+      .object({})
+      .passthrough()
+      .transform((part: unknown) => this.entityParser.parsePart(part)),
+  })
+
+  private readonly partDeletedEventParser = zod.object({
+    type: zod.literal(RundownEventType.PART_DELETED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    segmentId: zod.string().min(1),
+    partId: zod.string().min(1),
+  })
+
+  private readonly partUnsyncedEventParser = zod.object({
+    type: zod.literal(RundownEventType.PART_UNSYNCED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    part: zod
+      .object({})
+      .passthrough()
+      .transform((part: unknown) => this.entityParser.parsePart(part)),
   })
 
   constructor(private readonly entityParser: EntityParser) {}
@@ -169,5 +253,37 @@ export class ZodRundownEventParser implements RundownEventParser {
 
   public parseRundownDeletedEvent(event: unknown): RundownDeletedEvent {
     return this.rundownDeletedEventParser.parse(event)
+  }
+
+  public parseSegmentCreatedEvent(event: unknown): SegmentCreatedEvent {
+    return this.segmentCreatedEventParser.parse(event)
+  }
+
+  public parseSegmentUpdatedEvent(event: unknown): SegmentUpdatedEvent {
+    return this.segmentUpdatedEventParser.parse(event)
+  }
+
+  public parseSegmentDeletedEvent(event: unknown): SegmentDeletedEvent {
+    return this.segmentDeletedEventParser.parse(event)
+  }
+
+  public parseSegmentUnsyncedEvent(event: unknown): SegmentUnsyncedEvent {
+    return this.segmentUnsyncedEventParser.parse(event)
+  }
+
+  public parsePartCreatedEvent(event: unknown): PartCreatedEvent {
+    return this.partCreatedEventParser.parse(event)
+  }
+
+  public parsePartUpdatedEvent(event: unknown): PartUpdatedEvent {
+    return this.partUpdatedEventParser.parse(event)
+  }
+
+  public parsePartDeletedEvent(event: unknown): PartDeletedEvent {
+    return this.partDeletedEventParser.parse(event)
+  }
+
+  public parsePartUnsyncedEvent(event: unknown): PartUnsyncedEvent {
+    return this.partUnsyncedEventParser.parse(event)
   }
 }

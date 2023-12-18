@@ -19,4 +19,24 @@
       background-color: rgba(26,26,26, .8);
     }
   }
+
+  .unsynced {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: repeating-linear-gradient(
+                      120deg,
+                      #00000000,
+                      #00000000 8px,
+                      #ffff0055 8px,
+                      #ffff0055 16px
+      );
+      z-index: 10;
+    }
+
+  }
 }

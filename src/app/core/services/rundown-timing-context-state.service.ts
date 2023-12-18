@@ -112,8 +112,8 @@ export class RundownTimingContextStateService {
     }
     const emptyRundownTimingContextSubject: BehaviorSubject<RundownTimingContext> = this.createEmptyRundownTimingContextSubject()
     this.rundownTimingContextSubjects.set(rundownId, emptyRundownTimingContextSubject)
-    const rundownObservable: Observable<Rundown> = await this.rundownStateService.subscribeToRundown(rundownId)
-    const rundownSubscription: Subscription = rundownObservable.subscribe(this.onRundownChanged.bind(this))
+    const rundownObservable: Observable<Rundown | undefined> = await this.rundownStateService.subscribeToRundown(rundownId)
+    const rundownSubscription: Subscription = rundownObservable.subscribe(rundown => this.onRundownChanged(rundownId, rundown))
     this.rundownSubscriptions.set(rundownId, rundownSubscription)
     return emptyRundownTimingContextSubject
   }
@@ -137,9 +137,13 @@ export class RundownTimingContextStateService {
     }
   }
 
-  private onRundownChanged(rundown: Rundown): void {
-    const rundownTimingContextSubject: BehaviorSubject<RundownTimingContext> | undefined = this.getRundownTimingContextSubject(rundown.id)
+  private onRundownChanged(rundownId: string, rundown: Rundown | undefined): void {
+    const rundownTimingContextSubject: BehaviorSubject<RundownTimingContext> | undefined = this.getRundownTimingContextSubject(rundownId)
     if (!rundownTimingContextSubject) {
+      return
+    }
+    if (!rundown) {
+      rundownTimingContextSubject.next(this.createEmptyRundownTimingContext())
       return
     }
     const onAirSegment: Segment | undefined = rundown.segments.find(segment => segment.isOnAir)

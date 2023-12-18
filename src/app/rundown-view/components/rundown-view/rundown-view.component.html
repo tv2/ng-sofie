@@ -1,16 +1,39 @@
-<ng-container *ngIf="rundown; else loadingRundown">
-    <sofie-rundown-header [rundown]="rundown"></sofie-rundown-header>
-    <sofie-on-air-details-panel *ngIf="rundown.isActive" [rundown]="rundown"></sofie-on-air-details-panel>
-    <sofie-rundown [rundown]="rundown"></sofie-rundown>
-    <sofie-draggable-shelf localStorageKey="producer-shelf">
-        <sofie-producer-shelf
-            [keyBindings]="keyBindings"
-            [keystrokes]="keystrokes"
-            [rundown]="rundown"
-        ></sofie-producer-shelf>
-    </sofie-draggable-shelf>
+<ng-container *ngIf="isLoadingRundown; else rundownLoaded">
+    <div class="removed-rundown">
+        <mat-card-title class="c-loading-rundown">Loading the rundown...</mat-card-title>
+    </div>
 </ng-container>
 
-<ng-template #loadingRundown>
-    <mat-card-title class="c-loading-rundown">Loading the rundown...</mat-card-title>
+<ng-template #rundownLoaded>
+    <ng-container *ngIf="rundown; else rundownRemoved">
+        <sofie-rundown-header [rundown]="rundown"></sofie-rundown-header>
+        <sofie-on-air-details-panel *ngIf="rundown.isActive" [rundown]="rundown"></sofie-on-air-details-panel>
+        <sofie-rundown [rundown]="rundown"></sofie-rundown>
+        <sofie-draggable-shelf localStorageKey="producer-shelf">
+            <sofie-producer-shelf
+                    [keyBindings]="keyBindings"
+                    [keystrokes]="keystrokes"
+                    [rundown]="rundown"
+            ></sofie-producer-shelf>
+        </sofie-draggable-shelf>
+    </ng-container>
 </ng-template>
+
+<ng-template #rundownRemoved>
+    <div class="loading-rundown" *ngIf="rundownWasRemoved; else rundownDoesNotExist">
+        <mat-card-title class="c-loading-rundown">Rundown was removed.</mat-card-title><br/><br/>
+        <a href="/">
+            <button mat-raised-button>Go to rundowns</button>
+        </a>
+    </div>
+</ng-template>
+
+<ng-template #rundownDoesNotExist>
+    <div class="loading-rundown">
+        <mat-card-title class="c-loading-rundown">Rundown does not exist.</mat-card-title><br/><br/>
+        <a href="/">
+            <button mat-raised-button>Go to rundowns</button>
+        </a>
+    </div>
+</ng-template>
+

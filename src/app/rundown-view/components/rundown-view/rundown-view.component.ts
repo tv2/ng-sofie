@@ -20,6 +20,8 @@ export class RundownViewComponent implements OnInit, OnDestroy {
   private readonly logger: Logger
   public keyBindings: KeyBinding[] = []
   public keystrokes: string[] = []
+  public rundownWasRemoved: boolean
+  public isLoadingRundown: boolean = true
 
   @HostBinding('tabindex')
   public get tabindex(): string {
@@ -57,13 +59,15 @@ export class RundownViewComponent implements OnInit, OnDestroy {
       .catch(error => this.logger.data(error).error(`Failed subscribing to rundown with id '${rundownId}'.`))
   }
 
-  private setRundown(rundown: Rundown): void {
-    if (!this.rundown) {
+  private setRundown(rundown: Rundown | undefined): void {
+    if (!this.rundown && rundown) {
       this.keyboardConfigurationService.init(rundown.id, this.hostElement.nativeElement)
       this.keyboardConfigurationService.subscribeToKeystrokes(keystrokes => (this.keystrokes = keystrokes))
       this.keyboardConfigurationService.subscribeToKeyBindings(keyBindings => (this.keyBindings = keyBindings))
       this.hostElement.nativeElement.focus()
     }
+    this.isLoadingRundown = false
+    this.rundownWasRemoved = !!this.rundown && !rundown
     this.rundown = rundown
   }
 

@@ -5,6 +5,7 @@ import { RundownCursor } from '../../models/rundown-cursor'
 import { Injectable } from '@angular/core'
 import { Piece } from '../../models/piece'
 import { Part } from '../../models/part'
+import { BasicRundown } from '../../models/basic-rundown'
 
 @Injectable()
 export class RundownEntityService {
@@ -110,5 +111,84 @@ export class RundownEntityService {
       ...rundown,
       segments: rundown.segments.map(segment => (segment.id === rundownCursor.segmentId ? this.segmentEntityService.insertPiece(segment, rundownCursor.partId, piece) : segment)),
     }
+  }
+
+  public updateRundownFromBasicRundown(rundown: Rundown, basicRundown: BasicRundown): Rundown {
+    return {
+      ...rundown,
+      ...basicRundown,
+    }
+  }
+
+  public updateSegmentInRundown(rundown: Rundown, segment: Segment): Rundown {
+    const segmentToUpdateIndex: number = rundown.segments.findIndex(existingSegment => existingSegment.id === segment.id)
+    if (segmentToUpdateIndex >= 0) {
+      rundown.segments[segmentToUpdateIndex] = segment
+      rundown.segments.sort((a, b) => a.rank - b.rank)
+    }
+    return rundown
+  }
+
+  public removeSegmentFromRundown(rundown: Rundown, segmentId: string): Rundown {
+    const segmentToRemoveIndex: number = rundown.segments.findIndex(existingSegment => existingSegment.id === segmentId)
+    if (segmentToRemoveIndex < 0 || rundown.segments[segmentToRemoveIndex].isOnAir) {
+      return rundown
+    }
+    rundown.segments.splice(segmentToRemoveIndex, 1)
+    return rundown
+  }
+
+  public insertSegmentInRundown(rundown: Rundown, segment: Segment): Rundown {
+    rundown.segments.push(segment)
+    rundown.segments.sort((a, b) => a.rank - b.rank)
+    return rundown
+  }
+
+  public unsyncSegmentInRundown(rundown: Rundown, unsyncedSegment: Segment, originalSegmentId: string): Rundown {
+    const originalSegmentIndex: number = rundown.segments.findIndex(existingSegment => existingSegment.id === originalSegmentId)
+    if (originalSegmentIndex < 0) {
+      return rundown
+    }
+    rundown.segments[originalSegmentIndex] = unsyncedSegment
+    return rundown
+  }
+
+  public insertPartInSegment(rundown: Rundown, part: Part): Rundown {
+    const segmentForPartIndex: number = rundown.segments.findIndex(segment => segment.id === part.segmentId)
+    rundown.segments[segmentForPartIndex].parts.push(part)
+    rundown.segments[segmentForPartIndex].parts.sort((a, b) => a.rank - b.rank)
+    return rundown
+  }
+
+  public updatePartInSegment(rundown: Rundown, part: Part): Rundown {
+    const segmentForPartIndex: number = rundown.segments.findIndex(segment => segment.id === part.segmentId)
+    if (segmentForPartIndex < 0) {
+      return rundown
+    }
+    const partToUpdateIndex: number | undefined = rundown.segments[segmentForPartIndex].parts.findIndex(existingPart => part.segmentId.startsWith(existingPart.id))
+    if (partToUpdateIndex) {
+      rundown.segments[segmentForPartIndex].parts[partToUpdateIndex] = part
+    }
+    return rundown
+  }
+
+  public removePartFromSegment(rundown: Rundown, segmentId: string, partId: string): Rundown {
+    const segmentForPartIndex: number = rundown.segments.findIndex(existingSegment => existingSegment.id === segmentId)
+    if (segmentForPartIndex < 0) {
+      return rundown
+    }
+    const partToRemoveIndex: number = rundown.segments[segmentForPartIndex].parts.findIndex(existingPart => existingPart.id === partId)
+    rundown.segments[segmentForPartIndex].parts.splice(partToRemoveIndex, 1)
+    return rundown
+  }
+
+  public unsyncPartInSegment(rundown: Rundown, part: Part): Rundown {
+    const segmentForPartIndex: number = rundown.segments.findIndex(segment => segment.id === part.segmentId)
+    if (segmentForPartIndex < 0) {
+      return rundown
+    }
+    const partInSegmentIndex: number = rundown.segments[segmentForPartIndex].parts.findIndex(existingPart => existingPart.id === part.id)
+    rundown.segments[segmentForPartIndex].parts[partInSegmentIndex] = part
+    return rundown
   }
 }
