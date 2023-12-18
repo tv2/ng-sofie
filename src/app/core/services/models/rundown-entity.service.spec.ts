@@ -265,7 +265,7 @@ describe(RundownEntityService.name, () => {
     })
   })
 
-  describe(RundownEntityService.prototype.addInfinitePiece.name, () => {
+  describe(RundownEntityService.prototype.updateInfinitePieces.name, () => {
     describe('when an already existing infinite piece is added', () => {
       it('overwrites the previous one', () => {
         const testEntityFactory: TestEntityFactory = new TestEntityFactory()
@@ -277,7 +277,7 @@ describe(RundownEntityService.name, () => {
         expect(rundown.infinitePieces).toContain(infinitePiece)
         expect(rundown.infinitePieces).not.toContain(updatedInfinitePiece)
 
-        const result: Rundown = testee.addInfinitePiece(rundown, updatedInfinitePiece)
+        const result: Rundown = testee.updateInfinitePieces(rundown, [updatedInfinitePiece])
 
         expect(result.infinitePieces).not.toContain(infinitePiece)
         expect(result.infinitePieces).toContain(updatedInfinitePiece)
@@ -292,7 +292,7 @@ describe(RundownEntityService.name, () => {
 
         expect(rundown.infinitePieces).not.toContain(infinitePiece)
 
-        const result: Rundown = testee.addInfinitePiece(rundown, infinitePiece)
+        const result: Rundown = testee.updateInfinitePieces(rundown, [infinitePiece])
 
         expect(result.infinitePieces).toContain(infinitePiece)
       })

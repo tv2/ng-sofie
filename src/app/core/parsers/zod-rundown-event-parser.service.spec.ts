@@ -8,7 +8,7 @@ import {
   RundownCreatedEvent,
   RundownDeactivatedEvent,
   RundownDeletedEvent,
-  RundownInfinitePieceAddedEvent,
+  RundownInfinitePiecesUpdatedEvent,
   RundownPartInsertedAsNextEvent,
   RundownPartInsertedAsOnAirEvent,
   RundownPieceInsertedEvent,
@@ -167,38 +167,48 @@ describe(ZodRundownEventParser.name, () => {
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parseInfinitePieceAddedEvent.name, () => {
-    it('parses a rundown infinite piece added event', () => {
+  describe(ZodRundownEventParser.prototype.parseInfinitePiecesUpdatedEvent.name, () => {
+    it('parses a rundown infinite pieces updated event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
-      const event: RundownInfinitePieceAddedEvent = {
-        type: RundownEventType.INFINITE_PIECE_ADDED,
+      const event: RundownInfinitePiecesUpdatedEvent = {
+        type: RundownEventType.INFINITE_PIECES_UPDATED,
         timestamp: Date.now(),
         rundownId: 'some-rundown-id',
-        infinitePiece: {
-          id: 'some-piece-id',
-          name: 'some-piece',
-          partId: 'some-part-id',
-          layer: 'some-layer',
-          start: 0,
-          isPlanned: false,
-        },
+        infinitePieces: [
+          {
+            id: 'some-piece-id',
+            name: 'some-piece',
+            partId: 'some-part-id',
+            layer: 'some-layer',
+            start: 0,
+            isPlanned: false,
+          },
+          {
+            id: 'some-other-piece-id',
+            name: 'some--other-piece',
+            partId: 'some-other-part-id',
+            layer: 'some-lother-ayer',
+            start: 0,
+            isPlanned: false,
+          },
+        ],
       }
 
-      const result = testee.parseInfinitePieceAddedEvent(event)
+      const result = testee.parseInfinitePiecesUpdatedEvent(event)
 
       expect(result).toEqual(event)
     })
 
-    it('does not parse a partial rundown infinite piece added event', () => {
+    it('does not parse a partial rundown infinite piece updated event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
-      const event: Partial<RundownInfinitePieceAddedEvent> = {
-        type: RundownEventType.INFINITE_PIECE_ADDED,
+      const event: Partial<RundownInfinitePiecesUpdatedEvent> = {
+        type: RundownEventType.INFINITE_PIECES_UPDATED,
         rundownId: 'some-rundown-id',
       }
 
-      const result = (): RundownInfinitePieceAddedEvent => testee.parseInfinitePieceAddedEvent(event)
+      const result = (): RundownInfinitePiecesUpdatedEvent => testee.parseInfinitePiecesUpdatedEvent(event)
 
       expect(result).toThrow()
     })

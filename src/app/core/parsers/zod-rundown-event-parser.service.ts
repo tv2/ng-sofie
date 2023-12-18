@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import {
-  RundownInfinitePieceAddedEvent,
+  RundownInfinitePiecesUpdatedEvent,
   RundownActivatedEvent,
   RundownDeactivatedEvent,
   RundownResetEvent,
@@ -62,14 +62,15 @@ export class ZodRundownEventParser implements RundownEventParser {
     partId: zod.string().min(1),
   })
 
-  private readonly rundownInfinitePieceAddedEventParser = zod.object({
-    type: zod.literal(RundownEventType.INFINITE_PIECE_ADDED),
+  private readonly rundownInfinitePiecesUpdatedEventParser = zod.object({
+    type: zod.literal(RundownEventType.INFINITE_PIECES_UPDATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
-    infinitePiece: zod
+    infinitePieces: zod
       .object({})
       .passthrough()
-      .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
+      .transform((piece: unknown) => this.entityParser.parsePiece(piece))
+      .array(),
   })
 
   private readonly rundownPartInsertedAsOnAirEventParser = zod.object({
@@ -227,8 +228,8 @@ export class ZodRundownEventParser implements RundownEventParser {
     return this.rundownSetNextEventParser.parse(event)
   }
 
-  public parseInfinitePieceAddedEvent(event: unknown): RundownInfinitePieceAddedEvent {
-    return this.rundownInfinitePieceAddedEventParser.parse(event)
+  public parseInfinitePiecesUpdatedEvent(event: unknown): RundownInfinitePiecesUpdatedEvent {
+    return this.rundownInfinitePiecesUpdatedEventParser.parse(event)
   }
 
   public parsePartInsertedAsOnAirEvent(event: unknown): RundownPartInsertedAsOnAirEvent {
