@@ -109,10 +109,10 @@ export class ZodRundownEventParser implements RundownEventParser {
     type: zod.literal(RundownEventType.RUNDOWN_CREATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
-    basicRundown: zod
+    rundown: zod
       .object({})
       .passthrough()
-      .transform((basicRundown: unknown) => this.entityParser.parseBasicRundown(basicRundown)),
+      .transform((rundown: unknown) => this.entityParser.parseRundown(rundown)),
   })
 
   private readonly rundownUpdatedEventParser = zod.object({

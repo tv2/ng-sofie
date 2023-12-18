@@ -87,10 +87,10 @@ export class RundownStateService implements OnDestroy {
       this.rundownEventObserver.subscribeToRundownPartInsertedAsOnAir(this.insertPartAsOnAirFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownPartInsertedAsNext(this.insertPartAsNextFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownPieceInserted(this.insertPieceFromEvent.bind(this)),
-      this.rundownEventObserver.subscribeToSegmentCreation(this.createSegmentFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToSegmentCreation(this.insertSegmentFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToSegmentUpdates(this.updateSegmentFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToSegmentDeletion(this.deleteSegmentFromEvent.bind(this)),
-      this.rundownEventObserver.subscribeToPartCreation(this.createPartFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToPartCreation(this.insertPartFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToPartUpdates(this.updatePartFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToPartDeletion(this.deletePartFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToSegmentUnsync(this.unsyncSegmentFromEvent.bind(this)),
@@ -109,7 +109,7 @@ export class RundownStateService implements OnDestroy {
 
   private getRundownSubject(rundownId: string): BehaviorSubject<Rundown | undefined> | undefined {
     const rundownSubject = this.rundownSubjects.get(rundownId)
-    if (!rundownSubject || !rundownSubject.value) {
+    if (!rundownSubject) {
       return
     }
     const wasRemoved: boolean = this.removeSubjectIfItHasNoObservers(rundownSubject).wasRemoved
@@ -138,19 +138,11 @@ export class RundownStateService implements OnDestroy {
 
   private createRundownFromEvent(event: RundownCreatedEvent): void {
     const rundownSubject = this.getRundownSubject(event.rundownId)
-    if (!rundownSubject) {
-      this.createRundownSubject(event.rundownId)
-        .then(rundownSubject => {
-          setTimeout(
-            () =>
-              void this.fetchRundown(event.rundownId).then(rundown => {
-                rundownSubject.next(rundown)
-              }),
-            500
-          )
-        })
-        .catch(error => this.logger.data(error).warn(`Failed while creating rundown with id '${event.rundownId}':`))
+    if (rundownSubject) {
+      rundownSubject.next(event.rundown)
+      return
     }
+    this.rundownSubjects.set(event.rundownId, new BehaviorSubject<Rundown | undefined>(event.rundown))
   }
 
   private updateRundownFromEvent(event: RundownUpdatedEvent): void {
@@ -170,12 +162,12 @@ export class RundownStateService implements OnDestroy {
     rundownSubject.next(undefined)
   }
 
-  private createSegmentFromEvent(event: SegmentCreatedEvent): void {
+  private insertSegmentFromEvent(event: SegmentCreatedEvent): void {
     const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject || !rundownSubject.value) {
       return
     }
-    const updatedRundown: Rundown = this.rundownEntityService.createRundownSegment(rundownSubject.value, event.segment)
+    const updatedRundown: Rundown = this.rundownEntityService.insertSegmentInRundown(rundownSubject.value, event.segment)
     rundownSubject.next(updatedRundown)
   }
 
@@ -184,7 +176,7 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject || !rundownSubject.value) {
       return
     }
-    const updatedRundown: Rundown = this.rundownEntityService.updateRundownSegment(rundownSubject.value, event.segment)
+    const updatedRundown: Rundown = this.rundownEntityService.updateSegmentInRundown(rundownSubject.value, event.segment)
     rundownSubject.next(updatedRundown)
   }
 
@@ -193,7 +185,7 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject || !rundownSubject.value) {
       return
     }
-    const updatedRundown: Rundown = this.rundownEntityService.removeRundownSegment(rundownSubject.value, event.segmentId)
+    const updatedRundown: Rundown = this.rundownEntityService.removeSegmentFromRundown(rundownSubject.value, event.segmentId)
     rundownSubject.next(updatedRundown)
   }
 
@@ -202,16 +194,16 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject || !rundownSubject.value) {
       return
     }
-    const updateRundown: Rundown = this.rundownEntityService.unsyncRundownSegment(rundownSubject.value, event.unsyncedSegment, event.originalSegmentId)
+    const updateRundown: Rundown = this.rundownEntityService.unsyncSegmentInRundown(rundownSubject.value, event.unsyncedSegment, event.originalSegmentId)
     rundownSubject.next(updateRundown)
   }
 
-  private createPartFromEvent(event: PartCreatedEvent): void {
+  private insertPartFromEvent(event: PartCreatedEvent): void {
     const rundownSubject = this.getRundownSubject(event.rundownId)
     if (!rundownSubject || !rundownSubject.value) {
       return
     }
-    const updateRundown: Rundown = this.rundownEntityService.createRundownPart(rundownSubject.value, event.part)
+    const updateRundown: Rundown = this.rundownEntityService.insertPartInSegment(rundownSubject.value, event.part)
     rundownSubject.next(updateRundown)
   }
 
@@ -220,7 +212,7 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject || !rundownSubject.value) {
       return
     }
-    const updatedRundown: Rundown = this.rundownEntityService.updateRundownPart(rundownSubject.value, event.part)
+    const updatedRundown: Rundown = this.rundownEntityService.updatePartInSegment(rundownSubject.value, event.part)
     rundownSubject.next(updatedRundown)
   }
 
@@ -229,7 +221,7 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject || !rundownSubject.value) {
       return
     }
-    const updatedRundown: Rundown = this.rundownEntityService.removeRundownPart(rundownSubject.value, event.segmentId, event.partId)
+    const updatedRundown: Rundown = this.rundownEntityService.removePartFromSegment(rundownSubject.value, event.segmentId, event.partId)
     rundownSubject.next(updatedRundown)
   }
 
@@ -238,7 +230,7 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject || !rundownSubject.value) {
       return
     }
-    const updatedRundown: Rundown = this.rundownEntityService.unsyncRundownPart(rundownSubject.value, event.part)
+    const updatedRundown: Rundown = this.rundownEntityService.unsyncPartInSegment(rundownSubject.value, event.part)
     rundownSubject.next(updatedRundown)
   }
 

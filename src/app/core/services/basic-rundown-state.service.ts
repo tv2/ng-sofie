@@ -89,7 +89,7 @@ export class BasicRundownStateService implements OnDestroy {
   }
 
   private createBasicRundownFromEvent(event: RundownCreatedEvent): void {
-    this.basicRundowns = [...this.basicRundowns.filter(basicRundown => basicRundown.id !== event.rundownId), event.basicRundown]
+    this.basicRundowns = [...this.basicRundowns.filter(basicRundown => basicRundown.id !== event.rundownId), event.rundown]
     this.basicRundownsSubject.next(this.basicRundowns)
   }
 
