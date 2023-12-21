@@ -10,13 +10,9 @@ import { HttpConfigurationCacheService } from '../../services/http-configuration
 export class ClearCacheComponent {
   private readonly logger: Logger
   private readonly httpConfigurationCacheService: HttpConfigurationCacheService
-  constructor(
-    logger: Logger,
-    httpConfigurationCacheService: HttpConfigurationCacheService,
-  ) {
+  constructor(logger: Logger, httpConfigurationCacheService: HttpConfigurationCacheService) {
     this.httpConfigurationCacheService = httpConfigurationCacheService
     this.logger = logger.tag('ClearCacheComponent')
-    this.logger.info('constructor')
   }
   public actionClearConfigurationCache(): void {
     this.logger.info('actionClearConfigurationCache')
