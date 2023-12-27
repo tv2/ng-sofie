@@ -11,7 +11,7 @@ import { HttpConfigurationCacheService } from './services/http-configuration-cac
 
 @NgModule({
   declarations: [SettingsComponent, SettingsMenuComponent, ClearCacheComponent],
-  providers: [HttpConfigurationCacheService],
   imports: [SettingsRoutingModule, SharedModule, MatSidenavModule, MatToolbarModule, MatListModule],
+  providers: [HttpConfigurationCacheService],
 })
 export class SettingsModule {}
