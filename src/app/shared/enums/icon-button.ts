@@ -5,6 +5,10 @@ export enum IconButton {
   PLUS = 'PLUS',
   MINUS = 'MINUS',
   HORIZONTAL_ARROWS = 'HORIZONTAL_ARROWS',
+  COPY = 'COPY',
+  SORT = 'SORT',
+  FILTER = 'FILTER',
+  SQUARE_CHECK = 'SQUARE_CHECK',
 }
 
 export enum IconButtonSize {

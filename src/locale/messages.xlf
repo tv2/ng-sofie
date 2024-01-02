@@ -59,6 +59,81 @@
       <trans-unit id="4380077604653787346" datatype="html">
         <source>settings.clear-cache.label</source>
       </trans-unit>
+      <trans-unit id="363239608614074698" datatype="html">
+        <source>action-triggers.no-shortcuts.label</source>
+      </trans-unit>
+      <trans-unit id="3982465886333434114" datatype="html">
+        <source>action-triggers.keyboard-shortcuts.label</source>
+      </trans-unit>
+      <trans-unit id="4236071901286997238" datatype="html">
+        <source>action-triggers.action-argument.label</source>
+      </trans-unit>
+      <trans-unit id="5071145978603597350" datatype="html">
+        <source>global.save.button</source>
+      </trans-unit>
+      <trans-unit id="5998298101573406065" datatype="html">
+        <source>action-triggers.import-shortcuts.button</source>
+      </trans-unit>
+      <trans-unit id="6452586448481444952" datatype="html">
+        <source>action-triggers.selected-action-id.label</source>
+      </trans-unit>
+      <trans-unit id="7618983089240067205" datatype="html">
+        <source>action-triggers.shortcut.label</source>
+      </trans-unit>
+      <trans-unit id="8600924712017711472" datatype="html">
+        <source>global.cancel.button</source>
+      </trans-unit>
+      <trans-unit id="8903207483897140758" datatype="html">
+        <source>action-triggers.export-shortcuts.button</source>
+      </trans-unit>
+      <trans-unit id="946249916134408794" datatype="html">
+        <source>action-triggers.no-actions.label</source>
+      </trans-unit>
+      <trans-unit id="948302468790980101" datatype="html">
+        <source>action-triggers.create-shortcut.button</source>
+      </trans-unit>
+      <trans-unit id="3296269694384339031" datatype="html">
+        <source>action-triggers.create-shortcut.title</source>
+      </trans-unit>
+      <trans-unit id="5494360365717860632" datatype="html">
+        <source>action-triggers.update-shortcut.title</source>
+      </trans-unit>
+      <trans-unit id="2372225858869981312" datatype="html">
+        <source>action-triggers-sort.action-id-z-a.label</source>
+      </trans-unit>
+      <trans-unit id="4507516233891515823" datatype="html">
+        <source>action-triggers-sort.shortcut-z-a.label</source>
+      </trans-unit>
+      <trans-unit id="7501524180811696949" datatype="html">
+        <source>action-triggers-sort.shortcut-a-z.label</source>
+      </trans-unit>
+      <trans-unit id="8226341358716533598" datatype="html">
+        <source>action-triggers-sort.action-id-a-z.label</source>
+      </trans-unit>
+      <trans-unit id="8924063720972378650" datatype="html">
+        <source>global.sort.label</source>
+      </trans-unit>
+      <trans-unit id="556928192640127224" datatype="html">
+        <source>action-triggers-sort.export-selected.label</source>
+      </trans-unit>
+      <trans-unit id="7386626478307143738" datatype="html">
+        <source>action-triggers.delete-selected.label</source>
+      </trans-unit>
+      <trans-unit id="1532790028301204513" datatype="html">
+        <source>global.delete.label</source>
+      </trans-unit>
+      <trans-unit id="1543520618037329297" datatype="html">
+        <source>action-triggers.delete-selected.confirmation</source>
+      </trans-unit>
+      <trans-unit id="5133358426840332221" datatype="html">
+        <source>action-triggers.delete.confirmation</source>
+      </trans-unit>
+      <trans-unit id="4054896224656862418" datatype="html">
+        <source>global.select-all.label</source>
+      </trans-unit>
+      <trans-unit id="4978684078154973195" datatype="html">
+        <source>global.unselect-all.label</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

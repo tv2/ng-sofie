@@ -1,7 +1,7 @@
 import { Component, HostBinding, Inject } from '@angular/core'
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { StronglyTypedDialog } from '../../directives/strongly-typed-dialog.directive'
 import { ThemePalette } from '@angular/material/core'
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 
 export enum DialogSeverity {
   INFO = 'INFO',
