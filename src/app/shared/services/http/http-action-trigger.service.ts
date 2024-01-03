@@ -4,7 +4,7 @@ import { ActionTriggerService } from '../../abstractions/action-trigger.service'
 import { ActionTrigger, CreateActionTrigger, KeyboardTriggerData } from '../../models/action-trigger'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../../../environments/environment'
-import { ActionTriggerParser } from '../../abstractions/action-trigger-parser.service'
+import { ActionTriggerValidator } from '../../abstractions/action-trigger-parser.service'
 import { HttpErrorService } from './http-error.service'
 import { HttpResponse } from './http-response'
 
@@ -15,7 +15,7 @@ export class HttpActionTriggerService extends ActionTriggerService {
   constructor(
     private readonly http: HttpClient,
     private readonly httpErrorService: HttpErrorService,
-    private readonly actionTriggerParser: ActionTriggerParser
+    private readonly actionTriggerParser: ActionTriggerValidator
   ) {
     super()
   }

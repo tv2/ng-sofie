@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { ActionTrigger, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { ActionTriggerParser } from 'src/app/shared/abstractions/action-trigger-parser.service'
+import { ActionTriggerValidator } from 'src/app/shared/abstractions/action-trigger-parser.service'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { ActionTriggerEventType } from 'src/app/core/models/action-trigger-event-type'
 
@@ -17,7 +17,7 @@ export class ActionTriggersImportComponent {
 
   constructor(
     private readonly actionTriggerStateService: ActionTriggerStateService,
-    private readonly actionTriggerParser: ActionTriggerParser,
+    private readonly actionTriggerParser: ActionTriggerValidator,
     private readonly snackBar: MatSnackBar
   ) {}
 

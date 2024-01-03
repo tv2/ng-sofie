@@ -27,7 +27,7 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
 import { CdkMenuModule } from '@angular/cdk/menu'
 import { ActionStateService } from './services/action-state.service'
 import { ActionValidator } from './abstractions/action-validator.service'
-import { ZodActionParser } from './services/zod-action-parser.service'
+import { ZodActionValidator } from './services/zod-action-validator.service'
 import { Tv2ActionValidator } from './abstractions/tv2-action-validator.service'
 import { ZodTv2ActionValidator } from './services/zod-tv2-action-validator.service'
 import { RundownNavigationService } from './services/rundown-navigation-service'
@@ -37,8 +37,8 @@ import { TimerPipe } from './pipes/timer/timer.pipe'
 import { MatSelectModule } from '@angular/material/select'
 import { ActionTriggerService } from './abstractions/action-trigger.service'
 import { HttpActionTriggerService } from './services/http/http-action-trigger.service'
-import { ActionTriggerParser } from './abstractions/action-trigger-parser.service'
-import { ZodActionTriggerParser } from './services/zod-action-trigger-parser.service'
+import { ActionTriggerValidator } from './abstractions/action-trigger-parser.service'
+import { ZodActionTriggerValidator } from './services/zod-action-trigger-parser.service'
 import { HttpClientModule } from '@angular/common/http'
 import { HttpErrorService } from './services/http/http-error.service'
 import { Logger } from '../core/abstractions/logger.service'
@@ -112,8 +112,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     { provide: Logger, useClass: Tv2LoggerService },
     { provide: ActionService, useClass: HttpActionService },
     { provide: ActionTriggerService, useClass: HttpActionTriggerService },
-    { provide: ActionValidator, useClass: ZodActionParser },
-    { provide: ActionTriggerParser, useClass: ZodActionTriggerParser },
+    { provide: ActionValidator, useClass: ZodActionValidator },
+    { provide: ActionTriggerValidator, useClass: ZodActionTriggerValidator },
     { provide: Tv2ActionValidator, useClass: ZodTv2ActionValidator },
     HttpErrorService,
     HttpClientModule,

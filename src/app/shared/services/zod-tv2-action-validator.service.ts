@@ -4,7 +4,7 @@ import { Action } from '../models/action'
 import * as zod from 'zod'
 
 export class ZodTv2ActionValidator implements Tv2ActionValidator {
-  private readonly tv2ActionMetadataParser = zod
+  private readonly tv2ActionMetadataValidator = zod
     .object({
       contentType: zod.nativeEnum(Tv2ActionContentType),
     })
@@ -12,7 +12,7 @@ export class ZodTv2ActionValidator implements Tv2ActionValidator {
   public parseTv2Action(action: Action): Tv2Action {
     return {
       ...action,
-      metadata: this.tv2ActionMetadataParser.parse(action.metadata),
+      metadata: this.tv2ActionMetadataValidator.parse(action.metadata),
     }
   }
 }
