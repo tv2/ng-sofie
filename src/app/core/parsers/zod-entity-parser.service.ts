@@ -1,4 +1,4 @@
-import { EntityParser } from '../abstractions/entity-parser.service'
+import { EntityValidator } from '../abstractions/entity-parser.service'
 import { BasicRundown } from '../models/basic-rundown'
 import { Part } from '../models/part'
 import { Rundown } from '../models/rundown'
@@ -7,11 +7,12 @@ import * as zod from 'zod'
 import { ShowStyleVariant } from '../models/show-style-variant'
 import { Tv2PieceType } from '../enums/tv2-piece-type'
 import { Tv2OutputLayer } from '../models/tv2-output-layer'
-import { Tv2Piece } from '../models/tv2-piece'
 import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Tv2AudioMode } from '../enums/tv2-audio-mode'
+import { Piece } from '../models/piece'
+import { Tv2Piece } from '../models/tv2-piece'
 
-export class ZodEntityParser implements EntityParser {
+export class ZodEntityParser implements EntityValidator {
   private readonly blueprintConfigurationParser = zod.object({
     SelectedGfxSetupName: zod.object({
       value: zod.string(),
@@ -127,31 +128,31 @@ export class ZodEntityParser implements EntityParser {
     infinitePieces: this.pieceParser.array(),
   })
 
-  public parsePiece(piece: unknown): Tv2Piece {
+  public validatePiece(piece: unknown): Tv2Piece {
     return this.pieceParser.parse(piece)
   }
 
-  public parsePart(part: unknown): Part {
+  public validatePart(part: unknown): Part {
     return this.partParser.parse(part)
   }
 
-  public parseSegment(segment: unknown): Segment {
+  public validateSegment(segment: unknown): Segment {
     return this.segmentParser.parse(segment)
   }
 
-  public parseBasicRundown(basicRundown: unknown): BasicRundown {
+  public validateBasicRundown(basicRundown: unknown): BasicRundown {
     return this.basicRundownParser.parse(basicRundown)
   }
 
-  public parseBasicRundowns(basicRundowns: unknown): BasicRundown[] {
+  public validateBasicRundowns(basicRundowns: unknown[]): BasicRundown[] {
     return this.basicRundownsParser.parse(basicRundowns)
   }
 
-  public parseRundown(rundown: unknown): Rundown {
+  public validateRundown(rundown: unknown): Rundown {
     return this.rundownParser.parse(rundown)
   }
 
-  public parseShowStyleVariant(showStyleVariant: unknown): ShowStyleVariant {
+  public validateShowStyleVariant(showStyleVariant: unknown): ShowStyleVariant {
     return this.showStyleVariantParser.parse(showStyleVariant)
   }
 }

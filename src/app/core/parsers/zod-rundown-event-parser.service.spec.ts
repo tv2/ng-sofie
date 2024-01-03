@@ -15,7 +15,7 @@ import {
   RundownResetEvent,
   RundownUpdatedEvent,
 } from '../models/rundown-event'
-import { EntityParser } from '../abstractions/entity-parser.service'
+import { EntityValidator } from '../abstractions/entity-parser.service'
 import { Piece } from '../models/piece'
 import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 import { RundownTimingType } from '../enums/rundown-timing-type'
@@ -217,7 +217,7 @@ describe(ZodRundownEventParser.name, () => {
   describe(ZodRundownEventParser.prototype.parsePartInsertedAsOnAirEvent.name, () => {
     it('parses a rundown part is inserted as on-air event', () => {
       const mockedEntityParser = createMockOfEntityParser()
-      when(mockedEntityParser.parsePart(anything())).thenCall(part => part)
+      when(mockedEntityParser.validatePart(anything())).thenCall(part => part)
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
       const event: RundownPartInsertedAsOnAirEvent = {
         type: RundownEventType.PART_INSERTED_AS_ON_AIR,
@@ -260,7 +260,7 @@ describe(ZodRundownEventParser.name, () => {
   describe(ZodRundownEventParser.prototype.parsePartInsertedAsNextEvent.name, () => {
     it('parses a rundown part is inserted as next event', () => {
       const mockedEntityParser = createMockOfEntityParser()
-      when(mockedEntityParser.parsePart(anything())).thenCall(part => part)
+      when(mockedEntityParser.validatePart(anything())).thenCall(part => part)
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
       const event: RundownPartInsertedAsNextEvent = {
         type: RundownEventType.PART_INSERTED_AS_NEXT,
@@ -305,7 +305,7 @@ describe(ZodRundownEventParser.name, () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const piece: Piece = testEntityFactory.createPiece()
       const mockedEntityParser = createMockOfEntityParser()
-      when(mockedEntityParser.parsePart(anything())).thenCall(part => part)
+      when(mockedEntityParser.validatePart(anything())).thenCall(part => part)
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
       const event: RundownPieceInsertedEvent = {
         type: RundownEventType.PIECE_INSERTED,
@@ -443,10 +443,10 @@ describe(ZodRundownEventParser.name, () => {
   })
 })
 
-function createMockOfEntityParser(): EntityParser {
-  const mockedEntityParser = mock<EntityParser>()
-  when(mockedEntityParser.parsePiece(anything())).thenCall(piece => piece)
-  when(mockedEntityParser.parseBasicRundown(anything())).thenCall(basicRundown => basicRundown)
-  when(mockedEntityParser.parseRundown(anything())).thenCall(rundown => rundown)
+function createMockOfEntityParser(): EntityValidator {
+  const mockedEntityParser = mock<EntityValidator>()
+  when(mockedEntityParser.validatePiece(anything())).thenCall(piece => piece)
+  when(mockedEntityParser.validateBasicRundown(anything())).thenCall(basicRundown => basicRundown)
+  when(mockedEntityParser.validateRundown(anything())).thenCall(rundown => rundown)
   return mockedEntityParser
 }

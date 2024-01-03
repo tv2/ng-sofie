@@ -23,7 +23,7 @@ import {
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
-import { EntityParser } from '../abstractions/entity-parser.service'
+import { EntityValidator } from '../abstractions/entity-parser.service'
 import { RundownEventParser } from '../abstractions/rundown-event.parser'
 
 @Injectable()
@@ -69,7 +69,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     infinitePieces: zod
       .object({})
       .passthrough()
-      .transform((piece: unknown) => this.entityParser.parsePiece(piece))
+      .transform((piece: unknown) => this.entityParser.validatePiece(piece))
       .array(),
   })
 
@@ -80,7 +80,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     part: zod
       .object({})
       .passthrough()
-      .transform((part: unknown) => this.entityParser.parsePart(part)),
+      .transform((part: unknown) => this.entityParser.validatePart(part)),
   })
 
   private readonly rundownPartInsertedAsNextEventParser = zod.object({
@@ -90,7 +90,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     part: zod
       .object({})
       .passthrough()
-      .transform((part: unknown) => this.entityParser.parsePart(part)),
+      .transform((part: unknown) => this.entityParser.validatePart(part)),
   })
 
   private readonly rundownPieceInsertedEventParser = zod.object({
@@ -102,7 +102,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     piece: zod
       .object({})
       .passthrough()
-      .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
+      .transform((piece: unknown) => this.entityParser.validatePiece(piece)),
   })
 
   private readonly rundownCreatedEventParser = zod.object({
@@ -112,7 +112,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     rundown: zod
       .object({})
       .passthrough()
-      .transform((rundown: unknown) => this.entityParser.parseRundown(rundown)),
+      .transform((rundown: unknown) => this.entityParser.validateRundown(rundown)),
   })
 
   private readonly rundownUpdatedEventParser = zod.object({
@@ -122,7 +122,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     basicRundown: zod
       .object({})
       .passthrough()
-      .transform((basicRundown: unknown) => this.entityParser.parseBasicRundown(basicRundown)),
+      .transform((basicRundown: unknown) => this.entityParser.validateBasicRundown(basicRundown)),
   })
 
   private readonly rundownDeletedEventParser = zod.object({
@@ -138,7 +138,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     segment: zod
       .object({})
       .passthrough()
-      .transform((segment: unknown) => this.entityParser.parseSegment(segment)),
+      .transform((segment: unknown) => this.entityParser.validateSegment(segment)),
   })
 
   private readonly segmentUpdatedEventParser = zod.object({
@@ -148,7 +148,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     segment: zod
       .object({})
       .passthrough()
-      .transform((segment: unknown) => this.entityParser.parseSegment(segment)),
+      .transform((segment: unknown) => this.entityParser.validateSegment(segment)),
   })
 
   private readonly segmentDeletedEventParser = zod.object({
@@ -165,7 +165,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     unsyncedSegment: zod
       .object({})
       .passthrough()
-      .transform((segment: unknown) => this.entityParser.parseSegment(segment)),
+      .transform((segment: unknown) => this.entityParser.validateSegment(segment)),
     originalSegmentId: zod.string().min(1),
   })
 
@@ -176,7 +176,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     part: zod
       .object({})
       .passthrough()
-      .transform((part: unknown) => this.entityParser.parsePart(part)),
+      .transform((part: unknown) => this.entityParser.validatePart(part)),
   })
 
   private readonly partUpdatedEventParser = zod.object({
@@ -186,7 +186,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     part: zod
       .object({})
       .passthrough()
-      .transform((part: unknown) => this.entityParser.parsePart(part)),
+      .transform((part: unknown) => this.entityParser.validatePart(part)),
   })
 
   private readonly partDeletedEventParser = zod.object({
@@ -204,10 +204,10 @@ export class ZodRundownEventParser implements RundownEventParser {
     part: zod
       .object({})
       .passthrough()
-      .transform((part: unknown) => this.entityParser.parsePart(part)),
+      .transform((part: unknown) => this.entityParser.validatePart(part)),
   })
 
-  constructor(private readonly entityParser: EntityParser) {}
+  constructor(private readonly entityParser: EntityValidator) {}
 
   public parseRundownActivatedEvent(event: unknown): RundownActivatedEvent {
     return this.rundownActivatedEventParser.parse(event)

@@ -4,7 +4,7 @@ import { catchError, map, Observable } from 'rxjs'
 import { RundownService } from '../../abstractions/rundown.service'
 import { HttpErrorService } from '../../../shared/services/http/http-error.service'
 import { Rundown } from '../../models/rundown'
-import { EntityParser } from '../../abstractions/entity-parser.service'
+import { EntityValidator } from '../../abstractions/entity-parser.service'
 import { environment } from '../../../../environments/environment'
 import { HttpResponse } from '../../../shared/services/http/http-response'
 
@@ -15,13 +15,13 @@ export class HttpRundownService implements RundownService {
   constructor(
     private readonly http: HttpClient,
     private readonly httpErrorService: HttpErrorService,
-    private readonly entityParser: EntityParser
+    private readonly entityParser: EntityValidator
   ) {}
 
   public fetchRundown(rundownId: string): Observable<Rundown> {
     return this.http.get<HttpResponse<Rundown>>(`${RUNDOWN_URL}/${rundownId}`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
-      map(response => this.entityParser.parseRundown(response.data))
+      map(response => this.entityParser.validateRundown(response.data))
     )
   }
 
