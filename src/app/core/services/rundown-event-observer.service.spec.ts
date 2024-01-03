@@ -64,12 +64,12 @@ describe(RundownEventObserver.name, () => {
 
 function createTestee(parameters: { eventObserver?: EventObserver; rundownEventParser?: RundownEventValidator; logger?: Logger } = {}): RundownEventObserver {
   const mockedEventObserver: EventObserver = parameters.eventObserver ?? instance(mock<EventObserver>())
-  const mockedRundownEventParser: RundownEventValidator = parameters.rundownEventParser ?? instance(createMockOfRundownEventParser())
+  const mockedRundownEventParser: RundownEventValidator = parameters.rundownEventParser ?? instance(createMockOfRundownEventValidator())
   const mockedLogger: Logger = parameters.logger ?? createLogger()
   return new RundownEventObserver(mockedEventObserver, mockedRundownEventParser, mockedLogger)
 }
 
-function createMockOfRundownEventParser(): RundownEventValidator {
+function createMockOfRundownEventValidator(): RundownEventValidator {
   const mockedRundownEventParser = mock<RundownEventValidator>()
   when(mockedRundownEventParser.validateRundownActivatedEvent(anything())).thenCall(value => value)
   when(mockedRundownEventParser.validateRundownDeactivatedEvent(anything())).thenCall(value => value)

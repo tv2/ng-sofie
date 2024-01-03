@@ -169,10 +169,10 @@ export class RundownEventObserver {
     )
   }
 
-  private createEventValidatingConsumer<T>(consumer: (event: T) => void, parser: (maybeEvent: unknown) => T): EventConsumer {
+  private createEventValidatingConsumer<T>(consumer: (event: T) => void, validator: (maybeEvent: unknown) => T): EventConsumer {
     return (event: TypedEvent) => {
       try {
-        const activationEvent: T = parser(event)
+        const activationEvent: T = validator(event)
         consumer(activationEvent)
       } catch (error) {
         this.logger.data({ error, event }).error('Failed to parse Rundown event.')
