@@ -1,7 +1,7 @@
 import { RundownEventObserver } from './rundown-event-observer.service'
 import { anyString, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
 import { EventObserver, EventSubscription } from '../../event-system/abstractions/event-observer.service'
-import { RundownEventParser } from '../abstractions/rundown-event.parser'
+import { RundownEventValidator } from '../abstractions/rundown-event-validator.service'
 import { RundownEventType } from '../models/rundown-event-type'
 import { Logger } from '../abstractions/logger.service'
 import { TestLoggerFactory } from '../../test/factories/test-logger.factory'
@@ -62,21 +62,21 @@ describe(RundownEventObserver.name, () => {
   })
 })
 
-function createTestee(parameters: { eventObserver?: EventObserver; rundownEventParser?: RundownEventParser; logger?: Logger } = {}): RundownEventObserver {
+function createTestee(parameters: { eventObserver?: EventObserver; rundownEventParser?: RundownEventValidator; logger?: Logger } = {}): RundownEventObserver {
   const mockedEventObserver: EventObserver = parameters.eventObserver ?? instance(mock<EventObserver>())
-  const mockedRundownEventParser: RundownEventParser = parameters.rundownEventParser ?? instance(createMockOfRundownEventParser())
+  const mockedRundownEventParser: RundownEventValidator = parameters.rundownEventParser ?? instance(createMockOfRundownEventParser())
   const mockedLogger: Logger = parameters.logger ?? createLogger()
   return new RundownEventObserver(mockedEventObserver, mockedRundownEventParser, mockedLogger)
 }
 
-function createMockOfRundownEventParser(): RundownEventParser {
-  const mockedRundownEventParser = mock<RundownEventParser>()
-  when(mockedRundownEventParser.parseRundownActivatedEvent(anything())).thenCall(value => value)
-  when(mockedRundownEventParser.parseRundownDeactivatedEvent(anything())).thenCall(value => value)
-  when(mockedRundownEventParser.parseRundownResetEvent(anything())).thenCall(value => value)
-  when(mockedRundownEventParser.parseTakenEvent(anything())).thenCall(value => value)
-  when(mockedRundownEventParser.parseSetNextEvent(anything())).thenCall(value => value)
-  when(mockedRundownEventParser.parseInfinitePiecesUpdatedEvent(anything())).thenCall(value => value)
+function createMockOfRundownEventParser(): RundownEventValidator {
+  const mockedRundownEventParser = mock<RundownEventValidator>()
+  when(mockedRundownEventParser.validateRundownActivatedEvent(anything())).thenCall(value => value)
+  when(mockedRundownEventParser.validateRundownDeactivatedEvent(anything())).thenCall(value => value)
+  when(mockedRundownEventParser.validateRundownResetEvent(anything())).thenCall(value => value)
+  when(mockedRundownEventParser.validateTakenEvent(anything())).thenCall(value => value)
+  when(mockedRundownEventParser.validateSetNextEvent(anything())).thenCall(value => value)
+  when(mockedRundownEventParser.validateInfinitePiecesUpdatedEvent(anything())).thenCall(value => value)
   return mockedRundownEventParser
 }
 

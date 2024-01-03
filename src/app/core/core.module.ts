@@ -4,7 +4,7 @@ import { EnsureLoadedOnceGuard } from './ensure-loaded-once.guard'
 import { ConnectionStatusObserver } from './services/connection-status-observer.service'
 import { RundownEventObserver } from './services/rundown-event-observer.service'
 import { RundownStateService } from './services/rundown-state.service'
-import { RundownEventParser } from './abstractions/rundown-event.parser'
+import { RundownEventValidator } from './abstractions/rundown-event-validator.service'
 import { BasicRundownStateService } from './services/basic-rundown-state.service'
 import { ZodRundownEventParser } from './parsers/zod-rundown-event-parser.service'
 import { EventSystemModule } from '../event-system/event-system.module'
@@ -37,7 +37,7 @@ import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-
     RundownStateService,
     BasicRundownStateService,
     ShowStyleVariantStateService,
-    { provide: RundownEventParser, useClass: ZodRundownEventParser },
+    { provide: RundownEventValidator, useClass: ZodRundownEventParser },
     { provide: ShowStyleVariantService, useClass: HttpShowStyleVariantService },
     { provide: RundownService, useClass: HttpRundownService },
     { provide: BasicRundownService, useClass: HttpBasicRundownService },

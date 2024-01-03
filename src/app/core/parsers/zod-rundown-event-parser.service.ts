@@ -24,10 +24,10 @@ import {
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
 import { EntityValidator } from '../abstractions/entity-parser.service'
-import { RundownEventParser } from '../abstractions/rundown-event.parser'
+import { RundownEventValidator } from '../abstractions/rundown-event-validator.service'
 
 @Injectable()
-export class ZodRundownEventParser implements RundownEventParser {
+export class ZodRundownEventParser implements RundownEventValidator {
   private readonly rundownActivatedEventParser = zod.object({
     type: zod.literal(RundownEventType.ACTIVATED),
     timestamp: zod.number(),
@@ -209,82 +209,82 @@ export class ZodRundownEventParser implements RundownEventParser {
 
   constructor(private readonly entityParser: EntityValidator) {}
 
-  public parseRundownActivatedEvent(event: unknown): RundownActivatedEvent {
+  public validateRundownActivatedEvent(event: unknown): RundownActivatedEvent {
     return this.rundownActivatedEventParser.parse(event)
   }
-  public parseRundownDeactivatedEvent(event: unknown): RundownDeactivatedEvent {
+  public validateRundownDeactivatedEvent(event: unknown): RundownDeactivatedEvent {
     return this.rundownDeactivatedEventParser.parse(event)
   }
 
-  public parseRundownResetEvent(event: unknown): RundownResetEvent {
+  public validateRundownResetEvent(event: unknown): RundownResetEvent {
     return this.rundownResetEventParser.parse(event)
   }
 
-  public parseTakenEvent(event: unknown): PartTakenEvent {
+  public validateTakenEvent(event: unknown): PartTakenEvent {
     return this.rundownTakenEventParser.parse(event)
   }
 
-  public parseSetNextEvent(event: unknown): PartSetAsNextEvent {
+  public validateSetNextEvent(event: unknown): PartSetAsNextEvent {
     return this.rundownSetNextEventParser.parse(event)
   }
 
-  public parseInfinitePiecesUpdatedEvent(event: unknown): RundownInfinitePiecesUpdatedEvent {
+  public validateInfinitePiecesUpdatedEvent(event: unknown): RundownInfinitePiecesUpdatedEvent {
     return this.rundownInfinitePiecesUpdatedEventParser.parse(event)
   }
 
-  public parsePartInsertedAsOnAirEvent(event: unknown): RundownPartInsertedAsOnAirEvent {
+  public validatePartInsertedAsOnAirEvent(event: unknown): RundownPartInsertedAsOnAirEvent {
     return this.rundownPartInsertedAsOnAirEventParser.parse(event)
   }
 
-  public parsePartInsertedAsNextEvent(event: unknown): RundownPartInsertedAsNextEvent {
+  public validatePartInsertedAsNextEvent(event: unknown): RundownPartInsertedAsNextEvent {
     return this.rundownPartInsertedAsNextEventParser.parse(event)
   }
 
-  public parsePieceInsertedEvent(event: unknown): RundownPieceInsertedEvent {
+  public validatePieceInsertedEvent(event: unknown): RundownPieceInsertedEvent {
     return this.rundownPieceInsertedEventParser.parse(event)
   }
 
-  public parseRundownCreatedEvent(event: unknown): RundownCreatedEvent {
+  public validateRundownCreatedEvent(event: unknown): RundownCreatedEvent {
     return this.rundownCreatedEventParser.parse(event)
   }
 
-  public parseRundownUpdatedEvent(event: unknown): RundownUpdatedEvent {
+  public validateRundownUpdatedEvent(event: unknown): RundownUpdatedEvent {
     return this.rundownUpdatedEventParser.parse(event)
   }
 
-  public parseRundownDeletedEvent(event: unknown): RundownDeletedEvent {
+  public validateRundownDeletedEvent(event: unknown): RundownDeletedEvent {
     return this.rundownDeletedEventParser.parse(event)
   }
 
-  public parseSegmentCreatedEvent(event: unknown): SegmentCreatedEvent {
+  public validateSegmentCreatedEvent(event: unknown): SegmentCreatedEvent {
     return this.segmentCreatedEventParser.parse(event)
   }
 
-  public parseSegmentUpdatedEvent(event: unknown): SegmentUpdatedEvent {
+  public validateSegmentUpdatedEvent(event: unknown): SegmentUpdatedEvent {
     return this.segmentUpdatedEventParser.parse(event)
   }
 
-  public parseSegmentDeletedEvent(event: unknown): SegmentDeletedEvent {
+  public validateSegmentDeletedEvent(event: unknown): SegmentDeletedEvent {
     return this.segmentDeletedEventParser.parse(event)
   }
 
-  public parseSegmentUnsyncedEvent(event: unknown): SegmentUnsyncedEvent {
+  public validateSegmentUnsyncedEvent(event: unknown): SegmentUnsyncedEvent {
     return this.segmentUnsyncedEventParser.parse(event)
   }
 
-  public parsePartCreatedEvent(event: unknown): PartCreatedEvent {
+  public validatePartCreatedEvent(event: unknown): PartCreatedEvent {
     return this.partCreatedEventParser.parse(event)
   }
 
-  public parsePartUpdatedEvent(event: unknown): PartUpdatedEvent {
+  public validatePartUpdatedEvent(event: unknown): PartUpdatedEvent {
     return this.partUpdatedEventParser.parse(event)
   }
 
-  public parsePartDeletedEvent(event: unknown): PartDeletedEvent {
+  public validatePartDeletedEvent(event: unknown): PartDeletedEvent {
     return this.partDeletedEventParser.parse(event)
   }
 
-  public parsePartUnsyncedEvent(event: unknown): PartUnsyncedEvent {
+  public validatePartUnsyncedEvent(event: unknown): PartUnsyncedEvent {
     return this.partUnsyncedEventParser.parse(event)
   }
 }

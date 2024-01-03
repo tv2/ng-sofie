@@ -9,7 +9,6 @@ import { Tv2PieceType } from '../enums/tv2-piece-type'
 import { Tv2OutputLayer } from '../models/tv2-output-layer'
 import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Tv2AudioMode } from '../enums/tv2-audio-mode'
-import { Piece } from '../models/piece'
 import { Tv2Piece } from '../models/tv2-piece'
 
 export class ZodEntityParser implements EntityValidator {

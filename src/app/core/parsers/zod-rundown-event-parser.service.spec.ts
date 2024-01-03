@@ -22,7 +22,7 @@ import { RundownTimingType } from '../enums/rundown-timing-type'
 import { BasicRundown } from '../models/basic-rundown'
 
 describe(ZodRundownEventParser.name, () => {
-  describe(ZodRundownEventParser.prototype.parseRundownActivatedEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.validateRundownActivatedEvent.name, () => {
     it('parses a rundown activated event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
@@ -32,7 +32,7 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = testee.parseRundownActivatedEvent(event)
+      const result = testee.validateRundownActivatedEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -45,13 +45,13 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = (): RundownActivatedEvent => testee.parseRundownActivatedEvent(event)
+      const result = (): RundownActivatedEvent => testee.validateRundownActivatedEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parseRundownDeactivatedEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.validateRundownDeactivatedEvent.name, () => {
     it('parses a rundown deactivated event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
@@ -61,7 +61,7 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = testee.parseRundownDeactivatedEvent(event)
+      const result = testee.validateRundownDeactivatedEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -73,13 +73,13 @@ describe(ZodRundownEventParser.name, () => {
         type: RundownEventType.DEACTIVATED,
       }
 
-      const result = (): RundownDeactivatedEvent => testee.parseRundownDeactivatedEvent(event)
+      const result = (): RundownDeactivatedEvent => testee.validateRundownDeactivatedEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parseRundownResetEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.validateRundownResetEvent.name, () => {
     it('parses a rundown reset event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
@@ -89,7 +89,7 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = testee.parseRundownResetEvent(event)
+      const result = testee.validateRundownResetEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -101,13 +101,13 @@ describe(ZodRundownEventParser.name, () => {
         type: RundownEventType.RESET,
       }
 
-      const result = (): RundownResetEvent => testee.parseRundownResetEvent(event)
+      const result = (): RundownResetEvent => testee.validateRundownResetEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parseTakenEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.validateTakenEvent.name, () => {
     it('parses a rundown taken event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
@@ -119,7 +119,7 @@ describe(ZodRundownEventParser.name, () => {
         partId: 'some-part-id',
       }
 
-      const result = testee.parseTakenEvent(event)
+      const result = testee.validateTakenEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -131,13 +131,13 @@ describe(ZodRundownEventParser.name, () => {
         type: RundownEventType.TAKEN,
       }
 
-      const result = (): PartTakenEvent => testee.parseTakenEvent(event)
+      const result = (): PartTakenEvent => testee.validateTakenEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parseSetNextEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.validateSetNextEvent.name, () => {
     it('parses a rundown set next event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
@@ -149,7 +149,7 @@ describe(ZodRundownEventParser.name, () => {
         partId: 'some-part-id',
       }
 
-      const result = testee.parseSetNextEvent(event)
+      const result = testee.validateSetNextEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -161,13 +161,13 @@ describe(ZodRundownEventParser.name, () => {
         type: RundownEventType.SET_NEXT,
       }
 
-      const result = (): PartSetAsNextEvent => testee.parseSetNextEvent(event)
+      const result = (): PartSetAsNextEvent => testee.validateSetNextEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parseInfinitePiecesUpdatedEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.validateInfinitePiecesUpdatedEvent.name, () => {
     it('parses a rundown infinite pieces updated event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
@@ -195,7 +195,7 @@ describe(ZodRundownEventParser.name, () => {
         ],
       }
 
-      const result = testee.parseInfinitePiecesUpdatedEvent(event)
+      const result = testee.validateInfinitePiecesUpdatedEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -208,13 +208,13 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = (): RundownInfinitePiecesUpdatedEvent => testee.parseInfinitePiecesUpdatedEvent(event)
+      const result = (): RundownInfinitePiecesUpdatedEvent => testee.validateInfinitePiecesUpdatedEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parsePartInsertedAsOnAirEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.validatePartInsertedAsOnAirEvent.name, () => {
     it('parses a rundown part is inserted as on-air event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       when(mockedEntityParser.validatePart(anything())).thenCall(part => part)
@@ -238,7 +238,7 @@ describe(ZodRundownEventParser.name, () => {
         },
       }
 
-      const result: RundownPartInsertedAsOnAirEvent = testee.parsePartInsertedAsOnAirEvent(event)
+      const result: RundownPartInsertedAsOnAirEvent = testee.validatePartInsertedAsOnAirEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -251,13 +251,13 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = (): RundownPartInsertedAsOnAirEvent => testee.parsePartInsertedAsOnAirEvent(event)
+      const result = (): RundownPartInsertedAsOnAirEvent => testee.validatePartInsertedAsOnAirEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parsePartInsertedAsNextEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.validatePartInsertedAsNextEvent.name, () => {
     it('parses a rundown part is inserted as next event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       when(mockedEntityParser.validatePart(anything())).thenCall(part => part)
@@ -281,7 +281,7 @@ describe(ZodRundownEventParser.name, () => {
         },
       }
 
-      const result: RundownPartInsertedAsNextEvent = testee.parsePartInsertedAsNextEvent(event)
+      const result: RundownPartInsertedAsNextEvent = testee.validatePartInsertedAsNextEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -294,13 +294,13 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = (): RundownPartInsertedAsNextEvent => testee.parsePartInsertedAsNextEvent(event)
+      const result = (): RundownPartInsertedAsNextEvent => testee.validatePartInsertedAsNextEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parsePieceInsertedEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.validatePieceInsertedEvent.name, () => {
     it('parses a rundown piece is inserted event', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const piece: Piece = testEntityFactory.createPiece()
@@ -316,7 +316,7 @@ describe(ZodRundownEventParser.name, () => {
         piece,
       }
 
-      const result: RundownPieceInsertedEvent = testee.parsePieceInsertedEvent(event)
+      const result: RundownPieceInsertedEvent = testee.validatePieceInsertedEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -329,13 +329,13 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = (): RundownPieceInsertedEvent => testee.parsePieceInsertedEvent(event)
+      const result = (): RundownPieceInsertedEvent => testee.validatePieceInsertedEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parseRundownCreatedEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.validateRundownCreatedEvent.name, () => {
     it('parses a rundown created event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
@@ -359,7 +359,7 @@ describe(ZodRundownEventParser.name, () => {
         },
       }
 
-      const result = testee.parseRundownCreatedEvent(event)
+      const result = testee.validateRundownCreatedEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -371,13 +371,13 @@ describe(ZodRundownEventParser.name, () => {
         type: RundownEventType.RUNDOWN_CREATED,
       }
 
-      const result = (): RundownCreatedEvent => testee.parseRundownCreatedEvent(event)
+      const result = (): RundownCreatedEvent => testee.validateRundownCreatedEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parseRundownUpdatedEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.validateRundownUpdatedEvent.name, () => {
     it('parses a rundown updated event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
@@ -396,7 +396,7 @@ describe(ZodRundownEventParser.name, () => {
         },
       }
 
-      const result = testee.parseRundownUpdatedEvent(event)
+      const result = testee.validateRundownUpdatedEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -408,13 +408,13 @@ describe(ZodRundownEventParser.name, () => {
         type: RundownEventType.RUNDOWN_UPDATED,
       }
 
-      const result = (): RundownUpdatedEvent => testee.parseRundownUpdatedEvent(event)
+      const result = (): RundownUpdatedEvent => testee.validateRundownUpdatedEvent(event)
 
       expect(result).toThrow()
     })
   })
 
-  describe(ZodRundownEventParser.prototype.parseRundownDeletedEvent.name, () => {
+  describe(ZodRundownEventParser.prototype.validateRundownDeletedEvent.name, () => {
     it('parses a rundown deleted event', () => {
       const mockedEntityParser = createMockOfEntityParser()
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))
@@ -424,7 +424,7 @@ describe(ZodRundownEventParser.name, () => {
         rundownId: 'some-rundown-id',
       }
 
-      const result = testee.parseRundownDeletedEvent(event)
+      const result = testee.validateRundownDeletedEvent(event)
 
       expect(result).toEqual(event)
     })
@@ -436,7 +436,7 @@ describe(ZodRundownEventParser.name, () => {
         type: RundownEventType.RUNDOWN_DELETED,
       }
 
-      const result = (): RundownDeletedEvent => testee.parseRundownDeletedEvent(event)
+      const result = (): RundownDeletedEvent => testee.validateRundownDeletedEvent(event)
 
       expect(result).toThrow()
     })
