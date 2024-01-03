@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core'
 import { AbstractControl, FormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
-import { ActionTrigger, EditActionsTriggers, KeyboardAndSelectionTriggerData } from 'src/app/shared/models/action-trigger'
-import { ActionService } from 'src/app/shared/abstractions/action.service'
+import { ActionTrigger, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
-import { MatSnackBar } from '@angular/material/snack-bar'
-import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
+import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
+import { ActionTriggerEventType } from 'src/app/core/models/action-trigger-event-type'
+import { ActionStateService } from 'src/app/shared/services/action-state.service'
+import { Logger } from 'src/app/core/abstractions/logger.service'
 
 export interface ActionTriggerUIForm {
   actionId: string
@@ -21,7 +22,6 @@ export interface ActionTriggerUIForm {
 })
 export class EditActionTriggersComponent implements OnChanges, OnInit {
   @Output() private readonly cancelActionTrigger: EventEmitter<void> = new EventEmitter<void>()
-  @Output() private readonly editActionTrigger: EventEmitter<void> = new EventEmitter<void>()
   @Input() public selectedActionTrigger: ActionTrigger<KeyboardAndSelectionTriggerData> | null
   public submitting: boolean = false
   public submitted: boolean = false
@@ -31,9 +31,9 @@ export class EditActionTriggersComponent implements OnChanges, OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly actionTriggerService: ActionTriggerService,
-    private readonly actionService: ActionService,
-    private readonly snackBar: MatSnackBar
+    private readonly actionTriggerStateService: ActionTriggerStateService,
+    private readonly logger: Logger,
+    private readonly actionStateService: ActionStateService
   ) {}
 
   public actionForm: UntypedFormGroup = this.fb.group({
@@ -58,12 +58,15 @@ export class EditActionTriggersComponent implements OnChanges, OnInit {
 
   public ngOnInit(): void {
     this.loading = true
-    this.actionService.getActions('jSXbtcsHTPjebGXurMzP401Z3u0_').subscribe({
-      next: loadedActions => {
-        this.actions = loadedActions as Tv2PartAction[]
-        this.loading = false
-      },
-    })
+    this.actionStateService
+      .subscribeToRundownActions('jSXbtcsHTPjebGXurMzP401Z3u0_')
+      .then(observable => observable.subscribe(actions => this.onActionsChanged(actions as Tv2PartAction[])))
+      .catch(error => this.logger.data(error).error('Error while listening to Action events'))
+  }
+
+  private onActionsChanged(loadedActions: Tv2PartAction[]): void {
+    this.actions = loadedActions
+    this.loading = false
   }
 
   private patchValue(actionValue: ActionTrigger<KeyboardAndSelectionTriggerData>): void {
@@ -93,7 +96,7 @@ export class EditActionTriggersComponent implements OnChanges, OnInit {
   }
 
   public get isUpdateAction(): boolean {
-    return !!this.selectedActionTrigger
+    return !!this.selectedActionTrigger && !!this.selectedActionTrigger.id
   }
 
   public submit(): void {
@@ -105,52 +108,24 @@ export class EditActionTriggersComponent implements OnChanges, OnInit {
     this.submitting = true
     const actionTriggerValue = this.prepareSendData(this.actionForm.value)
     if (this.isUpdateAction) {
-      this.updateActionTrigger({ ...actionTriggerValue, id: this.selectedActionTrigger?.id })
+      this.updateActionTrigger({ ...actionTriggerValue, id: this.selectedActionTrigger?.id as string })
     } else {
       this.createActionTrigger(actionTriggerValue)
     }
   }
 
-  private prepareSendData(formData: ActionTriggerUIForm): EditActionsTriggers {
+  private prepareSendData(formData: ActionTriggerUIForm): CreateActionTrigger<KeyboardTriggerData> {
     const keysArray: string[] = formData.data?.keys?.split(' + ')
-    const resultData: EditActionsTriggers = { actionId: formData.actionId, data: { keys: keysArray, actionArguments: +formData.data.actionArguments } }
+    const resultData: CreateActionTrigger<KeyboardTriggerData> = { actionId: formData.actionId, data: { keys: keysArray, actionArguments: +formData.data.actionArguments } }
     return resultData
   }
 
-  private createActionTrigger(attribute: EditActionsTriggers): void {
-    this.actionTriggerService.createActionTrigger(attribute).subscribe({
-      next: () => {
-        this.submitting = false
-        this.editActionTrigger.emit()
-        this.openSnackBar('Success create')
-      },
-      error: () => {
-        this.submitting = false
-        this.openDangerSnackBar('Fail to create')
-      },
-    })
+  private createActionTrigger(actionTrigger: CreateActionTrigger<KeyboardTriggerData>): void {
+    this.actionTriggerStateService.addCreatedActionTrigger({ type: ActionTriggerEventType.ACTION_TRIGGER_CREATED, timestamp: new Date().getTime(), actionTrigger: { ...actionTrigger } })
   }
 
-  private updateActionTrigger(attribute: EditActionsTriggers): void {
-    this.actionTriggerService.updateActionTrigger(attribute).subscribe({
-      next: () => {
-        this.submitting = false
-        this.editActionTrigger.emit()
-        this.openSnackBar('Success update')
-      },
-      error: () => {
-        this.submitting = false
-        this.openDangerSnackBar('Fail to update')
-      },
-    })
-  }
-
-  private openSnackBar(message: string): void {
-    this.snackBar.open(message, 'DISMISS', { panelClass: 'snackbar-success' })
-  }
-
-  private openDangerSnackBar(message: string): void {
-    this.snackBar.open(message, 'DISMISS', { panelClass: 'snackbar-danger' })
+  private updateActionTrigger(attribute: ActionTrigger<KeyboardTriggerData>): void {
+    this.actionTriggerStateService.updateActionTrigger({ type: ActionTriggerEventType.ACTION_TRIGGER_UPDATED, timestamp: new Date().getTime(), actionTrigger: { ...attribute } })
   }
 
   public cancelEdit(): void {

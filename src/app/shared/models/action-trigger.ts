@@ -13,13 +13,10 @@ export interface KeyboardAndSelectionTriggerData extends KeyboardTriggerData {
   selected?: boolean
 }
 
-export interface EditActionsTriggers {
+export interface CreateActionTrigger<Data = unknown> {
   actionId: string
+  data: Data
   id?: string
-  data: {
-    keys: string[]
-    actionArguments?: number
-  }
 }
 
 export enum ActionTriggerSortKeys {

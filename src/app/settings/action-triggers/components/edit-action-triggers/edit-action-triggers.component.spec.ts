@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { EditActionTriggersComponent } from './edit-action-triggers.component'
 import { ReactiveFormsModule } from '@angular/forms'
-import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockito'
-import { MatSnackBar } from '@angular/material/snack-bar'
-import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
+import { anything, instance, mock, when } from '@typestrong/ts-mockito'
 import { Observable, Subscription } from 'rxjs'
-import { ActionService } from 'src/app/shared/abstractions/action.service'
+import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
+import { Logger } from 'src/app/core/abstractions/logger.service'
+import { TestLoggerFactory } from 'src/app/test/factories/test-logger.factory'
+import { ActionStateService } from 'src/app/shared/services/action-state.service'
 
 describe('EditActionTriggersComponent', () => {
   it('should create', async () => {
@@ -15,13 +16,13 @@ describe('EditActionTriggersComponent', () => {
 })
 
 async function configureTestBed(): Promise<EditActionTriggersComponent> {
-  const mockedMatSnackBar = mock<MatSnackBar>()
-  const mockedActionTriggerService: ActionTriggerService = instance(createMockOfActionTriggersService())
+  const mockedActionTriggerStateService: ActionTriggerStateService = instance(createMockOfActionTriggersService())
+  const testLoggerFactory: TestLoggerFactory = new TestLoggerFactory()
   await TestBed.configureTestingModule({
     providers: [
-      { provide: MatSnackBar, useValue: mockedMatSnackBar },
-      { provide: ActionTriggerService, useValue: mockedActionTriggerService },
-      { provide: ActionService, useValue: instance(mock<ActionService>()) },
+      { provide: ActionTriggerStateService, useValue: mockedActionTriggerStateService },
+      { provide: ActionStateService, useValue: instance(mock<ActionStateService>()) },
+      { provide: Logger, useValue: testLoggerFactory.createLogger() },
     ],
     declarations: [EditActionTriggersComponent],
     imports: [ReactiveFormsModule],
@@ -31,12 +32,10 @@ async function configureTestBed(): Promise<EditActionTriggersComponent> {
   return fixture.componentInstance
 }
 
-function createMockOfActionTriggersService(): ActionTriggerService {
-  const mockedActionTriggersService = mock<ActionTriggerService>()
+function createMockOfActionTriggersService(): ActionTriggerStateService {
+  const mockedActionTriggersService = mock<ActionTriggerStateService>()
   const mockedSubscription = mock<Subscription>()
   const mockedObservable = mock<Observable<void>>()
   when(mockedObservable.subscribe(anything)).thenReturn(instance(mockedSubscription))
-  when(mockedActionTriggersService.createActionTrigger(anyString())).thenResolve()
-  when(mockedActionTriggersService.updateActionTrigger(anyString())).thenResolve()
   return mockedActionTriggersService
 }

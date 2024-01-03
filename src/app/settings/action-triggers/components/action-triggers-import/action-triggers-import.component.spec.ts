@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { ActionTriggersImportComponent } from './action-triggers-import.component'
-import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 import { anything, instance, mock, when } from '@typestrong/ts-mockito'
 import { Observable, Subscription } from 'rxjs'
 import { ActionTriggerParser } from 'src/app/shared/abstractions/action-trigger-parser.service'
+import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 describe('ActionTriggersImportComponent', () => {
@@ -14,12 +14,12 @@ describe('ActionTriggersImportComponent', () => {
 })
 
 async function configureTestBed(): Promise<ActionTriggersImportComponent> {
-  const mockedActionTriggerService: ActionTriggerService = instance(createMockOfActionTriggersService())
+  const mockedActionTriggerStateService: ActionTriggerStateService = instance(createMockOfActionTriggersService())
   const mockedActionTriggerParser: ActionTriggerParser = instance(createMockOfActionTriggerParserService())
   const mockedMatSnackBar = mock<MatSnackBar>()
   await TestBed.configureTestingModule({
     providers: [
-      { provide: ActionTriggerService, useValue: mockedActionTriggerService },
+      { provide: ActionTriggerStateService, useValue: mockedActionTriggerStateService },
       { provide: ActionTriggerParser, useValue: mockedActionTriggerParser },
       { provide: MatSnackBar, useValue: mockedMatSnackBar },
     ],
@@ -30,8 +30,8 @@ async function configureTestBed(): Promise<ActionTriggersImportComponent> {
   return fixture.componentInstance
 }
 
-function createMockOfActionTriggersService(): ActionTriggerService {
-  const mockedActionTriggersService = mock<ActionTriggerService>()
+function createMockOfActionTriggersService(): ActionTriggerStateService {
+  const mockedActionTriggersService = mock<ActionTriggerStateService>()
 
   const mockedSubscription = mock<Subscription>()
   const mockedObservable = mock<Observable<void>>()

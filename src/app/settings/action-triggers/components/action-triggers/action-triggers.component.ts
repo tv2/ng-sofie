@@ -1,43 +1,45 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActionTrigger, ActionTriggerSortKeys, KeyboardAndSelectionTriggerData } from 'src/app/shared/models/action-trigger'
 import { FilesUtil } from 'src/app/helper/files.util'
-import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 import { CopyUtil } from 'src/app/helper/copy.util'
+import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
+import { Subject, takeUntil } from 'rxjs'
 
 @Component({
   selector: 'sofie-action-triggers',
   templateUrl: './action-triggers.component.html',
   styleUrls: ['./action-triggers.component.scss'],
 })
-export class ActionTriggersComponent implements OnInit {
+export class ActionTriggersComponent implements OnInit, OnDestroy {
   public selectedAction: ActionTrigger<KeyboardAndSelectionTriggerData> | null
   public createAction: boolean
   public loading: boolean
   public actionsTriggersList: ActionTrigger<KeyboardAndSelectionTriggerData>[]
   public sort: ActionTriggerSortKeys = ActionTriggerSortKeys.ACTION_ID_A_Z
+  private readonly unsubscribe$: Subject<null> = new Subject<null>()
 
-  constructor(private readonly actionTriggerService: ActionTriggerService) {}
+  constructor(private readonly actionTriggerStateService: ActionTriggerStateService) {}
 
   public ngOnInit(): void {
-    this.loadActionsTriggers()
+    this.actionTriggerStateService
+      .getActionTriggerObservable()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: triggers => {
+          this.actionsTriggersList = CopyUtil.deepCopy(
+            triggers.map(trigger => {
+              return { ...trigger, ...{ data: { selected: false, ...trigger.data } } }
+            })
+          )
+          this.newSortSelect(this.sort)
+          this.loading = false
+        },
+      })
   }
 
-  private loadActionsTriggers(): void {
-    this.loading = true
-    this.actionTriggerService.getActionTriggers().subscribe({
-      next: triggers => {
-        this.actionsTriggersList = triggers.map(trigger => {
-          return { ...trigger, ...{ data: { selected: false, ...trigger.data } } }
-        })
-        this.newSortSelect(this.sort)
-        this.loading = false
-      },
-    })
-  }
-
-  public editActionTrigger(): void {
-    this.loadActionsTriggers()
-    this.cancelActionTrigger()
+  public ngOnDestroy(): void {
+    this.unsubscribe$.next(null)
+    this.unsubscribe$.unsubscribe()
   }
 
   public importStart(): void {

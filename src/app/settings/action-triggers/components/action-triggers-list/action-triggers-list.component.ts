@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { MatSnackBar } from '@angular/material/snack-bar'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
-import { ActionTrigger, ActionTriggerSortKeys, EditActionsTriggers, KeyboardAndSelectionTriggerData, UserActionsWithSelectedTriggers } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, ActionTriggerSortKeys, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData, UserActionsWithSelectedTriggers } from 'src/app/shared/models/action-trigger'
 import { SofieDroppdownOptions } from 'src/app/shared/components/dropdown-button/dropdown-button.component'
 import { FilesUtil } from 'src/app/helper/files.util'
 import { DialogService } from 'src/app/shared/services/dialog.service'
-import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 import { CopyUtil } from 'src/app/helper/copy.util'
+import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
+import { ActionTriggerEventType } from 'src/app/core/models/action-trigger-event-type'
 
 @Component({
   selector: 'sofie-action-triggers-list',
@@ -17,7 +17,6 @@ export class ActionTriggersListComponent {
   @Input() public actionsTriggersList: ActionTrigger<KeyboardAndSelectionTriggerData>[]
   @Input() public selectedActionTrigger: ActionTrigger<KeyboardAndSelectionTriggerData> | null
   @Input() public sort: ActionTriggerSortKeys
-  @Output() private readonly copyActionTrigger: EventEmitter<void> = new EventEmitter<void>()
   @Output() private readonly actionTriggerSelect: EventEmitter<ActionTrigger<KeyboardAndSelectionTriggerData> | null> = new EventEmitter<ActionTrigger<KeyboardAndSelectionTriggerData> | null>()
   @Output() private readonly newSortSelect: EventEmitter<ActionTriggerSortKeys> = new EventEmitter<ActionTriggerSortKeys>()
   public search: string = ''
@@ -39,9 +38,8 @@ export class ActionTriggersListComponent {
   public selectedCount: number = 0
 
   constructor(
-    private readonly actionTriggerService: ActionTriggerService,
     private readonly dialogService: DialogService,
-    private readonly snackBar: MatSnackBar
+    private readonly actionTriggerStateService: ActionTriggerStateService
   ) {}
 
   get filteredActionsTriggers(): ActionTrigger<KeyboardAndSelectionTriggerData>[] {
@@ -66,36 +64,22 @@ export class ActionTriggersListComponent {
   }
 
   public deleteActionTriggerById(actionTriggerId: string, deleteAllSelected?: boolean): void {
-    this.actionTriggerService.deleteActionTrigger(actionTriggerId).subscribe({
-      next: () => {
-        if (this.selectedActionTrigger?.id === actionTriggerId) {
-          this.actionTriggerSelect.emit(null)
-        }
-        this.actionsTriggersList = this.actionsTriggersList.filter(action => action.id !== actionTriggerId)
-        if (deleteAllSelected && this.selectedActionTriggers.length > 0) {
-          this.deleteActionTriggerById(this.selectedActionTriggers[0].id, true)
-        } else {
-          if (deleteAllSelected) this.selectedCount = 0
-          this.openSnackBar('Success delete')
-        }
-      },
-      error: () => {
-        this.openDangerSnackBar('Fail to delete')
-      },
-    })
+    if (deleteAllSelected) {
+      for (let deleteActionTrigger of this.selectedActionTriggers) {
+        this.actionTriggerStateService.removeActionTrigger({ actionTriggerId: deleteActionTrigger.id, timestamp: new Date().getTime(), type: ActionTriggerEventType.ACTION_TRIGGER_DELETED })
+      }
+    } else {
+      this.actionTriggerStateService.removeActionTrigger({ actionTriggerId: actionTriggerId, timestamp: new Date().getTime(), type: ActionTriggerEventType.ACTION_TRIGGER_DELETED })
+    }
   }
 
   public actionTriggerCopy(actionTrigger: ActionTrigger<KeyboardAndSelectionTriggerData>): void {
-    const copyPayload: EditActionsTriggers = { actionId: actionTrigger.actionId, data: { keys: actionTrigger.data.keys, actionArguments: actionTrigger.data.actionArguments as number } }
-    this.actionTriggerService.createActionTrigger(copyPayload).subscribe({
-      next: () => {
-        this.copyActionTrigger.emit()
-        this.openSnackBar('Success copy')
-      },
-      error: () => {
-        this.openDangerSnackBar('Fail to copy')
-      },
-    })
+    const copyPayload: CreateActionTrigger<KeyboardTriggerData> = {
+      actionId: actionTrigger.actionId,
+      data: { keys: actionTrigger.data.keys, actionArguments: actionTrigger.data.actionArguments as number },
+    }
+
+    this.actionTriggerStateService.addCreatedActionTrigger({ actionTrigger: copyPayload, timestamp: new Date().getTime(), type: ActionTriggerEventType.ACTION_TRIGGER_CREATED })
   }
 
   public selectNewSort(sortOption: string): void {
@@ -162,13 +146,5 @@ export class ActionTriggersListComponent {
 
   private selectAllActionsTriggers(): void {
     this.actionsTriggersList.forEach(trigger => (trigger.data.selected = true))
-  }
-
-  private openSnackBar(message: string): void {
-    this.snackBar.open(message, 'DISMISS', { panelClass: 'snackbar-success' })
-  }
-
-  private openDangerSnackBar(message: string): void {
-    this.snackBar.open(message, 'DISMISS', { panelClass: 'snackbar-danger' })
   }
 }

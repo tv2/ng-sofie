@@ -13,7 +13,8 @@ describe(ZodActionTriggerEventParser.name, () => {
           id: 'someActionTriggerId',
           actionId: 'someActionId',
           data: {
-            some: 'data',
+            keys: ['randomKey'],
+            actionArguments: 100,
           },
         },
       }
@@ -32,7 +33,8 @@ describe(ZodActionTriggerEventParser.name, () => {
           id: 'someActionTriggerId',
           actionId: 'someActionId',
           data: {
-            some: 'data',
+            keys: ['randomKey'],
+            actionArguments: 100,
           },
         },
       }
