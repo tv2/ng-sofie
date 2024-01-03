@@ -26,7 +26,7 @@ import { HttpActionService } from './services/http/http-action.service'
 import { ContextMenuComponent } from './components/context-menu/context-menu.component'
 import { CdkMenuModule } from '@angular/cdk/menu'
 import { ActionStateService } from './services/action-state.service'
-import { ActionParser } from './abstractions/action-parser.service'
+import { ActionValidator } from './abstractions/action-validator.service'
 import { ZodActionParser } from './services/zod-action-parser.service'
 import { Tv2ActionValidator } from './abstractions/tv2-action-validator.service'
 import { ZodTv2ActionValidator } from './services/zod-tv2-action-validator.service'
@@ -112,7 +112,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     { provide: Logger, useClass: Tv2LoggerService },
     { provide: ActionService, useClass: HttpActionService },
     { provide: ActionTriggerService, useClass: HttpActionTriggerService },
-    { provide: ActionParser, useClass: ZodActionParser },
+    { provide: ActionValidator, useClass: ZodActionParser },
     { provide: ActionTriggerParser, useClass: ZodActionTriggerParser },
     { provide: Tv2ActionValidator, useClass: ZodTv2ActionValidator },
     HttpErrorService,

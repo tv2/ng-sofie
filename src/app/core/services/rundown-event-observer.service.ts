@@ -32,7 +32,7 @@ export class RundownEventObserver {
 
   constructor(
     private readonly eventObserver: EventObserver,
-    private readonly rundownEventParser: RundownEventValidator,
+    private readonly rundownEventValidator: RundownEventValidator,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownEventObserver')
@@ -41,131 +41,131 @@ export class RundownEventObserver {
   public subscribeToRundownActivation(onActivated: (event: RundownActivatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.ACTIVATED,
-      this.createEventValidatingConsumer(onActivated, this.rundownEventParser.validateRundownActivatedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onActivated, this.rundownEventValidator.validateRundownActivatedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToRundownDeactivation(onDeactivated: (event: RundownDeactivatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.DEACTIVATED,
-      this.createEventValidatingConsumer(onDeactivated, this.rundownEventParser.validateRundownDeactivatedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onDeactivated, this.rundownEventValidator.validateRundownDeactivatedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToRundownReset(onReset: (event: RundownResetEvent) => void): EventSubscription {
-    return this.eventObserver.subscribe(RundownEventType.RESET, this.createEventValidatingConsumer(onReset, this.rundownEventParser.validateRundownResetEvent.bind(this.rundownEventParser)))
+    return this.eventObserver.subscribe(RundownEventType.RESET, this.createEventValidatingConsumer(onReset, this.rundownEventValidator.validateRundownResetEvent.bind(this.rundownEventValidator)))
   }
 
   public subscribeToRundownTake(onTaken: (event: PartTakenEvent) => void): EventSubscription {
-    return this.eventObserver.subscribe(RundownEventType.TAKEN, this.createEventValidatingConsumer(onTaken, this.rundownEventParser.validateTakenEvent.bind(this.rundownEventParser)))
+    return this.eventObserver.subscribe(RundownEventType.TAKEN, this.createEventValidatingConsumer(onTaken, this.rundownEventValidator.validateTakenEvent.bind(this.rundownEventValidator)))
   }
 
   public subscribeToRundownSetNext(onSetNext: (event: PartSetAsNextEvent) => void): EventSubscription {
-    return this.eventObserver.subscribe(RundownEventType.SET_NEXT, this.createEventValidatingConsumer(onSetNext, this.rundownEventParser.validateSetNextEvent.bind(this.rundownEventParser)))
+    return this.eventObserver.subscribe(RundownEventType.SET_NEXT, this.createEventValidatingConsumer(onSetNext, this.rundownEventValidator.validateSetNextEvent.bind(this.rundownEventValidator)))
   }
 
   public subscribeToRundownInfinitePiecesUpdated(onInfinitePiecesUpdated: (event: RundownInfinitePiecesUpdatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.INFINITE_PIECES_UPDATED,
-      this.createEventValidatingConsumer(onInfinitePiecesUpdated, this.rundownEventParser.validateInfinitePiecesUpdatedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onInfinitePiecesUpdated, this.rundownEventValidator.validateInfinitePiecesUpdatedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToRundownPartInsertedAsOnAir(onPartInsertedAsOnAir: (event: RundownPartInsertedAsOnAirEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.PART_INSERTED_AS_ON_AIR,
-      this.createEventValidatingConsumer(onPartInsertedAsOnAir, this.rundownEventParser.validatePartInsertedAsOnAirEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onPartInsertedAsOnAir, this.rundownEventValidator.validatePartInsertedAsOnAirEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToRundownPartInsertedAsNext(onPartInsertedAsNext: (event: RundownPartInsertedAsNextEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.PART_INSERTED_AS_NEXT,
-      this.createEventValidatingConsumer(onPartInsertedAsNext, this.rundownEventParser.validatePartInsertedAsNextEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onPartInsertedAsNext, this.rundownEventValidator.validatePartInsertedAsNextEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToRundownPieceInserted(onPieceInserted: (event: RundownPieceInsertedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.PIECE_INSERTED,
-      this.createEventValidatingConsumer(onPieceInserted, this.rundownEventParser.validatePieceInsertedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onPieceInserted, this.rundownEventValidator.validatePieceInsertedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToRundownCreation(onRundownCreated: (event: RundownCreatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.RUNDOWN_CREATED,
-      this.createEventValidatingConsumer(onRundownCreated, this.rundownEventParser.validateRundownCreatedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onRundownCreated, this.rundownEventValidator.validateRundownCreatedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToRundownUpdates(onRundownCreated: (event: RundownUpdatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.RUNDOWN_UPDATED,
-      this.createEventValidatingConsumer(onRundownCreated, this.rundownEventParser.validateRundownUpdatedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onRundownCreated, this.rundownEventValidator.validateRundownUpdatedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToRundownDeletion(onDeleted: (event: RundownDeletedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.RUNDOWN_DELETED,
-      this.createEventValidatingConsumer(onDeleted, this.rundownEventParser.validateRundownDeletedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onDeleted, this.rundownEventValidator.validateRundownDeletedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToSegmentCreation(onSegmentCreated: (event: SegmentCreatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.SEGMENT_CREATED,
-      this.createEventValidatingConsumer(onSegmentCreated, this.rundownEventParser.validateSegmentCreatedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onSegmentCreated, this.rundownEventValidator.validateSegmentCreatedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToSegmentUpdates(onSegmentUpdated: (event: SegmentUpdatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.SEGMENT_UPDATED,
-      this.createEventValidatingConsumer(onSegmentUpdated, this.rundownEventParser.validateSegmentUpdatedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onSegmentUpdated, this.rundownEventValidator.validateSegmentUpdatedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToSegmentDeletion(onSegmentDeleted: (event: SegmentDeletedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.SEGMENT_DELETED,
-      this.createEventValidatingConsumer(onSegmentDeleted, this.rundownEventParser.validateSegmentDeletedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onSegmentDeleted, this.rundownEventValidator.validateSegmentDeletedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToSegmentUnsync(onSegmentUnsync: (event: SegmentUnsyncedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.SEGMENT_UNSYNCED,
-      this.createEventValidatingConsumer(onSegmentUnsync, this.rundownEventParser.validateSegmentUnsyncedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onSegmentUnsync, this.rundownEventValidator.validateSegmentUnsyncedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToPartCreation(onPartCreated: (event: PartCreatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.PART_CREATED,
-      this.createEventValidatingConsumer(onPartCreated, this.rundownEventParser.validatePartCreatedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onPartCreated, this.rundownEventValidator.validatePartCreatedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToPartUpdates(onPartUpdated: (event: PartUpdatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.PART_UPDATED,
-      this.createEventValidatingConsumer(onPartUpdated, this.rundownEventParser.validatePartUpdatedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onPartUpdated, this.rundownEventValidator.validatePartUpdatedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToPartDeletion(onPartDeleted: (event: PartDeletedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.PART_DELETED,
-      this.createEventValidatingConsumer(onPartDeleted, this.rundownEventParser.validatePartDeletedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onPartDeleted, this.rundownEventValidator.validatePartDeletedEvent.bind(this.rundownEventValidator))
     )
   }
 
   public subscribeToPartUnsynced(onPartUnsynced: (event: PartUnsyncedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
       RundownEventType.PART_UNSYNCED,
-      this.createEventValidatingConsumer(onPartUnsynced, this.rundownEventParser.validatePartUnsyncedEvent.bind(this.rundownEventParser))
+      this.createEventValidatingConsumer(onPartUnsynced, this.rundownEventValidator.validatePartUnsyncedEvent.bind(this.rundownEventValidator))
     )
   }
 
