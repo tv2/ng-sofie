@@ -11,7 +11,7 @@ import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Tv2AudioMode } from '../enums/tv2-audio-mode'
 import { Tv2Piece } from '../models/tv2-piece'
 
-export class ZodEntityParser implements EntityValidator {
+export class ZodEntityValidator implements EntityValidator {
   private readonly blueprintConfigurationParser = zod.object({
     SelectedGfxSetupName: zod.object({
       value: zod.string(),

@@ -22,7 +22,7 @@ import { HttpRundownService } from './services/http/http-rundown.service'
 import { BasicRundownService } from './abstractions/basic-rundown.service'
 import { HttpBasicRundownService } from './services/http/http-basic-rundown.service'
 import { EntityValidator } from './abstractions/entity-parser.service'
-import { ZodEntityParser } from './parsers/zod-entity-parser.service'
+import { ZodEntityValidator } from './parsers/zod-entity-parser.service'
 import { ActionTriggerStateService } from './services/action-trigger-state.service'
 import { ActionTriggerEventObserver } from './models/action-trigger-event-observer.service'
 import { ActionTriggerEventParser } from './abstractions/action-trigger-event-parser'
@@ -41,7 +41,7 @@ import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-
     { provide: ShowStyleVariantService, useClass: HttpShowStyleVariantService },
     { provide: RundownService, useClass: HttpRundownService },
     { provide: BasicRundownService, useClass: HttpBasicRundownService },
-    { provide: EntityValidator, useClass: ZodEntityParser },
+    { provide: EntityValidator, useClass: ZodEntityValidator },
     RundownEntityService,
     BasicRundownEntityService,
     SegmentEntityService,
