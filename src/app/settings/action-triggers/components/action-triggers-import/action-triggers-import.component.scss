@@ -1,0 +1,8 @@
+:host {
+  & .action-triggers-import {
+    display: inline-block;
+    &__input {
+      display: none;
+    }
+  }
+}

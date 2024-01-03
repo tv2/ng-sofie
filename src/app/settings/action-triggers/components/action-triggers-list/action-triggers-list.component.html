@@ -1,0 +1,51 @@
+<div class="c-action-triggers-list">
+  <div class="c-action-triggers-list__search">
+    <input type="text" [(ngModel)]="search" placeholder="Search" />
+    <sofie-dropdown-button
+      [selected]="sort"
+      [options]="sortActionsTriggers"
+      [label]="sortLabel"
+      [iconButton]="IconButton.SORT"
+      [iconButtonSize]="IconButtonSize.XL"
+      (optionSelect)="selectNewSort($event)"></sofie-dropdown-button>
+    <sofie-dropdown-button
+      [options]="selectedTriggersOptions"
+      [iconButton]="IconButton.SQUARE_CHECK"
+      [iconButtonSize]="IconButtonSize.XL"
+      (optionSelect)="actionWithSelected($event)"></sofie-dropdown-button>
+  </div>
+  <div class="c-action-triggers-list__items">
+    <ng-container *ngIf="actionsTriggersList">
+      <ng-container *ngIf="filteredActionsTriggers.length !== 0; else noItemsFound">
+        <div
+          class="c-action-triggers-list__card c-sofie-card"
+          [ngClass]="{ 'c-action-triggers-list__card--selected': selectedActionTrigger && selectedActionTrigger.id && selectedActionTrigger.id === actionsTrigger.id }"
+          *ngFor="let actionsTrigger of filteredActionsTriggers; let i = index">
+          <div class="c-action-triggers-list__card--body" (click)="selectActionTrigger(actionsTrigger)">
+            <p>
+              <strong>
+                {{ actionsTrigger.actionId }}
+              </strong>
+            </p>
+            <div>
+              <span class="c-custom-badge bg-dark">{{ actionsTrigger?.data?.keys?.join(' + ') }}</span>
+            </div>
+          </div>
+          <div class="c-action-triggers-list__card--actions">
+            <sofie-custom-checkbox
+              [selected]="actionsTrigger.data.selected ? actionsTrigger.data.selected : false"
+              [checkboxId]="actionsTrigger.id"
+              (checkboxChange)="actionTriggerCheckToggle($event, i)"></sofie-custom-checkbox>
+            <sofie-icon-button [iconButton]="IconButton.COPY" [iconButtonSize]="IconButtonSize.XL" (click)="actionTriggerCopy(actionsTrigger)"></sofie-icon-button>
+            <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.XL" (click)="actionTriggerDelete(actionsTrigger.id)"></sofie-icon-button>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noItemsFound>
+        <div class="c-action-triggers-list__no-items c-sofie-card">
+          <h3 i18n>action-triggers.no-shortcuts.label</h3>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>

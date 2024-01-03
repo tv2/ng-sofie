@@ -1,0 +1,26 @@
+.snackbar-danger {
+  background: $sofie-danger;
+  color: white;
+
+  .mat-button-wrapper {
+    color: orangered;
+  }
+}
+
+.snackbar-warning {
+  background: yellow;
+  color: black;
+
+  .mat-button-wrapper {
+    color: black;
+  }
+}
+
+.snackbar-success {
+  background: green;
+  color: white;
+
+  .mat-button-wrapper {
+    color: white;
+  }
+}

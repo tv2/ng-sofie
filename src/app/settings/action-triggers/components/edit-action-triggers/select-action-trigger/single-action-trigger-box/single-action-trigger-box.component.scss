@@ -1,0 +1,11 @@
+@import '../../../../../../../scss/sofie-vars';
+:host {
+  & .c-action-trigger-box {
+    height: 100%;
+    cursor: pointer;
+    &.c-action-trigger-selected {
+      background: $sofie-danger;
+      color: #fff;
+    }
+  }
+}
