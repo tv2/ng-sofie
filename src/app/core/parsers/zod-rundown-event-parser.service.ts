@@ -23,7 +23,7 @@ import {
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
-import { EntityValidator } from '../abstractions/entity-parser.service'
+import { EntityValidator } from '../abstractions/entity-validator.service'
 import { RundownEventValidator } from '../abstractions/rundown-event-validator.service'
 
 @Injectable()

@@ -4,7 +4,7 @@ import { catchError, map, Observable } from 'rxjs'
 import { RundownService } from '../../abstractions/rundown.service'
 import { HttpErrorService } from '../../../shared/services/http/http-error.service'
 import { Rundown } from '../../models/rundown'
-import { EntityValidator } from '../../abstractions/entity-parser.service'
+import { EntityValidator } from '../../abstractions/entity-validator.service'
 import { environment } from '../../../../environments/environment'
 import { HttpResponse } from '../../../shared/services/http/http-response'
 

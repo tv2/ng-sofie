@@ -2,7 +2,7 @@ import { HttpBasicRundownService } from './http-basic-rundown.service'
 import { HttpClient } from '@angular/common/http'
 import { HttpErrorService } from '../../../shared/services/http/http-error.service'
 import { instance, mock } from '@typestrong/ts-mockito'
-import { EntityValidator } from '../../abstractions/entity-parser.service'
+import { EntityValidator } from '../../abstractions/entity-validator.service'
 
 describe('HttpBasicRundownService', () => {
   it('should be created', () => {
