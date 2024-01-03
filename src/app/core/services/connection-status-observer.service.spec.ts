@@ -33,7 +33,7 @@ describe(ConnectionStatusObserver.name, () => {
       expect(numberOfReconnects).toBe(0)
     })
 
-    it('triggers the consumer if two opened events occurrs', () => {
+    it('triggers the consumer if two opened events occurs', () => {
       const mockedEventObserver = mock<EventObserver>()
       const testee = new ConnectionStatusObserver(instance(mockedEventObserver))
 

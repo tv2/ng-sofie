@@ -27,26 +27,26 @@ import { EntityValidator } from '../abstractions/entity-validator.service'
 import { RundownEventValidator } from '../abstractions/rundown-event-validator.service'
 
 @Injectable()
-export class ZodRundownEventParser implements RundownEventValidator {
-  private readonly rundownActivatedEventParser = zod.object({
+export class ZodRundownEventValidator implements RundownEventValidator {
+  private readonly rundownActivatedEventValidator = zod.object({
     type: zod.literal(RundownEventType.ACTIVATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
   })
 
-  private readonly rundownDeactivatedEventParser = zod.object({
+  private readonly rundownDeactivatedEventValidator = zod.object({
     type: zod.literal(RundownEventType.DEACTIVATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
   })
 
-  private readonly rundownResetEventParser = zod.object({
+  private readonly rundownResetEventValidator = zod.object({
     type: zod.literal(RundownEventType.RESET),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
   })
 
-  private readonly rundownTakenEventParser = zod.object({
+  private readonly rundownTakenEventValidator = zod.object({
     type: zod.literal(RundownEventType.TAKEN),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
@@ -54,7 +54,7 @@ export class ZodRundownEventParser implements RundownEventValidator {
     partId: zod.string().min(1),
   })
 
-  private readonly rundownSetNextEventParser = zod.object({
+  private readonly rundownSetNextEventValidator = zod.object({
     type: zod.literal(RundownEventType.SET_NEXT),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
@@ -62,38 +62,38 @@ export class ZodRundownEventParser implements RundownEventValidator {
     partId: zod.string().min(1),
   })
 
-  private readonly rundownInfinitePiecesUpdatedEventParser = zod.object({
+  private readonly rundownInfinitePiecesUpdatedEventValidator = zod.object({
     type: zod.literal(RundownEventType.INFINITE_PIECES_UPDATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
     infinitePieces: zod
       .object({})
       .passthrough()
-      .transform((piece: unknown) => this.entityParser.validatePiece(piece))
+      .transform((piece: unknown) => this.entityValidator.validatePiece(piece))
       .array(),
   })
 
-  private readonly rundownPartInsertedAsOnAirEventParser = zod.object({
+  private readonly rundownPartInsertedAsOnAirEventValidator = zod.object({
     type: zod.literal(RundownEventType.PART_INSERTED_AS_ON_AIR),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
     part: zod
       .object({})
       .passthrough()
-      .transform((part: unknown) => this.entityParser.validatePart(part)),
+      .transform((part: unknown) => this.entityValidator.validatePart(part)),
   })
 
-  private readonly rundownPartInsertedAsNextEventParser = zod.object({
+  private readonly rundownPartInsertedAsNextEventValidator = zod.object({
     type: zod.literal(RundownEventType.PART_INSERTED_AS_NEXT),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
     part: zod
       .object({})
       .passthrough()
-      .transform((part: unknown) => this.entityParser.validatePart(part)),
+      .transform((part: unknown) => this.entityValidator.validatePart(part)),
   })
 
-  private readonly rundownPieceInsertedEventParser = zod.object({
+  private readonly rundownPieceInsertedEventValidator = zod.object({
     type: zod.literal(RundownEventType.PIECE_INSERTED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
@@ -102,94 +102,94 @@ export class ZodRundownEventParser implements RundownEventValidator {
     piece: zod
       .object({})
       .passthrough()
-      .transform((piece: unknown) => this.entityParser.validatePiece(piece)),
+      .transform((piece: unknown) => this.entityValidator.validatePiece(piece)),
   })
 
-  private readonly rundownCreatedEventParser = zod.object({
+  private readonly rundownCreatedEventValidator = zod.object({
     type: zod.literal(RundownEventType.RUNDOWN_CREATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
     rundown: zod
       .object({})
       .passthrough()
-      .transform((rundown: unknown) => this.entityParser.validateRundown(rundown)),
+      .transform((rundown: unknown) => this.entityValidator.validateRundown(rundown)),
   })
 
-  private readonly rundownUpdatedEventParser = zod.object({
+  private readonly rundownUpdatedEventValidator = zod.object({
     type: zod.literal(RundownEventType.RUNDOWN_UPDATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
     basicRundown: zod
       .object({})
       .passthrough()
-      .transform((basicRundown: unknown) => this.entityParser.validateBasicRundown(basicRundown)),
+      .transform((basicRundown: unknown) => this.entityValidator.validateBasicRundown(basicRundown)),
   })
 
-  private readonly rundownDeletedEventParser = zod.object({
+  private readonly rundownDeletedEventValidator = zod.object({
     type: zod.literal(RundownEventType.RUNDOWN_DELETED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
   })
 
-  private readonly segmentCreatedEventParser = zod.object({
+  private readonly segmentCreatedEventValidator = zod.object({
     type: zod.literal(RundownEventType.SEGMENT_CREATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
     segment: zod
       .object({})
       .passthrough()
-      .transform((segment: unknown) => this.entityParser.validateSegment(segment)),
+      .transform((segment: unknown) => this.entityValidator.validateSegment(segment)),
   })
 
-  private readonly segmentUpdatedEventParser = zod.object({
+  private readonly segmentUpdatedEventValidator = zod.object({
     type: zod.literal(RundownEventType.SEGMENT_UPDATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
     segment: zod
       .object({})
       .passthrough()
-      .transform((segment: unknown) => this.entityParser.validateSegment(segment)),
+      .transform((segment: unknown) => this.entityValidator.validateSegment(segment)),
   })
 
-  private readonly segmentDeletedEventParser = zod.object({
+  private readonly segmentDeletedEventValidator = zod.object({
     type: zod.literal(RundownEventType.SEGMENT_DELETED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
     segmentId: zod.string().min(1),
   })
 
-  private readonly segmentUnsyncedEventParser = zod.object({
+  private readonly segmentUnsyncedEventValidator = zod.object({
     type: zod.literal(RundownEventType.SEGMENT_UNSYNCED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
     unsyncedSegment: zod
       .object({})
       .passthrough()
-      .transform((segment: unknown) => this.entityParser.validateSegment(segment)),
+      .transform((segment: unknown) => this.entityValidator.validateSegment(segment)),
     originalSegmentId: zod.string().min(1),
   })
 
-  private readonly partCreatedEventParser = zod.object({
+  private readonly partCreatedEventValidator = zod.object({
     type: zod.literal(RundownEventType.PART_CREATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
     part: zod
       .object({})
       .passthrough()
-      .transform((part: unknown) => this.entityParser.validatePart(part)),
+      .transform((part: unknown) => this.entityValidator.validatePart(part)),
   })
 
-  private readonly partUpdatedEventParser = zod.object({
+  private readonly partUpdatedEventValidator = zod.object({
     type: zod.literal(RundownEventType.PART_UPDATED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
     part: zod
       .object({})
       .passthrough()
-      .transform((part: unknown) => this.entityParser.validatePart(part)),
+      .transform((part: unknown) => this.entityValidator.validatePart(part)),
   })
 
-  private readonly partDeletedEventParser = zod.object({
+  private readonly partDeletedEventValidator = zod.object({
     type: zod.literal(RundownEventType.PART_DELETED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
@@ -197,94 +197,94 @@ export class ZodRundownEventParser implements RundownEventValidator {
     partId: zod.string().min(1),
   })
 
-  private readonly partUnsyncedEventParser = zod.object({
+  private readonly partUnsyncedEventValidator = zod.object({
     type: zod.literal(RundownEventType.PART_UNSYNCED),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
     part: zod
       .object({})
       .passthrough()
-      .transform((part: unknown) => this.entityParser.validatePart(part)),
+      .transform((part: unknown) => this.entityValidator.validatePart(part)),
   })
 
-  constructor(private readonly entityParser: EntityValidator) {}
+  constructor(private readonly entityValidator: EntityValidator) {}
 
   public validateRundownActivatedEvent(event: unknown): RundownActivatedEvent {
-    return this.rundownActivatedEventParser.parse(event)
+    return this.rundownActivatedEventValidator.parse(event)
   }
   public validateRundownDeactivatedEvent(event: unknown): RundownDeactivatedEvent {
-    return this.rundownDeactivatedEventParser.parse(event)
+    return this.rundownDeactivatedEventValidator.parse(event)
   }
 
   public validateRundownResetEvent(event: unknown): RundownResetEvent {
-    return this.rundownResetEventParser.parse(event)
+    return this.rundownResetEventValidator.parse(event)
   }
 
   public validateTakenEvent(event: unknown): PartTakenEvent {
-    return this.rundownTakenEventParser.parse(event)
+    return this.rundownTakenEventValidator.parse(event)
   }
 
   public validateSetNextEvent(event: unknown): PartSetAsNextEvent {
-    return this.rundownSetNextEventParser.parse(event)
+    return this.rundownSetNextEventValidator.parse(event)
   }
 
   public validateInfinitePiecesUpdatedEvent(event: unknown): RundownInfinitePiecesUpdatedEvent {
-    return this.rundownInfinitePiecesUpdatedEventParser.parse(event)
+    return this.rundownInfinitePiecesUpdatedEventValidator.parse(event)
   }
 
   public validatePartInsertedAsOnAirEvent(event: unknown): RundownPartInsertedAsOnAirEvent {
-    return this.rundownPartInsertedAsOnAirEventParser.parse(event)
+    return this.rundownPartInsertedAsOnAirEventValidator.parse(event)
   }
 
   public validatePartInsertedAsNextEvent(event: unknown): RundownPartInsertedAsNextEvent {
-    return this.rundownPartInsertedAsNextEventParser.parse(event)
+    return this.rundownPartInsertedAsNextEventValidator.parse(event)
   }
 
   public validatePieceInsertedEvent(event: unknown): RundownPieceInsertedEvent {
-    return this.rundownPieceInsertedEventParser.parse(event)
+    return this.rundownPieceInsertedEventValidator.parse(event)
   }
 
   public validateRundownCreatedEvent(event: unknown): RundownCreatedEvent {
-    return this.rundownCreatedEventParser.parse(event)
+    return this.rundownCreatedEventValidator.parse(event)
   }
 
   public validateRundownUpdatedEvent(event: unknown): RundownUpdatedEvent {
-    return this.rundownUpdatedEventParser.parse(event)
+    return this.rundownUpdatedEventValidator.parse(event)
   }
 
   public validateRundownDeletedEvent(event: unknown): RundownDeletedEvent {
-    return this.rundownDeletedEventParser.parse(event)
+    return this.rundownDeletedEventValidator.parse(event)
   }
 
-  public validateSegmentCreatedEvent(event: unknown): SegmentCreatedEvent {
-    return this.segmentCreatedEventParser.parse(event)
+  public validateSegmentCreatedEvent(event: SegmentCreatedEvent): SegmentCreatedEvent {
+    return this.segmentCreatedEventValidator.parse(event)
   }
 
-  public validateSegmentUpdatedEvent(event: unknown): SegmentUpdatedEvent {
-    return this.segmentUpdatedEventParser.parse(event)
+  public validateSegmentUpdatedEvent(event: SegmentUpdatedEvent): SegmentUpdatedEvent {
+    return this.segmentUpdatedEventValidator.parse(event)
   }
 
-  public validateSegmentDeletedEvent(event: unknown): SegmentDeletedEvent {
-    return this.segmentDeletedEventParser.parse(event)
+  public validateSegmentDeletedEvent(event: SegmentDeletedEvent): SegmentDeletedEvent {
+    return this.segmentDeletedEventValidator.parse(event)
   }
 
   public validateSegmentUnsyncedEvent(event: unknown): SegmentUnsyncedEvent {
-    return this.segmentUnsyncedEventParser.parse(event)
+    return this.segmentUnsyncedEventValidator.parse(event)
   }
 
   public validatePartCreatedEvent(event: unknown): PartCreatedEvent {
-    return this.partCreatedEventParser.parse(event)
+    return this.partCreatedEventValidator.parse(event)
   }
 
   public validatePartUpdatedEvent(event: unknown): PartUpdatedEvent {
-    return this.partUpdatedEventParser.parse(event)
+    return this.partUpdatedEventValidator.parse(event)
   }
 
   public validatePartDeletedEvent(event: unknown): PartDeletedEvent {
-    return this.partDeletedEventParser.parse(event)
+    return this.partDeletedEventValidator.parse(event)
   }
 
   public validatePartUnsyncedEvent(event: unknown): PartUnsyncedEvent {
-    return this.partUnsyncedEventParser.parse(event)
+    return this.partUnsyncedEventValidator.parse(event)
   }
 }

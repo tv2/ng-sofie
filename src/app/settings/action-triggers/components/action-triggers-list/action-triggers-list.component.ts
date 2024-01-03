@@ -114,11 +114,7 @@ export class ActionTriggersListComponent {
         }
       }
       if (option.key === UserActionsWithSelectedTriggers.EXPORT || option.key === UserActionsWithSelectedTriggers.DELETE) {
-        if (this.selectedCount > 0) {
-          option.disabled = false
-        } else {
-          option.disabled = true
-        }
+        option.disabled = this.selectedCount <= 0
       }
     })
   }

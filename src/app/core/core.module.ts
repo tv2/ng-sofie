@@ -6,7 +6,7 @@ import { RundownEventObserver } from './services/rundown-event-observer.service'
 import { RundownStateService } from './services/rundown-state.service'
 import { RundownEventValidator } from './abstractions/rundown-event-validator.service'
 import { BasicRundownStateService } from './services/basic-rundown-state.service'
-import { ZodRundownEventParser } from './validators/zod-rundown-event-parser.service'
+import { ZodRundownEventValidator } from './validators/zod-rundown-event-validator.service'
 import { EventSystemModule } from '../event-system/event-system.module'
 import { ShowStyleVariantStateService } from './services/show-style-variant-state.service'
 import { RundownEntityService } from './services/models/rundown-entity.service'
@@ -37,7 +37,7 @@ import { ZodActionTriggerEventValidator } from './validators/zod-action-trigger-
     RundownStateService,
     BasicRundownStateService,
     ShowStyleVariantStateService,
-    { provide: RundownEventValidator, useClass: ZodRundownEventParser },
+    { provide: RundownEventValidator, useClass: ZodRundownEventValidator },
     { provide: ShowStyleVariantService, useClass: HttpShowStyleVariantService },
     { provide: RundownService, useClass: HttpRundownService },
     { provide: BasicRundownService, useClass: HttpBasicRundownService },
