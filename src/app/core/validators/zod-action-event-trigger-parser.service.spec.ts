@@ -1,11 +1,11 @@
-import { ZodActionTriggerEventParser } from './zod-action-trigger-event-parser.service'
+import { ZodActionTriggerEventValidator } from './zod-action-trigger-event-validator.service'
 import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpdatedEvent } from '../models/action-trigger-event'
 import { ActionTriggerEventType } from '../models/action-trigger-event-type'
 
-describe(ZodActionTriggerEventParser.name, () => {
-  describe(ZodActionTriggerEventParser.prototype.parseActionTriggerCreatedEvent.name, () => {
+describe(ZodActionTriggerEventValidator.name, () => {
+  describe(ZodActionTriggerEventValidator.prototype.parseActionTriggerCreatedEvent.name, () => {
     it('parses an ActionTrigger created event', () => {
-      const testee: ZodActionTriggerEventParser = new ZodActionTriggerEventParser()
+      const testee: ZodActionTriggerEventValidator = new ZodActionTriggerEventValidator()
       const event: ActionTriggerCreatedEvent = {
         type: ActionTriggerEventType.ACTION_TRIGGER_CREATED,
         timestamp: Date.now(),
@@ -23,9 +23,9 @@ describe(ZodActionTriggerEventParser.name, () => {
     })
   })
 
-  describe(ZodActionTriggerEventParser.prototype.parseActionTriggerUpdatedEvent.name, () => {
+  describe(ZodActionTriggerEventValidator.prototype.parseActionTriggerUpdatedEvent.name, () => {
     it('parses an ActionTrigger updated event', () => {
-      const testee: ZodActionTriggerEventParser = new ZodActionTriggerEventParser()
+      const testee: ZodActionTriggerEventValidator = new ZodActionTriggerEventValidator()
       const event: ActionTriggerUpdatedEvent = {
         type: ActionTriggerEventType.ACTION_TRIGGER_UPDATED,
         timestamp: Date.now(),
@@ -43,9 +43,9 @@ describe(ZodActionTriggerEventParser.name, () => {
     })
   })
 
-  describe(ZodActionTriggerEventParser.prototype.parseActionTriggerDeletedEvent.name, () => {
+  describe(ZodActionTriggerEventValidator.prototype.parseActionTriggerDeletedEvent.name, () => {
     it('parses an ActionTrigger deleted event', () => {
-      const testee: ZodActionTriggerEventParser = new ZodActionTriggerEventParser()
+      const testee: ZodActionTriggerEventValidator = new ZodActionTriggerEventValidator()
       const event: ActionTriggerDeletedEvent = {
         type: ActionTriggerEventType.ACTION_TRIGGER_DELETED,
         timestamp: Date.now(),

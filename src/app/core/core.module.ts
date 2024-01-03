@@ -25,8 +25,8 @@ import { EntityValidator } from './abstractions/entity-validator.service'
 import { ZodEntityValidator } from './validators/zod-entity-validator.service'
 import { ActionTriggerStateService } from './services/action-trigger-state.service'
 import { ActionTriggerEventObserver } from './models/action-trigger-event-observer.service'
-import { ActionTriggerEventParser } from './abstractions/action-trigger-event-parser'
-import { ZodActionTriggerEventParser } from './validators/zod-action-trigger-event-parser.service'
+import { ActionTriggerEventValidator } from './abstractions/action-trigger-event-validator.service'
+import { ZodActionTriggerEventValidator } from './validators/zod-action-trigger-event-validator.service'
 
 @NgModule({
   declarations: [],
@@ -50,7 +50,7 @@ import { ZodActionTriggerEventParser } from './validators/zod-action-trigger-eve
     RundownTimingContextStateService,
     ActionTriggerStateService,
     ActionTriggerEventObserver,
-    { provide: ActionTriggerEventParser, useClass: ZodActionTriggerEventParser },
+    { provide: ActionTriggerEventValidator, useClass: ZodActionTriggerEventValidator },
   ],
 })
 export class CoreModule extends EnsureLoadedOnceGuard {

@@ -127,31 +127,31 @@ export class ZodEntityValidator implements EntityValidator {
     infinitePieces: this.pieceParser.array(),
   })
 
-  public validatePiece(piece: unknown): Tv2Piece {
+  public validatePiece(piece: Tv2Piece): Tv2Piece {
     return this.pieceParser.parse(piece)
   }
 
-  public validatePart(part: unknown): Part {
+  public validatePart(part: Part): Part {
     return this.partParser.parse(part)
   }
 
-  public validateSegment(segment: unknown): Segment {
+  public validateSegment(segment: Segment): Segment {
     return this.segmentParser.parse(segment)
   }
 
-  public validateBasicRundown(basicRundown: unknown): BasicRundown {
+  public validateBasicRundown(basicRundown: BasicRundown): BasicRundown {
     return this.basicRundownParser.parse(basicRundown)
   }
 
-  public validateBasicRundowns(basicRundowns: unknown[]): BasicRundown[] {
+  public validateBasicRundowns(basicRundowns: BasicRundown[]): BasicRundown[] {
     return this.basicRundownsParser.parse(basicRundowns)
   }
 
-  public validateRundown(rundown: unknown): Rundown {
+  public validateRundown(rundown: Rundown): Rundown {
     return this.rundownParser.parse(rundown)
   }
 
-  public validateShowStyleVariant(showStyleVariant: unknown): ShowStyleVariant {
+  public validateShowStyleVariant(showStyleVariant: ShowStyleVariant): ShowStyleVariant {
     return this.showStyleVariantParser.parse(showStyleVariant)
   }
 }

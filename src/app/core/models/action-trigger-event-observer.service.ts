@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'
 import { EventConsumer, EventObserver, EventSubscription, TypedEvent } from '../../event-system/abstractions/event-observer.service'
-import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpdatedEvent } from './action-trigger-event'
 import { ActionTriggerEventType } from './action-trigger-event-type'
-import { ActionTriggerEventParser } from '../abstractions/action-trigger-event-parser'
+import { ActionTriggerEventValidator } from '../abstractions/action-trigger-event-validator.service'
 import { Logger } from '../abstractions/logger.service'
+import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpdatedEvent } from './action-trigger-event'
 
 @Injectable()
 export class ActionTriggerEventObserver {
@@ -11,7 +11,7 @@ export class ActionTriggerEventObserver {
 
   constructor(
     private readonly eventObserver: EventObserver,
-    private readonly actionTriggerEventParser: ActionTriggerEventParser,
+    private readonly actionTriggerEventParser: ActionTriggerEventValidator,
     logger: Logger
   ) {
     this.logger = logger.tag('ActionTriggerEventObserver')

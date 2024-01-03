@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
-import { ActionTriggerEventParser } from '../abstractions/action-trigger-event-parser'
+import { ActionTriggerEventValidator } from '../abstractions/action-trigger-event-validator.service'
 import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpdatedEvent } from '../models/action-trigger-event'
 import * as zod from 'zod'
 import { ActionTriggerEventType } from '../models/action-trigger-event-type'
 
 @Injectable()
-export class ZodActionTriggerEventParser implements ActionTriggerEventParser {
-  public parseActionTriggerCreatedEvent(event: unknown): ActionTriggerCreatedEvent {
+export class ZodActionTriggerEventValidator implements ActionTriggerEventValidator {
+  public parseActionTriggerCreatedEvent(event: ActionTriggerCreatedEvent): ActionTriggerCreatedEvent {
     return zod
       .object({
         type: zod.literal(ActionTriggerEventType.ACTION_TRIGGER_CREATED),
@@ -23,7 +23,7 @@ export class ZodActionTriggerEventParser implements ActionTriggerEventParser {
       .parse(event)
   }
 
-  public parseActionTriggerUpdatedEvent(event: unknown): ActionTriggerUpdatedEvent {
+  public parseActionTriggerUpdatedEvent(event: ActionTriggerUpdatedEvent): ActionTriggerUpdatedEvent {
     return zod
       .object({
         type: zod.literal(ActionTriggerEventType.ACTION_TRIGGER_UPDATED),
@@ -40,7 +40,7 @@ export class ZodActionTriggerEventParser implements ActionTriggerEventParser {
       .parse(event)
   }
 
-  public parseActionTriggerDeletedEvent(event: unknown): ActionTriggerDeletedEvent {
+  public parseActionTriggerDeletedEvent(event: ActionTriggerDeletedEvent): ActionTriggerDeletedEvent {
     return zod
       .object({
         type: zod.literal(ActionTriggerEventType.ACTION_TRIGGER_DELETED),
