@@ -28,8 +28,8 @@ import { CdkMenuModule } from '@angular/cdk/menu'
 import { ActionStateService } from './services/action-state.service'
 import { ActionParser } from './abstractions/action-parser.service'
 import { ZodActionParser } from './services/zod-action-parser.service'
-import { Tv2ActionParser } from './abstractions/tv2-action-parser.service'
-import { ZodTv2ActionParser } from './services/zod-tv2-action-parser.service'
+import { Tv2ActionValidator } from './abstractions/tv2-action-validator.service'
+import { ZodTv2ActionValidator } from './services/zod-tv2-action-validator.service'
 import { RundownNavigationService } from './services/rundown-navigation-service'
 import { Tv2ActionPanelComponent } from './components/tv2-action-panel/tv2-action-panel.component'
 import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-card.component'
@@ -114,7 +114,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     { provide: ActionTriggerService, useClass: HttpActionTriggerService },
     { provide: ActionParser, useClass: ZodActionParser },
     { provide: ActionTriggerParser, useClass: ZodActionTriggerParser },
-    { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
+    { provide: Tv2ActionValidator, useClass: ZodTv2ActionValidator },
     HttpErrorService,
     HttpClientModule,
     DialogService,

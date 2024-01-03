@@ -8,7 +8,7 @@ import { ActionTrigger, KeyboardTriggerData } from '../../shared/models/action-t
 import { Action } from '../../shared/models/action'
 import { RundownStateService } from '../../core/services/rundown-state.service'
 import { Rundown } from '../../core/models/rundown'
-import { Tv2ActionParser } from '../../shared/abstractions/tv2-action-parser.service'
+import { Tv2ActionValidator } from '../../shared/abstractions/tv2-action-validator.service'
 import { KeyBindingFactory } from '../factories/key-binding.factory'
 import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Logger } from '../../core/abstractions/logger.service'
@@ -43,7 +43,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     private readonly actionTriggerStateService: ActionTriggerStateService,
     private readonly actionStateService: ActionStateService,
     private readonly rundownStateService: RundownStateService,
-    private readonly actionParser: Tv2ActionParser,
+    private readonly actionParser: Tv2ActionValidator,
     private readonly keyBindingFactory: KeyBindingFactory,
     private readonly actionService: ActionService,
     logger: Logger
