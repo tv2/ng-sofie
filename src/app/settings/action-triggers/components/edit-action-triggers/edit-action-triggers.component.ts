@@ -1,11 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core'
 import { AbstractControl, FormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
-import {
-  ActionTrigger,
-  CreateActionTrigger,
-  KeyboardAndSelectionTriggerData,
-  KeyboardTriggerData,
-} from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { ActionTriggerEventType } from 'src/app/core/models/action-trigger-event-type'
