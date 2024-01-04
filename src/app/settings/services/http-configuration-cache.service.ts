@@ -12,7 +12,7 @@ export class HttpConfigurationCacheService {
   ) {}
 
   public postClearConfigurationCache(): Observable<void> {
-    return this.httpClient.post<void>(`${environment.apiBaseUrl}/configurations/reset`, null).pipe(
+    return this.httpClient.post<void>(`${environment.apiBaseUrl}/configurations/cache/clear`, null).pipe(
       catchError(error => {
         return this.httpErrorService.catchError(error)
       })
