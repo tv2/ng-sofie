@@ -1,6 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core'
 import { AbstractControl, FormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
-import { ActionTrigger, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
+import {
+  ActionTrigger,
+  CreateActionTrigger,
+  KeyboardAndSelectionTriggerData,
+  KeyboardTriggerData,
+} from 'src/app/shared/models/action-trigger'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { ActionTriggerEventType } from 'src/app/core/models/action-trigger-event-type'
@@ -116,8 +121,7 @@ export class EditActionTriggersComponent implements OnChanges, OnInit {
 
   private prepareSendData(formData: ActionTriggerUIForm): CreateActionTrigger<KeyboardTriggerData> {
     const keysArray: string[] = formData.data?.keys?.split(' + ')
-    const resultData: CreateActionTrigger<KeyboardTriggerData> = { actionId: formData.actionId, data: { keys: keysArray, actionArguments: +formData.data.actionArguments } }
-    return resultData
+    return { actionId: formData.actionId, data: { keys: keysArray, actionArguments: +formData.data.actionArguments } }
   }
 
   private createActionTrigger(actionTrigger: CreateActionTrigger<KeyboardTriggerData>): void {
