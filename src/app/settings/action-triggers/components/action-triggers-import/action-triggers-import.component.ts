@@ -2,8 +2,7 @@ import { Component, Input } from '@angular/core'
 import { ActionTrigger, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActionTriggerParser } from 'src/app/shared/abstractions/action-trigger-parser.service'
-import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
-import { ActionTriggerEventType } from 'src/app/core/models/action-trigger-event-type'
+import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 
 @Component({
   selector: 'sofie-action-triggers-import',
@@ -16,7 +15,7 @@ export class ActionTriggersImportComponent {
   private importedActionsTriggersList: ActionTrigger<KeyboardAndSelectionTriggerData>[]
 
   constructor(
-    private readonly actionTriggerStateService: ActionTriggerStateService,
+    private readonly actionTriggerService: ActionTriggerService,
     private readonly actionTriggerParser: ActionTriggerParser,
     private readonly snackBar: MatSnackBar
   ) {}
@@ -57,14 +56,14 @@ export class ActionTriggersImportComponent {
   }
 
   private createActionTrigger(actionTrigger: CreateActionTrigger<KeyboardTriggerData>, index: number): void {
-    this.actionTriggerStateService.addCreatedActionTrigger({ actionTrigger, timestamp: new Date().getTime(), type: ActionTriggerEventType.ACTION_TRIGGER_CREATED })
+    this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
     if (this.isHaveNextElement(index)) {
       this.importItem(index + 1)
     }
   }
 
   private updateActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>, index: number): void {
-    this.actionTriggerStateService.updateActionTrigger({ actionTrigger, timestamp: new Date().getTime(), type: ActionTriggerEventType.ACTION_TRIGGER_UPDATED })
+    this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe()
     if (this.isHaveNextElement(index)) {
       this.importItem(index + 1)
     }

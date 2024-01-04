@@ -2,10 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { AbstractControl, FormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
 import { ActionTrigger, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
-import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
-import { ActionTriggerEventType } from 'src/app/core/models/action-trigger-event-type'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
 import { Logger } from 'src/app/core/abstractions/logger.service'
+import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 
 export interface ActionTriggerUIForm {
   actionId: string
@@ -31,7 +30,7 @@ export class EditActionTriggersComponent implements OnChanges, OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly actionTriggerStateService: ActionTriggerStateService,
+    private readonly actionTriggerService: ActionTriggerService,
     private readonly logger: Logger,
     private readonly actionStateService: ActionStateService
   ) {}
@@ -121,11 +120,11 @@ export class EditActionTriggersComponent implements OnChanges, OnInit {
   }
 
   private createActionTrigger(actionTrigger: CreateActionTrigger<KeyboardTriggerData>): void {
-    this.actionTriggerStateService.addCreatedActionTrigger({ type: ActionTriggerEventType.ACTION_TRIGGER_CREATED, timestamp: new Date().getTime(), actionTrigger: { ...actionTrigger } })
+    this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
   }
 
-  private updateActionTrigger(attribute: ActionTrigger<KeyboardTriggerData>): void {
-    this.actionTriggerStateService.updateActionTrigger({ type: ActionTriggerEventType.ACTION_TRIGGER_UPDATED, timestamp: new Date().getTime(), actionTrigger: { ...attribute } })
+  private updateActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>): void {
+    this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe()
   }
 
   public cancelEdit(): void {

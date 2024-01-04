@@ -41,59 +41,16 @@ export class ActionTriggerStateService {
     )
   }
 
-  public addCreatedActionTrigger(actionTriggerCreatedEvent: ActionTriggerCreatedEvent): void {
-    this.actionTriggerService.createActionTrigger(actionTriggerCreatedEvent.actionTrigger).subscribe({
-      next: () => {
-        this.openSnackBar('Success create')
-        this.resetActionTriggers()
-      },
-      error: () => {
-        this.openDangerSnackBar('Fail to create')
-      },
-    })
-  }
-
-  public updateActionTrigger(actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent): void {
-    const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerSubject.value
-    const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerUpdatedEvent.actionTrigger.id)
-    if (index === -1) {
-      this.openDangerSnackBar(`Updated ActionTrigger does not exist in ActionTrigger state`)
-      throw new Error(`Updated ActionTrigger does not exist in ActionTrigger state`)
-    }
-
-    this.actionTriggerService.updateActionTrigger(actionTriggerUpdatedEvent.actionTrigger).subscribe({
-      next: () => {
-        this.openSnackBar('Success to update')
-      },
-      error: () => {
-        this.openDangerSnackBar('Fail to update')
-      },
-    })
-  }
-
-  public removeActionTrigger(actionTriggerDeletedEvent: ActionTriggerDeletedEvent): void {
-    const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerSubject.value
-    const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerDeletedEvent.actionTriggerId)
-    if (index === -1) {
-      this.openDangerSnackBar(`Deleted ActionTrigger does not exist in ActionTrigger state`)
-      return
-    }
-
-    this.actionTriggerService.deleteActionTrigger(actionTriggerDeletedEvent.actionTriggerId).subscribe({
-      next: () => {
-        this.openSnackBar('Success to Delete')
-      },
-      error: () => {
-        this.openDangerSnackBar('Fail to Delete')
-      },
-    })
-  }
-
   private updateActionTriggerState(actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent): void {
     const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerSubject.value
     const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerUpdatedEvent.actionTrigger.id)
+    if (index === -1) {
+      this.openDangerSnackBar('Fail to update')
+      return
+    }
     actionTriggers[index] = actionTriggerUpdatedEvent.actionTrigger
     this.actionTriggerSubject.next(actionTriggers)
+    this.openSnackBar('Success to update')
   }
 
   private removeActionTriggerState(actionTriggerDeletedEvent: ActionTriggerDeletedEvent): void {
@@ -101,16 +58,19 @@ export class ActionTriggerStateService {
     const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerDeletedEvent.actionTriggerId)
     if (index === -1) {
       // ActionTrigger is already deleted from the state.
+      this.openDangerSnackBar('Fail to Delete')
       return
     }
     actionTriggers.splice(index, 1)
     this.actionTriggerSubject.next(actionTriggers)
+    this.openSnackBar('Success to Delete')
   }
 
   private addCreatedActionTriggerState(actionTriggerCreatedEvent: ActionTriggerCreatedEvent): void {
     const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerSubject.value
     actionTriggers.push(actionTriggerCreatedEvent.actionTrigger as ActionTrigger<KeyboardTriggerData>)
     this.actionTriggerSubject.next(actionTriggers)
+    this.openSnackBar('Success create')
   }
 
   public getActionTriggerObservable(): Observable<ActionTrigger<KeyboardTriggerData>[]> {

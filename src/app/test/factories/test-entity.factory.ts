@@ -3,6 +3,7 @@ import { Segment } from '../../core/models/segment'
 import { Rundown } from '../../core/models/rundown'
 import { Piece } from '../../core/models/piece'
 import { RundownTimingType } from '../../core/enums/rundown-timing-type'
+import { ActionTrigger, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -61,6 +62,18 @@ export class TestEntityFactory {
       start: 0,
       isPlanned: true,
       ...piece,
+    }
+  }
+
+  public createActionTrigger(actionTrigger: Partial<ActionTrigger<KeyboardTriggerData>> = {}): ActionTrigger<KeyboardTriggerData> {
+    return {
+      id: 'action-trigger-id',
+      actionId: 'action-trigger-action-id',
+      data: {
+        keys: ['random-key'],
+        actionArguments: 100,
+      },
+      ...actionTrigger,
     }
   }
 }

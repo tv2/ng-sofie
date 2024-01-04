@@ -5,8 +5,7 @@ import { SofieDroppdownOptions } from 'src/app/shared/components/dropdown-button
 import { FilesUtil } from 'src/app/helper/files.util'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { CopyUtil } from 'src/app/helper/copy.util'
-import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
-import { ActionTriggerEventType } from 'src/app/core/models/action-trigger-event-type'
+import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 
 @Component({
   selector: 'sofie-action-triggers-list',
@@ -39,7 +38,7 @@ export class ActionTriggersListComponent {
 
   constructor(
     private readonly dialogService: DialogService,
-    private readonly actionTriggerStateService: ActionTriggerStateService
+    private readonly actionTriggerService: ActionTriggerService
   ) {}
 
   get filteredActionsTriggers(): ActionTrigger<KeyboardAndSelectionTriggerData>[] {
@@ -63,13 +62,13 @@ export class ActionTriggersListComponent {
     this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`action-triggers.delete.confirmation`, 'Delete', () => this.deleteActionTriggerById(actionTriggerId))
   }
 
-  public deleteActionTriggerById(actionTriggerId: string, deleteAllSelected?: boolean): void {
+  private deleteActionTriggerById(actionTriggerId: string, deleteAllSelected?: boolean): void {
     if (deleteAllSelected) {
       for (let deleteActionTrigger of this.selectedActionTriggers) {
-        this.actionTriggerStateService.removeActionTrigger({ actionTriggerId: deleteActionTrigger.id, timestamp: new Date().getTime(), type: ActionTriggerEventType.ACTION_TRIGGER_DELETED })
+        this.actionTriggerService.deleteActionTrigger(deleteActionTrigger.id).subscribe()
       }
     } else {
-      this.actionTriggerStateService.removeActionTrigger({ actionTriggerId: actionTriggerId, timestamp: new Date().getTime(), type: ActionTriggerEventType.ACTION_TRIGGER_DELETED })
+      this.actionTriggerService.deleteActionTrigger(actionTriggerId).subscribe()
     }
   }
 
@@ -78,8 +77,7 @@ export class ActionTriggersListComponent {
       actionId: actionTrigger.actionId,
       data: { keys: actionTrigger.data.keys, actionArguments: actionTrigger.data.actionArguments as number },
     }
-
-    this.actionTriggerStateService.addCreatedActionTrigger({ actionTrigger: copyPayload, timestamp: new Date().getTime(), type: ActionTriggerEventType.ACTION_TRIGGER_CREATED })
+    this.actionTriggerService.createActionTrigger(copyPayload).subscribe()
   }
 
   public selectNewSort(sortOption: string): void {

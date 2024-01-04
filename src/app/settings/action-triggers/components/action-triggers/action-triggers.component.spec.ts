@@ -1,32 +1,69 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { ActionTriggersComponent } from './action-triggers.component'
-import { anything, instance, mock, when } from '@typestrong/ts-mockito'
-import { Observable, Subscription } from 'rxjs'
-import { ActionTrigger, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
+import { mock } from '@typestrong/ts-mockito'
+import { ActionTriggerSortKeys } from 'src/app/shared/models/action-trigger'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
+import { TestEntityFactory } from 'src/app/test/factories/test-entity.factory'
 
 describe('ActionTriggersComponent', () => {
   it('should create', async () => {
     const component = await configureTestBed()
     expect(component).toBeTruthy()
   })
+
+  it('should actionsTriggersList have 2 item', async () => {
+    const component = await configureTestBed()
+    expect(component.actionsTriggersList.length).toBe(2)
+  })
+
+  it('should selected action trigger correctly', async () => {
+    const component = await configureTestBed()
+    component.actionTriggerSelect(component.actionsTriggersList[1])
+    expect(component.selectedAction?.id).toBe(component.actionsTriggersList[1].id)
+  })
+
+  it('should cancel functionality remove selected trigger', async () => {
+    const component = await configureTestBed()
+    component.actionTriggerSelect(component.actionsTriggersList[1])
+    expect(component.selectedAction?.id).toBe(component.actionsTriggersList[1].id)
+    component.cancelActionTrigger()
+    expect(component.selectedAction).toBe(null)
+  })
+
+  it('should sort reorder actionsTriggersList by actionId', async () => {
+    const component = await configureTestBed()
+    component.actionTriggerSelect(component.actionsTriggersList[1])
+    expect(component.selectedAction?.id).toBe(component.actionsTriggersList[1].id)
+    component.newSortSelect(ActionTriggerSortKeys.ACTION_ID_Z_A)
+    expect(component.selectedAction?.id).toBe(component.actionsTriggersList[0].id)
+    component.newSortSelect(ActionTriggerSortKeys.ACTION_ID_A_Z)
+    expect(component.selectedAction?.id).toBe(component.actionsTriggersList[1].id)
+  })
+
+  it('should sort reorder actionsTriggersList by keys', async () => {
+    const component = await configureTestBed()
+    component.actionTriggerSelect(component.actionsTriggersList[1])
+    expect(component.selectedAction?.id).toBe(component.actionsTriggersList[1].id)
+    component.newSortSelect(ActionTriggerSortKeys.SHORTCUT_A_Z)
+    expect(component.selectedAction?.id).toBe(component.actionsTriggersList[0].id)
+    component.newSortSelect(ActionTriggerSortKeys.SHORTCUT_Z_A)
+    expect(component.selectedAction?.id).toBe(component.actionsTriggersList[1].id)
+  })
 })
 
 async function configureTestBed(): Promise<ActionTriggersComponent> {
-  const mockedActionTriggerStateService: ActionTriggerStateService = instance(createMockOfActionTriggerStateService())
+  const mockedActionTriggerStateService: ActionTriggerStateService = mock<ActionTriggerStateService>()
   await TestBed.configureTestingModule({
     providers: [{ provide: ActionTriggerStateService, useValue: mockedActionTriggerStateService }],
     declarations: [ActionTriggersComponent],
   }).compileComponents()
 
   const fixture: ComponentFixture<ActionTriggersComponent> = TestBed.createComponent(ActionTriggersComponent)
-  return fixture.componentInstance
-}
-
-function createMockOfActionTriggerStateService(): ActionTriggerStateService {
-  const mockedActionTriggersService = mock<ActionTriggerStateService>()
-  const mockedSubscription = mock<Subscription>()
-  const mockedObservable = mock<Observable<ActionTrigger<KeyboardTriggerData>[]>>()
-  when(mockedObservable.subscribe(anything)).thenReturn(instance(mockedSubscription))
-  return mockedActionTriggersService
+  const component = fixture.componentInstance
+  const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+  component.actionsTriggersList = [
+    testEntityFactory.createActionTrigger(),
+    testEntityFactory.createActionTrigger({ id: 'action-trigger-id-2', actionId: 'action-trigger-action-id-2', data: { keys: ['1', '2'] } }),
+  ]
+  return component
 }
