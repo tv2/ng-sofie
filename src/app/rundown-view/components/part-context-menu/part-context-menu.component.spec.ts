@@ -17,8 +17,7 @@ describe('PartContextMenuComponent', () => {
     fixture = TestBed.createComponent(PartContextMenuComponent)
     component = fixture.componentInstance
     const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-    const part = testEntityFactory.createPart()
-    component.part = part
+    component.part = testEntityFactory.createPart()
     fixture.detectChanges()
   })
 

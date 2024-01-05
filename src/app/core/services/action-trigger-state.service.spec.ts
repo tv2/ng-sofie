@@ -4,6 +4,7 @@ import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { ActionTriggerEventObserver } from '../models/action-trigger-event-observer.service'
 import { instance, mock, when } from '@typestrong/ts-mockito'
 import { of } from 'rxjs'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 describe(ActionTriggerStateService.name, () => {
   it('should be created', () => {
@@ -12,8 +13,13 @@ describe(ActionTriggerStateService.name, () => {
 
     const connectionStatusObserver: ConnectionStatusObserver = mock(ConnectionStatusObserver)
     const actionTriggerEventObserver: ActionTriggerEventObserver = mock(ActionTriggerEventObserver)
-
-    const testee: ActionTriggerStateService = new ActionTriggerStateService(instance(actionTriggerService), instance(connectionStatusObserver), instance(actionTriggerEventObserver))
+    const mockedMatSnackBar = mock<MatSnackBar>()
+    const testee: ActionTriggerStateService = new ActionTriggerStateService(
+      instance(actionTriggerService),
+      instance(connectionStatusObserver),
+      instance(mockedMatSnackBar),
+      instance(actionTriggerEventObserver)
+    )
 
     expect(testee).toBeTruthy()
   })

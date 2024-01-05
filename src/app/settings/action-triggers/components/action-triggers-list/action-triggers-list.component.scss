@@ -1,0 +1,62 @@
+@import '../../../../../scss/sofie-vars';
+.c-action-triggers-list {
+  width: 100%;
+  &__search {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    & input {
+      width: 100%;
+      padding: 0.5rem;
+    }
+    & sofie-dropdown-button {
+      margin-left: 1rem;
+    }
+  }
+  &__items {
+    max-height: 45rem;
+    overflow: auto;
+  }
+  &__card {
+    margin-bottom: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &--selected {
+      background-color: $sofie-gray;
+    }
+    &--body {
+      flex-grow: 1;
+      & p {
+        margin-top: 0;
+        margin-bottom: 8px;
+      }
+    }
+    &--actions {
+      margin-left: auto;
+      padding-left: 1rem;
+      & sofie-icon-button {
+        margin-right: 1rem;
+      }
+      & sofie-custom-checkbox {
+        margin-right: 1rem;
+      }
+    }
+  }
+  &__no-items {
+    & h3 {
+      text-align: center;
+    }
+  }
+}
+
+.c-custom-badge {
+  padding: 5px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  &.bg-dark {
+    background-color: #404040;
+    color: #fff;
+  }
+}

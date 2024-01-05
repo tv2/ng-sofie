@@ -4,11 +4,11 @@ import { KeyBinding, Keys } from 'src/app/keyboard/value-objects/key-binding'
 import { KeyBindingService } from '../abstractions/key-binding.service'
 import { ActionTriggerStateService } from '../../core/services/action-trigger-state.service'
 import { ActionStateService } from '../../shared/services/action-state.service'
-import { ActionTrigger } from '../../shared/models/action-trigger'
+import { ActionTrigger, KeyboardTriggerData } from '../../shared/models/action-trigger'
 import { Action } from '../../shared/models/action'
 import { RundownStateService } from '../../core/services/rundown-state.service'
 import { Rundown } from '../../core/models/rundown'
-import { Tv2ActionParser } from '../../shared/abstractions/tv2-action-parser.service'
+import { Tv2ActionValidator } from '../../shared/abstractions/tv2-action-validator.service'
 import { KeyBindingFactory } from '../factories/key-binding.factory'
 import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Logger } from '../../core/abstractions/logger.service'
@@ -22,11 +22,6 @@ const SPLIT_SCREEN_COLOR: string = '#00a99c'
 const REPLAY_COLOR: string = '#8d1010'
 const VIDEO_CLIP_COLOR: string = '#1769ff'
 const GRAPHICS_COLOR: string = '#ca9d00'
-
-interface KeyboardTriggerData {
-  keys: Keys
-  actionArguments?: unknown
-}
 
 @Injectable()
 export class ActionTriggerProducerKeyBindingService implements KeyBindingService {
@@ -48,7 +43,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     private readonly actionTriggerStateService: ActionTriggerStateService,
     private readonly actionStateService: ActionStateService,
     private readonly rundownStateService: RundownStateService,
-    private readonly actionParser: Tv2ActionParser,
+    private readonly actionParser: Tv2ActionValidator,
     private readonly keyBindingFactory: KeyBindingFactory,
     private readonly actionService: ActionService,
     logger: Logger
@@ -122,7 +117,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
 
   private createBinding(action: Tv2Action, actionTrigger: ActionTrigger<KeyboardTriggerData>, rundownId: string): StyledKeyBinding {
     return {
-      keys: actionTrigger.data.keys,
+      keys: actionTrigger.data.keys as Keys,
       label: action.name,
       onMatched: () => this.actionService.executeAction(action.id, rundownId, actionTrigger.data.actionArguments).subscribe(),
       shouldMatchOnKeyRelease: true,

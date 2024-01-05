@@ -6,7 +6,7 @@ import { Action } from '../../../shared/models/action'
 import { EventSubscription } from '../../../event-system/abstractions/event-observer.service'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { Tv2Action, Tv2ActionContentType } from '../../../shared/models/tv2-action'
-import { Tv2ActionParser } from '../../../shared/abstractions/tv2-action-parser.service'
+import { Tv2ActionValidator } from '../../../shared/abstractions/tv2-action-validator.service'
 import { ActionService } from '../../../shared/abstractions/action.service'
 
 @Component({
@@ -34,7 +34,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly actionStateService: ActionStateService,
-    private readonly tv2ActionParser: Tv2ActionParser,
+    private readonly tv2ActionParser: Tv2ActionValidator,
     private readonly actionService: ActionService,
     logger: Logger
   ) {

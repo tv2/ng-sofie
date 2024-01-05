@@ -5,7 +5,7 @@ import { environment } from '../../../../environments/environment'
 import { HttpErrorService } from './http-error.service'
 import { Injectable } from '@angular/core'
 import { Action } from '../../models/action'
-import { ActionParser } from '../../abstractions/action-parser.service'
+import { ActionValidator } from '../../abstractions/action-validator.service'
 import { HttpResponse } from './http-response'
 
 @Injectable()
@@ -13,14 +13,14 @@ export class HttpActionService implements ActionService {
   constructor(
     private readonly http: HttpClient,
     private readonly httpErrorService: HttpErrorService,
-    private readonly actionParser: ActionParser
+    private readonly actionValidator: ActionValidator
   ) {}
 
   public getActions(rundownId: string): Observable<Action[]> {
     const url: string = this.getGetActionsUrl(rundownId)
     return this.http.get<HttpResponse<Action[]>>(url).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
-      map(response => this.actionParser.parseActions(response.data))
+      map(response => this.actionValidator.validateActions(response.data))
     )
   }
 

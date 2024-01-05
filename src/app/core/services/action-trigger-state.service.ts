@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { ActionTrigger } from '../../shared/models/action-trigger'
+import { ActionTrigger, KeyboardTriggerData } from '../../shared/models/action-trigger'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { ActionTriggerService } from '../../shared/abstractions/action-trigger.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpdatedEvent } from '../models/action-trigger-event'
 import { ActionTriggerEventObserver } from '../models/action-trigger-event-observer.service'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Injectable()
 export class ActionTriggerStateService {
-  private readonly actionTriggerSubject: BehaviorSubject<ActionTrigger[]> = new BehaviorSubject<ActionTrigger[]>([])
+  private readonly actionTriggerSubject: BehaviorSubject<ActionTrigger<KeyboardTriggerData>[]> = new BehaviorSubject<ActionTrigger<KeyboardTriggerData>[]>([])
 
   private readonly subscriptions: EventSubscription[] = []
 
   constructor(
     private readonly actionTriggerService: ActionTriggerService,
     private readonly connectionStatusObserver: ConnectionStatusObserver,
+    private readonly snackBar: MatSnackBar,
     private readonly actionTriggerEventObserver: ActionTriggerEventObserver
   ) {
     this.subscriptions.push(this.connectionStatusObserver.subscribeToReconnect(() => this.resetActionTriggers()))
@@ -29,35 +31,73 @@ export class ActionTriggerStateService {
 
   private subscribeToActionTriggerEvents(): void {
     this.subscriptions.push(
-      this.actionTriggerEventObserver.subscribeToActionTriggerCreated((actionTriggerCreatedEvent: ActionTriggerCreatedEvent) => this.addCreatedActionTrigger(actionTriggerCreatedEvent))
+      this.actionTriggerEventObserver.subscribeToActionTriggerCreated((actionTriggerCreatedEvent: ActionTriggerCreatedEvent) => this.addCreatedActionTriggerState(actionTriggerCreatedEvent))
     )
     this.subscriptions.push(
-      this.actionTriggerEventObserver.subscribeToActionTriggerUpdated((actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent) => this.updateActionTrigger(actionTriggerUpdatedEvent))
+      this.actionTriggerEventObserver.subscribeToActionTriggerUpdated((actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent) => this.updateActionTriggerState(actionTriggerUpdatedEvent))
     )
     this.subscriptions.push(
-      this.actionTriggerEventObserver.subscribeToActionTriggerDeleted((actionTriggerDeletedEvent: ActionTriggerDeletedEvent) => this.removeActionTrigger(actionTriggerDeletedEvent))
+      this.actionTriggerEventObserver.subscribeToActionTriggerDeleted((actionTriggerDeletedEvent: ActionTriggerDeletedEvent) => this.removeActionTriggerState(actionTriggerDeletedEvent))
     )
   }
 
-  private addCreatedActionTrigger(actionTriggerCreatedEvent: ActionTriggerCreatedEvent): void {
-    const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
-    actionTriggers.push(actionTriggerCreatedEvent.actionTrigger)
-    this.actionTriggerSubject.next(actionTriggers)
+  public addCreatedActionTrigger(actionTriggerCreatedEvent: ActionTriggerCreatedEvent): void {
+    this.actionTriggerService.createActionTrigger(actionTriggerCreatedEvent.actionTrigger).subscribe({
+      next: () => {
+        this.openSnackBar('Success create')
+        this.resetActionTriggers()
+      },
+      error: () => {
+        this.openDangerSnackBar('Fail to create')
+      },
+    })
   }
 
-  private updateActionTrigger(actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent): void {
-    const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
+  public updateActionTrigger(actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent): void {
+    const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerSubject.value
     const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerUpdatedEvent.actionTrigger.id)
     if (index === -1) {
+      this.openDangerSnackBar(`Updated ActionTrigger does not exist in ActionTrigger state`)
       throw new Error(`Updated ActionTrigger does not exist in ActionTrigger state`)
     }
 
+    this.actionTriggerService.updateActionTrigger(actionTriggerUpdatedEvent.actionTrigger).subscribe({
+      next: () => {
+        this.openSnackBar('Success to update')
+      },
+      error: () => {
+        this.openDangerSnackBar('Fail to update')
+      },
+    })
+  }
+
+  public removeActionTrigger(actionTriggerDeletedEvent: ActionTriggerDeletedEvent): void {
+    const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerSubject.value
+    const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerDeletedEvent.actionTriggerId)
+    if (index === -1) {
+      this.openDangerSnackBar(`Deleted ActionTrigger does not exist in ActionTrigger state`)
+      return
+    }
+
+    this.actionTriggerService.deleteActionTrigger(actionTriggerDeletedEvent.actionTriggerId).subscribe({
+      next: () => {
+        this.openSnackBar('Success to Delete')
+      },
+      error: () => {
+        this.openDangerSnackBar('Fail to Delete')
+      },
+    })
+  }
+
+  private updateActionTriggerState(actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent): void {
+    const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerSubject.value
+    const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerUpdatedEvent.actionTrigger.id)
     actionTriggers[index] = actionTriggerUpdatedEvent.actionTrigger
     this.actionTriggerSubject.next(actionTriggers)
   }
 
-  private removeActionTrigger(actionTriggerDeletedEvent: ActionTriggerDeletedEvent): void {
-    const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
+  private removeActionTriggerState(actionTriggerDeletedEvent: ActionTriggerDeletedEvent): void {
+    const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerSubject.value
     const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerDeletedEvent.actionTriggerId)
     if (index === -1) {
       // ActionTrigger is already deleted from the state.
@@ -67,11 +107,25 @@ export class ActionTriggerStateService {
     this.actionTriggerSubject.next(actionTriggers)
   }
 
-  public getActionTriggerObservable(): Observable<ActionTrigger[]> {
+  private addCreatedActionTriggerState(actionTriggerCreatedEvent: ActionTriggerCreatedEvent): void {
+    const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerSubject.value
+    actionTriggers.push(actionTriggerCreatedEvent.actionTrigger as ActionTrigger<KeyboardTriggerData>)
+    this.actionTriggerSubject.next(actionTriggers)
+  }
+
+  public getActionTriggerObservable(): Observable<ActionTrigger<KeyboardTriggerData>[]> {
     return this.actionTriggerSubject.asObservable()
   }
 
   public destroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe)
+  }
+
+  private openSnackBar(message: string): void {
+    this.snackBar.open(message, 'DISMISS', { panelClass: 'snackbar-success' })
+  }
+
+  private openDangerSnackBar(message: string): void {
+    this.snackBar.open(message, 'DISMISS', { panelClass: 'snackbar-danger' })
   }
 }

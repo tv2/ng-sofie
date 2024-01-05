@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'
 import { EventConsumer, EventObserver, EventSubscription, TypedEvent } from '../../event-system/abstractions/event-observer.service'
-import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpdatedEvent } from './action-trigger-event'
 import { ActionTriggerEventType } from './action-trigger-event-type'
-import { ActionTriggerEventParser } from '../abstractions/action-trigger-event-parser'
+import { ActionTriggerEventValidator } from '../abstractions/action-trigger-event-validator.service'
 import { Logger } from '../abstractions/logger.service'
+import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpdatedEvent } from './action-trigger-event'
 
 @Injectable()
 export class ActionTriggerEventObserver {
@@ -11,7 +11,7 @@ export class ActionTriggerEventObserver {
 
   constructor(
     private readonly eventObserver: EventObserver,
-    private readonly actionTriggerEventParser: ActionTriggerEventParser,
+    private readonly actionTriggerEventParser: ActionTriggerEventValidator,
     logger: Logger
   ) {
     this.logger = logger.tag('ActionTriggerEventObserver')
@@ -38,10 +38,10 @@ export class ActionTriggerEventObserver {
     )
   }
 
-  private createEventValidatingConsumer<T>(consumer: (event: T) => void, parser: (maybeEvent: unknown) => T): EventConsumer {
+  private createEventValidatingConsumer<T>(consumer: (event: T) => void, validator: (maybeEvent: unknown) => T): EventConsumer {
     return (event: TypedEvent) => {
       try {
-        const activationEvent: T = parser(event)
+        const activationEvent: T = validator(event)
         consumer(activationEvent)
       } catch (error) {
         this.logger.data({ error, event }).error('Failed to parse ActionTrigger event.')

@@ -1,5 +1,5 @@
 import { Piece } from './piece'
-import { AutoNext } from '../models/auto-next'
+import { AutoNext } from './auto-next'
 
 export interface Part {
   readonly id: string

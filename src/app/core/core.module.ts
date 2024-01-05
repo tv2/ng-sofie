@@ -4,9 +4,9 @@ import { EnsureLoadedOnceGuard } from './ensure-loaded-once.guard'
 import { ConnectionStatusObserver } from './services/connection-status-observer.service'
 import { RundownEventObserver } from './services/rundown-event-observer.service'
 import { RundownStateService } from './services/rundown-state.service'
-import { RundownEventParser } from './abstractions/rundown-event.parser'
+import { RundownEventValidator } from './abstractions/rundown-event-validator.service'
 import { BasicRundownStateService } from './services/basic-rundown-state.service'
-import { ZodRundownEventParser } from './parsers/zod-rundown-event-parser.service'
+import { ZodRundownEventValidator } from './validators/zod-rundown-event-validator.service'
 import { EventSystemModule } from '../event-system/event-system.module'
 import { ShowStyleVariantStateService } from './services/show-style-variant-state.service'
 import { RundownEntityService } from './services/models/rundown-entity.service'
@@ -21,12 +21,12 @@ import { RundownService } from './abstractions/rundown.service'
 import { HttpRundownService } from './services/http/http-rundown.service'
 import { BasicRundownService } from './abstractions/basic-rundown.service'
 import { HttpBasicRundownService } from './services/http/http-basic-rundown.service'
-import { EntityParser } from './abstractions/entity-parser.service'
-import { ZodEntityParser } from './parsers/zod-entity-parser.service'
+import { EntityValidator } from './abstractions/entity-validator.service'
+import { ZodEntityValidator } from './validators/zod-entity-validator.service'
 import { ActionTriggerStateService } from './services/action-trigger-state.service'
 import { ActionTriggerEventObserver } from './models/action-trigger-event-observer.service'
-import { ActionTriggerEventParser } from './abstractions/action-trigger-event-parser'
-import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-parser.service'
+import { ActionTriggerEventValidator } from './abstractions/action-trigger-event-validator.service'
+import { ZodActionTriggerEventValidator } from './validators/zod-action-trigger-event-validator.service'
 
 @NgModule({
   declarations: [],
@@ -37,11 +37,11 @@ import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-
     RundownStateService,
     BasicRundownStateService,
     ShowStyleVariantStateService,
-    { provide: RundownEventParser, useClass: ZodRundownEventParser },
+    { provide: RundownEventValidator, useClass: ZodRundownEventValidator },
     { provide: ShowStyleVariantService, useClass: HttpShowStyleVariantService },
     { provide: RundownService, useClass: HttpRundownService },
     { provide: BasicRundownService, useClass: HttpBasicRundownService },
-    { provide: EntityParser, useClass: ZodEntityParser },
+    { provide: EntityValidator, useClass: ZodEntityValidator },
     RundownEntityService,
     BasicRundownEntityService,
     SegmentEntityService,
@@ -50,7 +50,7 @@ import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-
     RundownTimingContextStateService,
     ActionTriggerStateService,
     ActionTriggerEventObserver,
-    { provide: ActionTriggerEventParser, useClass: ZodActionTriggerEventParser },
+    { provide: ActionTriggerEventValidator, useClass: ZodActionTriggerEventValidator },
   ],
 })
 export class CoreModule extends EnsureLoadedOnceGuard {

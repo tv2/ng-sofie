@@ -1,0 +1,20 @@
+<div class="c-select-actions-triggers c-sofie-card">
+  <div class="c-select-actions-triggers__field">
+    <input [readonly]="submitting" placeholder="Search" [(ngModel)]="search" />
+  </div>
+  <div class="c-select-actions-triggers__list">
+    <div>
+      <ng-container *ngIf="filteredActions.length > 0; else noActions">
+        <sofie-single-action-trigger-box
+          *ngFor="let action of filteredActions"
+          [action]="action"
+          [isSelected]="action.id === selectedActionId"
+          [submitting]="submitting"
+          (actionSelect)="newActionSelected($event)"></sofie-single-action-trigger-box>
+      </ng-container>
+      <ng-template #noActions>
+        <h4 class="text-center" i18n>action-triggers.no-actions.label</h4>
+      </ng-template>
+    </div>
+  </div>
+</div>

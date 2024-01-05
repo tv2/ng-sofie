@@ -26,10 +26,10 @@ import { HttpActionService } from './services/http/http-action.service'
 import { ContextMenuComponent } from './components/context-menu/context-menu.component'
 import { CdkMenuModule } from '@angular/cdk/menu'
 import { ActionStateService } from './services/action-state.service'
-import { ActionParser } from './abstractions/action-parser.service'
-import { ZodActionParser } from './services/zod-action-parser.service'
-import { Tv2ActionParser } from './abstractions/tv2-action-parser.service'
-import { ZodTv2ActionParser } from './services/zod-tv2-action-parser.service'
+import { ActionValidator } from './abstractions/action-validator.service'
+import { ZodActionValidator } from './services/zod-action-validator.service'
+import { Tv2ActionValidator } from './abstractions/tv2-action-validator.service'
+import { ZodTv2ActionValidator } from './services/zod-tv2-action-validator.service'
 import { RundownNavigationService } from './services/rundown-navigation-service'
 import { Tv2ActionPanelComponent } from './components/tv2-action-panel/tv2-action-panel.component'
 import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-card.component'
@@ -37,12 +37,18 @@ import { TimerPipe } from './pipes/timer/timer.pipe'
 import { MatSelectModule } from '@angular/material/select'
 import { ActionTriggerService } from './abstractions/action-trigger.service'
 import { HttpActionTriggerService } from './services/http/http-action-trigger.service'
-import { ActionTriggerParser } from './abstractions/action-trigger-parser.service'
-import { ZodActionTriggerParser } from './services/zod-action-trigger-parser.service'
+import { ActionTriggerValidator } from './abstractions/action-trigger-parser.service'
+import { ZodActionTriggerValidator } from './services/zod-action-trigger-parser.service'
 import { HttpClientModule } from '@angular/common/http'
 import { HttpErrorService } from './services/http/http-error.service'
 import { Logger } from '../core/abstractions/logger.service'
 import { Tv2LoggerService } from '../core/services/tv2-logger.service'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { LoadingComponent } from './components/loading/loading.component'
+import { DropdownButtonComponent } from './components/dropdown-button/dropdown-button.component'
+import { MatMenuModule } from '@angular/material/menu'
+import { CustomCheckboxComponent } from './components/icon-checkbox/custom-checkbox.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -58,6 +64,9 @@ import { Tv2LoggerService } from '../core/services/tv2-logger.service'
     Tv2ActionPanelComponent,
     Tv2ActionCardComponent,
     TimerPipe,
+    LoadingComponent,
+    DropdownButtonComponent,
+    CustomCheckboxComponent,
   ],
   imports: [
     CommonModule,
@@ -73,7 +82,11 @@ import { Tv2LoggerService } from '../core/services/tv2-logger.service'
     MatDialogModule,
     FontAwesomeModule,
     CdkMenuModule,
+    ReactiveFormsModule,
+    FormsModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
+    MatMenuModule,
   ],
   exports: [
     CommonModule,
@@ -88,15 +101,20 @@ import { Tv2LoggerService } from '../core/services/tv2-logger.service'
     ContextMenuComponent,
     Tv2ActionPanelComponent,
     Tv2ActionCardComponent,
+    LoadingComponent,
+    DropdownButtonComponent,
+    CustomCheckboxComponent,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
     { provide: Logger, useClass: Tv2LoggerService },
     { provide: ActionService, useClass: HttpActionService },
     { provide: ActionTriggerService, useClass: HttpActionTriggerService },
-    { provide: ActionParser, useClass: ZodActionParser },
-    { provide: ActionTriggerParser, useClass: ZodActionTriggerParser },
-    { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
+    { provide: ActionValidator, useClass: ZodActionValidator },
+    { provide: ActionTriggerValidator, useClass: ZodActionTriggerValidator },
+    { provide: Tv2ActionValidator, useClass: ZodTv2ActionValidator },
     HttpErrorService,
     HttpClientModule,
     DialogService,
