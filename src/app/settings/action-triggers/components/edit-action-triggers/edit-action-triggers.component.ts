@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core'
 import { AbstractControl, FormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
-import { ActionTrigger, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData, SHORTCUT_KEYS_MAPPINGS } from 'src/app/shared/models/action-trigger'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
 import { Logger } from 'src/app/core/abstractions/logger.service'
@@ -74,14 +74,15 @@ export class EditActionTriggersComponent implements OnChanges, OnInit {
 
   public onKeyDown(event: KeyboardEvent): void {
     event.preventDefault()
+    const newKeyCode: string = SHORTCUT_KEYS_MAPPINGS[event.code] ? SHORTCUT_KEYS_MAPPINGS[event.code] : event.code
     if (this.keyPress) {
       const currentKeys: string[] = this.actionForm?.get('data')?.get('keys')?.value ? this.actionForm?.get('data')?.get('keys')?.value.split(' + ') : []
-      if (currentKeys.findIndex(keyCode => keyCode === event.code) === -1) {
-        currentKeys.push(event.code)
+      if (currentKeys.findIndex(keyCode => keyCode === newKeyCode) === -1) {
+        currentKeys.push(newKeyCode)
         this.actionForm?.get('data')?.get('keys')?.patchValue(currentKeys.join(' + '))
       }
     } else {
-      this.actionForm?.get('data')?.get('keys')?.patchValue(event.code)
+      this.actionForm?.get('data')?.get('keys')?.patchValue(newKeyCode)
       this.keyPress = true
     }
   }

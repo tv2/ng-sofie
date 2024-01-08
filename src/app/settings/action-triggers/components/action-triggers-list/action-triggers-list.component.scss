@@ -31,11 +31,13 @@
       & p {
         margin-top: 0;
         margin-bottom: 8px;
+        line-break: anywhere;
       }
     }
     &--actions {
       margin-left: auto;
       padding-left: 1rem;
+      min-width: 9rem;
       & sofie-icon-button {
         margin-right: 1rem;
       }

@@ -1,3 +1,5 @@
+import { KeyAlias } from 'src/app/keyboard/value-objects/key-alias'
+
 export interface ActionTrigger<Data = unknown> {
   id: string
   actionId: string
@@ -16,7 +18,6 @@ export interface KeyboardAndSelectionTriggerData extends KeyboardTriggerData {
 export interface CreateActionTrigger<Data = unknown> {
   actionId: string
   data: Data
-  id?: string
 }
 
 export enum ActionTriggerSortKeys {
@@ -30,4 +31,13 @@ export enum UserActionsWithSelectedTriggers {
   TOGGLE_SELECT = 'TOGGLE_SELECT',
   EXPORT = 'EXPORT',
   DELETE = 'DELETE',
+}
+
+export const SHORTCUT_KEYS_MAPPINGS: Record<string, string> = {
+  Enter: KeyAlias.ANY_ENTER,
+  NumpadEnter: KeyAlias.ANY_ENTER,
+  ShiftLeft: KeyAlias.SHIFT,
+  ShiftRight: KeyAlias.SHIFT,
+  ControlLeft: KeyAlias.CONTROL,
+  ControlRight: KeyAlias.CONTROL,
 }

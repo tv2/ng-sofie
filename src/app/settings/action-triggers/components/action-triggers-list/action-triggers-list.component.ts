@@ -42,7 +42,12 @@ export class ActionTriggersListComponent {
   ) {}
 
   get filteredActionsTriggers(): ActionTrigger<KeyboardAndSelectionTriggerData>[] {
-    return this.actionsTriggersList.filter(trigger => trigger.actionId.toLocaleLowerCase().includes(this.search.toLocaleLowerCase()) || trigger.id === this.selectedActionTrigger?.id)
+    return this.actionsTriggersList.filter(
+      trigger =>
+        trigger.actionId.toLocaleLowerCase().includes(this.search.toLocaleLowerCase()) ||
+        trigger.data.keys.toString().toLocaleLowerCase().includes(this.search.toLocaleLowerCase()) ||
+        trigger.id === this.selectedActionTrigger?.id
+    )
   }
 
   public selectActionTrigger(actionTrigger: ActionTrigger<KeyboardAndSelectionTriggerData> | null): void {
