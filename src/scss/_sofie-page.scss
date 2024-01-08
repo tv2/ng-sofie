@@ -1,0 +1,50 @@
+.c-sofie-button {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  border: 0;
+  cursor: pointer;
+  &.c-sofie-button-primary {
+    color: #fff;
+    background-color: $sofie-primary;
+    &:hover {
+      filter: brightness(90%);
+    }
+  }
+  &.c-sofie-button-gray {
+    color: #fff;
+    background-color: $sofie-dark;
+    &:hover {
+      filter: brightness(90%);
+    }
+  }
+}
+
+.c-sofie-card {
+  padding: 0.5rem;
+  display: block;
+  position: relative;
+  border-radius: 4px;
+  border: 1px solid $sofie-gray;
+  box-shadow:
+    0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  &.c-sofie-card-selected {
+    background-color: $sofie-gray;
+  }
+}
+
+.c-sofie-form-control {
+  display: block;
+  margin-bottom: 1rem;
+  & label {
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  & input {
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+  }
+}

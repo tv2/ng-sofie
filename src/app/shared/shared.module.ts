@@ -43,6 +43,12 @@ import { HttpClientModule } from '@angular/common/http'
 import { HttpErrorService } from './services/http/http-error.service'
 import { Logger } from '../core/abstractions/logger.service'
 import { Tv2LoggerService } from '../core/services/tv2-logger.service'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { LoadingComponent } from './components/loading/loading.component'
+import { DropdownButtonComponent } from './components/dropdown-button/dropdown-button.component'
+import { MatMenuModule } from '@angular/material/menu'
+import { CustomCheckboxComponent } from './components/icon-checkbox/custom-checkbox.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -58,6 +64,9 @@ import { Tv2LoggerService } from '../core/services/tv2-logger.service'
     Tv2ActionPanelComponent,
     Tv2ActionCardComponent,
     TimerPipe,
+    LoadingComponent,
+    DropdownButtonComponent,
+    CustomCheckboxComponent,
   ],
   imports: [
     CommonModule,
@@ -73,7 +82,11 @@ import { Tv2LoggerService } from '../core/services/tv2-logger.service'
     MatDialogModule,
     FontAwesomeModule,
     CdkMenuModule,
+    ReactiveFormsModule,
+    FormsModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
+    MatMenuModule,
   ],
   exports: [
     CommonModule,
@@ -88,6 +101,11 @@ import { Tv2LoggerService } from '../core/services/tv2-logger.service'
     ContextMenuComponent,
     Tv2ActionPanelComponent,
     Tv2ActionCardComponent,
+    LoadingComponent,
+    DropdownButtonComponent,
+    CustomCheckboxComponent,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },

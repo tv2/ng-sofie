@@ -1,0 +1,33 @@
+<div class="c-edit-actions-triggers">
+  <h4>
+    <span *ngIf="isUpdateAction; else createLabel" i18n>action-triggers.update-shortcut.title</span>
+    <ng-template #createLabel><span i18n>action-triggers.create-shortcut.title</span></ng-template>
+  </h4>
+  <form class="c-edit-actions-triggers__form" *ngIf="!loading; else loader" (ngSubmit)="submit()" [formGroup]="actionForm">
+    <div>
+      <ng-container formGroupName="data">
+        <div class="c-edit-actions-triggers__form--field c-sofie-form-control" [ngClass]="{ 'c-sofie-control-error': showErrorFor('keys', 'data') }">
+          <label i18n>action-triggers.shortcut.label</label>
+          <input [readonly]="true" (keydown)="onKeyDown($event)" (keyup)="onKeyUp()" formControlName="keys" />
+        </div>
+        <div class="c-edit-actions-triggers__form--field c-sofie-form-control" [ngClass]="{ 'c-sofie-control-error': showErrorFor('actionArguments', 'data') }">
+          <label i18n>action-triggers.action-argument.label</label>
+          <input [readonly]="submitting" formControlName="actionArguments" />
+        </div>
+      </ng-container>
+
+      <div class="c-edit-actions-triggers__form--field c-sofie-form-control" [ngClass]="{ 'c-sofie-control-error': showErrorFor('actionId') }">
+        <label i18n>action-triggers.selected-action-id.label</label>
+        <input [readonly]="true" formControlName="actionId" />
+      </div>
+      <div class="c-edit-actions-triggers__form--buttons">
+        <button class="c-sofie-button c-sofie-button-gray" type="submit" i18n>global.save.button</button>
+        <button class="c-sofie-button c-sofie-button-gray" (click)="cancelEdit()" type="button" i18n>global.cancel.button</button>
+      </div>
+    </div>
+    <sofie-select-action-trigger [actions]="actions" [selectedActionId]="actionForm.get('actionId')?.value" (selectActionTrigger)="selectNewActionTrigger($event)"></sofie-select-action-trigger>
+  </form>
+</div>
+<ng-template #loader>
+  <sofie-loading></sofie-loading>
+</ng-template>
