@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: Paths.SETTINGS,
-    loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
+    loadChildren: () => import('./settings/settings.module').then(module => module.SettingsModule),
   },
   {
     path: `${Paths.RUNDOWNS}/:rundownId`,

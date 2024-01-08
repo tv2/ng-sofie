@@ -43,8 +43,8 @@ export class ActionTriggersImportComponent {
     }
   }
 
-  private isHaveNextElement(index: number): boolean {
-    return this.importedActionsTriggersList.length - 1 > index
+  private hasNoImportedActionTriggerAfterIndex(index: number): boolean {
+    return index + 1 > this.importedActionsTriggersList.length
   }
 
   private importItem(index: number): void {
@@ -57,14 +57,14 @@ export class ActionTriggersImportComponent {
 
   private createActionTrigger(actionTrigger: CreateActionTrigger<KeyboardTriggerData>, index: number): void {
     this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
-    if (this.isHaveNextElement(index)) {
+    if (!this.hasNoImportedActionTriggerAfterIndex(index)) {
       this.importItem(index + 1)
     }
   }
 
   private updateActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>, index: number): void {
     this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe()
-    if (this.isHaveNextElement(index)) {
+    if (!this.hasNoImportedActionTriggerAfterIndex(index)) {
       this.importItem(index + 1)
     }
   }
