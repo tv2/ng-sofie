@@ -11,7 +11,7 @@
     "test-watch": "ng test",
     "lint": "ng lint",
     "lint-fix": "ng lint --fix",
-    "validate": "yarn npm audit --environment production --severity moderate",
+    "validate": "yarn npm audit --environment production --severity moderate --recursive",
     "extract-translations": "ng extract-i18n"
     "clean": "rimraf dist",
     "reset": "rimraf dist node_modules coverage"
