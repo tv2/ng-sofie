@@ -114,10 +114,6 @@
         <source>global.cancel.button</source>
         <target state="new">Cancel</target>
       </trans-unit>
-      <trans-unit id="5071145978603597350" datatype="html">
-        <source>global.save.button</source>
-        <target state="new">Save</target>
-      </trans-unit>
       <trans-unit id="946249916134408794" datatype="html">
         <source>action-triggers.no-actions.label</source>
         <target state="new">No actions found</target>
@@ -177,6 +173,18 @@
       <trans-unit id="4978684078154973195" datatype="html">
         <source>global.unselect-all.label</source>
         <target state="new">Unselect all</target>
+      </trans-unit>
+      <trans-unit id="8392171193464081864" datatype="html">
+        <source>global.update.button</source>
+        <target state="new">Update</target>
+      </trans-unit>
+      <trans-unit id="4266204168495316140" datatype="html">
+        <source>global.create.button</source>
+        <target state="new">Create</target>
+      </trans-unit>
+      <trans-unit id="7358643692179267021" datatype="html">
+        <source>action-triggers.select-action-box.label</source>
+        <target state="new">Select action for the shortcut</target>
       </trans-unit>
     </body>
   </file>

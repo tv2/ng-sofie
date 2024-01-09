@@ -1,5 +1,5 @@
 .snackbar-danger {
-  background: $sofie-danger;
+  background: var(--general-danger-color);
   color: white;
 
   .mat-button-wrapper {

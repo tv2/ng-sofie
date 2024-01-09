@@ -1,15 +1,37 @@
-$sofie-primary: #1f9ac7;
-$sofie-danger: #df0606;
-$sofie-white: #ffffff;
-$sofie-black: #000000;
-$sofie-gray: #d3d3d3;
-$sofie-dark: #464646;
+body {
+  --general-primary-color: #1f9ac7;
+  --general-danger-color: #df0606;
+  --general-white-color: #ffffff;
+  --general-gray-color: #d3d3d3;
+  --general-black-color: #000000;
+  --general-dark-color: #343434;
+  --general-live-color: #c40000;
+  --general-next-color: #00ac17;
 
-$sofie-camera-color: #005919;
-$sofie-remote-color: #ac29a5;
-$sofie-video-clip-color: #1769ff;
-$sofie-transition-color: #1a7a42;
-$sofie-graphics-color: #ca9d00;
-$sofie-audio-color: #9e0358;
-$sofie-split-screen-gradient: linear-gradient(to bottom, #00a99c 0%, #00a99c 50%, #265753 50%, #265753 100%);
-$sofie-replay-color: #8d1010;
+  --general-live-remote-color: #ac29a5;
+  --general-live-guest-color: #00a97f;
+
+  --segment-layer-background-camera: #005919;
+  --segment-layer-background-camera--second: lighten(#005919, 20%);
+  --segment-layer-background-lower-third: #ca9d00;
+  --segment-layer-background-lower-third--second: darken(#ca9d00, 20%);
+  --segment-layer-background-graphics: #ca9d00;
+  --segment-layer-background-graphics--second: darken(#ca9d00, 20%);
+  --segment-layer-background-live-speak: #370020;
+  --segment-layer-background-remote: #ac29a5;
+  --segment-layer-background-remote--second: darken(#ac29a5, 20%);
+  --segment-layer-background-local: #8d1010;
+  --segment-layer-background-local--second: darken(#8d1010, 20%);
+  --segment-layer-background-vt: #1769ff;
+  --segment-layer-background-vt--second: darken(#1769ff, 20%);
+  --segment-layer-background-script: #370020;
+  --segment-layer-background-mic: #00a97f;
+  --segment-layer-background-guest: #00a97f;
+
+  --dve-upper: #00a99c;
+  --dve-lower: #265753;
+
+  --presenter-clock-background-color: #2c2c2e;
+  --presenter-clock-panel-background-color-neutral: #3c3c3c;
+  --presenter-clock-panel-border-color: #ffffff;
+}

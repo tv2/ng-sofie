@@ -1,10 +1,13 @@
-@import '../../../../../../scss/sofie-vars';
 :host {
   flex-grow: 2;
   padding-left: 2rem;
-  max-width: 50rem;
   & .c-select-actions-triggers {
     width: 100%;
+    background-color: #d5d5d5;
+    & h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
     &__field {
       width: 100%;
       margin-bottom: 1rem;
@@ -13,9 +16,9 @@
       }
     }
     &__list {
-      height: 30rem;
+      height: calc(100vh - 370px);
       overflow: auto;
-      border-right: 1px solid $sofie-gray;
+      border-right: 1px solid var(--general-gray-color);
       & > div {
         display: flex;
         flex-wrap: wrap;
@@ -23,10 +26,11 @@
           flex: 0 0 15%;
           min-width: 4rem;
           max-width: 7rem;
-          height: 5rem;
+          height: 5.5rem;
           border-radius: 10px;
-          margin-bottom: 0.5rem;
-          margin-right: 0.5rem;
+          margin-bottom: 8px;
+          margin-right: 8px;
+          padding: 0;
         }
         & h4 {
           flex: 0 0 100%;

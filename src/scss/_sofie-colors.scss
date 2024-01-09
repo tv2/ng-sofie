@@ -1,31 +1,23 @@
 .camera_color {
-  background-color: $sofie-camera-color;
+  background-color: var(--segment-layer-background-camera) !important;
   color: #fff;
 }
 .remote_color {
-  background-color: $sofie-remote-color;
+  background-color: var(--segment-layer-background-remote) !important;
   color: #fff;
 }
 .video_clip_color {
-  background-color: $sofie-video-clip-color;
-  color: #fff;
-}
-.transition_color {
-  background-color: $sofie-transition-color;
-  color: #fff;
-}
-.graphics_color {
-  background-color: $sofie-graphics-color;
-}
-.audio_color {
-  background-color: $sofie-audio-color;
+  background-color: var(--segment-layer-background-vt) !important;
   color: #fff;
 }
 .split_screen_color {
-  background: $sofie-split-screen-gradient;
+  background-color: var(--dve-upper) !important;
   color: #fff;
 }
+.graphics_color {
+  background-color: var(--segment-layer-background-graphics) !important;
+}
 .replay_color {
-  background: $sofie-replay-color;
+  background-color: var(--segment-layer-background-local) !important;
   color: #fff;
 }

@@ -3,5 +3,7 @@
   class="c-sofie-card c-action-trigger-box"
   [ngClass]="{ 'c-action-trigger-selected': isSelected }"
   [class]="this.action.metadata.contentType.toLocaleLowerCase() + '_color'">
-  {{ action.name }}
+  <p>
+    {{ action.name }}
+  </p>
 </div>

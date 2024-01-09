@@ -68,9 +68,6 @@
       <trans-unit id="4236071901286997238" datatype="html">
         <source>action-triggers.action-argument.label</source>
       </trans-unit>
-      <trans-unit id="5071145978603597350" datatype="html">
-        <source>global.save.button</source>
-      </trans-unit>
       <trans-unit id="5998298101573406065" datatype="html">
         <source>action-triggers.import-shortcuts.button</source>
       </trans-unit>
@@ -133,6 +130,15 @@
       </trans-unit>
       <trans-unit id="4978684078154973195" datatype="html">
         <source>global.unselect-all.label</source>
+      </trans-unit>
+      <trans-unit id="4266204168495316140" datatype="html">
+        <source>global.create.button</source>
+      </trans-unit>
+      <trans-unit id="8392171193464081864" datatype="html">
+        <source>global.update.button</source>
+      </trans-unit>
+      <trans-unit id="7358643692179267021" datatype="html">
+        <source>action-triggers.select-action-box.label</source>
       </trans-unit>
     </body>
   </file>

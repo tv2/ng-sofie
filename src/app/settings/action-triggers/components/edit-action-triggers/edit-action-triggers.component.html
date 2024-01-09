@@ -21,7 +21,8 @@
         <input [readonly]="true" formControlName="actionId" />
       </div>
       <div class="c-edit-actions-triggers__form--buttons">
-        <button class="c-sofie-button c-sofie-button-gray" type="submit" i18n>global.save.button</button>
+        <button *ngIf="isUpdateAction; else createButton" i18n class="c-sofie-button c-sofie-button-primary" type="submit" i18n>global.update.button</button>
+        <ng-template #createButton><button class="c-sofie-button c-sofie-button-primary" type="submit" i18n>global.create.button</button></ng-template>
         <button class="c-sofie-button c-sofie-button-gray" (click)="cancelEdit()" type="button" i18n>global.cancel.button</button>
       </div>
     </div>

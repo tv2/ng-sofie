@@ -6,12 +6,12 @@ input,
 select {
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  border: 1px solid $sofie-gray;
+  border: 1px solid var(--general-gray-color);
 }
 
 .c-sofie-control-error {
   & input {
-    border-color: $sofie-danger;
+    border-color: var(--general-danger-color);
   }
 }
 
@@ -38,7 +38,7 @@ select {
     width: 25px;
     background-color: #eee;
     border-radius: 4px;
-    border: 1px solid $sofie-gray;
+    border: 1px solid var(--general-gray-color);
     cursor: pointer;
     &:after {
       content: '';
@@ -57,7 +57,7 @@ select {
     background-color: #ccc;
   }
   & input:checked ~ label {
-    background-color: $sofie-primary;
+    background-color: var(--general-primary-color);
   }
   & input:checked ~ label:after {
     display: block;

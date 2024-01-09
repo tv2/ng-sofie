@@ -121,7 +121,11 @@ export class EditActionTriggersComponent implements OnChanges, OnInit {
   }
 
   private createActionTrigger(actionTrigger: CreateActionTrigger<KeyboardTriggerData>): void {
-    this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
+    this.actionTriggerService.createActionTrigger(actionTrigger).subscribe({
+      next: () => {
+        this.actionForm.reset()
+      },
+    })
   }
 
   private updateActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>): void {

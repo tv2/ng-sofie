@@ -1,7 +1,6 @@
-@import '../../../../../scss/sofie-vars';
 .c-edit-actions-triggers {
   padding-left: 1rem;
-  border-left: 1px solid $sofie-gray;
+  border-left: 1px solid var(--general-gray-color);
   height: 100%;
   & h4 {
     margin-top: 0;
