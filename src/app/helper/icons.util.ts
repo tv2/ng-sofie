@@ -1,6 +1,6 @@
 import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core'
 import { IconButton, IconButtonSize } from '../shared/enums/icon-button'
-import { faArrowsH, faBars, faCopy, faFilter, faMinus, faPlus, faSort, faSquareCheck, faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faArrowsH, faBars, faCopy, faFilter, faMinus, faPen, faPlus, faSort, faSquareCheck, faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 export class IconsUtil {
   public static getIconProperty(iconButton: IconButton): IconProp {
@@ -25,6 +25,8 @@ export class IconsUtil {
         return faSort
       case IconButton.SQUARE_CHECK:
         return faSquareCheck
+      case IconButton.PEN:
+        return faPen
       default:
         return faXmark
     }

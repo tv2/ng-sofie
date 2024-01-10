@@ -1,6 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
-import { ActionTrigger, ActionTriggerSortKeys, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData, UserActionsWithSelectedTriggers } from 'src/app/shared/models/action-trigger'
+import {
+  ActionTriggerSortKeys,
+  ActionTriggerWithActionInfo,
+  CreateActionTrigger,
+  KeyboardAndSelectionTriggerData,
+  KeyboardTriggerData,
+  UserActionsWithSelectedTriggers,
+} from 'src/app/shared/models/action-trigger'
 import { SofieDroppdownOptions } from 'src/app/shared/components/dropdown-button/dropdown-button.component'
 import { FilesUtil } from 'src/app/helper/files.util'
 import { DialogService } from 'src/app/shared/services/dialog.service'
@@ -13,10 +20,11 @@ import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger
   styleUrls: ['./action-triggers-list.component.scss'],
 })
 export class ActionTriggersListComponent {
-  @Input() public actionsTriggersList: ActionTrigger<KeyboardAndSelectionTriggerData>[]
-  @Input() public selectedActionTrigger: ActionTrigger<KeyboardAndSelectionTriggerData> | null
+  @Input() public actionsTriggersList: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
+  @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null
   @Input() public sort: ActionTriggerSortKeys
-  @Output() private readonly actionTriggerSelect: EventEmitter<ActionTrigger<KeyboardAndSelectionTriggerData> | null> = new EventEmitter<ActionTrigger<KeyboardAndSelectionTriggerData> | null>()
+  @Output() private readonly actionTriggerSelect: EventEmitter<ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null> =
+    new EventEmitter<ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null>()
   @Output() private readonly newSortSelect: EventEmitter<ActionTriggerSortKeys> = new EventEmitter<ActionTriggerSortKeys>()
   public search: string = ''
   public sortLabel: string = $localize`global.sort.label`
@@ -30,18 +38,20 @@ export class ActionTriggersListComponent {
   ]
 
   public readonly selectedTriggersOptions: SofieDroppdownOptions[] = [
+    { key: UserActionsWithSelectedTriggers.DISABLE_SELECTION, label: `Disable multi selection`, disabled: false },
     { key: UserActionsWithSelectedTriggers.TOGGLE_SELECT, label: $localize`global.select-all.label`, disabled: false },
     { key: UserActionsWithSelectedTriggers.EXPORT, label: $localize`action-triggers-sort.export-selected.label`, disabled: true },
     { key: UserActionsWithSelectedTriggers.DELETE, label: $localize`action-triggers.delete-selected.label`, disabled: true },
   ]
   public selectedCount: number = 0
+  public selectMode: boolean = false
 
   constructor(
     private readonly dialogService: DialogService,
     private readonly actionTriggerService: ActionTriggerService
   ) {}
 
-  get filteredActionsTriggers(): ActionTrigger<KeyboardAndSelectionTriggerData>[] {
+  get filteredActionsTriggers(): ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[] {
     return this.actionsTriggersList.filter(
       trigger =>
         trigger.actionId.toLocaleLowerCase().includes(this.search.toLocaleLowerCase()) ||
@@ -50,7 +60,7 @@ export class ActionTriggersListComponent {
     )
   }
 
-  public selectActionTrigger(actionTrigger: ActionTrigger<KeyboardAndSelectionTriggerData> | null): void {
+  public selectActionTrigger(actionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null): void {
     if (this.selectedActionTrigger?.id === actionTrigger?.id) {
       this.actionTriggerSelect.emit(null)
     } else {
@@ -61,6 +71,15 @@ export class ActionTriggersListComponent {
   public actionTriggerCheckToggle(isSelected: boolean, index: number): void {
     this.actionsTriggersList[index].data.selected = isSelected
     this.checkSelectedCount()
+  }
+
+  public enableMultiSelect(): void {
+    this.dialogService.createConfirmDialog(
+      `Confirm`,
+      `Starting multi selection option, you will be able to select a miltiple action triggers to export or delete`,
+      'Proceed',
+      () => (this.selectMode = true)
+    )
   }
 
   public actionTriggerDelete(actionTriggerId: string): void {
@@ -77,10 +96,10 @@ export class ActionTriggersListComponent {
     }
   }
 
-  public actionTriggerCopy(actionTrigger: ActionTrigger<KeyboardAndSelectionTriggerData>): void {
+  public actionTriggerCopy(actionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>): void {
     const copyPayload: CreateActionTrigger<KeyboardTriggerData> = {
       actionId: actionTrigger.actionId,
-      data: { keys: actionTrigger.data.keys, actionArguments: actionTrigger.data.actionArguments as number },
+      data: { keys: actionTrigger.data.keys, label: actionTrigger.data.label, actionArguments: actionTrigger.data.actionArguments as number },
     }
     this.actionTriggerService.createActionTrigger(copyPayload).subscribe()
   }
@@ -98,10 +117,14 @@ export class ActionTriggersListComponent {
       this.exportSelectedTriggers()
     } else if (userAction === UserActionsWithSelectedTriggers.TOGGLE_SELECT) {
       this.toggleSelectUnselectAll()
+    } else if (userAction === UserActionsWithSelectedTriggers.DISABLE_SELECTION) {
+      this.selectMode = false
+      this.unselectAllActionsTriggers()
+      this.checkSelectedCount()
     }
   }
 
-  private get selectedActionTriggers(): ActionTrigger<KeyboardAndSelectionTriggerData>[] {
+  private get selectedActionTriggers(): ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[] {
     return this.actionsTriggersList.filter(item => item.data.selected)
   }
 
@@ -127,8 +150,11 @@ export class ActionTriggersListComponent {
   }
 
   private exportSelectedTriggers(): void {
-    const triggersCopy: ActionTrigger<KeyboardAndSelectionTriggerData>[] = CopyUtil.deepCopy(this.selectedActionTriggers)
-    triggersCopy.map(trigger => delete trigger.data.selected)
+    const triggersCopy: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[] = CopyUtil.deepCopy(this.selectedActionTriggers)
+    triggersCopy.map(trigger => {
+      delete trigger.data.selected, trigger.actionInfo
+      return trigger
+    })
     FilesUtil.saveText(JSON.stringify(triggersCopy), 'selected-actions-triggers.json')
     this.unselectAllActionsTriggers()
     this.checkSelectedCount()

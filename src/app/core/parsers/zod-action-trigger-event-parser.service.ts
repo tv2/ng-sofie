@@ -16,6 +16,7 @@ export class ZodActionTriggerEventParser implements ActionTriggerEventParser {
           actionId: zod.string(),
           data: zod.object({
             keys: zod.string().array(),
+            label: zod.string(),
             actionArguments: zod.number().or(zod.string().optional()).optional(),
           }),
         }),
@@ -33,6 +34,7 @@ export class ZodActionTriggerEventParser implements ActionTriggerEventParser {
           actionId: zod.string(),
           data: zod.object({
             keys: zod.string().array(),
+            label: zod.string(),
             actionArguments: zod.number().or(zod.string().optional()).optional(),
           }),
         }),

@@ -15,6 +15,7 @@ export class ZodActionTriggerParser extends ActionTriggerParser {
     data: zod.object({
       keys: zod.string().array(),
       actionArguments: zod.number().or(zod.string().optional()).optional(),
+      label: zod.string(),
     }),
   })
 

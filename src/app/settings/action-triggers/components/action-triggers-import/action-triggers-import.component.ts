@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { ActionTrigger, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, ActionTriggerWithActionInfo, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActionTriggerParser } from 'src/app/shared/abstractions/action-trigger-parser.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
@@ -10,7 +10,7 @@ import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger
   styleUrls: ['./action-triggers-import.component.scss'],
 })
 export class ActionTriggersImportComponent {
-  @Input() public actionsTriggersList: ActionTrigger<KeyboardAndSelectionTriggerData>[]
+  @Input() public actionsTriggersList: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
   @Input() public disabled: boolean
   private importedActionsTriggersList: ActionTrigger<KeyboardAndSelectionTriggerData>[]
 

@@ -8,11 +8,18 @@
       [iconButton]="IconButton.SORT"
       [iconButtonSize]="IconButtonSize.XL"
       (optionSelect)="selectNewSort($event)"></sofie-dropdown-button>
+
     <sofie-dropdown-button
+      *ngIf="selectMode; else turnOnSelectModeBtn"
       [options]="selectedTriggersOptions"
       [iconButton]="IconButton.SQUARE_CHECK"
       [iconButtonSize]="IconButtonSize.XL"
-      (optionSelect)="actionWithSelected($event)"></sofie-dropdown-button>
+      (optionSelect)="actionWithSelected($event)"
+      label="Selected"></sofie-dropdown-button>
+
+    <ng-template #turnOnSelectModeBtn>
+      <sofie-button (btnClick)="enableMultiSelect()" [iconButton]="IconButton.SQUARE_CHECK" [iconButtonSize]="IconButtonSize.XL" label="Enable multi select"> </sofie-button>
+    </ng-template>
   </div>
   <div class="c-action-triggers-list__items">
     <ng-container *ngIf="actionsTriggersList">
@@ -21,23 +28,26 @@
           class="c-action-triggers-list__card c-sofie-card"
           [ngClass]="{ 'c-action-triggers-list__card--selected': selectedActionTrigger && selectedActionTrigger.id && selectedActionTrigger.id === actionsTrigger.id }"
           *ngFor="let actionsTrigger of filteredActionsTriggers; let i = index">
+          <sofie-custom-checkbox
+            *ngIf="selectMode"
+            [selected]="actionsTrigger.data.selected ? actionsTrigger.data.selected : false"
+            [checkboxId]="actionsTrigger.id"
+            (checkboxChange)="actionTriggerCheckToggle($event, i)"></sofie-custom-checkbox>
           <div class="c-action-triggers-list__card--body" (click)="selectActionTrigger(actionsTrigger)">
             <p>
               <strong>
-                {{ actionsTrigger.actionId }}
+                {{ actionsTrigger.data.label }}
               </strong>
             </p>
             <div>
-              <span class="c-custom-badge bg-dark">{{ actionsTrigger?.data?.keys?.join(' + ') }}</span>
+              <span class="c-custom-badge bg-dark">{{ actionsTrigger.data.keys | shortcut }}</span>
+              <span class="c-custom-badge bg-dark" [class]="actionsTrigger.actionInfo.metadata.contentType.toLocaleLowerCase() + '_color'">{{ actionsTrigger.actionInfo.name }}</span>
             </div>
           </div>
           <div class="c-action-triggers-list__card--actions">
-            <sofie-custom-checkbox
-              [selected]="actionsTrigger.data.selected ? actionsTrigger.data.selected : false"
-              [checkboxId]="actionsTrigger.id"
-              (checkboxChange)="actionTriggerCheckToggle($event, i)"></sofie-custom-checkbox>
-            <sofie-icon-button [iconButton]="IconButton.COPY" [iconButtonSize]="IconButtonSize.XL" (click)="actionTriggerCopy(actionsTrigger)"></sofie-icon-button>
-            <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.XL" (click)="actionTriggerDelete(actionsTrigger.id)"></sofie-icon-button>
+            <sofie-icon-button [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" (click)="selectActionTrigger(actionsTrigger)"></sofie-icon-button>
+            <sofie-icon-button [iconButton]="IconButton.COPY" [iconButtonSize]="IconButtonSize.L" (click)="actionTriggerCopy(actionsTrigger)"></sofie-icon-button>
+            <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" (click)="actionTriggerDelete(actionsTrigger.id)"></sofie-icon-button>
           </div>
         </div>
       </ng-container>

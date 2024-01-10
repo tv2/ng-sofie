@@ -102,13 +102,9 @@
         <source>action-triggers.shortcut.label</source>
         <target state="new">Shortcut</target>
       </trans-unit>
-      <trans-unit id="4236071901286997238" datatype="html">
-        <source>action-triggers.action-argument.label</source>
-        <target state="new">Action argument</target>
-      </trans-unit>
-      <trans-unit id="6452586448481444952" datatype="html">
-        <source>action-triggers.selected-action-id.label</source>
-        <target state="new">Selected action ID</target>
+      <trans-unit id="6191074751909534346" datatype="html">
+        <source>action-triggers.selected-action.label</source>
+        <target state="new">Selected action</target>
       </trans-unit>
       <trans-unit id="8600924712017711472" datatype="html">
         <source>global.cancel.button</source>
@@ -185,6 +181,10 @@
       <trans-unit id="7358643692179267021" datatype="html">
         <source>action-triggers.select-action-box.label</source>
         <target state="new">Select action for the shortcut</target>
+      </trans-unit>
+      <trans-unit id="6285874749005785753" datatype="html">
+        <source>global.label</source>
+        <target state="new">Label</target>
       </trans-unit>
     </body>
   </file>

@@ -49,6 +49,8 @@ import { DropdownButtonComponent } from './components/dropdown-button/dropdown-b
 import { MatMenuModule } from '@angular/material/menu'
 import { CustomCheckboxComponent } from './components/icon-checkbox/custom-checkbox.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { ShortcutPipe } from './pipes/shortcut.pipe'
+import { ButtonComponent } from './components/button/button.component'
 
 @NgModule({
   declarations: [
@@ -56,6 +58,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     ConfirmationDialogComponent,
     MinimumPipe,
     MaximumPipe,
+    ShortcutPipe,
     SofieLogoComponent,
     SpacerComponent,
     IconButtonComponent,
@@ -67,6 +70,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     LoadingComponent,
     DropdownButtonComponent,
     CustomCheckboxComponent,
+    ButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -93,6 +97,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     HeaderComponent,
     MinimumPipe,
     MaximumPipe,
+    ShortcutPipe,
     TimerPipe,
     SofieLogoComponent,
     SpacerComponent,
@@ -106,6 +111,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     CustomCheckboxComponent,
     ReactiveFormsModule,
     FormsModule,
+    ButtonComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },

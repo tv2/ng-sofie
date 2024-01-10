@@ -5,7 +5,19 @@ export interface Action {
   type: ActionType
   name: string
   description?: string
+  argument?: Argument
   metadata?: unknown
+}
+
+export interface Argument {
+  description: string
+  name: string
+  type: ArgumentType
+}
+
+export enum ArgumentType {
+  STRING = 'STRING',
+  NUMBER = 'NUMBER',
 }
 
 export interface PieceAction extends Action {

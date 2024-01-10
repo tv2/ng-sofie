@@ -1,5 +1,5 @@
 import { ActionParser } from '../abstractions/action-parser.service'
-import { Action } from '../models/action'
+import { Action, ArgumentType } from '../models/action'
 import * as zod from 'zod'
 import { PartActionType, PieceActionType } from '../models/action-type'
 
@@ -10,6 +10,13 @@ export class ZodActionParser implements ActionParser {
     name: zod.string(),
     description: zod.string().optional(),
     metadata: zod.unknown(),
+    argument: zod
+      .object({
+        description: zod.string(),
+        name: zod.string(),
+        type: zod.nativeEnum(ArgumentType),
+      })
+      .optional(),
   })
   private readonly actionsParser = this.actionParser.array()
 

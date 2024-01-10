@@ -1,5 +1,6 @@
 export enum IconButton {
   XMARK = 'XMARK',
+  PEN = 'PEN',
   TRASH_CAN = 'TRASH_CAN',
   BARS = 'BARS',
   PLUS = 'PLUS',

@@ -40,9 +40,10 @@
       & sofie-icon-button {
         margin-right: 1rem;
       }
-      & sofie-custom-checkbox {
-        margin-right: 1rem;
-      }
+    }
+    & sofie-custom-checkbox {
+      margin-right: 1rem;
+      margin-left: 0.5rem;
     }
   }
   &__no-items {
@@ -56,8 +57,9 @@
   padding: 5px 8px;
   border-radius: 4px;
   display: inline-block;
+  margin-right: 0.5rem;
   &.bg-dark {
-    background-color: #404040;
+    background-color: rgb(50, 50, 50);
     color: #fff;
   }
 }

@@ -1,9 +1,12 @@
+import { Logger } from 'src/app/core/abstractions/logger.service'
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActionTrigger, ActionTriggerSortKeys, KeyboardAndSelectionTriggerData } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, ActionTriggerSortKeys, ActionTriggerWithActionInfo, KeyboardAndSelectionTriggerData } from 'src/app/shared/models/action-trigger'
 import { FilesUtil } from 'src/app/helper/files.util'
 import { CopyUtil } from 'src/app/helper/copy.util'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { Subject, takeUntil } from 'rxjs'
+import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
+import { ActionStateService } from 'src/app/shared/services/action-state.service'
 
 @Component({
   selector: 'sofie-action-triggers',
@@ -11,16 +14,30 @@ import { Subject, takeUntil } from 'rxjs'
   styleUrls: ['./action-triggers.component.scss'],
 })
 export class ActionTriggersComponent implements OnInit, OnDestroy {
-  public selectedAction: ActionTrigger<KeyboardAndSelectionTriggerData> | null
+  public selectedAction: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null
   public createAction: boolean
   public loading: boolean
-  public actionsTriggersList: ActionTrigger<KeyboardAndSelectionTriggerData>[]
+  public actions: Tv2PartAction[]
+  public actionsTriggersList: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
   public sort: ActionTriggerSortKeys = ActionTriggerSortKeys.ACTION_ID_A_Z
   private readonly unsubscribe$: Subject<null> = new Subject<null>()
 
-  constructor(private readonly actionTriggerStateService: ActionTriggerStateService) {}
+  constructor(
+    private readonly actionTriggerStateService: ActionTriggerStateService,
+    private readonly logger: Logger,
+    private readonly actionStateService: ActionStateService
+  ) {}
 
   public ngOnInit(): void {
+    this.loading = true
+    this.actionStateService
+      .subscribeToRundownActions('jSXbtcsHTPjebGXurMzP401Z3u0_')
+      .then(observable => observable.subscribe(actions => this.onActionsChanged(actions as Tv2PartAction[])))
+      .then(() => this.subscribeForActionTriggerObservable())
+      .catch(error => this.logger.data(error).error('Error while listening to Action events'))
+  }
+
+  private subscribeForActionTriggerObservable(): void {
     this.actionTriggerStateService
       .getActionTriggerObservable()
       .pipe(takeUntil(this.unsubscribe$))
@@ -28,13 +45,18 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
         next: triggers => {
           this.actionsTriggersList = CopyUtil.deepCopy(
             triggers.map(trigger => {
-              return { ...trigger, ...{ data: { selected: false, ...trigger.data } } }
+              return { ...trigger, ...{ data: { selected: false, ...trigger.data }, actionInfo: this.actions.find(action => action.id === trigger.actionId) } }
             })
           )
           this.newSortSelect(this.sort)
           this.loading = false
         },
       })
+  }
+
+  private onActionsChanged(loadedActions: Tv2PartAction[]): void {
+    this.actions = loadedActions
+    this.loading = false
   }
 
   public ngOnDestroy(): void {
@@ -46,7 +68,7 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
     this.loading = true
   }
 
-  public actionTriggerSelect(selectedTrigger: ActionTrigger<KeyboardAndSelectionTriggerData> | null): void {
+  public actionTriggerSelect(selectedTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null): void {
     this.selectedAction = selectedTrigger
     this.createAction = false
   }

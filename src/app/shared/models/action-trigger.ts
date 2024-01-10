@@ -1,4 +1,5 @@
 import { KeyAlias } from 'src/app/keyboard/value-objects/key-alias'
+import { Tv2PartAction } from './tv2-action'
 
 export interface ActionTrigger<Data = unknown> {
   id: string
@@ -6,9 +7,17 @@ export interface ActionTrigger<Data = unknown> {
   data: Data
 }
 
+export interface ActionTriggerWithActionInfo<Data = unknown> {
+  id: string
+  actionId: string
+  data: Data
+  actionInfo: Tv2PartAction
+}
+
 export interface KeyboardTriggerData {
   keys: string[]
   actionArguments?: unknown
+  label: string
 }
 
 export interface KeyboardAndSelectionTriggerData extends KeyboardTriggerData {
@@ -28,6 +37,7 @@ export enum ActionTriggerSortKeys {
 }
 
 export enum UserActionsWithSelectedTriggers {
+  DISABLE_SELECTION = 'DISABLE_SELECTION',
   TOGGLE_SELECT = 'TOGGLE_SELECT',
   EXPORT = 'EXPORT',
   DELETE = 'DELETE',

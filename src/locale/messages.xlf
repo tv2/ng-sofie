@@ -65,14 +65,11 @@
       <trans-unit id="3982465886333434114" datatype="html">
         <source>action-triggers.keyboard-shortcuts.label</source>
       </trans-unit>
-      <trans-unit id="4236071901286997238" datatype="html">
-        <source>action-triggers.action-argument.label</source>
-      </trans-unit>
       <trans-unit id="5998298101573406065" datatype="html">
         <source>action-triggers.import-shortcuts.button</source>
       </trans-unit>
-      <trans-unit id="6452586448481444952" datatype="html">
-        <source>action-triggers.selected-action-id.label</source>
+      <trans-unit id="6191074751909534346" datatype="html">
+        <source>action-triggers.selected-action.label</source>
       </trans-unit>
       <trans-unit id="7618983089240067205" datatype="html">
         <source>action-triggers.shortcut.label</source>
@@ -139,6 +136,9 @@
       </trans-unit>
       <trans-unit id="7358643692179267021" datatype="html">
         <source>action-triggers.select-action-box.label</source>
+      </trans-unit>
+      <trans-unit id="6285874749005785753" datatype="html">
+        <source>global.label</source>
       </trans-unit>
     </body>
   </file>

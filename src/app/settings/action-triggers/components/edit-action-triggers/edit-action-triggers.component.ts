@@ -1,15 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core'
-import { AbstractControl, FormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
-import { ActionTrigger, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData, SHORTCUT_KEYS_MAPPINGS } from 'src/app/shared/models/action-trigger'
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core'
+import { AbstractControl, FormBuilder, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
+import { ActionTrigger, ActionTriggerWithActionInfo, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData, SHORTCUT_KEYS_MAPPINGS } from 'src/app/shared/models/action-trigger'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
-import { ActionStateService } from 'src/app/shared/services/action-state.service'
-import { Logger } from 'src/app/core/abstractions/logger.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 
 export interface ActionTriggerUIForm {
   actionId: string
   data: {
-    keys: string
+    label: string
+    keys: string[]
     actionArguments: number
   }
 }
@@ -19,76 +18,89 @@ export interface ActionTriggerUIForm {
   templateUrl: './edit-action-triggers.component.html',
   styleUrls: ['./edit-action-triggers.component.scss'],
 })
-export class EditActionTriggersComponent implements OnChanges, OnInit {
+export class EditActionTriggersComponent implements OnChanges {
   @Output() private readonly cancelActionTrigger: EventEmitter<void> = new EventEmitter<void>()
-  @Input() public selectedActionTrigger: ActionTrigger<KeyboardAndSelectionTriggerData> | null
+  @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null
+  @Input() public actions: Tv2PartAction[]
   public submitting: boolean = false
   public submitted: boolean = false
-  public actions: Tv2PartAction[]
-  public loading: boolean = false
   public keyPress: boolean = false
+  public selectedAction: Tv2PartAction | null
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly actionTriggerService: ActionTriggerService,
-    private readonly logger: Logger,
-    private readonly actionStateService: ActionStateService
+    private readonly actionTriggerService: ActionTriggerService
   ) {}
 
   public actionForm: UntypedFormGroup = this.fb.group({
     actionId: ['', [Validators.required]],
     data: this.fb.group({
-      keys: ['', [Validators.required]],
+      keys: this.fb.array([]),
       actionArguments: '',
+      label: [''],
     }),
   })
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const actionChange: SimpleChange | undefined = changes['selectedActionTrigger']
-    if (actionChange) {
-      const action: ActionTrigger<KeyboardAndSelectionTriggerData> | null = actionChange.currentValue
+    const actionTriggerChange: SimpleChange | undefined = changes['selectedActionTrigger']
+    if (actionTriggerChange) {
+      const action: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null = actionTriggerChange.currentValue
+      this.clearFormArray(this.attributesArray)
       if (action) {
         this.patchValue(action)
+        this.selectedAction = action.actionInfo
       } else {
         this.actionForm.reset()
+        this.selectedAction = null
       }
     }
   }
 
-  public ngOnInit(): void {
-    this.loading = true
-    this.actionStateService
-      .subscribeToRundownActions('jSXbtcsHTPjebGXurMzP401Z3u0_')
-      .then(observable => observable.subscribe(actions => this.onActionsChanged(actions as Tv2PartAction[])))
-      .catch(error => this.logger.data(error).error('Error while listening to Action events'))
-  }
-
-  private onActionsChanged(loadedActions: Tv2PartAction[]): void {
-    this.actions = loadedActions
-    this.loading = false
-  }
-
   private patchValue(actionValue: ActionTrigger<KeyboardAndSelectionTriggerData>): void {
-    this.actionForm.patchValue({ actionId: actionValue.actionId, data: { keys: actionValue.data.keys.join(' + '), actionArguments: actionValue.data.actionArguments } })
+    this.actionForm.patchValue(actionValue)
+    this.addArrValues(actionValue.data.keys, this.attributesArray)
+  }
+
+  private clearFormArray(formArray: UntypedFormArray): void {
+    while (formArray.length !== 0) {
+      formArray.removeAt(0)
+    }
   }
 
   public onKeyDown(event: KeyboardEvent): void {
     event.preventDefault()
     const newKeyCode: string = SHORTCUT_KEYS_MAPPINGS[event.code] ? SHORTCUT_KEYS_MAPPINGS[event.code] : event.code
     if (this.keyPress) {
-      const currentKeys: string[] = this.actionForm?.get('data')?.get('keys')?.value ? this.actionForm?.get('data')?.get('keys')?.value.split(' + ') : []
+      const currentKeys: string[] = this.actionForm?.get('data')?.get('keys')?.value ? this.actionForm?.get('data')?.get('keys')?.value : []
       if (currentKeys.findIndex(keyCode => keyCode === newKeyCode) === -1) {
         currentKeys.push(newKeyCode)
-        this.actionForm?.get('data')?.get('keys')?.patchValue(currentKeys.join(' + '))
+        this.createKey(newKeyCode, this.attributesArray)
       }
     } else {
-      this.actionForm?.get('data')?.get('keys')?.patchValue(newKeyCode)
+      this.clearFormArray(this.attributesArray)
+      this.createKey(newKeyCode, this.attributesArray)
       this.keyPress = true
     }
   }
 
+  private get attributesArray(): UntypedFormArray {
+    return this.actionForm?.get('data')?.get('keys') as UntypedFormArray
+  }
+
+  private addArrValues(items: string[], formArray: UntypedFormArray): void {
+    for (const item of items) {
+      this.createKey(item, formArray)
+    }
+  }
+
+  private createKey(item: string, formArray: UntypedFormArray): void {
+    const control = new UntypedFormControl(item)
+    formArray.push(control)
+  }
+
   public selectNewActionTrigger(action: Tv2PartAction): void {
     this.actionForm.patchValue({ actionId: action.id })
+    this.selectedAction = action
   }
 
   public onKeyUp(): void {
@@ -115,21 +127,33 @@ export class EditActionTriggersComponent implements OnChanges, OnInit {
   }
 
   private prepareSendData(formData: ActionTriggerUIForm): CreateActionTrigger<KeyboardTriggerData> {
-    const keysArray: string[] = formData.data?.keys?.split(' + ')
-    const resultData: CreateActionTrigger<KeyboardTriggerData> = { actionId: formData.actionId, data: { keys: keysArray, actionArguments: +formData.data.actionArguments } }
+    const keysArray: string[] = formData.data?.keys
+    const resultData: CreateActionTrigger<KeyboardTriggerData> = {
+      actionId: formData.actionId,
+      data: { keys: keysArray, label: formData.data.label ? formData.data.label : (this.selectedAction as Tv2PartAction).name },
+    }
+    if (this.selectedAction?.argument) {
+      resultData.data.actionArguments = +formData.data.actionArguments
+    }
     return resultData
   }
 
   private createActionTrigger(actionTrigger: CreateActionTrigger<KeyboardTriggerData>): void {
     this.actionTriggerService.createActionTrigger(actionTrigger).subscribe({
       next: () => {
+        this.clearFormArray(this.attributesArray)
         this.actionForm.reset()
+        this.submitting = false
       },
     })
   }
 
   private updateActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>): void {
-    this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe()
+    this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe({
+      next: () => {
+        this.submitting = false
+      },
+    })
   }
 
   public cancelEdit(): void {
