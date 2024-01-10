@@ -9,6 +9,7 @@ export enum IconButton {
   COPY = 'COPY',
   SORT = 'SORT',
   FILTER = 'FILTER',
+  CIRCLE_QUESTION = 'CIRCLE_QUESTION',
   SQUARE_CHECK = 'SQUARE_CHECK',
 }
 

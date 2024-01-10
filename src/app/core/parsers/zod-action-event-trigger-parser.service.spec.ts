@@ -14,6 +14,7 @@ describe(ZodActionTriggerEventParser.name, () => {
           actionId: 'someActionId',
           data: {
             keys: ['randomKey'],
+            label: 'randomLabel',
             actionArguments: 100,
           },
         },
@@ -34,6 +35,7 @@ describe(ZodActionTriggerEventParser.name, () => {
           actionId: 'someActionId',
           data: {
             keys: ['randomKey'],
+            label: 'randomLabel',
             actionArguments: 100,
           },
         },

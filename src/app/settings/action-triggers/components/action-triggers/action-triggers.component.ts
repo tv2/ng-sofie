@@ -1,6 +1,6 @@
 import { Logger } from 'src/app/core/abstractions/logger.service'
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActionTrigger, ActionTriggerSortKeys, ActionTriggerWithActionInfo, KeyboardAndSelectionTriggerData } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, ActionTriggerSortKeys, ActionTriggerWithActionInfo, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
 import { FilesUtil } from 'src/app/helper/files.util'
 import { CopyUtil } from 'src/app/helper/copy.util'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
@@ -87,10 +87,10 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
     this.sort = sort
     switch (sort) {
       case ActionTriggerSortKeys.ACTION_ID_A_Z:
-        this.actionsTriggersList = this.actionsTriggersList.sort((a, b) => a.actionId.localeCompare(b.actionId))
+        this.actionsTriggersList = this.actionsTriggersList.sort((a, b) => a.data.label.localeCompare(b.data.label))
         break
       case ActionTriggerSortKeys.ACTION_ID_Z_A:
-        this.actionsTriggersList = this.actionsTriggersList.sort((a, b) => b.actionId.localeCompare(a.actionId))
+        this.actionsTriggersList = this.actionsTriggersList.sort((a, b) => b.data.label.localeCompare(a.data.label))
         break
       case ActionTriggerSortKeys.SHORTCUT_A_Z:
         this.actionsTriggersList = this.actionsTriggersList.sort((a, b) => a.data?.keys.toString().localeCompare(b.data?.keys.toString()))
@@ -105,8 +105,17 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
   }
 
   public exportActionsTriggers(): void {
-    const triggersCopy: ActionTrigger<KeyboardAndSelectionTriggerData>[] = CopyUtil.deepCopy(this.actionsTriggersList)
-    triggersCopy.map(trigger => delete trigger.data.selected)
+    const triggersCopy: ActionTrigger<KeyboardTriggerData>[] = this.actionsTriggersList.map(item => {
+      return {
+        actionId: item.actionId,
+        id: item.id,
+        data: {
+          keys: item.data.keys,
+          actionArguments: item.data.actionArguments,
+          label: item.data.label,
+        },
+      }
+    })
     FilesUtil.saveText(JSON.stringify(triggersCopy), 'actions-triggers.json')
   }
 }

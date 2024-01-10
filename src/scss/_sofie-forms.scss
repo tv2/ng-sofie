@@ -57,7 +57,7 @@ select {
     background-color: #ccc;
   }
   & input:checked ~ label {
-    background-color: var(--general-primary-color);
+    background-color: var(--general-dark-color);
   }
   & input:checked ~ label:after {
     display: block;

@@ -36,9 +36,13 @@
     &--actions {
       margin-left: auto;
       padding-left: 1rem;
-      min-width: 9rem;
+      min-width: 7rem;
+      text-align: right;
       & sofie-icon-button {
         margin-right: 1rem;
+        &:last-child {
+          margin-right: 0;
+        }
       }
     }
     & sofie-custom-checkbox {
@@ -58,6 +62,7 @@
   border-radius: 4px;
   display: inline-block;
   margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
   &.bg-dark {
     background-color: rgb(50, 50, 50);
     color: #fff;

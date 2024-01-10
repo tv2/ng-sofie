@@ -16,6 +16,12 @@
     }
     &--field {
       width: 100%;
+      & label {
+        display: flex;
+        & sofie-icon-button {
+          margin-left: auto;
+        }
+      }
     }
     &--selected-action {
       margin-top: 3px;

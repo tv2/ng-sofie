@@ -16,6 +16,9 @@ export class IconButtonComponent implements OnInit {
   public iconButtonSize: IconButtonSize
 
   @Input()
+  public tooltipText: string = ''
+
+  @Input()
   @HostBinding('attr.disabled')
   public disabled: boolean = false
 

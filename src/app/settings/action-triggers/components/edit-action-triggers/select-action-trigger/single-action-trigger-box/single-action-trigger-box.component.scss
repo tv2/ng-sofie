@@ -5,12 +5,10 @@
     padding: 8px;
     background-color: rgb(50, 50, 50);
     color: #fff;
-    & p {
-      text-overflow: ellipsis;
-      font-size: 15px;
-      overflow: hidden;
-      margin: 0;
-    }
+    text-overflow: ellipsis;
+    font-size: 15px;
+    overflow: hidden;
+
     &.c-action-trigger-selected {
       border-width: 4px;
       padding: 5px;

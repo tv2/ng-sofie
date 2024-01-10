@@ -10,12 +10,20 @@
     &:hover {
       filter: brightness(90%);
     }
+    &:disabled,
+    &[disabled] {
+      filter: brightness(70%);
+    }
   }
   &.c-sofie-button-gray {
     color: #fff;
     background-color: var(--general-dark-color);
     &:hover {
       filter: brightness(90%);
+    }
+    &:disabled,
+    &[disabled] {
+      filter: brightness(70%);
     }
   }
 }

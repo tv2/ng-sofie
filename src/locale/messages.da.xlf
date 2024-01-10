@@ -106,10 +106,6 @@
         <source>action-triggers.selected-action.label</source>
         <target state="new">Selected action</target>
       </trans-unit>
-      <trans-unit id="8600924712017711472" datatype="html">
-        <source>global.cancel.button</source>
-        <target state="new">Cancel</target>
-      </trans-unit>
       <trans-unit id="946249916134408794" datatype="html">
         <source>action-triggers.no-actions.label</source>
         <target state="new">No actions found</target>
@@ -122,13 +118,13 @@
         <source>action-triggers.create-shortcut.title</source>
         <target state="new">Create new keyboard shortcut</target>
       </trans-unit>
-      <trans-unit id="8226341358716533598" datatype="html">
-        <source>action-triggers-sort.action-id-a-z.label</source>
-        <target state="new">Action ID A -&gt; Z</target>
+      <trans-unit id="1676745878038831683" datatype="html">
+        <source>action-triggers-sort.action-label-a-z.label</source>
+        <target state="new">Action label A -&gt; Z</target>
       </trans-unit>
-      <trans-unit id="2372225858869981312" datatype="html">
-        <source>action-triggers-sort.action-id-z-a.label</source>
-        <target state="new">Action ID Z -&gt; A</target>
+      <trans-unit id="8391471217819025726" datatype="html">
+        <source>action-triggers-sort.action-label-z-a.label</source>
+        <target state="new">Action label Z -&gt; A</target>
       </trans-unit>
       <trans-unit id="7501524180811696949" datatype="html">
         <source>action-triggers-sort.shortcut-a-z.label</source>
@@ -185,6 +181,18 @@
       <trans-unit id="6285874749005785753" datatype="html">
         <source>global.label</source>
         <target state="new">Label</target>
+      </trans-unit>
+      <trans-unit id="9004520789605873710" datatype="html">
+        <source>global.close.button</source>
+        <target state="new">Close</target>
+      </trans-unit>
+      <trans-unit id="6102207617999365668" datatype="html">
+        <source>action-triggers.submit-tooltip.error</source>
+        <target state="new">Please enter a value for the following fields</target>
+      </trans-unit>
+      <trans-unit id="5115532688749023793" datatype="html">
+        <source>action-triggers.no-selected-action.label</source>
+        <target state="new">No action selected</target>
       </trans-unit>
     </body>
   </file>

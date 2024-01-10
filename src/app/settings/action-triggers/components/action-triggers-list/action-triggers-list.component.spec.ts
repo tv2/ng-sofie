@@ -21,8 +21,11 @@ async function configureTestBed(): Promise<ActionTriggersListComponent> {
   const component = fixture.componentInstance
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
   component.actionsTriggersList = [
-    testEntityFactory.createActionTrigger({}),
-    testEntityFactory.createActionTrigger({ id: 'action-trigger-id-2', actionId: 'action-trigger-action-id-2', data: { keys: ['1', '2'] } }),
+    { ...testEntityFactory.createActionTrigger(), actionInfo: testEntityFactory.createAction() },
+    {
+      ...testEntityFactory.createActionTrigger({ id: 'action-trigger-id-2', actionId: 'action-trigger-action-id-2', data: { keys: ['1', '2'], label: 'new-label' } }),
+      actionInfo: testEntityFactory.createAction(),
+    },
   ]
   return component
 }

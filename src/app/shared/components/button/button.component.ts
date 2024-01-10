@@ -20,7 +20,9 @@ export class ButtonComponent implements OnInit {
   public iconButtonProp: IconProp
 
   public ngOnInit(): void {
-    this.iconButtonProp = IconsUtil.getIconProperty(this.iconButton)
-    this.iconButtonSizeProp = IconsUtil.getIconSizeProperty(this.iconButtonSize ?? IconButtonSize.M)
+    if (this.iconButton && this.iconButtonSize) {
+      this.iconButtonProp = IconsUtil.getIconProperty(this.iconButton)
+      this.iconButtonSizeProp = IconsUtil.getIconSizeProperty(this.iconButtonSize ?? IconButtonSize.M)
+    }
   }
 }

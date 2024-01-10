@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import {
+  ActionTrigger,
   ActionTriggerSortKeys,
   ActionTriggerWithActionInfo,
   CreateActionTrigger,
@@ -11,7 +12,6 @@ import {
 import { SofieDroppdownOptions } from 'src/app/shared/components/dropdown-button/dropdown-button.component'
 import { FilesUtil } from 'src/app/helper/files.util'
 import { DialogService } from 'src/app/shared/services/dialog.service'
-import { CopyUtil } from 'src/app/helper/copy.util'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 
 @Component({
@@ -31,8 +31,8 @@ export class ActionTriggersListComponent {
   public readonly IconButton = IconButton
   public readonly IconButtonSize = IconButtonSize
   public readonly sortActionsTriggers: SofieDroppdownOptions[] = [
-    { key: ActionTriggerSortKeys.ACTION_ID_A_Z, label: $localize`action-triggers-sort.action-id-a-z.label` },
-    { key: ActionTriggerSortKeys.ACTION_ID_Z_A, label: $localize`action-triggers-sort.action-id-z-a.label` },
+    { key: ActionTriggerSortKeys.ACTION_ID_A_Z, label: $localize`action-triggers-sort.action-label-a-z.label` },
+    { key: ActionTriggerSortKeys.ACTION_ID_Z_A, label: $localize`action-triggers-sort.action-label-z-a.label` },
     { key: ActionTriggerSortKeys.SHORTCUT_A_Z, label: $localize`action-triggers-sort.shortcut-a-z.label` },
     { key: ActionTriggerSortKeys.SHORTCUT_Z_A, label: $localize`action-triggers-sort.shortcut-z-a.label` },
   ]
@@ -54,7 +54,7 @@ export class ActionTriggersListComponent {
   get filteredActionsTriggers(): ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[] {
     return this.actionsTriggersList.filter(
       trigger =>
-        trigger.actionId.toLocaleLowerCase().includes(this.search.toLocaleLowerCase()) ||
+        trigger.data.label.toLocaleLowerCase().includes(this.search.toLocaleLowerCase()) ||
         trigger.data.keys.toString().toLocaleLowerCase().includes(this.search.toLocaleLowerCase()) ||
         trigger.id === this.selectedActionTrigger?.id
     )
@@ -71,15 +71,6 @@ export class ActionTriggersListComponent {
   public actionTriggerCheckToggle(isSelected: boolean, index: number): void {
     this.actionsTriggersList[index].data.selected = isSelected
     this.checkSelectedCount()
-  }
-
-  public enableMultiSelect(): void {
-    this.dialogService.createConfirmDialog(
-      `Confirm`,
-      `Starting multi selection option, you will be able to select a miltiple action triggers to export or delete`,
-      'Proceed',
-      () => (this.selectMode = true)
-    )
   }
 
   public actionTriggerDelete(actionTriggerId: string): void {
@@ -150,10 +141,16 @@ export class ActionTriggersListComponent {
   }
 
   private exportSelectedTriggers(): void {
-    const triggersCopy: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[] = CopyUtil.deepCopy(this.selectedActionTriggers)
-    triggersCopy.map(trigger => {
-      delete trigger.data.selected, trigger.actionInfo
-      return trigger
+    const triggersCopy: ActionTrigger<KeyboardAndSelectionTriggerData>[] = this.selectedActionTriggers.map(item => {
+      return {
+        actionId: item.actionId,
+        id: item.id,
+        data: {
+          keys: item.data.keys,
+          actionArguments: item.data.actionArguments,
+          label: item.data.label,
+        },
+      }
     })
     FilesUtil.saveText(JSON.stringify(triggersCopy), 'selected-actions-triggers.json')
     this.unselectAllActionsTriggers()

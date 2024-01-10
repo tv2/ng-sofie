@@ -18,7 +18,7 @@
       label="Selected"></sofie-dropdown-button>
 
     <ng-template #turnOnSelectModeBtn>
-      <sofie-button (btnClick)="enableMultiSelect()" [iconButton]="IconButton.SQUARE_CHECK" [iconButtonSize]="IconButtonSize.XL" label="Enable multi select"> </sofie-button>
+      <sofie-button (btnClick)="this.selectMode = true" label="Enable multi select"> </sofie-button>
     </ng-template>
   </div>
   <div class="c-action-triggers-list__items">
@@ -35,9 +35,7 @@
             (checkboxChange)="actionTriggerCheckToggle($event, i)"></sofie-custom-checkbox>
           <div class="c-action-triggers-list__card--body" (click)="selectActionTrigger(actionsTrigger)">
             <p>
-              <strong>
-                {{ actionsTrigger.data.label }}
-              </strong>
+              {{ actionsTrigger.data.label }}
             </p>
             <div>
               <span class="c-custom-badge bg-dark">{{ actionsTrigger.data.keys | shortcut }}</span>
@@ -45,9 +43,13 @@
             </div>
           </div>
           <div class="c-action-triggers-list__card--actions">
-            <sofie-icon-button [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" (click)="selectActionTrigger(actionsTrigger)"></sofie-icon-button>
-            <sofie-icon-button [iconButton]="IconButton.COPY" [iconButtonSize]="IconButtonSize.L" (click)="actionTriggerCopy(actionsTrigger)"></sofie-icon-button>
-            <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" (click)="actionTriggerDelete(actionsTrigger.id)"></sofie-icon-button>
+            <sofie-icon-button [iconButton]="IconButton.PEN" tooltipText="Edit action trigger" [iconButtonSize]="IconButtonSize.L" (click)="selectActionTrigger(actionsTrigger)"></sofie-icon-button>
+            <sofie-icon-button [iconButton]="IconButton.COPY" tooltipText="Copy action trigger" [iconButtonSize]="IconButtonSize.L" (click)="actionTriggerCopy(actionsTrigger)"></sofie-icon-button>
+            <sofie-icon-button
+              [iconButton]="IconButton.TRASH_CAN"
+              tooltipText="Delete action trigger"
+              [iconButtonSize]="IconButtonSize.L"
+              (click)="actionTriggerDelete(actionsTrigger.id)"></sofie-icon-button>
           </div>
         </div>
       </ng-container>

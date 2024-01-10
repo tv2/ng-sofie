@@ -4,6 +4,8 @@ import { Rundown } from '../../core/models/rundown'
 import { Piece } from '../../core/models/piece'
 import { RundownTimingType } from '../../core/enums/rundown-timing-type'
 import { ActionTrigger, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
+import { Tv2ActionContentType, Tv2PartAction } from 'src/app/shared/models/tv2-action'
+import { PartActionType } from 'src/app/shared/models/action-type'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -72,6 +74,20 @@ export class TestEntityFactory {
       data: {
         keys: ['random-key'],
         actionArguments: 100,
+        label: 'random-label',
+      },
+      ...actionTrigger,
+    }
+  }
+
+  public createAction(actionTrigger: Partial<Tv2PartAction> = {}): Tv2PartAction {
+    return {
+      id: 'action-id',
+      name: 'action-name',
+      type: PartActionType.INSERT_PART_AS_ON_AIR,
+      description: 'action-description',
+      metadata: {
+        contentType: Tv2ActionContentType.CAMERA,
       },
       ...actionTrigger,
     }

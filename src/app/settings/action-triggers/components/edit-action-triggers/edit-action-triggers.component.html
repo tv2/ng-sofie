@@ -6,41 +6,66 @@
   <form class="c-edit-actions-triggers__form" (ngSubmit)="submit()" [formGroup]="actionForm">
     <div>
       <ng-container formGroupName="data">
-        <div class="c-edit-actions-triggers__form--field c-sofie-form-control" [ngClass]="{ 'c-sofie-control-error': showErrorFor('label', 'data') }">
+        <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
           <label i18n>global.label</label>
-          <input [readonly]="submitting" type="text" formControlName="label" />
+          <input placeholder="Label for the shortcut" [readonly]="submitting" type="text" formControlName="label" />
         </div>
 
-        <div class="c-edit-actions-triggers__form--field c-sofie-form-control" [ngClass]="{ 'c-sofie-control-error': showErrorFor('keys', 'data') }">
-          <label i18n>action-triggers.shortcut.label</label>
+        <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
+          <label>{{ keysLabel }}<span class="text-danger">*</span></label>
           <input
             [readonly]="true"
             (keydown)="onKeyDown($event)"
             (keyup)="onKeyUp()"
+            placeholder="Press the keys for this shortcut"
             [value]="this.actionForm.get('data')?.get('keys')?.value ? (this.actionForm.get('data')?.get('keys')?.value | shortcut) : ''" />
         </div>
-        <div *ngIf="selectedAction?.argument" class="c-edit-actions-triggers__form--field c-sofie-form-control" [ngClass]="{ 'c-sofie-control-error': showErrorFor('actionArguments', 'data') }">
-          <label>{{ selectedAction?.argument?.name }}</label>
-          <input [readonly]="submitting" formControlName="actionArguments" />
+        <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
+          <label>{{ selectedActionLabel }}<span class="text-danger">*</span></label>
+          <div class="c-sofie-card c-edit-actions-triggers__form--selected-action" [class]="selectedAction?.metadata?.contentType?.toLocaleLowerCase() + '_color'">
+            <ng-container *ngIf="selectedAction; else noSelectedAction">
+              <p>
+                {{ this.selectedAction.name }}
+              </p>
+              <p>
+                {{ this.selectedAction.description }}
+              </p>
+            </ng-container>
+            <ng-template #noSelectedAction>
+              <p i18n>action-triggers.no-selected-action.label</p>
+            </ng-template>
+          </div>
         </div>
-      </ng-container>
 
-      <ng-container *ngIf="selectedAction">
-        <label i18n>action-triggers.selected-action.label</label>
-        <div class="c-sofie-card c-edit-actions-triggers__form--selected-action" [class]="selectedAction.metadata.contentType.toLocaleLowerCase() + '_color'">
-          <p>
-            {{ this.selectedAction.name }}
-          </p>
-          <p>
-            {{ this.selectedAction.description }}
-          </p>
+        <div *ngIf="selectedAction && selectedAction.argument" class="c-edit-actions-triggers__form--field c-sofie-form-control">
+          <label
+            >{{ selectedAction.argument.name }}
+            <span class="text-danger">*</span>
+            <sofie-icon-button [iconButton]="IconButton.CIRCLE_QUESTION" [tooltipText]="selectedAction.argument.description" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button
+          ></label>
+          <input [placeholder]="selectedAction.argument.description" [readonly]="submitting" formControlName="actionArguments" />
         </div>
       </ng-container>
 
       <div class="c-edit-actions-triggers__form--buttons">
-        <button *ngIf="isUpdateAction; else createButton" i18n class="c-sofie-button c-sofie-button-primary" type="submit" i18n>global.update.button</button>
-        <ng-template #createButton><button class="c-sofie-button c-sofie-button-primary" type="submit" i18n>global.create.button</button></ng-template>
-        <button class="c-sofie-button c-sofie-button-gray" (click)="cancelEdit()" type="button" i18n>global.cancel.button</button>
+        <button
+          [title]="actionForm.invalid ? submitBtnTooltipError + ': ' + getFormValidationErrors : ''"
+          [disabled]="actionForm.invalid"
+          *ngIf="isUpdateAction; else createButton"
+          class="c-sofie-button c-sofie-button-primary"
+          type="submit">
+          <span i18n>global.update.button</span>
+        </button>
+        <ng-template #createButton
+          ><button
+            [title]="actionForm.invalid ? submitBtnTooltipError + ': ' + getFormValidationErrors : ''"
+            [disabled]="actionForm.invalid"
+            class="c-sofie-button c-sofie-button-primary"
+            type="submit">
+            <span i18n>global.create.button</span>
+          </button></ng-template
+        >
+        <button class="c-sofie-button c-sofie-button-gray" (click)="cancelActionTrigger.emit()" type="button" i18n>global.close.button</button>
       </div>
     </div>
     <sofie-select-action-trigger [actions]="actions" [selectedActionId]="actionForm.get('actionId')?.value" (selectActionTrigger)="selectNewActionTrigger($event)"></sofie-select-action-trigger>

@@ -11,7 +11,7 @@
   color: #fff;
 }
 .split_screen_color {
-  background-color: var(--dve-upper) !important;
+  background: linear-gradient(to bottom, var(--dve-upper) 0%, var(--dve-upper) 50%, var(--dve-lower) 50%, var(--dve-lower) 100%);
   color: #fff;
 }
 .graphics_color {
@@ -20,4 +20,8 @@
 .replay_color {
   background-color: var(--segment-layer-background-local) !important;
   color: #fff;
+}
+
+.text-danger {
+  color: var(--general-danger-color);
 }
