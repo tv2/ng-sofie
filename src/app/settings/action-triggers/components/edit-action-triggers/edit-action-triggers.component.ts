@@ -5,12 +5,13 @@ import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 import { SofieValidators } from 'src/app/helper/validators.util'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
+import { Keys } from 'src/app/keyboard/value-objects/key-binding'
 
 export interface ActionTriggerUIForm {
   actionId: string
   data: {
     label: string
-    keys: string[]
+    keys: Keys
     actionArguments: number
   }
 }
@@ -165,10 +166,10 @@ export class EditActionTriggersComponent implements OnChanges {
   }
 
   private prepareSendData(formData: ActionTriggerUIForm): CreateActionTrigger<KeyboardTriggerData> {
-    const keysArray: string[] = formData.data?.keys
+    const keysArray: Keys = formData.data?.keys
     const resultData: CreateActionTrigger<KeyboardTriggerData> = {
       actionId: formData.actionId,
-      data: { keys: keysArray, label: formData.data.label },
+      data: { keys: [...keysArray], label: formData.data.label },
     }
     if (this.selectedAction?.argument) {
       resultData.data.actionArguments = +formData.data.actionArguments

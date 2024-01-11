@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable, Subject, SubscriptionLike } from 'rxjs'
-import { KeyBinding, Keys } from 'src/app/keyboard/value-objects/key-binding'
+import { KeyBinding } from 'src/app/keyboard/value-objects/key-binding'
 import { KeyBindingService } from '../abstractions/key-binding.service'
 import { ActionTriggerStateService } from '../../core/services/action-trigger-state.service'
 import { ActionStateService } from '../../shared/services/action-state.service'
@@ -117,8 +117,8 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
 
   private createBinding(action: Tv2Action, actionTrigger: ActionTrigger<KeyboardTriggerData>, rundownId: string): StyledKeyBinding {
     return {
-      keys: actionTrigger.data.keys as Keys,
-      label: action.name,
+      keys: actionTrigger.data.keys,
+      label: actionTrigger.data.label,
       onMatched: () => this.actionService.executeAction(action.id, rundownId, actionTrigger.data.actionArguments).subscribe(),
       shouldMatchOnKeyRelease: true,
       shouldPreventDefaultBehaviourOnKeyPress: true,

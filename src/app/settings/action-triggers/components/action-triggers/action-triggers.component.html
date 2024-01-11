@@ -4,7 +4,7 @@
     <div>
       <button class="c-sofie-button c-sofie-button-primary" (click)="createActionTrigger()" i18n>action-triggers.create-shortcut.button</button>
       <button class="c-sofie-button c-sofie-button-primary" (click)="exportActionsTriggers()" i18n>action-triggers.export-shortcuts.button</button>
-      <sofie-action-triggers-import [actionsTriggersList]="actionsTriggersList" [disabled]="loading" (startImport)="importStart()"></sofie-action-triggers-import>
+      <sofie-action-triggers-import [actionTriggers]="actionTriggers" [disabled]="loading" (startImport)="importStart()"></sofie-action-triggers-import>
     </div>
   </div>
 
@@ -12,7 +12,7 @@
     <div class="c-actions-triggers__body">
       <div class="c-actions-triggers__body--list">
         <sofie-action-triggers-list
-          [actionsTriggersList]="actionsTriggersList"
+          [actionTriggers]="actionTriggers"
           [selectedActionTrigger]="selectedAction"
           [sort]="sort"
           (newSortSelect)="newSortSelect($event)"

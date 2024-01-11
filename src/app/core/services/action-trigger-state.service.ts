@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { ActionTrigger, KeyboardTriggerData } from '../../shared/models/action-trigger'
+import { ActionTrigger } from '../../shared/models/action-trigger'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { ActionTriggerService } from '../../shared/abstractions/action-trigger.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Injectable()
 export class ActionTriggerStateService {
-  private readonly actionTriggerSubject: BehaviorSubject<ActionTrigger<KeyboardTriggerData>[]> = new BehaviorSubject<ActionTrigger<KeyboardTriggerData>[]>([])
+  private readonly actionTriggerSubject: BehaviorSubject<ActionTrigger[]> = new BehaviorSubject<ActionTrigger[]>([])
 
   private readonly subscriptions: EventSubscription[] = []
 
@@ -42,7 +42,7 @@ export class ActionTriggerStateService {
   }
 
   private updateActionTriggerState(actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent): void {
-    const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerSubject.value
+    const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
     const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerUpdatedEvent.actionTrigger.id)
     if (index === -1) {
       this.openDangerSnackBar('Failed to update shortcut')
@@ -54,7 +54,7 @@ export class ActionTriggerStateService {
   }
 
   private removeActionTriggerState(actionTriggerDeletedEvent: ActionTriggerDeletedEvent): void {
-    const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerSubject.value
+    const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
     const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerDeletedEvent.actionTriggerId)
     if (index === -1) {
       // ActionTrigger is already deleted from the state.
@@ -67,13 +67,13 @@ export class ActionTriggerStateService {
   }
 
   private addCreatedActionTriggerState(actionTriggerCreatedEvent: ActionTriggerCreatedEvent): void {
-    const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerSubject.value
-    actionTriggers.push(actionTriggerCreatedEvent.actionTrigger as ActionTrigger<KeyboardTriggerData>)
+    const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
+    actionTriggers.push(actionTriggerCreatedEvent.actionTrigger as ActionTrigger)
     this.actionTriggerSubject.next(actionTriggers)
     this.openSnackBar('Successfully created shortcut')
   }
 
-  public getActionTriggerObservable(): Observable<ActionTrigger<KeyboardTriggerData>[]> {
+  public getActionTriggerObservable(): Observable<ActionTrigger[]> {
     return this.actionTriggerSubject.asObservable()
   }
 

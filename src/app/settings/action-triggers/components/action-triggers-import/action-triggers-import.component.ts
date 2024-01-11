@@ -10,9 +10,9 @@ import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger
   styleUrls: ['./action-triggers-import.component.scss'],
 })
 export class ActionTriggersImportComponent {
-  @Input() public actionsTriggersList: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
+  @Input() public actionTriggers: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
   @Input() public disabled: boolean
-  private importedActionsTriggersList: ActionTrigger<KeyboardAndSelectionTriggerData>[]
+  private importedActionTriggers: ActionTrigger<KeyboardAndSelectionTriggerData>[]
 
   constructor(
     private readonly actionTriggerService: ActionTriggerService,
@@ -22,36 +22,37 @@ export class ActionTriggersImportComponent {
 
   public fileUpload(event: Event, htmlInput: HTMLInputElement): void {
     const files = (event.target as HTMLInputElement).files
-    if (files && files[0]) {
-      const reader = new FileReader()
-      // eslint-disable-next-line
-      reader.onload = (e: any): void => {
-        try {
-          const importedActionTriggersList: ActionTrigger<KeyboardAndSelectionTriggerData>[] = this.actionTriggerParser.parseActionTriggers(JSON.parse(e.target.result))
-          if (importedActionTriggersList.length > 0) {
-            this.importedActionsTriggersList = importedActionTriggersList
-            this.importItem(0)
-          } else {
-            this.openDangerSnackBar('No items to be added')
-          }
-        } catch {
-          this.openDangerSnackBar('Error in imported file')
-        }
-        htmlInput.value = ''
-      }
-      reader.readAsText(files[0])
+    if (!files?.[0]) {
+      this.openDangerSnackBar('Error in imported file')
+      return
     }
+    const reader = new FileReader()
+    reader.onload = (e: ProgressEvent<FileReader>): void => {
+      try {
+        const importedActionTriggers: ActionTrigger<KeyboardAndSelectionTriggerData>[] = this.actionTriggerParser.parseActionTriggers(JSON.parse(e?.target?.result ? e.target.result.toString() : ''))
+        if (importedActionTriggers.length > 0) {
+          this.importedActionTriggers = importedActionTriggers
+          this.importItem(0)
+        } else {
+          this.openDangerSnackBar('No items to be added')
+        }
+      } catch {
+        this.openDangerSnackBar('Error in imported file')
+      }
+      htmlInput.value = ''
+    }
+    reader.readAsText(files[0])
   }
 
   private hasNoImportedActionTriggerAfterIndex(index: number): boolean {
-    return index + 1 > this.importedActionsTriggersList.length
+    return index + 1 > this.importedActionTriggers.length
   }
 
   private importItem(index: number): void {
-    if (this.actionsTriggersList.findIndex(item => item.id === this.importedActionsTriggersList[index].id) !== -1) {
-      this.updateActionTrigger(this.importedActionsTriggersList[index] as ActionTrigger<KeyboardTriggerData>, index)
+    if (this.actionTriggers.findIndex(item => item.id === this.importedActionTriggers[index].id) !== -1) {
+      this.updateActionTrigger(this.importedActionTriggers[index], index)
     } else {
-      this.createActionTrigger(this.importedActionsTriggersList[index] as CreateActionTrigger<KeyboardTriggerData>, index)
+      this.createActionTrigger(this.importedActionTriggers[index], index)
     }
   }
 

@@ -20,7 +20,7 @@ import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger
   styleUrls: ['./action-triggers-list.component.scss'],
 })
 export class ActionTriggersListComponent {
-  @Input() public actionsTriggersList: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
+  @Input() public actionTriggers: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
   @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null
   @Input() public sort: ActionTriggerSortKeys
   @Output() private readonly actionTriggerSelect: EventEmitter<ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null> =
@@ -52,7 +52,7 @@ export class ActionTriggersListComponent {
   ) {}
 
   get filteredActionsTriggers(): ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[] {
-    return this.actionsTriggersList.filter(
+    return this.actionTriggers.filter(
       trigger =>
         trigger.data.label.toLocaleLowerCase().includes(this.search.toLocaleLowerCase()) ||
         trigger.data.keys.toString().toLocaleLowerCase().includes(this.search.toLocaleLowerCase()) ||
@@ -69,7 +69,7 @@ export class ActionTriggersListComponent {
   }
 
   public actionTriggerCheckToggle(isSelected: boolean, index: number): void {
-    this.actionsTriggersList[index].data.selected = isSelected
+    this.actionTriggers[index].data.selected = isSelected
     this.checkSelectedCount()
   }
 
@@ -116,15 +116,15 @@ export class ActionTriggersListComponent {
   }
 
   private get selectedActionTriggers(): ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[] {
-    return this.actionsTriggersList.filter(item => item.data.selected)
+    return this.actionTriggers.filter(item => item.data.selected)
   }
 
   private checkSelectedCount(): void {
-    this.selectedCount = this.actionsTriggersList.filter(item => item.data.selected).length
+    this.selectedCount = this.actionTriggers.filter(item => item.data.selected).length
     const toggleSelectIndex = this.selectedTriggersOptions.findIndex(item => item.key === UserActionsWithSelectedTriggers.TOGGLE_SELECT)
     this.selectedTriggersOptions.forEach(option => {
       if (option.key === UserActionsWithSelectedTriggers.TOGGLE_SELECT) {
-        if (this.selectedCount === this.actionsTriggersList.length) {
+        if (this.selectedCount === this.actionTriggers.length) {
           this.selectedTriggersOptions[toggleSelectIndex].label = $localize`global.unselect-all.label`
         } else {
           this.selectedTriggersOptions[toggleSelectIndex].label = $localize`global.select-all.label`
@@ -158,7 +158,7 @@ export class ActionTriggersListComponent {
   }
 
   private toggleSelectUnselectAll(): void {
-    if (this.selectedCount === this.actionsTriggersList.length) {
+    if (this.selectedCount === this.actionTriggers.length) {
       this.unselectAllActionsTriggers()
     } else {
       this.selectAllActionsTriggers()
@@ -171,6 +171,6 @@ export class ActionTriggersListComponent {
   }
 
   private selectAllActionsTriggers(): void {
-    this.actionsTriggersList.forEach(trigger => (trigger.data.selected = true))
+    this.actionTriggers.forEach(trigger => (trigger.data.selected = true))
   }
 }
