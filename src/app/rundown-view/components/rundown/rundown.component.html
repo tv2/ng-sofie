@@ -1,10 +1,17 @@
-<div class="segments">
+<div
+    class="segments"
+    *ngFor="let segment of rundown?.segments; trackBy: trackSegment"
+>
     <sofie-segment
-        *ngFor="let segment of rundown?.segments; trackBy: trackSegment"
+        *ngIf="segment.parts.length > 0"
         [segment]="segment"
         [isRundownActive]="rundown ? rundown.isActive : false"
         [durationInMsUntilSegmentIsPutOnAir]="startOffsetsInMsFromPlayheadForSegments[segment.id]"
         [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
         [currentEpochTime]="currentEpochTime"
     ></sofie-segment>
+    <sofie-minishelf
+        [segment]="segment"
+    >
+    </sofie-minishelf>
 </div>

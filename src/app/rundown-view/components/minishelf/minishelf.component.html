@@ -1,0 +1,27 @@
+<div class="c-minishelf">
+  <div
+    class="c-minishelf__part"
+    *ngFor="let part of segment?.parts;"
+  >
+    <b>part.id: {{ part?.id }}</b>
+
+    <ul
+      class="c-minishelf__part"
+      *ngFor="let part of segment?.parts;"
+    >
+      <li
+        class="c-minishelf__part__piece"
+        *ngFor="let piece of part.pieces;"
+      >
+        <img src="favicon.ico" />
+        <p>piece.id: {{ piece.id }}</p>
+
+      </li>
+    </ul>
+
+    <p>
+      {{ part?.playedDuration }} / {{ part?.expectedDuration }}
+    </p>
+
+  </div>
+</div>
