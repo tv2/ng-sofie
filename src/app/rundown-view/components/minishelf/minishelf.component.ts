@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { Segment } from '../../../core/models/segment'
 
@@ -7,7 +7,7 @@ import { Segment } from '../../../core/models/segment'
   templateUrl: './minishelf.component.html',
   styleUrls: ['./minishelf.component.scss'],
 })
-export class MinishelfComponent {
+export class MinishelfComponent implements OnChanges, OnDestroy {
   @Input()
   public segment: Segment
 
@@ -15,5 +15,12 @@ export class MinishelfComponent {
 
   constructor(logger: Logger) {
     this.logger = logger.tag('MinishelfComponent')
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    this.logger.info('ngOnChanges for MinishelfComponent', changes)
+  }
+  public ngOnDestroy(): void {
+    this.logger.debug('ngOnDestroy for MinishelfComponent')
   }
 }
