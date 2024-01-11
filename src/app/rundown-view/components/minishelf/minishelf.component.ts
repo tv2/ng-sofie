@@ -12,10 +12,8 @@ export class MinishelfComponent {
   public segment: Segment
 
   private readonly logger: Logger
-  private readonly data: { prop: string }
 
   constructor(logger: Logger) {
     this.logger = logger.tag('MinishelfComponent')
-    this.data = { prop: 'value' }
   }
 }
