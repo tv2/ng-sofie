@@ -7,8 +7,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
   changeDetection: ChangeDetectionStrategy.OnPush, // needed to stop re-rendering of the component on every tick
 })
 export class MiniShelfComponent {
-  @Input()
-  protected shelves: ShelfFromSOF1721[]
+  @Input() protected shelves: ShelfFromSOF1721[]
 
   constructor() {
     this.shelves = this.shelves ? this.shelves : ShelfFromSOF1721.getShelves()
@@ -52,7 +51,7 @@ class ShelfFromSOF1721 {
 
   // TODO: remove this and use real data once SOF-1721 is solved
   public static getShelves(): ShelfFromSOF1721[] {
-    let counter: number = Math.random() * 5
+    let counter: number = -1 + Math.random() * 5
     let shelves: ShelfFromSOF1721[] = []
     while (counter-- > 0) {
       const randomNum: number = ~~(Math.random() * (999 - 100 + 1) + 100)

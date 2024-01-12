@@ -2,6 +2,7 @@
     class="segments"
     *ngFor="let segment of rundown?.segments; trackBy: trackSegment"
 >
+
     <sofie-segment
         *ngIf="segment.parts.length > 0"
         [segment]="segment"
@@ -10,5 +11,9 @@
         [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
         [currentEpochTime]="currentEpochTime"
     ></sofie-segment>
-    <sofie-mini-shelf></sofie-mini-shelf>
+
+    <sofie-mini-shelf
+      *ngIf="segment.parts.length > 0"
+    ></sofie-mini-shelf>
+
 </div>
