@@ -15,10 +15,31 @@
           <label>{{ keysLabel }}<span class="text-danger">*</span></label>
           <input
             [readonly]="true"
-            (keydown)="onKeyDown($event)"
-            (keyup)="onKeyUp()"
+            (keydown)="onKeyDownShortcut($event)"
+            (keyup)="onKeyUpShortcut()"
             placeholder="Press the keys for this shortcut"
             [value]="this.actionForm.get('data')?.get('keys')?.value ? (this.actionForm.get('data')?.get('keys')?.value | shortcut) : ''" />
+        </div>
+        <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
+          <label>
+            {{ physicalMappingLabel }}
+            <sofie-icon-button [iconButton]="IconButton.CIRCLE_QUESTION" tooltipText="Click the keys one by one" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button
+          ></label>
+          <div class="sofie-input-with-icon">
+            <input
+              (focus)="mapToFocus = true"
+              [readonly]="true"
+              (keydown)="onKeyDownMapTo($event)"
+              placeholder="Click the keys one by one"
+              [value]="this.actionForm.get('data')?.get('mappedToKeys')?.value ? (this.actionForm.get('data')?.get('mappedToKeys')?.value | shortcut) : ''" />
+            <sofie-icon-button [iconButton]="IconButton.XMARK" (click)="deleteMapToData()" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button>
+          </div>
+        </div>
+        <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
+          <label>{{ triggerOnLabel }}<span class="text-danger">*</span></label>
+          <select formControlName="triggerOn" name="triggerOn" [attr.disabled]="submitting ? '' : null">
+            <option *ngFor="let option of triggerOnOptions" [value]="option.key" [disabled]="option.disabled">{{ option.label }}</option>
+          </select>
         </div>
         <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
           <label>{{ selectedActionLabel }}<span class="text-danger">*</span></label>
@@ -43,7 +64,11 @@
             <span class="text-danger">*</span>
             <sofie-icon-button [iconButton]="IconButton.CIRCLE_QUESTION" [tooltipText]="selectedAction.argument.description" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button
           ></label>
-          <input [placeholder]="selectedAction.argument.description" [readonly]="submitting" formControlName="actionArguments" />
+          <input
+            [type]="selectedAction.argument.type === argumentType.NUMBER ? 'number' : 'string'"
+            [placeholder]="selectedAction.argument.description"
+            [readonly]="submitting"
+            formControlName="actionArguments" />
         </div>
       </ng-container>
 

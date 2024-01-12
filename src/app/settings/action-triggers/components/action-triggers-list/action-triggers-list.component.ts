@@ -10,9 +10,9 @@ import {
   UserActionsWithSelectedTriggers,
 } from 'src/app/shared/models/action-trigger'
 import { SofieDroppdownOptions } from 'src/app/shared/components/dropdown-button/dropdown-button.component'
-import { FilesUtil } from 'src/app/helper/files.util'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
+import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-download.service'
 
 @Component({
   selector: 'sofie-action-triggers-list',
@@ -38,16 +38,18 @@ export class ActionTriggersListComponent {
   ]
 
   public readonly selectedTriggersOptions: SofieDroppdownOptions[] = [
-    { key: UserActionsWithSelectedTriggers.DISABLE_SELECTION, label: `Disable multi selection`, disabled: false },
+    { key: UserActionsWithSelectedTriggers.DISABLE_SELECTION, label: $localize`action-triggers.disable-multi-selection.label`, disabled: false },
     { key: UserActionsWithSelectedTriggers.TOGGLE_SELECT, label: $localize`global.select-all.label`, disabled: false },
-    { key: UserActionsWithSelectedTriggers.EXPORT, label: $localize`action-triggers-sort.export-selected.label`, disabled: true },
-    { key: UserActionsWithSelectedTriggers.DELETE, label: $localize`action-triggers.delete-selected.label`, disabled: true },
+    { key: UserActionsWithSelectedTriggers.EXPORT, label: $localize`global.export-selected.label`, disabled: true },
+    { key: UserActionsWithSelectedTriggers.DELETE, label: $localize`global.delete-selected.label`, disabled: true },
   ]
+
   public selectedCount: number = 0
   public selectMode: boolean = false
 
   constructor(
     private readonly dialogService: DialogService,
+    private readonly fileDownloadService: HttpFileDownloadService,
     private readonly actionTriggerService: ActionTriggerService
   ) {}
 
@@ -90,7 +92,15 @@ export class ActionTriggersListComponent {
   public actionTriggerCopy(actionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>): void {
     const copyPayload: CreateActionTrigger<KeyboardTriggerData> = {
       actionId: actionTrigger.actionId,
-      data: { keys: actionTrigger.data.keys, label: actionTrigger.data.label, actionArguments: actionTrigger.data.actionArguments as number },
+      data: {
+        keys: actionTrigger.data.keys,
+        label: actionTrigger.data.label,
+        actionArguments: actionTrigger.data.actionArguments,
+        triggerOn: actionTrigger.data.triggerOn,
+      },
+    }
+    if (actionTrigger.data.mappedToKeys && actionTrigger.data.mappedToKeys.length > 0) {
+      copyPayload.data.mappedToKeys = actionTrigger.data.mappedToKeys
     }
     this.actionTriggerService.createActionTrigger(copyPayload).subscribe()
   }
@@ -149,10 +159,12 @@ export class ActionTriggersListComponent {
           keys: item.data.keys,
           actionArguments: item.data.actionArguments,
           label: item.data.label,
+          triggerOn: item.data.triggerOn,
+          mappedToKeys: item.data.mappedToKeys,
         },
       }
     })
-    FilesUtil.saveText(JSON.stringify(triggersCopy), 'selected-actions-triggers.json')
+    this.fileDownloadService.downloadText(JSON.stringify(triggersCopy), 'selected-actions-triggers.json')
     this.unselectAllActionsTriggers()
     this.checkSelectedCount()
   }

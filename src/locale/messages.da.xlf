@@ -138,10 +138,6 @@
         <source>global.sort.label</source>
         <target state="new">Sort</target>
       </trans-unit>
-      <trans-unit id="556928192640127224" datatype="html">
-        <source>action-triggers-sort.export-selected.label</source>
-        <target state="new">Export selected</target>
-      </trans-unit>
       <trans-unit id="7386626478307143738" datatype="html">
         <source>action-triggers.delete-selected.label</source>
         <target state="new">Delete selected</target>
@@ -193,6 +189,34 @@
       <trans-unit id="5115532688749023793" datatype="html">
         <source>action-triggers.no-selected-action.label</source>
         <target state="new">No action selected</target>
+      </trans-unit>
+      <trans-unit id="711582704036671033" datatype="html">
+        <source>action-triggers.disable-multi-selection.label</source>
+        <target state="new">Disable multi selection</target>
+      </trans-unit>
+      <trans-unit id="5503109094537996892" datatype="html">
+        <source>global.export-selected.label</source>
+        <target state="new">Export selected</target>
+      </trans-unit>
+      <trans-unit id="5199708374936679830" datatype="html">
+        <source>global.delete-selected.label</source>
+        <target state="new">Delete selected</target>
+      </trans-unit>
+      <trans-unit id="1706628321455061643" datatype="html">
+        <source>global.on-key-pressed.label</source>
+        <target state="new">On key pressed</target>
+      </trans-unit>
+      <trans-unit id="3902333184421732258" datatype="html">
+        <source>global.on-key-released.label</source>
+        <target state="new">On key released</target>
+      </trans-unit>
+      <trans-unit id="9158000000301348817" datatype="html">
+        <source>action-triggers.trigger-on.label</source>
+        <target state="new">Trigger on</target>
+      </trans-unit>
+      <trans-unit id="5943393457796095490" datatype="html">
+        <source>action-triggers.physical-mapping.label</source>
+        <target state="new">Physical mapping</target>
       </trans-unit>
     </body>
   </file>

@@ -10,6 +10,7 @@ import { RundownService } from '../../../core/abstractions/rundown.service'
 import { SharedModule } from '../../../shared/shared.module'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
+import { HttpIconService } from 'src/app/core/services/http/http-icon.service'
 
 describe('SegmentComponent', () => {
   it('should create', async () => {
@@ -38,6 +39,7 @@ async function configureTestBed(): Promise<void> {
   const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
   const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
   const mockedRundownService: RundownService = mock<RundownService>()
+  const mockHttpIconService: HttpIconService = mock<HttpIconService>()
   await TestBed.configureTestingModule({
     declarations: [SegmentComponent],
     providers: [
@@ -45,6 +47,7 @@ async function configureTestBed(): Promise<void> {
       { provide: SegmentEntityService, useValue: instance(mockedSegmentEntityService) },
       { provide: PartEntityService, useValue: instance(mockedPartEntityService) },
       { provide: RundownService, useValue: instance(mockedRundownService) },
+      { provide: HttpIconService, useValue: instance(mockHttpIconService) },
       { provide: Logger, useValue: createLogger() },
     ],
     imports: [SharedModule],

@@ -27,6 +27,8 @@ import { ActionTriggerStateService } from './services/action-trigger-state.servi
 import { ActionTriggerEventObserver } from './models/action-trigger-event-observer.service'
 import { ActionTriggerEventParser } from './abstractions/action-trigger-event-parser'
 import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-parser.service'
+import { HttpFileDownloadService } from './services/http/http-file-download.service'
+import { HttpIconService } from './services/http/http-icon.service'
 
 @NgModule({
   declarations: [],
@@ -42,6 +44,8 @@ import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-
     { provide: RundownService, useClass: HttpRundownService },
     { provide: BasicRundownService, useClass: HttpBasicRundownService },
     { provide: EntityParser, useClass: ZodEntityParser },
+    HttpFileDownloadService,
+    HttpIconService,
     RundownEntityService,
     BasicRundownEntityService,
     SegmentEntityService,

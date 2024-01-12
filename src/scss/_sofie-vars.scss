@@ -12,22 +12,22 @@ body {
   --general-live-remote-color: #ac29a5;
   --general-live-guest-color: #00a97f;
 
-  --segment-layer-background-camera: #005919;
-  --segment-layer-background-camera--second: lighten(#005919, 20%);
-  --segment-layer-background-lower-third: #ca9d00;
-  --segment-layer-background-lower-third--second: darken(#ca9d00, 20%);
-  --segment-layer-background-graphics: #ca9d00;
-  --segment-layer-background-graphics--second: darken(#ca9d00, 20%);
-  --segment-layer-background-live-speak: #370020;
-  --segment-layer-background-remote: #ac29a5;
-  --segment-layer-background-remote--second: darken(#ac29a5, 20%);
-  --segment-layer-background-local: #8d1010;
-  --segment-layer-background-local--second: darken(#8d1010, 20%);
-  --segment-layer-background-vt: #1769ff;
-  --segment-layer-background-vt--second: darken(#1769ff, 20%);
-  --segment-layer-background-script: #370020;
-  --segment-layer-background-mic: #00a97f;
-  --segment-layer-background-guest: #00a97f;
+  --background-camera: #005919;
+  --background-camera--second: lighten(#005919, 20%);
+  --background-lower-third: #ca9d00;
+  --background-lower-third--second: darken(#ca9d00, 20%);
+  --background-graphics: #ca9d00;
+  --background-graphics--second: darken(#ca9d00, 20%);
+  --background-live-speak: #370020;
+  --background-remote: #ac29a5;
+  --background-remote--second: darken(#ac29a5, 20%);
+  --background-local: #8d1010;
+  --background-local--second: darken(#8d1010, 20%);
+  --background-vt: #1769ff;
+  --background-vt--second: darken(#1769ff, 20%);
+  --background-script: #370020;
+  --background-mic: #00a97f;
+  --background-guest: #00a97f;
 
   --dve-upper: #00a99c;
   --dve-lower: #265753;

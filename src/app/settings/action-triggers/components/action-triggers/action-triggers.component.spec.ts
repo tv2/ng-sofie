@@ -7,6 +7,8 @@ import { TestEntityFactory } from 'src/app/test/factories/test-entity.factory'
 import { TestLoggerFactory } from 'src/app/test/factories/test-logger.factory'
 import { Logger } from 'src/app/core/abstractions/logger.service'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
+import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
+import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-download.service'
 
 describe('ActionTriggersComponent', () => {
   it('should create', async () => {
@@ -62,6 +64,7 @@ async function configureTestBed(): Promise<ActionTriggersComponent> {
       { provide: ActionTriggerStateService, useValue: mockedActionTriggerStateService },
       { provide: Logger, useValue: testLoggerFactory.createLogger() },
       { provide: ActionStateService, useValue: instance(mock<ActionStateService>()) },
+      { provide: HttpFileDownloadService, useValue: instance(mock<HttpFileDownloadService>()) },
     ],
     declarations: [ActionTriggersComponent],
   }).compileComponents()
@@ -72,7 +75,11 @@ async function configureTestBed(): Promise<ActionTriggersComponent> {
   component.actionTriggers = [
     { ...testEntityFactory.createActionTrigger(), actionInfo: testEntityFactory.createAction() },
     {
-      ...testEntityFactory.createActionTrigger({ id: 'action-trigger-id-2', actionId: 'action-trigger-action-id-2', data: { keys: ['1', '2'], label: 'random-label-2' } }),
+      ...testEntityFactory.createActionTrigger({
+        id: 'action-trigger-id-2',
+        actionId: 'action-trigger-action-id-2',
+        data: { keys: ['1', '2'], label: 'random-label-2', triggerOn: KeyEventType.PRESSED },
+      }),
       actionInfo: testEntityFactory.createAction(),
     },
   ]

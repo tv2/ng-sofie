@@ -3,6 +3,7 @@ import { ActionTriggerParser } from '../abstractions/action-trigger-parser.servi
 import { ActionTrigger, KeyboardTriggerData } from '../models/action-trigger'
 import * as zod from 'zod'
 import { Keys } from 'src/app/keyboard/value-objects/key-binding'
+import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 
 @Injectable()
 export class ZodActionTriggerParser extends ActionTriggerParser {
@@ -11,6 +12,8 @@ export class ZodActionTriggerParser extends ActionTriggerParser {
   }
   private readonly zodActionTriggerDataParser = zod.object({
     keys: zod.string().array().min(1) as unknown as zod.ZodType<Keys>,
+    mappedToKeys: zod.string().array().optional() as unknown as zod.ZodType<Keys>,
+    triggerOn: zod.nativeEnum(KeyEventType),
     label: zod.string(),
     actionArguments: zod.number().or(zod.string().optional()).optional(),
   })

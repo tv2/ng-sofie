@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core'
 import { IconButton, IconButtonSize } from '../../enums/icon-button'
-import { IconsUtil } from 'src/app/helper/icons.util'
+import { HttpIconService } from 'src/app/core/services/http/http-icon.service'
 
 export interface SofieDroppdownOptions {
   label: string
@@ -22,13 +22,14 @@ export class DropdownButtonComponent implements OnInit {
   @Input() public selected: string = ''
   @Input() public options: SofieDroppdownOptions[]
   @Output() private readonly optionSelect: EventEmitter<string> = new EventEmitter<string>()
+  constructor(private readonly iconService: HttpIconService) {}
 
   public iconButtonSizeProp: SizeProp
   public iconButtonProp: IconProp
 
   public ngOnInit(): void {
-    this.iconButtonProp = IconsUtil.getIconProperty(this.iconButton)
-    this.iconButtonSizeProp = IconsUtil.getIconSizeProperty(this.iconButtonSize ?? IconButtonSize.M)
+    this.iconButtonProp = this.iconService.getIconProperty(this.iconButton)
+    this.iconButtonSizeProp = this.iconService.getIconSizeProperty(this.iconButtonSize ?? IconButtonSize.M)
   }
 
   public selectOption(option: SofieDroppdownOptions): void {

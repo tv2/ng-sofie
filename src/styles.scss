@@ -13,7 +13,9 @@
 html,
 body {
   height: 100%;
-  overflow: hidden;
+  overflow-y: hidden;
+  overflow-x: auto;
+  min-width: 1150px;
 }
 
 body {

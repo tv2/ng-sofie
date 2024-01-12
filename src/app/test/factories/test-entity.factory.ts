@@ -6,6 +6,7 @@ import { RundownTimingType } from '../../core/enums/rundown-timing-type'
 import { ActionTrigger, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
 import { Tv2ActionContentType, Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { PartActionType } from 'src/app/shared/models/action-type'
+import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -75,6 +76,7 @@ export class TestEntityFactory {
         keys: ['random-key'],
         actionArguments: 100,
         label: 'random-label',
+        triggerOn: KeyEventType.RELEASED,
       },
       ...actionTrigger,
     }

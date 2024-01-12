@@ -5,6 +5,8 @@ import { DialogService } from 'src/app/shared/services/dialog.service'
 import { TestEntityFactory } from 'src/app/test/factories/test-entity.factory'
 import { UserActionsWithSelectedTriggers } from 'src/app/shared/models/action-trigger'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
+import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
+import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-download.service'
 
 async function configureTestBed(): Promise<ActionTriggersListComponent> {
   const mockedActionTriggerService: ActionTriggerService = mock<ActionTriggerService>()
@@ -13,6 +15,8 @@ async function configureTestBed(): Promise<ActionTriggersListComponent> {
     providers: [
       { provide: ActionTriggerService, useValue: mockedActionTriggerService },
       { provide: DialogService, useValue: instance(mockedDialogService) },
+      { provide: DialogService, useValue: instance(mockedDialogService) },
+      { provide: HttpFileDownloadService, useValue: instance(mock<HttpFileDownloadService>) },
     ],
     declarations: [ActionTriggersListComponent],
   }).compileComponents()
@@ -23,7 +27,7 @@ async function configureTestBed(): Promise<ActionTriggersListComponent> {
   component.actionTriggers = [
     { ...testEntityFactory.createActionTrigger(), actionInfo: testEntityFactory.createAction() },
     {
-      ...testEntityFactory.createActionTrigger({ id: 'action-trigger-id-2', actionId: 'action-trigger-action-id-2', data: { keys: ['1', '2'], label: 'new-label' } }),
+      ...testEntityFactory.createActionTrigger({ id: 'action-trigger-id-2', actionId: 'action-trigger-action-id-2', data: { keys: ['1', '2'], label: 'new-label', triggerOn: KeyEventType.PRESSED } }),
       actionInfo: testEntityFactory.createAction(),
     },
   ]

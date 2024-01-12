@@ -31,17 +31,17 @@ export class ActionTriggerStateService {
 
   private subscribeToActionTriggerEvents(): void {
     this.subscriptions.push(
-      this.actionTriggerEventObserver.subscribeToActionTriggerCreated((actionTriggerCreatedEvent: ActionTriggerCreatedEvent) => this.addCreatedActionTriggerState(actionTriggerCreatedEvent))
+      this.actionTriggerEventObserver.subscribeToActionTriggerCreated((actionTriggerCreatedEvent: ActionTriggerCreatedEvent) => this.createActionTriggerFromEvent(actionTriggerCreatedEvent))
     )
     this.subscriptions.push(
-      this.actionTriggerEventObserver.subscribeToActionTriggerUpdated((actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent) => this.updateActionTriggerState(actionTriggerUpdatedEvent))
+      this.actionTriggerEventObserver.subscribeToActionTriggerUpdated((actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent) => this.updateActionTriggerFromEvent(actionTriggerUpdatedEvent))
     )
     this.subscriptions.push(
-      this.actionTriggerEventObserver.subscribeToActionTriggerDeleted((actionTriggerDeletedEvent: ActionTriggerDeletedEvent) => this.removeActionTriggerState(actionTriggerDeletedEvent))
+      this.actionTriggerEventObserver.subscribeToActionTriggerDeleted((actionTriggerDeletedEvent: ActionTriggerDeletedEvent) => this.removeActionTriggerFromEvent(actionTriggerDeletedEvent))
     )
   }
 
-  private updateActionTriggerState(actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent): void {
+  private updateActionTriggerFromEvent(actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent): void {
     const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
     const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerUpdatedEvent.actionTrigger.id)
     if (index === -1) {
@@ -53,12 +53,11 @@ export class ActionTriggerStateService {
     this.openSnackBar('Successfully update shortcut')
   }
 
-  private removeActionTriggerState(actionTriggerDeletedEvent: ActionTriggerDeletedEvent): void {
+  private removeActionTriggerFromEvent(actionTriggerDeletedEvent: ActionTriggerDeletedEvent): void {
     const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
     const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerDeletedEvent.actionTriggerId)
     if (index === -1) {
       // ActionTrigger is already deleted from the state.
-      this.openDangerSnackBar('Failed to delete shortcut')
       return
     }
     actionTriggers.splice(index, 1)
@@ -66,7 +65,7 @@ export class ActionTriggerStateService {
     this.openSnackBar('Successfully deleted shortcut')
   }
 
-  private addCreatedActionTriggerState(actionTriggerCreatedEvent: ActionTriggerCreatedEvent): void {
+  private createActionTriggerFromEvent(actionTriggerCreatedEvent: ActionTriggerCreatedEvent): void {
     const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
     actionTriggers.push(actionTriggerCreatedEvent.actionTrigger as ActionTrigger)
     this.actionTriggerSubject.next(actionTriggers)

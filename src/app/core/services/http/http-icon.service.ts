@@ -1,9 +1,16 @@
+import { Injectable } from '@angular/core'
 import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core'
-import { IconButton, IconButtonSize } from '../shared/enums/icon-button'
 import { faArrowsH, faBars, faCircleQuestion, faCopy, faFilter, faMinus, faPen, faPlus, faSort, faSquareCheck, faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 
-export class IconsUtil {
-  public static getIconProperty(iconButton: IconButton): IconProp {
+export interface IconService {
+  getIconProperty(iconButton: IconButton): IconProp
+  getIconSizeProperty(iconButton: IconButtonSize): SizeProp
+}
+
+@Injectable()
+export class HttpIconService implements IconService {
+  public getIconProperty(iconButton: IconButton): IconProp {
     switch (iconButton) {
       case IconButton.XMARK:
         return faXmark
@@ -34,7 +41,7 @@ export class IconsUtil {
     }
   }
 
-  public static getIconSizeProperty(iconButtonSize: IconButtonSize): SizeProp {
+  public getIconSizeProperty(iconButtonSize: IconButtonSize): SizeProp {
     switch (iconButtonSize) {
       case IconButtonSize.XS:
         return 'xs'

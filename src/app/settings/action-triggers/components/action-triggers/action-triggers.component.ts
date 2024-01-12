@@ -1,12 +1,11 @@
 import { Logger } from 'src/app/core/abstractions/logger.service'
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActionTrigger, ActionTriggerSortKeys, ActionTriggerWithActionInfo, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
-import { FilesUtil } from 'src/app/helper/files.util'
-import { CopyUtil } from 'src/app/helper/copy.util'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { Subject, takeUntil } from 'rxjs'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
+import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-download.service'
 
 @Component({
   selector: 'sofie-action-triggers',
@@ -24,6 +23,7 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly actionTriggerStateService: ActionTriggerStateService,
+    private readonly fileDownloadService: HttpFileDownloadService,
     private readonly logger: Logger,
     private readonly actionStateService: ActionStateService
   ) {}
@@ -43,10 +43,12 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: triggers => {
-          this.actionTriggers = CopyUtil.deepCopy(
-            (triggers as ActionTrigger<KeyboardTriggerData>[]).map(trigger => {
-              return { ...trigger, ...{ data: { selected: false, ...trigger.data }, actionInfo: this.actions.find(action => action.id === trigger.actionId) } }
-            })
+          this.actionTriggers = JSON.parse(
+            JSON.stringify(
+              (triggers as ActionTrigger<KeyboardTriggerData>[]).map(trigger => {
+                return { ...trigger, ...{ data: { selected: false, ...trigger.data }, actionInfo: this.actions.find(action => action.id === trigger.actionId) } }
+              })
+            )
           )
           this.newSortSelect(this.sort)
           this.loading = false
@@ -105,17 +107,19 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
   }
 
   public exportActionsTriggers(): void {
-    const triggersCopy: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggers.map(item => {
+    const triggersCopy: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggers.map(actionTrigger => {
       return {
-        actionId: item.actionId,
-        id: item.id,
+        actionId: actionTrigger.actionId,
+        id: actionTrigger.id,
         data: {
-          keys: item.data.keys,
-          actionArguments: item.data.actionArguments,
-          label: item.data.label,
+          keys: actionTrigger.data.keys,
+          actionArguments: actionTrigger.data.actionArguments,
+          label: actionTrigger.data.label,
+          triggerOn: actionTrigger.data.triggerOn,
+          mappedToKeys: actionTrigger.data.mappedToKeys,
         },
       }
     })
-    FilesUtil.saveText(JSON.stringify(triggersCopy), 'actions-triggers.json')
+    this.fileDownloadService.downloadText(JSON.stringify(triggersCopy), 'actions-triggers.json')
   }
 }

@@ -1,13 +1,13 @@
 .camera_color {
-  background-color: var(--segment-layer-background-camera) !important;
+  background-color: var(--background-camera) !important;
   color: #fff;
 }
 .remote_color {
-  background-color: var(--segment-layer-background-remote) !important;
+  background-color: var(--background-remote) !important;
   color: #fff;
 }
 .video_clip_color {
-  background-color: var(--segment-layer-background-vt) !important;
+  background-color: var(--background-vt) !important;
   color: #fff;
 }
 .split_screen_color {
@@ -15,10 +15,10 @@
   color: #fff;
 }
 .graphics_color {
-  background-color: var(--segment-layer-background-graphics) !important;
+  background-color: var(--background-graphics) !important;
 }
 .replay_color {
-  background-color: var(--segment-layer-background-local) !important;
+  background-color: var(--background-local) !important;
   color: #fff;
 }
 

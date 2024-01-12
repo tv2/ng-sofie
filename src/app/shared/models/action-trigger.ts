@@ -1,6 +1,7 @@
 import { KeyAlias } from 'src/app/keyboard/value-objects/key-alias'
 import { Tv2PartAction } from './tv2-action'
 import { Keys } from 'src/app/keyboard/value-objects/key-binding'
+import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 
 export interface ActionTrigger<Data = unknown> {
   id: string
@@ -17,8 +18,10 @@ export interface ActionTriggerWithActionInfo<Data = unknown> {
 
 export interface KeyboardTriggerData {
   keys: Keys
-  actionArguments?: unknown
+  actionArguments?: string | number
   label: string
+  triggerOn: KeyEventType
+  mappedToKeys?: Keys
 }
 
 export interface KeyboardAndSelectionTriggerData extends KeyboardTriggerData {
