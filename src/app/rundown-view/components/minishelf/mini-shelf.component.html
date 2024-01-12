@@ -1,27 +1,24 @@
-<div class="c-mini-shelf">
-  <div
-    class="c-mini-shelf__part"
-    *ngFor="let part of segment?.parts;"
-  >
-    <b>part.id: {{ part?.id }}</b>
+<div
+  class="c-mini-shelf"
+>
 
-    <ul
-      class="c-mini-shelf__part"
-      *ngFor="let part of segment?.parts;"
+  <ul>
+
+    <li
+      *ngFor="let shelf of shelves"
     >
-      <li
-        class="c-mini-shelf__part__piece"
-        *ngFor="let piece of part.pieces;"
-      >
-        <img src="favicon.ico" />
-        <p>piece.id: {{ piece.id }}</p>
 
-      </li>
-    </ul>
+      <img
+        (error)=this.handleMissingImage($event)
+        alt="mini-shelf id: {{ shelf.getId() }}"
+        src="{{ shelf.getThumbnailUrl() }}"
+      />
+      <span>{{ shelf.getFormattedDuration() }}</span>
 
-    <p>
-      {{ part?.playedDuration }} / {{ part?.expectedDuration }}
-    </p>
+    </li>
 
-  </div>
+  </ul>
+
 </div>
+
+
