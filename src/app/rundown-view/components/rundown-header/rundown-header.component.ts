@@ -31,8 +31,8 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public plannedStart?: number
   public plannedEnd: number = Date.now()
   public diff: number = 0
-  public readonly IconButton = IconButton
-  public readonly IconButtonSize = IconButtonSize
+  public readonly iconButton = IconButton
+  public readonly iconButtonSize = IconButtonSize
 
   private showStyleVariantSubscription?: Subscription
   private rundownTimingContextSubscription?: Subscription

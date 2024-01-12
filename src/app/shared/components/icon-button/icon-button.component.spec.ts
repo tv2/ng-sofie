@@ -12,7 +12,6 @@ describe('IconButtonComponent', () => {
   beforeEach(async () => {
     const mockedHttpIconService: HttpIconService = mock<HttpIconService>()
     when(mockedHttpIconService.getIconProperty(anyString())).thenReturn(faXmark)
-    when(mockedHttpIconService.getIconSizeProperty(anyString())).thenReturn('lg')
     await TestBed.configureTestingModule({
       declarations: [IconButtonComponent],
       providers: [{ provide: HttpIconService, useValue: instance(mockedHttpIconService) }],

@@ -14,8 +14,6 @@
         <sofie-action-triggers-list
           [actionTriggers]="actionTriggers"
           [selectedActionTrigger]="selectedAction"
-          [sort]="sort"
-          (newSortSelect)="newSortSelect($event)"
           (actionTriggerSelect)="actionTriggerSelect($event)"></sofie-action-triggers-list>
       </div>
       <div *ngIf="selectedAction || createAction" class="c-actions-triggers__body--edit">

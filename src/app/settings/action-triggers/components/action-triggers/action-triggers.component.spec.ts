@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { ActionTriggersComponent } from './action-triggers.component'
 import { instance, mock } from '@typestrong/ts-mockito'
-import { ActionTriggerSortKeys } from 'src/app/shared/models/action-trigger'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { TestEntityFactory } from 'src/app/test/factories/test-entity.factory'
 import { TestLoggerFactory } from 'src/app/test/factories/test-logger.factory'
@@ -32,27 +31,7 @@ describe('ActionTriggersComponent', () => {
     component.actionTriggerSelect(component.actionTriggers[1])
     expect(component.selectedAction?.id).toBe(component.actionTriggers[1].id)
     component.cancelActionTrigger()
-    expect(component.selectedAction).toBe(null)
-  })
-
-  it('should sort reorder actionsTriggersList by actionId', async () => {
-    const component = await configureTestBed()
-    component.actionTriggerSelect(component.actionTriggers[1])
-    expect(component.selectedAction?.id).toBe(component.actionTriggers[1].id)
-    component.newSortSelect(ActionTriggerSortKeys.ACTION_ID_Z_A)
-    expect(component.selectedAction?.id).toBe(component.actionTriggers[0].id)
-    component.newSortSelect(ActionTriggerSortKeys.ACTION_ID_A_Z)
-    expect(component.selectedAction?.id).toBe(component.actionTriggers[1].id)
-  })
-
-  it('should sort reorder actionsTriggersList by keys', async () => {
-    const component = await configureTestBed()
-    component.actionTriggerSelect(component.actionTriggers[1])
-    expect(component.selectedAction?.id).toBe(component.actionTriggers[1].id)
-    component.newSortSelect(ActionTriggerSortKeys.SHORTCUT_A_Z)
-    expect(component.selectedAction?.id).toBe(component.actionTriggers[0].id)
-    component.newSortSelect(ActionTriggerSortKeys.SHORTCUT_Z_A)
-    expect(component.selectedAction?.id).toBe(component.actionTriggers[1].id)
+    expect(component.selectedAction).toBe(undefined)
   })
 })
 

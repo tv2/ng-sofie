@@ -10,7 +10,6 @@ describe('ButtonComponent', () => {
   let fixture: ComponentFixture<ButtonComponent>
   const mockedHttpIconService: HttpIconService = mock<HttpIconService>()
   when(mockedHttpIconService.getIconProperty(anyString())).thenReturn(faXmark)
-  when(mockedHttpIconService.getIconSizeProperty(anyString())).thenReturn('lg')
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ButtonComponent],

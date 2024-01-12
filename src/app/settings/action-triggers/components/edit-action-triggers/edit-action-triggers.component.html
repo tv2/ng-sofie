@@ -23,7 +23,7 @@
         <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
           <label>
             {{ physicalMappingLabel }}
-            <sofie-icon-button [iconButton]="IconButton.CIRCLE_QUESTION" tooltipText="Click the keys one by one" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button
+            <sofie-icon-button [iconButton]="iconButton.CIRCLE_QUESTION" tooltipText="Click the keys one by one" [iconButtonSize]="iconButtonSize.M"></sofie-icon-button
           ></label>
           <div class="sofie-input-with-icon">
             <input
@@ -32,7 +32,7 @@
               (keydown)="onKeyDownMapTo($event)"
               placeholder="Click the keys one by one"
               [value]="this.actionForm.get('data')?.get('mappedToKeys')?.value ? (this.actionForm.get('data')?.get('mappedToKeys')?.value | shortcut) : ''" />
-            <sofie-icon-button [iconButton]="IconButton.XMARK" (click)="deleteMapToData()" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button>
+            <sofie-icon-button [iconButton]="iconButton.XMARK" (click)="deleteMapToData()" [iconButtonSize]="iconButtonSize.M"></sofie-icon-button>
           </div>
         </div>
         <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
@@ -62,7 +62,7 @@
           <label
             >{{ selectedAction.argument.name }}
             <span class="text-danger">*</span>
-            <sofie-icon-button [iconButton]="IconButton.CIRCLE_QUESTION" [tooltipText]="selectedAction.argument.description" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button
+            <sofie-icon-button [iconButton]="iconButton.CIRCLE_QUESTION" [tooltipText]="selectedAction.argument.description" [iconButtonSize]="iconButtonSize.M"></sofie-icon-button
           ></label>
           <input
             [type]="selectedAction.argument.type === argumentType.NUMBER ? 'number' : 'string'"

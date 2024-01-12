@@ -29,7 +29,7 @@ export class DropdownButtonComponent implements OnInit {
 
   public ngOnInit(): void {
     this.iconButtonProp = this.iconService.getIconProperty(this.iconButton)
-    this.iconButtonSizeProp = this.iconService.getIconSizeProperty(this.iconButtonSize ?? IconButtonSize.M)
+    this.iconButtonSizeProp = this.iconButtonSize ? this.iconButtonSize : IconButtonSize.M
   }
 
   public selectOption(option: SofieDroppdownOptions): void {

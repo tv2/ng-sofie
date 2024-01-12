@@ -14,10 +14,10 @@ export enum IconButton {
 }
 
 export enum IconButtonSize {
-  XS = 'XS',
-  S = 'S',
-  M = 'M',
-  L = 'L',
-  XL = 'XL',
-  XXL = 'XXL',
+  XS = 'xs',
+  S = 'sm',
+  M = '1x',
+  L = 'lg',
+  XL = 'xl',
+  XXL = '2xl',
 }

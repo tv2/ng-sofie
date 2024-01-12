@@ -10,7 +10,6 @@ describe('DropdownButtonComponent', () => {
   let fixture: ComponentFixture<DropdownButtonComponent>
   const mockedHttpIconService: HttpIconService = mock<HttpIconService>()
   when(mockedHttpIconService.getIconProperty(anyString())).thenReturn(faXmark)
-  when(mockedHttpIconService.getIconSizeProperty(anyString())).thenReturn('lg')
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

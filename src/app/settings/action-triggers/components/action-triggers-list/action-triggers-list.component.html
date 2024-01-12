@@ -5,15 +5,15 @@
       [selected]="sort"
       [options]="sortActionsTriggers"
       [label]="sortLabel"
-      [iconButton]="IconButton.SORT"
-      [iconButtonSize]="IconButtonSize.XL"
+      [iconButton]="iconButton.SORT"
+      [iconButtonSize]="iconButtonSize.XL"
       (optionSelect)="selectNewSort($event)"></sofie-dropdown-button>
 
     <sofie-dropdown-button
       *ngIf="selectMode; else turnOnSelectModeBtn"
       [options]="selectedTriggersOptions"
-      [iconButton]="IconButton.SQUARE_CHECK"
-      [iconButtonSize]="IconButtonSize.XL"
+      [iconButton]="iconButton.SQUARE_CHECK"
+      [iconButtonSize]="iconButtonSize.XL"
       (optionSelect)="actionWithSelected($event)"
       label="Selected"></sofie-dropdown-button>
 
@@ -43,12 +43,12 @@
             </div>
           </div>
           <div class="c-action-triggers-list__card--actions">
-            <sofie-icon-button [iconButton]="IconButton.PEN" tooltipText="Edit action trigger" [iconButtonSize]="IconButtonSize.L" (click)="selectActionTrigger(actionsTrigger)"></sofie-icon-button>
-            <sofie-icon-button [iconButton]="IconButton.COPY" tooltipText="Copy action trigger" [iconButtonSize]="IconButtonSize.L" (click)="actionTriggerCopy(actionsTrigger)"></sofie-icon-button>
+            <sofie-icon-button [iconButton]="iconButton.PEN" tooltipText="Edit action trigger" [iconButtonSize]="iconButtonSize.L" (click)="selectActionTrigger(actionsTrigger)"></sofie-icon-button>
+            <sofie-icon-button [iconButton]="iconButton.COPY" tooltipText="Copy action trigger" [iconButtonSize]="iconButtonSize.L" (click)="actionTriggerCopy(actionsTrigger)"></sofie-icon-button>
             <sofie-icon-button
-              [iconButton]="IconButton.TRASH_CAN"
+              [iconButton]="iconButton.TRASH_CAN"
               tooltipText="Delete action trigger"
-              [iconButtonSize]="IconButtonSize.L"
+              [iconButtonSize]="iconButtonSize.L"
               (click)="actionTriggerDelete(actionsTrigger.id)"></sofie-icon-button>
           </div>
         </div>

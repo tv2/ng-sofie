@@ -1,6 +1,6 @@
 import { Logger } from 'src/app/core/abstractions/logger.service'
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActionTrigger, ActionTriggerSortKeys, ActionTriggerWithActionInfo, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, ActionTriggerWithActionInfo, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { Subject, takeUntil } from 'rxjs'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
@@ -13,12 +13,11 @@ import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-do
   styleUrls: ['./action-triggers.component.scss'],
 })
 export class ActionTriggersComponent implements OnInit, OnDestroy {
-  public selectedAction: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null
+  public selectedAction: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined
   public createAction: boolean
   public loading: boolean
   public actions: Tv2PartAction[]
   public actionTriggers: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
-  public sort: ActionTriggerSortKeys = ActionTriggerSortKeys.ACTION_ID_A_Z
   private readonly unsubscribe$: Subject<null> = new Subject<null>()
 
   constructor(
@@ -50,7 +49,6 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
               })
             )
           )
-          this.newSortSelect(this.sort)
           this.loading = false
         },
       })
@@ -70,40 +68,19 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
     this.loading = true
   }
 
-  public actionTriggerSelect(selectedTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null): void {
+  public actionTriggerSelect(selectedTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined): void {
     this.selectedAction = selectedTrigger
     this.createAction = false
   }
 
   public createActionTrigger(): void {
     this.createAction = true
-    this.selectedAction = null
+    this.selectedAction = undefined
   }
 
   public cancelActionTrigger(): void {
-    this.selectedAction = null
+    this.selectedAction = undefined
     this.createAction = false
-  }
-
-  public newSortSelect(sort: ActionTriggerSortKeys): void {
-    this.sort = sort
-    switch (sort) {
-      case ActionTriggerSortKeys.ACTION_ID_A_Z:
-        this.actionTriggers = this.actionTriggers.sort((a, b) => a.data.label.localeCompare(b.data.label))
-        break
-      case ActionTriggerSortKeys.ACTION_ID_Z_A:
-        this.actionTriggers = this.actionTriggers.sort((a, b) => b.data.label.localeCompare(a.data.label))
-        break
-      case ActionTriggerSortKeys.SHORTCUT_A_Z:
-        this.actionTriggers = this.actionTriggers.sort((a, b) => a.data?.keys.toString().localeCompare(b.data?.keys.toString()))
-        break
-      case ActionTriggerSortKeys.SHORTCUT_Z_A:
-        this.actionTriggers = this.actionTriggers.sort((a, b) => b.data?.keys.toString().localeCompare(a.data?.keys.toString()))
-        break
-      default:
-        this.actionTriggers = this.actionTriggers.sort((a, b) => a.actionId.localeCompare(b.actionId))
-        break
-    }
   }
 
   public exportActionsTriggers(): void {

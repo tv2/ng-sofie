@@ -15,20 +15,20 @@ import { ArgumentType } from 'src/app/shared/models/action'
 })
 export class EditActionTriggersComponent implements OnChanges {
   @Output() public readonly cancelActionTrigger: EventEmitter<void> = new EventEmitter<void>()
-  @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null
+  @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined
   @Input() public actions: Tv2PartAction[]
   private keyPress: boolean = false
   public mapToFocus: boolean = false
   public submitting: boolean = false
-  public selectedAction: Tv2PartAction | null
+  public selectedAction: Tv2PartAction | undefined
   public keysLabel = $localize`action-triggers.shortcut.label`
   public physicalMappingLabel = $localize`action-triggers.physical-mapping.label`
   public triggerOnLabel = $localize`action-triggers.trigger-on.label`
   public selectedActionLabel = $localize`action-triggers.selected-action.label`
   public submitBtnTooltipError = $localize`action-triggers.submit-tooltip.error`
   public argumentType = ArgumentType
-  public readonly IconButton = IconButton
-  public readonly IconButtonSize = IconButtonSize
+  public readonly iconButton = IconButton
+  public readonly iconButtonSize = IconButtonSize
   public readonly triggerOnOptions: SofieSelectOptions[] = [
     { key: KeyEventType.PRESSED, label: $localize`global.on-key-pressed.label` },
     { key: KeyEventType.RELEASED, label: $localize`global.on-key-released.label` },
@@ -54,6 +54,7 @@ export class EditActionTriggersComponent implements OnChanges {
       this.control('actionArguments', 'data').setValidators([Validators.required])
     } else {
       this.control('actionArguments', 'data').clearValidators()
+      this.control('actionArguments', 'data').setErrors(null)
     }
     this.actionForm.updateValueAndValidity()
   }
@@ -61,7 +62,7 @@ export class EditActionTriggersComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     const actionTriggerChange: SimpleChange | undefined = changes['selectedActionTrigger']
     if (actionTriggerChange) {
-      const action: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | null = actionTriggerChange.currentValue
+      const action: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined = actionTriggerChange.currentValue
       this.clearFormArray(this.formKeysArray)
       this.clearFormArray(this.formMappedToKeysArray)
       if (action) {
@@ -69,9 +70,11 @@ export class EditActionTriggersComponent implements OnChanges {
         this.selectedAction = action.actionInfo
       } else {
         this.customFromReset()
-        this.selectedAction = null
+        this.selectedAction = undefined
       }
-      this.checkActionAndSetValidators()
+      setTimeout(() => {
+        this.checkActionAndSetValidators()
+      }, 500)
     }
   }
 
@@ -207,7 +210,7 @@ export class EditActionTriggersComponent implements OnChanges {
       next: () => {
         this.clearFormArray(this.formKeysArray)
         this.customFromReset()
-        this.selectedAction = null
+        this.selectedAction = undefined
         this.checkActionAndSetValidators()
         this.submitting = false
       },
