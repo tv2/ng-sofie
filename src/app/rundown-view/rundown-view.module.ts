@@ -31,7 +31,7 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
 import { OnAirDetailsPanelComponent } from './components/on-air-details-panel/on-air-details-panel.component'
 import { CountdownLabelComponent } from './components/countdown-label/countdown-label.component'
 import { ActionTriggerProducerKeyBindingService } from './services/action-trigger-producer-key-binding.service'
-import { MinishelfComponent } from './components/minishelf/minishelf.component'
+import { MiniShelfComponent } from './components/minishelf/mini-shelf.component'
 
 @NgModule({
   declarations: [
@@ -54,7 +54,7 @@ import { MinishelfComponent } from './components/minishelf/minishelf.component'
     PartContextMenuComponent,
     RundownViewComponent,
     CountdownLabelComponent,
-    MinishelfComponent,
+    MiniShelfComponent,
   ],
   exports: [SegmentComponent],
   providers: [

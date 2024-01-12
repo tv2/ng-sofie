@@ -3,11 +3,11 @@ import { Logger } from '../../../core/abstractions/logger.service'
 import { Segment } from '../../../core/models/segment'
 
 @Component({
-  selector: 'sofie-minishelf',
-  templateUrl: './minishelf.component.html',
-  styleUrls: ['./minishelf.component.scss'],
+  selector: 'sofie-mini-shelf',
+  templateUrl: './mini-shelf.component.html',
+  styleUrls: ['./mini-shelf.component.scss'],
 })
-export class MinishelfComponent implements OnChanges, OnDestroy {
+export class MiniShelfComponent implements OnChanges, OnDestroy {
   @Input()
   public segment: Segment
 

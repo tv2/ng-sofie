@@ -1,23 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { MinishelfComponent } from './minishelf.component'
+import { MiniShelfComponent } from './mini-shelf.component'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 import { RundownViewModule } from '../../rundown-view.module'
 
-describe('MinishelfComponent', () => {
+describe('MiniShelfComponent', () => {
   it('should create', async () => {
-    const component: MinishelfComponent = await configureTestBed()
+    const component: MiniShelfComponent = await configureTestBed()
     expect(component).toBeTruthy()
   })
 })
-async function configureTestBed(): Promise<MinishelfComponent> {
+async function configureTestBed(): Promise<MiniShelfComponent> {
   await TestBed.configureTestingModule({
-    declarations: [MinishelfComponent],
+    declarations: [MiniShelfComponent],
     providers: [{ provide: Logger, useValue: createLogger() }],
     imports: [RundownViewModule],
   }).compileComponents()
 
-  const fixture: ComponentFixture<MinishelfComponent> = TestBed.createComponent(MinishelfComponent)
+  const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
   return fixture.componentInstance
 }
 function createLogger(): Logger {

@@ -1,16 +1,16 @@
-<div class="c-minishelf">
+<div class="c-mini-shelf">
   <div
-    class="c-minishelf__part"
+    class="c-mini-shelf__part"
     *ngFor="let part of segment?.parts;"
   >
     <b>part.id: {{ part?.id }}</b>
 
     <ul
-      class="c-minishelf__part"
+      class="c-mini-shelf__part"
       *ngFor="let part of segment?.parts;"
     >
       <li
-        class="c-minishelf__part__piece"
+        class="c-mini-shelf__part__piece"
         *ngFor="let piece of part.pieces;"
       >
         <img src="favicon.ico" />
