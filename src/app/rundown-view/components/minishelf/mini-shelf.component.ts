@@ -1,14 +1,12 @@
-import { Component, Input } from '@angular/core'
-import { Segment } from '../../../core/models/segment'
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 
 @Component({
   selector: 'sofie-mini-shelf',
   styleUrls: ['./mini-shelf.component.scss'],
   templateUrl: './mini-shelf.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush, // needed to stop re-rendering of the component on every tick
 })
 export class MiniShelfComponent {
-  @Input()
-  public segment: Segment
   @Input()
   protected shelves: ShelfFromSOF1721[]
 
@@ -26,18 +24,27 @@ class ShelfFromSOF1721 {
   protected readonly id: number
   protected readonly thumbnailUrl: string
   protected readonly duration: number
+  protected readonly title: string
 
-  constructor(id: number, url: string, duration?: number) {
+  constructor(id: number, url: string, title: string, duration?: number) {
     this.id = id
     this.thumbnailUrl = url
+    this.title = title.toUpperCase()
     this.duration = duration || ~~(Math.random() * 1000)
   }
 
   public getThumbnailUrl(): string {
     return this.thumbnailUrl
   }
-  public getFormattedDuration(): number {
-    return this.duration.valueOf()
+  public getFormattedDuration(): string {
+    const date = new Date()
+    date.setSeconds(this.duration)
+    return `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}:${
+      date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+    }:${date.getMilliseconds() < 10 ? `00${date.getMilliseconds()}` : date.getMilliseconds() < 100 ? `0${date.getMilliseconds()}` : date.getMilliseconds()}`
+  }
+  public getFormattedTitle(): string {
+    return this.title
   }
   public getId(): number {
     return this.id
@@ -47,11 +54,10 @@ class ShelfFromSOF1721 {
   public static getShelves(): ShelfFromSOF1721[] {
     let counter: number = Math.random() * 5
     let shelves: ShelfFromSOF1721[] = []
-    while (counter > 0) {
+    while (counter-- > 0) {
       const randomNum: number = ~~(Math.random() * (999 - 100 + 1) + 100)
-      const shelf = new ShelfFromSOF1721(randomNum, `https://picsum.photos/id/${randomNum}/270/100`)
+      const shelf: ShelfFromSOF1721 = new ShelfFromSOF1721(randomNum, `https://picsum.photos/id/${randomNum}/270/100`, `Title ${randomNum}`, ~~(Math.random() * 60 * 60 * 30))
       shelves.push(shelf)
-      counter--
     }
     return shelves
   }
