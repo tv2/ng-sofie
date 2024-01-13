@@ -32,7 +32,6 @@ import { OnAirDetailsPanelComponent } from './components/on-air-details-panel/on
 import { CountdownLabelComponent } from './components/countdown-label/countdown-label.component'
 import { ActionTriggerProducerKeyBindingService } from './services/action-trigger-producer-key-binding.service'
 import { MiniShelfComponent } from './components/minishelf/mini-shelf.component'
-import { MatTableModule } from '@angular/material/table'
 
 @NgModule({
   declarations: [
@@ -65,6 +64,6 @@ import { MatTableModule } from '@angular/material/table'
     { provide: KeyboardConfigurationService, useClass: ProducerKeyboardConfigurationService },
     KeyBindingFactory,
   ],
-  imports: [SharedModule, RundownViewRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule, MatTableModule],
+  imports: [SharedModule, RundownViewRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule],
 })
 export class RundownViewModule {}
