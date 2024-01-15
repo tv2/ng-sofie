@@ -24,7 +24,7 @@ export class MiniShelfComponent {
   //    duration: number,
   //    thumbnail: string
   //    } }
-  private readonly defaultImage: string
+  public readonly defaultImage: string
 
   constructor() {
     this.defaultImage = `https://picsum.photos/id/${~~(Math.random() * (999 - 100 + 1) + 100)}/270/100`
