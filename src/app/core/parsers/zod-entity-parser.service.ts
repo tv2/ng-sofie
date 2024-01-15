@@ -90,6 +90,13 @@ export class ZodEntityParser implements EntityParser {
     rank: zod.number(),
     expectedDurationInMs: zod.number().optional(),
     executedAtEpochTime: zod.number().optional(),
+    miniShelMetadata: zod
+      .object({
+        videoClipFile: zod.string(),
+        duration: zod.number(),
+        thumbnail: zod.string(),
+      })
+      .optional(),
   })
 
   private readonly basicRundownParser = zod.object({

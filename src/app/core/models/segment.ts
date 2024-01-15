@@ -1,6 +1,8 @@
 import { Part } from './part'
+import { MiniShelfMetadata } from '../../rundown-view/components/minishelf/mini-shelf.component'
 
 export interface Segment {
+  readonly miniShelMetadata?: MiniShelfMetadata
   readonly id: string
   readonly rundownId: string
   readonly name: string

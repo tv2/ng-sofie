@@ -3,6 +3,7 @@
     *ngFor="let segment of rundown?.segments; trackBy: trackSegment"
 >
 
+<!--    TODO - use ngIf or let segment component decide to render minishelf component instead-->
     <sofie-segment
         *ngIf="segment.parts.length > 0"
         [segment]="segment"
@@ -14,6 +15,8 @@
 
     <sofie-mini-shelf
       *ngIf="segment.parts.length > 0"
+      [title]="segment.name"
+      [metadata]="segment.miniShelMetadata"
     ></sofie-mini-shelf>
 
 </div>

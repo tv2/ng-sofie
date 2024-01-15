@@ -1,24 +1,12 @@
 .c-mini-shelf {
-  margin: 0;
+  min-width: 270px;
+  max-width: min-content;
   padding: 0;
+  margin: 5px 0 5px 20px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: solid 1px #eee;
 
-  &__list {
-    min-width: 270px;
-    max-width: min-content;
-    list-style: none;
-    padding: 0;
-    margin: 25px 0 50px 20px;
-  }
-
-  &__item {
-    margin: 0 0 8px 0;
-    padding: 0;
-    border-radius: 5px;
-    height: auto;
-    max-width: 100%;
-    overflow: hidden;
-    border: solid 1px #eee;
-  }
 
   &__thumbnail {
     width: 100%;

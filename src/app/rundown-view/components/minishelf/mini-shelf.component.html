@@ -1,18 +1,18 @@
-<div class="c-mini-shelf">
-  <ul class="c-mini-shelf__list">
-    <li  class="c-mini-shelf__item" *ngFor="let shelf of shelves">
-      <img
+<div
+  class="c-mini-shelf"
+  title="{{ title }}"
+  (click)="this.handleClick()"
+>
+    <img
         class="c-mini-shelf__thumbnail"
-        src="{{ shelf.getThumbnailUrl() }}"
-        alt="mini-shelf id: {{ shelf.getId() }}"
+        src="{{ metadata?.thumbnail ? metadata?.thumbnail : this.defaultImage }}"
+        alt="{{ this.title }}"
         (error)=this.handleMissingImage($event)
-      />
-      <div class="c-mini-shelf__note">
-        <span class="c-mini-shelf__title">{{ shelf.getFormattedTitle() }}</span>
-        <span class="c-mini-shelf__duration">{{ shelf.getFormattedDuration() }}</span>
-      </div>
-    </li>
-  </ul>
+    />
+    <div class="c-mini-shelf__note">
+        <span class="c-mini-shelf__title">{{ this.getFormattedTitle() }}</span>
+        <span class="c-mini-shelf__duration">{{ this.getFormattedDuration() }}</span>
+    </div>
 </div>
 
 
