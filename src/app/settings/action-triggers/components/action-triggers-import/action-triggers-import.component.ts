@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core'
-import { ActionTrigger, ActionTriggerWithActionInfo, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, ActionTriggerWithActionInfo } from 'src/app/shared/models/action-trigger'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActionTriggerParser } from 'src/app/shared/abstractions/action-trigger-parser.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
+import { KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 
 @Component({
   selector: 'sofie-action-triggers-import',
@@ -56,7 +57,7 @@ export class ActionTriggersImportComponent {
     }
   }
 
-  private createActionTrigger(actionTrigger: CreateActionTrigger<KeyboardTriggerData>, index: number): void {
+  private createActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>, index: number): void {
     this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
     if (!this.hasNoImportedActionTriggerAfterIndex(index)) {
       this.importItem(index + 1)

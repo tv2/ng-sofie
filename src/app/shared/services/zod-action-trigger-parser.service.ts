@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core'
 import { ActionTriggerParser } from '../abstractions/action-trigger-parser.service'
-import { ActionTrigger, KeyboardTriggerData } from '../models/action-trigger'
+import { ActionTrigger } from '../models/action-trigger'
 import * as zod from 'zod'
 import { Keys } from 'src/app/keyboard/value-objects/key-binding'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
+import { KeyboardTriggerData } from '../models/keyboard-trigger'
 
 @Injectable()
 export class ZodActionTriggerParser extends ActionTriggerParser {

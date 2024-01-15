@@ -1,18 +1,19 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
-import {
-  ActionTrigger,
-  ActionTriggerSortKeys,
-  ActionTriggerWithActionInfo,
-  CreateActionTrigger,
-  KeyboardAndSelectionTriggerData,
-  KeyboardTriggerData,
-  UserActionsWithSelectedTriggers,
-} from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, ActionTriggerWithActionInfo } from 'src/app/shared/models/action-trigger'
 import { SofieDroppdownOptions } from 'src/app/shared/components/dropdown-button/dropdown-button.component'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-download.service'
+import { ActionTriggerSortKeys, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
+import { SortOrder } from 'src/app/shared/models/forms'
+
+export enum UserActionsWithSelectedTriggers {
+  DISABLE_SELECTION = 'DISABLE_SELECTION',
+  TOGGLE_SELECT = 'TOGGLE_SELECT',
+  EXPORT = 'EXPORT',
+  DELETE = 'DELETE',
+}
 
 @Component({
   selector: 'sofie-action-triggers-list',
@@ -29,12 +30,12 @@ export class ActionTriggersListComponent implements OnChanges {
   public sortLabel: string = $localize`global.sort.label`
   public readonly iconButton = IconButton
   public readonly iconButtonSize = IconButtonSize
-  public sort: ActionTriggerSortKeys = ActionTriggerSortKeys.ACTION_ID_A_Z
+  public sort: string = `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`
   public readonly sortActionsTriggers: SofieDroppdownOptions[] = [
-    { key: ActionTriggerSortKeys.ACTION_ID_A_Z, label: $localize`action-triggers-sort.action-label-a-z.label` },
-    { key: ActionTriggerSortKeys.ACTION_ID_Z_A, label: $localize`action-triggers-sort.action-label-z-a.label` },
-    { key: ActionTriggerSortKeys.SHORTCUT_A_Z, label: $localize`action-triggers-sort.shortcut-a-z.label` },
-    { key: ActionTriggerSortKeys.SHORTCUT_Z_A, label: $localize`action-triggers-sort.shortcut-z-a.label` },
+    { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-a-z.label` },
+    { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.REVERSE_ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-z-a.label` },
+    { key: `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.ALPHABETICAL}`, label: $localize`action-triggers-sort.shortcut-a-z.label` },
+    { key: `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.REVERSE_ALPHABETICAL}`, label: $localize`action-triggers-sort.shortcut-z-a.label` },
   ]
 
   public readonly selectedTriggersOptions: SofieDroppdownOptions[] = [
@@ -93,8 +94,9 @@ export class ActionTriggersListComponent implements OnChanges {
   }
 
   public actionTriggerCopy(actionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>): void {
-    const copyPayload: CreateActionTrigger<KeyboardTriggerData> = {
+    const copyPayload: ActionTrigger<KeyboardTriggerData> = {
       actionId: actionTrigger.actionId,
+      id: '',
       data: {
         keys: actionTrigger.data.keys,
         label: actionTrigger.data.label,
@@ -112,19 +114,19 @@ export class ActionTriggersListComponent implements OnChanges {
     this.newSortSelect(sortOption as ActionTriggerSortKeys)
   }
 
-  private newSortSelect(sort: ActionTriggerSortKeys): void {
+  private newSortSelect(sort: string): void {
     this.sort = sort
     switch (sort) {
-      case ActionTriggerSortKeys.ACTION_ID_A_Z:
+      case `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`:
         this.actionTriggers = this.actionTriggers.sort((a, b) => a.data.label.localeCompare(b.data.label))
         break
-      case ActionTriggerSortKeys.ACTION_ID_Z_A:
+      case `${ActionTriggerSortKeys.ACTION}_${SortOrder.REVERSE_ALPHABETICAL}`:
         this.actionTriggers = this.actionTriggers.sort((a, b) => b.data.label.localeCompare(a.data.label))
         break
-      case ActionTriggerSortKeys.SHORTCUT_A_Z:
+      case `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.ALPHABETICAL}`:
         this.actionTriggers = this.actionTriggers.sort((a, b) => a.data?.keys.toString().localeCompare(b.data?.keys.toString()))
         break
-      case ActionTriggerSortKeys.SHORTCUT_Z_A:
+      case `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.REVERSE_ALPHABETICAL}`:
         this.actionTriggers = this.actionTriggers.sort((a, b) => b.data?.keys.toString().localeCompare(a.data?.keys.toString()))
         break
       default:

@@ -3,10 +3,11 @@ import { Segment } from '../../core/models/segment'
 import { Rundown } from '../../core/models/rundown'
 import { Piece } from '../../core/models/piece'
 import { RundownTimingType } from '../../core/enums/rundown-timing-type'
-import { ActionTrigger, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger } from 'src/app/shared/models/action-trigger'
 import { Tv2ActionContentType, Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { PartActionType } from 'src/app/shared/models/action-type'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
+import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {

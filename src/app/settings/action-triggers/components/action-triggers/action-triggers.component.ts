@@ -1,11 +1,12 @@
 import { Logger } from 'src/app/core/abstractions/logger.service'
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActionTrigger, ActionTriggerWithActionInfo, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, ActionTriggerWithActionInfo } from 'src/app/shared/models/action-trigger'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { Subject, takeUntil } from 'rxjs'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
 import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-download.service'
+import { KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 
 @Component({
   selector: 'sofie-action-triggers',

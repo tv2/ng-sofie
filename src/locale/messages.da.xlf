@@ -120,23 +120,23 @@
       </trans-unit>
       <trans-unit id="1676745878038831683" datatype="html">
         <source>action-triggers-sort.action-label-a-z.label</source>
-        <target state="new">Action label A -&gt; Z</target>
+        <target state="new">Action label alphabetical</target>
       </trans-unit>
       <trans-unit id="8391471217819025726" datatype="html">
         <source>action-triggers-sort.action-label-z-a.label</source>
-        <target state="new">Action label Z -&gt; A</target>
+        <target state="new">Action label reverse alphabetical</target>
       </trans-unit>
       <trans-unit id="7501524180811696949" datatype="html">
         <source>action-triggers-sort.shortcut-a-z.label</source>
-        <target state="new">Shortcut A -&gt; Z</target>
+        <target state="new">Shortcut alphabetical</target>
       </trans-unit>
       <trans-unit id="4507516233891515823" datatype="html">
         <source>action-triggers-sort.shortcut-z-a.label</source>
-        <target state="new">Shortcut Z -&gt; A</target>
+        <target state="new">Shortcut reverse alphabetical</target>
       </trans-unit>
       <trans-unit id="8924063720972378650" datatype="html">
         <source>global.sort.label</source>
-        <target state="new">Sort</target>
+        <target state="new">Sort by</target>
       </trans-unit>
       <trans-unit id="7386626478307143738" datatype="html">
         <source>action-triggers.delete-selected.label</source>

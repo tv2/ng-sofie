@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core'
 import { catchError, map, Observable } from 'rxjs'
 import { ActionTriggerService } from '../../abstractions/action-trigger.service'
-import { ActionTrigger, CreateActionTrigger, KeyboardTriggerData } from '../../models/action-trigger'
+import { ActionTrigger } from '../../models/action-trigger'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../../../environments/environment'
 import { ActionTriggerParser } from '../../abstractions/action-trigger-parser.service'
 import { HttpErrorService } from './http-error.service'
 import { HttpResponse } from './http-response'
+import { KeyboardTriggerData } from '../../models/keyboard-trigger'
 
 const ACTION_TRIGGER_URL: string = `${environment.apiBaseUrl}/actionTriggers`
 
@@ -27,7 +28,7 @@ export class HttpActionTriggerService extends ActionTriggerService {
     )
   }
 
-  public createActionTrigger(actionTrigger: CreateActionTrigger<KeyboardTriggerData>): Observable<void> {
+  public createActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>): Observable<void> {
     return this.http.post<void>(`${ACTION_TRIGGER_URL}`, actionTrigger)
   }
 

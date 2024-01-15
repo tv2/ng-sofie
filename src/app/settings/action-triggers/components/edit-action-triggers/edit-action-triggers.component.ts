@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core'
 import { AbstractControl, FormBuilder, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
-import { ActionTrigger, ActionTriggerWithActionInfo, CreateActionTrigger, KeyboardAndSelectionTriggerData, KeyboardTriggerData, SHORTCUT_KEYS_MAPPINGS } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, ActionTriggerWithActionInfo } from 'src/app/shared/models/action-trigger'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
-import { SofieSelectOptions } from 'src/app/shared/models/forms'
+import { SelectFieldOptions } from 'src/app/shared/models/forms'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 import { ArgumentType } from 'src/app/shared/models/action'
+import { KeyboardAndSelectionTriggerData, KeyboardTriggerData, SHORTCUT_KEYS_MAPPINGS } from 'src/app/shared/models/keyboard-trigger'
 
 @Component({
   selector: 'sofie-edit-action-triggers',
@@ -29,7 +30,7 @@ export class EditActionTriggersComponent implements OnChanges {
   public argumentType = ArgumentType
   public readonly iconButton = IconButton
   public readonly iconButtonSize = IconButtonSize
-  public readonly triggerOnOptions: SofieSelectOptions[] = [
+  public readonly triggerOnOptions: SelectFieldOptions[] = [
     { key: KeyEventType.PRESSED, label: $localize`global.on-key-pressed.label` },
     { key: KeyEventType.RELEASED, label: $localize`global.on-key-released.label` },
   ]
@@ -186,7 +187,7 @@ export class EditActionTriggersComponent implements OnChanges {
     if (!this.control('label', 'data').value) {
       this.control('label', 'data').patchValue((this.selectedAction as Tv2PartAction).name)
     }
-    const actionTriggerValue: CreateActionTrigger<KeyboardTriggerData> = this.prepareSendData(this.actionForm.value)
+    const actionTriggerValue: ActionTrigger<KeyboardTriggerData> = this.prepareSendData(this.actionForm.value)
     if (this.isUpdateAction) {
       this.updateActionTrigger({ ...actionTriggerValue, id: this.selectedActionTrigger?.id as string })
     } else {
@@ -194,8 +195,8 @@ export class EditActionTriggersComponent implements OnChanges {
     }
   }
 
-  private prepareSendData(formData: CreateActionTrigger<KeyboardTriggerData>): CreateActionTrigger<KeyboardTriggerData> {
-    const resultData: CreateActionTrigger<KeyboardTriggerData> = { ...formData }
+  private prepareSendData(formData: ActionTrigger<KeyboardTriggerData>): ActionTrigger<KeyboardTriggerData> {
+    const resultData: ActionTrigger<KeyboardTriggerData> = { ...formData }
     if (this.selectedAction?.argument) {
       resultData.data.actionArguments = formData?.data?.actionArguments && this.selectedAction?.argument.type === ArgumentType.NUMBER ? +formData?.data?.actionArguments : formData.data.actionArguments
     } else {
@@ -204,7 +205,7 @@ export class EditActionTriggersComponent implements OnChanges {
     return resultData
   }
 
-  private createActionTrigger(actionTrigger: CreateActionTrigger<KeyboardTriggerData>): void {
+  private createActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>): void {
     this.actionTriggerService.createActionTrigger(actionTrigger).subscribe({
       next: () => {
         this.clearFormArray(this.formKeysArray)
