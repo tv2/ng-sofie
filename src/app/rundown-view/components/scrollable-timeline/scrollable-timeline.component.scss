@@ -1,7 +1,7 @@
 :host {
   position: relative;
   width: 100%;
-  background-color: black;
+  background-color: var(--general-black-color);
   cursor: pointer;
 
   &:active {

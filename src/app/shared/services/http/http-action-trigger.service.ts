@@ -22,7 +22,7 @@ export class HttpActionTriggerService extends ActionTriggerService {
   }
 
   public getActionTriggers(): Observable<ActionTrigger<KeyboardTriggerData>[]> {
-    return this.http.get<HttpResponse<ActionTrigger<KeyboardTriggerData>[]>>(`${environment.apiBaseUrl}/actionTriggers`).pipe(
+    return this.http.get<HttpResponse<ActionTrigger<KeyboardTriggerData>[]>>(`${ACTION_TRIGGER_URL}`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
       map(response => this.actionTriggerParser.parseActionTriggers(response.data))
     )

@@ -5,7 +5,7 @@
       [selected]="sort"
       [options]="sortActionsTriggers"
       [label]="sortLabel"
-      [iconButton]="iconButton.SORT"
+      [iconButton]="iconButton.VERTICAL_OPPOSING_TRIANGLES"
       [iconButtonSize]="iconButtonSize.XL"
       (optionSelect)="selectNewSort($event)"></sofie-dropdown-button>
 
@@ -44,7 +44,7 @@
           </div>
           <div class="c-action-triggers-list__card--actions">
             <sofie-icon-button [iconButton]="iconButton.PEN" tooltipText="Edit action trigger" [iconButtonSize]="iconButtonSize.L" (click)="selectActionTrigger(actionsTrigger)"></sofie-icon-button>
-            <sofie-icon-button [iconButton]="iconButton.COPY" tooltipText="Copy action trigger" [iconButtonSize]="iconButtonSize.L" (click)="actionTriggerCopy(actionsTrigger)"></sofie-icon-button>
+            <sofie-icon-button [iconButton]="iconButton.TWO_SHEETS_COPY" tooltipText="Copy action trigger" [iconButtonSize]="iconButtonSize.L" (click)="actionTriggerCopy(actionsTrigger)"></sofie-icon-button>
             <sofie-icon-button
               [iconButton]="iconButton.TRASH_CAN"
               tooltipText="Delete action trigger"

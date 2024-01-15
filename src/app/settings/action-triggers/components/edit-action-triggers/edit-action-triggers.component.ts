@@ -19,15 +19,15 @@ export class EditActionTriggersComponent implements OnChanges {
   @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined
   @Input() public actions: Tv2PartAction[]
   private keyPress: boolean = false
-  public mapToFocus: boolean = false
+  public mappedToKeysFocus: boolean = false
   public submitting: boolean = false
   public selectedAction: Tv2PartAction | undefined
-  public keysLabel = $localize`action-triggers.shortcut.label`
-  public physicalMappingLabel = $localize`action-triggers.physical-mapping.label`
-  public triggerOnLabel = $localize`action-triggers.trigger-on.label`
-  public selectedActionLabel = $localize`action-triggers.selected-action.label`
-  public submitBtnTooltipError = $localize`action-triggers.submit-tooltip.error`
-  public argumentType = ArgumentType
+  public readonly keysLabel = $localize`action-triggers.shortcut.label`
+  public readonly physicalMappingLabel = $localize`action-triggers.physical-mapping.label`
+  public readonly triggerOnLabel = $localize`action-triggers.trigger-on.label`
+  public readonly selectedActionLabel = $localize`action-triggers.selected-action.label`
+  public readonly submitBtnTooltipError = $localize`action-triggers.submit-tooltip.error`
+  public readonly argumentType = ArgumentType
   public readonly iconButton = IconButton
   public readonly iconButtonSize = IconButtonSize
   public readonly triggerOnOptions: SelectFieldOptions[] = [
@@ -129,8 +129,8 @@ export class EditActionTriggersComponent implements OnChanges {
 
   public onKeyDownMapTo(event: KeyboardEvent): void {
     event.preventDefault()
-    if (this.mapToFocus) {
-      this.mapToFocus = false
+    if (this.mappedToKeysFocus) {
+      this.mappedToKeysFocus = false
       this.clearFormArray(this.formMappedToKeysArray)
     }
     const newKeyCode: string = SHORTCUT_KEYS_MAPPINGS[event.code] ? SHORTCUT_KEYS_MAPPINGS[event.code] : event.code

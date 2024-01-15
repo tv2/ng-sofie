@@ -1,6 +1,6 @@
 .snackbar-danger {
   background: var(--general-danger-color);
-  color: white;
+  color: var(--general-white-color);
 
   .mat-button-wrapper {
     color: orangered;
@@ -9,18 +9,18 @@
 
 .snackbar-warning {
   background: yellow;
-  color: black;
+  color: var(--general-black-color);
 
   .mat-button-wrapper {
-    color: black;
+    color: var(--general-black-color);
   }
 }
 
 .snackbar-success {
   background: green;
-  color: white;
+  color: var(--general-white-color);
 
   .mat-button-wrapper {
-    color: white;
+    color: var(--general-white-color);
   }
 }

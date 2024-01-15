@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { faArrowsH, faBars, faCircleQuestion, faCopy, faFilter, faMinus, faPen, faPlus, faSort, faSquareCheck, faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faArrowsH, faBars, faCircleQuestion, faCopy, faMinus, faPen, faPlus, faSort, faSquareCheck, faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { IconButton } from 'src/app/shared/enums/icon-button'
 
 export interface IconService {
@@ -23,11 +23,9 @@ export class HttpIconService implements IconService {
         return faMinus
       case IconButton.HORIZONTAL_ARROWS:
         return faArrowsH
-      case IconButton.COPY:
+      case IconButton.TWO_SHEETS_COPY:
         return faCopy
-      case IconButton.FILTER:
-        return faFilter
-      case IconButton.SORT:
+      case IconButton.VERTICAL_OPPOSING_TRIANGLES:
         return faSort
       case IconButton.SQUARE_CHECK:
         return faSquareCheck

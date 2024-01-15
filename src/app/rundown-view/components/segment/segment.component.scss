@@ -32,12 +32,12 @@
     display: flex;
     justify-content: space-between;
     height: var(--toolbar-height);
-    background: black;
+    background: var(--general-black-color);
     padding: 6px;
 
     &--unsynced {
       background: #FFFF00BA;
-      color: black;
+      color: var(--general-black-color);
     }
 
     .segment-identifier {
@@ -73,7 +73,7 @@
   &__controls {
     flex: 0;
     min-width: 160px;
-    background-color: black;
+    background-color: var(--general-black-color);
   }
 
   &__controls-toolbar {

@@ -7,11 +7,12 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatListModule } from '@angular/material/list'
 import { ClearCacheComponent } from './components/clear-cache/clear-cache.component'
-import { HttpConfigurationCacheService } from './services/http-configuration-cache.service'
+import { HttpConfigurationCacheService } from './services/http/http-configuration-cache.service'
+import { ConfigurationCacheService } from './services/configuration-cache.service'
 
 @NgModule({
   declarations: [SettingsComponent, SettingsMenuComponent, ClearCacheComponent],
   imports: [SettingsRoutingModule, SharedModule, MatSidenavModule, MatToolbarModule, MatListModule],
-  providers: [HttpConfigurationCacheService],
+  providers: [{ provide: ConfigurationCacheService, useValue: HttpConfigurationCacheService }],
 })
 export class SettingsModule {}

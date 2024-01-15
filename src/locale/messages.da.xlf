@@ -218,6 +218,26 @@
         <source>action-triggers.physical-mapping.label</source>
         <target state="new">Physical mapping</target>
       </trans-unit>
+      <trans-unit id="5384713853490936899" datatype="html">
+        <source>clear-cache.title</source>
+        <target state="new">Clear cache</target>
+      </trans-unit>
+      <trans-unit id="7955116266682092985" datatype="html">
+        <source>clear-cache.button.label</source>
+        <target state="new">Clear configuration cache</target>
+      </trans-unit>
+      <trans-unit id="7840343495376792564" datatype="html">
+        <source>global.confirmation.label</source>
+        <target state="new">Confirmation</target>
+      </trans-unit>
+      <trans-unit id="6681316063292517711" datatype="html">
+        <source>clear-cache.clear.confirmation</source>
+        <target state="new">Are you sure you want to clear your cache?</target>
+      </trans-unit>
+      <trans-unit id="1544567860044151272" datatype="html">
+        <source>global.clear.label</source>
+        <target state="new">Clear</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

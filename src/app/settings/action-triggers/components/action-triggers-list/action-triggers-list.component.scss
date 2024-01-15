@@ -1,15 +1,15 @@
 .c-action-triggers-list {
   width: 100%;
   &__search {
-    margin-bottom: 1.5rem;
+    margin-bottom: 24px;
     display: flex;
     align-items: center;
     & input {
       width: 100%;
-      padding: 0.5rem;
+      padding: 8px;
     }
     & sofie-dropdown-button {
-      margin-left: 1rem;
+      margin-left: 16px;
     }
   }
   &__items {
@@ -17,7 +17,7 @@
     overflow: auto;
   }
   &__card {
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -35,19 +35,19 @@
     }
     &--actions {
       margin-left: auto;
-      padding-left: 1rem;
-      min-width: 7rem;
+      padding-left: 16px;
+      min-width: 115px;
       text-align: right;
       & sofie-icon-button {
-        margin-right: 1rem;
+        margin-right: 16px;
         &:last-child {
           margin-right: 0;
         }
       }
     }
     & sofie-custom-checkbox {
-      margin-right: 1rem;
-      margin-left: 0.5rem;
+      margin-right: 16px;
+      margin-left: 8px;
     }
   }
   &__no-items {
@@ -61,8 +61,8 @@
   padding: 5px 8px;
   border-radius: 4px;
   display: inline-block;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-right: 8px;
+  margin-bottom: 8px;
   &.bg-dark {
     background-color: rgb(50, 50, 50);
     color: #fff;

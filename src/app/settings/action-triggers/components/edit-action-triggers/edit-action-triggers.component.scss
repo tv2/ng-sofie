@@ -1,5 +1,5 @@
 .c-edit-actions-triggers {
-  padding-left: 1rem;
+  padding-left: 16px;
   border-left: 1px solid var(--general-gray-color);
   height: 100%;
   & h4 {
@@ -32,7 +32,7 @@
       margin-top: auto;
       & button {
         display: block;
-        margin-bottom: 1rem;
+        margin-bottom: 16px;
         width: 100%;
         &:last-child {
           margin-bottom: 0;

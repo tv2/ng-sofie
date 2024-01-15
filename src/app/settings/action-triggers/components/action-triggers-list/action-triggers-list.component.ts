@@ -27,10 +27,10 @@ export class ActionTriggersListComponent implements OnChanges {
     ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined
   >()
   public search: string = ''
-  public sortLabel: string = $localize`global.sort.label`
+  public sort: string = `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`
+  public readonly sortLabel: string = $localize`global.sort.label`
   public readonly iconButton = IconButton
   public readonly iconButtonSize = IconButtonSize
-  public sort: string = `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`
   public readonly sortActionsTriggers: SofieDroppdownOptions[] = [
     { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-a-z.label` },
     { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.REVERSE_ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-z-a.label` },

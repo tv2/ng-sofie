@@ -1,16 +1,16 @@
 :host {
   flex-grow: 2;
-  padding-left: 2rem;
+  padding-left: 32px;
   & .c-select-actions-triggers {
     width: 100%;
     background-color: #d5d5d5;
     & h3 {
       margin-top: 0;
-      margin-bottom: 1rem;
+      margin-bottom: 16px;
     }
     &__field {
       width: 100%;
-      margin-bottom: 1rem;
+      margin-bottom: 16px;
       & input {
         width: 100%;
       }
@@ -24,9 +24,9 @@
         flex-wrap: wrap;
         & sofie-single-action-trigger-box {
           flex: 0 0 15%;
-          min-width: 6rem;
-          max-width: 7rem;
-          height: 5.5rem;
+          min-width: 100px;
+          max-width: 115px;
+          height: 90px;
           border-radius: 10px;
           margin-bottom: 8px;
           margin-right: 8px;
