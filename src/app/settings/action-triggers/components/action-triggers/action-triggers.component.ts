@@ -15,7 +15,7 @@ import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-do
 export class ActionTriggersComponent implements OnInit, OnDestroy {
   public selectedAction: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined
   public createAction: boolean
-  public loading: boolean
+  public loading: boolean = true
   public actions: Tv2PartAction[]
   public actionTriggers: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
   private readonly unsubscribe$: Subject<null> = new Subject<null>()
@@ -28,9 +28,8 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.loading = true
     this.actionStateService
-      .subscribeToRundownActions('jSXbtcsHTPjebGXurMzP401Z3u0_')
+      .subscribeToRundownActions()
       .then(observable => observable.subscribe(actions => this.onActionsChanged(actions as Tv2PartAction[])))
       .then(() => this.subscribeForActionTriggerObservable())
       .catch(error => this.logger.data(error).error('Error while listening to Action events'))
@@ -55,7 +54,7 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
   }
 
   private onActionsChanged(loadedActions: Tv2PartAction[]): void {
-    this.actions = loadedActions
+    this.actions = JSON.parse(JSON.stringify(loadedActions))
     this.loading = false
   }
 

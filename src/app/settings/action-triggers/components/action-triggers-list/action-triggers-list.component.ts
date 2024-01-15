@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import {
   ActionTrigger,
@@ -19,7 +19,7 @@ import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-do
   templateUrl: './action-triggers-list.component.html',
   styleUrls: ['./action-triggers-list.component.scss'],
 })
-export class ActionTriggersListComponent implements OnInit {
+export class ActionTriggersListComponent implements OnChanges {
   @Input() public actionTriggers: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
   @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined
   @Output() private readonly actionTriggerSelect: EventEmitter<ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined> = new EventEmitter<
@@ -53,8 +53,11 @@ export class ActionTriggersListComponent implements OnInit {
     private readonly actionTriggerService: ActionTriggerService
   ) {}
 
-  public ngOnInit(): void {
-    this.newSortSelect(this.sort)
+  public ngOnChanges(changes: SimpleChanges): void {
+    const actionTriggerChange: SimpleChange | undefined = changes['actionTriggers']
+    if (actionTriggerChange) {
+      this.newSortSelect(this.sort)
+    }
   }
 
   get filteredActionsTriggers(): ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[] {
@@ -67,11 +70,7 @@ export class ActionTriggersListComponent implements OnInit {
   }
 
   public selectActionTrigger(actionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined): void {
-    if (this.selectedActionTrigger?.id === actionTrigger?.id) {
-      this.actionTriggerSelect.emit(undefined)
-    } else {
-      this.actionTriggerSelect.emit(actionTrigger)
-    }
+    this.actionTriggerSelect.emit(this.selectedActionTrigger?.id === actionTrigger?.id ? undefined : actionTrigger)
   }
 
   public actionTriggerCheckToggle(isSelected: boolean, index: number): void {
@@ -135,18 +134,22 @@ export class ActionTriggersListComponent implements OnInit {
   }
 
   public actionWithSelected(userAction: string): void {
-    if (userAction === UserActionsWithSelectedTriggers.DELETE) {
-      this.dialogService.createConfirmDialog($localize`action-triggers.delete-selected.label`, $localize`action-triggers.delete-selected.confirmation`, 'Delete', () =>
-        this.deleteActionTriggerById(this.selectedActionTriggers[0].id, true)
-      )
-    } else if (userAction === UserActionsWithSelectedTriggers.EXPORT) {
-      this.exportSelectedTriggers()
-    } else if (userAction === UserActionsWithSelectedTriggers.TOGGLE_SELECT) {
-      this.toggleSelectUnselectAll()
-    } else if (userAction === UserActionsWithSelectedTriggers.DISABLE_SELECTION) {
-      this.selectMode = false
-      this.unselectAllActionsTriggers()
-      this.checkSelectedCount()
+    switch (userAction) {
+      case UserActionsWithSelectedTriggers.DELETE:
+        return this.dialogService.createConfirmDialog($localize`action-triggers.delete-selected.label`, $localize`action-triggers.delete-selected.confirmation`, 'Delete', () =>
+          this.deleteActionTriggerById(this.selectedActionTriggers[0].id, true)
+        )
+      case UserActionsWithSelectedTriggers.EXPORT:
+        return this.exportSelectedTriggers()
+      case UserActionsWithSelectedTriggers.TOGGLE_SELECT:
+        return this.toggleSelectUnselectAll()
+      case UserActionsWithSelectedTriggers.DISABLE_SELECTION:
+        this.selectMode = false
+        this.unselectAllActionsTriggers()
+        this.checkSelectedCount()
+        break
+      default:
+        return
     }
   }
 
@@ -166,11 +169,7 @@ export class ActionTriggersListComponent implements OnInit {
         }
       }
       if (option.key === UserActionsWithSelectedTriggers.EXPORT || option.key === UserActionsWithSelectedTriggers.DELETE) {
-        if (this.selectedCount > 0) {
-          option.disabled = false
-        } else {
-          option.disabled = true
-        }
+        option.disabled = this.selectedCount <= 0
       }
     })
   }

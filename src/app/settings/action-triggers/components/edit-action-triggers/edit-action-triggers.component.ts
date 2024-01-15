@@ -61,21 +61,20 @@ export class EditActionTriggersComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     const actionTriggerChange: SimpleChange | undefined = changes['selectedActionTrigger']
-    if (actionTriggerChange) {
-      const action: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined = actionTriggerChange.currentValue
-      this.clearFormArray(this.formKeysArray)
-      this.clearFormArray(this.formMappedToKeysArray)
-      if (action) {
-        this.patchValue(action)
-        this.selectedAction = action.actionInfo
-      } else {
-        this.customFromReset()
-        this.selectedAction = undefined
-      }
-      setTimeout(() => {
-        this.checkActionAndSetValidators()
-      }, 500)
+    if (!actionTriggerChange) {
+      return
     }
+    const action: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined = actionTriggerChange.currentValue
+    this.clearFormArray(this.formKeysArray)
+    this.clearFormArray(this.formMappedToKeysArray)
+    if (action) {
+      this.patchValue(action)
+      this.selectedAction = action.actionInfo
+    } else {
+      this.customFromReset()
+      this.selectedAction = undefined
+    }
+    this.checkActionAndSetValidators()
   }
 
   private customFromReset(): void {
@@ -85,16 +84,16 @@ export class EditActionTriggersComponent implements OnChanges {
 
   public get getFormValidationErrors(): string {
     const errorsFields = []
-    if (this.showErrorFor('actionId')) {
+    if (this.isFormControlInvalid('actionId')) {
       errorsFields.push(this.selectedActionLabel)
     }
-    if (this.showErrorFor('keys', 'data')) {
+    if (this.isFormControlInvalid('keys', 'data')) {
       errorsFields.push(this.keysLabel)
     }
-    if (this.showErrorFor('triggerOn', 'data')) {
+    if (this.isFormControlInvalid('triggerOn', 'data')) {
       errorsFields.push(this.triggerOnLabel)
     }
-    if (this.showErrorFor('actionArguments', 'data') && this.selectedAction?.argument) {
+    if (this.isFormControlInvalid('actionArguments', 'data') && this.selectedAction?.argument) {
       errorsFields.push(this.selectedAction.argument.name)
     }
 
@@ -115,15 +114,15 @@ export class EditActionTriggersComponent implements OnChanges {
   public onKeyDownShortcut(event: KeyboardEvent): void {
     event.preventDefault()
     const newKeyCode: string = SHORTCUT_KEYS_MAPPINGS[event.code] ? SHORTCUT_KEYS_MAPPINGS[event.code] : event.code
-    if (this.keyPress) {
-      const currentKeys: string[] = this.formKeysArray?.value ? this.formKeysArray?.value : []
-      if (currentKeys.findIndex(keyCode => keyCode === newKeyCode) === -1) {
-        this.createKey(newKeyCode, this.formKeysArray)
-      }
-    } else {
+    if (!this.keyPress) {
       this.clearFormArray(this.formKeysArray)
       this.createKey(newKeyCode, this.formKeysArray)
       this.keyPress = true
+      return
+    }
+    const currentKeys: string[] = this.formKeysArray?.value ? this.formKeysArray?.value : []
+    if (currentKeys.findIndex(keyCode => keyCode === newKeyCode) === -1) {
+      this.createKey(newKeyCode, this.formKeysArray)
     }
   }
 
@@ -233,7 +232,7 @@ export class EditActionTriggersComponent implements OnChanges {
     }
   }
 
-  private showErrorFor(name: string, groupName?: string): boolean | undefined {
+  private isFormControlInvalid(name: string, groupName?: string): boolean | undefined {
     if (!!groupName) {
       return this.control(name, groupName)?.invalid
     } else {

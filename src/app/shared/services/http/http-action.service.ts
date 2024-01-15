@@ -16,7 +16,7 @@ export class HttpActionService implements ActionService {
     private readonly actionParser: ActionParser
   ) {}
 
-  public getActions(rundownId: string): Observable<Action[]> {
+  public getActions(rundownId?: string): Observable<Action[]> {
     const url: string = this.getGetActionsUrl(rundownId)
     return this.http.get<HttpResponse<Action[]>>(url).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
@@ -24,8 +24,8 @@ export class HttpActionService implements ActionService {
     )
   }
 
-  private getGetActionsUrl(rundownId: string): string {
-    return `${environment.apiBaseUrl}/actions/rundowns/${rundownId}`
+  private getGetActionsUrl(rundownId?: string): string {
+    return `${environment.apiBaseUrl}/actions${rundownId ? `/rundowns/${rundownId}` : ''}`
   }
 
   public executeAction(actionId: string, rundownId: string, actionArguments?: unknown): Observable<void> {
