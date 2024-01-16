@@ -81,7 +81,7 @@ export class ZodEntityParser implements EntityParser {
   private readonly segmentParser = zod.object({
     id: zod.string().min(1),
     rundownId: zod.string().min(1),
-    name: zod.string().min(1),
+    name: zod.string(),
     isOnAir: zod.boolean(),
     isNext: zod.boolean(),
     isUntimed: zod.boolean(),
