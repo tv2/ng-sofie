@@ -19,9 +19,9 @@ export class DropdownButtonComponent implements OnInit {
   @Input() public iconButtonSize: IconButtonSize
   @Input() public iconButton: IconButton
   @Input() public label: string = ''
-  @Input() public selected: string = ''
+  @Input() public selectedKey: string = ''
   @Input() public options: SofieDroppdownOption[]
-  @Output() private readonly optionSelect: EventEmitter<string> = new EventEmitter<string>()
+  @Output() private readonly newOptionSelected: EventEmitter<string> = new EventEmitter<string>()
   constructor(private readonly iconService: HttpIconService) {}
 
   public iconButtonSizeProp: SizeProp
@@ -32,7 +32,7 @@ export class DropdownButtonComponent implements OnInit {
     this.iconButtonSizeProp = this.iconButtonSize ? this.iconButtonSize : IconButtonSize.M
   }
 
-  public selectOption(option: SofieDroppdownOption): void {
-    this.optionSelect.emit(option.key)
+  public onNewOptionSelected(option: SofieDroppdownOption): void {
+    this.newOptionSelected.emit(option.key)
   }
 }

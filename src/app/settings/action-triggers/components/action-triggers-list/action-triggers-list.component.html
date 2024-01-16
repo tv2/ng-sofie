@@ -2,19 +2,19 @@
   <div class="c-action-triggers-list__search">
     <input type="text" [(ngModel)]="search" placeholder="Search" />
     <sofie-dropdown-button
-      [selected]="sort"
+      [selectedKey]="sort"
       [options]="sortActionsTriggers"
       [label]="sortLabel"
       [iconButton]="iconButton.VERTICAL_OPPOSING_TRIANGLES"
       [iconButtonSize]="iconButtonSize.XL"
-      (optionSelect)="selectNewSort($event)"></sofie-dropdown-button>
+      (newOptionSelected)="selectNewSort($event)"></sofie-dropdown-button>
 
     <sofie-dropdown-button
       *ngIf="selectMode; else turnOnSelectModeBtn"
       [options]="selectedActionTriggerOptions"
       [iconButton]="iconButton.SQUARE_CHECK"
       [iconButtonSize]="iconButtonSize.XL"
-      (optionSelect)="actionWithSelected($event)"
+      (newOptionSelected)="actionWithSelected($event)"
       label="Selected"></sofie-dropdown-button>
 
     <ng-template #turnOnSelectModeBtn>

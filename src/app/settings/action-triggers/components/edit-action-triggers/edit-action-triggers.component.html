@@ -65,7 +65,7 @@
             <sofie-icon-button [iconButton]="iconButton.CIRCLE_QUESTION" [tooltipText]="selectedAction.argument.description" [iconButtonSize]="iconButtonSize.M"></sofie-icon-button
           ></label>
           <input
-            [type]="selectedAction.argument.type === argumentType.NUMBER ? 'number' : 'string'"
+            [type]="selectedAction.argument.type === actionArgumentSchema.NUMBER ? 'number' : 'string'"
             [placeholder]="selectedAction.argument.description"
             [readonly]="submitting"
             formControlName="actionArguments" />

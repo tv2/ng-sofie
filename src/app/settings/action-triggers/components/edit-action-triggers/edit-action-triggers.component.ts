@@ -6,7 +6,7 @@ import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { SelectFieldOptions } from 'src/app/shared/models/forms'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
-import { ArgumentType } from 'src/app/shared/models/action'
+import { ActionArgumentSchema } from 'src/app/shared/models/action'
 import { KeyboardTriggerData, SHORTCUT_KEYS_MAPPINGS } from 'src/app/shared/models/keyboard-trigger'
 
 @Component({
@@ -27,7 +27,7 @@ export class EditActionTriggersComponent implements OnChanges {
   public readonly triggerOnLabel = $localize`action-triggers.trigger-on.label`
   public readonly selectedActionLabel = $localize`action-triggers.selected-action.label`
   public readonly submitBtnTooltipError = $localize`action-triggers.submit-tooltip.error`
-  public readonly argumentType = ArgumentType
+  public readonly actionArgumentSchema = ActionArgumentSchema
   public readonly iconButton = IconButton
   public readonly iconButtonSize = IconButtonSize
   public readonly triggerOnOptions: SelectFieldOptions[] = [
@@ -197,7 +197,8 @@ export class EditActionTriggersComponent implements OnChanges {
   private prepareSendData(formData: ActionTrigger<KeyboardTriggerData>): ActionTrigger<KeyboardTriggerData> {
     const resultData: ActionTrigger<KeyboardTriggerData> = { ...formData }
     if (this.selectedAction?.argument) {
-      resultData.data.actionArguments = formData?.data?.actionArguments && this.selectedAction?.argument.type === ArgumentType.NUMBER ? +formData?.data?.actionArguments : formData.data.actionArguments
+      resultData.data.actionArguments =
+        formData?.data?.actionArguments && this.selectedAction?.argument.type === ActionArgumentSchema.NUMBER ? +formData?.data?.actionArguments : formData.data.actionArguments
     } else {
       delete resultData.data.actionArguments
     }

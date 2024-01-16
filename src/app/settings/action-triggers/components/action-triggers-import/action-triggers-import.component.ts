@@ -21,16 +21,18 @@ export class ActionTriggersImportComponent {
     private readonly snackBar: MatSnackBar
   ) {}
 
-  public fileUpload(event: Event, htmlInput: HTMLInputElement): void {
-    const files = (event.target as HTMLInputElement).files
+  public uploadFile(inputElement: HTMLInputElement): void {
+    const files = inputElement.files
     if (!files?.[0]) {
       this.openDangerSnackBar('Error in imported file')
       return
     }
     const reader = new FileReader()
-    reader.onload = (e: ProgressEvent<FileReader>): void => {
+    reader.onload = (readerProcessEvent: ProgressEvent<FileReader>): void => {
       try {
-        const importedActionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerParser.parseActionTriggers(JSON.parse(e?.target?.result ? e.target.result.toString() : ''))
+        const importedActionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerParser.parseActionTriggers(
+          JSON.parse(readerProcessEvent?.target?.result ? readerProcessEvent.target.result.toString() : '')
+        )
         if (importedActionTriggers.length > 0) {
           this.importedActionTriggers = importedActionTriggers
           this.importItem(0)
@@ -40,7 +42,7 @@ export class ActionTriggersImportComponent {
       } catch {
         this.openDangerSnackBar('Error in imported file')
       }
-      htmlInput.value = ''
+      inputElement.value = ''
     }
     reader.readAsText(files[0])
   }

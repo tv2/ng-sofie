@@ -12,10 +12,10 @@ export interface Action {
 export interface Argument {
   description: string
   name: string
-  type: ArgumentType
+  type: ActionArgumentSchema
 }
 
-export enum ArgumentType {
+export enum ActionArgumentSchema {
   STRING = 'STRING',
   NUMBER = 'NUMBER',
 }
