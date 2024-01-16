@@ -88,6 +88,7 @@ export class ZodEntityParser implements EntityParser {
     isUnsynced: zod.boolean(),
     parts: this.partParser.array(),
     rank: zod.number(),
+    isHidden: zod.boolean(),
     expectedDurationInMs: zod.number().optional(),
     executedAtEpochTime: zod.number().optional(),
   })

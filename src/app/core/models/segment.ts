@@ -10,6 +10,7 @@ export interface Segment {
   readonly isUnsynced: boolean
   readonly parts: Part[]
   readonly rank: number
+  readonly isHidden: boolean
   readonly expectedDurationInMs?: number
   readonly executedAtEpochTime?: number
 }
