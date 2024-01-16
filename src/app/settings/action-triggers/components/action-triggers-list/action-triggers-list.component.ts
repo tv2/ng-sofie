@@ -23,7 +23,7 @@ export enum UserActionsWithSelectedTriggers {
 export class ActionTriggersListComponent implements OnChanges {
   @Input() public actionTriggers: ActionTriggerWithActionInfo<KeyboardTriggerData>[]
   @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined
-  @Output() private readonly actionTriggerSelect: EventEmitter<ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined> = new EventEmitter<
+  @Output() private readonly onActionTriggerOpen: EventEmitter<ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined> = new EventEmitter<
     ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined
   >()
   public search: string = ''
@@ -32,10 +32,10 @@ export class ActionTriggersListComponent implements OnChanges {
   public readonly iconButton = IconButton
   public readonly iconButtonSize = IconButtonSize
   public readonly sortActionsTriggers: SofieDroppdownOption[] = [
-    { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-a-z.label` },
-    { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.REVERSE_ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-z-a.label` },
-    { key: `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.ALPHABETICAL}`, label: $localize`action-triggers-sort.shortcut-a-z.label` },
-    { key: `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.REVERSE_ALPHABETICAL}`, label: $localize`action-triggers-sort.shortcut-z-a.label` },
+    { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-alphabetical.label` },
+    { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.REVERSE_ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-reverse-alphabetical.label` },
+    { key: `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.ALPHABETICAL}`, label: $localize`action-triggers-sort.shortcut-alphabetical.label` },
+    { key: `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.REVERSE_ALPHABETICAL}`, label: $localize`action-triggers-sort.shortcut-reverse-alphabetical.label` },
   ]
 
   public selectedActionTriggerOptions: SofieDroppdownOption[] = [
@@ -70,7 +70,7 @@ export class ActionTriggersListComponent implements OnChanges {
   }
 
   public selectActionTrigger(actionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined): void {
-    this.actionTriggerSelect.emit(this.selectedActionTrigger?.id === actionTrigger?.id ? undefined : actionTrigger)
+    this.onActionTriggerOpen.emit(this.selectedActionTrigger?.id === actionTrigger?.id ? undefined : actionTrigger)
   }
 
   public setActionTriggerSelection(isSelected: boolean, id: string): void {
@@ -93,7 +93,7 @@ export class ActionTriggersListComponent implements OnChanges {
 
   private closeSelectedTabIfAreDeleted(deletedActionId: string): void {
     if (this.selectedActionTrigger?.id === deletedActionId) {
-      this.actionTriggerSelect.emit(undefined)
+      this.onActionTriggerOpen.emit(undefined)
     }
   }
 

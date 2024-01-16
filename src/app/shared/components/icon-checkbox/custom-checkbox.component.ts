@@ -11,9 +11,9 @@ export class CustomCheckboxComponent {
   @Input() public selected: boolean
   @Input() public disabled: boolean
   @Input() public checkboxId: string
-  @Output() private readonly checkboxChange: EventEmitter<boolean> = new EventEmitter<boolean>()
+  @Output() private readonly onChange: EventEmitter<boolean> = new EventEmitter<boolean>()
 
   public checkboxClick(): void {
-    this.checkboxChange.emit(!this.selected)
+    this.onChange.emit(!this.selected)
   }
 }

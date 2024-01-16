@@ -7,14 +7,14 @@
       [label]="sortLabel"
       [iconButton]="iconButton.VERTICAL_OPPOSING_TRIANGLES"
       [iconButtonSize]="iconButtonSize.XL"
-      (newOptionSelected)="selectNewSort($event)"></sofie-dropdown-button>
+      (onSelect)="selectNewSort($event)"></sofie-dropdown-button>
 
     <sofie-dropdown-button
       *ngIf="selectMode; else turnOnSelectModeBtn"
       [options]="selectedActionTriggerOptions"
       [iconButton]="iconButton.SQUARE_CHECK"
       [iconButtonSize]="iconButtonSize.XL"
-      (newOptionSelected)="actionWithSelected($event)"
+      (onSelect)="actionWithSelected($event)"
       label="Selected"></sofie-dropdown-button>
 
     <ng-template #turnOnSelectModeBtn>
@@ -32,7 +32,7 @@
             *ngIf="selectMode"
             [selected]="isActionTriggerSelected(actionsTrigger.id)"
             [checkboxId]="actionsTrigger.id"
-            (checkboxChange)="setActionTriggerSelection($event, actionsTrigger.id)"></sofie-custom-checkbox>
+            (onChange)="setActionTriggerSelection($event, actionsTrigger.id)"></sofie-custom-checkbox>
           <div class="c-action-triggers-list__card--body" (click)="selectActionTrigger(actionsTrigger)">
             <p>
               {{ actionsTrigger.data.label }}

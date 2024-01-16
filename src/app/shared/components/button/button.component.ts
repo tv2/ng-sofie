@@ -14,7 +14,7 @@ export class ButtonComponent implements OnInit {
   @Input() public iconButton: IconButton
   @Input() public label: string = ''
   @Input() public selected: string = ''
-  @Output() public readonly btnClick: EventEmitter<void> = new EventEmitter<void>()
+  @Output() public readonly onClick: EventEmitter<void> = new EventEmitter<void>()
   constructor(private readonly iconService: HttpIconService) {}
 
   public iconButtonSizeProp: SizeProp

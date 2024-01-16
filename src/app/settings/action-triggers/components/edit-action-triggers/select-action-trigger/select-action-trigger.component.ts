@@ -7,14 +7,14 @@ import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
   styleUrls: ['./select-action-trigger.component.scss'],
 })
 export class SelectActionTriggerComponent {
-  @Output() private readonly selectActionTrigger: EventEmitter<Tv2PartAction> = new EventEmitter<Tv2PartAction>()
+  @Output() private readonly onActionTriggerOpen: EventEmitter<Tv2PartAction> = new EventEmitter<Tv2PartAction>()
   @Input() public actions: Tv2PartAction[]
   @Input() public selectedActionId: string | undefined
   @Input() public submitting: boolean
   public search: string = ''
 
   public newActionSelected(action: Tv2PartAction): void {
-    this.selectActionTrigger.emit(action)
+    this.onActionTriggerOpen.emit(action)
   }
 
   get filteredActions(): Tv2PartAction[] {

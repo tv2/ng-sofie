@@ -7,7 +7,7 @@ import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
   styleUrls: ['./single-action-trigger-box.component.scss'],
 })
 export class SingleActionTriggerBoxComponent implements OnInit {
-  @Output() private readonly actionSelect: EventEmitter<Tv2PartAction> = new EventEmitter<Tv2PartAction>()
+  @Output() private readonly onSelect: EventEmitter<Tv2PartAction> = new EventEmitter<Tv2PartAction>()
   @Input() public action: Tv2PartAction
   @Input() public isSelected: boolean
   @Input() public submitting: boolean
@@ -18,6 +18,6 @@ export class SingleActionTriggerBoxComponent implements OnInit {
   }
 
   public selectNewAction(): void {
-    this.actionSelect.emit(this.action)
+    this.onSelect.emit(this.action)
   }
 }

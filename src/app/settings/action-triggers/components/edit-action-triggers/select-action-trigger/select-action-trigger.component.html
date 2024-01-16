@@ -11,7 +11,7 @@
           [action]="action"
           [isSelected]="action.id === selectedActionId"
           [submitting]="submitting"
-          (actionSelect)="newActionSelected($event)"></sofie-single-action-trigger-box>
+          (onSelect)="newActionSelected($event)"></sofie-single-action-trigger-box>
       </ng-container>
       <ng-template #noActions>
         <h4 class="text-center" i18n>action-triggers.no-actions.label</h4>

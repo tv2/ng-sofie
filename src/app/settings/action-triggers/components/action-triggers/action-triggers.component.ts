@@ -66,7 +66,7 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
     this.loading = true
   }
 
-  public actionTriggerSelect(selectedTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined): void {
+  public newActionTriggerOpen(selectedTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined): void {
     this.selectedAction = selectedTrigger
     this.createAction = false
   }

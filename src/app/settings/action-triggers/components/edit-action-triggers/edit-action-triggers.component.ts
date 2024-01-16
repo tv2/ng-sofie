@@ -15,7 +15,7 @@ import { KeyboardTriggerData, SHORTCUT_KEYS_MAPPINGS } from 'src/app/shared/mode
   styleUrls: ['./edit-action-triggers.component.scss'],
 })
 export class EditActionTriggersComponent implements OnChanges {
-  @Output() public readonly cancelActionTrigger: EventEmitter<void> = new EventEmitter<void>()
+  @Output() public readonly onCancel: EventEmitter<void> = new EventEmitter<void>()
   @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined
   @Input() public actions: Tv2PartAction[]
   private keyPress: boolean = false
@@ -162,7 +162,7 @@ export class EditActionTriggersComponent implements OnChanges {
     formArray.push(control)
   }
 
-  public selectNewActionTrigger(action: Tv2PartAction): void {
+  public openNewActionTrigger(action: Tv2PartAction): void {
     this.actionForm.patchValue({ actionId: action.id })
     this.selectedAction = action
     this.control('actionArguments', 'data').patchValue('')

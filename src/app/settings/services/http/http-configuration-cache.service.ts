@@ -3,9 +3,10 @@ import { catchError, Observable } from 'rxjs'
 import { environment } from '../../../../environments/environment'
 import { HttpClient } from '@angular/common/http'
 import { HttpErrorService } from '../../../shared/services/http/http-error.service'
+import { ConfigurationCacheService } from '../configuration-cache.service'
 
 @Injectable()
-export class HttpConfigurationCacheService {
+export class HttpConfigurationCacheService implements ConfigurationCacheService {
   constructor(
     private readonly httpClient: HttpClient,
     private readonly httpErrorService: HttpErrorService

@@ -1,4 +1,4 @@
-<button (click)="btnClick.emit()" class="custom-dropdown-button" mat-button>
+<button (click)="onClick.emit()" class="custom-dropdown-button" mat-button>
   <fa-icon *ngIf="iconButtonProp && iconButtonSizeProp" [icon]="iconButtonProp" [size]="iconButtonSizeProp"></fa-icon>
   <span class="custom-dropdown-button__label" *ngIf="label">{{ label }}</span>
 </button>
