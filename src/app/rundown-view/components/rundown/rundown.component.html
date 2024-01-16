@@ -4,8 +4,7 @@
 >
 
 <!--    TODO - use ngIf or let segment component decide to render minishelf component instead-->
-    <sofie-segment
-        *ngIf="segment.parts.length > 0"
+    <sofie-segment *ngIf="!segment.isHidden"
         [segment]="segment"
         [isRundownActive]="rundown ? rundown.isActive : false"
         [durationInMsUntilSegmentIsPutOnAir]="startOffsetsInMsFromPlayheadForSegments[segment.id]"
@@ -14,9 +13,8 @@
     ></sofie-segment>
 
     <sofie-mini-shelf
-      *ngIf="segment.parts.length > 0"
-      [title]="segment.name"
-      [metadata]="segment.miniShelMetadata"
+        *ngIf="segment.metadata?.miniShelfVideoClipFile || true"
+        [segment]="segment"
     ></sofie-mini-shelf>
 
 </div>

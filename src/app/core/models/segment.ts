@@ -1,17 +1,18 @@
 import { Part } from './part'
-import { MiniShelfMetadata } from '../../rundown-view/components/minishelf/mini-shelf.component'
+import { SegmentMetadata } from './segment-metadata'
 
 export interface Segment {
-  readonly miniShelMetadata?: MiniShelfMetadata
+  readonly executedAtEpochTime?: number
+  readonly expectedDurationInMs?: number
   readonly id: string
-  readonly rundownId: string
-  readonly name: string
-  readonly isOnAir: boolean
+  readonly isHidden: boolean
   readonly isNext: boolean
-  readonly isUntimed: boolean
+  readonly isOnAir: boolean
   readonly isUnsynced: boolean
+  readonly isUntimed: boolean
+  readonly metadata?: SegmentMetadata
+  readonly name: string
   readonly parts: Part[]
   readonly rank: number
-  readonly expectedDurationInMs?: number
-  readonly executedAtEpochTime?: number
+  readonly rundownId: string
 }

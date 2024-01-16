@@ -10,6 +10,7 @@ import { Tv2OutputLayer } from '../models/tv2-output-layer'
 import { Tv2Piece } from '../models/tv2-piece'
 import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Tv2AudioMode } from '../enums/tv2-audio-mode'
+import { StudioConfiguration } from '../models/studio-configuration'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -90,13 +91,12 @@ export class ZodEntityParser implements EntityParser {
     rank: zod.number(),
     expectedDurationInMs: zod.number().optional(),
     executedAtEpochTime: zod.number().optional(),
-    miniShelMetadata: zod
+    metadata: zod
       .object({
-        videoClipFile: zod.string(),
-        duration: zod.number(),
-        thumbnail: zod.string(),
+        miniShelfVideoClipFile: zod.string().optional(),
       })
       .optional(),
+    isHidden: zod.boolean(),
   })
 
   private readonly basicRundownParser = zod.object({
@@ -160,5 +160,16 @@ export class ZodEntityParser implements EntityParser {
 
   public parseShowStyleVariant(showStyleVariant: unknown): ShowStyleVariant {
     return this.showStyleVariantParser.parse(showStyleVariant)
+  }
+
+  private readonly studioConfigurationParser = zod.object({
+    data: zod.object({
+      settings: zod.object({
+        mediaPreviewUrl: zod.string(),
+      }),
+    }),
+  })
+  public parseStudioConfiguration(studioConfiguration: unknown): StudioConfiguration {
+    return this.studioConfigurationParser.parse(studioConfiguration)
   }
 }

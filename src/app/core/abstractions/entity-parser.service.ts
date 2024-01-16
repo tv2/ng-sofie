@@ -4,6 +4,8 @@ import { Segment } from '../models/segment'
 import { Part } from '../models/part'
 import { Piece } from '../models/piece'
 import { ShowStyleVariant } from '../models/show-style-variant'
+import { StudioConfiguration } from '../models/studio-configuration'
+
 
 export abstract class EntityParser {
   public abstract parseBasicRundown(basicRundown: unknown): BasicRundown
@@ -13,4 +15,5 @@ export abstract class EntityParser {
   public abstract parsePart(part: unknown): Part
   public abstract parsePiece(piece: unknown): Piece
   public abstract parseShowStyleVariant(showStyleVariant: unknown): ShowStyleVariant
+  public abstract parseStudioConfiguration(studioConfiguration: unknown): StudioConfiguration
 }
