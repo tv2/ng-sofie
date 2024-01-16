@@ -1,21 +1,17 @@
-<div
-    class="segments"
-    *ngFor="let segment of rundown?.segments; trackBy: trackSegment"
->
-
-<!--    TODO - use ngIf or let segment component decide to render minishelf component instead-->
-    <sofie-segment *ngIf="!segment.isHidden"
-        [segment]="segment"
-        [isRundownActive]="rundown ? rundown.isActive : false"
-        [durationInMsUntilSegmentIsPutOnAir]="startOffsetsInMsFromPlayheadForSegments[segment.id]"
-        [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
-        [currentEpochTime]="currentEpochTime"
-    ></sofie-segment>
-
-    <sofie-mini-shelf
-        *ngIf="segment.metadata?.miniShelfVideoClipFile"
-        [segment]="segment"
-        [videoClipAction]="miniShelfSegmentActionMappings[segment.id]"
-    ></sofie-mini-shelf>
-
+<div class="segments">
+    <ng-container *ngFor="let segment of rundown?.segments; trackBy: trackSegment">
+        <sofie-segment
+                *ngIf="!segment.isHidden"
+                [segment]="segment"
+                [isRundownActive]="rundown ? rundown.isActive : false"
+                [durationInMsUntilSegmentIsPutOnAir]="startOffsetsInMsFromPlayheadForSegments[segment.id]"
+                [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
+                [currentEpochTime]="currentEpochTime"
+        ></sofie-segment>
+        <sofie-mini-shelf
+                *ngIf="segment.metadata?.miniShelfVideoClipFile"
+                [segment]="segment"
+                [videoClipAction]="miniShelfSegmentActionMappings[segment.id]"
+        ></sofie-mini-shelf>
+    </ng-container>
 </div>
