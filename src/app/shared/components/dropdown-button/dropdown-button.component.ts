@@ -3,7 +3,7 @@ import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core'
 import { IconButton, IconButtonSize } from '../../enums/icon-button'
 import { HttpIconService } from 'src/app/core/services/http/http-icon.service'
 
-export interface SofieDroppdownOptions {
+export interface SofieDroppdownOption {
   label: string
   key: string
   disabled?: boolean
@@ -20,7 +20,7 @@ export class DropdownButtonComponent implements OnInit {
   @Input() public iconButton: IconButton
   @Input() public label: string = ''
   @Input() public selected: string = ''
-  @Input() public options: SofieDroppdownOptions[]
+  @Input() public options: SofieDroppdownOption[]
   @Output() private readonly optionSelect: EventEmitter<string> = new EventEmitter<string>()
   constructor(private readonly iconService: HttpIconService) {}
 
@@ -32,7 +32,7 @@ export class DropdownButtonComponent implements OnInit {
     this.iconButtonSizeProp = this.iconButtonSize ? this.iconButtonSize : IconButtonSize.M
   }
 
-  public selectOption(option: SofieDroppdownOptions): void {
+  public selectOption(option: SofieDroppdownOption): void {
     this.optionSelect.emit(option.key)
   }
 }

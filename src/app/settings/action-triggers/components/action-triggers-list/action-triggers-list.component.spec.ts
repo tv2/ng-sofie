@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { ActionTriggersListComponent, UserActionsWithSelectedTriggers } from './action-triggers-list.component'
+import { ActionTriggersListComponent } from './action-triggers-list.component'
 import { instance, mock } from '@typestrong/ts-mockito'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { TestEntityFactory } from 'src/app/test/factories/test-entity.factory'
@@ -41,24 +41,11 @@ describe('ActionTriggersListComponent', () => {
 
   it('should action trigger toggle select and unselect', async () => {
     const component = await configureTestBed()
-    expect(component.selectedCount).toBe(0)
-    component.actionTriggerCheckToggle(true, 0)
-    expect(component.actionTriggers[0].data.selected).toBe(true)
-    expect(component.selectedCount).toBe(1)
-    component.actionTriggerCheckToggle(false, 0)
-    expect(component.actionTriggers[0].data.selected).toBe(false)
-    expect(component.selectedCount).toBe(0)
-  })
-
-  it('should toggle select all action triggers select and unselect all items', async () => {
-    const component = await configureTestBed()
-    expect(component.selectedCount).toBe(0)
-    component.actionWithSelected(UserActionsWithSelectedTriggers.TOGGLE_SELECT)
-    expect(component.actionTriggers[0].data.selected).toBe(true)
-    expect(component.actionTriggers[1].data.selected).toBe(true)
-    expect(component.selectedCount).toBe(2)
-    component.actionWithSelected(UserActionsWithSelectedTriggers.TOGGLE_SELECT)
-    expect(component.actionTriggers[0].data.selected).toBe(false)
-    expect(component.selectedCount).toBe(0)
+    const actionTriggerOneId: string = component.actionTriggers[0].id
+    expect(component.isActionTriggerSelected(actionTriggerOneId)).toBe(false)
+    component.setActionTriggerSelection(true, actionTriggerOneId)
+    expect(component.isActionTriggerSelected(actionTriggerOneId)).toBe(true)
+    component.setActionTriggerSelection(false, actionTriggerOneId)
+    expect(component.isActionTriggerSelected(actionTriggerOneId)).toBe(false)
   })
 })

@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
 import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-download.service'
-import { KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
+import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 
 @Component({
   selector: 'sofie-action-triggers',
@@ -14,11 +14,11 @@ import { KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/sh
   styleUrls: ['./action-triggers.component.scss'],
 })
 export class ActionTriggersComponent implements OnInit, OnDestroy {
-  public selectedAction: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined
+  public selectedAction: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined
   public createAction: boolean
   public loading: boolean = true
   public actions: Tv2PartAction[]
-  public actionTriggers: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
+  public actionTriggers: ActionTriggerWithActionInfo<KeyboardTriggerData>[]
   private readonly unsubscribe$: Subject<null> = new Subject<null>()
 
   constructor(
@@ -45,7 +45,7 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
           this.actionTriggers = JSON.parse(
             JSON.stringify(
               (triggers as ActionTrigger<KeyboardTriggerData>[]).map(trigger => {
-                return { ...trigger, ...{ data: { selected: false, ...trigger.data }, actionInfo: this.actions.find(action => action.id === trigger.actionId) } }
+                return { ...trigger, actionInfo: this.actions.find(action => action.id === trigger.actionId) }
               })
             )
           )
@@ -68,7 +68,7 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
     this.loading = true
   }
 
-  public actionTriggerSelect(selectedTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined): void {
+  public actionTriggerSelect(selectedTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined): void {
     this.selectedAction = selectedTrigger
     this.createAction = false
   }

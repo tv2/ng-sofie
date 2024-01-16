@@ -11,7 +11,7 @@
 
     <sofie-dropdown-button
       *ngIf="selectMode; else turnOnSelectModeBtn"
-      [options]="selectedTriggersOptions"
+      [options]="selectedActionTriggerOptions"
       [iconButton]="iconButton.SQUARE_CHECK"
       [iconButtonSize]="iconButtonSize.XL"
       (optionSelect)="actionWithSelected($event)"
@@ -30,9 +30,9 @@
           *ngFor="let actionsTrigger of filteredActionsTriggers; let i = index">
           <sofie-custom-checkbox
             *ngIf="selectMode"
-            [selected]="actionsTrigger.data.selected ? actionsTrigger.data.selected : false"
+            [selected]="isActionTriggerSelected(actionsTrigger.id)"
             [checkboxId]="actionsTrigger.id"
-            (checkboxChange)="actionTriggerCheckToggle($event, i)"></sofie-custom-checkbox>
+            (checkboxChange)="setActionTriggerSelection($event, actionsTrigger.id)"></sofie-custom-checkbox>
           <div class="c-action-triggers-list__card--body" (click)="selectActionTrigger(actionsTrigger)">
             <p>
               {{ actionsTrigger.data.label }}
@@ -44,7 +44,11 @@
           </div>
           <div class="c-action-triggers-list__card--actions">
             <sofie-icon-button [iconButton]="iconButton.PEN" tooltipText="Edit action trigger" [iconButtonSize]="iconButtonSize.L" (click)="selectActionTrigger(actionsTrigger)"></sofie-icon-button>
-            <sofie-icon-button [iconButton]="iconButton.TWO_SHEETS_COPY" tooltipText="Copy action trigger" [iconButtonSize]="iconButtonSize.L" (click)="actionTriggerCopy(actionsTrigger)"></sofie-icon-button>
+            <sofie-icon-button
+              [iconButton]="iconButton.TWO_SHEETS_COPY"
+              tooltipText="Copy action trigger"
+              [iconButtonSize]="iconButtonSize.L"
+              (click)="actionTriggerCopy(actionsTrigger)"></sofie-icon-button>
             <sofie-icon-button
               [iconButton]="iconButton.TRASH_CAN"
               tooltipText="Delete action trigger"

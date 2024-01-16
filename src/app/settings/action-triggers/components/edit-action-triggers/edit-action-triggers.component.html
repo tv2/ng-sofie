@@ -1,6 +1,6 @@
 <div class="c-edit-actions-triggers">
   <h4>
-    <span *ngIf="isUpdateAction; else createLabel" i18n>action-triggers.update-shortcut.title</span>
+    <span *ngIf="isUpdateForm; else createLabel" i18n>action-triggers.update-shortcut.title</span>
     <ng-template #createLabel><span i18n>action-triggers.create-shortcut.title</span></ng-template>
   </h4>
   <form class="c-edit-actions-triggers__form" (ngSubmit)="submit()" [formGroup]="actionForm">
@@ -76,7 +76,7 @@
         <button
           [title]="actionForm.invalid ? submitBtnTooltipError + ': ' + getFormValidationErrors : ''"
           [disabled]="actionForm.invalid"
-          *ngIf="isUpdateAction; else createButton"
+          *ngIf="isUpdateForm; else createButton"
           class="c-sofie-button c-sofie-button-primary"
           type="submit">
           <span i18n>global.update.button</span>

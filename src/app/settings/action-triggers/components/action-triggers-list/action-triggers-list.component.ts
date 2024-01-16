@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { ActionTrigger, ActionTriggerWithActionInfo } from 'src/app/shared/models/action-trigger'
-import { SofieDroppdownOptions } from 'src/app/shared/components/dropdown-button/dropdown-button.component'
+import { SofieDroppdownOption } from 'src/app/shared/components/dropdown-button/dropdown-button.component'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-download.service'
-import { ActionTriggerSortKeys, KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
+import { ActionTriggerSortKeys, KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 import { SortOrder } from 'src/app/shared/models/forms'
 
 export enum UserActionsWithSelectedTriggers {
@@ -21,32 +21,31 @@ export enum UserActionsWithSelectedTriggers {
   styleUrls: ['./action-triggers-list.component.scss'],
 })
 export class ActionTriggersListComponent implements OnChanges {
-  @Input() public actionTriggers: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
-  @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined
-  @Output() private readonly actionTriggerSelect: EventEmitter<ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined> = new EventEmitter<
-    ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined
+  @Input() public actionTriggers: ActionTriggerWithActionInfo<KeyboardTriggerData>[]
+  @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined
+  @Output() private readonly actionTriggerSelect: EventEmitter<ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined> = new EventEmitter<
+    ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined
   >()
   public search: string = ''
   public sort: string = `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`
   public readonly sortLabel: string = $localize`global.sort.label`
   public readonly iconButton = IconButton
   public readonly iconButtonSize = IconButtonSize
-  public readonly sortActionsTriggers: SofieDroppdownOptions[] = [
+  public readonly sortActionsTriggers: SofieDroppdownOption[] = [
     { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-a-z.label` },
     { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.REVERSE_ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-z-a.label` },
     { key: `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.ALPHABETICAL}`, label: $localize`action-triggers-sort.shortcut-a-z.label` },
     { key: `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.REVERSE_ALPHABETICAL}`, label: $localize`action-triggers-sort.shortcut-z-a.label` },
   ]
 
-  public readonly selectedTriggersOptions: SofieDroppdownOptions[] = [
+  public selectedActionTriggerOptions: SofieDroppdownOption[] = [
     { key: UserActionsWithSelectedTriggers.DISABLE_SELECTION, label: $localize`action-triggers.disable-multi-selection.label`, disabled: false },
     { key: UserActionsWithSelectedTriggers.TOGGLE_SELECT, label: $localize`global.select-all.label`, disabled: false },
     { key: UserActionsWithSelectedTriggers.EXPORT, label: $localize`global.export-selected.label`, disabled: true },
     { key: UserActionsWithSelectedTriggers.DELETE, label: $localize`global.delete-selected.label`, disabled: true },
   ]
-
-  public selectedCount: number = 0
   public selectMode: boolean = false
+  private readonly selectedActionTriggerIds: Set<string> = new Set()
 
   constructor(
     private readonly dialogService: DialogService,
@@ -61,7 +60,7 @@ export class ActionTriggersListComponent implements OnChanges {
     }
   }
 
-  get filteredActionsTriggers(): ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[] {
+  get filteredActionsTriggers(): ActionTriggerWithActionInfo<KeyboardTriggerData>[] {
     return this.actionTriggers.filter(
       trigger =>
         trigger.data.label.toLocaleLowerCase().includes(this.search.toLocaleLowerCase()) ||
@@ -70,30 +69,39 @@ export class ActionTriggersListComponent implements OnChanges {
     )
   }
 
-  public selectActionTrigger(actionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined): void {
+  public selectActionTrigger(actionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined): void {
     this.actionTriggerSelect.emit(this.selectedActionTrigger?.id === actionTrigger?.id ? undefined : actionTrigger)
   }
 
-  public actionTriggerCheckToggle(isSelected: boolean, index: number): void {
-    this.actionTriggers[index].data.selected = isSelected
-    this.checkSelectedCount()
+  public setActionTriggerSelection(isSelected: boolean, id: string): void {
+    if (isSelected) {
+      this.selectedActionTriggerIds.add(id)
+    } else {
+      this.selectedActionTriggerIds.delete(id)
+    }
+    this.updateSelectedActionTriggersOptions()
   }
 
   public actionTriggerDelete(actionTriggerId: string): void {
     this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`action-triggers.delete.confirmation`, 'Delete', () => this.deleteActionTriggerById(actionTriggerId))
   }
 
-  private deleteActionTriggerById(actionTriggerId: string, deleteAllSelected?: boolean): void {
-    if (deleteAllSelected) {
-      for (let deleteActionTrigger of this.selectedActionTriggers) {
-        this.actionTriggerService.deleteActionTrigger(deleteActionTrigger.id).subscribe()
-      }
-    } else {
-      this.actionTriggerService.deleteActionTrigger(actionTriggerId).subscribe()
+  private deleteActionTriggerById(actionTriggerId: string): void {
+    this.closeSelectedTabIfAreDeleted(actionTriggerId)
+    this.actionTriggerService.deleteActionTrigger(actionTriggerId).subscribe()
+  }
+
+  private closeSelectedTabIfAreDeleted(deletedActionId: string): void {
+    if (this.selectedActionTrigger?.id === deletedActionId) {
+      this.actionTriggerSelect.emit(undefined)
     }
   }
 
-  public actionTriggerCopy(actionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>): void {
+  private deleteSelectedActionTriggers(): void {
+    this.selectedActionTriggerIds.forEach(actionTriggerId => this.deleteActionTriggerById(actionTriggerId))
+  }
+
+  public actionTriggerCopy(actionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData>): void {
     const copyPayload: ActionTrigger<KeyboardTriggerData> = {
       actionId: actionTrigger.actionId,
       id: '',
@@ -139,7 +147,7 @@ export class ActionTriggersListComponent implements OnChanges {
     switch (userAction) {
       case UserActionsWithSelectedTriggers.DELETE:
         return this.dialogService.createConfirmDialog($localize`action-triggers.delete-selected.label`, $localize`action-triggers.delete-selected.confirmation`, 'Delete', () =>
-          this.deleteActionTriggerById(this.selectedActionTriggers[0].id, true)
+          this.deleteSelectedActionTriggers()
         )
       case UserActionsWithSelectedTriggers.EXPORT:
         return this.exportSelectedTriggers()
@@ -148,67 +156,86 @@ export class ActionTriggersListComponent implements OnChanges {
       case UserActionsWithSelectedTriggers.DISABLE_SELECTION:
         this.selectMode = false
         this.unselectAllActionsTriggers()
-        this.checkSelectedCount()
+        this.updateSelectedActionTriggersOptions()
         break
       default:
         return
     }
   }
 
-  private get selectedActionTriggers(): ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[] {
-    return this.actionTriggers.filter(item => item.data.selected)
+  private updateSelectedActionTriggersOptions(): void {
+    this.selectedActionTriggerOptions = this.selectedActionTriggerOptions.map(this.updateSelectedActionTriggersOption.bind(this))
   }
 
-  private checkSelectedCount(): void {
-    this.selectedCount = this.actionTriggers.filter(item => item.data.selected).length
-    const toggleSelectIndex = this.selectedTriggersOptions.findIndex(item => item.key === UserActionsWithSelectedTriggers.TOGGLE_SELECT)
-    this.selectedTriggersOptions.forEach(option => {
-      if (option.key === UserActionsWithSelectedTriggers.TOGGLE_SELECT) {
-        if (this.selectedCount === this.actionTriggers.length) {
-          this.selectedTriggersOptions[toggleSelectIndex].label = $localize`global.unselect-all.label`
-        } else {
-          this.selectedTriggersOptions[toggleSelectIndex].label = $localize`global.select-all.label`
+  private updateSelectedActionTriggersOption(option: SofieDroppdownOption): SofieDroppdownOption {
+    switch (option.key) {
+      case UserActionsWithSelectedTriggers.TOGGLE_SELECT:
+        return {
+          ...option,
+          label: this.areAllActionTriggersSelected() ? $localize`global.unselect-all.label` : $localize`global.select-all.label`,
         }
-      }
-      if (option.key === UserActionsWithSelectedTriggers.EXPORT || option.key === UserActionsWithSelectedTriggers.DELETE) {
-        option.disabled = this.selectedCount <= 0
-      }
-    })
+      case UserActionsWithSelectedTriggers.EXPORT:
+      case UserActionsWithSelectedTriggers.DELETE:
+        return {
+          ...option,
+          disabled: this.isNoActionTriggerSelected(),
+        }
+      default:
+        return option
+    }
+  }
+
+  private areAllActionTriggersSelected(): boolean {
+    return this.actionTriggers.length === this.selectedActionTriggerIds.size
+  }
+
+  private isNoActionTriggerSelected(): boolean {
+    return this.selectedActionTriggerIds.size === 0
+  }
+
+  public isActionTriggerSelected(id: string): boolean {
+    return this.selectedActionTriggerIds.has(id)
   }
 
   private exportSelectedTriggers(): void {
-    const triggersCopy: ActionTrigger<KeyboardAndSelectionTriggerData>[] = this.selectedActionTriggers.map(item => {
-      return {
-        actionId: item.actionId,
-        id: item.id,
-        data: {
-          keys: item.data.keys,
-          actionArguments: item.data.actionArguments,
-          label: item.data.label,
-          triggerOn: item.data.triggerOn,
-          mappedToKeys: item.data.mappedToKeys,
-        },
+    const selectedTriggers: ActionTrigger<KeyboardTriggerData>[] = []
+    this.selectedActionTriggerIds.forEach(actionTriggerId => {
+      const actionTrigger: ActionTrigger<KeyboardTriggerData> | undefined = this.actionTriggers.find(actionTriggerItem => actionTriggerItem.id === actionTriggerId)
+      if (!actionTrigger) {
+        return
       }
+      selectedTriggers.push({
+        actionId: actionTrigger.actionId,
+        id: actionTrigger.id,
+        data: {
+          keys: actionTrigger.data.keys,
+          actionArguments: actionTrigger.data.actionArguments,
+          label: actionTrigger.data.label,
+          triggerOn: actionTrigger.data.triggerOn,
+          mappedToKeys: actionTrigger.data.mappedToKeys,
+        },
+      })
     })
-    this.fileDownloadService.downloadText(JSON.stringify(triggersCopy), 'selected-actions-triggers.json')
+
+    this.fileDownloadService.downloadText(JSON.stringify(selectedTriggers), 'selected-actions-triggers.json')
     this.unselectAllActionsTriggers()
-    this.checkSelectedCount()
+    this.updateSelectedActionTriggersOptions()
   }
 
   private toggleSelectUnselectAll(): void {
-    if (this.selectedCount === this.actionTriggers.length) {
+    if (this.areAllActionTriggersSelected()) {
       this.unselectAllActionsTriggers()
     } else {
       this.selectAllActionsTriggers()
     }
-    this.checkSelectedCount()
+    this.updateSelectedActionTriggersOptions()
   }
 
   private unselectAllActionsTriggers(): void {
-    this.selectedActionTriggers.forEach(trigger => (trigger.data.selected = false))
+    this.selectedActionTriggerIds.clear()
   }
 
   private selectAllActionsTriggers(): void {
-    this.actionTriggers.forEach(trigger => (trigger.data.selected = true))
+    this.actionTriggers.forEach(trigger => this.setActionTriggerSelection(true, trigger.id))
   }
 }

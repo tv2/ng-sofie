@@ -3,7 +3,7 @@ import { ActionTrigger, ActionTriggerWithActionInfo } from 'src/app/shared/model
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActionTriggerParser } from 'src/app/shared/abstractions/action-trigger-parser.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
-import { KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
+import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 
 @Component({
   selector: 'sofie-action-triggers-import',
@@ -11,9 +11,9 @@ import { KeyboardAndSelectionTriggerData, KeyboardTriggerData } from 'src/app/sh
   styleUrls: ['./action-triggers-import.component.scss'],
 })
 export class ActionTriggersImportComponent {
-  @Input() public actionTriggers: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData>[]
+  @Input() public actionTriggers: ActionTriggerWithActionInfo<KeyboardTriggerData>[]
   @Input() public disabled: boolean
-  private importedActionTriggers: ActionTrigger<KeyboardAndSelectionTriggerData>[]
+  private importedActionTriggers: ActionTrigger<KeyboardTriggerData>[]
 
   constructor(
     private readonly actionTriggerService: ActionTriggerService,
@@ -30,7 +30,7 @@ export class ActionTriggersImportComponent {
     const reader = new FileReader()
     reader.onload = (e: ProgressEvent<FileReader>): void => {
       try {
-        const importedActionTriggers: ActionTrigger<KeyboardAndSelectionTriggerData>[] = this.actionTriggerParser.parseActionTriggers(JSON.parse(e?.target?.result ? e.target.result.toString() : ''))
+        const importedActionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerParser.parseActionTriggers(JSON.parse(e?.target?.result ? e.target.result.toString() : ''))
         if (importedActionTriggers.length > 0) {
           this.importedActionTriggers = importedActionTriggers
           this.importItem(0)

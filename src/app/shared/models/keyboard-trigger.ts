@@ -10,10 +10,6 @@ export interface KeyboardTriggerData {
   mappedToKeys?: Keys
 }
 
-export interface KeyboardAndSelectionTriggerData extends KeyboardTriggerData {
-  selected?: boolean
-}
-
 export enum ActionTriggerSortKeys {
   ACTION = 'ACTION',
   SHORTCUT = 'SHORTCUT',

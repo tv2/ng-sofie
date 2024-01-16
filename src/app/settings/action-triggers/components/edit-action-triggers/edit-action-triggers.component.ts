@@ -7,7 +7,7 @@ import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { SelectFieldOptions } from 'src/app/shared/models/forms'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 import { ArgumentType } from 'src/app/shared/models/action'
-import { KeyboardAndSelectionTriggerData, KeyboardTriggerData, SHORTCUT_KEYS_MAPPINGS } from 'src/app/shared/models/keyboard-trigger'
+import { KeyboardTriggerData, SHORTCUT_KEYS_MAPPINGS } from 'src/app/shared/models/keyboard-trigger'
 
 @Component({
   selector: 'sofie-edit-action-triggers',
@@ -16,7 +16,7 @@ import { KeyboardAndSelectionTriggerData, KeyboardTriggerData, SHORTCUT_KEYS_MAP
 })
 export class EditActionTriggersComponent implements OnChanges {
   @Output() public readonly cancelActionTrigger: EventEmitter<void> = new EventEmitter<void>()
-  @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined
+  @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined
   @Input() public actions: Tv2PartAction[]
   private keyPress: boolean = false
   public mappedToKeysFocus: boolean = false
@@ -35,18 +35,18 @@ export class EditActionTriggersComponent implements OnChanges {
     { key: KeyEventType.RELEASED, label: $localize`global.on-key-released.label` },
   ]
   constructor(
-    private readonly fb: FormBuilder,
+    private readonly formBuilder: FormBuilder,
     private readonly actionTriggerService: ActionTriggerService
   ) {}
 
-  public actionForm: UntypedFormGroup = this.fb.group({
+  public actionForm: UntypedFormGroup = this.formBuilder.group({
     actionId: ['', [Validators.required]],
-    data: this.fb.group({
-      keys: this.fb.array([], [Validators.required]),
+    data: this.formBuilder.group({
+      keys: this.formBuilder.array([], [Validators.required]),
       actionArguments: [''],
       label: [''],
       triggerOn: [KeyEventType.RELEASED, [Validators.required]],
-      mappedToKeys: this.fb.array([]),
+      mappedToKeys: this.formBuilder.array([]),
     }),
   })
 
@@ -65,9 +65,9 @@ export class EditActionTriggersComponent implements OnChanges {
     if (!actionTriggerChange) {
       return
     }
-    const action: ActionTriggerWithActionInfo<KeyboardAndSelectionTriggerData> | undefined = actionTriggerChange.currentValue
-    this.clearFormArray(this.formKeysArray)
-    this.clearFormArray(this.formMappedToKeysArray)
+    const action: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined = actionTriggerChange.currentValue
+    this.formKeysArray.clear()
+    this.formMappedToKeysArray.clear()
     if (action) {
       this.patchValue(action)
       this.selectedAction = action.actionInfo
@@ -80,6 +80,8 @@ export class EditActionTriggersComponent implements OnChanges {
 
   private customFromReset(): void {
     this.actionForm.reset()
+    this.formKeysArray.clear()
+    this.formMappedToKeysArray.clear()
     this.control('triggerOn', 'data').patchValue(KeyEventType.RELEASED)
   }
 
@@ -101,14 +103,11 @@ export class EditActionTriggersComponent implements OnChanges {
     return errorsFields.join(', ')
   }
 
-  private patchValue(actionValue: ActionTrigger<KeyboardAndSelectionTriggerData>): void {
+  private patchValue(actionValue: ActionTrigger<KeyboardTriggerData>): void {
     this.actionForm.patchValue(actionValue)
     this.addArrValues(actionValue.data.keys, this.formKeysArray)
-  }
-
-  private clearFormArray(formArray: UntypedFormArray): void {
-    while (formArray.length !== 0) {
-      formArray.removeAt(0)
+    if (actionValue.data.mappedToKeys) {
+      this.addArrValues(actionValue.data.mappedToKeys, this.formMappedToKeysArray)
     }
   }
 
@@ -116,13 +115,13 @@ export class EditActionTriggersComponent implements OnChanges {
     event.preventDefault()
     const newKeyCode: string = SHORTCUT_KEYS_MAPPINGS[event.code] ? SHORTCUT_KEYS_MAPPINGS[event.code] : event.code
     if (!this.keyPress) {
-      this.clearFormArray(this.formKeysArray)
+      this.formKeysArray.clear()
       this.createKey(newKeyCode, this.formKeysArray)
       this.keyPress = true
       return
     }
     const currentKeys: string[] = this.formKeysArray?.value ? this.formKeysArray?.value : []
-    if (currentKeys.findIndex(keyCode => keyCode === newKeyCode) === -1) {
+    if (currentKeys.every(keyCode => keyCode !== newKeyCode)) {
       this.createKey(newKeyCode, this.formKeysArray)
     }
   }
@@ -131,17 +130,17 @@ export class EditActionTriggersComponent implements OnChanges {
     event.preventDefault()
     if (this.mappedToKeysFocus) {
       this.mappedToKeysFocus = false
-      this.clearFormArray(this.formMappedToKeysArray)
+      this.formMappedToKeysArray.clear()
     }
     const newKeyCode: string = SHORTCUT_KEYS_MAPPINGS[event.code] ? SHORTCUT_KEYS_MAPPINGS[event.code] : event.code
 
     const currentKeys: string[] = this.formMappedToKeysArray?.value ? this.formMappedToKeysArray?.value : []
-    if (currentKeys.findIndex(keyCode => keyCode === newKeyCode) === -1) {
+    if (currentKeys.every(keyCode => keyCode !== newKeyCode)) {
       this.createKey(newKeyCode, this.formMappedToKeysArray)
     }
   }
   public deleteMapToData(): void {
-    this.clearFormArray(this.formMappedToKeysArray)
+    this.formMappedToKeysArray.clear()
   }
 
   private get formKeysArray(): UntypedFormArray {
@@ -174,8 +173,8 @@ export class EditActionTriggersComponent implements OnChanges {
     this.keyPress = false
   }
 
-  public get isUpdateAction(): boolean {
-    return !!this.selectedActionTrigger && !!this.selectedActionTrigger.id
+  public get isUpdateForm(): boolean {
+    return !!this.selectedActionTrigger
   }
 
   public submit(): void {
@@ -188,7 +187,7 @@ export class EditActionTriggersComponent implements OnChanges {
       this.control('label', 'data').patchValue((this.selectedAction as Tv2PartAction).name)
     }
     const actionTriggerValue: ActionTrigger<KeyboardTriggerData> = this.prepareSendData(this.actionForm.value)
-    if (this.isUpdateAction) {
+    if (this.isUpdateForm) {
       this.updateActionTrigger({ ...actionTriggerValue, id: this.selectedActionTrigger?.id as string })
     } else {
       this.createActionTrigger(actionTriggerValue)
@@ -206,23 +205,16 @@ export class EditActionTriggersComponent implements OnChanges {
   }
 
   private createActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>): void {
-    this.actionTriggerService.createActionTrigger(actionTrigger).subscribe({
-      next: () => {
-        this.clearFormArray(this.formKeysArray)
-        this.customFromReset()
-        this.selectedAction = undefined
-        this.checkActionAndSetValidators()
-        this.submitting = false
-      },
+    this.actionTriggerService.createActionTrigger(actionTrigger).subscribe(() => {
+      this.customFromReset()
+      this.selectedAction = undefined
+      this.checkActionAndSetValidators()
+      this.submitting = false
     })
   }
 
   private updateActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>): void {
-    this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe({
-      next: () => {
-        this.submitting = false
-      },
-    })
+    this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe(() => (this.submitting = false))
   }
 
   private control(name: string, groupName?: string): AbstractControl {
