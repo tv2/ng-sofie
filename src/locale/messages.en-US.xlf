@@ -70,10 +70,6 @@
         <source>rundown-overview.settings.title</source>
         <target state="new">Settings</target>
       </trans-unit>
-      <trans-unit id="212168824510245649" datatype="html">
-        <source>settings.action-triggers.label</source>
-        <target state="new">Action triggers</target>
-      </trans-unit>
       <trans-unit id="4380077604653787346" datatype="html">
         <source>settings.clear-cache.label</source>
         <target state="new">Clear cache</target>
@@ -237,6 +233,10 @@
       <trans-unit id="7555703455523755989" datatype="html">
         <source>action-triggers-sort.shortcut-reverse-alphabetical.label</source>
         <target state="new">Shortcut reverse alphabetical</target>
+      </trans-unit>
+      <trans-unit id="6759876909141538174" datatype="html">
+        <source>settings.keyboard-mappings.label</source>
+        <target state="new">Keyboard mappings</target>
       </trans-unit>
     </body>
   </file>

@@ -53,9 +53,6 @@
       <trans-unit id="7774679192134693239" datatype="html">
         <source>rundown-overview.settings.title</source>
       </trans-unit>
-      <trans-unit id="212168824510245649" datatype="html">
-        <source>settings.action-triggers.label</source>
-      </trans-unit>
       <trans-unit id="4380077604653787346" datatype="html">
         <source>settings.clear-cache.label</source>
       </trans-unit>
@@ -178,6 +175,9 @@
       </trans-unit>
       <trans-unit id="7555703455523755989" datatype="html">
         <source>action-triggers-sort.shortcut-reverse-alphabetical.label</source>
+      </trans-unit>
+      <trans-unit id="6759876909141538174" datatype="html">
+        <source>settings.keyboard-mappings.label</source>
       </trans-unit>
     </body>
   </file>
