@@ -2,20 +2,19 @@ import { Component, Input } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration-service'
 import { StudioConfiguration } from '../../../shared/services/studio-configuration'
-import { ActionStateService } from '../../../shared/services/action-state.service'
-import { Tv2Action, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
+import { Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 
 @Component({
   selector: 'sofie-mini-shelf',
   styleUrls: ['./mini-shelf.component.scss'],
   templateUrl: './mini-shelf.component.html',
-  // changeDetection: ChangeDetectionStrategy.OnPush, // needed to stop re-rendering of the component on every tick
 })
 export class MiniShelfComponent {
   @Input() public segment: Segment
   @Input() public videoClipAction: Tv2VideoClipAction | undefined
 
   protected readonly mediaDuration: number
+
   protected get mediaPreviewUrl(): string {
     const url: string = `${this.configurationMediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
     return this.configurationMediaPreviewUrl ? url : 'assets/sofie-logo.svg'

@@ -10,6 +10,8 @@ import { PartEntityService } from '../../../core/services/models/part-entity.ser
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
+import { ActionService } from '../../../shared/abstractions/action.service'
+import { EntityParser } from '../../../core/abstractions/entity-parser.service'
 
 @Component({
   selector: 'sofie-rundown',
@@ -33,6 +35,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
     private readonly partEntityService: PartEntityService,
     private readonly actionStateService: ActionStateService,
+    private readonly entityParser: EntityParser,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownComponent')
@@ -44,13 +47,14 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
       .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
-    void this.actionStateService.subscribeToRundownActions(this.rundown.id).then(actionsObservable => actionsObservable.subscribe(this.onActionsChanged.bind(this)))
+    void this.actionStateService
+      .subscribeToRundownActions(this.rundown.id)
+      .then(actionsObservable => actionsObservable.subscribe(this.onActionsChanged.bind(this)))
   }
 
   private onActionsChanged(actions: Action[]): void {
     this.videoClipActions = actions.filter((action): action is Tv2VideoClipAction => {
-      // TODO - should use validator to check if the action is a TV2Action
-      return (<Tv2Action>action).metadata?.contentType === Tv2ActionContentType.VIDEO_CLIP
+      return this.entityParser.parseTv2Action(action) && (<Tv2Action>action).metadata?.contentType === Tv2ActionContentType.VIDEO_CLIP
     })
     this.updateMiniShelfSegmentActionMappings()
   }
@@ -101,16 +105,18 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private miniShelfSegmentsReducer(actionMap: Record<string, Tv2VideoClipAction>, segment: Segment): Record<string, Tv2VideoClipAction> {
-    let videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
+    const videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
     if (videoClipFile == undefined) {
       return actionMap
     }
-    let action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
-      return action.metadata?.sourceName === videoClipFile
+    console.log('1 [segment.id] : videoClipFile', segment.id, videoClipFile)
+    const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
+      return action.metadata?.fileName === videoClipFile
     })
-    if (action == undefined) {
+    if (action === undefined) {
       return actionMap
     }
+    console.log('3 [segment.id] : action', segment.id, action)
     return { ...actionMap, [segment.id]: action }
   }
 }

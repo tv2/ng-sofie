@@ -11,6 +11,7 @@ import { Tv2Piece } from '../models/tv2-piece'
 import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Tv2AudioMode } from '../enums/tv2-audio-mode'
 import { Configuration } from '../models/configuration'
+import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -171,5 +172,14 @@ export class ZodEntityParser implements EntityParser {
   })
   public parseStudioConfiguration(studioConfiguration: unknown): Configuration {
     return this.studioConfigurationParser.parse(studioConfiguration)
+  }
+
+  private readonly tv2ActionParser = zod.object({
+    metadata: zod.object({
+      contentType: zod.nativeEnum(Tv2ActionContentType),
+    }),
+  })
+  public parseTv2Action(tv2Action: unknown): Tv2Action {
+    return <Tv2Action>this.tv2ActionParser.parse(tv2Action)
   }
 }
