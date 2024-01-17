@@ -1,5 +1,5 @@
 import { Part } from './part'
-import { SegmentMetadata } from './segment-metadata'
+import { Metadata } from './metadata'
 
 export interface Segment {
   readonly executedAtEpochTime?: number
@@ -10,7 +10,7 @@ export interface Segment {
   readonly isOnAir: boolean
   readonly isUnsynced: boolean
   readonly isUntimed: boolean
-  readonly metadata?: SegmentMetadata
+  readonly metadata?: Metadata
   readonly name: string
   readonly parts: Part[]
   readonly rank: number

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration-service'
-import { StudioConfiguration } from '../../../core/models/studio-configuration'
+import { StudioConfiguration } from '../../../shared/services/studio-configuration'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -11,23 +11,19 @@ import { StudioConfiguration } from '../../../core/models/studio-configuration'
   changeDetection: ChangeDetectionStrategy.OnPush, // needed to stop re-rendering of the component on every tick
 })
 export class MiniShelfComponent {
-  public readonly defaultImage: string
+
   @Input() public segment: Segment
 
-  private readonly studioConfiguration: StudioConfiguration
-  protected settingsMediaPreviewUrl: string
-
+  private readonly mediaDuration: number
+  protected mediaPreviewUrl: string
   constructor(private readonly configurationService: ConfigurationService) {
-    this.defaultImage = `https://picsum.photos/id/${~~(Math.random() * (999 - 100 + 1) + 100)}/270/100`
-    this.getConfiguredThumbnailUrl()
-    // let thumbnailU
-    // let mediaDuration
-  }
-  public getConfiguredThumbnailUrl(): void {
-    let config = this.configurationService.getStudioConfiguration()
-    config.subscribe((studioConfig: StudioConfiguration) => {
-      this.settingsMediaPreviewUrl = studioConfig.data.settings.mediaPreviewUrl + '/media/thumbnail/' + this.segment.metadata?.miniShelfVideoClipFile
+    this.mediaPreviewUrl = `https://picsum.photos/id/${~~(Math.random() * (999 - 100 + 1) + 100)}/270/100`
+
+    void this.configurationService.getStudioConfiguration().then((configuration: StudioConfiguration) => {
+      this.mediaPreviewUrl = `${configuration.data.settings.mediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
     })
+    // let thumbnailU
+    this.mediaDuration = ~~(Math.random() * (999 - 100 + 1) + 100)
   }
 
   public getFormattedTitle(): string {
@@ -50,18 +46,12 @@ export class MiniShelfComponent {
   }
 
   public getFormattedDuration(): string {
-    // const date = new Date()
-    // date.setSeconds(this.metadata?.duration?.valueOf() || 0)
-    console.log('date')
+    const date: Date = new Date()
+    date.setSeconds(this.mediaDuration.valueOf() || 0)
 
-    // TODO - miliseconds are not needed BUT show refresh problem that needs to be addressed
-    // return `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}:${
-    // date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
-    // }:${date.getMilliseconds() < 10 ? `00${date.getMilliseconds()}` : date.getMilliseconds() < 100 ? `0${date.getMilliseconds()}` : date.getMilliseconds()}`
-    // return `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}:${
-    //   date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
-    // }`
-    return 'time'
+    return `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}:${
+      date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+    }`
   }
 
   protected handleMissingImage(event: Event): void {

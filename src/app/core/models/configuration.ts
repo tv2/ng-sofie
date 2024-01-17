@@ -1,4 +1,4 @@
-export interface StudioConfiguration {
+export interface Configuration {
   data: {
     settings: {
       mediaPreviewUrl: string
