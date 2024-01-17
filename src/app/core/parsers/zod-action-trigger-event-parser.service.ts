@@ -3,9 +3,11 @@ import { ActionTriggerEventParser } from '../abstractions/action-trigger-event-p
 import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpdatedEvent } from '../models/action-trigger-event'
 import * as zod from 'zod'
 import { ActionTriggerEventType } from '../models/action-trigger-event-type'
+import { ActionTriggerParser } from 'src/app/shared/abstractions/action-trigger-parser.service'
 
 @Injectable()
 export class ZodActionTriggerEventParser implements ActionTriggerEventParser {
+  constructor(private readonly actionTriggerParser: ActionTriggerParser) {}
   public parseActionTriggerCreatedEvent(event: unknown): ActionTriggerCreatedEvent {
     return zod
       .object({
@@ -14,11 +16,10 @@ export class ZodActionTriggerEventParser implements ActionTriggerEventParser {
         actionTrigger: zod.object({
           id: zod.string(),
           actionId: zod.string(),
-          data: zod.object({
-            keys: zod.string().array(),
-            label: zod.string(),
-            actionArguments: zod.number().or(zod.string().optional()).optional(),
-          }),
+          data: zod
+            .object({})
+            .passthrough()
+            .transform((data: unknown) => this.actionTriggerParser.parseActionTriggerData(data)),
         }),
       })
       .parse(event)
@@ -32,11 +33,10 @@ export class ZodActionTriggerEventParser implements ActionTriggerEventParser {
         actionTrigger: zod.object({
           id: zod.string(),
           actionId: zod.string(),
-          data: zod.object({
-            keys: zod.string().array(),
-            label: zod.string(),
-            actionArguments: zod.number().or(zod.string().optional()).optional(),
-          }),
+          data: zod
+            .object({})
+            .passthrough()
+            .transform((data: unknown) => this.actionTriggerParser.parseActionTriggerData(data)),
         }),
       })
       .parse(event)
