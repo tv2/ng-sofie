@@ -25,9 +25,9 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   public startOffsetsInMsFromPlayheadForSegments: Record<string, number> = {}
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
-  private actions: Action[] = []
+  private videoClipActions: Tv2VideoClipAction[] = []
   private miniShelfSegments: Segment[] = []
-  protected actionMap: Record<string, Tv2VideoClipAction> = {}
+  protected miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
 
   constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
@@ -44,19 +44,20 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
       .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
-    void this.actionStateService
-      .subscribeToRundownActions(this.rundown.id)
-      .then(actionsObservable => actionsObservable.subscribe(this.onActionsChanged.bind(this)))
+    void this.actionStateService.subscribeToRundownActions(this.rundown.id).then(actionsObservable => actionsObservable.subscribe(this.onActionsChanged.bind(this)))
   }
 
   private onActionsChanged(actions: Action[]): void {
-    this.actions = actions
-    this.mapActionsToMiniShelfSegments()
+    this.videoClipActions = actions.filter((action): action is Tv2VideoClipAction => {
+      // TODO - should use validator to check if the action is a TV2Action
+      return (<Tv2Action>action).metadata?.contentType === Tv2ActionContentType.VIDEO_CLIP
+    })
+    this.updateMiniShelfSegmentActionMappings()
   }
   public ngOnChanges(changes: SimpleChanges): void {
     if ('rundown' in changes) {
-      this.findAllMiniShelfSegments()
-      this.mapActionsToMiniShelfSegments()
+      this.updateMiniShelfSegments()
+      this.updateMiniShelfSegmentActionMappings()
     }
   }
 
@@ -91,30 +92,25 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     return segment.id
   }
 
-  private findAllMiniShelfSegments(): void {
+  private updateMiniShelfSegments(): void {
     this.miniShelfSegments = this.rundown.segments.filter(segment => segment.metadata?.miniShelfVideoClipFile)
   }
 
-  private mapActionsToMiniShelfSegments(): void {
-    this.actionMap = {}
-    let videoClipActions: Tv2VideoClipAction[] = this.actions.filter((action): action is Tv2VideoClipAction => {
-      // TODO - should use validator to check if the action is a TV2Action
-      return (<Tv2Action>action).metadata?.contentType === Tv2ActionContentType.VIDEO_CLIP
-    })
+  private updateMiniShelfSegmentActionMappings(): void {
+    this.miniShelfSegmentActionMappings = this.miniShelfSegments.reduce(this.miniShelfSegmentsReducer.bind(this), {})
+  }
 
-    console.log('videoClipActions', videoClipActions)
-    this.miniShelfSegments.forEach(segment => {
-      let videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
-      if (videoClipFile == undefined) {
-        return
-      }
-      let action: Tv2VideoClipAction | undefined = videoClipActions.find(action => {
-        return action.metadata?.sourceName === videoClipFile
-      })
-      if (action == undefined) {
-        return
-      }
-      this.actionMap[segment.id] = action
+  private miniShelfSegmentsReducer(actionMap: Record<string, Tv2VideoClipAction>, segment: Segment): Record<string, Tv2VideoClipAction> {
+    let videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
+    if (videoClipFile == undefined) {
+      return actionMap
+    }
+    let action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
+      return action.metadata?.sourceName === videoClipFile
     })
+    if (action == undefined) {
+      return actionMap
+    }
+    return { ...actionMap, [segment.id]: action }
   }
 }
