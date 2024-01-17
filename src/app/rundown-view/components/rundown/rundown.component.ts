@@ -10,7 +10,6 @@ import { PartEntityService } from '../../../core/services/models/part-entity.ser
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
-import { ActionService } from '../../../shared/abstractions/action.service'
 import { EntityParser } from '../../../core/abstractions/entity-parser.service'
 
 @Component({
@@ -47,9 +46,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
       .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
-    void this.actionStateService
-      .subscribeToRundownActions(this.rundown.id)
-      .then(actionsObservable => actionsObservable.subscribe(this.onActionsChanged.bind(this)))
+    void this.actionStateService.subscribeToRundownActions(this.rundown.id).then(actionsObservable => actionsObservable.subscribe(this.onActionsChanged.bind(this)))
   }
 
   private onActionsChanged(actions: Action[]): void {
@@ -109,14 +106,12 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     if (videoClipFile == undefined) {
       return actionMap
     }
-    console.log('1 [segment.id] : videoClipFile', segment.id, videoClipFile)
     const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
       return action.metadata?.fileName === videoClipFile
     })
     if (action === undefined) {
       return actionMap
     }
-    console.log('3 [segment.id] : action', segment.id, action)
     return { ...actionMap, [segment.id]: action }
   }
 }

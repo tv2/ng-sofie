@@ -4,6 +4,5 @@ import { Observable } from 'rxjs'
 
 @Injectable()
 export abstract class ConfigurationService {
-
   public abstract getStudioConfiguration(): Observable<StudioConfiguration>
 }
