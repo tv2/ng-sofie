@@ -1,29 +1,33 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration-service'
 import { StudioConfiguration } from '../../../shared/services/studio-configuration'
+import { ActionStateService } from '../../../shared/services/action-state.service'
+import { Tv2Action, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 
 @Component({
   selector: 'sofie-mini-shelf',
   styleUrls: ['./mini-shelf.component.scss'],
   templateUrl: './mini-shelf.component.html',
-  providers: [ConfigurationService],
-  changeDetection: ChangeDetectionStrategy.OnPush, // needed to stop re-rendering of the component on every tick
+  // changeDetection: ChangeDetectionStrategy.OnPush, // needed to stop re-rendering of the component on every tick
 })
 export class MiniShelfComponent {
-
   @Input() public segment: Segment
+  @Input() public videoClipAction: Tv2VideoClipAction | undefined
 
-  private readonly mediaDuration: number
-  protected mediaPreviewUrl: string
+  protected readonly mediaDuration: number
+  protected get mediaPreviewUrl(): string {
+    const url: string = `${this.configurationMediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
+    return this.configurationMediaPreviewUrl ? url : 'assets/sofie-logo.svg'
+  }
+  private configurationMediaPreviewUrl: string
+
   constructor(private readonly configurationService: ConfigurationService) {
-    this.mediaPreviewUrl = `https://picsum.photos/id/${~~(Math.random() * (999 - 100 + 1) + 100)}/270/100`
-
-    void this.configurationService.getStudioConfiguration().then((configuration: StudioConfiguration) => {
-      this.mediaPreviewUrl = `${configuration.data.settings.mediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
+    void this.configurationService.getStudioConfiguration().subscribe((configuration: StudioConfiguration) => {
+      this.configurationMediaPreviewUrl = configuration.data.settings.mediaPreviewUrl
     })
     // let thumbnailU
-    this.mediaDuration = ~~(Math.random() * (999 - 100 + 1) + 100)
+    this.mediaDuration = 100 * ~~(Math.random() * (999 - 100 + 1) + 100)
   }
 
   public getFormattedTitle(): string {
@@ -41,17 +45,7 @@ export class MiniShelfComponent {
 
   protected handleClick(): void {
     // TODO - should find the correct action here
-    alert(`ckicked `)
-    // <string>this.metadata?.videoClipFile
-  }
-
-  public getFormattedDuration(): string {
-    const date: Date = new Date()
-    date.setSeconds(this.mediaDuration.valueOf() || 0)
-
-    return `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}:${
-      date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
-    }`
+    alert(`ckicked ${this.videoClipAction?.name}`)
   }
 
   protected handleMissingImage(event: Event): void {

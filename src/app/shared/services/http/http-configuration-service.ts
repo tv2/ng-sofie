@@ -6,11 +6,12 @@ import { catchError, map, Observable } from 'rxjs'
 import { HttpResponse } from './http-response'
 import { EntityParser } from '../../../core/abstractions/entity-parser.service'
 import { Configuration } from '../../../core/models/configuration'
+import { ConfigurationService } from '../configuration-service'
 
 @Injectable({
   providedIn: 'root',
 })
-export class HttpConfigurationService {
+export class HttpConfigurationService implements ConfigurationService {
   constructor(
     private readonly http: HttpClient,
     private readonly httpErrorService: HttpErrorService,

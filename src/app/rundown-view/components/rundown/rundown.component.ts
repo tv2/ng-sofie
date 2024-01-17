@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core'
 import { Rundown } from '../../../core/models/rundown'
 import { Segment } from '../../../core/models/segment'
 import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
@@ -7,13 +7,16 @@ import { Part } from '../../../core/models/part'
 import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
 import { Subscription } from 'rxjs'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
+import { ActionStateService } from '../../../shared/services/action-state.service'
+import { Action } from '../../../shared/models/action'
+import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 
 @Component({
   selector: 'sofie-rundown',
   templateUrl: './rundown.component.html',
   styleUrls: ['./rundown.component.scss'],
 })
-export class RundownComponent implements OnInit, OnDestroy {
+export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   @Input()
   public rundown: Rundown
 
@@ -22,10 +25,14 @@ export class RundownComponent implements OnInit, OnDestroy {
   public startOffsetsInMsFromPlayheadForSegments: Record<string, number> = {}
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
+  private actions: Action[] = []
+  private miniShelfSegments: Segment[] = []
+  protected actionMap: Record<string, Tv2VideoClipAction> = {}
 
   constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
     private readonly partEntityService: PartEntityService,
+    private readonly actionStateService: ActionStateService,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownComponent')
@@ -37,6 +44,20 @@ export class RundownComponent implements OnInit, OnDestroy {
       .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
       .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
+    void this.actionStateService
+      .subscribeToRundownActions(this.rundown.id)
+      .then(actionsObservable => actionsObservable.subscribe(this.onActionsChanged.bind(this)))
+  }
+
+  private onActionsChanged(actions: Action[]): void {
+    this.actions = actions
+    this.mapActionsToMiniShelfSegments()
+  }
+  public ngOnChanges(changes: SimpleChanges): void {
+    if ('rundown' in changes) {
+      this.findAllMiniShelfSegments()
+      this.mapActionsToMiniShelfSegments()
+    }
   }
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
@@ -68,5 +89,32 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   public trackSegment(_: number, segment: Segment): string {
     return segment.id
+  }
+
+  private findAllMiniShelfSegments(): void {
+    this.miniShelfSegments = this.rundown.segments.filter(segment => segment.metadata?.miniShelfVideoClipFile)
+  }
+
+  private mapActionsToMiniShelfSegments(): void {
+    this.actionMap = {}
+    let videoClipActions: Tv2VideoClipAction[] = this.actions.filter((action): action is Tv2VideoClipAction => {
+      // TODO - should use validator to check if the action is a TV2Action
+      return (<Tv2Action>action).metadata?.contentType === Tv2ActionContentType.VIDEO_CLIP
+    })
+
+    console.log('videoClipActions', videoClipActions)
+    this.miniShelfSegments.forEach(segment => {
+      let videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
+      if (videoClipFile == undefined) {
+        return
+      }
+      let action: Tv2VideoClipAction | undefined = videoClipActions.find(action => {
+        return action.metadata?.sourceName === videoClipFile
+      })
+      if (action == undefined) {
+        return
+      }
+      this.actionMap[segment.id] = action
+    })
   }
 }

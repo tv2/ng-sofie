@@ -1,15 +1,9 @@
-import { HttpConfigurationService } from './http/http-configuration-service'
 import { Injectable } from '@angular/core'
-import { Configuration } from '../../core/models/configuration'
-import { lastValueFrom } from 'rxjs'
 import { StudioConfiguration } from './studio-configuration'
+import { Observable } from 'rxjs'
 
 @Injectable()
-export class ConfigurationService {
-  constructor(private readonly httpConfigurationService: HttpConfigurationService) {}
+export abstract class ConfigurationService {
 
-  public async getStudioConfiguration(): Promise<StudioConfiguration> {
-    const configuration: Configuration = await lastValueFrom(this.httpConfigurationService.getStudioConfiguration())
-    return new StudioConfiguration(configuration.data.settings.mediaPreviewUrl)
-  }
+  public abstract getStudioConfiguration(): Observable<StudioConfiguration>
 }

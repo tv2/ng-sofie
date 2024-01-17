@@ -13,8 +13,9 @@
     ></sofie-segment>
 
     <sofie-mini-shelf
-        *ngIf="segment.metadata?.miniShelfVideoClipFile || true"
+        *ngIf="segment.metadata?.miniShelfVideoClipFile"
         [segment]="segment"
+        [videoClipAction]="actionMap[segment.id]"
     ></sofie-mini-shelf>
 
 </div>

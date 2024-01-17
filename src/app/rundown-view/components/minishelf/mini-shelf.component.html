@@ -9,11 +9,10 @@
         alt="{{ segment.name }}"
         (error)=handleMissingImage($event)
     />
-<span [textContent]="mediaPreviewUrl"></span>
     <div class="c-mini-shelf__note">
         <span class="c-mini-shelf__title"
         >{{ getFormattedTitle() | slice:1:30 | uppercase }}{{ segment.name.length > 30 ? '...' : '' }}</span>
-        <span class="c-mini-shelf__duration">{{ this.getFormattedDuration() }}</span>
+        <span class="c-mini-shelf__duration">{{ mediaDuration | timer : 'HH?:mm:ss' }}</span>
     </div>
 </div>
 

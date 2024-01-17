@@ -43,6 +43,8 @@ import { HttpClientModule } from '@angular/common/http'
 import { HttpErrorService } from './services/http/http-error.service'
 import { Logger } from '../core/abstractions/logger.service'
 import { Tv2LoggerService } from '../core/services/tv2-logger.service'
+import { ConfigurationService } from './services/configuration-service'
+import { HttpConfigurationService } from './services/http/http-configuration-service'
 
 @NgModule({
   declarations: [
@@ -97,6 +99,7 @@ import { Tv2LoggerService } from '../core/services/tv2-logger.service'
     { provide: ActionParser, useClass: ZodActionParser },
     { provide: ActionTriggerParser, useClass: ZodActionTriggerParser },
     { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
+    { provide: ConfigurationService, useClass: HttpConfigurationService },
     HttpErrorService,
     HttpClientModule,
     DialogService,
