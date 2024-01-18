@@ -98,7 +98,6 @@ export class ZodEntityParser implements EntityParser {
         miniShelfVideoClipFile: zod.string().optional(),
       })
       .optional(),
-    isHidden: zod.boolean(),
   })
 
   private readonly basicRundownParser = zod.object({
