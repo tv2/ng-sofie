@@ -1,30 +1,47 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration-service'
 import { StudioConfiguration } from '../../../shared/services/studio-configuration'
 import { Tv2Action, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
+
+import { Subscription } from 'rxjs'
+import { MediaDataService } from '../../../shared/services/media-data.service'
+import { MediaData } from '../../../shared/services/media-data'
 
 @Component({
   selector: 'sofie-mini-shelf',
   styleUrls: ['./mini-shelf.component.scss'],
   templateUrl: './mini-shelf.component.html',
 })
-export class MiniShelfComponent {
+export class MiniShelfComponent implements OnInit, OnDestroy {
   @Input() public segment: Segment
   @Input() public videoClipAction: Tv2VideoClipAction | undefined
 
   @Output()
   public executeActionEmitter: EventEmitter<Tv2Action> = new EventEmitter()
 
-  protected readonly mediaDuration: number
+  protected mediaDuration: number = 0
   private configurationMediaPreviewUrl: string
+  private mediaDataSubscription: Subscription
 
-  constructor(private readonly configurationService: ConfigurationService) {
+  constructor(
+    private readonly configurationService: ConfigurationService,
+    private readonly mediaDataService: MediaDataService
+  ) {
     void this.configurationService.getStudioConfiguration().subscribe((configuration: StudioConfiguration) => {
       this.configurationMediaPreviewUrl = configuration.data.settings.mediaPreviewUrl
     })
-    // let thumbnailU
-    this.mediaDuration = 100 * ~~(Math.random() * (999 - 100 + 1) + 100)
+  }
+
+  public ngOnInit(): void {
+    if (this.segment.metadata?.miniShelfVideoClipFile !== undefined) {
+      this.mediaDataSubscription = this.mediaDataService.getMediaDurationById(this.segment.metadata.miniShelfVideoClipFile).subscribe((mediaData: MediaData) => {
+        this.mediaDuration = mediaData.duration
+      })
+    }
+  }
+  public ngOnDestroy(): void {
+    this.mediaDataSubscription?.unsubscribe()
   }
 
   protected get mediaPreviewUrl(): string {
