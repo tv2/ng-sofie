@@ -1,19 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { ActionTrigger, ActionTriggerWithActionInfo } from 'src/app/shared/models/action-trigger'
-import { SofieDroppdownOption } from 'src/app/shared/components/dropdown-button/dropdown-button.component'
+import { SofieDropdownOption } from 'src/app/shared/components/dropdown-button/dropdown-button.component'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 import { ActionTriggerSortKeys, KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 import { SortOrder } from 'src/app/shared/models/forms'
 import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
-
-export enum UserActionsWithSelectedTriggers {
-  DISABLE_SELECTION = 'DISABLE_SELECTION',
-  TOGGLE_SELECT = 'TOGGLE_SELECT',
-  EXPORT = 'EXPORT',
-  DELETE = 'DELETE',
-}
+import { UserActionsWithSelected } from 'src/app/shared/models/settings'
 
 @Component({
   selector: 'sofie-action-triggers-list',
@@ -29,18 +23,18 @@ export class ActionTriggersListComponent implements OnChanges {
   public readonly sortLabel: string = $localize`global.sort.label`
   public readonly iconButton = IconButton
   public readonly iconButtonSize = IconButtonSize
-  public readonly sortActionsTriggers: SofieDroppdownOption[] = [
+  public readonly sortActionsTriggers: SofieDropdownOption[] = [
     { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-alphabetical.label` },
     { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.REVERSE_ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-reverse-alphabetical.label` },
     { key: `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.ALPHABETICAL}`, label: $localize`action-triggers-sort.shortcut-alphabetical.label` },
     { key: `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.REVERSE_ALPHABETICAL}`, label: $localize`action-triggers-sort.shortcut-reverse-alphabetical.label` },
   ]
 
-  public selectedActionTriggerOptions: SofieDroppdownOption[] = [
-    { key: UserActionsWithSelectedTriggers.DISABLE_SELECTION, label: $localize`action-triggers.disable-multi-selection.label`, disabled: false },
-    { key: UserActionsWithSelectedTriggers.TOGGLE_SELECT, label: $localize`global.select-all.label`, disabled: false },
-    { key: UserActionsWithSelectedTriggers.EXPORT, label: $localize`global.export-selected.label`, disabled: true },
-    { key: UserActionsWithSelectedTriggers.DELETE, label: $localize`global.delete-selected.label`, disabled: true },
+  public selectedActionTriggerOptions: SofieDropdownOption[] = [
+    { key: UserActionsWithSelected.DISABLE_SELECTION, label: $localize`action-triggers.disable-multiselect.label`, isDisabled: false },
+    { key: UserActionsWithSelected.TOGGLE_SELECT, label: $localize`global.select-all.label`, isDisabled: false },
+    { key: UserActionsWithSelected.EXPORT, label: $localize`global.export-selected.label`, isDisabled: true },
+    { key: UserActionsWithSelected.DELETE, label: $localize`global.delete-selected.label`, isDisabled: true },
   ]
   public selectMode: boolean = false
   private readonly selectedActionTriggerIds: Set<string> = new Set()
@@ -71,11 +65,11 @@ export class ActionTriggersListComponent implements OnChanges {
     this.onActionTriggerOpen.emit(this.selectedActionTrigger?.id === actionTrigger?.id ? undefined : actionTrigger)
   }
 
-  public setActionTriggerSelection(isSelected: boolean, id: string): void {
+  public setActionTriggerSelection(actionTriggerId: string, isSelected: boolean): void {
     if (isSelected) {
-      this.selectedActionTriggerIds.add(id)
+      this.selectedActionTriggerIds.add(actionTriggerId)
     } else {
-      this.selectedActionTriggerIds.delete(id)
+      this.selectedActionTriggerIds.delete(actionTriggerId)
     }
     this.updateSelectedActionTriggersOptions()
   }
@@ -143,15 +137,15 @@ export class ActionTriggersListComponent implements OnChanges {
 
   public actionWithSelected(userAction: string): void {
     switch (userAction) {
-      case UserActionsWithSelectedTriggers.DELETE:
+      case UserActionsWithSelected.DELETE:
         return this.dialogService.createConfirmDialog($localize`action-triggers.delete-selected.label`, $localize`action-triggers.delete-selected.confirmation`, 'Delete', () =>
           this.deleteSelectedActionTriggers()
         )
-      case UserActionsWithSelectedTriggers.EXPORT:
+      case UserActionsWithSelected.EXPORT:
         return this.exportSelectedTriggers()
-      case UserActionsWithSelectedTriggers.TOGGLE_SELECT:
+      case UserActionsWithSelected.TOGGLE_SELECT:
         return this.toggleSelectUnselectAll()
-      case UserActionsWithSelectedTriggers.DISABLE_SELECTION:
+      case UserActionsWithSelected.DISABLE_SELECTION:
         this.selectMode = false
         this.unselectAllActionsTriggers()
         this.updateSelectedActionTriggersOptions()
@@ -165,18 +159,18 @@ export class ActionTriggersListComponent implements OnChanges {
     this.selectedActionTriggerOptions = this.selectedActionTriggerOptions.map(this.updateSelectedActionTriggersOption.bind(this))
   }
 
-  private updateSelectedActionTriggersOption(option: SofieDroppdownOption): SofieDroppdownOption {
+  private updateSelectedActionTriggersOption(option: SofieDropdownOption): SofieDropdownOption {
     switch (option.key) {
-      case UserActionsWithSelectedTriggers.TOGGLE_SELECT:
+      case UserActionsWithSelected.TOGGLE_SELECT:
         return {
           ...option,
           label: this.areAllActionTriggersSelected() ? $localize`global.unselect-all.label` : $localize`global.select-all.label`,
         }
-      case UserActionsWithSelectedTriggers.EXPORT:
-      case UserActionsWithSelectedTriggers.DELETE:
+      case UserActionsWithSelected.EXPORT:
+      case UserActionsWithSelected.DELETE:
         return {
           ...option,
-          disabled: this.isNoActionTriggerSelected(),
+          isDisabled: this.isNoActionTriggerSelected(),
         }
       default:
         return option
@@ -234,6 +228,6 @@ export class ActionTriggersListComponent implements OnChanges {
   }
 
   private selectAllActionsTriggers(): void {
-    this.actionTriggers.forEach(trigger => this.setActionTriggerSelection(true, trigger.id))
+    this.actionTriggers.forEach(trigger => this.setActionTriggerSelection(trigger.id, true))
   }
 }

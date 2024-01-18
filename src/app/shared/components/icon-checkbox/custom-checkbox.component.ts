@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 export class CustomCheckboxComponent {
   @Input() public label: string
   @Input() public selected: boolean
-  @Input() public disabled: boolean
+  @Input() public isDisabled: boolean
   @Input() public checkboxId: string
   @Output() private readonly onChange: EventEmitter<boolean> = new EventEmitter<boolean>()
 

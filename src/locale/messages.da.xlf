@@ -170,9 +170,9 @@
         <source>action-triggers.no-selected-action.label</source>
         <target state="new">No action selected</target>
       </trans-unit>
-      <trans-unit id="711582704036671033" datatype="html">
-        <source>action-triggers.disable-multi-selection.label</source>
-        <target state="new">Disable multi selection</target>
+      <trans-unit id="308790751791344008" datatype="html">
+        <source>action-triggers.disable-multiselect.label</source>
+        <target state="new">Disable multiselect</target>
       </trans-unit>
       <trans-unit id="5503109094537996892" datatype="html">
         <source>global.export-selected.label</source>
@@ -237,6 +237,10 @@
       <trans-unit id="6759876909141538174" datatype="html">
         <source>settings.keyboard-mappings.label</source>
         <target state="new">Keyboard mappings</target>
+      </trans-unit>
+      <trans-unit id="7160101351914247309" datatype="html">
+        <source>global.dismiss.label</source>
+        <target state="new">DISMISS</target>
       </trans-unit>
     </body>
   </file>

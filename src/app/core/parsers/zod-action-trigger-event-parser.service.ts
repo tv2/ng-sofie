@@ -13,14 +13,10 @@ export class ZodActionTriggerEventParser implements ActionTriggerEventParser {
       .object({
         type: zod.literal(ActionTriggerEventType.ACTION_TRIGGER_CREATED),
         timestamp: zod.number(),
-        actionTrigger: zod.object({
-          id: zod.string(),
-          actionId: zod.string(),
-          data: zod
-            .object({})
-            .passthrough()
-            .transform((data: unknown) => this.actionTriggerParser.parseActionTriggerData(data)),
-        }),
+        actionTrigger: zod
+          .object({})
+          .passthrough()
+          .transform((actionTrigger: unknown) => this.actionTriggerParser.parseActionTrigger(actionTrigger)),
       })
       .parse(event)
   }
@@ -30,14 +26,10 @@ export class ZodActionTriggerEventParser implements ActionTriggerEventParser {
       .object({
         type: zod.literal(ActionTriggerEventType.ACTION_TRIGGER_UPDATED),
         timestamp: zod.number(),
-        actionTrigger: zod.object({
-          id: zod.string(),
-          actionId: zod.string(),
-          data: zod
-            .object({})
-            .passthrough()
-            .transform((data: unknown) => this.actionTriggerParser.parseActionTriggerData(data)),
-        }),
+        actionTrigger: zod
+          .object({})
+          .passthrough()
+          .transform((actionTrigger: unknown) => this.actionTriggerParser.parseActionTrigger(actionTrigger)),
       })
       .parse(event)
   }

@@ -32,13 +32,13 @@
               (keydown)="onKeyDownMapTo($event)"
               placeholder="Click the keys one by one"
               [value]="this.actionForm.get('data')?.get('mappedToKeys')?.value ? (this.actionForm.get('data')?.get('mappedToKeys')?.value | shortcutKeysToString) : ''" />
-            <sofie-icon-button [iconButton]="iconButton.XMARK" (click)="deleteMapToData()" [iconButtonSize]="iconButtonSize.M"></sofie-icon-button>
+            <sofie-icon-button [iconButton]="iconButton.XMARK" (click)="deletedMappedKeysData()" [iconButtonSize]="iconButtonSize.M"></sofie-icon-button>
           </div>
         </div>
         <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
           <label>{{ triggerOnLabel }}<span class="text-danger">*</span></label>
           <select formControlName="triggerOn" name="triggerOn" [attr.disabled]="submitting ? '' : null">
-            <option *ngFor="let option of triggerOnOptions" [value]="option.key" [disabled]="option.disabled">{{ option.label }}</option>
+            <option *ngFor="let option of triggerOnOptions" [value]="option.key" [disabled]="option.isDisabled">{{ option.label }}</option>
           </select>
         </div>
         <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
@@ -74,7 +74,7 @@
 
       <div class="c-edit-actions-triggers__form--buttons">
         <button
-          [title]="actionForm.invalid ? submitBtnTooltipError + ': ' + getFormValidationErrors : ''"
+          [title]="actionForm.invalid ? submitButtonTooltipError + ': ' + getFormValidationErrors : ''"
           [disabled]="actionForm.invalid"
           *ngIf="isUpdateForm; else createButton"
           class="c-sofie-button c-sofie-button-primary"
@@ -83,7 +83,7 @@
         </button>
         <ng-template #createButton
           ><button
-            [title]="actionForm.invalid ? submitBtnTooltipError + ': ' + getFormValidationErrors : ''"
+            [title]="actionForm.invalid ? submitButtonTooltipError + ': ' + getFormValidationErrors : ''"
             [disabled]="actionForm.invalid"
             class="c-sofie-button c-sofie-button-primary"
             type="submit">

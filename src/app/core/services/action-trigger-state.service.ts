@@ -45,12 +45,12 @@ export class ActionTriggerStateService {
     const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
     const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerUpdatedEvent.actionTrigger.id)
     if (index === -1) {
-      this.openDangerSnackBar('Failed to update shortcut')
+      this.openDangerSnackBar('Failed to updated shortcut')
       return
     }
     actionTriggers[index] = actionTriggerUpdatedEvent.actionTrigger
     this.actionTriggerSubject.next(actionTriggers)
-    this.openSnackBar('Successfully update shortcut')
+    this.openSnackBar('Successfully updated shortcut')
   }
 
   private removeActionTriggerFromEvent(actionTriggerDeletedEvent: ActionTriggerDeletedEvent): void {
@@ -66,10 +66,9 @@ export class ActionTriggerStateService {
   }
 
   private createActionTriggerFromEvent(actionTriggerCreatedEvent: ActionTriggerCreatedEvent): void {
-    const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
-    actionTriggers.push(actionTriggerCreatedEvent.actionTrigger as ActionTrigger)
-    this.actionTriggerSubject.next(actionTriggers)
-    this.openSnackBar('Successfully created shortcut')
+    const updatedActionTriggers: ActionTrigger[] = [...this.actionTriggerSubject.value, actionTriggerCreatedEvent.actionTrigger]
+    this.actionTriggerSubject.next(updatedActionTriggers)
+    this.openSnackBar('Successfully created shortcut.')
   }
 
   public getActionTriggerObservable(): Observable<ActionTrigger[]> {
@@ -81,10 +80,10 @@ export class ActionTriggerStateService {
   }
 
   private openSnackBar(message: string): void {
-    this.snackBar.open(message, 'DISMISS', { panelClass: 'snackbar-success' })
+    this.snackBar.open(message, $localize`global.dismiss.label`, { panelClass: 'snackbar-success' })
   }
 
   private openDangerSnackBar(message: string): void {
-    this.snackBar.open(message, 'DISMISS', { panelClass: 'snackbar-danger' })
+    this.snackBar.open(message, $localize`global.dismiss.label`, { panelClass: 'snackbar-danger' })
   }
 }

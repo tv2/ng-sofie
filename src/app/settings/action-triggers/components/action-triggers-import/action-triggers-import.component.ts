@@ -12,7 +12,7 @@ import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 })
 export class ActionTriggersImportComponent {
   @Input() public actionTriggers: ActionTriggerWithActionInfo<KeyboardTriggerData>[]
-  @Input() public disabled: boolean
+  @Input() public isDisabled: boolean
   private importedActionTriggers: ActionTrigger<KeyboardTriggerData>[]
 
   constructor(
@@ -33,12 +33,12 @@ export class ActionTriggersImportComponent {
         const importedActionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggerParser.parseActionTriggers(
           JSON.parse(readerProcessEvent?.target?.result ? readerProcessEvent.target.result.toString() : '')
         )
-        if (importedActionTriggers.length > 0) {
-          this.importedActionTriggers = importedActionTriggers
-          this.importItem(0)
-        } else {
+        if (importedActionTriggers.length === 0) {
           this.openDangerSnackBar('No items to be added')
+          return
         }
+        this.importedActionTriggers = importedActionTriggers
+        this.importItem(0)
       } catch {
         this.openDangerSnackBar('Error in imported file')
       }
@@ -74,6 +74,6 @@ export class ActionTriggersImportComponent {
   }
 
   private openDangerSnackBar(message: string): void {
-    this.snackBar.open(message, 'DISMISS', { panelClass: 'snackbar-danger' })
+    this.snackBar.open(message, $localize`global.dismiss.label`, { panelClass: 'snackbar-danger' })
   }
 }

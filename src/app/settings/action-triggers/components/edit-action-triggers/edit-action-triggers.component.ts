@@ -26,7 +26,7 @@ export class EditActionTriggersComponent implements OnChanges {
   public readonly physicalMappingLabel = $localize`action-triggers.physical-mapping.label`
   public readonly triggerOnLabel = $localize`action-triggers.trigger-on.label`
   public readonly selectedActionLabel = $localize`action-triggers.selected-action.label`
-  public readonly submitBtnTooltipError = $localize`action-triggers.submit-tooltip.error`
+  public readonly submitButtonTooltipError = $localize`action-triggers.submit-tooltip.error`
   public readonly actionArgumentSchema = ActionArgumentSchema
   public readonly iconButton = IconButton
   public readonly iconButtonSize = IconButtonSize
@@ -52,10 +52,10 @@ export class EditActionTriggersComponent implements OnChanges {
 
   private checkActionAndSetValidators(): void {
     if (!!this.selectedAction && !!this.selectedAction.argument) {
-      this.control('actionArguments', 'data').setValidators([Validators.required])
+      this.getFormAbstractControl('actionArguments', 'data').setValidators([Validators.required])
     } else {
-      this.control('actionArguments', 'data').clearValidators()
-      this.control('actionArguments', 'data').setErrors(null)
+      this.getFormAbstractControl('actionArguments', 'data').clearValidators()
+      this.getFormAbstractControl('actionArguments', 'data').setErrors(null)
     }
     this.actionForm.updateValueAndValidity()
   }
@@ -72,17 +72,17 @@ export class EditActionTriggersComponent implements OnChanges {
       this.patchValue(action)
       this.selectedAction = action.actionInfo
     } else {
-      this.customFormReset()
+      this.resetCustomForm()
       this.selectedAction = undefined
     }
     this.checkActionAndSetValidators()
   }
 
-  private customFormReset(): void {
+  private resetCustomForm(): void {
     this.actionForm.reset()
     this.formKeysArray.clear()
     this.formMappedToKeysArray.clear()
-    this.control('triggerOn', 'data').patchValue(KeyEventType.RELEASED)
+    this.getFormAbstractControl('triggerOn', 'data').patchValue(KeyEventType.RELEASED)
   }
 
   public get getFormValidationErrors(): string {
@@ -105,9 +105,9 @@ export class EditActionTriggersComponent implements OnChanges {
 
   private patchValue(actionValue: ActionTrigger<KeyboardTriggerData>): void {
     this.actionForm.patchValue(actionValue)
-    this.addArrValues(actionValue.data.keys, this.formKeysArray)
+    this.addArrayValues(actionValue.data.keys, this.formKeysArray)
     if (actionValue.data.mappedToKeys) {
-      this.addArrValues(actionValue.data.mappedToKeys, this.formMappedToKeysArray)
+      this.addArrayValues(actionValue.data.mappedToKeys, this.formMappedToKeysArray)
     }
   }
 
@@ -140,7 +140,7 @@ export class EditActionTriggersComponent implements OnChanges {
     }
   }
 
-  public deleteMapToData(): void {
+  public deletedMappedKeysData(): void {
     this.formMappedToKeysArray.clear()
   }
 
@@ -152,7 +152,7 @@ export class EditActionTriggersComponent implements OnChanges {
     return this.actionForm?.get('data')?.get('mappedToKeys') as UntypedFormArray
   }
 
-  private addArrValues(items: string[], formArray: UntypedFormArray): void {
+  private addArrayValues(items: string[], formArray: UntypedFormArray): void {
     for (const item of items) {
       this.createKey(item, formArray)
     }
@@ -166,7 +166,7 @@ export class EditActionTriggersComponent implements OnChanges {
   public openNewActionTrigger(action: Tv2PartAction): void {
     this.actionForm.patchValue({ actionId: action.id })
     this.selectedAction = action
-    this.control('actionArguments', 'data').patchValue('')
+    this.getFormAbstractControl('actionArguments', 'data').patchValue('')
     this.checkActionAndSetValidators()
   }
 
@@ -184,10 +184,10 @@ export class EditActionTriggersComponent implements OnChanges {
       return
     }
     this.submitting = true
-    if (!this.control('label', 'data').value) {
-      this.control('label', 'data').patchValue((this.selectedAction as Tv2PartAction).name)
+    if (!this.getFormAbstractControl('label', 'data').value) {
+      this.getFormAbstractControl('label', 'data').patchValue((this.selectedAction as Tv2PartAction).name)
     }
-    const actionTriggerValue: ActionTrigger<KeyboardTriggerData> = this.prepareSendData(this.actionForm.value)
+    const actionTriggerValue: ActionTrigger<KeyboardTriggerData> = this.prepareDataForTransfer(this.actionForm.value)
     if (this.isUpdateForm) {
       this.updateActionTrigger({ ...actionTriggerValue, id: this.selectedActionTrigger?.id as string })
     } else {
@@ -195,7 +195,7 @@ export class EditActionTriggersComponent implements OnChanges {
     }
   }
 
-  private prepareSendData(formData: ActionTrigger<KeyboardTriggerData>): ActionTrigger<KeyboardTriggerData> {
+  private prepareDataForTransfer(formData: ActionTrigger<KeyboardTriggerData>): ActionTrigger<KeyboardTriggerData> {
     const resultData: ActionTrigger<KeyboardTriggerData> = { ...formData }
     if (this.selectedAction?.argument) {
       resultData.data.actionArguments =
@@ -208,7 +208,7 @@ export class EditActionTriggersComponent implements OnChanges {
 
   private createActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>): void {
     this.actionTriggerService.createActionTrigger(actionTrigger).subscribe(() => {
-      this.customFormReset()
+      this.resetCustomForm()
       this.selectedAction = undefined
       this.checkActionAndSetValidators()
       this.submitting = false
@@ -219,7 +219,7 @@ export class EditActionTriggersComponent implements OnChanges {
     this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe(() => (this.submitting = false))
   }
 
-  private control(name: string, groupName?: string): AbstractControl {
+  private getFormAbstractControl(name: string, groupName?: string): AbstractControl {
     if (!!groupName) {
       return this.actionForm.get(groupName)?.get(name) as AbstractControl
     } else {
@@ -229,9 +229,9 @@ export class EditActionTriggersComponent implements OnChanges {
 
   private isFormControlInvalid(name: string, groupName?: string): boolean | undefined {
     if (!!groupName) {
-      return this.control(name, groupName)?.invalid
+      return this.getFormAbstractControl(name, groupName)?.invalid
     } else {
-      return this.control(name).invalid
+      return this.getFormAbstractControl(name).invalid
     }
   }
 }

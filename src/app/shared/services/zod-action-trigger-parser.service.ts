@@ -37,4 +37,8 @@ export class ZodActionTriggerParser extends ActionTriggerParser {
   public parseActionTriggers(actionTriggers: ActionTrigger<KeyboardTriggerData>[]): ActionTrigger<KeyboardTriggerData>[] {
     return this.actionTriggersParser.parse(actionTriggers)
   }
+
+  public parseActionTrigger(actionTriggers: ActionTrigger<KeyboardTriggerData>): ActionTrigger<KeyboardTriggerData> {
+    return this.zodActionTriggerParser.parse(actionTriggers)
+  }
 }

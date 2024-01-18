@@ -6,7 +6,7 @@
   <button
     *ngFor="let option of options"
     [ngClass]="{ 'custom-dropdown_menu__selected': option.key === selectedKey }"
-    [disabled]="option.disabled ? option.disabled : false"
+    [disabled]="option.isDisabled ? option.isDisabled : false"
     mat-menu-item
     (click)="onNewOptionSelected(option)">
     {{ option.label }}

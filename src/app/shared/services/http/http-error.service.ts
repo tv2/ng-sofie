@@ -21,7 +21,7 @@ export class HttpErrorService {
     if (error.status >= 200 && error.status < 300) {
       return
     }
-    this.snackBar.open(error.error.message, 'DISMISS', {
+    this.snackBar.open(error.error.message, $localize`global.dismiss.label`, {
       panelClass: [this.getSnackBarCss(error.status)],
     })
   }

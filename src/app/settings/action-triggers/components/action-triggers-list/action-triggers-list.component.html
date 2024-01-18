@@ -11,7 +11,7 @@
     </sofie-dropdown-button>
 
     <sofie-dropdown-button
-      *ngIf="selectMode; else turnOnSelectModeBtn"
+      *ngIf="selectMode; else turnOnSelectModeButton"
       [options]="selectedActionTriggerOptions"
       [iconButton]="iconButton.SQUARE_CHECK"
       [iconButtonSize]="iconButtonSize.XL"
@@ -19,8 +19,8 @@
       label="Selected">
     </sofie-dropdown-button>
 
-    <ng-template #turnOnSelectModeBtn>
-      <sofie-button (onClick)="selectMode = true" label="Enable multi select"> </sofie-button>
+    <ng-template #turnOnSelectModeButton>
+      <sofie-button (onClick)="selectMode = true" label="Enable multiselect"> </sofie-button>
     </ng-template>
   </div>
   <div class="c-action-triggers-list__items">
@@ -34,7 +34,7 @@
             *ngIf="selectMode"
             [selected]="isActionTriggerSelected(actionsTrigger.id)"
             [checkboxId]="actionsTrigger.id"
-            (onChange)="setActionTriggerSelection($event, actionsTrigger.id)"></sofie-custom-checkbox>
+            (onChange)="setActionTriggerSelection(actionsTrigger.id, $event)"></sofie-custom-checkbox>
           <div class="c-action-triggers-list__card--body" (click)="selectActionTrigger(actionsTrigger)">
             <p>
               {{ actionsTrigger.data.label }}

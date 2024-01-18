@@ -48,18 +48,21 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
             })
           )
         )
-        this.loading = false
+        this.setIsLoading(false)
       })
   }
 
   private onActionsChanged(loadedActions: Tv2PartAction[]): void {
     this.actions = JSON.parse(JSON.stringify(loadedActions))
-    this.loading = false
   }
 
   public ngOnDestroy(): void {
     this.unsubscribe$.next(null)
     this.unsubscribe$.unsubscribe()
+  }
+
+  public setIsLoading(isLoading: boolean): void {
+    this.loading = isLoading
   }
 
   public newActionTriggerOpen(selectedTrigger?: ActionTriggerWithActionInfo<KeyboardTriggerData>): void {

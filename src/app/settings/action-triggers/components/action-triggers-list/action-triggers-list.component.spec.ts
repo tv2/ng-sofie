@@ -43,9 +43,9 @@ describe('ActionTriggersListComponent', () => {
     const component = await configureTestBed()
     const actionTriggerOneId: string = component.actionTriggers[0].id
     expect(component.isActionTriggerSelected(actionTriggerOneId)).toBe(false)
-    component.setActionTriggerSelection(true, actionTriggerOneId)
+    component.setActionTriggerSelection(actionTriggerOneId, true)
     expect(component.isActionTriggerSelected(actionTriggerOneId)).toBe(true)
-    component.setActionTriggerSelection(false, actionTriggerOneId)
+    component.setActionTriggerSelection(actionTriggerOneId, false)
     expect(component.isActionTriggerSelected(actionTriggerOneId)).toBe(false)
   })
 })

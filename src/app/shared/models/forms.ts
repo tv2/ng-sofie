@@ -1,7 +1,7 @@
 export interface SelectFieldOptions {
   key: string
   label: string
-  disabled?: boolean
+  isDisabled?: boolean
 }
 
 export enum SortOrder {
