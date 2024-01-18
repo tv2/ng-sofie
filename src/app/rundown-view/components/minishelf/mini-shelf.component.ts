@@ -14,11 +14,6 @@ export class MiniShelfComponent {
   @Input() public videoClipAction: Tv2VideoClipAction | undefined
 
   protected readonly mediaDuration: number
-
-  protected get mediaPreviewUrl(): string {
-    const url: string = `${this.configurationMediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
-    return this.configurationMediaPreviewUrl ? url : 'assets/sofie-logo.svg'
-  }
   private configurationMediaPreviewUrl: string
 
   constructor(private readonly configurationService: ConfigurationService) {
@@ -29,7 +24,12 @@ export class MiniShelfComponent {
     this.mediaDuration = 100 * ~~(Math.random() * (999 - 100 + 1) + 100)
   }
 
-  public getFormattedTitle(): string {
+  protected get mediaPreviewUrl(): string {
+    const url: string = `${this.configurationMediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
+    return this.configurationMediaPreviewUrl ? url : 'assets/sofie-logo.svg'
+  }
+
+  public getSanitizedTitle(): string {
     let sanitizedTitle = this.segment.name?.replace(/<[^>]*>/g, '') // remove html tags
     sanitizedTitle = sanitizedTitle?.replace(/(\r\n|\n|\r)/gm, ' ') // remove newlines
     sanitizedTitle = sanitizedTitle?.replace(/_/g, ' ') // replace underscores with spaces;
@@ -38,13 +38,13 @@ export class MiniShelfComponent {
     sanitizedTitle = sanitizedTitle?.replace(/&amp;/g, '&') // remove &amp;
     sanitizedTitle = sanitizedTitle?.replace(/&quot;/g, '"') // remove &quot;
     sanitizedTitle = sanitizedTitle?.replace(/&apos;/g, "'") // remove &apos;
-    sanitizedTitle = sanitizedTitle?.trim().toUpperCase() // trim and uppercase
+    sanitizedTitle = sanitizedTitle?.trim() // and finally trim;
     return sanitizedTitle
   }
 
-  protected handleClick(): void {
+  protected executeAction(): void {
     // TODO - should find the correct action here
-    alert(`ckicked ${this.videoClipAction?.name}`)
+    alert(`ckicked ${this.videoClipAction?.id}`)
   }
 
   protected handleMissingImage(event: Event): void {

@@ -49,25 +49,26 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     void this.actionStateService.subscribeToRundownActions(this.rundown.id).then(actionsObservable => actionsObservable.subscribe(this.onActionsChanged.bind(this)))
   }
 
-  private onActionsChanged(actions: Action[]): void {
-    this.videoClipActions = actions.filter((action): action is Tv2VideoClipAction => {
-      return this.entityParser.parseTv2Action(action) && (<Tv2Action>action).metadata?.contentType === Tv2ActionContentType.VIDEO_CLIP
-    })
-    this.updateMiniShelfSegmentActionMappings()
-  }
-  public ngOnChanges(changes: SimpleChanges): void {
-    if ('rundown' in changes) {
-      this.updateMiniShelfSegments()
-      this.updateMiniShelfSegmentActionMappings()
-    }
-  }
-
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
     this.currentEpochTime = rundownTimingContext.currentEpochTime
     const onAirPart: Part | undefined = this.rundown.segments.find(segment => segment.isOnAir)?.parts.find(part => part.isOnAir)
 
     this.remainingDurationInMsForOnAirPart = onAirPart ? this.partEntityService.getExpectedDuration(onAirPart) - rundownTimingContext.playedDurationInMsForOnAirPart : undefined
     this.startOffsetsInMsFromPlayheadForSegments = this.getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext)
+  }
+
+  private onActionsChanged(actions: Action[]): void {
+    this.videoClipActions = actions.filter((action): action is Tv2VideoClipAction => {
+      return this.entityParser.parseTv2Action(action) && (<Tv2Action>action).metadata?.contentType === Tv2ActionContentType.VIDEO_CLIP
+    })
+    this.updateMiniShelfSegmentActionMappings()
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if ('rundown' in changes) {
+      this.updateMiniShelfSegments()
+      this.updateMiniShelfSegmentActionMappings()
+    }
   }
 
   private getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext: RundownTimingContext): Record<string, number> {
@@ -103,15 +104,14 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private miniShelfSegmentsReducer(actionMap: Record<string, Tv2VideoClipAction>, segment: Segment): Record<string, Tv2VideoClipAction> {
     const videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
-    if (videoClipFile == undefined) {
-      return actionMap
+    if (videoClipFile) {
+      const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
+        return action.metadata?.fileName === videoClipFile
+      })
+      if (action) {
+        return { ...actionMap, [segment.id]: action }
+      }
     }
-    const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
-      return action.metadata?.fileName === videoClipFile
-    })
-    if (action === undefined) {
-      return actionMap
-    }
-    return { ...actionMap, [segment.id]: action }
+    return actionMap
   }
 }

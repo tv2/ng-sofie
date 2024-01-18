@@ -1,7 +1,7 @@
 <div
   class="c-mini-shelf"
   title="{{ segment.name }}"
-  (click)="handleClick()"
+  (click)="executeAction()"
 >
     <img
         class="c-mini-shelf__thumbnail"
@@ -11,7 +11,7 @@
     />
     <div class="c-mini-shelf__note">
         <span class="c-mini-shelf__title"
-        >{{ getFormattedTitle() | slice:1:30 | uppercase }}{{ segment.name.length > 30 ? '...' : '' }}</span>
+        >{{ getSanitizedTitle() | slice:1:30 | uppercase }}{{ segment.name.length > 30 ? '...' : '' }}</span>
         <span class="c-mini-shelf__duration">{{ mediaDuration | timer : 'HH?:mm:ss' }}</span>
     </div>
 </div>
