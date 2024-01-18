@@ -93,7 +93,7 @@ export class DraggableShelfComponent implements OnInit {
     if (this.verticalDragPositionFromDragHandleBottomInPixels === undefined) {
       return
     }
-    this.heightInPixels = Math.max(0, window.innerHeight - event.clientY + this.verticalDragPositionFromDragHandleBottomInPixels)
+    this.heightInPixels = window.innerHeight - event.clientY + this.verticalDragPositionFromDragHandleBottomInPixels
   }
 
   protected toggleCollapse(): void {
