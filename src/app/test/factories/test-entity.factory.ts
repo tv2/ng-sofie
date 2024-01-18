@@ -30,6 +30,7 @@ export class TestEntityFactory {
       isOnAir: false,
       isUntimed: false,
       isUnsynced: false,
+      isHidden: false,
       parts: [],
       ...segment,
     }
