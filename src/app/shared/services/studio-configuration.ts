@@ -13,7 +13,6 @@ class Settings {
     this.settings = new mediaPreviewUrl(url)
   }
 }
-
 export class StudioConfiguration implements Configuration {
   public data: Settings
   constructor(url: string) {
