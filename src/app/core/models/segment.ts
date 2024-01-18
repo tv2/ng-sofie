@@ -2,17 +2,17 @@ import { Part } from './part'
 import { Metadata } from './metadata'
 
 export interface Segment {
-  readonly executedAtEpochTime?: number
-  readonly expectedDurationInMs?: number
   readonly id: string
-  readonly isHidden: boolean
-  readonly isNext: boolean
-  readonly isOnAir: boolean
-  readonly isUnsynced: boolean
-  readonly isUntimed: boolean
-  readonly metadata?: Metadata
+  readonly rundownId: string
   readonly name: string
+  readonly isOnAir: boolean
+  readonly isNext: boolean
+  readonly isUntimed: boolean
+  readonly isUnsynced: boolean
   readonly parts: Part[]
   readonly rank: number
-  readonly rundownId: string
+  readonly isHidden: boolean
+  readonly expectedDurationInMs?: number
+  readonly executedAtEpochTime?: number
+  readonly metadata?: Metadata
 }
