@@ -10,8 +10,7 @@
         (error)=handleMissingImage($event)
     />
     <div class="c-mini-shelf__note">
-        <span class="c-mini-shelf__title"
-        >{{ getSanitizedTitle() | slice:1:30 | uppercase }}{{ segment.name.length > 30 ? '...' : '' }}</span>
+        <span class="c-mini-shelf__title">{{ getSanitizedTitle() | slice:1:30 | uppercase }}{{ segment.name.length > 30 ? '...' : '' }}</span>
         <span class="c-mini-shelf__duration">{{ mediaDuration | timer : 'HH?:mm:ss' }}</span>
     </div>
 </div>
