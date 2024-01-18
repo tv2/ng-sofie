@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration-service'
 import { StudioConfiguration } from '../../../shared/services/studio-configuration'
-import { Tv2VideoClipAction } from '../../../shared/models/tv2-action'
+import { Tv2Action, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -12,6 +12,9 @@ import { Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 export class MiniShelfComponent {
   @Input() public segment: Segment
   @Input() public videoClipAction: Tv2VideoClipAction | undefined
+
+  @Output()
+  public executeActionEmitter: EventEmitter<Tv2Action> = new EventEmitter()
 
   protected readonly mediaDuration: number
   private configurationMediaPreviewUrl: string
@@ -43,8 +46,11 @@ export class MiniShelfComponent {
   }
 
   protected executeAction(): void {
-    // TODO - should find the correct action here
-    alert(`ckicked ${this.videoClipAction?.id}`)
+    if (!this.videoClipAction) {
+      return
+    }
+    const action: Tv2Action = this.videoClipAction
+    this.executeActionEmitter.emit(action)
   }
 
   protected handleMissingImage(event: Event): void {

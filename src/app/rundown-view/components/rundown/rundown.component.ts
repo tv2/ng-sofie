@@ -29,6 +29,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private videoClipActions: Tv2VideoClipAction[] = []
   private miniShelfSegments: Segment[] = []
   protected miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
+  private rundownActionsSubscription: Subscription
 
   constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
@@ -46,7 +47,11 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
       .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
-    void this.actionStateService.subscribeToRundownActions(this.rundown.id).then(actionsObservable => actionsObservable.subscribe(this.onActionsChanged.bind(this)))
+    this.actionStateService
+      .subscribeToRundownActions(this.rundown.id)
+      .then(rundownActionsObservable => rundownActionsObservable.subscribe(this.onActionsChanged.bind(this)))
+      .then(rundownActionsSubscription => (this.rundownActionsSubscription = rundownActionsSubscription))
+      .catch(error => this.logger.data(error).error('Failed subscribing to rundown actions changes.'))
   }
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
@@ -88,6 +93,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnDestroy(): void {
     this.rundownTimingContextSubscription?.unsubscribe()
+    this.rundownActionsSubscription?.unsubscribe()
   }
 
   public trackSegment(_: number, segment: Segment): string {
