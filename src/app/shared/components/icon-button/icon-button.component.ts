@@ -1,7 +1,7 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core'
 import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core'
 import { IconButton, IconButtonSize } from '../../enums/icon-button'
-import { HttpIconService } from 'src/app/core/services/http/http-icon.service'
+import { IconService } from 'src/app/core/abstractions/icon.service'
 
 @Component({
   selector: 'sofie-icon-button',
@@ -25,7 +25,7 @@ export class IconButtonComponent implements OnInit {
   public iconButtonProp: IconProp
   public iconButtonSizeProp: SizeProp
 
-  constructor(private readonly iconService: HttpIconService) {}
+  constructor(private readonly iconService: IconService) {}
 
   public ngOnInit(): void {
     this.iconButtonProp = this.iconService.getIconProperty(this.iconButton)

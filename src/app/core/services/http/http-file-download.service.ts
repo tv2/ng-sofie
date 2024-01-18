@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core'
-
-export interface FileDownloaderService {
-  downloadText(text: string, filename: string): void
-}
+import { FileDownloadService } from '../../abstractions/file-download.service'
 
 @Injectable()
-export class HttpFileDownloadService implements FileDownloaderService {
+export class HttpFileDownloadService implements FileDownloadService {
   public downloadText(text: string, filename: string): void {
     const anchorElement: HTMLAnchorElement = document.createElement('a')
     anchorElement.setAttribute('href', 'data:text/plain;charset=utf-u,' + encodeURIComponent(text))

@@ -16,7 +16,7 @@ import { KeyboardTriggerData, SHORTCUT_KEYS_MAPPINGS } from 'src/app/shared/mode
 })
 export class EditActionTriggersComponent implements OnChanges {
   @Output() public readonly onCancel: EventEmitter<void> = new EventEmitter<void>()
-  @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined
+  @Input() public selectedActionTrigger?: ActionTriggerWithActionInfo<KeyboardTriggerData>
   @Input() public actions: Tv2PartAction[]
   private keyPress: boolean = false
   public mappedToKeysFocus: boolean = false
@@ -65,20 +65,20 @@ export class EditActionTriggersComponent implements OnChanges {
     if (!actionTriggerChange) {
       return
     }
-    const action: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined = actionTriggerChange.currentValue
+    const action: ActionTriggerWithActionInfo<KeyboardTriggerData> = actionTriggerChange.currentValue
     this.formKeysArray.clear()
     this.formMappedToKeysArray.clear()
     if (action) {
       this.patchValue(action)
       this.selectedAction = action.actionInfo
     } else {
-      this.customFromReset()
+      this.customFormReset()
       this.selectedAction = undefined
     }
     this.checkActionAndSetValidators()
   }
 
-  private customFromReset(): void {
+  private customFormReset(): void {
     this.actionForm.reset()
     this.formKeysArray.clear()
     this.formMappedToKeysArray.clear()
@@ -139,6 +139,7 @@ export class EditActionTriggersComponent implements OnChanges {
       this.createKey(newKeyCode, this.formMappedToKeysArray)
     }
   }
+
   public deleteMapToData(): void {
     this.formMappedToKeysArray.clear()
   }
@@ -207,7 +208,7 @@ export class EditActionTriggersComponent implements OnChanges {
 
   private createActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>): void {
     this.actionTriggerService.createActionTrigger(actionTrigger).subscribe(() => {
-      this.customFromReset()
+      this.customFormReset()
       this.selectedAction = undefined
       this.checkActionAndSetValidators()
       this.submitting = false

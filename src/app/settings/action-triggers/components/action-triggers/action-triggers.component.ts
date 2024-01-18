@@ -5,8 +5,8 @@ import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-
 import { Subject, takeUntil } from 'rxjs'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
-import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-download.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
+import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
 
 @Component({
   selector: 'sofie-action-triggers',
@@ -14,7 +14,7 @@ import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
   styleUrls: ['./action-triggers.component.scss'],
 })
 export class ActionTriggersComponent implements OnInit, OnDestroy {
-  public selectedAction: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined
+  public selectedAction?: ActionTriggerWithActionInfo<KeyboardTriggerData>
   public createAction: boolean
   public loading: boolean = true
   public actions: Tv2PartAction[]
@@ -23,7 +23,7 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly actionTriggerStateService: ActionTriggerStateService,
-    private readonly fileDownloadService: HttpFileDownloadService,
+    private readonly fileDownloadService: FileDownloadService,
     private readonly logger: Logger,
     private readonly actionStateService: ActionStateService
   ) {}
@@ -62,11 +62,7 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
     this.unsubscribe$.unsubscribe()
   }
 
-  public importStart(): void {
-    this.loading = true
-  }
-
-  public newActionTriggerOpen(selectedTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined): void {
+  public newActionTriggerOpen(selectedTrigger?: ActionTriggerWithActionInfo<KeyboardTriggerData>): void {
     this.selectedAction = selectedTrigger
     this.createAction = false
   }

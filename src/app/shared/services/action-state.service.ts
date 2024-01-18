@@ -8,12 +8,12 @@ import { EventSubscription } from '../../event-system/abstractions/event-observe
 import { RundownEventObserver } from '../../core/services/rundown-event-observer.service'
 import { RundownActivatedEvent, RundownDeactivatedEvent } from '../../core/models/rundown-event'
 
+const ALL_ACTIONS = 'ALL_ACTIONSAllActions'
 @Injectable()
 export class ActionStateService {
   private readonly actionsSubjects: Map<string, BehaviorSubject<Action[]>> = new Map()
   private readonly eventSubscriptions: EventSubscription[]
   private readonly logger: Logger
-  private readonly noRundownId: string = 'noRundownIdAllActions'
 
   constructor(
     private readonly connectionStatusObserver: ConnectionStatusObserver,
@@ -38,14 +38,14 @@ export class ActionStateService {
     if (!actionsSubject) {
       return
     }
-    this.logger.debug(`Resetting actions with id: ${rundownId ? rundownId : this.noRundownId}`)
+    this.logger.debug(`Resetting actions with id: ${rundownId ?? ALL_ACTIONS}`)
     this.fetchActions(rundownId)
       .then(actions => actionsSubject.next(actions))
-      .catch(error => this.logger.data(error).error(`Encountered an error while fetching actions for rundown with id '${rundownId ? rundownId : this.noRundownId}':`))
+      .catch(error => this.logger.data(error).error(`Encountered an error while fetching actions for rundown with id '${rundownId ?? ALL_ACTIONS}':`))
   }
 
   private getActionsSubject(rundownId?: string): BehaviorSubject<Action[]> | undefined {
-    const actionsSubject = this.actionsSubjects.get(rundownId ? rundownId : this.noRundownId)
+    const actionsSubject = this.actionsSubjects.get(rundownId ?? ALL_ACTIONS)
     if (!actionsSubject) {
       return
     }
@@ -58,7 +58,7 @@ export class ActionStateService {
       return { wasRemoved: false }
     }
     actionsSubject.unsubscribe()
-    this.actionsSubjects.delete(rundownId ? rundownId : this.noRundownId)
+    this.actionsSubjects.delete(rundownId ?? ALL_ACTIONS)
     return { wasRemoved: true }
   }
 
@@ -76,12 +76,12 @@ export class ActionStateService {
   }
 
   private async createActionsSubject(rundownId?: string): Promise<BehaviorSubject<Action[]>> {
-    const actionsSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundownId ? rundownId : this.noRundownId)
+    const actionsSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundownId ?? ALL_ACTIONS)
     if (actionsSubject) {
       return actionsSubject
     }
     const cleanActionsSubject: BehaviorSubject<Action[]> = await this.getCleanActionsSubject(rundownId)
-    this.actionsSubjects.set(rundownId ? rundownId : this.noRundownId, cleanActionsSubject)
+    this.actionsSubjects.set(rundownId ?? ALL_ACTIONS, cleanActionsSubject)
     return cleanActionsSubject
   }
 

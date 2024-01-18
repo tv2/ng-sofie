@@ -7,7 +7,7 @@ import { TestLoggerFactory } from 'src/app/test/factories/test-logger.factory'
 import { Logger } from 'src/app/core/abstractions/logger.service'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
-import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-download.service'
+import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
 
 describe('ActionTriggersComponent', () => {
   it('should create', async () => {
@@ -43,7 +43,7 @@ async function configureTestBed(): Promise<ActionTriggersComponent> {
       { provide: ActionTriggerStateService, useValue: mockedActionTriggerStateService },
       { provide: Logger, useValue: testLoggerFactory.createLogger() },
       { provide: ActionStateService, useValue: instance(mock<ActionStateService>()) },
-      { provide: HttpFileDownloadService, useValue: instance(mock<HttpFileDownloadService>()) },
+      { provide: FileDownloadService, useValue: instance(mock<FileDownloadService>()) },
     ],
     declarations: [ActionTriggersComponent],
   }).compileComponents()

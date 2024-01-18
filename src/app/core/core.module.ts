@@ -28,7 +28,9 @@ import { ActionTriggerEventObserver } from './models/action-trigger-event-observ
 import { ActionTriggerEventParser } from './abstractions/action-trigger-event-parser'
 import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-parser.service'
 import { HttpFileDownloadService } from './services/http/http-file-download.service'
-import { HttpIconService } from './services/http/http-icon.service'
+import { FortAwesomeIconService } from './services/http/http-icon.service'
+import { IconService } from './abstractions/icon.service'
+import { FileDownloadService } from './abstractions/file-download.service'
 
 @NgModule({
   declarations: [],
@@ -44,8 +46,8 @@ import { HttpIconService } from './services/http/http-icon.service'
     { provide: RundownService, useClass: HttpRundownService },
     { provide: BasicRundownService, useClass: HttpBasicRundownService },
     { provide: EntityParser, useClass: ZodEntityParser },
-    HttpFileDownloadService,
-    HttpIconService,
+    { provide: IconService, useClass: FortAwesomeIconService },
+    { provide: FileDownloadService, useClass: HttpFileDownloadService },
     RundownEntityService,
     BasicRundownEntityService,
     SegmentEntityService,

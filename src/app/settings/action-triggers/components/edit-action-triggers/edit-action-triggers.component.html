@@ -18,7 +18,7 @@
             (keydown)="onKeyDownShortcut($event)"
             (keyup)="onKeyUpShortcut()"
             placeholder="Press the keys for this shortcut"
-            [value]="this.actionForm.get('data')?.get('keys')?.value ? (this.actionForm.get('data')?.get('keys')?.value | shortcut) : ''" />
+            [value]="this.actionForm.get('data')?.get('keys')?.value ? (this.actionForm.get('data')?.get('keys')?.value | shortcutKeysToString) : ''" />
         </div>
         <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
           <label>
@@ -31,7 +31,7 @@
               [readonly]="true"
               (keydown)="onKeyDownMapTo($event)"
               placeholder="Click the keys one by one"
-              [value]="this.actionForm.get('data')?.get('mappedToKeys')?.value ? (this.actionForm.get('data')?.get('mappedToKeys')?.value | shortcut) : ''" />
+              [value]="this.actionForm.get('data')?.get('mappedToKeys')?.value ? (this.actionForm.get('data')?.get('mappedToKeys')?.value | shortcutKeysToString) : ''" />
             <sofie-icon-button [iconButton]="iconButton.XMARK" (click)="deleteMapToData()" [iconButtonSize]="iconButtonSize.M"></sofie-icon-button>
           </div>
         </div>

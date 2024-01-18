@@ -4,9 +4,9 @@ import { ActionTrigger, ActionTriggerWithActionInfo } from 'src/app/shared/model
 import { SofieDroppdownOption } from 'src/app/shared/components/dropdown-button/dropdown-button.component'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
-import { HttpFileDownloadService } from 'src/app/core/services/http/http-file-download.service'
 import { ActionTriggerSortKeys, KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 import { SortOrder } from 'src/app/shared/models/forms'
+import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
 
 export enum UserActionsWithSelectedTriggers {
   DISABLE_SELECTION = 'DISABLE_SELECTION',
@@ -22,10 +22,8 @@ export enum UserActionsWithSelectedTriggers {
 })
 export class ActionTriggersListComponent implements OnChanges {
   @Input() public actionTriggers: ActionTriggerWithActionInfo<KeyboardTriggerData>[]
-  @Input() public selectedActionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined
-  @Output() private readonly onActionTriggerOpen: EventEmitter<ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined> = new EventEmitter<
-    ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined
-  >()
+  @Input() public selectedActionTrigger?: ActionTriggerWithActionInfo<KeyboardTriggerData>
+  @Output() private readonly onActionTriggerOpen: EventEmitter<ActionTriggerWithActionInfo<KeyboardTriggerData>> = new EventEmitter<ActionTriggerWithActionInfo<KeyboardTriggerData>>()
   public search: string = ''
   public sort: string = `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`
   public readonly sortLabel: string = $localize`global.sort.label`
@@ -49,7 +47,7 @@ export class ActionTriggersListComponent implements OnChanges {
 
   constructor(
     private readonly dialogService: DialogService,
-    private readonly fileDownloadService: HttpFileDownloadService,
+    private readonly fileDownloadService: FileDownloadService,
     private readonly actionTriggerService: ActionTriggerService
   ) {}
 
@@ -69,7 +67,7 @@ export class ActionTriggersListComponent implements OnChanges {
     )
   }
 
-  public selectActionTrigger(actionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData> | undefined): void {
+  public selectActionTrigger(actionTrigger?: ActionTriggerWithActionInfo<KeyboardTriggerData>): void {
     this.onActionTriggerOpen.emit(this.selectedActionTrigger?.id === actionTrigger?.id ? undefined : actionTrigger)
   }
 

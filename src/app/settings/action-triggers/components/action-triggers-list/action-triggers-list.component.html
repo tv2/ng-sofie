@@ -7,7 +7,8 @@
       [label]="sortLabel"
       [iconButton]="iconButton.VERTICAL_OPPOSING_TRIANGLES"
       [iconButtonSize]="iconButtonSize.XL"
-      (onSelect)="selectNewSort($event)"></sofie-dropdown-button>
+      (onSelect)="selectNewSort($event)">
+    </sofie-dropdown-button>
 
     <sofie-dropdown-button
       *ngIf="selectMode; else turnOnSelectModeBtn"
@@ -15,7 +16,8 @@
       [iconButton]="iconButton.SQUARE_CHECK"
       [iconButtonSize]="iconButtonSize.XL"
       (onSelect)="actionWithSelected($event)"
-      label="Selected"></sofie-dropdown-button>
+      label="Selected">
+    </sofie-dropdown-button>
 
     <ng-template #turnOnSelectModeBtn>
       <sofie-button (onClick)="selectMode = true" label="Enable multi select"> </sofie-button>
@@ -38,7 +40,7 @@
               {{ actionsTrigger.data.label }}
             </p>
             <div>
-              <span class="c-custom-badge bg-dark">{{ actionsTrigger.data.keys | shortcut }}</span>
+              <span class="c-custom-badge bg-dark">{{ actionsTrigger.data.keys | shortcutKeysToString }}</span>
               <span class="c-custom-badge bg-dark" [class]="actionsTrigger.actionInfo.metadata.contentType.toLocaleLowerCase() + '_color'">{{ actionsTrigger.actionInfo.name }}</span>
             </div>
           </div>

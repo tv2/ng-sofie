@@ -6,7 +6,7 @@
       flex-grow: 1;
     }
     &--edit {
-      flex: 0 0 70%;
+      flex-grow: 1;
       height: calc(100vh - 170px);
       overflow: auto;
     }

@@ -5,11 +5,11 @@ export interface Action {
   type: ActionType
   name: string
   description?: string
-  argument?: Argument
+  argument?: ActionArgument
   metadata?: unknown
 }
 
-export interface Argument {
+export interface ActionArgument {
   description: string
   name: string
   type: ActionArgumentSchema

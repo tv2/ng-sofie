@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core'
 import { IconButton, IconButtonSize } from '../../enums/icon-button'
-import { HttpIconService } from 'src/app/core/services/http/http-icon.service'
+import { IconService } from 'src/app/core/abstractions/icon.service'
 
 @Component({
   selector: 'sofie-button',
@@ -15,7 +15,7 @@ export class ButtonComponent implements OnInit {
   @Input() public label: string = ''
   @Input() public selected: string = ''
   @Output() public readonly onClick: EventEmitter<void> = new EventEmitter<void>()
-  constructor(private readonly iconService: HttpIconService) {}
+  constructor(private readonly iconService: IconService) {}
 
   public iconButtonSizeProp: SizeProp
   public iconButtonProp: IconProp

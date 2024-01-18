@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
-  name: 'shortcut',
+  name: 'shortcutKeysToString',
 })
-export class ShortcutPipe implements PipeTransform {
+export class ShortcutKeysToStringPipe implements PipeTransform {
   public transform(values: string[]): string {
     const newValue = []
     for (let value of values) {
