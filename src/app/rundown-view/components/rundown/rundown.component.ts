@@ -110,11 +110,11 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private miniShelfSegmentsReducer(actionMap: Record<string, Tv2VideoClipAction>, segment: Segment): Record<string, Tv2VideoClipAction> {
     const videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
-    if (videoClipFile) {
+    if (videoClipFile !== undefined) {
       const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
         return action.metadata?.fileName === videoClipFile
       })
-      if (action) {
+      if (action !== undefined) {
         return { ...actionMap, [segment.id]: action }
       }
     }

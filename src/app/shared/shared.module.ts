@@ -101,6 +101,7 @@ import { HttpMediaDataService } from './services/http/http-media-data.service'
     { provide: ActionParser, useClass: ZodActionParser },
     { provide: ActionTriggerParser, useClass: ZodActionTriggerParser },
     { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
+    { provide: ActionStateService, useClass: ActionStateService },
     { provide: ConfigurationService, useClass: HttpConfigurationService },
     { provide: MediaDataService, useClass: HttpMediaDataService },
     HttpErrorService,
