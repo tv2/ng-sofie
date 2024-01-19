@@ -1,26 +1,28 @@
 <div class="c-action-triggers-list">
   <div class="c-action-triggers-list__search">
     <input type="text" [(ngModel)]="search" placeholder="Search" />
-    <sofie-dropdown-button
-      [selectedKey]="sort"
-      [options]="sortActionsTriggers"
-      [label]="sortLabel"
-      [iconButton]="iconButton.VERTICAL_OPPOSING_TRIANGLES"
-      [iconButtonSize]="iconButtonSize.XL"
-      (onSelect)="selectNewSort($event)">
-    </sofie-dropdown-button>
-
-    <sofie-dropdown-button
-      *ngIf="selectMode; else turnOnSelectModeButton"
-      [options]="selectedActionTriggerOptions"
-      [iconButton]="iconButton.SQUARE_CHECK"
-      [iconButtonSize]="iconButtonSize.XL"
-      (onSelect)="actionWithSelected($event)"
-      label="Selected">
-    </sofie-dropdown-button>
+    <ng-container *ngIf="selectMode; else turnOnSelectModeButton">
+      <sofie-dropdown-button
+        [options]="selectedActionTriggerOptions"
+        [iconButton]="iconButton.SQUARE_CHECK"
+        [iconButtonSize]="iconButtonSize.XL"
+        (onSelect)="actionWithSelected($event)"
+        label="Selected">
+      </sofie-dropdown-button>
+      <sofie-button (onClick)="setSelectMode(false)" label="Disable multiselect"></sofie-button>
+    </ng-container>
 
     <ng-template #turnOnSelectModeButton>
-      <sofie-button (onClick)="selectMode = true" label="Enable multiselect"> </sofie-button>
+      <sofie-dropdown-button
+        [selectedKey]="sortQuery"
+        [options]="sortActionsTriggers"
+        [label]="sortLabel"
+        [iconButton]="iconButton.VERTICAL_OPPOSING_TRIANGLES"
+        [iconButtonSize]="iconButtonSize.XL"
+        (onSelect)="selectNewSort($event)">
+      </sofie-dropdown-button>
+
+      <sofie-button (onClick)="setSelectMode(true)" label="Enable multiselect"></sofie-button>
     </ng-template>
   </div>
   <div class="c-action-triggers-list__items">
@@ -40,22 +42,18 @@
               {{ actionsTrigger.data.label }}
             </p>
             <div>
-              <span class="c-custom-badge bg-dark">{{ actionsTrigger.data.keys | shortcutKeysToString }}</span>
+              <span class="c-custom-badge bg-dark">{{
+                (actionsTrigger.data.mappedToKeys && actionsTrigger.data.mappedToKeys.length > 0 ? actionsTrigger.data.mappedToKeys : actionsTrigger.data.keys) | shortcutKeysToString
+              }}</span>
               <span class="c-custom-badge bg-dark" [class]="actionsTrigger.actionInfo.metadata.contentType.toLocaleLowerCase() + '_color'">{{ actionsTrigger.actionInfo.name }}</span>
             </div>
           </div>
-          <div class="c-action-triggers-list__card--actions">
+          <div *ngIf="!selectMode" class="c-action-triggers-list__card--actions">
             <sofie-icon-button [iconButton]="iconButton.PEN" tooltipText="Edit action trigger" [iconButtonSize]="iconButtonSize.L" (click)="selectActionTrigger(actionsTrigger)"></sofie-icon-button>
-            <sofie-icon-button
-              [iconButton]="iconButton.TWO_SHEETS_COPY"
-              tooltipText="Copy action trigger"
-              [iconButtonSize]="iconButtonSize.L"
-              (click)="actionTriggerCopy(actionsTrigger)"></sofie-icon-button>
-            <sofie-icon-button
-              [iconButton]="iconButton.TRASH_CAN"
-              tooltipText="Delete action trigger"
-              [iconButtonSize]="iconButtonSize.L"
-              (click)="actionTriggerDelete(actionsTrigger.id)"></sofie-icon-button>
+            <sofie-icon-button [iconButton]="iconButton.TWO_SHEETS_COPY" tooltipText="Copy action trigger" [iconButtonSize]="iconButtonSize.L" (click)="cloneActionTrigger(actionsTrigger)">
+            </sofie-icon-button>
+            <sofie-icon-button [iconButton]="iconButton.TRASH_CAN" tooltipText="Delete action trigger" [iconButtonSize]="iconButtonSize.L" (click)="actionTriggerDelete(actionsTrigger.id)">
+            </sofie-icon-button>
           </div>
         </div>
       </ng-container>

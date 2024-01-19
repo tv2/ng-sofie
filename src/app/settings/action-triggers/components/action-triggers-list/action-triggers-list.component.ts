@@ -7,7 +7,8 @@ import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger
 import { ActionTriggerSortKeys, KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 import { SortOrder } from 'src/app/shared/models/forms'
 import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
-import { UserActionsWithSelected } from 'src/app/shared/models/settings'
+import { ActionsWithSelected } from 'src/app/shared/models/settings'
+import { Keys } from 'src/app/keyboard/value-objects/key-binding'
 
 @Component({
   selector: 'sofie-action-triggers-list',
@@ -19,7 +20,7 @@ export class ActionTriggersListComponent implements OnChanges {
   @Input() public selectedActionTrigger?: ActionTriggerWithActionInfo<KeyboardTriggerData>
   @Output() private readonly onActionTriggerOpen: EventEmitter<ActionTriggerWithActionInfo<KeyboardTriggerData>> = new EventEmitter<ActionTriggerWithActionInfo<KeyboardTriggerData>>()
   public search: string = ''
-  public sort: string = `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`
+  public sortQuery: string = `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`
   public readonly sortLabel: string = $localize`global.sort.label`
   public readonly iconButton = IconButton
   public readonly iconButtonSize = IconButtonSize
@@ -31,10 +32,9 @@ export class ActionTriggersListComponent implements OnChanges {
   ]
 
   public selectedActionTriggerOptions: SofieDropdownOption[] = [
-    { key: UserActionsWithSelected.DISABLE_SELECTION, label: $localize`action-triggers.disable-multiselect.label`, isDisabled: false },
-    { key: UserActionsWithSelected.TOGGLE_SELECT, label: $localize`global.select-all.label`, isDisabled: false },
-    { key: UserActionsWithSelected.EXPORT, label: $localize`global.export-selected.label`, isDisabled: true },
-    { key: UserActionsWithSelected.DELETE, label: $localize`global.delete-selected.label`, isDisabled: true },
+    { key: ActionsWithSelected.TOGGLE_SELECT, label: $localize`global.select-all.label`, isDisabled: false },
+    { key: ActionsWithSelected.EXPORT, label: $localize`global.export-selected.label`, isDisabled: true },
+    { key: ActionsWithSelected.DELETE, label: $localize`global.delete-selected.label`, isDisabled: true },
   ]
   public selectMode: boolean = false
   private readonly selectedActionTriggerIds: Set<string> = new Set()
@@ -48,21 +48,40 @@ export class ActionTriggersListComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     const actionTriggerChange: SimpleChange | undefined = changes['actionTriggers']
     if (actionTriggerChange) {
-      this.newSortSelect(this.sort)
+      this.newSortSelect(this.sortQuery)
     }
   }
 
   get filteredActionsTriggers(): ActionTriggerWithActionInfo<KeyboardTriggerData>[] {
+    const lowercasedSearchQuery: string = this.search.toLocaleLowerCase()
     return this.actionTriggers.filter(
       trigger =>
-        trigger.data.label.toLocaleLowerCase().includes(this.search.toLocaleLowerCase()) ||
-        trigger.data.keys.toString().toLocaleLowerCase().includes(this.search.toLocaleLowerCase()) ||
+        trigger.data.label.toLocaleLowerCase().includes(lowercasedSearchQuery) ||
+        this.getMappetToOrShortcutKeysArray(trigger).toString().toLocaleLowerCase().includes(lowercasedSearchQuery) ||
+        trigger.actionInfo.name.toString().toLocaleLowerCase().includes(lowercasedSearchQuery) ||
         trigger.id === this.selectedActionTrigger?.id
     )
   }
 
+  private getMappetToOrShortcutKeysArray(actionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData>): Keys {
+    return actionTrigger.data.mappedToKeys && actionTrigger.data.mappedToKeys.length > 0 ? actionTrigger.data.mappedToKeys : actionTrigger.data.keys
+  }
+
   public selectActionTrigger(actionTrigger?: ActionTriggerWithActionInfo<KeyboardTriggerData>): void {
+    if (this.selectMode) {
+      return
+    }
     this.onActionTriggerOpen.emit(this.selectedActionTrigger?.id === actionTrigger?.id ? undefined : actionTrigger)
+  }
+
+  public setSelectMode(isSelected: boolean): void {
+    if (isSelected) {
+      this.selectActionTrigger()
+    } else {
+      this.unselectAllActionsTriggers()
+      this.updateSelectedActionTriggersOptions()
+    }
+    this.selectMode = isSelected
   }
 
   public setActionTriggerSelection(actionTriggerId: string, isSelected: boolean): void {
@@ -91,23 +110,16 @@ export class ActionTriggersListComponent implements OnChanges {
 
   private deleteSelectedActionTriggers(): void {
     this.selectedActionTriggerIds.forEach(actionTriggerId => this.deleteActionTriggerById(actionTriggerId))
+    this.unselectAllActionsTriggers()
   }
 
-  public actionTriggerCopy(actionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData>): void {
-    const copyPayload: ActionTrigger<KeyboardTriggerData> = {
-      actionId: actionTrigger.actionId,
+  public cloneActionTrigger(actionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData>): void {
+    const clonedActionTrigger: ActionTrigger<KeyboardTriggerData> = {
+      ...actionTrigger,
+      data: { ...actionTrigger.data },
       id: '',
-      data: {
-        keys: actionTrigger.data.keys,
-        label: actionTrigger.data.label,
-        actionArguments: actionTrigger.data.actionArguments,
-        triggerOn: actionTrigger.data.triggerOn,
-      },
     }
-    if (actionTrigger.data.mappedToKeys && actionTrigger.data.mappedToKeys.length > 0) {
-      copyPayload.data.mappedToKeys = actionTrigger.data.mappedToKeys
-    }
-    this.actionTriggerService.createActionTrigger(copyPayload).subscribe()
+    this.actionTriggerService.createActionTrigger(clonedActionTrigger).subscribe()
   }
 
   public selectNewSort(sortOption: string): void {
@@ -115,7 +127,7 @@ export class ActionTriggersListComponent implements OnChanges {
   }
 
   private newSortSelect(sort: string): void {
-    this.sort = sort
+    this.sortQuery = sort
     switch (sort) {
       case `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`:
         this.actionTriggers = this.actionTriggers.sort((a, b) => a.data.label.localeCompare(b.data.label))
@@ -137,19 +149,14 @@ export class ActionTriggersListComponent implements OnChanges {
 
   public actionWithSelected(userAction: string): void {
     switch (userAction) {
-      case UserActionsWithSelected.DELETE:
+      case ActionsWithSelected.DELETE:
         return this.dialogService.createConfirmDialog($localize`action-triggers.delete-selected.label`, $localize`action-triggers.delete-selected.confirmation`, 'Delete', () =>
           this.deleteSelectedActionTriggers()
         )
-      case UserActionsWithSelected.EXPORT:
+      case ActionsWithSelected.EXPORT:
         return this.exportSelectedTriggers()
-      case UserActionsWithSelected.TOGGLE_SELECT:
+      case ActionsWithSelected.TOGGLE_SELECT:
         return this.toggleSelectUnselectAll()
-      case UserActionsWithSelected.DISABLE_SELECTION:
-        this.selectMode = false
-        this.unselectAllActionsTriggers()
-        this.updateSelectedActionTriggersOptions()
-        break
       default:
         return
     }
@@ -161,13 +168,13 @@ export class ActionTriggersListComponent implements OnChanges {
 
   private updateSelectedActionTriggersOption(option: SofieDropdownOption): SofieDropdownOption {
     switch (option.key) {
-      case UserActionsWithSelected.TOGGLE_SELECT:
+      case ActionsWithSelected.TOGGLE_SELECT:
         return {
           ...option,
           label: this.areAllActionTriggersSelected() ? $localize`global.unselect-all.label` : $localize`global.select-all.label`,
         }
-      case UserActionsWithSelected.EXPORT:
-      case UserActionsWithSelected.DELETE:
+      case ActionsWithSelected.EXPORT:
+      case ActionsWithSelected.DELETE:
         return {
           ...option,
           isDisabled: this.isNoActionTriggerSelected(),

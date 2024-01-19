@@ -5,6 +5,9 @@
       flex: 0 0 30%;
       flex-grow: 1;
     }
+    &--list-open {
+      max-width: 450px;
+    }
     &--edit {
       flex-grow: 1;
       height: calc(100vh - 170px);

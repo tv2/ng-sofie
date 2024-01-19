@@ -3,6 +3,7 @@ import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpda
 import { ActionTriggerEventType } from '../models/action-trigger-event-type'
 import { ActionTriggerParser } from 'src/app/shared/abstractions/action-trigger-parser.service'
 import { anything, instance, mock, when } from '@typestrong/ts-mockito'
+import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 
 describe(ZodActionTriggerEventParser.name, () => {
   describe(ZodActionTriggerEventParser.prototype.parseActionTriggerCreatedEvent.name, () => {
@@ -18,6 +19,7 @@ describe(ZodActionTriggerEventParser.name, () => {
           data: {
             keys: ['randomKey'],
             label: 'randomLabel',
+            triggerOn: KeyEventType.PRESSED,
             actionArguments: 100,
           },
         },
@@ -40,6 +42,7 @@ describe(ZodActionTriggerEventParser.name, () => {
           data: {
             keys: ['randomKey'],
             label: 'randomLabel',
+            triggerOn: KeyEventType.PRESSED,
             actionArguments: 100,
           },
         },
@@ -66,6 +69,6 @@ describe(ZodActionTriggerEventParser.name, () => {
 
 function createMockOfActionTriggerParser(): ActionTriggerParser {
   const mockedActionTriggerParser = mock<ActionTriggerParser>()
-  when(mockedActionTriggerParser.parseActionTriggerData(anything())).thenCall(data => data)
+  when(mockedActionTriggerParser.parseActionTrigger(anything())).thenCall(data => data)
   return mockedActionTriggerParser
 }

@@ -8,9 +8,7 @@
     & input {
       width: 100%;
       padding: 8px;
-    }
-    & sofie-dropdown-button {
-      margin-left: 16px;
+      margin-right: 16px;
     }
   }
   &__items {
@@ -23,6 +21,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 16px 16px 8px 16px;
     &--selected {
       background-color: var(--general-gray-color);
     }
@@ -39,6 +38,7 @@
       padding-left: 16px;
       min-width: 115px;
       text-align: right;
+      margin-bottom: 8px;
       & sofie-icon-button {
         margin-right: 16px;
         &:last-child {
@@ -48,12 +48,12 @@
     }
     & sofie-custom-checkbox {
       margin-right: 16px;
-      margin-left: 8px;
     }
   }
   &__no-items {
     & h3 {
       text-align: center;
+      font-weight: lighter;
     }
   }
 }

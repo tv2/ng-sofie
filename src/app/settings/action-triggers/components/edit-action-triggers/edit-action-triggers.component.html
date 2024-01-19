@@ -93,6 +93,7 @@
         <button class="c-sofie-button c-sofie-button-gray" (click)="onCancel.emit()" type="button" i18n>global.close.button</button>
       </div>
     </div>
-    <sofie-select-action-trigger [actions]="actions" [selectedActionId]="actionForm.get('actionId')?.value" (onActionTriggerOpen)="openNewActionTrigger($event)"></sofie-select-action-trigger>
+    <sofie-select-action-trigger [actions]="actions" [submitting]="submitting" [selectedActionId]="actionForm.get('actionId')?.value" (onActionTriggerOpen)="openNewActionTrigger($event)">
+    </sofie-select-action-trigger>
   </form>
 </div>
