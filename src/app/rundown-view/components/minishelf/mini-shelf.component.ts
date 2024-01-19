@@ -72,7 +72,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     return sanitizedTitle
   }
 
-  protected executeAction(): void {
+  protected emitActionEvent(): void {
     if (!this.videoClipAction) {
       return
     }
@@ -83,4 +83,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   protected handleMissingImage(event: Event): void {
     ;(event.target as HTMLImageElement).src = 'assets/sofie-logo.svg'
   }
+
+  protected readonly NaN = NaN
+  protected readonly isNaN = isNaN
 }
