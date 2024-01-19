@@ -8,9 +8,7 @@ import { EntityParser } from '../../../core/abstractions/entity-parser.service'
 import { MediaDataService } from '../media-data.service'
 import { MediaData } from '../media-data'
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class HttpMediaDataService implements MediaDataService {
   constructor(
     private readonly http: HttpClient,

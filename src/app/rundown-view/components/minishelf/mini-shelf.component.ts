@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration-service'
 import { StudioConfiguration } from '../../../shared/services/studio-configuration'
@@ -12,7 +12,7 @@ import { MediaData } from '../../../shared/services/media-data'
   styleUrls: ['./mini-shelf.component.scss'],
   templateUrl: './mini-shelf.component.html',
 })
-export class MiniShelfComponent implements OnInit, OnDestroy {
+export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction: Tv2VideoClipAction | undefined
 
@@ -32,10 +32,20 @@ export class MiniShelfComponent implements OnInit, OnDestroy {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((configuration: StudioConfiguration) => {
       this.configurationMediaPreviewUrl = configuration.data.settings.mediaPreviewUrl
     })
+    this.updateMediaDataDuration()
+  }
+
+  private updateMediaDataDuration(): void {
     if (this.segment.metadata?.miniShelfVideoClipFile !== undefined) {
       this.mediaDataSubscription = this.mediaDataService.getMediaDurationById(this.segment.metadata.miniShelfVideoClipFile).subscribe((mediaData: MediaData) => {
         this.mediaDuration = mediaData.duration
       })
+    }
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if ('segment' in changes) {
+      this.updateMediaDataDuration()
     }
   }
 
