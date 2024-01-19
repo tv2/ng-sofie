@@ -167,7 +167,7 @@ export class ZodEntityParser implements EntityParser {
   private readonly studioConfigurationParser = zod.object({
     data: zod.object({
       settings: zod.object({
-        mediaPreviewUrl: zod.string(),
+        mediaPreviewUrl: zod.string().startsWith('http://', 'Media preview url must start with http://').and(zod.string().min(9, 'Media preview url must more than 9 characters long')),
       }),
     }),
   })
