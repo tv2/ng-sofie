@@ -16,7 +16,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction: Tv2VideoClipAction | undefined
 
-  @Output() public executeActionEmitter: EventEmitter<Tv2Action> = new EventEmitter()
+  @Output() public onClickExecuteActionEmitter: EventEmitter<Tv2Action> = new EventEmitter()
 
   protected mediaDuration: number = 0
   private configurationMediaPreviewUrl: string
@@ -77,7 +77,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
       return
     }
     const action: Tv2Action = this.videoClipAction
-    this.executeActionEmitter.emit(action)
+    this.onClickExecuteActionEmitter.emit(action)
   }
 
   protected handleMissingImage(event: Event): void {
