@@ -180,6 +180,7 @@ export class ZodEntityParser implements EntityParser {
       contentType: zod.nativeEnum(Tv2ActionContentType),
     }),
   })
+
   public parseTv2Action(tv2Action: unknown): Tv2Action {
     return <Tv2Action>this.tv2ActionParser.parse(tv2Action)
   }
@@ -188,6 +189,7 @@ export class ZodEntityParser implements EntityParser {
     id: zod.string(),
     duration: zod.number(),
   })
+
   public parseMediaData(mediaData: unknown): Media {
     return <Media>this.mediaDataParser.parse(mediaData)
   }
