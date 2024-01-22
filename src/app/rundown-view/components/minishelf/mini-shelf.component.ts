@@ -37,7 +37,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   private updateMediaDataDuration(): void {
     if (this.segment.metadata?.miniShelfVideoClipFile !== undefined) {
-      this.mediaDataSubscription = this.mediaDataService.getMediaDurationById(this.segment.metadata.miniShelfVideoClipFile).subscribe((mediaData: Media) => {
+      this.mediaDataSubscription = this.mediaDataService.getMedia(this.segment.metadata.miniShelfVideoClipFile).subscribe((mediaData: Media) => {
         this.mediaDuration = mediaData.duration
       })
     }

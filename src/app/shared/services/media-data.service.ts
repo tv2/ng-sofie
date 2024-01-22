@@ -4,5 +4,5 @@ import { Media } from './media'
 
 @Injectable()
 export abstract class MediaDataService {
-  public abstract getMediaDurationById(id: string): Observable<Media>
+  public abstract getMedia(id: string): Observable<Media>
 }

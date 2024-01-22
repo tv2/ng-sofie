@@ -16,7 +16,7 @@ export class HttpMediaDataService implements MediaDataService {
     private readonly entityParser: EntityParser
   ) {}
 
-  public getMediaDurationById(id: string): Observable<Media> {
+  public getMedia(id: string): Observable<Media> {
     return this.http.get<HttpResponse<Media>>(`${environment.apiBaseUrl}/media/${id}`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
       map(response => this.entityParser.parseMediaData(response))
