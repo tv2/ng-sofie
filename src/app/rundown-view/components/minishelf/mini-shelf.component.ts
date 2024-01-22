@@ -17,6 +17,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction: Tv2VideoClipAction | undefined
 
+  private readonly defaultAssetForThumbnail: string = 'assets/sofie-logo.svg'
   protected mediaDuration: number = 0
   private configurationMediaPreviewUrl: string
   private mediaDataSubscription: Subscription
@@ -56,7 +57,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   protected get mediaPreviewUrl(): string {
     const url: string = `${this.configurationMediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
-    return this.configurationMediaPreviewUrl ? url : 'assets/sofie-logo.svg'
+    return this.configurationMediaPreviewUrl ? url : this.defaultAssetForThumbnail
   }
 
   public getSanitizedTitle(): string {
@@ -80,7 +81,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   protected handleMissingImage(event: Event): void {
-    ;(event.target as HTMLImageElement).src = 'assets/sofie-logo.svg'
+    ;(event.target as HTMLImageElement).src = this.defaultAssetForThumbnail
   }
 
   protected readonly NaN = NaN
