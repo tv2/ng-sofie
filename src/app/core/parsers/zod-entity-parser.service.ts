@@ -10,9 +10,9 @@ import { Tv2OutputLayer } from '../models/tv2-output-layer'
 import { Tv2Piece } from '../models/tv2-piece'
 import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Tv2AudioMode } from '../enums/tv2-audio-mode'
-import { Configuration } from '../models/configuration'
 import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Media } from '../../shared/services/media'
+import { StudioConfiguration } from '../../shared/services/studio-configuration'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -171,7 +171,7 @@ export class ZodEntityParser implements EntityParser {
       }),
     }),
   })
-  public parseStudioConfiguration(studioConfiguration: unknown): Configuration {
+  public parseStudioConfiguration(studioConfiguration: unknown): StudioConfiguration {
     return this.studioConfigurationParser.parse(studioConfiguration)
   }
 

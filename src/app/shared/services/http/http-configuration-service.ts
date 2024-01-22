@@ -5,8 +5,8 @@ import { environment } from '../../../../environments/environment'
 import { catchError, map, Observable } from 'rxjs'
 import { HttpResponse } from './http-response'
 import { EntityParser } from '../../../core/abstractions/entity-parser.service'
-import { Configuration } from '../../../core/models/configuration'
 import { ConfigurationService } from '../configuration-service'
+import { StudioConfiguration } from '../studio-configuration'
 
 @Injectable()
 export class HttpConfigurationService implements ConfigurationService {
@@ -16,8 +16,8 @@ export class HttpConfigurationService implements ConfigurationService {
     private readonly entityParser: EntityParser
   ) {}
 
-  public getStudioConfiguration(): Observable<Configuration> {
-    return this.http.get<HttpResponse<Configuration>>(`${environment.apiBaseUrl}/configurations/studio`).pipe(
+  public getStudioConfiguration(): Observable<StudioConfiguration> {
+    return this.http.get<HttpResponse<StudioConfiguration>>(`${environment.apiBaseUrl}/configurations/studio`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
       map(response => this.entityParser.parseStudioConfiguration(response))
     )

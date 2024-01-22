@@ -4,9 +4,9 @@ import { Segment } from '../models/segment'
 import { Part } from '../models/part'
 import { Piece } from '../models/piece'
 import { ShowStyleVariant } from '../models/show-style-variant'
-import { Configuration } from '../models/configuration'
 import { Tv2Action } from '../../shared/models/tv2-action'
 import { Media } from '../../shared/services/media'
+import { StudioConfiguration } from '../../shared/services/studio-configuration'
 
 export abstract class EntityParser {
   public abstract parseBasicRundown(basicRundown: unknown): BasicRundown
@@ -16,7 +16,7 @@ export abstract class EntityParser {
   public abstract parsePart(part: unknown): Part
   public abstract parsePiece(piece: unknown): Piece
   public abstract parseShowStyleVariant(showStyleVariant: unknown): ShowStyleVariant
-  public abstract parseStudioConfiguration(studioConfiguration: unknown): Configuration
+  public abstract parseStudioConfiguration(studioConfiguration: unknown): StudioConfiguration
   public abstract parseTv2Action(tv2Action: unknown): Tv2Action
   public abstract parseMediaData(mediaData: unknown): Media
 }
