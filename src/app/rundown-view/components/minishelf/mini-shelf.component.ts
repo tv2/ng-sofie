@@ -5,7 +5,7 @@ import { StudioConfiguration } from '../../../shared/services/studio-configurati
 import { Tv2Action, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { Subscription } from 'rxjs'
 import { MediaDataService } from '../../../shared/services/media-data.service'
-import { MediaData } from '../../../shared/services/media-data'
+import { Media } from '../../../shared/services/media'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -37,7 +37,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   private updateMediaDataDuration(): void {
     if (this.segment.metadata?.miniShelfVideoClipFile !== undefined) {
-      this.mediaDataSubscription = this.mediaDataService.getMediaDurationById(this.segment.metadata.miniShelfVideoClipFile).subscribe((mediaData: MediaData) => {
+      this.mediaDataSubscription = this.mediaDataService.getMediaDurationById(this.segment.metadata.miniShelfVideoClipFile).subscribe((mediaData: Media) => {
         this.mediaDuration = mediaData.duration
       })
     }

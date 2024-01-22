@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { MediaData } from './media-data'
+import { Media } from './media'
 
 @Injectable()
 export abstract class MediaDataService {
-  public abstract getMediaDurationById(id: string): Observable<MediaData>
+  public abstract getMediaDurationById(id: string): Observable<Media>
 }

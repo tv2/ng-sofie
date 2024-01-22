@@ -6,7 +6,7 @@ import { catchError, map, Observable } from 'rxjs'
 import { HttpResponse } from './http-response'
 import { EntityParser } from '../../../core/abstractions/entity-parser.service'
 import { MediaDataService } from '../media-data.service'
-import { MediaData } from '../media-data'
+import { Media } from '../media'
 
 @Injectable()
 export class HttpMediaDataService implements MediaDataService {
@@ -16,8 +16,8 @@ export class HttpMediaDataService implements MediaDataService {
     private readonly entityParser: EntityParser
   ) {}
 
-  public getMediaDurationById(id: string): Observable<MediaData> {
-    return this.http.get<HttpResponse<MediaData>>(`${environment.apiBaseUrl}/media/${id}`).pipe(
+  public getMediaDurationById(id: string): Observable<Media> {
+    return this.http.get<HttpResponse<Media>>(`${environment.apiBaseUrl}/media/${id}`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
       map(response => this.entityParser.parseMediaData(response))
     )
