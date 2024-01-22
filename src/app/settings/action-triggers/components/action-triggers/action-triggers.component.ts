@@ -82,17 +82,8 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
 
   public exportActionsTriggers(): void {
     const triggersCopy: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggersWithAction.map(actionTriggerWithActions => {
-      const actionTrigger = actionTriggerWithActions.actionTrigger
       return {
-        actionId: actionTrigger.actionId,
-        id: actionTrigger.id,
-        data: {
-          keys: actionTrigger.data.keys,
-          actionArguments: actionTrigger.data.actionArguments,
-          label: actionTrigger.data.label,
-          triggerOn: actionTrigger.data.triggerOn,
-          mappedToKeys: actionTrigger.data.mappedToKeys,
-        },
+        ...actionTriggerWithActions.actionTrigger,
       }
     })
     this.fileDownloadService.downloadText(JSON.stringify(triggersCopy), 'actions-triggers.json')

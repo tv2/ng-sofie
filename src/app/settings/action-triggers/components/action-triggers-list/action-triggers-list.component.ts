@@ -153,7 +153,7 @@ export class ActionTriggersListComponent implements OnChanges {
           this.deleteSelectedActionTriggers()
         )
       case ActionsWithSelected.EXPORT:
-        return this.exportSelectedTriggers()
+        return this.exportSelectedActionTriggers()
       case ActionsWithSelected.TOGGLE_SELECT:
         return this.toggleSelectUnselectAll()
       default:
@@ -195,28 +195,8 @@ export class ActionTriggersListComponent implements OnChanges {
     return this.selectedActionTriggerIds.has(id)
   }
 
-  private exportSelectedTriggers(): void {
-    const selectedTriggers: ActionTrigger<KeyboardTriggerData>[] = []
-    this.selectedActionTriggerIds.forEach(actionTriggerId => {
-      const actionTrigger: ActionTrigger<KeyboardTriggerData> | undefined = this.actionTriggersWithAction.find(actionTriggerItem => actionTriggerItem.actionTrigger.id === actionTriggerId)
-        ?.actionTrigger
-      if (!actionTrigger) {
-        return
-      }
-      selectedTriggers.push({
-        actionId: actionTrigger.actionId,
-        id: actionTrigger.id,
-        data: {
-          keys: actionTrigger.data.keys,
-          actionArguments: actionTrigger.data.actionArguments,
-          label: actionTrigger.data.label,
-          triggerOn: actionTrigger.data.triggerOn,
-          mappedToKeys: actionTrigger.data.mappedToKeys,
-        },
-      })
-    })
-
-    this.fileDownloadService.downloadText(JSON.stringify(selectedTriggers), 'selected-actions-triggers.json')
+  private exportSelectedActionTriggers(): void {
+    this.fileDownloadService.downloadText(JSON.stringify(this.getListWithSelectedActionTriggers()), 'selected-actions-triggers.json')
     this.unselectAllActionsTriggers()
     this.updateSelectedActionTriggersOptions()
   }
@@ -232,6 +212,12 @@ export class ActionTriggersListComponent implements OnChanges {
 
   private unselectAllActionsTriggers(): void {
     this.selectedActionTriggerIds.clear()
+  }
+
+  private getListWithSelectedActionTriggers(): ActionTrigger<KeyboardTriggerData>[] {
+    return this.actionTriggersWithAction
+      .filter(actionTriggerWithAction => this.selectedActionTriggerIds.has(actionTriggerWithAction.actionTrigger.id))
+      .map(actionTriggerWithAction => actionTriggerWithAction.actionTrigger)
   }
 
   private selectAllActionsTriggers(): void {

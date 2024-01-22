@@ -9,12 +9,12 @@ export class FormatKeyboardKeysPipe implements PipeTransform {
   }
 
   public formatKey(key: string): string {
-    if (/\Key/g.test(key)) {
-      return key.replace(/\Key/g, '')
-    } else if (/\Digit/g.test(key)) {
-      return `${key.replace(/\Digit/g, '')} (Digit)`
-    } else if (/\Numpad/g.test(key)) {
-      return `${key.replace(/\Numpad/g, '')} (Numpad)`
+    if (/Key/g.test(key)) {
+      return key.replace(/Key/g, '')
+    } else if (/Digit/g.test(key)) {
+      return `${key.replace(/Digit/g, '')} (Digit)`
+    } else if (/Numpad/g.test(key)) {
+      return `${key.replace(/Numpad/g, '')} (Numpad)`
     }
     return key
   }
