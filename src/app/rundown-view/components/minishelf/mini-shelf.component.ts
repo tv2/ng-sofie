@@ -60,16 +60,16 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public getSanitizedTitle(): string {
-    let sanitizedTitle = this.segment.name?.replace(/<[^>]*>/g, '') // remove html tags
-    sanitizedTitle = sanitizedTitle?.replace(/(\r\n|\n|\r)/gm, ' ') // remove newlines
-    sanitizedTitle = sanitizedTitle?.replace(/_/g, ' ') // replace underscores with spaces;
-    sanitizedTitle = sanitizedTitle?.replace(/&nbsp;/g, ' ') // remove &nbsp;
-    sanitizedTitle = sanitizedTitle?.replace(/\s+/g, ' ') // remove extra spaces
-    sanitizedTitle = sanitizedTitle?.replace(/&amp;/g, '&') // remove &amp;
-    sanitizedTitle = sanitizedTitle?.replace(/&quot;/g, '"') // remove &quot;
-    sanitizedTitle = sanitizedTitle?.replace(/&apos;/g, "'") // remove &apos;
-    sanitizedTitle = sanitizedTitle?.trim() // and finally trim;
-    return sanitizedTitle
+    return this.segment.name
+      .replace(/<[^>]*>/g, '') // remove html tags
+      .replace(/(\r\n|\n|\r)/gm, ' ') // remove newlines
+      .replace(/_/g, ' ') // replace underscores with spaces;
+      .replace(/&nbsp;/g, ' ') // remove &nbsp;
+      .replace(/\s+/g, ' ') // remove extra spaces
+      .replace(/&amp;/g, '&') // remove &amp;
+      .replace(/&quot;/g, '"') // remove &quot;
+      .replace(/&apos;/g, "'") // remove &apos;
+      .trim() // and finally trim;
   }
 
   protected emitActionEvent(): void {
