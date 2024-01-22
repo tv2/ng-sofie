@@ -25,7 +25,7 @@ export class KeyboardKeysFieldComponent {
     event.preventDefault()
     const newKeyCode: string = SHORTCUT_KEYS_MAPPINGS[event.code] ?? event.code
     const currentKeys: string[] = this.value ?? []
-    if (!currentKeys.every(keyCode => keyCode !== newKeyCode)) {
+    if (!currentKeys.every(keyCode => keyCode !== newKeyCode) && !this.isFirstKeyAfterUserFocus) {
       return
     }
     const newValue: string[] = this.isFirstKeyAfterUserFocus ? [newKeyCode] : [...this.value, newKeyCode]
