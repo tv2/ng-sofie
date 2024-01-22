@@ -140,9 +140,6 @@
       <trans-unit id="5503109094537996892" datatype="html">
         <source>global.export-selected.label</source>
       </trans-unit>
-      <trans-unit id="308790751791344008" datatype="html">
-        <source>action-triggers.disable-multiselect.label</source>
-      </trans-unit>
       <trans-unit id="9158000000301348817" datatype="html">
         <source>action-triggers.trigger-on.label</source>
       </trans-unit>
@@ -181,6 +178,9 @@
       </trans-unit>
       <trans-unit id="7160101351914247309" datatype="html">
         <source>global.dismiss.label</source>
+      </trans-unit>
+      <trans-unit id="4177582797246824978" datatype="html">
+        <source>action-triggers.physical-mapping-help.tooltip</source>
       </trans-unit>
     </body>
   </file>

@@ -7,7 +7,7 @@ import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { SelectFieldOptions } from 'src/app/shared/models/forms'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 import { ActionArgumentSchemaType } from 'src/app/shared/models/action'
-import { KeyboardTriggerData, SHORTCUT_KEYS_MAPPINGS } from 'src/app/shared/models/keyboard-trigger'
+import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 
 @Component({
   selector: 'sofie-edit-action-triggers',
@@ -18,12 +18,11 @@ export class EditActionTriggersComponent implements OnChanges {
   @Output() public readonly onCancel: EventEmitter<void> = new EventEmitter<void>()
   @Input() public selectedActionTrigger?: ActionTriggerWithAction<KeyboardTriggerData>
   @Input() public actions: Tv2PartAction[]
-  private isKeyPressed: boolean = false
-  public hasMappedToKeysInputFocus: boolean = false
   public isSubmitting: boolean = false
   public selectedAction: Tv2PartAction | undefined
   public readonly keysLabel = $localize`action-triggers.shortcut.label`
   public readonly physicalMappingLabel = $localize`action-triggers.physical-mapping.label`
+  public readonly physicalMappingHelpInfo = $localize`action-triggers.physical-mapping-help.tooltip`
   public readonly triggerOnLabel = $localize`action-triggers.trigger-on.label`
   public readonly selectedActionLabel = $localize`action-triggers.selected-action.label`
   public readonly submitButtonTooltipError = $localize`action-triggers.submit-tooltip.error`
@@ -111,44 +110,16 @@ export class EditActionTriggersComponent implements OnChanges {
     }
   }
 
-  public onKeyDownShortcut(event: KeyboardEvent): void {
-    event.preventDefault()
-    const newKeyCode: string = SHORTCUT_KEYS_MAPPINGS[event.code] ?? event.code
-    if (!this.isKeyPressed) {
-      this.formKeysArray.clear()
-      this.createKey(newKeyCode, this.formKeysArray)
-      this.isKeyPressed = true
-      return
-    }
-    const currentKeys: string[] = this.formKeysArray?.value ?? []
-    if (currentKeys.every(keyCode => keyCode !== newKeyCode)) {
-      this.createKey(newKeyCode, this.formKeysArray)
-    }
+  public changeKeyboardKeyValue(newKeys: string[], formKeyArray: UntypedFormArray): void {
+    formKeyArray.clear()
+    this.addArrayValues(newKeys, formKeyArray)
   }
 
-  public onKeyDownMapTo(event: KeyboardEvent): void {
-    event.preventDefault()
-    if (this.hasMappedToKeysInputFocus) {
-      this.hasMappedToKeysInputFocus = false
-      this.formMappedToKeysArray.clear()
-    }
-    const newKeyCode: string = SHORTCUT_KEYS_MAPPINGS[event.code] ?? event.code
-
-    const currentKeys: string[] = this.formMappedToKeysArray?.value ?? []
-    if (currentKeys.every(keyCode => keyCode !== newKeyCode)) {
-      this.createKey(newKeyCode, this.formMappedToKeysArray)
-    }
-  }
-
-  public deletedMappedKeysData(): void {
-    this.formMappedToKeysArray.clear()
-  }
-
-  private get formKeysArray(): UntypedFormArray {
+  public get formKeysArray(): UntypedFormArray {
     return this.actionForm?.get('data')?.get('keys') as UntypedFormArray
   }
 
-  private get formMappedToKeysArray(): UntypedFormArray {
+  public get formMappedToKeysArray(): UntypedFormArray {
     return this.actionForm?.get('data')?.get('mappedToKeys') as UntypedFormArray
   }
 
@@ -168,10 +139,6 @@ export class EditActionTriggersComponent implements OnChanges {
     this.selectedAction = action
     this.getFormAbstractControl('actionArguments', 'data').patchValue('')
     this.checkActionAndSetValidators()
-  }
-
-  public onKeyUpShortcut(): void {
-    this.isKeyPressed = false
   }
 
   public get isUpdateForm(): boolean {

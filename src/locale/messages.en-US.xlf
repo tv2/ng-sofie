@@ -170,10 +170,6 @@
         <source>action-triggers.no-selected-action.label</source>
         <target state="new">No action selected</target>
       </trans-unit>
-      <trans-unit id="308790751791344008" datatype="html">
-        <source>action-triggers.disable-multiselect.label</source>
-        <target state="new">Disable multiselect</target>
-      </trans-unit>
       <trans-unit id="5503109094537996892" datatype="html">
         <source>global.export-selected.label</source>
         <target state="new">Export selected</target>
@@ -241,6 +237,10 @@
       <trans-unit id="7160101351914247309" datatype="html">
         <source>global.dismiss.label</source>
         <target state="new">DISMISS</target>
+      </trans-unit>
+      <trans-unit id="4177582797246824978" datatype="html">
+        <source>action-triggers.physical-mapping-help.tooltip</source>
+        <target state="new">The physical key combination that should be shown on the virtual keyboard in the rundown view. The field should only be used if the key combination is altered by a key mapping software like AutoHotKey</target>
       </trans-unit>
     </body>
   </file>

@@ -11,34 +11,16 @@
           <input placeholder="Label for the shortcut" [readonly]="isSubmitting" type="text" formControlName="label" />
         </div>
 
-        <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
-          <label>{{ keysLabel }}<span class="text-danger">*</span></label>
-          <input
-            [readonly]="true"
-            (keydown)="onKeyDownShortcut($event)"
-            (keyup)="onKeyUpShortcut()"
-            placeholder="Press the keys for this shortcut"
-            [value]="this.actionForm.get('data')?.get('keys')?.value ? (this.actionForm.get('data')?.get('keys')?.value | formatKeyboardKeys) : ''" />
-        </div>
-        <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
-          <label>
-            {{ physicalMappingLabel }}
-            <sofie-icon-button
-              [iconButton]="IconButton.CIRCLE_QUESTION"
-              tooltipText="`If you use a special key combination that comes from the Autohotkey script, please add the actual combination in Physical mapping field"
-              [iconButtonSize]="IconButtonSize.M">
-            </sofie-icon-button
-          ></label>
-          <div class="sofie-input-with-icon">
-            <input
-              (focus)="hasMappedToKeysInputFocus = true"
-              [readonly]="true"
-              (keydown)="onKeyDownMapTo($event)"
-              placeholder="Click the keys one by one"
-              [value]="this.actionForm.get('data')?.get('mappedToKeys')?.value ? (this.actionForm.get('data')?.get('mappedToKeys')?.value | formatKeyboardKeys) : ''" />
-            <sofie-icon-button [iconButton]="IconButton.XMARK" (click)="deletedMappedKeysData()" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button>
-          </div>
-        </div>
+        <sofie-keyboard-keys-field [isRequired]="true" [isSubmitting]="isSubmitting" [label]="keysLabel" (onChange)="changeKeyboardKeyValue($event, formKeysArray)" [value]="formKeysArray.value ?? []">
+        </sofie-keyboard-keys-field>
+
+        <sofie-keyboard-keys-field
+          [isSubmitting]="isSubmitting"
+          [label]="physicalMappingLabel"
+          (onChange)="changeKeyboardKeyValue($event, formMappedToKeysArray)"
+          [value]="formMappedToKeysArray.value ?? []"
+          [helpIconText]="physicalMappingHelpInfo">
+        </sofie-keyboard-keys-field>
         <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
           <label>{{ triggerOnLabel }}<span class="text-danger">*</span></label>
           <select formControlName="triggerOn" name="triggerOn" [attr.disabled]="isSubmitting ? '' : null">
