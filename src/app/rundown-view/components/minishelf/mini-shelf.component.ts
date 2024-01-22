@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration-service'
 import { StudioConfiguration } from '../../../shared/services/studio-configuration'
-import { Tv2Action, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
+import { Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { Subscription } from 'rxjs'
 import { MediaDataService } from '../../../shared/services/media-data.service'
 import { Media } from '../../../shared/services/media'
+import { ActionService } from '../../../shared/abstractions/action.service'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -16,14 +17,13 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction: Tv2VideoClipAction | undefined
 
-  @Output() public onClickExecuteActionEmitter: EventEmitter<Tv2Action> = new EventEmitter()
-
   protected mediaDuration: number = 0
   private configurationMediaPreviewUrl: string
   private mediaDataSubscription: Subscription
   private configurationServiceSubscription: Subscription
 
   constructor(
+    private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
     private readonly mediaDataService: MediaDataService
   ) {}
@@ -72,12 +72,11 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
       .trim() // and finally trim;
   }
 
-  protected emitActionEvent(): void {
+  protected executeAction(): void {
     if (!this.videoClipAction) {
       return
     }
-    const action: Tv2Action = this.videoClipAction
-    this.onClickExecuteActionEmitter.emit(action)
+    this.actionService.executeAction(this.videoClipAction.id, this.segment.rundownId).subscribe()
   }
 
   protected handleMissingImage(event: Event): void {

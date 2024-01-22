@@ -120,9 +120,4 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     }
     return actionMap
   }
-
-  // TODO refine action to be executed here and update
-  public executeAction(actionEvent: Tv2Action): void {
-    alert(actionEvent.name)
-  }
 }
