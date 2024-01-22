@@ -5,6 +5,7 @@ interface mediaPreviewUrl {
 interface Settings {
   settings: mediaPreviewUrl
 }
+
 export interface StudioConfiguration {
   data: Settings
 }
