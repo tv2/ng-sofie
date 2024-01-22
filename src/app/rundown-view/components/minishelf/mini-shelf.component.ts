@@ -4,9 +4,8 @@ import { ConfigurationService } from '../../../shared/services/configuration-ser
 import { StudioConfiguration } from '../../../shared/services/studio-configuration'
 import { Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { Subscription } from 'rxjs'
-import { MediaDataService } from '../../../shared/services/media-data.service'
-import { Media } from '../../../shared/services/media'
 import { ActionService } from '../../../shared/abstractions/action.service'
+import { MediaStateService } from '../../../shared/services/media-state.service'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -20,38 +19,33 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   private readonly defaultAssetForThumbnail: string = 'assets/sofie-logo.svg'
   protected mediaDuration: number = 0
   private configurationMediaPreviewUrl: string
-  private mediaDataSubscription: Subscription
   private configurationServiceSubscription: Subscription
-
   constructor(
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
-    private readonly mediaDataService: MediaDataService
+    private readonly mediaStateService: MediaStateService
   ) {}
 
   public ngOnInit(): void {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((configuration: StudioConfiguration) => {
       this.configurationMediaPreviewUrl = configuration.data.settings.mediaPreviewUrl
     })
-    this.updateMediaDataDuration()
+    void this.updateMediaDataDuration()
   }
 
-  private updateMediaDataDuration(): void {
+  private async updateMediaDataDuration(): Promise<void> {
     if (this.segment.metadata?.miniShelfVideoClipFile !== undefined) {
-      this.mediaDataSubscription = this.mediaDataService.getMedia(this.segment.metadata.miniShelfVideoClipFile).subscribe((mediaData: Media) => {
-        this.mediaDuration = mediaData.duration
-      })
+      this.mediaDuration = (await this.mediaStateService.getMedia(this.segment.metadata?.miniShelfVideoClipFile)).duration
     }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if ('segment' in changes) {
-      this.updateMediaDataDuration()
+      void this.updateMediaDataDuration()
     }
   }
 
   public ngOnDestroy(): void {
-    this.mediaDataSubscription?.unsubscribe()
     this.configurationServiceSubscription?.unsubscribe()
   }
 

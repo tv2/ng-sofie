@@ -5,11 +5,11 @@ import { environment } from '../../../../environments/environment'
 import { catchError, map, Observable } from 'rxjs'
 import { HttpResponse } from './http-response'
 import { EntityParser } from '../../../core/abstractions/entity-parser.service'
-import { MediaDataService } from '../media-data.service'
+import { MediaService } from '../media.service'
 import { Media } from '../media'
 
 @Injectable()
-export class HttpMediaDataService implements MediaDataService {
+export class HttpMediaService implements MediaService {
   constructor(
     private readonly http: HttpClient,
     private readonly httpErrorService: HttpErrorService,

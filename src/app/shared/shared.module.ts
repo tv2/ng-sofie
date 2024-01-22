@@ -45,8 +45,9 @@ import { Logger } from '../core/abstractions/logger.service'
 import { Tv2LoggerService } from '../core/services/tv2-logger.service'
 import { ConfigurationService } from './services/configuration-service'
 import { HttpConfigurationService } from './services/http/http-configuration-service'
-import { MediaDataService } from './services/media-data.service'
-import { HttpMediaDataService } from './services/http/http-media-data.service'
+import { MediaService } from './services/media.service'
+import { HttpMediaService } from './services/http/http-media.service'
+import { MediaStateService } from './services/media-state.service'
 
 @NgModule({
   declarations: [
@@ -103,13 +104,14 @@ import { HttpMediaDataService } from './services/http/http-media-data.service'
     { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
     { provide: ActionStateService, useClass: ActionStateService },
     { provide: ConfigurationService, useClass: HttpConfigurationService },
-    { provide: MediaDataService, useClass: HttpMediaDataService },
+    { provide: MediaService, useClass: HttpMediaService },
     HttpErrorService,
     HttpClientModule,
     DialogService,
     ConnectionErrorService,
     Tv2OutputLayerService,
     ActionStateService,
+    MediaStateService,
     RundownNavigationService,
     TimerPipe,
   ],
