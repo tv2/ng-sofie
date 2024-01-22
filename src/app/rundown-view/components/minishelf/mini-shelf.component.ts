@@ -20,6 +20,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   protected mediaDuration: number = 0
   private configurationMediaPreviewUrl: string
   private configurationServiceSubscription: Subscription
+
   constructor(
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,

@@ -171,6 +171,7 @@ export class ZodEntityParser implements EntityParser {
       }),
     }),
   })
+
   public parseStudioConfiguration(studioConfiguration: unknown): StudioConfiguration {
     return this.studioConfigurationParser.parse(studioConfiguration)
   }
