@@ -1,6 +1,6 @@
 import { Logger } from 'src/app/core/abstractions/logger.service'
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActionTrigger, ActionTriggerWithActionInfo } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, ActionTriggerWithAction } from 'src/app/shared/models/action-trigger'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { Subject, takeUntil } from 'rxjs'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
@@ -14,11 +14,11 @@ import { FileDownloadService } from 'src/app/core/abstractions/file-download.ser
   styleUrls: ['./action-triggers.component.scss'],
 })
 export class ActionTriggersComponent implements OnInit, OnDestroy {
-  public selectedAction?: ActionTriggerWithActionInfo<KeyboardTriggerData>
+  public selectedAction?: ActionTriggerWithAction<KeyboardTriggerData>
   public createAction: boolean
   public loading: boolean = true
   public actions: Tv2PartAction[]
-  public actionTriggers: ActionTriggerWithActionInfo<KeyboardTriggerData>[]
+  public actionTriggersWithAction: ActionTriggerWithAction<KeyboardTriggerData>[]
   private readonly unsubscribe$: Subject<null> = new Subject<null>()
 
   constructor(
@@ -40,11 +40,11 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
     this.actionTriggerStateService
       .getActionTriggerObservable()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(triggers => {
-        this.actionTriggers = JSON.parse(
+      .subscribe(actionTriggers => {
+        this.actionTriggersWithAction = JSON.parse(
           JSON.stringify(
-            (triggers as ActionTrigger<KeyboardTriggerData>[]).map(trigger => {
-              return { ...trigger, actionInfo: this.actions.find(action => action.id === trigger.actionId) }
+            (actionTriggers as ActionTrigger<KeyboardTriggerData>[]).map(actionTrigger => {
+              return { actionTrigger: { ...actionTrigger }, action: this.actions.find(action => action.id === actionTrigger.actionId) }
             })
           )
         )
@@ -65,7 +65,7 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
     this.loading = isLoading
   }
 
-  public newActionTriggerOpen(selectedTrigger?: ActionTriggerWithActionInfo<KeyboardTriggerData>): void {
+  public selectActionTriggerForEditing(selectedTrigger?: ActionTriggerWithAction<KeyboardTriggerData>): void {
     this.selectedAction = selectedTrigger
     this.createAction = false
   }
@@ -81,7 +81,8 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
   }
 
   public exportActionsTriggers(): void {
-    const triggersCopy: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggers.map(actionTrigger => {
+    const triggersCopy: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggersWithAction.map(actionTriggerWithActions => {
+      const actionTrigger = actionTriggerWithActions.actionTrigger
       return {
         actionId: actionTrigger.actionId,
         id: actionTrigger.id,

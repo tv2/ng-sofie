@@ -17,19 +17,19 @@ describe('ActionTriggersComponent', () => {
 
   it('should actionsTriggersList have 2 item', async () => {
     const component = await configureTestBed()
-    expect(component.actionTriggers.length).toBe(2)
+    expect(component.actionTriggersWithAction.length).toBe(2)
   })
 
   it('should selected action trigger correctly', async () => {
     const component = await configureTestBed()
-    component.newActionTriggerOpen(component.actionTriggers[1])
-    expect(component.selectedAction?.id).toBe(component.actionTriggers[1].id)
+    component.selectActionTriggerForEditing(component.actionTriggersWithAction[1])
+    expect(component.selectedAction?.actionTrigger.id).toBe(component.actionTriggersWithAction[1].actionTrigger.id)
   })
 
   it('should cancel functionality remove selected trigger', async () => {
     const component = await configureTestBed()
-    component.newActionTriggerOpen(component.actionTriggers[1])
-    expect(component.selectedAction?.id).toBe(component.actionTriggers[1].id)
+    component.selectActionTriggerForEditing(component.actionTriggersWithAction[1])
+    expect(component.selectedAction?.actionTrigger.id).toBe(component.actionTriggersWithAction[1].actionTrigger.id)
     component.cancelActionTrigger()
     expect(component.selectedAction).toBe(undefined)
   })
@@ -51,15 +51,17 @@ async function configureTestBed(): Promise<ActionTriggersComponent> {
   const fixture: ComponentFixture<ActionTriggersComponent> = TestBed.createComponent(ActionTriggersComponent)
   const component = fixture.componentInstance
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-  component.actionTriggers = [
-    { ...testEntityFactory.createActionTrigger(), actionInfo: testEntityFactory.createAction() },
+  component.actionTriggersWithAction = [
+    { actionTrigger: { ...testEntityFactory.createActionTrigger() }, action: testEntityFactory.createAction() },
     {
-      ...testEntityFactory.createActionTrigger({
-        id: 'action-trigger-id-2',
-        actionId: 'action-trigger-action-id-2',
-        data: { keys: ['1', '2'], label: 'random-label-2', triggerOn: KeyEventType.PRESSED },
-      }),
-      actionInfo: testEntityFactory.createAction(),
+      actionTrigger: {
+        ...testEntityFactory.createActionTrigger({
+          id: 'action-trigger-id-2',
+          actionId: 'action-trigger-action-id-2',
+          data: { keys: ['1', '2'], label: 'random-label-2', triggerOn: KeyEventType.PRESSED },
+        }),
+      },
+      action: testEntityFactory.createAction(),
     },
   ]
   return component

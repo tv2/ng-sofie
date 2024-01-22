@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
-import { ActionTrigger, ActionTriggerWithActionInfo } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, ActionTriggerWithAction } from 'src/app/shared/models/action-trigger'
 import { SofieDropdownOption } from 'src/app/shared/components/dropdown-button/dropdown-button.component'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
@@ -16,14 +16,14 @@ import { Keys } from 'src/app/keyboard/value-objects/key-binding'
   styleUrls: ['./action-triggers-list.component.scss'],
 })
 export class ActionTriggersListComponent implements OnChanges {
-  @Input() public actionTriggers: ActionTriggerWithActionInfo<KeyboardTriggerData>[]
-  @Input() public selectedActionTrigger?: ActionTriggerWithActionInfo<KeyboardTriggerData>
-  @Output() private readonly onActionTriggerOpen: EventEmitter<ActionTriggerWithActionInfo<KeyboardTriggerData>> = new EventEmitter<ActionTriggerWithActionInfo<KeyboardTriggerData>>()
+  @Input() public actionTriggersWithAction: ActionTriggerWithAction<KeyboardTriggerData>[]
+  @Input() public selectedActionTrigger?: ActionTriggerWithAction<KeyboardTriggerData>
+  @Output() private readonly onActionTriggerOpen: EventEmitter<ActionTriggerWithAction<KeyboardTriggerData>> = new EventEmitter<ActionTriggerWithAction<KeyboardTriggerData>>()
   public search: string = ''
   public sortQuery: string = `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`
   public readonly sortLabel: string = $localize`global.sort.label`
-  public readonly iconButton = IconButton
-  public readonly iconButtonSize = IconButtonSize
+  public readonly IconButton = IconButton
+  public readonly IconButtonSize = IconButtonSize
   public readonly sortActionsTriggers: SofieDropdownOption[] = [
     { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-alphabetical.label` },
     { key: `${ActionTriggerSortKeys.ACTION}_${SortOrder.REVERSE_ALPHABETICAL}`, label: $localize`action-triggers-sort.action-label-reverse-alphabetical.label` },
@@ -52,26 +52,26 @@ export class ActionTriggersListComponent implements OnChanges {
     }
   }
 
-  get filteredActionsTriggers(): ActionTriggerWithActionInfo<KeyboardTriggerData>[] {
+  get filteredActionsTriggers(): ActionTriggerWithAction<KeyboardTriggerData>[] {
     const lowercasedSearchQuery: string = this.search.toLocaleLowerCase()
-    return this.actionTriggers.filter(
-      trigger =>
-        trigger.data.label.toLocaleLowerCase().includes(lowercasedSearchQuery) ||
-        this.getMappetToOrShortcutKeysArray(trigger).toString().toLocaleLowerCase().includes(lowercasedSearchQuery) ||
-        trigger.actionInfo.name.toString().toLocaleLowerCase().includes(lowercasedSearchQuery) ||
-        trigger.id === this.selectedActionTrigger?.id
+    return this.actionTriggersWithAction.filter(
+      actionTriggerWithAction =>
+        actionTriggerWithAction.actionTrigger.data.label.toLocaleLowerCase().includes(lowercasedSearchQuery) ||
+        this.getMappetToOrShortcutKeysArray(actionTriggerWithAction.actionTrigger).toString().toLocaleLowerCase().includes(lowercasedSearchQuery) ||
+        actionTriggerWithAction.action.name.toString().toLocaleLowerCase().includes(lowercasedSearchQuery) ||
+        actionTriggerWithAction.actionTrigger.id === this.selectedActionTrigger?.actionTrigger.id
     )
   }
 
-  private getMappetToOrShortcutKeysArray(actionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData>): Keys {
+  private getMappetToOrShortcutKeysArray(actionTrigger: ActionTrigger<KeyboardTriggerData>): Keys {
     return actionTrigger.data.mappedToKeys && actionTrigger.data.mappedToKeys.length > 0 ? actionTrigger.data.mappedToKeys : actionTrigger.data.keys
   }
 
-  public selectActionTrigger(actionTrigger?: ActionTriggerWithActionInfo<KeyboardTriggerData>): void {
+  public selectActionTrigger(actionTriggerWithAction?: ActionTriggerWithAction<KeyboardTriggerData>): void {
     if (this.selectMode) {
       return
     }
-    this.onActionTriggerOpen.emit(this.selectedActionTrigger?.id === actionTrigger?.id ? undefined : actionTrigger)
+    this.onActionTriggerOpen.emit(this.selectedActionTrigger?.actionTrigger.id === actionTriggerWithAction?.actionTrigger.id ? undefined : actionTriggerWithAction)
   }
 
   public setSelectMode(isSelected: boolean): void {
@@ -103,7 +103,7 @@ export class ActionTriggersListComponent implements OnChanges {
   }
 
   private closeSelectedTabIfAreDeleted(deletedActionId: string): void {
-    if (this.selectedActionTrigger?.id === deletedActionId) {
+    if (this.selectedActionTrigger?.actionTrigger.id === deletedActionId) {
       this.onActionTriggerOpen.emit(undefined)
     }
   }
@@ -113,10 +113,9 @@ export class ActionTriggersListComponent implements OnChanges {
     this.unselectAllActionsTriggers()
   }
 
-  public cloneActionTrigger(actionTrigger: ActionTriggerWithActionInfo<KeyboardTriggerData>): void {
+  public cloneActionTrigger(actionTriggerWithAction: ActionTriggerWithAction<KeyboardTriggerData>): void {
     const clonedActionTrigger: ActionTrigger<KeyboardTriggerData> = {
-      ...actionTrigger,
-      data: { ...actionTrigger.data },
+      ...actionTriggerWithAction.actionTrigger,
       id: '',
     }
     this.actionTriggerService.createActionTrigger(clonedActionTrigger).subscribe()
@@ -130,19 +129,19 @@ export class ActionTriggersListComponent implements OnChanges {
     this.sortQuery = sort
     switch (sort) {
       case `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`:
-        this.actionTriggers = this.actionTriggers.sort((a, b) => a.data.label.localeCompare(b.data.label))
+        this.actionTriggersWithAction = this.actionTriggersWithAction.sort((a, b) => a.actionTrigger.data.label.localeCompare(b.actionTrigger.data.label))
         break
       case `${ActionTriggerSortKeys.ACTION}_${SortOrder.REVERSE_ALPHABETICAL}`:
-        this.actionTriggers = this.actionTriggers.sort((a, b) => b.data.label.localeCompare(a.data.label))
+        this.actionTriggersWithAction = this.actionTriggersWithAction.sort((a, b) => b.actionTrigger.data.label.localeCompare(a.actionTrigger.data.label))
         break
       case `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.ALPHABETICAL}`:
-        this.actionTriggers = this.actionTriggers.sort((a, b) => a.data?.keys.toString().localeCompare(b.data?.keys.toString()))
+        this.actionTriggersWithAction = this.actionTriggersWithAction.sort((a, b) => a.actionTrigger.data?.keys.toString().localeCompare(b.actionTrigger.data?.keys.toString()))
         break
       case `${ActionTriggerSortKeys.SHORTCUT}_${SortOrder.REVERSE_ALPHABETICAL}`:
-        this.actionTriggers = this.actionTriggers.sort((a, b) => b.data?.keys.toString().localeCompare(a.data?.keys.toString()))
+        this.actionTriggersWithAction = this.actionTriggersWithAction.sort((a, b) => b.actionTrigger.data?.keys.toString().localeCompare(a.actionTrigger.data?.keys.toString()))
         break
       default:
-        this.actionTriggers = this.actionTriggers.sort((a, b) => a.actionId.localeCompare(b.actionId))
+        this.actionTriggersWithAction = this.actionTriggersWithAction.sort((a, b) => a.actionTrigger.actionId.localeCompare(b.actionTrigger.actionId))
         break
     }
   }
@@ -185,7 +184,7 @@ export class ActionTriggersListComponent implements OnChanges {
   }
 
   private areAllActionTriggersSelected(): boolean {
-    return this.actionTriggers.length === this.selectedActionTriggerIds.size
+    return this.actionTriggersWithAction.length === this.selectedActionTriggerIds.size
   }
 
   private isNoActionTriggerSelected(): boolean {
@@ -199,7 +198,8 @@ export class ActionTriggersListComponent implements OnChanges {
   private exportSelectedTriggers(): void {
     const selectedTriggers: ActionTrigger<KeyboardTriggerData>[] = []
     this.selectedActionTriggerIds.forEach(actionTriggerId => {
-      const actionTrigger: ActionTrigger<KeyboardTriggerData> | undefined = this.actionTriggers.find(actionTriggerItem => actionTriggerItem.id === actionTriggerId)
+      const actionTrigger: ActionTrigger<KeyboardTriggerData> | undefined = this.actionTriggersWithAction.find(actionTriggerItem => actionTriggerItem.actionTrigger.id === actionTriggerId)
+        ?.actionTrigger
       if (!actionTrigger) {
         return
       }
@@ -235,6 +235,6 @@ export class ActionTriggersListComponent implements OnChanges {
   }
 
   private selectAllActionsTriggers(): void {
-    this.actionTriggers.forEach(trigger => this.setActionTriggerSelection(trigger.id, true))
+    this.actionTriggersWithAction.forEach(trigger => this.setActionTriggerSelection(trigger.actionTrigger.id, true))
   }
 }

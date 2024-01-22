@@ -19,7 +19,7 @@
     &__list {
       height: calc(100vh - 370px);
       overflow: auto;
-      border-right: 1px solid var(--general-gray-color);
+      border-right: 1px solid var(--gray-color);
       & > div {
         display: flex;
         flex-wrap: wrap;

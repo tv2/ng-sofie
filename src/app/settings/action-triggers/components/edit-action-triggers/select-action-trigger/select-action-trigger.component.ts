@@ -10,12 +10,12 @@ export class SelectActionTriggerComponent implements OnChanges {
   @Output() private readonly onActionTriggerOpen: EventEmitter<Tv2PartAction> = new EventEmitter<Tv2PartAction>()
   @Input() public actions: Tv2PartAction[]
   @Input() public selectedActionId: string | undefined
-  @Input() public submitting: boolean
+  @Input() public isSubmitting: boolean
   public search: string = ''
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const submittingChange: SimpleChange | undefined = changes['submitting']
-    if (!submittingChange) {
+    const isSubmittingChange: SimpleChange | undefined = changes['isSubmitting']
+    if (!isSubmittingChange) {
       return
     }
     this.search = ''

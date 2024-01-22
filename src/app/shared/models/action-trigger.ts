@@ -6,9 +6,7 @@ export interface ActionTrigger<Data = unknown> {
   data: Data
 }
 
-export interface ActionTriggerWithActionInfo<Data = unknown> {
-  id: string
-  actionId: string
-  data: Data
-  actionInfo: Tv2PartAction
+export interface ActionTriggerWithAction<ActionTriggerData = unknown> {
+  actionTrigger: ActionTrigger<ActionTriggerData>
+  action: Tv2PartAction
 }

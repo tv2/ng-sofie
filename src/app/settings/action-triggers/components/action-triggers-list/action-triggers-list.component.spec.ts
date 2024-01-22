@@ -23,11 +23,17 @@ async function configureTestBed(): Promise<ActionTriggersListComponent> {
   const fixture: ComponentFixture<ActionTriggersListComponent> = TestBed.createComponent(ActionTriggersListComponent)
   const component = fixture.componentInstance
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-  component.actionTriggers = [
-    { ...testEntityFactory.createActionTrigger(), actionInfo: testEntityFactory.createAction() },
+  component.actionTriggersWithAction = [
+    { actionTrigger: { ...testEntityFactory.createActionTrigger() }, action: testEntityFactory.createAction() },
     {
-      ...testEntityFactory.createActionTrigger({ id: 'action-trigger-id-2', actionId: 'action-trigger-action-id-2', data: { keys: ['1', '2'], label: 'new-label', triggerOn: KeyEventType.PRESSED } }),
-      actionInfo: testEntityFactory.createAction(),
+      actionTrigger: {
+        ...testEntityFactory.createActionTrigger({
+          id: 'action-trigger-id-2',
+          actionId: 'action-trigger-action-id-2',
+          data: { keys: ['1', '2'], label: 'new-label', triggerOn: KeyEventType.PRESSED },
+        }),
+      },
+      action: testEntityFactory.createAction(),
     },
   ]
   return component
@@ -41,7 +47,7 @@ describe('ActionTriggersListComponent', () => {
 
   it('should action trigger toggle select and unselect', async () => {
     const component = await configureTestBed()
-    const actionTriggerOneId: string = component.actionTriggers[0].id
+    const actionTriggerOneId: string = component.actionTriggersWithAction[0].actionTrigger.id
     expect(component.isActionTriggerSelected(actionTriggerOneId)).toBe(false)
     component.setActionTriggerSelection(actionTriggerOneId, true)
     expect(component.isActionTriggerSelected(actionTriggerOneId)).toBe(true)

@@ -6,14 +6,14 @@
 
 .mat-header-cell {
   font-size: medium;
-  color: var(--general-black-color);
+  color: var(--black-color);
 }
 
 .mat-row {
   background: #f6f6f6;
 
   &:hover {
-    background: var(--general-white-color);
+    background: var(--white-color);
   }
 
 }
@@ -31,7 +31,7 @@
 }
 
 .c-delete-rundown-cell {
-  border-left: var(--general-black-color);
+  border-left: var(--black-color);
 }
 
 .c-delete-rundown-icon {
@@ -41,7 +41,7 @@
 
   &:hover {
     text-decoration: underline;
-    color: var(--general-black-color);
+    color: var(--black-color);
   }
 }
 

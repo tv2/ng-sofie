@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { ActionTrigger, ActionTriggerWithActionInfo } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger, ActionTriggerWithAction } from 'src/app/shared/models/action-trigger'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActionTriggerParser } from 'src/app/shared/abstractions/action-trigger-parser.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
@@ -11,7 +11,7 @@ import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
   styleUrls: ['./action-triggers-import.component.scss'],
 })
 export class ActionTriggersImportComponent {
-  @Input() public actionTriggers: ActionTriggerWithActionInfo<KeyboardTriggerData>[]
+  @Input() public actionTriggersWithAction: ActionTriggerWithAction<KeyboardTriggerData>[]
   @Input() public isDisabled: boolean
   private importedActionTriggers: ActionTrigger<KeyboardTriggerData>[]
 
@@ -52,7 +52,7 @@ export class ActionTriggersImportComponent {
   }
 
   private importItem(index: number): void {
-    if (this.actionTriggers.findIndex(item => item.id === this.importedActionTriggers[index].id) !== -1) {
+    if (this.actionTriggersWithAction.findIndex(actionTriggerWithAction => actionTriggerWithAction.actionTrigger.id === this.importedActionTriggers[index].id) !== -1) {
       this.updateActionTrigger(this.importedActionTriggers[index], index)
     } else {
       this.createActionTrigger(this.importedActionTriggers[index], index)

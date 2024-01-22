@@ -1,38 +1,23 @@
 body {
-  --general-primary-color: #1f9ac7;
-  --general-danger-color: #df0606;
-  --general-white-color: #ffffff;
-  --general-gray-color: #d3d3d3;
-  --general-dark-gray-color: #777777;
-  --general-black-color: #000000;
-  --general-dark-color: #343434;
-  --general-live-color: #c40000;
-  --general-next-color: #00ac17;
+  ---primary-color: #1f9ac7;
+  --danger-color: #df0606;
+  --white-color: #ffffff;
+  --gray-color: #d3d3d3;
+  --dark-gray-color: #777777;
+  --black-color: #000000;
+  --dark-color: #343434;
 
-  --general-live-remote-color: #ac29a5;
-  --general-live-guest-color: #00a97f;
+  --on-air-color: #c40000;
+  --next-color: #00ac17;
 
-  --background-camera: #005919;
-  --background-camera--second: lighten(#005919, 20%);
-  --background-lower-third: #ca9d00;
-  --background-lower-third--second: darken(#ca9d00, 20%);
-  --background-graphics: #ca9d00;
-  --background-graphics--second: darken(#ca9d00, 20%);
-  --background-live-speak: #370020;
-  --background-remote: #ac29a5;
-  --background-remote--second: darken(#ac29a5, 20%);
-  --background-local: #8d1010;
-  --background-local--second: darken(#8d1010, 20%);
-  --background-vt: #1769ff;
-  --background-vt--second: darken(#1769ff, 20%);
-  --background-script: #370020;
-  --background-mic: #00a97f;
-  --background-guest: #00a97f;
-
-  --dve-upper: #00a99c;
-  --dve-lower: #265753;
-
-  --presenter-clock-background-color: #2c2c2e;
-  --presenter-clock-panel-background-color-neutral: #3c3c3c;
-  --presenter-clock-panel-border-color: #ffffff;
+  --tv2-camera-color: #005919;
+  --tv2-replay-color: #8d1010;
+  --tv2-remote-color: #ac29a5;
+  --tv2-graphics-color: #ca9d00;
+  --tv2-overlay-graphics-color: #ca9d00;
+  --tv2-split-screen-upper: #00a99c;
+  --tv2-split-screen-lower: #265753;
+  --tv2-voice-over-color: #370020;
+  --tv2-video-clip-color: #1769ff;
+  --tv2-manus-color: #370020;
 }

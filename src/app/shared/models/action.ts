@@ -5,17 +5,17 @@ export interface Action {
   type: ActionType
   name: string
   description?: string
-  argument?: ActionArgument
+  argument?: ActionArgumentSchema
   metadata?: unknown
 }
 
-export interface ActionArgument {
+export interface ActionArgumentSchema {
   description: string
   name: string
-  type: ActionArgumentSchema
+  type: ActionArgumentSchemaType
 }
 
-export enum ActionArgumentSchema {
+export enum ActionArgumentSchemaType {
   STRING = 'STRING',
   NUMBER = 'NUMBER',
 }

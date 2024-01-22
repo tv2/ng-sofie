@@ -14,10 +14,10 @@ export class ClearCacheComponent {
   ) {}
 
   public showClearCacheConfirmModal(): void {
-    this.dialogService.createConfirmDialog($localize`global.confirmation.label`, $localize`clear-cache.clear.confirmation`, $localize`global.clear.label`, () => this.actionClearConfigurationCache())
+    this.dialogService.createConfirmDialog($localize`global.confirmation.label`, $localize`clear-cache.clear.confirmation`, $localize`global.clear.label`, () => this.clearConfigurationCache())
   }
 
-  public actionClearConfigurationCache(): void {
+  public clearConfigurationCache(): void {
     this.configurationCacheService.clearConfigurationCache().subscribe()
   }
 }

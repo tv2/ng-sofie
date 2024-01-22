@@ -49,8 +49,8 @@ import { DropdownButtonComponent } from './components/dropdown-button/dropdown-b
 import { MatMenuModule } from '@angular/material/menu'
 import { CustomCheckboxComponent } from './components/icon-checkbox/custom-checkbox.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { ShortcutKeysToStringPipe } from './pipes/shortcut-keys-to-string.pipe'
 import { ButtonComponent } from './components/button/button.component'
+import { FormatKeyboardKeysPipe } from './pipes/format-keyboard-keys.pipe'
 
 @NgModule({
   declarations: [
@@ -58,7 +58,7 @@ import { ButtonComponent } from './components/button/button.component'
     ConfirmationDialogComponent,
     MinimumPipe,
     MaximumPipe,
-    ShortcutKeysToStringPipe,
+    FormatKeyboardKeysPipe,
     SofieLogoComponent,
     SpacerComponent,
     IconButtonComponent,
@@ -97,7 +97,7 @@ import { ButtonComponent } from './components/button/button.component'
     HeaderComponent,
     MinimumPipe,
     MaximumPipe,
-    ShortcutKeysToStringPipe,
+    FormatKeyboardKeysPipe,
     TimerPipe,
     SofieLogoComponent,
     SpacerComponent,

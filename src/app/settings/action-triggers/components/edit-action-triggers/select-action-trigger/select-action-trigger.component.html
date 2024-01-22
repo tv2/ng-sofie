@@ -1,7 +1,7 @@
 <div class="c-select-actions-triggers c-sofie-card">
   <h3 i18n>action-triggers.select-action-box.label</h3>
   <div class="c-select-actions-triggers__field">
-    <input [readonly]="submitting" placeholder="Filter actions by name and type" [(ngModel)]="search" />
+    <input [readonly]="isSubmitting" placeholder="Filter actions by name and type" [(ngModel)]="search" />
   </div>
   <div class="c-select-actions-triggers__list">
     <div>
@@ -10,8 +10,9 @@
           *ngFor="let action of filteredActions"
           [action]="action"
           [isSelected]="action.id === selectedActionId"
-          [submitting]="submitting"
-          (onSelect)="newActionSelected($event)"></sofie-single-action-trigger-box>
+          [isSubmitting]="isSubmitting"
+          (onSelect)="newActionSelected($event)">
+        </sofie-single-action-trigger-box>
       </ng-container>
       <ng-template #noActions>
         <h4 class="text-center" i18n>action-triggers.no-actions.label</h4>

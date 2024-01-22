@@ -1,5 +1,5 @@
 .camera_color {
-  background-color: var(--background-camera) !important;
+  background-color: var(--tv2-camera-color) !important;
   color: #fff;
 }
 .remote_color {
@@ -7,21 +7,21 @@
   color: #fff;
 }
 .video_clip_color {
-  background-color: var(--background-vt) !important;
+  background-color: var(--tv2-video-clip-color) !important;
   color: #fff;
 }
 .split_screen_color {
-  background: linear-gradient(to bottom, var(--dve-upper) 0%, var(--dve-upper) 50%, var(--dve-lower) 50%, var(--dve-lower) 100%);
+  background: linear-gradient(to bottom, var(--tv2-split-screen-upper) 0%, var(--tv2-split-screen-upper) 50%, var(--tv2-split-screen-lower) 50%, var(--tv2-split-screen-lower) 100%);
   color: #fff;
 }
 .graphics_color {
-  background-color: var(--background-graphics) !important;
+  background-color: var(--tv2-graphics-color) !important;
 }
 .replay_color {
-  background-color: var(--background-local) !important;
+  background-color: var(--tv2-replay-color) !important;
   color: #fff;
 }
 
 .text-danger {
-  color: var(--general-danger-color);
+  color: var(--danger-color);
 }
