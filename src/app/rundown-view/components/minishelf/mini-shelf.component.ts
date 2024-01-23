@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs'
 import { ActionService } from '../../../shared/abstractions/action.service'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
+import { Logger } from '../../../core/abstractions/logger.service'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -21,38 +22,41 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   protected mediaDuration: number = 0
   private configurationServiceSubscription: Subscription
   private studioConfiguration: StudioConfiguration | undefined
+  private readonly logger: Logger
 
   constructor(
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
-    private readonly mediaStateService: MediaStateService
-  ) {}
+    private readonly mediaStateService: MediaStateService,
+    logger: Logger
+  ) {
+    this.logger = logger.tag('MiniShelfComponent')
+  }
 
   public ngOnInit(): void {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
       this.studioConfiguration = studioConfiguration
     })
-    void this.updateMediaDataDuration()
+    this.updateMediaDuration().catch(error => this.logger.error(`Failed to update media duration, error is ${error}`))
   }
 
-  private async updateMediaDataDuration(): Promise<void> {
-    if (this.segment.metadata?.miniShelfVideoClipFile !== undefined) {
-      let media: Media | undefined = await this.mediaStateService.getMedia(this.segment.metadata?.miniShelfVideoClipFile)
-      if (!media) {
-        return
-      }
-      if (!this.studioConfiguration) return
-      if (media.duration < this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration) {
-        this.mediaDuration = this.NaN
-      } else {
-        this.mediaDuration = media.duration - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration
-      }
-    }
+  private async updateMediaDuration(): Promise<void> {
+    if (!this.segment.metadata?.miniShelfVideoClipFile) return
+
+    const media: Media = await this.mediaStateService.getMedia(this.segment.metadata?.miniShelfVideoClipFile)
+    if (!media) return
+
+    if (!this.studioConfiguration) return
+    if (media.duration < this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration) return
+
+    this.mediaDuration = media.duration - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if ('segment' in changes) {
-      void this.updateMediaDataDuration()
+      this.updateMediaDuration().catch(error => {
+        this.logger.error(error)
+      })
     }
   }
 

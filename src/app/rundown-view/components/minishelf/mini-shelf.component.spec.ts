@@ -6,6 +6,7 @@ import { ActionStateService } from '../../../shared/services/action-state.servic
 import { TimerPipe } from '../../../shared/pipes/timer/timer.pipe'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { ActionService } from '../../../shared/abstractions/action.service'
+import { Logger } from '../../../core/abstractions/logger.service'
 
 describe('MiniShelfComponent', () => {
   it('should create', async () => {
@@ -26,6 +27,7 @@ async function configureTestBed(
   const mockedActionStateService: ActionStateService = params.mockedActionStateService ?? mock<ActionStateService>()
   const mockedMediaStateService: MediaStateService = params.mockedMediaStateService ?? mock<MediaStateService>()
   const mockedActionService: ActionService = params.mockedActionService ?? mock<ActionService>()
+  const mockedLogger: Logger = mock<Logger>()
 
   await TestBed.configureTestingModule({
     declarations: [MiniShelfComponent, TimerPipe],
@@ -34,6 +36,7 @@ async function configureTestBed(
       { provide: ActionStateService, useValue: instance(mockedActionStateService) },
       { provide: MediaStateService, useValue: instance(mockedMediaStateService) },
       { provide: ActionService, useValue: instance(mockedActionService) },
+      { provide: Logger, useValue: instance(mockedLogger) },
     ],
   }).compileComponents()
 

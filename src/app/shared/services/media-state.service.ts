@@ -1,4 +1,4 @@
-import { lastValueFrom } from 'rxjs'
+import { lastValueFrom, Observable } from 'rxjs'
 import { Injectable } from '@angular/core'
 import { MediaService } from './media.service'
 import { Media } from './media'
@@ -15,17 +15,16 @@ export class MediaStateService {
     this.logger = logger.tag('MediaStateService')
   }
 
-  public async getMedia(id: string): Promise<Media | undefined> {
-    let media: Media | undefined = undefined
+  public async getMedia(id: string): Promise<Media> {
     try {
-      media = await this.fetchMedia(id)
+      return await lastValueFrom(this.fetchMedia(id))
     } catch (error) {
-      this.logger.error(`Failed to fetch media with id: ${id}, reason: ${error}`)
+      this.logger.data(error).error('Failed to fetch media.')
+      return await Promise.reject(error)
     }
-    return media
   }
 
-  private fetchMedia(id: string): Promise<Media> {
-    return lastValueFrom(this.mediaService.getMedia(id))
+  private fetchMedia(id: string): Observable<Media> {
+    return this.mediaService.getMedia(id)
   }
 }
