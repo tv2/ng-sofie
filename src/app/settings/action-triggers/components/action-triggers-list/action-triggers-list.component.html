@@ -6,7 +6,7 @@
         [options]="selectedActionTriggerOptions"
         [iconButton]="IconButton.SQUARE_CHECK"
         [iconButtonSize]="IconButtonSize.XL"
-        (onSelect)="actionWithSelected($event)"
+        (onSelect)="applyUserActionToSelectedActionTriggers($event)"
         label="Selected">
       </sofie-dropdown-button>
       <sofie-button (onClick)="setSelectMode(false)" label="Disable multiselect"></sofie-button>
@@ -19,7 +19,7 @@
         [label]="sortLabel"
         [iconButton]="IconButton.VERTICAL_OPPOSING_TRIANGLES"
         [iconButtonSize]="IconButtonSize.XL"
-        (onSelect)="selectNewSort($event)">
+        (onSelect)="applySortQuery($event)">
       </sofie-dropdown-button>
 
       <sofie-button (onClick)="setSelectMode(true)" label="Enable multiselect"></sofie-button>
@@ -50,10 +50,14 @@
               </div>
             </div>
             <div *ngIf="!selectMode" class="c-action-triggers-list__card--actions">
-              <sofie-icon-button [iconButton]="IconButton.PEN" tooltipText="Edit action trigger" [iconButtonSize]="IconButtonSize.L" (click)="selectActionTrigger(actionTriggerWithActions)"></sofie-icon-button>
+              <sofie-icon-button
+                [iconButton]="IconButton.PEN"
+                tooltipText="Edit action trigger"
+                [iconButtonSize]="IconButtonSize.L"
+                (click)="selectActionTrigger(actionTriggerWithActions)"></sofie-icon-button>
               <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" tooltipText="Copy action trigger" [iconButtonSize]="IconButtonSize.L" (click)="cloneActionTrigger(actionTriggerWithActions)">
               </sofie-icon-button>
-              <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" tooltipText="Delete action trigger" [iconButtonSize]="IconButtonSize.L" (click)="actionTriggerDelete(actionsTrigger.id)">
+              <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" tooltipText="Delete action trigger" [iconButtonSize]="IconButtonSize.L" (click)="openDeleteActionTriggerDialog(actionsTrigger.id)">
               </sofie-icon-button>
             </div>
           </div>

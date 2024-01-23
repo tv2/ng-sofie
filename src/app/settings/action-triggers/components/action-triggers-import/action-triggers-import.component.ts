@@ -14,7 +14,6 @@ import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 export class ActionTriggersImportComponent {
   @Input() public actionTriggersWithAction: ActionTriggerWithAction<KeyboardTriggerData>[]
   @Input() public isDisabled: boolean
-  private importedActionTriggers: ActionTrigger<KeyboardTriggerData>[]
 
   constructor(
     private readonly actionTriggerService: ActionTriggerService,
@@ -38,7 +37,6 @@ export class ActionTriggersImportComponent {
           this.openDangerSnackBar('No items to be added')
           return
         }
-        this.importedActionTriggers = importedActionTriggers
         this.importActionTriggers(importedActionTriggers).catch(() => {
           this.openDangerSnackBar('Error in imported file')
         })

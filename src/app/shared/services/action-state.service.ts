@@ -55,7 +55,7 @@ export class ActionStateService {
       .catch(error => this.logger.data(error).error('Encountered an error while fetching system actions.'))
   }
 
-  private getActionsSubject(rundownId?: string): BehaviorSubject<Action[]> | undefined {
+  private getActionsSubject(rundownId: string): BehaviorSubject<Action[]> | undefined {
     const actionsSubject = this.actionsSubjects.get(rundownId ?? SYSTEM_ACTIONS_ID)
     if (!actionsSubject) {
       return
@@ -64,7 +64,7 @@ export class ActionStateService {
     return wasRemoved ? undefined : actionsSubject
   }
 
-  private removeSubjectIfItHasNoObservers(actionsSubject: BehaviorSubject<Action[]>, rundownId?: string): { wasRemoved: boolean } {
+  private removeSubjectIfItHasNoObservers(actionsSubject: BehaviorSubject<Action[]>, rundownId: string): { wasRemoved: boolean } {
     if (actionsSubject.observed) {
       return { wasRemoved: false }
     }

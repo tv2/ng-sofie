@@ -14,9 +14,9 @@ import { FileDownloadService } from 'src/app/core/abstractions/file-download.ser
   styleUrls: ['./action-triggers.component.scss'],
 })
 export class ActionTriggersComponent implements OnInit, OnDestroy {
-  public selectedAction?: ActionTriggerWithAction<KeyboardTriggerData>
-  public createAction: boolean
-  public loading: boolean = true
+  public selectedActionTrigger?: ActionTriggerWithAction<KeyboardTriggerData>
+  public isShowingCreateActionTriggerForm: boolean
+  public isLoading: boolean = true
   public actions: Tv2PartAction[]
   public actionTriggersWithAction: ActionTriggerWithAction<KeyboardTriggerData>[]
   private readonly unsubscribe$: Subject<null> = new Subject<null>()
@@ -57,35 +57,30 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.unsubscribe$.next(null)
     this.unsubscribe$.unsubscribe()
   }
 
   public setIsLoading(isLoading: boolean): void {
-    this.loading = isLoading
+    this.isLoading = isLoading
   }
 
-  public selectActionTriggerForEditing(selectedTrigger?: ActionTriggerWithAction<KeyboardTriggerData>): void {
-    this.selectedAction = selectedTrigger
-    this.createAction = false
+  public selectActionTriggerForEditing(actionTrigger?: ActionTriggerWithAction<KeyboardTriggerData>): void {
+    this.selectedActionTrigger = actionTrigger
+    this.isShowingCreateActionTriggerForm = false
   }
 
   public createActionTrigger(): void {
-    this.createAction = true
-    this.selectedAction = undefined
+    this.isShowingCreateActionTriggerForm = true
+    this.selectedActionTrigger = undefined
   }
 
   public cancelActionTrigger(): void {
-    this.selectedAction = undefined
-    this.createAction = false
+    this.selectedActionTrigger = undefined
+    this.isShowingCreateActionTriggerForm = false
   }
 
   public exportActionsTriggers(): void {
-    const triggersCopy: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggersWithAction.map(actionTriggerWithActions => {
-      return {
-        ...actionTriggerWithActions.actionTrigger,
-      }
-    })
-    this.fileDownloadService.downloadText(JSON.stringify(triggersCopy), 'actions-triggers.json')
+    const actionTriggers: ActionTrigger<KeyboardTriggerData>[] = this.actionTriggersWithAction.map(actionTriggerWithAction => actionTriggerWithAction.actionTrigger)
+    this.fileDownloadService.downloadText(JSON.stringify(actionTriggers), 'actions-triggers.json')
   }
 }

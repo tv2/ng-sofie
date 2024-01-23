@@ -28,8 +28,8 @@ export class KeyboardKeysFieldComponent {
     if (currentKeys.some(keyCode => keyCode === newKeyCode) && !this.isFirstKeyAfterUserFocus) {
       return
     }
-    const newValue: string[] = this.isFirstKeyAfterUserFocus ? [newKeyCode] : [...this.value, newKeyCode]
-    this.onChange.emit(newValue)
+    const keys: string[] = this.isFirstKeyAfterUserFocus ? [newKeyCode] : [...this.value, newKeyCode]
+    this.onChange.emit(keys)
     if (this.isFirstKeyAfterUserFocus) {
       this.setFirstKeyAfterUserFocus(false)
     }

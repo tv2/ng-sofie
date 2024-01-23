@@ -48,7 +48,7 @@ export class ActionTriggersListComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     const actionTriggerChange: SimpleChange | undefined = changes['actionTriggers']
     if (actionTriggerChange) {
-      this.newSortSelect(this.sortQuery)
+      this.applySortQuery(this.sortQuery)
     }
   }
 
@@ -57,13 +57,13 @@ export class ActionTriggersListComponent implements OnChanges {
     return this.actionTriggersWithAction.filter(
       actionTriggerWithAction =>
         actionTriggerWithAction.actionTrigger.data.label.toLocaleLowerCase().includes(lowercasedSearchQuery) ||
-        this.getMappetToOrShortcutKeysArray(actionTriggerWithAction.actionTrigger).toString().toLocaleLowerCase().includes(lowercasedSearchQuery) ||
+        this.getMappedToOrShortcutKeys(actionTriggerWithAction.actionTrigger).toString().toLocaleLowerCase().includes(lowercasedSearchQuery) ||
         actionTriggerWithAction.action.name.toString().toLocaleLowerCase().includes(lowercasedSearchQuery) ||
         actionTriggerWithAction.actionTrigger.id === this.selectedActionTrigger?.actionTrigger.id
     )
   }
 
-  private getMappetToOrShortcutKeysArray(actionTrigger: ActionTrigger<KeyboardTriggerData>): Keys {
+  private getMappedToOrShortcutKeys(actionTrigger: ActionTrigger<KeyboardTriggerData>): Keys {
     return actionTrigger.data.mappedToKeys && actionTrigger.data.mappedToKeys.length > 0 ? actionTrigger.data.mappedToKeys : actionTrigger.data.keys
   }
 
@@ -93,7 +93,7 @@ export class ActionTriggersListComponent implements OnChanges {
     this.updateSelectedActionTriggersOptions()
   }
 
-  public actionTriggerDelete(actionTriggerId: string): void {
+  public openDeleteActionTriggerDialog(actionTriggerId: string): void {
     this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`action-triggers.delete.confirmation`, 'Delete', () => this.deleteActionTriggerById(actionTriggerId))
   }
 
@@ -121,11 +121,7 @@ export class ActionTriggersListComponent implements OnChanges {
     this.actionTriggerService.createActionTrigger(clonedActionTrigger).subscribe()
   }
 
-  public selectNewSort(sortOption: string): void {
-    this.newSortSelect(sortOption as ActionTriggerSortKeys)
-  }
-
-  private newSortSelect(sort: string): void {
+  public applySortQuery(sort: string): void {
     this.sortQuery = sort
     switch (sort) {
       case `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`:
@@ -146,7 +142,7 @@ export class ActionTriggersListComponent implements OnChanges {
     }
   }
 
-  public actionWithSelected(userAction: string): void {
+  public applyUserActionToSelectedActionTriggers(userAction: string): void {
     switch (userAction) {
       case ActionsWithSelected.DELETE:
         return this.dialogService.createConfirmDialog($localize`action-triggers.delete-selected.label`, $localize`action-triggers.delete-selected.confirmation`, 'Delete', () =>
@@ -196,7 +192,7 @@ export class ActionTriggersListComponent implements OnChanges {
   }
 
   private exportSelectedActionTriggers(): void {
-    this.fileDownloadService.downloadText(JSON.stringify(this.getListWithSelectedActionTriggers()), 'selected-actions-triggers.json')
+    this.fileDownloadService.downloadText(JSON.stringify(this.getSelectedActionTriggers()), 'selected-actions-triggers.json')
     this.unselectAllActionsTriggers()
     this.updateSelectedActionTriggersOptions()
   }
@@ -214,7 +210,7 @@ export class ActionTriggersListComponent implements OnChanges {
     this.selectedActionTriggerIds.clear()
   }
 
-  private getListWithSelectedActionTriggers(): ActionTrigger<KeyboardTriggerData>[] {
+  private getSelectedActionTriggers(): ActionTrigger<KeyboardTriggerData>[] {
     return this.actionTriggersWithAction
       .filter(actionTriggerWithAction => this.selectedActionTriggerIds.has(actionTriggerWithAction.actionTrigger.id))
       .map(actionTriggerWithAction => actionTriggerWithAction.actionTrigger)
