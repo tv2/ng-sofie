@@ -191,7 +191,7 @@ export class ZodEntityParser implements EntityParser {
     duration: zod.number(),
   })
 
-  public parseMediaData(mediaData: unknown): Media {
-    return <Media>this.mediaDataParser.parse(mediaData)
+  public parseMedia(media: unknown): Media {
+    return <Media>this.mediaDataParser.parse(media)
   }
 }

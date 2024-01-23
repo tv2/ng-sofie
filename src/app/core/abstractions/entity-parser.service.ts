@@ -18,5 +18,5 @@ export abstract class EntityParser {
   public abstract parseShowStyleVariant(showStyleVariant: unknown): ShowStyleVariant
   public abstract parseStudioConfiguration(studioConfiguration: unknown): StudioConfiguration
   public abstract parseTv2Action(tv2Action: unknown): Tv2Action
-  public abstract parseMediaData(mediaData: unknown): Media
+  public abstract parseMedia(media: unknown): Media
 }

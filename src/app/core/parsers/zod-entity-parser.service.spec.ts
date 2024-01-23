@@ -1,5 +1,7 @@
 import { ZodEntityParser } from './zod-entity-parser.service'
 import { StudioConfiguration } from '../../shared/services/studio-configuration'
+import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
+import { Media } from '../../shared/services/media'
 
 describe(ZodEntityParser.name, () => {
   describe(ZodEntityParser.prototype.parseStudioConfiguration.name, () => {
@@ -53,6 +55,31 @@ describe(ZodEntityParser.name, () => {
       }
       const result = (): StudioConfiguration => testee.parseStudioConfiguration(expectedStudioConfiguration)
       expect(result).toThrow()
+    })
+  })
+
+  describe(ZodEntityParser.prototype.parseTv2Action.name, () => {
+    it('parses a Tv2Adtion ', () => {
+      const testee: ZodEntityParser = new ZodEntityParser()
+      const expectedTv2Action: Tv2Action = <Tv2Action>{
+        metadata: {
+          contentType: Tv2ActionContentType.UNKNOWN,
+        },
+      }
+      const parseTv2Action: Tv2Action = testee.parseTv2Action(expectedTv2Action)
+      expect(parseTv2Action).toEqual(expectedTv2Action)
+    })
+  })
+
+  describe(ZodEntityParser.prototype.parseMedia.name, () => {
+    it('parses a Media data ', () => {
+      const testee: ZodEntityParser = new ZodEntityParser()
+      const expectedMedia: Media = <Media>{
+        id: '123',
+        duration: 123,
+      }
+      const parseMedia: Media = testee.parseMedia(expectedMedia)
+      expect(parseMedia).toEqual(expectedMedia)
     })
   })
 })
