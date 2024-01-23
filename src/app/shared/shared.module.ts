@@ -48,6 +48,14 @@ import { HttpConfigurationService } from './services/http/http-configuration-ser
 import { MediaService } from './services/media.service'
 import { HttpMediaService } from './services/http/http-media.service'
 import { MediaStateService } from './services/media-state.service'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { LoadingComponent } from './components/loading/loading.component'
+import { DropdownButtonComponent } from './components/dropdown-button/dropdown-button.component'
+import { MatMenuModule } from '@angular/material/menu'
+import { CustomCheckboxComponent } from './components/icon-checkbox/custom-checkbox.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { ButtonComponent } from './components/button/button.component'
+import { FormatKeyboardKeysPipe } from './pipes/format-keyboard-keys.pipe'
 
 @NgModule({
   declarations: [
@@ -55,6 +63,7 @@ import { MediaStateService } from './services/media-state.service'
     ConfirmationDialogComponent,
     MinimumPipe,
     MaximumPipe,
+    FormatKeyboardKeysPipe,
     SofieLogoComponent,
     SpacerComponent,
     IconButtonComponent,
@@ -63,6 +72,10 @@ import { MediaStateService } from './services/media-state.service'
     Tv2ActionPanelComponent,
     Tv2ActionCardComponent,
     TimerPipe,
+    LoadingComponent,
+    DropdownButtonComponent,
+    CustomCheckboxComponent,
+    ButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -78,13 +91,18 @@ import { MediaStateService } from './services/media-state.service'
     MatDialogModule,
     FontAwesomeModule,
     CdkMenuModule,
+    ReactiveFormsModule,
+    FormsModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
+    MatMenuModule,
   ],
   exports: [
     CommonModule,
     HeaderComponent,
     MinimumPipe,
     MaximumPipe,
+    FormatKeyboardKeysPipe,
     TimerPipe,
     SofieLogoComponent,
     SpacerComponent,
@@ -93,6 +111,12 @@ import { MediaStateService } from './services/media-state.service'
     ContextMenuComponent,
     Tv2ActionPanelComponent,
     Tv2ActionCardComponent,
+    LoadingComponent,
+    DropdownButtonComponent,
+    CustomCheckboxComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    ButtonComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },

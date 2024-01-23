@@ -5,7 +5,19 @@ export interface Action {
   type: ActionType
   name: string
   description?: string
+  argument?: ActionArgumentSchema
   metadata?: unknown
+}
+
+export interface ActionArgumentSchema {
+  description: string
+  name: string
+  type: ActionArgumentSchemaType
+}
+
+export enum ActionArgumentSchemaType {
+  STRING = 'STRING',
+  NUMBER = 'NUMBER',
 }
 
 export interface PieceAction extends Action {

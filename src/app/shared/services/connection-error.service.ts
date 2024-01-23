@@ -18,7 +18,7 @@ export class ConnectionErrorService implements OnDestroy {
   }
 
   private openSnackBar(message: string): void {
-    this.snackBar.open(message, 'DISMISS', { panelClass: 'snackbar-success' })
+    this.snackBar.open(message, $localize`global.dismiss.label`, { panelClass: 'snackbar-success' })
   }
 
   private openDangerSnackBar(message: string): void {
