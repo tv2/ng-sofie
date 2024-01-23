@@ -12,6 +12,9 @@ describe(ZodEntityParser.name, () => {
           settings: {
             mediaPreviewUrl: 'http://some.url',
           },
+          blueprintConfiguration: {
+            serverPostrollDuration: 123,
+          },
         },
       }
       const parseStudioConfiguration: StudioConfiguration = testee.parseStudioConfiguration(expectedStudioConfiguration)
@@ -24,6 +27,9 @@ describe(ZodEntityParser.name, () => {
         data: {
           settings: {
             mediaPreviewUrl: '',
+          },
+          blueprintConfiguration: {
+            serverPostrollDuration: 123,
           },
         },
       }
@@ -38,6 +44,9 @@ describe(ZodEntityParser.name, () => {
           settings: {
             mediaPreviewUrl: 'http://',
           },
+          blueprintConfiguration: {
+            serverPostrollDuration: 123,
+          },
         },
       }
       const result = (): StudioConfiguration => testee.parseStudioConfiguration(expectedStudioConfiguration)
@@ -50,6 +59,9 @@ describe(ZodEntityParser.name, () => {
         data: {
           settings: {
             mediaPreviewUrl: 'http://a',
+          },
+          blueprintConfiguration: {
+            serverPostrollDuration: 123,
           },
         },
       }

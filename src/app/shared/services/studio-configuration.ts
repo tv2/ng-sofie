@@ -1,11 +1,14 @@
-interface mediaPreviewUrl {
-  mediaPreviewUrl: string
+interface BlueprintConfiguration {
+  serverPostrollDuration: number
 }
 
 interface Settings {
-  settings: mediaPreviewUrl
+  mediaPreviewUrl: string
 }
 
 export interface StudioConfiguration {
-  data: Settings
+  data: {
+    settings: Settings
+    blueprintConfiguration: BlueprintConfiguration
+  }
 }

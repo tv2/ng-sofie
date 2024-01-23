@@ -22,6 +22,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   private configurationMediaPreviewUrl: string
   private configurationServiceSubscription: Subscription
   private executeActionSubscription: Subscription
+  private serverPostrollDuration: number = 0
 
   constructor(
     private readonly actionService: ActionService,
@@ -32,6 +33,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnInit(): void {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((configuration: StudioConfiguration) => {
       this.configurationMediaPreviewUrl = configuration.data.settings.mediaPreviewUrl
+      this.serverPostrollDuration = configuration.data.blueprintConfiguration.serverPostrollDuration
     })
     void this.updateMediaDataDuration()
   }
@@ -42,7 +44,11 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
       if (!media || !media.duration) {
         return
       }
-      this.mediaDuration = media.duration
+      if (media.duration < this.serverPostrollDuration) {
+        this.mediaDuration = this.NaN
+      } else {
+        this.mediaDuration = media.duration - this.serverPostrollDuration
+      }
     }
   }
 

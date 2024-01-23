@@ -169,6 +169,9 @@ export class ZodEntityParser implements EntityParser {
       settings: zod.object({
         mediaPreviewUrl: zod.string().startsWith('http://', 'Media preview url must start with http://').and(zod.string().min(9, 'Media preview url must more than 9 characters long')),
       }),
+      blueprintConfiguration: zod.object({
+        serverPostrollDuration: zod.number().min(0, 'Server postroll duration must be 0 or more'),
+      }),
     }),
   })
 
