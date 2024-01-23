@@ -93,7 +93,4 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   protected handleMissingImage(event: Event): void {
     ;(event.target as HTMLImageElement).src = this.defaultAssetForThumbnail
   }
-
-  protected readonly NaN = NaN
-  protected readonly isNaN = isNaN
 }
