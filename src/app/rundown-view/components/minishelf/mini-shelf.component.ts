@@ -19,10 +19,9 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   private readonly defaultAssetForThumbnail: string = 'assets/sofie-logo.svg'
   protected mediaDuration: number = 0
-  private configurationMediaPreviewUrl: string
   private configurationServiceSubscription: Subscription
   private executeActionSubscription: Subscription
-  private serverPostrollDuration: number = 0
+  private studioConfiguration: StudioConfiguration | undefined
 
   constructor(
     private readonly actionService: ActionService,
@@ -31,9 +30,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   public ngOnInit(): void {
-    this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((configuration: StudioConfiguration) => {
-      this.configurationMediaPreviewUrl = configuration.data.settings.mediaPreviewUrl
-      this.serverPostrollDuration = configuration.data.blueprintConfiguration.ServerPostrollDuration
+    this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
+      this.studioConfiguration = studioConfiguration
     })
     void this.updateMediaDataDuration()
   }
@@ -41,13 +39,14 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   private async updateMediaDataDuration(): Promise<void> {
     if (this.segment.metadata?.miniShelfVideoClipFile !== undefined) {
       let media: Media | undefined = await this.mediaStateService.getMedia(this.segment.metadata?.miniShelfVideoClipFile)
-      if (!media || !media.duration) {
+      if (!media) {
         return
       }
-      if (media.duration < this.serverPostrollDuration) {
+      if (!this.studioConfiguration) return
+      if (media.duration < this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration) {
         this.mediaDuration = this.NaN
       } else {
-        this.mediaDuration = media.duration - this.serverPostrollDuration
+        this.mediaDuration = media.duration - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration
       }
     }
   }
@@ -64,8 +63,9 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   protected get mediaPreviewUrl(): string {
-    const url: string = `${this.configurationMediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
-    return this.configurationMediaPreviewUrl ? url : this.defaultAssetForThumbnail
+    if (!this.studioConfiguration) return ''
+    const url: string = `${this.studioConfiguration.settings.mediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
+    return this.studioConfiguration.settings.mediaPreviewUrl ? url : this.defaultAssetForThumbnail
   }
 
   public getSanitizedTitle(): string {

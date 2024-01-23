@@ -25,7 +25,7 @@ export class MediaStateService {
     return media
   }
 
-  public fetchMedia(id: string): Promise<Media> {
+  private fetchMedia(id: string): Promise<Media> {
     return lastValueFrom(this.mediaService.getMedia(id))
   }
 }

@@ -19,7 +19,7 @@ export class HttpConfigurationService implements ConfigurationService {
   public getStudioConfiguration(): Observable<StudioConfiguration> {
     return this.http.get<HttpResponse<StudioConfiguration>>(`${environment.apiBaseUrl}/configurations/studio`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
-      map(response => this.entityParser.parseStudioConfiguration(response))
+      map(response => this.entityParser.parseStudioConfiguration(response.data))
     )
   }
 }

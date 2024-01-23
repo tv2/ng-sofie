@@ -8,13 +8,11 @@ describe(ZodEntityParser.name, () => {
     it('parses a studio configuration with url on http protocol and hostname', () => {
       const testee: ZodEntityParser = new ZodEntityParser()
       const expectedStudioConfiguration: StudioConfiguration = {
-        data: {
-          settings: {
-            mediaPreviewUrl: 'http://some.url',
-          },
-          blueprintConfiguration: {
-            ServerPostrollDuration: 123,
-          },
+        settings: {
+          mediaPreviewUrl: 'http://some.url',
+        },
+        blueprintConfiguration: {
+          ServerPostrollDuration: 123,
         },
       }
       const parseStudioConfiguration: StudioConfiguration = testee.parseStudioConfiguration(expectedStudioConfiguration)
@@ -24,13 +22,11 @@ describe(ZodEntityParser.name, () => {
     it('does not parse a studio configuration with empty url', () => {
       const testee: ZodEntityParser = new ZodEntityParser()
       const expectedStudioConfiguration: StudioConfiguration = {
-        data: {
-          settings: {
-            mediaPreviewUrl: '',
-          },
-          blueprintConfiguration: {
-            ServerPostrollDuration: 123,
-          },
+        settings: {
+          mediaPreviewUrl: '',
+        },
+        blueprintConfiguration: {
+          ServerPostrollDuration: 123,
         },
       }
       const result = (): StudioConfiguration => testee.parseStudioConfiguration(expectedStudioConfiguration)
@@ -40,13 +36,11 @@ describe(ZodEntityParser.name, () => {
     it('does not parse a studio configuration with no host, just protocol', () => {
       const testee: ZodEntityParser = new ZodEntityParser()
       const expectedStudioConfiguration: StudioConfiguration = {
-        data: {
-          settings: {
-            mediaPreviewUrl: 'http://',
-          },
-          blueprintConfiguration: {
-            ServerPostrollDuration: 123,
-          },
+        settings: {
+          mediaPreviewUrl: 'http://',
+        },
+        blueprintConfiguration: {
+          ServerPostrollDuration: 123,
         },
       }
       const result = (): StudioConfiguration => testee.parseStudioConfiguration(expectedStudioConfiguration)
@@ -56,13 +50,11 @@ describe(ZodEntityParser.name, () => {
     it('does not parse a studio configuration with protocol and just one letter host', () => {
       const testee: ZodEntityParser = new ZodEntityParser()
       const expectedStudioConfiguration: StudioConfiguration = {
-        data: {
-          settings: {
-            mediaPreviewUrl: 'http://a',
-          },
-          blueprintConfiguration: {
-            ServerPostrollDuration: 123,
-          },
+        settings: {
+          mediaPreviewUrl: 'http://a',
+        },
+        blueprintConfiguration: {
+          ServerPostrollDuration: 123,
         },
       }
       const result = (): StudioConfiguration => testee.parseStudioConfiguration(expectedStudioConfiguration)
