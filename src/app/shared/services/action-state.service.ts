@@ -8,7 +8,7 @@ import { EventSubscription } from '../../event-system/abstractions/event-observe
 import { RundownEventObserver } from '../../core/services/rundown-event-observer.service'
 import { RundownActivatedEvent, RundownDeactivatedEvent } from '../../core/models/rundown-event'
 
-const ALL_ACTIONS = 'ALL_ACTIONSAllActions'
+const SYSTEM_ACTIONS_ID = 'SYSTEM_ACTIONS_ID'
 @Injectable()
 export class ActionStateService {
   private readonly actionsSubjects: Map<string, BehaviorSubject<Action[]>> = new Map()
@@ -30,22 +30,33 @@ export class ActionStateService {
   }
 
   private onReconnected(): void {
-    this.actionsSubjects.forEach((_, rundownId?: string) => this.resetActionsSubject(rundownId))
+    this.actionsSubjects.forEach((_, rundownId: string) => (rundownId === SYSTEM_ACTIONS_ID ? this.resetSystemActionsSubject() : this.resetActionsSubject(rundownId)))
   }
 
-  private resetActionsSubject(rundownId?: string): void {
+  private resetActionsSubject(rundownId: string): void {
     const actionsSubject: BehaviorSubject<Action[]> | undefined = this.getActionsSubject(rundownId)
     if (!actionsSubject) {
       return
     }
-    this.logger.debug(`Resetting actions with id: ${rundownId ?? ALL_ACTIONS}`)
+    this.logger.debug(`Resetting actions with id: ${rundownId ?? SYSTEM_ACTIONS_ID}`)
     this.fetchActions(rundownId)
       .then(actions => actionsSubject.next(actions))
-      .catch(error => this.logger.data(error).error(`Encountered an error while fetching actions for rundown with id '${rundownId ?? ALL_ACTIONS}':`))
+      .catch(error => this.logger.data(error).error(`Encountered an error while fetching actions for rundown with id '${rundownId ?? SYSTEM_ACTIONS_ID}':`))
+  }
+
+  private resetSystemActionsSubject(): void {
+    const systemActionsSubject: BehaviorSubject<Action[]> | undefined = this.getActionsSubject(SYSTEM_ACTIONS_ID)
+    if (!systemActionsSubject) {
+      return
+    }
+    this.logger.debug(`Resetting system actions`)
+    this.fetchSystemActions()
+      .then(systemActions => systemActionsSubject.next(systemActions))
+      .catch(error => this.logger.data(error).error('Encountered an error while fetching system actions.'))
   }
 
   private getActionsSubject(rundownId?: string): BehaviorSubject<Action[]> | undefined {
-    const actionsSubject = this.actionsSubjects.get(rundownId ?? ALL_ACTIONS)
+    const actionsSubject = this.actionsSubjects.get(rundownId ?? SYSTEM_ACTIONS_ID)
     if (!actionsSubject) {
       return
     }
@@ -58,7 +69,7 @@ export class ActionStateService {
       return { wasRemoved: false }
     }
     actionsSubject.unsubscribe()
-    this.actionsSubjects.delete(rundownId ?? ALL_ACTIONS)
+    this.actionsSubjects.delete(rundownId ?? SYSTEM_ACTIONS_ID)
     return { wasRemoved: true }
   }
 
@@ -70,28 +81,37 @@ export class ActionStateService {
     this.resetActionsSubject(event.rundownId)
   }
 
-  public async subscribeToRundownActions(rundownId?: string): Promise<Observable<Action[]>> {
+  public async subscribeToRundownActions(rundownId: string): Promise<Observable<Action[]>> {
     const actionsSubject: BehaviorSubject<Action[]> = await this.createActionsSubject(rundownId)
     return actionsSubject.asObservable()
   }
 
-  private async createActionsSubject(rundownId?: string): Promise<BehaviorSubject<Action[]>> {
-    const actionsSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundownId ?? ALL_ACTIONS)
+  public async subscribeToSystemActions(): Promise<Observable<Action[]>> {
+    const actionsSubject: BehaviorSubject<Action[]> = await this.createActionsSubject(SYSTEM_ACTIONS_ID)
+    return actionsSubject.asObservable()
+  }
+
+  private async createActionsSubject(rundownId: string): Promise<BehaviorSubject<Action[]>> {
+    const actionsSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundownId ?? SYSTEM_ACTIONS_ID)
     if (actionsSubject) {
       return actionsSubject
     }
     const cleanActionsSubject: BehaviorSubject<Action[]> = await this.getCleanActionsSubject(rundownId)
-    this.actionsSubjects.set(rundownId ?? ALL_ACTIONS, cleanActionsSubject)
+    this.actionsSubjects.set(rundownId ?? SYSTEM_ACTIONS_ID, cleanActionsSubject)
     return cleanActionsSubject
   }
 
-  private async getCleanActionsSubject(rundownId?: string): Promise<BehaviorSubject<Action[]>> {
+  private async getCleanActionsSubject(rundownId: string): Promise<BehaviorSubject<Action[]>> {
     const actions: Action[] = await this.fetchActions(rundownId)
     return new BehaviorSubject<Action[]>(actions)
   }
 
-  private fetchActions(rundownId?: string): Promise<Action[]> {
-    return lastValueFrom(this.actionService.getActions(rundownId))
+  private fetchActions(rundownId: string): Promise<Action[]> {
+    return lastValueFrom(this.actionService.getActionsByRundownId(rundownId))
+  }
+
+  private fetchSystemActions(): Promise<Action[]> {
+    return lastValueFrom(this.actionService.getSystemActions())
   }
 
   public destroy(): void {

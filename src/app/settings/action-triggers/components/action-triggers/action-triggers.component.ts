@@ -30,7 +30,7 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.actionStateService
-      .subscribeToRundownActions()
+      .subscribeToSystemActions()
       .then(observable => observable.subscribe(actions => this.onActionsChanged(actions as Tv2PartAction[])))
       .then(() => this.subscribeForActionTriggerObservable())
       .catch(error => this.logger.data(error).error('Error while listening to Action events'))
