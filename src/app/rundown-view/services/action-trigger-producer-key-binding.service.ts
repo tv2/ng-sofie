@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable, Subject, SubscriptionLike } from 'rxjs'
-import { KeyBinding, Keys } from 'src/app/keyboard/value-objects/key-binding'
+import { KeyBinding } from 'src/app/keyboard/value-objects/key-binding'
 import { KeyBindingService } from '../abstractions/key-binding.service'
 import { ActionTriggerStateService } from '../../core/services/action-trigger-state.service'
 import { ActionStateService } from '../../shared/services/action-state.service'
@@ -14,6 +14,7 @@ import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Logger } from '../../core/abstractions/logger.service'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
+import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 
 // TODO: We need ONE central place to define colours
 const CAMERA_COLOR: string = '#005919'
@@ -22,11 +23,6 @@ const SPLIT_SCREEN_COLOR: string = '#00a99c'
 const REPLAY_COLOR: string = '#8d1010'
 const VIDEO_CLIP_COLOR: string = '#1769ff'
 const GRAPHICS_COLOR: string = '#ca9d00'
-
-interface KeyboardTriggerData {
-  keys: Keys
-  actionArguments?: unknown
-}
 
 @Injectable()
 export class ActionTriggerProducerKeyBindingService implements KeyBindingService {
@@ -123,7 +119,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   private createBinding(action: Tv2Action, actionTrigger: ActionTrigger<KeyboardTriggerData>, rundownId: string): StyledKeyBinding {
     return {
       keys: actionTrigger.data.keys,
-      label: action.name,
+      label: actionTrigger.data.label,
       onMatched: () => this.actionService.executeAction(action.id, rundownId, actionTrigger.data.actionArguments).subscribe(),
       shouldMatchOnKeyRelease: true,
       shouldPreventDefaultBehaviourOnKeyPress: true,

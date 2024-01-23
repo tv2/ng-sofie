@@ -1,0 +1,85 @@
+<div class="c-edit-actions-triggers">
+  <h4>
+    <span *ngIf="isUpdateForm; else createLabel" i18n>action-triggers.update-shortcut.title</span>
+    <ng-template #createLabel><span i18n>action-triggers.create-shortcut.title</span></ng-template>
+  </h4>
+  <form class="c-edit-actions-triggers__form" (ngSubmit)="submit()" [formGroup]="actionForm">
+    <div>
+      <ng-container formGroupName="data">
+        <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
+          <label i18n>global.label</label>
+          <input placeholder="Label for the shortcut" [readonly]="isSubmitting" type="text" formControlName="label" />
+        </div>
+
+        <sofie-keyboard-keys-field [isRequired]="true" [isSubmitting]="isSubmitting" [label]="keysLabel" (onChange)="changeKeyboardKeyValue($event, formKeysArray)" [value]="formKeysArray.value ?? []">
+        </sofie-keyboard-keys-field>
+
+        <sofie-keyboard-keys-field
+          [isSubmitting]="isSubmitting"
+          [label]="physicalMappingLabel"
+          (onChange)="changeKeyboardKeyValue($event, formMappedToKeysArray)"
+          [value]="formMappedToKeysArray.value ?? []"
+          [helpIconText]="physicalMappingHelpInfo">
+        </sofie-keyboard-keys-field>
+        <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
+          <label>{{ triggerOnLabel }}<span class="text-danger">*</span></label>
+          <select formControlName="triggerOn" name="triggerOn" [attr.disabled]="isSubmitting ? '' : null">
+            <option *ngFor="let option of triggerOnOptions" [value]="option.key" [disabled]="option.isDisabled">{{ option.label }}</option>
+          </select>
+        </div>
+        <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
+          <label>{{ selectedActionLabel }}<span class="text-danger">*</span></label>
+          <div class="c-sofie-card c-edit-actions-triggers__form--selected-action" [class]="selectedAction?.metadata?.contentType?.toLocaleLowerCase() + '_color'">
+            <ng-container *ngIf="selectedAction; else noSelectedAction">
+              <p>
+                {{ this.selectedAction.name }}
+              </p>
+              <p>
+                {{ this.selectedAction.description }}
+              </p>
+            </ng-container>
+            <ng-template #noSelectedAction>
+              <p i18n>action-triggers.no-selected-action.label</p>
+            </ng-template>
+          </div>
+        </div>
+
+        <div *ngIf="selectedAction && selectedAction.argument" class="c-edit-actions-triggers__form--field c-sofie-form-control">
+          <label
+            >{{ selectedAction.argument.name }}
+            <span class="text-danger">*</span>
+            <sofie-icon-button [iconButton]="IconButton.CIRCLE_QUESTION" [tooltipText]="selectedAction.argument.description" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button
+          ></label>
+          <input
+            [type]="selectedAction.argument.type === ActionArgumentSchemaType.NUMBER ? 'number' : 'string'"
+            [placeholder]="selectedAction.argument.description"
+            [readonly]="isSubmitting"
+            formControlName="actionArguments" />
+        </div>
+      </ng-container>
+
+      <div class="c-edit-actions-triggers__form--buttons">
+        <button
+          [title]="actionForm.invalid ? submitButtonTooltipError + ': ' + getFormValidationErrors : ''"
+          [disabled]="actionForm.invalid"
+          *ngIf="isUpdateForm; else createButton"
+          class="c-sofie-button c-sofie-button-primary"
+          type="submit">
+          <span i18n>global.update.button</span>
+        </button>
+        <ng-template #createButton
+          ><button
+            [title]="actionForm.invalid ? submitButtonTooltipError + ': ' + getFormValidationErrors : ''"
+            [disabled]="actionForm.invalid"
+            class="c-sofie-button c-sofie-button-primary"
+            type="submit">
+            <span i18n>global.create.button</span>
+          </button></ng-template
+        >
+        <button class="c-sofie-button c-sofie-button-gray" (click)="onCancel.emit()" type="button" i18n>global.close.button</button>
+      </div>
+    </div>
+    <sofie-select-action-trigger [actions]="actions" [isSubmitting]="isSubmitting" [selectedActionId]="actionForm.get('actionId')?.value" (onActionTriggerOpen)="openNewActionTrigger($event)">
+    </sofie-select-action-trigger>
+  </form>
+</div>

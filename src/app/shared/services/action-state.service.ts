@@ -8,6 +8,7 @@ import { EventSubscription } from '../../event-system/abstractions/event-observe
 import { RundownEventObserver } from '../../core/services/rundown-event-observer.service'
 import { RundownActivatedEvent, RundownDeactivatedEvent } from '../../core/models/rundown-event'
 
+const SYSTEM_ACTIONS_ID = 'SYSTEM_ACTIONS_ID'
 @Injectable()
 export class ActionStateService {
   private readonly actionsSubjects: Map<string, BehaviorSubject<Action[]>> = new Map()
@@ -29,7 +30,7 @@ export class ActionStateService {
   }
 
   private onReconnected(): void {
-    this.actionsSubjects.forEach((_, rundownId: string) => this.resetActionsSubject(rundownId))
+    this.actionsSubjects.forEach((_, rundownId: string) => (rundownId === SYSTEM_ACTIONS_ID ? this.resetSystemActionsSubject() : this.resetActionsSubject(rundownId)))
   }
 
   private resetActionsSubject(rundownId: string): void {
@@ -41,6 +42,17 @@ export class ActionStateService {
     this.fetchActions(rundownId)
       .then(actions => actionsSubject.next(actions))
       .catch(error => this.logger.data(error).error(`Encountered an error while fetching actions for rundown with id '${rundownId}':`))
+  }
+
+  private resetSystemActionsSubject(): void {
+    const systemActionsSubject: BehaviorSubject<Action[]> | undefined = this.getActionsSubject(SYSTEM_ACTIONS_ID)
+    if (!systemActionsSubject) {
+      return
+    }
+    this.logger.debug(`Resetting system actions`)
+    this.fetchSystemActions()
+      .then(systemActions => systemActionsSubject.next(systemActions))
+      .catch(error => this.logger.data(error).error('Encountered an error while fetching system actions.'))
   }
 
   private getActionsSubject(rundownId: string): BehaviorSubject<Action[]> | undefined {
@@ -74,6 +86,11 @@ export class ActionStateService {
     return actionsSubject.asObservable()
   }
 
+  public async subscribeToSystemActions(): Promise<Observable<Action[]>> {
+    const actionsSubject: BehaviorSubject<Action[]> = await this.createActionsSubject(SYSTEM_ACTIONS_ID)
+    return actionsSubject.asObservable()
+  }
+
   private async createActionsSubject(rundownId: string): Promise<BehaviorSubject<Action[]>> {
     const actionsSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundownId)
     if (actionsSubject) {
@@ -90,7 +107,11 @@ export class ActionStateService {
   }
 
   private fetchActions(rundownId: string): Promise<Action[]> {
-    return lastValueFrom(this.actionService.getActions(rundownId))
+    return lastValueFrom(this.actionService.getActionsByRundownId(rundownId))
+  }
+
+  private fetchSystemActions(): Promise<Action[]> {
+    return lastValueFrom(this.actionService.getSystemActions())
   }
 
   public destroy(): void {

@@ -66,6 +66,182 @@
         <source>header-component.status.label</source>
         <target>Status</target>
       </trans-unit>
+      <trans-unit id="7774679192134693239" datatype="html">
+        <source>rundown-overview.settings.title</source>
+        <target state="new">Indstillinger</target>
+      </trans-unit>
+      <trans-unit id="4380077604653787346" datatype="html">
+        <source>settings.clear-cache.label</source>
+        <target state="new">Ryd cache</target>
+      </trans-unit>
+      <trans-unit id="363239608614074698" datatype="html">
+        <source>action-triggers.no-shortcuts.label</source>
+        <target state="new">No shortcuts found</target>
+      </trans-unit>
+      <trans-unit id="3982465886333434114" datatype="html">
+        <source>action-triggers.keyboard-shortcuts.label</source>
+        <target state="new">Keyboard shortcuts</target>
+      </trans-unit>
+      <trans-unit id="948302468790980101" datatype="html">
+        <source>action-triggers.create-shortcut.button</source>
+        <target state="new">Create shortcut</target>
+      </trans-unit>
+      <trans-unit id="8903207483897140758" datatype="html">
+        <source>action-triggers.export-shortcuts.button</source>
+        <target state="new">Export shortcuts</target>
+      </trans-unit>
+      <trans-unit id="5998298101573406065" datatype="html">
+        <source>action-triggers.import-shortcuts.button</source>
+        <target state="new">Import shortcuts</target>
+      </trans-unit>
+      <trans-unit id="7618983089240067205" datatype="html">
+        <source>action-triggers.shortcut.label</source>
+        <target state="new">Shortcut</target>
+      </trans-unit>
+      <trans-unit id="6191074751909534346" datatype="html">
+        <source>action-triggers.selected-action.label</source>
+        <target state="new">Selected action</target>
+      </trans-unit>
+      <trans-unit id="946249916134408794" datatype="html">
+        <source>action-triggers.no-actions.label</source>
+        <target state="new">No actions found</target>
+      </trans-unit>
+      <trans-unit id="5494360365717860632" datatype="html">
+        <source>action-triggers.update-shortcut.title</source>
+        <target state="new">Update keyboard shortcut</target>
+      </trans-unit>
+      <trans-unit id="3296269694384339031" datatype="html">
+        <source>action-triggers.create-shortcut.title</source>
+        <target state="new">Create new keyboard shortcut</target>
+      </trans-unit>
+      <trans-unit id="8924063720972378650" datatype="html">
+        <source>global.sort.label</source>
+        <target state="new">Sort by</target>
+      </trans-unit>
+      <trans-unit id="7386626478307143738" datatype="html">
+        <source>action-triggers.delete-selected.label</source>
+        <target state="new">Delete selected</target>
+      </trans-unit>
+      <trans-unit id="1532790028301204513" datatype="html">
+        <source>global.delete.label</source>
+        <target state="new">Delete</target>
+      </trans-unit>
+      <trans-unit id="5133358426840332221" datatype="html">
+        <source>action-triggers.delete.confirmation</source>
+        <target state="new">Are you sure you want to delete this action trigger?</target>
+      </trans-unit>
+      <trans-unit id="1543520618037329297" datatype="html">
+        <source>action-triggers.delete-selected.confirmation</source>
+        <target state="new">Are you sure you want to delete all selected action triggers?</target>
+      </trans-unit>
+      <trans-unit id="4054896224656862418" datatype="html">
+        <source>global.select-all.label</source>
+        <target state="new">Select All</target>
+      </trans-unit>
+      <trans-unit id="4978684078154973195" datatype="html">
+        <source>global.unselect-all.label</source>
+        <target state="new">Unselect all</target>
+      </trans-unit>
+      <trans-unit id="8392171193464081864" datatype="html">
+        <source>global.update.button</source>
+        <target state="new">Update</target>
+      </trans-unit>
+      <trans-unit id="4266204168495316140" datatype="html">
+        <source>global.create.button</source>
+        <target state="new">Create</target>
+      </trans-unit>
+      <trans-unit id="7358643692179267021" datatype="html">
+        <source>action-triggers.select-action-box.label</source>
+        <target state="new">Select action for the shortcut</target>
+      </trans-unit>
+      <trans-unit id="6285874749005785753" datatype="html">
+        <source>global.label</source>
+        <target state="new">Label</target>
+      </trans-unit>
+      <trans-unit id="9004520789605873710" datatype="html">
+        <source>global.close.button</source>
+        <target state="new">Close</target>
+      </trans-unit>
+      <trans-unit id="6102207617999365668" datatype="html">
+        <source>action-triggers.submit-tooltip.error</source>
+        <target state="new">Please enter a value for the following fields</target>
+      </trans-unit>
+      <trans-unit id="5115532688749023793" datatype="html">
+        <source>action-triggers.no-selected-action.label</source>
+        <target state="new">No action selected</target>
+      </trans-unit>
+      <trans-unit id="5503109094537996892" datatype="html">
+        <source>global.export-selected.label</source>
+        <target state="new">Export selected</target>
+      </trans-unit>
+      <trans-unit id="5199708374936679830" datatype="html">
+        <source>global.delete-selected.label</source>
+        <target state="new">Delete selected</target>
+      </trans-unit>
+      <trans-unit id="1706628321455061643" datatype="html">
+        <source>global.on-key-pressed.label</source>
+        <target state="new">On key pressed</target>
+      </trans-unit>
+      <trans-unit id="3902333184421732258" datatype="html">
+        <source>global.on-key-released.label</source>
+        <target state="new">On key released</target>
+      </trans-unit>
+      <trans-unit id="9158000000301348817" datatype="html">
+        <source>action-triggers.trigger-on.label</source>
+        <target state="new">Trigger on</target>
+      </trans-unit>
+      <trans-unit id="5943393457796095490" datatype="html">
+        <source>action-triggers.physical-mapping.label</source>
+        <target state="new">Physical mapping</target>
+      </trans-unit>
+      <trans-unit id="5384713853490936899" datatype="html">
+        <source>clear-cache.title</source>
+        <target state="new">Clear cache</target>
+      </trans-unit>
+      <trans-unit id="7955116266682092985" datatype="html">
+        <source>clear-cache.button.label</source>
+        <target state="new">Clear configuration cache</target>
+      </trans-unit>
+      <trans-unit id="7840343495376792564" datatype="html">
+        <source>global.confirmation.label</source>
+        <target state="new">Confirmation</target>
+      </trans-unit>
+      <trans-unit id="6681316063292517711" datatype="html">
+        <source>clear-cache.clear.confirmation</source>
+        <target state="new">Are you sure you want to clear your cache?</target>
+      </trans-unit>
+      <trans-unit id="1544567860044151272" datatype="html">
+        <source>global.clear.label</source>
+        <target state="new">Clear</target>
+      </trans-unit>
+      <trans-unit id="5710407889877361049" datatype="html">
+        <source>action-triggers-sort.action-label-alphabetical.label</source>
+        <target state="new">Action label alphabetical</target>
+      </trans-unit>
+      <trans-unit id="698052297888320096" datatype="html">
+        <source>action-triggers-sort.action-label-reverse-alphabetical.label</source>
+        <target state="new">Action label reverse alphabetical</target>
+      </trans-unit>
+      <trans-unit id="4872302410477784631" datatype="html">
+        <source>action-triggers-sort.shortcut-alphabetical.label</source>
+        <target state="new">Shortcut alphabetical</target>
+      </trans-unit>
+      <trans-unit id="7555703455523755989" datatype="html">
+        <source>action-triggers-sort.shortcut-reverse-alphabetical.label</source>
+        <target state="new">Shortcut reverse alphabetical</target>
+      </trans-unit>
+      <trans-unit id="6759876909141538174" datatype="html">
+        <source>settings.keyboard-mappings.label</source>
+        <target state="new">Keyboard mappings</target>
+      </trans-unit>
+      <trans-unit id="7160101351914247309" datatype="html">
+        <source>global.dismiss.label</source>
+        <target state="new">DISMISS</target>
+      </trans-unit>
+      <trans-unit id="4177582797246824978" datatype="html">
+        <source>action-triggers.physical-mapping-help.tooltip</source>
+        <target state="new">The physical key combination that should be shown on the virtual keyboard in the rundown view. The field should only be used if the key combination is altered by a key mapping software like AutoHotKey.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

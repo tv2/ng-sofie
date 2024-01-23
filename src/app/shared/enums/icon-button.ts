@@ -1,17 +1,22 @@
 export enum IconButton {
   XMARK = 'XMARK',
+  PEN = 'PEN',
   TRASH_CAN = 'TRASH_CAN',
   BARS = 'BARS',
   PLUS = 'PLUS',
   MINUS = 'MINUS',
   HORIZONTAL_ARROWS = 'HORIZONTAL_ARROWS',
+  TWO_SHEETS_COPY = 'TWO_SHEETS_COPY',
+  VERTICAL_OPPOSING_TRIANGLES = 'VERTICAL_OPPOSING_TRIANGLES',
+  CIRCLE_QUESTION = 'CIRCLE_QUESTION',
+  SQUARE_CHECK = 'SQUARE_CHECK',
 }
 
 export enum IconButtonSize {
-  XS = 'XS',
-  S = 'S',
-  M = 'M',
-  L = 'L',
-  XL = 'XL',
-  XXL = 'XXL',
+  XS = 'xs',
+  S = 'sm',
+  M = '1x',
+  L = 'lg',
+  XL = 'xl',
+  XXL = '2xl',
 }
