@@ -1,5 +1,5 @@
 import { Part } from './part'
-import { SegmentMetadata } from './segmentMetadata'
+import { Tv2SegmentMetadata } from './tv2-segment-metadata'
 
 export interface Segment {
   readonly id: string
@@ -14,5 +14,5 @@ export interface Segment {
   readonly isHidden: boolean
   readonly expectedDurationInMs?: number
   readonly executedAtEpochTime?: number
-  readonly metadata?: SegmentMetadata
+  readonly metadata?: Tv2SegmentMetadata
 }
