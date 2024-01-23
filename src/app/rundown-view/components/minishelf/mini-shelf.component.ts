@@ -20,7 +20,6 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   private readonly defaultAssetForThumbnail: string = 'assets/sofie-logo.svg'
   protected mediaDuration: number = 0
   private configurationServiceSubscription: Subscription
-  private executeActionSubscription: Subscription
   private studioConfiguration: StudioConfiguration | undefined
 
   constructor(
@@ -59,7 +58,6 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnDestroy(): void {
     this.configurationServiceSubscription?.unsubscribe()
-    this.executeActionSubscription?.unsubscribe()
   }
 
   protected get mediaPreviewUrl(): string {
@@ -85,7 +83,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.videoClipAction) {
       return
     }
-    this.executeActionSubscription = this.actionService.executeAction(this.videoClipAction.id, this.segment.rundownId).subscribe()
+    this.actionService.executeAction(this.videoClipAction.id, this.segment.rundownId).subscribe()
   }
 
   protected handleMissingImage(event: Event): void {
