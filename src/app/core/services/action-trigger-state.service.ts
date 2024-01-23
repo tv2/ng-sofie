@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Injectable()
 export class ActionTriggerStateService {
-  private readonly actionTriggerSubject: BehaviorSubject<ActionTrigger[]> = new BehaviorSubject<ActionTrigger[]>([])
+  private readonly actionTriggersSubject: BehaviorSubject<ActionTrigger[]> = new BehaviorSubject<ActionTrigger[]>([])
 
   private readonly subscriptions: EventSubscription[] = []
 
@@ -26,7 +26,7 @@ export class ActionTriggerStateService {
   }
 
   private resetActionTriggers(): void {
-    this.actionTriggerService.getActionTriggers().subscribe(actionTriggers => this.actionTriggerSubject.next(actionTriggers))
+    this.actionTriggerService.getActionTriggers().subscribe(actionTriggers => this.actionTriggersSubject.next(actionTriggers))
   }
 
   private subscribeToActionTriggerEvents(): void {
@@ -42,37 +42,37 @@ export class ActionTriggerStateService {
   }
 
   private updateActionTriggerFromEvent(actionTriggerUpdatedEvent: ActionTriggerUpdatedEvent): void {
-    const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
+    const actionTriggers: ActionTrigger[] = this.actionTriggersSubject.value
     const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerUpdatedEvent.actionTrigger.id)
     if (index === -1) {
       this.openDangerSnackBar('Failed to updated shortcut')
       return
     }
     actionTriggers[index] = actionTriggerUpdatedEvent.actionTrigger
-    this.actionTriggerSubject.next(actionTriggers)
+    this.actionTriggersSubject.next(actionTriggers)
     this.openSnackBar('Successfully updated shortcut')
   }
 
   private removeActionTriggerFromEvent(actionTriggerDeletedEvent: ActionTriggerDeletedEvent): void {
-    const actionTriggers: ActionTrigger[] = this.actionTriggerSubject.value
+    const actionTriggers: ActionTrigger[] = this.actionTriggersSubject.value
     const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerDeletedEvent.actionTriggerId)
     if (index === -1) {
       // ActionTrigger is already deleted from the state.
       return
     }
     actionTriggers.splice(index, 1)
-    this.actionTriggerSubject.next(actionTriggers)
+    this.actionTriggersSubject.next(actionTriggers)
     this.openSnackBar('Successfully deleted shortcut')
   }
 
   private createActionTriggerFromEvent(actionTriggerCreatedEvent: ActionTriggerCreatedEvent): void {
-    const updatedActionTriggers: ActionTrigger[] = [...this.actionTriggerSubject.value, actionTriggerCreatedEvent.actionTrigger]
-    this.actionTriggerSubject.next(updatedActionTriggers)
+    const updatedActionTriggers: ActionTrigger[] = [...this.actionTriggersSubject.value, actionTriggerCreatedEvent.actionTrigger]
+    this.actionTriggersSubject.next(updatedActionTriggers)
     this.openSnackBar('Successfully created shortcut.')
   }
 
   public getActionTriggerObservable(): Observable<ActionTrigger[]> {
-    return this.actionTriggerSubject.asObservable()
+    return this.actionTriggersSubject.asObservable()
   }
 
   public destroy(): void {

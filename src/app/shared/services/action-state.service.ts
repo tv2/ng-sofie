@@ -38,10 +38,10 @@ export class ActionStateService {
     if (!actionsSubject) {
       return
     }
-    this.logger.debug(`Resetting actions with id: ${rundownId ?? SYSTEM_ACTIONS_ID}`)
+    this.logger.debug(`Resetting actions with id: ${rundownId}`)
     this.fetchActions(rundownId)
       .then(actions => actionsSubject.next(actions))
-      .catch(error => this.logger.data(error).error(`Encountered an error while fetching actions for rundown with id '${rundownId ?? SYSTEM_ACTIONS_ID}':`))
+      .catch(error => this.logger.data(error).error(`Encountered an error while fetching actions for rundown with id '${rundownId}':`))
   }
 
   private resetSystemActionsSubject(): void {
@@ -56,7 +56,7 @@ export class ActionStateService {
   }
 
   private getActionsSubject(rundownId: string): BehaviorSubject<Action[]> | undefined {
-    const actionsSubject = this.actionsSubjects.get(rundownId ?? SYSTEM_ACTIONS_ID)
+    const actionsSubject = this.actionsSubjects.get(rundownId)
     if (!actionsSubject) {
       return
     }
@@ -69,7 +69,7 @@ export class ActionStateService {
       return { wasRemoved: false }
     }
     actionsSubject.unsubscribe()
-    this.actionsSubjects.delete(rundownId ?? SYSTEM_ACTIONS_ID)
+    this.actionsSubjects.delete(rundownId)
     return { wasRemoved: true }
   }
 
@@ -92,12 +92,12 @@ export class ActionStateService {
   }
 
   private async createActionsSubject(rundownId: string): Promise<BehaviorSubject<Action[]>> {
-    const actionsSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundownId ?? SYSTEM_ACTIONS_ID)
+    const actionsSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(rundownId)
     if (actionsSubject) {
       return actionsSubject
     }
     const cleanActionsSubject: BehaviorSubject<Action[]> = await this.getCleanActionsSubject(rundownId)
-    this.actionsSubjects.set(rundownId ?? SYSTEM_ACTIONS_ID, cleanActionsSubject)
+    this.actionsSubjects.set(rundownId, cleanActionsSubject)
     return cleanActionsSubject
   }
 

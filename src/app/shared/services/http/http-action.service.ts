@@ -32,7 +32,7 @@ export class HttpActionService implements ActionService {
     )
   }
 
-  private getGetActionsUrlByRundownId(rundownId?: string): string {
+  private getGetActionsUrlByRundownId(rundownId: string): string {
     return `${environment.apiBaseUrl}/actions/rundowns/${rundownId}`
   }
 
