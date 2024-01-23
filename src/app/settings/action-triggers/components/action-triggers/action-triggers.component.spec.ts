@@ -23,15 +23,15 @@ describe('ActionTriggersComponent', () => {
   it('should selected action trigger correctly', async () => {
     const component = await configureTestBed()
     component.selectActionTriggerForEditing(component.actionTriggersWithAction[1])
-    expect(component.selectedAction?.actionTrigger.id).toBe(component.actionTriggersWithAction[1].actionTrigger.id)
+    expect(component.selectedActionTrigger?.actionTrigger.id).toBe(component.actionTriggersWithAction[1].actionTrigger.id)
   })
 
   it('should cancel functionality remove selected trigger', async () => {
     const component = await configureTestBed()
     component.selectActionTriggerForEditing(component.actionTriggersWithAction[1])
-    expect(component.selectedAction?.actionTrigger.id).toBe(component.actionTriggersWithAction[1].actionTrigger.id)
+    expect(component.selectedActionTrigger?.actionTrigger.id).toBe(component.actionTriggersWithAction[1].actionTrigger.id)
     component.cancelActionTrigger()
-    expect(component.selectedAction).toBe(undefined)
+    expect(component.selectedActionTrigger).toBe(undefined)
   })
 })
 
