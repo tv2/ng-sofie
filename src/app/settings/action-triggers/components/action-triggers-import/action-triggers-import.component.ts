@@ -1,3 +1,4 @@
+import { lastValueFrom } from 'rxjs'
 import { Component, Input } from '@angular/core'
 import { ActionTrigger, ActionTriggerWithAction } from 'src/app/shared/models/action-trigger'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -38,7 +39,9 @@ export class ActionTriggersImportComponent {
           return
         }
         this.importedActionTriggers = importedActionTriggers
-        this.importItem(0)
+        this.importActionTriggers(importedActionTriggers).catch(() => {
+          this.openDangerSnackBar('Error in imported file')
+        })
       } catch {
         this.openDangerSnackBar('Error in imported file')
       }
@@ -47,30 +50,16 @@ export class ActionTriggersImportComponent {
     reader.readAsText(files[0])
   }
 
-  private hasNoImportedActionTriggerAfterIndex(index: number): boolean {
-    return index + 1 > this.importedActionTriggers.length
+  private async importActionTriggers(actionTriggersToImport: ActionTrigger<KeyboardTriggerData>[]): Promise<void> {
+    await Promise.all(actionTriggersToImport.map(this.importActionTrigger.bind(this)))
   }
 
-  private importItem(index: number): void {
-    if (this.actionTriggersWithAction.findIndex(actionTriggerWithAction => actionTriggerWithAction.actionTrigger.id === this.importedActionTriggers[index].id) !== -1) {
-      this.updateActionTrigger(this.importedActionTriggers[index], index)
-    } else {
-      this.createActionTrigger(this.importedActionTriggers[index], index)
-    }
-  }
-
-  private createActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>, index: number): void {
-    this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
-    if (!this.hasNoImportedActionTriggerAfterIndex(index)) {
-      this.importItem(index + 1)
-    }
-  }
-
-  private updateActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>, index: number): void {
-    this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe()
-    if (!this.hasNoImportedActionTriggerAfterIndex(index)) {
-      this.importItem(index + 1)
-    }
+  private importActionTrigger(actionTriggerToImport: ActionTrigger<KeyboardTriggerData>): Promise<void> {
+    return lastValueFrom(
+      this.actionTriggersWithAction.some(actionTriggerWithAction => actionTriggerWithAction.actionTrigger.id === actionTriggerToImport.id)
+        ? this.actionTriggerService.updateActionTrigger(actionTriggerToImport)
+        : this.actionTriggerService.createActionTrigger(actionTriggerToImport)
+    )
   }
 
   private openDangerSnackBar(message: string): void {
