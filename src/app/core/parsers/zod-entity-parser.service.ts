@@ -13,6 +13,7 @@ import { Tv2AudioMode } from '../enums/tv2-audio-mode'
 import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Media } from '../../shared/services/media'
 import { StudioConfiguration } from '../../shared/services/studio-configuration'
+import { PartActionType, PieceActionType } from '../../shared/models/action-type'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -169,7 +170,7 @@ export class ZodEntityParser implements EntityParser {
       mediaPreviewUrl: zod.string().startsWith('http://', 'Media preview url must start with http://').and(zod.string().min(9, 'Media preview url must more than 9 characters long')),
     }),
     blueprintConfiguration: zod.object({
-      ServerPostrollDuration: zod.number().min(0, 'Server postroll duration must be 0 or more'),
+      ServerPostrollDuration: zod.number().min(0, 'Server postroll duration must be 0 or more.'),
     }),
   })
 
@@ -178,13 +179,16 @@ export class ZodEntityParser implements EntityParser {
   }
 
   private readonly tv2ActionParser = zod.object({
+    id: zod.string(),
+    name: zod.string(),
+    type: zod.nativeEnum(PartActionType).or(zod.nativeEnum(PieceActionType)),
     metadata: zod.object({
       contentType: zod.nativeEnum(Tv2ActionContentType),
     }),
   })
 
   public parseTv2Action(tv2Action: unknown): Tv2Action {
-    return <Tv2Action>this.tv2ActionParser.parse(tv2Action)
+    return this.tv2ActionParser.parse(tv2Action)
   }
 
   private readonly mediaDataParser = zod.object({
@@ -193,6 +197,6 @@ export class ZodEntityParser implements EntityParser {
   })
 
   public parseMedia(media: unknown): Media {
-    return <Media>this.mediaDataParser.parse(media)
+    return this.mediaDataParser.parse(media)
   }
 }
