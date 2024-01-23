@@ -8,8 +8,8 @@ import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 describe(ZodActionTriggerEventParser.name, () => {
   describe(ZodActionTriggerEventParser.prototype.parseActionTriggerCreatedEvent.name, () => {
     it('parses an ActionTrigger created event', () => {
-      const createActionTriggerParserMock = createMockOfActionTriggerParser()
-      const testee: ZodActionTriggerEventParser = new ZodActionTriggerEventParser(instance(createActionTriggerParserMock))
+      const actionTriggerParser: ActionTriggerParser = createMockOfActionTriggerParser()
+      const testee: ZodActionTriggerEventParser = new ZodActionTriggerEventParser(instance(actionTriggerParser))
       const event: ActionTriggerCreatedEvent = {
         type: ActionTriggerEventType.ACTION_TRIGGER_CREATED,
         timestamp: Date.now(),
@@ -31,8 +31,8 @@ describe(ZodActionTriggerEventParser.name, () => {
 
   describe(ZodActionTriggerEventParser.prototype.parseActionTriggerUpdatedEvent.name, () => {
     it('parses an ActionTrigger updated event', () => {
-      const createActionTriggerParserMock = createMockOfActionTriggerParser()
-      const testee: ZodActionTriggerEventParser = new ZodActionTriggerEventParser(instance(createActionTriggerParserMock))
+      const actionTriggerParser: ActionTriggerParser = createMockOfActionTriggerParser()
+      const testee: ZodActionTriggerEventParser = new ZodActionTriggerEventParser(instance(actionTriggerParser))
       const event: ActionTriggerUpdatedEvent = {
         type: ActionTriggerEventType.ACTION_TRIGGER_UPDATED,
         timestamp: Date.now(),
@@ -54,8 +54,8 @@ describe(ZodActionTriggerEventParser.name, () => {
 
   describe(ZodActionTriggerEventParser.prototype.parseActionTriggerDeletedEvent.name, () => {
     it('parses an ActionTrigger deleted event', () => {
-      const createActionTriggerParserMock = createMockOfActionTriggerParser()
-      const testee: ZodActionTriggerEventParser = new ZodActionTriggerEventParser(instance(createActionTriggerParserMock))
+      const actionTriggerParser: ActionTriggerParser = createMockOfActionTriggerParser()
+      const testee: ZodActionTriggerEventParser = new ZodActionTriggerEventParser(instance(actionTriggerParser))
       const event: ActionTriggerDeletedEvent = {
         type: ActionTriggerEventType.ACTION_TRIGGER_DELETED,
         timestamp: Date.now(),
