@@ -6,6 +6,7 @@ import { Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { Subscription } from 'rxjs'
 import { ActionService } from '../../../shared/abstractions/action.service'
 import { MediaStateService } from '../../../shared/services/media-state.service'
+import { Media } from '../../../shared/services/media'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -20,6 +21,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   protected mediaDuration: number = 0
   private configurationMediaPreviewUrl: string
   private configurationServiceSubscription: Subscription
+  private executeActionSubscription: Subscription
 
   constructor(
     private readonly actionService: ActionService,
@@ -36,7 +38,11 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   private async updateMediaDataDuration(): Promise<void> {
     if (this.segment.metadata?.miniShelfVideoClipFile !== undefined) {
-      this.mediaDuration = (await this.mediaStateService.getMedia(this.segment.metadata?.miniShelfVideoClipFile)).duration
+      let media: Media | undefined = await this.mediaStateService.getMedia(this.segment.metadata?.miniShelfVideoClipFile)
+      if (!media || !media.duration) {
+        return
+      }
+      this.mediaDuration = media.duration
     }
   }
 
@@ -48,6 +54,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnDestroy(): void {
     this.configurationServiceSubscription?.unsubscribe()
+    this.executeActionSubscription?.unsubscribe()
   }
 
   protected get mediaPreviewUrl(): string {
@@ -72,7 +79,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.videoClipAction) {
       return
     }
-    this.actionService.executeAction(this.videoClipAction.id, this.segment.rundownId).subscribe()
+    this.executeActionSubscription = this.actionService.executeAction(this.videoClipAction.id, this.segment.rundownId).subscribe()
   }
 
   protected handleMissingImage(event: Event): void {
