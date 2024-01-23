@@ -33,7 +33,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnInit(): void {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((configuration: StudioConfiguration) => {
       this.configurationMediaPreviewUrl = configuration.data.settings.mediaPreviewUrl
-      this.serverPostrollDuration = configuration.data.blueprintConfiguration.serverPostrollDuration
+      this.serverPostrollDuration = configuration.data.blueprintConfiguration.ServerPostrollDuration
     })
     void this.updateMediaDataDuration()
   }

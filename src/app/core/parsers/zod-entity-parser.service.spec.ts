@@ -13,7 +13,7 @@ describe(ZodEntityParser.name, () => {
             mediaPreviewUrl: 'http://some.url',
           },
           blueprintConfiguration: {
-            serverPostrollDuration: 123,
+            ServerPostrollDuration: 123,
           },
         },
       }
@@ -29,7 +29,7 @@ describe(ZodEntityParser.name, () => {
             mediaPreviewUrl: '',
           },
           blueprintConfiguration: {
-            serverPostrollDuration: 123,
+            ServerPostrollDuration: 123,
           },
         },
       }
@@ -45,7 +45,7 @@ describe(ZodEntityParser.name, () => {
             mediaPreviewUrl: 'http://',
           },
           blueprintConfiguration: {
-            serverPostrollDuration: 123,
+            ServerPostrollDuration: 123,
           },
         },
       }
@@ -61,7 +61,7 @@ describe(ZodEntityParser.name, () => {
             mediaPreviewUrl: 'http://a',
           },
           blueprintConfiguration: {
-            serverPostrollDuration: 123,
+            ServerPostrollDuration: 123,
           },
         },
       }

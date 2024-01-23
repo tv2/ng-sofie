@@ -1,5 +1,5 @@
 interface BlueprintConfiguration {
-  serverPostrollDuration: number
+  ServerPostrollDuration: number
 }
 
 interface Settings {
