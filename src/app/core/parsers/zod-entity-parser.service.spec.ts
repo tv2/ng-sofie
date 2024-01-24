@@ -1,5 +1,5 @@
 import { ZodEntityParser } from './zod-entity-parser.service'
-import { StudioConfiguration } from '../../shared/services/studio-configuration'
+import { StudioConfiguration } from '../../shared/models/studio-configuration'
 import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Media } from '../../shared/services/media'
 import { PartActionType } from '../../shared/models/action-type'

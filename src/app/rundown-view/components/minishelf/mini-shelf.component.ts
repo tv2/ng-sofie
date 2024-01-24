@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration-service'
-import { StudioConfiguration } from '../../../shared/services/studio-configuration'
+import { StudioConfiguration } from '../../../shared/models/studio-configuration'
 import { Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { Subscription } from 'rxjs'
 import { ActionService } from '../../../shared/abstractions/action.service'

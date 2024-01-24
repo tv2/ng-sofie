@@ -12,7 +12,7 @@ import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Tv2AudioMode } from '../enums/tv2-audio-mode'
 import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Media } from '../../shared/services/media'
-import { StudioConfiguration } from '../../shared/services/studio-configuration'
+import { StudioConfiguration } from '../../shared/models/studio-configuration'
 import { PartActionType, PieceActionType } from '../../shared/models/action-type'
 
 export class ZodEntityParser implements EntityParser {

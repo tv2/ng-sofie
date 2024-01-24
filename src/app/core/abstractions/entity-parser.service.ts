@@ -6,7 +6,7 @@ import { Piece } from '../models/piece'
 import { ShowStyleVariant } from '../models/show-style-variant'
 import { Tv2Action } from '../../shared/models/tv2-action'
 import { Media } from '../../shared/services/media'
-import { StudioConfiguration } from '../../shared/services/studio-configuration'
+import { StudioConfiguration } from '../../shared/models/studio-configuration'
 
 export abstract class EntityParser {
   public abstract parseBasicRundown(basicRundown: unknown): BasicRundown

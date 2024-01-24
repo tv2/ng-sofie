@@ -6,7 +6,7 @@ import { catchError, map, Observable } from 'rxjs'
 import { HttpResponse } from './http-response'
 import { EntityParser } from '../../../core/abstractions/entity-parser.service'
 import { ConfigurationService } from '../configuration-service'
-import { StudioConfiguration } from '../studio-configuration'
+import { StudioConfiguration } from '../../models/studio-configuration'
 
 @Injectable()
 export class HttpConfigurationService implements ConfigurationService {
