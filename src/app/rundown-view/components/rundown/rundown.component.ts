@@ -10,7 +10,6 @@ import { PartEntityService } from '../../../core/services/models/part-entity.ser
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
-import { EntityParser } from '../../../core/abstractions/entity-parser.service'
 
 @Component({
   selector: 'sofie-rundown',
@@ -35,7 +34,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
     private readonly partEntityService: PartEntityService,
     private readonly actionStateService: ActionStateService,
-    private readonly entityParser: EntityParser,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownComponent')
@@ -64,7 +62,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private onActionsChanged(actions: Action[]): void {
     this.videoClipActions = actions.filter((action): action is Tv2VideoClipAction => {
-      return this.entityParser.parseTv2Action(action) && (<Tv2Action>action).metadata?.contentType === Tv2ActionContentType.VIDEO_CLIP
+      return action && (<Tv2Action>action).metadata?.contentType === Tv2ActionContentType.VIDEO_CLIP
     })
     this.updateMiniShelfSegmentActionMappings()
   }
