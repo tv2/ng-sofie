@@ -13,7 +13,7 @@
     <div class="c-mini-shelf__note">
         <span class="c-mini-shelf__title"
         >{{ getSanitizedTitle() ? getSanitizedTitle() : 'Title is not available.'  | slice:0:30 | uppercase }}{{ segment.name.length > 30 ? '...' : '' }}</span>
-        <span class="c-mini-shelf__duration">{{ mediaDuration | timer : 'HH?:mm:ss' }}</span>
+        <span class="c-mini-shelf__duration">{{ mediaCalculatedDuration | timer : 'HH?:mm:ss' }}</span>
     </div>
 </div>
 
