@@ -56,7 +56,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.studioConfiguration) return
     if (this.media.duration < this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration) return
 
-    this.mediaCalculatedDuration = this.media.duration - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration
+    this.mediaCalculatedDuration = Math.max(this.media.duration - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration, 0)
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
