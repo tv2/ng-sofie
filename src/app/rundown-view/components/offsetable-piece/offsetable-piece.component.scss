@@ -1,0 +1,72 @@
+:host {
+  position: absolute;
+  top: 0;
+  background-color: rgb(50,50,50);
+  overflow: visible;
+
+  .label {
+    position: relative;
+    display: block;
+
+    height: 22px;
+    padding: 2px 6px;
+
+    color: var(--text-color);
+
+    font-weight: normal;
+    text-shadow: rgba(0,0,0, 0.8) 0 0 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 11;
+  }
+
+  &.camera {
+    background-color: #005919;
+  }
+
+  &.lower-third {
+    background-color: #ca9d00;
+  }
+
+  &.graphics {
+    background-color: #ca9d00;
+  }
+
+  &.remote {
+    background-color: #ac29a5;
+  }
+
+  &.local {
+    background-color: #8d1010;
+  }
+
+  &.manus {
+    font-style: italic;
+    background-color: #370020;
+  }
+
+  &.split-screen {
+    background: linear-gradient(to bottom,  #00a99c 0%,#00a99c 50%,#265753 50%,#265753 100%);
+  }
+
+  &.voice-over {
+    background-color: #005919;
+  }
+
+  &.replay {
+    background-color: #8d1010;
+
+    &.voice-over {
+      background: linear-gradient(to bottom,  #8d1010 0%,#8d1010 50%, #005919 50%,#005919 100%);
+    }
+  }
+
+  &.video-clip {
+    background-color: #1769ff;
+
+    &.voice-over {
+      background: linear-gradient(to bottom,  #1769ff 0%,#1769ff 50%, #005919 50%,#005919 100%);
+    }
+  }
+}
+

@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  align-content: space-around;
+  padding: 12px;
+
+  img {
+    width: 32px;
+  }
+
+  span {
+    display: none;
+  }
+
+  &.with-text {
+    span {
+      display: inline-block;
+      font-weight: normal;
+      color: var(--text-color);
+      margin-left: 10px;
+    }
+  }
+}

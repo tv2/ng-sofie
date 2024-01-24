@@ -1,0 +1,68 @@
+.mat-table {
+  padding: 0 3em;
+  margin: 3em 0;
+  width: 100%;
+}
+
+.mat-header-cell {
+  font-size: medium;
+  color: var(--black-color);
+}
+
+.mat-row {
+  background: #f6f6f6;
+
+  &:hover {
+    background: var(--white-color);
+  }
+
+}
+
+.mat-column-status {
+  flex: 0 1;
+  min-width: 60px;
+  padding: 0 20px;
+}
+
+.mat-column-delete {
+  flex: 0 1;
+  min-width: 60px;
+  padding: 0 20px;
+}
+
+.c-delete-rundown-cell {
+  border-left: var(--black-color);
+}
+
+.c-delete-rundown-icon {
+  cursor: pointer;
+  color: darkgrey;
+  user-select: none;
+
+  &:hover {
+    text-decoration: underline;
+    color: var(--black-color);
+  }
+}
+
+.c-rundown-overview {
+  &__no-rundowns,
+  &__loading-rundowns {
+    text-align: center;
+  }
+}
+
+.c-rundown-overview__title {
+  margin: 1em;
+  font-size: 3em;
+  font-weight: lighter;
+}
+
+.c-rundown-name {
+  color: blue;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,8 @@
+:host {
+  display: inline-block;
+  cursor: pointer;
+  color: var(--dark-gray-color);
+  &:hover {
+    color: var(--black-color);
+  }
+}

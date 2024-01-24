@@ -1,0 +1,34 @@
+:host {
+  --text-color: #cccccc;
+  --scrollbar-color: #333333;
+  --scrollbar-thumb-color: #222222;
+  --scrollbar-size: 15px;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #343434;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none;
+
+  .loading-rundown {
+    text-align: center;
+    background-color: #343434;
+    height: 100%;
+    width: 100%;
+    padding: 100px;
+    color: var(--text-color);
+  }
+  .removed-rundown {
+    text-align: center;
+    background-color: #343434;
+    height: 100%;
+    width: 100%;
+    padding: 100px;
+    color: var(--text-color);
+  }
+}

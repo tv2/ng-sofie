@@ -1,0 +1,9 @@
+:host {
+  position: relative;
+  width: 100%;
+  background-color: var(--black-color);
+
+  .parts {
+    display: inline-flex;
+  }
+}

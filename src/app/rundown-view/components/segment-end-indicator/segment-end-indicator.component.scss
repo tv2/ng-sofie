@@ -1,0 +1,18 @@
+:host {
+  position: relative;
+  display: inline-block;
+
+  .end-indicator {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 10px;
+  }
+
+  &.active {
+    path {
+      stroke: #00ac17;
+    }
+  }
+}
+

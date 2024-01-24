@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-x-source" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="608129622036865992" datatype="html">
+        <source>rundown-overview.rundown-overview.title</source>
+      </trans-unit>
+      <trans-unit id="4244324227350096273" datatype="html">
+        <source>rundown-overview-component.no-rundowns-available.message</source>
+      </trans-unit>
+      <trans-unit id="3521974238403661262" datatype="html">
+        <source>rundown-overview-component.check-connection-configure-ingest-gateway.message</source>
+      </trans-unit>
+      <trans-unit id="172210689759305381" datatype="html">
+        <source>rundown-overview-component.rundown-label</source>
+      </trans-unit>
+      <trans-unit id="4359206169774515973" datatype="html">
+        <source>rundown-overview-component.last-updated.label</source>
+      </trans-unit>
+      <trans-unit id="6373029241912635510" datatype="html">
+        <source>rundown-overview-component.deletion-dialog-title</source>
+      </trans-unit>
+      <trans-unit id="3796920100771349539" datatype="html">
+        <source>rundown-overview-component.deletion-dialog-question &quot;<x id="PH" equiv-text="basicRundown.name"/>&quot;</source>
+      </trans-unit>
+      <trans-unit id="5314808199366684814" datatype="html">
+        <source>rundown-overview-component.deletion-dialog.delete-button</source>
+      </trans-unit>
+      <trans-unit id="770901610469150867" datatype="html">
+        <source>confirmation-dialog.are-you-sure.title</source>
+      </trans-unit>
+      <trans-unit id="2002860888965051390" datatype="html">
+        <source>confirmation-dialog.yes.button</source>
+      </trans-unit>
+      <trans-unit id="4527235810099606771" datatype="html">
+        <source>confirmation-dialog.cancel.button</source>
+      </trans-unit>
+      <trans-unit id="2638363041233817949" datatype="html">
+        <source>header-component.rundowns.label</source>
+      </trans-unit>
+      <trans-unit id="1079134994533846284" datatype="html">
+        <source>Lost connection to backend. Attempting to reconnect...</source>
+      </trans-unit>
+      <trans-unit id="672684067026346719" datatype="html">
+        <source>dialog.cancel-button:Cancel</source>
+      </trans-unit>
+      <trans-unit id="221700254079718655" datatype="html">
+        <source>rundown-overview-component.rundown-overview.loading-rundowns.message</source>
+      </trans-unit>
+      <trans-unit id="9014307158606167673" datatype="html">
+        <source>header-component.status.label</source>
+      </trans-unit>
+      <trans-unit id="7774679192134693239" datatype="html">
+        <source>rundown-overview.settings.title</source>
+      </trans-unit>
+      <trans-unit id="4380077604653787346" datatype="html">
+        <source>settings.clear-cache.label</source>
+      </trans-unit>
+      <trans-unit id="363239608614074698" datatype="html">
+        <source>action-triggers.no-shortcuts.label</source>
+      </trans-unit>
+      <trans-unit id="3982465886333434114" datatype="html">
+        <source>action-triggers.keyboard-shortcuts.label</source>
+      </trans-unit>
+      <trans-unit id="5998298101573406065" datatype="html">
+        <source>action-triggers.import-shortcuts.button</source>
+      </trans-unit>
+      <trans-unit id="6191074751909534346" datatype="html">
+        <source>action-triggers.selected-action.label</source>
+      </trans-unit>
+      <trans-unit id="7618983089240067205" datatype="html">
+        <source>action-triggers.shortcut.label</source>
+      </trans-unit>
+      <trans-unit id="8903207483897140758" datatype="html">
+        <source>action-triggers.export-shortcuts.button</source>
+      </trans-unit>
+      <trans-unit id="946249916134408794" datatype="html">
+        <source>action-triggers.no-actions.label</source>
+      </trans-unit>
+      <trans-unit id="948302468790980101" datatype="html">
+        <source>action-triggers.create-shortcut.button</source>
+      </trans-unit>
+      <trans-unit id="3296269694384339031" datatype="html">
+        <source>action-triggers.create-shortcut.title</source>
+      </trans-unit>
+      <trans-unit id="5494360365717860632" datatype="html">
+        <source>action-triggers.update-shortcut.title</source>
+      </trans-unit>
+      <trans-unit id="8924063720972378650" datatype="html">
+        <source>global.sort.label</source>
+      </trans-unit>
+      <trans-unit id="7386626478307143738" datatype="html">
+        <source>action-triggers.delete-selected.label</source>
+      </trans-unit>
+      <trans-unit id="1532790028301204513" datatype="html">
+        <source>global.delete.label</source>
+      </trans-unit>
+      <trans-unit id="1543520618037329297" datatype="html">
+        <source>action-triggers.delete-selected.confirmation</source>
+      </trans-unit>
+      <trans-unit id="5133358426840332221" datatype="html">
+        <source>action-triggers.delete.confirmation</source>
+      </trans-unit>
+      <trans-unit id="4054896224656862418" datatype="html">
+        <source>global.select-all.label</source>
+      </trans-unit>
+      <trans-unit id="4978684078154973195" datatype="html">
+        <source>global.unselect-all.label</source>
+      </trans-unit>
+      <trans-unit id="4266204168495316140" datatype="html">
+        <source>global.create.button</source>
+      </trans-unit>
+      <trans-unit id="8392171193464081864" datatype="html">
+        <source>global.update.button</source>
+      </trans-unit>
+      <trans-unit id="7358643692179267021" datatype="html">
+        <source>action-triggers.select-action-box.label</source>
+      </trans-unit>
+      <trans-unit id="6285874749005785753" datatype="html">
+        <source>global.label</source>
+      </trans-unit>
+      <trans-unit id="9004520789605873710" datatype="html">
+        <source>global.close.button</source>
+      </trans-unit>
+      <trans-unit id="6102207617999365668" datatype="html">
+        <source>action-triggers.submit-tooltip.error</source>
+      </trans-unit>
+      <trans-unit id="5115532688749023793" datatype="html">
+        <source>action-triggers.no-selected-action.label</source>
+      </trans-unit>
+      <trans-unit id="1706628321455061643" datatype="html">
+        <source>global.on-key-pressed.label</source>
+      </trans-unit>
+      <trans-unit id="3902333184421732258" datatype="html">
+        <source>global.on-key-released.label</source>
+      </trans-unit>
+      <trans-unit id="5199708374936679830" datatype="html">
+        <source>global.delete-selected.label</source>
+      </trans-unit>
+      <trans-unit id="5503109094537996892" datatype="html">
+        <source>global.export-selected.label</source>
+      </trans-unit>
+      <trans-unit id="9158000000301348817" datatype="html">
+        <source>action-triggers.trigger-on.label</source>
+      </trans-unit>
+      <trans-unit id="5943393457796095490" datatype="html">
+        <source>action-triggers.physical-mapping.label</source>
+      </trans-unit>
+      <trans-unit id="5384713853490936899" datatype="html">
+        <source>clear-cache.title</source>
+      </trans-unit>
+      <trans-unit id="7955116266682092985" datatype="html">
+        <source>clear-cache.button.label</source>
+      </trans-unit>
+      <trans-unit id="1544567860044151272" datatype="html">
+        <source>global.clear.label</source>
+      </trans-unit>
+      <trans-unit id="6681316063292517711" datatype="html">
+        <source>clear-cache.clear.confirmation</source>
+      </trans-unit>
+      <trans-unit id="7840343495376792564" datatype="html">
+        <source>global.confirmation.label</source>
+      </trans-unit>
+      <trans-unit id="4872302410477784631" datatype="html">
+        <source>action-triggers-sort.shortcut-alphabetical.label</source>
+      </trans-unit>
+      <trans-unit id="5710407889877361049" datatype="html">
+        <source>action-triggers-sort.action-label-alphabetical.label</source>
+      </trans-unit>
+      <trans-unit id="698052297888320096" datatype="html">
+        <source>action-triggers-sort.action-label-reverse-alphabetical.label</source>
+      </trans-unit>
+      <trans-unit id="7555703455523755989" datatype="html">
+        <source>action-triggers-sort.shortcut-reverse-alphabetical.label</source>
+      </trans-unit>
+      <trans-unit id="6759876909141538174" datatype="html">
+        <source>settings.keyboard-mappings.label</source>
+      </trans-unit>
+      <trans-unit id="7160101351914247309" datatype="html">
+        <source>global.dismiss.label</source>
+      </trans-unit>
+      <trans-unit id="4177582797246824978" datatype="html">
+        <source>action-triggers.physical-mapping-help.tooltip</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

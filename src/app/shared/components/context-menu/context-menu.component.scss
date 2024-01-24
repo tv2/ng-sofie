@@ -1,0 +1,43 @@
+.context-menu {
+  display: inline-flex;
+  flex-direction: column;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  overflow: hidden;
+  user-select: none;
+}
+
+.context-menu-header {
+  padding: 10px 30px;
+
+  color: #49c0fb;
+  background-color: #3e4041;
+
+  font-weight: bold;
+  text-align: center;
+}
+
+.context-menu-item {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  min-width: 64px;
+  align-items: center;
+  border: none;
+  line-height: 36px;
+  padding: 0 30px;
+
+  font-size: 1rem;
+
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    background-color: rgb(208, 208, 208);
+  }
+
+  &:active {
+    background-color: rgb(170, 170, 170);
+  }
+}

@@ -1,0 +1,120 @@
+.c-segment {
+  display: flex;
+  margin: 4px 20px;
+  overflow: hidden;
+  border-radius: 10px;
+
+  box-shadow: 0 2px 2px 2px rgba(0,0,0,0.2);
+
+  --toolbar-height: 30px;
+
+  &__header {
+    flex: 0;
+    min-width: 270px;
+    background-color: rgb(75,75,75);
+    color: var(--text-color);
+    transition: background-color .2s;
+  }
+
+  &--has-remote-piece &__header {
+    background-color: #ac29a5;
+  }
+
+  &--set-as-next &__header {
+    background-color: #00ac17;
+  }
+
+  &--on-air &__header {
+    background-color: #c40000;
+  }
+
+  &__header-toolbar {
+    display: flex;
+    justify-content: space-between;
+    height: var(--toolbar-height);
+    background: var(--black-color);
+    padding: 6px;
+
+    &--unsynced {
+      background: #FFFF00BA;
+      color: var(--black-color);
+    }
+
+    .segment-identifier {
+      flex: 1;
+    }
+
+    .segment-expected-duration {
+      flex: 1;
+      text-align: center;
+    }
+
+    .segment-countdown {
+      flex: 1;
+      text-align: right;
+      font-weight: bolder;
+      opacity: 0.5;
+      transition: opacity .2s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__title {
+    padding: 7px;
+    color: var(--text-color);
+    font-size: 1.4em;
+    font-weight: normal;
+    word-break: break-word;
+  }
+
+  &__controls {
+    flex: 0;
+    min-width: 160px;
+    background-color: var(--black-color);
+  }
+
+  &__controls-toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 12px;
+    height: var(--toolbar-height);
+    padding: 0 20px;
+    color: var(--text-color);
+
+    sofie-icon-button {
+      aspect-ratio: 1 / 1;
+      height: 21px;
+      padding: 1px;
+      border-radius: 100%;
+      background-color: var(--background-color);
+      text-align: center;
+      transition: opacity .2s, background-color .2s;
+
+      &:hover {
+        background-color: #666666;
+      }
+
+      &[disabled=true] {
+        background-color: var(--background-color);
+        cursor: default;
+        opacity: .4;
+      }
+    }
+  }
+
+  &__piece-layer {
+    color: #888888;
+    padding: 2px 0 2px 20px;
+    font-weight: bold;
+    height: 24px;
+  }
+
+  &__timeline {
+    overflow: hidden;
+  }
+}

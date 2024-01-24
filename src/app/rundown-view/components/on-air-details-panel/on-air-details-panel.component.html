@@ -1,0 +1,23 @@
+<sofie-spacer></sofie-spacer>
+
+<div class="subpanel">
+    <span class="subpanel__label">Part countdown</span>
+    <span class="subpanel__value"><span *ngIf="remainingDurationInMsForOnAirPart !== undefined" [class.overtime]="remainingDurationInMsForOnAirPart > 0" class="timer">{{ remainingDurationInMsForOnAirPart | timer: '#+HH?:mm:ss' }}</span></span>
+</div>
+
+<div class="subpanel">
+    <span class="subpanel__label">Segment countdown</span>
+    <span class="subpanel__value"><span *ngIf="remainingDurationInMsForOnAirSegment !== undefined" [class.overtime]="remainingDurationInMsForOnAirSegment > 0" class="timer">{{ remainingDurationInMsForOnAirSegment | timer: '#+HH?:mm:ss' }}</span></span>
+</div>
+
+<div class="subpanel">
+    <span class="subpanel__label">Segment timer</span>
+    <span class="subpanel__value"><span *ngIf="durationInMsSpentInOnAirSegment !== undefined">{{ durationInMsSpentInOnAirSegment | timer: 'HH?:mm:ss' }}</span></span>
+</div>
+
+<div class="subpanel end-words">
+    <span class="subpanel__label">End words</span>
+    <span class="subpanel__value">{{ endWords }}</span>
+</div>
+
+<sofie-spacer></sofie-spacer>

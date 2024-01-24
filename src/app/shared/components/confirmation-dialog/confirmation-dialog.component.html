@@ -1,0 +1,19 @@
+<div class="c-dialog-header u-row">
+    <div class="u-row__col--fill">
+        <h2 mat-dialog-title>{{title}}</h2>
+    </div>
+    <div>
+        <span [mat-dialog-close]="false" class="material-icons c-close-dialog-icon">close</span>
+    </div>
+</div>
+<div class="c-dialog-body">
+    <mat-dialog-content>{{message}}</mat-dialog-content>
+    <mat-dialog-actions class="u-row">
+        <div class="u-row__col--fill">
+            <button [mat-dialog-close]="false" mat-stroked-button>{{cancelButtonText}}</button>
+        </div>
+        <div>
+            <button [mat-dialog-close]="true" cdkFocusInitial [color]="buttonColor" mat-flat-button>{{okButtonText}}</button>
+        </div>
+    </mat-dialog-actions>
+</div>

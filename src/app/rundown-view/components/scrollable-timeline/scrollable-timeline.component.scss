@@ -1,0 +1,14 @@
+:host {
+  position: relative;
+  width: 100%;
+  background-color: var(--black-color);
+  cursor: pointer;
+
+  &:active {
+    cursor: ew-resize;
+  }
+
+  .parts {
+    display: inline-flex;
+  }
+}

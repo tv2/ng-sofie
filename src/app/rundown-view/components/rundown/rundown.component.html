@@ -1,0 +1,12 @@
+<div class="segments">
+    <ng-container *ngFor="let segment of rundown?.segments; trackBy: trackSegment">
+        <sofie-segment
+                *ngIf="!segment.isHidden"
+                [segment]="segment"
+                [isRundownActive]="rundown ? rundown.isActive : false"
+                [durationInMsUntilSegmentIsPutOnAir]="startOffsetsInMsFromPlayheadForSegments[segment.id]"
+                [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
+                [currentEpochTime]="currentEpochTime"
+        ></sofie-segment>
+    </ng-container>
+</div>

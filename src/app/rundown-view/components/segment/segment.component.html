@@ -1,0 +1,64 @@
+<div class="c-segment"
+  [class.c-segment--on-air]="segment.isOnAir"
+  [class.c-segment--set-as-next]="segment.isNext"
+  [class.c-segment--has-remote-piece]="hasRemotePiece"
+>
+  <div [cdkContextMenuTriggerFor]="contextMenu" class="c-segment__header">
+    <div class="c-segment__header-toolbar"
+      [class.c-segment__header-toolbar--unsynced]="segment.isUnsynced"
+    >
+      <span class="segment-identifier">
+        <ng-container *ngIf="segment.isUnsynced">UNSYNCED</ng-container>
+      </span>
+      <span class="segment-expected-duration">{{(!segment.isUntimed ? expectedDurationInMs : 0) | timer: 'HH?:mm:ss' }}</span>
+      <span class="segment-countdown">
+        <sofie-countdown-label
+          *ngIf="hasRemotePiece && roundedDurationInMsUntilSegmentIsPutOnAir !== undefined"
+          [durationInMs]="roundedDurationInMsUntilSegmentIsPutOnAir"
+          [currentEpochTime]="currentEpochTime"
+        ></sofie-countdown-label>
+      </span>
+    </div>
+    <div class="c-segment__title">
+      {{ segment.name }}
+    </div>
+  </div>
+  <div class="c-segment__controls">
+    <div class="c-segment__controls-toolbar">
+      <sofie-icon-button [iconButton]="IconButton.MINUS" [iconButtonSize]="IconButtonSize.S" (click)="zoomIn()" [disabled]="isAtMinimumZoomLevel" title="Zoom out"></sofie-icon-button>
+      <sofie-icon-button [iconButton]="IconButton.HORIZONTAL_ARROWS" [iconButtonSize]="IconButtonSize.S" (click)="resetZoom()" title="Reset zoom"></sofie-icon-button>
+      <sofie-icon-button [iconButton]="IconButton.PLUS"  [iconButtonSize]="IconButtonSize.S" (click)="zoomOut()" title="Zoom in"></sofie-icon-button>
+    </div>
+    <div class="c-segment__piece-layers">
+      <div *ngFor="let outputLayer of outputLayers" class="c-segment__piece-layer">
+        {{ outputLayer }}
+      </div>
+    </div>
+  </div>
+
+
+  <sofie-scrollable-timeline
+    *ngIf="!segment.isOnAir; else onAirTimeline"
+    class="c-segment__timeline"
+    [segment]="segment"
+    [outputLayers]="outputLayers"
+    [isRundownActive]="isRundownActive"
+    [pixelsPerSecond]="pixelsPerSecond"
+  ></sofie-scrollable-timeline>
+
+  <ng-template #onAirTimeline>
+    <sofie-follow-playhead-timeline
+      class="c-segment__timeline"
+      [time]="timeReference"
+      [segment]="segment"
+      [outputLayers]="outputLayers"
+      [isRundownActive]="isRundownActive"
+      [pixelsPerSecond]="pixelsPerSecond"
+      [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
+    ></sofie-follow-playhead-timeline>
+  </ng-template>
+</div>
+
+<ng-template #contextMenu>
+  <sofie-segment-context-menu *ngIf="isRundownActive" [segment]="this.segment"></sofie-segment-context-menu>
+</ng-template>

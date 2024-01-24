@@ -1,0 +1,71 @@
+:host {
+  --scrollbar-color: #222222;
+  --scrollbar-thumb-color: #111111;
+  position: relative;
+  display: block;
+  border-radius: 8px;
+  background-color: #222222;
+  overflow: hidden;
+
+
+  .title {
+    color: var(--text-color);
+    font-weight: bold;
+    padding: 10px 20px;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
+    gap: 12px;
+
+    padding: 0 20px 20px 20px;
+
+    & > * {
+      flex-shrink: 0;
+    }
+
+    &::-webkit-scrollbar {
+      width: var(--scrollbar-size);
+      height: var(--scrollbar-size);
+      background-color: var(--scrollbar-color);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar-thumb-color);
+    }
+  }
+
+  &.scrollable {
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: var(--scrollbar-size);
+      width: 20px;
+      background: linear-gradient(90deg, #222222FF 0%, #222222FF 10%, #22222200 100%);
+      pointer-events: none;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: var(--scrollbar-size);
+      width: 20px;
+      background: linear-gradient(-90deg, #222222FF 0%, #222222FF 10%, #22222200 100%);
+      pointer-events: none;
+    }
+
+    .actions {
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      padding-bottom: 10px;
+    }
+  }
+}

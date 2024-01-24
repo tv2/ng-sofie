@@ -1,0 +1,18 @@
+.c-action-triggers {
+  &__body {
+    display: flex;
+    &--list {
+      flex: 0 0 30%;
+      flex-grow: 1;
+    }
+    &--list-open {
+      max-width: 450px;
+      padding-right: 16px;
+    }
+    &--edit {
+      flex-grow: 1;
+      height: calc(100vh - 170px);
+      overflow: auto;
+    }
+  }
+}
