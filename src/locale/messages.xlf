@@ -59,9 +59,6 @@
       <trans-unit id="363239608614074698" datatype="html">
         <source>action-triggers.no-shortcuts.label</source>
       </trans-unit>
-      <trans-unit id="3982465886333434114" datatype="html">
-        <source>action-triggers.keyboard-shortcuts.label</source>
-      </trans-unit>
       <trans-unit id="5998298101573406065" datatype="html">
         <source>action-triggers.import-shortcuts.button</source>
       </trans-unit>
