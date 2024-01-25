@@ -77,9 +77,10 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   protected get mediaPreviewUrl(): string {
-    if (!this.studioConfiguration) return ''
-    const url: string = `${this.studioConfiguration.settings.mediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
-    return this.studioConfiguration.settings.mediaPreviewUrl ? url : this.fallbackPreviewUrl
+    if (!this.studioConfiguration?.settings.mediaPreviewUrl) {
+      return this.fallbackPreviewUrl
+    }
+    return `${this.studioConfiguration.settings.mediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
   }
 
   public getSanitizedTitle(): string {
