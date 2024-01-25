@@ -108,9 +108,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     const videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
     if (!videoClipFile) return actionMap
 
-    const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
-      return action.metadata?.fileName === videoClipFile
-    })
+    const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => action.metadata?.fileName === videoClipFile)
 
     return action ? { ...actionMap, [segment.id]: action } : actionMap
   }
