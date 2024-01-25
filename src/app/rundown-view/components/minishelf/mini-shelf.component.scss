@@ -5,9 +5,15 @@
   margin: 5px 0 5px 20px;
   border-radius: 5px;
   overflow: hidden;
-  border: solid 1px #eee;
+  border: solid 1px #ccc;
   background-color: blue;
   box-shadow: 0 2px 2px 2px rgba(0,0,0,0.2);
+
+  &:hover {
+    cursor: pointer;
+    border: solid 1px #fff;
+    box-shadow: 0 0 3px 3px rgba(0, 222, 99, 0.4);
+  }
 
   &__thumbnail {
     width: 100%;
