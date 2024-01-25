@@ -38,7 +38,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
       this.studioConfiguration = studioConfiguration
     })
-    this.updateMediaAndCalculate().catch(error => this.logger.error(`Failed to update media, error is ${error} .`))
+    this.updateMediaAndCalculate().catch(error => this.logger.data(error).error(`Failed to update media for segment '${this.segment.name}' with id '${this.segment.id}'.`))
   }
 
   private async updateMediaAndCalculate(): Promise<void> {
@@ -68,7 +68,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if ('segment' in changes) {
-      this.updateMediaAndCalculate().catch(error => this.logger.error(`Failed to update media, error is ${error} .`))
+      this.updateMediaAndCalculate().catch(error => this.logger.data(error).error(`Failed to update media for segment '${this.segment.name}' with id '${this.segment.id}'.`))
     }
   }
 
