@@ -28,15 +28,14 @@
   }
 }
 
-
 .key {
   display: inline-block;
   padding: 12px 20px;
   margin: 10px;
-  background-color: gray;
+  background-color: var(--dark-gray-color);
   border-radius: 4px;
   cursor: pointer;
-  box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
   min-width: 120px;
 
   &-label {
@@ -52,12 +51,12 @@
   }
 
   &:hover {
-    background-color: lightgray;
+    background-color: var(--gray-color);
   }
 
   &--matched,
   &:active {
-    background-color: green
+    background-color: var(--green-color);
   }
 }
 

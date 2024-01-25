@@ -12,8 +12,8 @@ import { RundownNavigationService } from '../../shared/services/rundown-navigati
 import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
 
-const CAMERA_COLOR: string = '#005919'
-const REMOTE_COLOR: string = '#ac29a5'
+const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
+const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
 
 const FUNCTION_KEY_PREFIX: string = 'F'
 const DIGIT_KEY_PREFIX: string = 'Digit'

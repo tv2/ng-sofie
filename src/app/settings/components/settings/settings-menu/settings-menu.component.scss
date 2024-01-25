@@ -20,7 +20,7 @@
       text-decoration: none;
       color: var(---primary-color);
       &.active-tab {
-        background-color: #343434;
+        background-color: var(--background-color);
         color: var(---primary-color);
       }
     }

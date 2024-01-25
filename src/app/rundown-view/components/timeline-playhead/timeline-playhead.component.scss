@@ -11,7 +11,7 @@
   &__label {
     position: relative;
     height: 20px;
-    background-color: #c40000;
+    background-color: var(--on-air-color);
     font-weight: bold;
     line-height: 1em;
     white-space: nowrap;
@@ -30,7 +30,7 @@
       transition: color .4s;
 
       &.overtime {
-        color: #c40000;
+        color: var(--on-air-color);
       }
     }
   }
@@ -38,6 +38,6 @@
   &__bar {
     height: 100%;
     width: 4px;
-    background-color: #c40000;
+    background-color: var(--on-air-color);
   }
 }

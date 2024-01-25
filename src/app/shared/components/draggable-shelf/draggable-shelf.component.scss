@@ -27,13 +27,16 @@
     cursor: grab;
 
     text-align: center;
-    transition: color .2s, background-color .2s;
+    transition:
+      color 0.2s,
+      background-color 0.2s;
     pointer-events: all;
     touch-action: none;
-    box-shadow: 0 0 var(--shadow-thickness) black;
-    clip-path: inset(calc(-1 * var(--shadow-thickness)) calc(-1 * var(--shadow-thickness)) 0 calc(-1 *var(--shadow-thickness)));
+    box-shadow: 0 0 var(--shadow-thickness) var(--black-color);
+    clip-path: inset(calc(-1 * var(--shadow-thickness)) calc(-1 * var(--shadow-thickness)) 0 calc(-1 * var(--shadow-thickness)));
 
-    &:hover, &:active {
+    &:hover,
+    &:active {
       color: #888;
     }
 

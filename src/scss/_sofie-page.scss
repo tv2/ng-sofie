@@ -5,7 +5,7 @@
   border: 0;
   cursor: pointer;
   &.c-sofie-button-primary {
-    color: #fff;
+    color: var(--white-color);
     background-color: var(---primary-color);
     &:hover {
       filter: brightness(90%);
@@ -16,7 +16,7 @@
     }
   }
   &.c-sofie-button-gray {
-    color: #fff;
+    color: var(--white-color);
     background-color: var(--dark-color);
     &:hover {
       filter: brightness(90%);

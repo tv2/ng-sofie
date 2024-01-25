@@ -1,6 +1,6 @@
 :host {
   display: inline-block;
-  background-color: #777777;
+  background-color: var(--dark-gray-color);
   padding: 14px;
 
   width: 130px;
@@ -12,40 +12,34 @@
 
   font-size: 0.9rem;
   font-weight: 500;
-  text-shadow: 1px 1px 2px black;
+  text-shadow: 1px 1px 2px var(--black-color);
   word-break: break-word;
 
   cursor: pointer;
-  transition: opacity .1s;
+  transition: opacity 0.1s;
   overflow: hidden;
 
   &.camera {
-    background-color: #005919;
+    background-color: var(--tv2-camera-color);
   }
 
   &.video-clip {
-    background-color: #1769ff;
+    background-color: var(--tv2-video-clip-color);
 
     &.missing-source {
-      background: repeating-linear-gradient(
-        45deg,
-        #7C2720,
-        #7C2720 5px,
-        #1769FF 5px,
-        #1769FF 15px
-      );
+      background: repeating-linear-gradient(45deg, #7c2720, #7c2720 5px, var(--tv2-video-clip-color) 5px, var(--tv2-video-clip-color) 15px);
     }
   }
 
   &.remote {
-    background-color: #ac29a5;
+    background-color: var(--tv2-remote-color);
   }
 
   &.split-screen {
-    background: linear-gradient(to bottom,  #00a99c 0%,#00a99c 50%,#265753 50%,#265753 100%);
+    background: linear-gradient(to bottom, var(--tv2-split-screen-upper) 0%, var(--tv2-split-screen-upper) 50%, var(--tv2-split-screen-lower) 50%, var(--tv2-split-screen-lower) 100%);
   }
 
   &:active {
-    opacity: .7;
+    opacity: 0.7;
   }
 }
