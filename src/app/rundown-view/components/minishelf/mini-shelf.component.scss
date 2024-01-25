@@ -39,6 +39,10 @@
 
   &__title {
     color: white;
+    max-width: 222px;
+    white-space: nowrap ;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__duration {
