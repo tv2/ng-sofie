@@ -38,17 +38,17 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
       this.studioConfiguration = studioConfiguration
     })
-    this.updateMedia()
-      .then(this.calculateMediaDuration)
-      .catch(error => this.logger.error(`Failed to update media, error is ${error} .`))
+    this.updateMediaAndCalculate().catch(error => this.logger.error(`Failed to update media, error is ${error} .`))
   }
 
-  private async updateMedia(): Promise<void> {
+  private async updateMediaAndCalculate(): Promise<void> {
     if (!this.segment.metadata?.miniShelfVideoClipFile) return
 
     const media: Media = await this.mediaStateService.getMedia(this.segment.metadata?.miniShelfVideoClipFile)
     if (!media) return
     this.media = media
+
+    this.calculateMediaDuration()
   }
 
   private calculateMediaDuration(): void {
@@ -60,9 +60,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if ('segment' in changes) {
-      this.updateMedia()
-        .then(this.calculateMediaDuration)
-        .catch(error => this.logger.error(`Failed to update media, error is ${error} .`))
+      this.updateMediaAndCalculate().catch(error => this.logger.error(`Failed to update media, error is ${error} .`))
     }
   }
 
