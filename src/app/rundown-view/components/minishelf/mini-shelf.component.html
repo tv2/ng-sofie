@@ -12,7 +12,7 @@
     />
     <div class="c-mini-shelf__note">
         <span class="c-mini-shelf__title">{{ getSanitizedTitle() | uppercase }}</span>
-        <span class="c-mini-shelf__duration">{{ mediaCalculatedDuration | timer : 'HH?:mm:ss' }}</span>
+        <span class="c-mini-shelf__duration">{{ mediaDurationInMsWithoutPostroll | timer : 'HH?:mm:ss' }}</span>
     </div>
 </div>
 

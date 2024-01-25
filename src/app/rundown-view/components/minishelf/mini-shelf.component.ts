@@ -23,7 +23,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   private configurationServiceSubscription: Subscription
   private studioConfiguration: StudioConfiguration | undefined
   private readonly logger: Logger
-  protected mediaCalculatedDuration: number = 0
+  protected mediaDurationInMsWithoutPostroll: number = 0
 
   constructor(
     private readonly actionService: ActionService,
@@ -55,7 +55,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.segment.metadata?.miniShelfVideoClipFile) return
     if (!this.studioConfiguration) return
 
-    this.mediaCalculatedDuration = Math.max(this.media.duration - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration, 0)
+    this.mediaDurationInMsWithoutPostroll = Math.max(this.media.duration - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration, 0)
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
