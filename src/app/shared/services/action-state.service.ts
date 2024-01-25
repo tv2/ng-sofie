@@ -118,4 +118,8 @@ export class ActionStateService {
     this.actionsSubjects.forEach(subject => subject.complete())
     this.eventSubscriptions.forEach(eventSubscription => eventSubscription.unsubscribe())
   }
+
+  public executeAction(actionId: string, rundownId: string): void {
+    this.actionService.executeAction(actionId, rundownId).subscribe()
+  }
 }

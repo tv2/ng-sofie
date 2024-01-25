@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core'
+import { Component, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core'
 import { Rundown } from '../../../core/models/rundown'
 import { Segment } from '../../../core/models/segment'
 import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
@@ -116,4 +116,46 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
     return action ? { ...actionMap, [segment.id]: action } : actionMap
   }
+
+  @HostListener('document:keydown', ['$event'])
+  public handleKeyboardEvent(event: KeyboardEvent): void {
+    switch (event.key) {
+      case 'Tab':
+        this.cycleMiniShelves(event.shiftKey || event.altKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT)
+        event.preventDefault()
+        break
+    }
+  }
+
+  private cycleMiniShelves(direction: number): void {
+    const segmentOnAir: Segment | undefined = this.rundown.segments.find(segment => !segment.isHidden && segment.isOnAir)
+    // console.info('segmentOnAir', segmentOnAir)
+    if (!segmentOnAir) return
+
+    // now we have a running segment, and it might be a MiniShelf so should be included
+    // also no need to remember where we are in the rundown
+    const miniShelves: Segment[] = this.rundown.segments
+      // what is bellow in the rundown is our field of interest: bellowSegments group [segmentOnAir, ...]
+      .filter(segment => this.rundown.segments.indexOf(segment) >= this.rundown.segments.indexOf(segmentOnAir))
+      // just exposed ones
+      .filter(segment => !segment.isHidden)
+      // extract the MiniShelves only
+      .filter(segment => segment.metadata?.miniShelfVideoClipFile)
+    // console.info('miniShelves', miniShelves)
+    if (miniShelves.length === 0) return
+
+    let nextAction = this.miniShelfSegmentActionMappings[miniShelves[0].id].id
+    if (miniShelves.length >= 2 && direction == CycleDirection.PREVIOUS) {
+      nextAction = this.miniShelfSegmentActionMappings[miniShelves[miniShelves.length - 1].id].id
+      // TODO - or perhaps should break the group of MiniShelves when in between is a Segment
+    }
+
+    if (!nextAction) return
+    // console.info('nextAction', nextAction)
+    this.actionStateService.executeAction(nextAction, this.rundown.id)
+  }
+}
+export enum CycleDirection {
+  PREVIOUS = -1,
+  NEXT = 1,
 }
