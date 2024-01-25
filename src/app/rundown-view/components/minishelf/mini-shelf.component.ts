@@ -42,18 +42,26 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private async updateMediaAndCalculate(): Promise<void> {
-    if (!this.segment.metadata?.miniShelfVideoClipFile) return
+    if (!this.segment.metadata?.miniShelfVideoClipFile) {
+      return
+    }
 
     const media: Media = await this.mediaStateService.getMedia(this.segment.metadata?.miniShelfVideoClipFile)
-    if (!media) return
+    if (!media) {
+      return
+    }
     this.media = media
 
     this.calculateMediaDuration()
   }
 
   private calculateMediaDuration(): void {
-    if (!this.segment.metadata?.miniShelfVideoClipFile) return
-    if (!this.studioConfiguration) return
+    if (!this.segment.metadata?.miniShelfVideoClipFile) {
+      return
+    }
+    if (!this.studioConfiguration) {
+      return
+    }
 
     this.mediaDurationInMsWithoutPostroll = Math.max(this.media.duration - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration, 0)
   }
