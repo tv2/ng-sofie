@@ -126,7 +126,10 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private cycleMiniShelves(direction: number): void {
     const segmentOnAir: Segment | undefined = this.rundown.segments.find(segment => !segment.isHidden && segment.isOnAir)
     // console.info('segmentOnAir', segmentOnAir)
-    if (!segmentOnAir) return
+    if (!segmentOnAir) {
+      this.logger.debug('No running Segment found')
+      return
+    }
 
     // now we have a running segment, and it might be a MiniShelf so should be included
     // also no need to remember where we are in the rundown
@@ -138,17 +141,28 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       // extract the MiniShelves only
       .filter(segment => segment.metadata?.miniShelfVideoClipFile)
     // console.info('miniShelves', miniShelves)
-    if (miniShelves.length === 0) return
+    if (miniShelves.length === 0) {
+      this.logger.debug('No MiniShelves found bellow the running Segment')
+      return
+    }
 
-    let nextAction = this.miniShelfSegmentActionMappings[miniShelves[0].id].id
+    let nextAction = this.miniShelfSegmentActionMappings[miniShelves[0].id]
+    // console.info('nextAction', nextAction)
+    if (!nextAction) {
+      this.logger.debug('No next action found for MiniShelf')
+      return
+    }
     if (miniShelves.length >= 2 && direction == CycleDirection.PREVIOUS) {
-      nextAction = this.miniShelfSegmentActionMappings[miniShelves[miniShelves.length - 1].id].id
+      nextAction = this.miniShelfSegmentActionMappings[miniShelves[miniShelves.length - 1].id]
       // TODO - or perhaps should break the group of MiniShelves when in between is a Segment
     }
 
-    if (!nextAction) return
+    if (!nextAction) {
+      this.logger.debug('No next action found for MiniShelf')
+      return
+    }
     // console.info('nextAction', nextAction)
-    this.actionStateService.executeAction(nextAction, this.rundown.id)
+    this.actionStateService.executeAction(nextAction.id, this.rundown.id)
   }
 }
 export enum CycleDirection {
