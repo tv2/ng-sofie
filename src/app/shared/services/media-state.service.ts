@@ -15,12 +15,12 @@ export class MediaStateService {
     this.logger = logger.tag('MediaStateService')
   }
 
-  public async getMedia(id: string): Promise<Media> {
+  public getMedia(id: string): Promise<Media> {
     try {
-      return await lastValueFrom(this.fetchMedia(id))
+      return lastValueFrom(this.fetchMedia(id))
     } catch (error) {
       this.logger.data(error).error('Failed to fetch media.')
-      return await Promise.reject(error)
+      return Promise.reject(error)
     }
   }
 
