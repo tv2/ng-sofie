@@ -9,16 +9,6 @@ export class MediaStateService {
 
   constructor(private readonly mediaService: MediaService) {}
 
-  // private resetMediaSubject(id: string): void {
-  //   const mediaSubject: BehaviorSubject<Media> | undefined = this.getMediaSubject(id)
-  //   if (!mediaSubject) {
-  //     return
-  //   }
-  //   this.fetchMedia(id)
-  //     .then(media => mediaSubject.next(media))
-  //     .catch(error => this.logger.data(error).error(`Encountered an error while fetching media with id '${id}':`))
-  // }
-
   public async subscribeToMedia(id: string): Promise<Observable<Media>> {
     const mediaSubject: BehaviorSubject<Media> = await this.createMediaSubject(id)
     return mediaSubject.asObservable()
@@ -40,22 +30,4 @@ export class MediaStateService {
   private async fetchMedia(id: string): Promise<Media> {
     return lastValueFrom(this.mediaService.getMedia(id))
   }
-
-  // private getMediaSubject(id: string): BehaviorSubject<Media> | undefined {
-  //   const mediaSubject: BehaviorSubject<Media> | undefined = this.mediaSubject.get(id)
-  //   if (!mediaSubject) {
-  //     return
-  //   }
-  //   const wasRemoved: boolean = this.removeSubjectIfHasNoObservable(mediaSubject, id).wasRemoved
-  //   return wasRemoved ? undefined : mediaSubject
-  // }
-
-  // private removeSubjectIfHasNoObservable(mediaSubject: BehaviorSubject<Media>, id: string): { wasRemoved: boolean } {
-  //   if (mediaSubject.observed) {
-  //     return { wasRemoved: false }
-  //   }
-  //   mediaSubject.unsubscribe()
-  //   this.mediaSubject.delete(id)
-  //   return { wasRemoved: true }
-  // }
 }
