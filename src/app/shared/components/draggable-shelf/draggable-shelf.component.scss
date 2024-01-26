@@ -4,7 +4,7 @@
   flex-shrink: 0;
   flex-grow: 0;
   background-color: var(--background-color);
-  border-top: 2px solid #555;
+  border-top: 2px solid var(--rundown-draggable-shelf-color);
   --shadow-thickness: 10px;
   box-shadow: 0 0 var(--shadow-thickness) rgba(0, 0, 0, 0.6);
 
@@ -19,11 +19,11 @@
     z-index: 1000;
 
     border-radius: 40px 40px 0 0;
-    border-color: #555 #555 transparent #555;
+    border-color: var(--rundown-draggable-shelf-color) var(--rundown-draggable-shelf-color) transparent var(--rundown-draggable-shelf-color);
     border-style: solid;
     border-width: 2px;
     background-color: var(--background-color);
-    color: #555;
+    color: var(--rundown-draggable-shelf-color);
     cursor: grab;
 
     text-align: center;
@@ -37,11 +37,11 @@
 
     &:hover,
     &:active {
-      color: #888;
+      color: var(--rundown-draggable-shelf-color-hover);
     }
 
     &:active {
-      background-color: #555;
+      background-color: var(--rundown-draggable-shelf-color);
       cursor: grabbing;
     }
   }

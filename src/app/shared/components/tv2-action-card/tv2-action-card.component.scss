@@ -27,7 +27,13 @@
     background-color: var(--tv2-video-clip-color);
 
     &.missing-source {
-      background: repeating-linear-gradient(45deg, #7c2720, #7c2720 5px, var(--tv2-video-clip-color) 5px, var(--tv2-video-clip-color) 15px);
+      background: repeating-linear-gradient(
+        45deg,
+        var(--tv2-video-missing-source-gradient-color),
+        var(--tv2-video-missing-source-gradient-color) 5px,
+        var(--tv2-video-clip-color) 5px,
+        var(--tv2-video-clip-color) 15px
+      );
     }
   }
 

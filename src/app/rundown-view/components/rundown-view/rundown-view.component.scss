@@ -1,7 +1,7 @@
 :host {
   --text-color: var(--gray-color);
-  --scrollbar-color: #333333;
-  --scrollbar-thumb-color: #222222;
+  --scrollbar-color: var(--rundown-key-background-color);
+  --scrollbar-thumb-color: var(--rundown-scrollbar-color);
   --scrollbar-size: 15px;
 
   display: flex;

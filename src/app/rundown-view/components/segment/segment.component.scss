@@ -11,7 +11,7 @@
   &__header {
     flex: 0;
     min-width: 270px;
-    background-color: var(--background-color);
+    background-color: var(--rundown-segment-header-background);
     color: var(--text-color);
     transition: background-color 0.2s;
   }
@@ -98,7 +98,7 @@
         background-color 0.2s;
 
       &:hover {
-        background-color: #666666;
+        background-color: var(--dark-gray-color);
       }
 
       &[disabled='true'] {
@@ -110,7 +110,7 @@
   }
 
   &__piece-layer {
-    color: #888888;
+    color: var(--dark-gray-color);
     padding: 2px 0 2px 20px;
     font-weight: bold;
     height: 24px;

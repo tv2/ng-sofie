@@ -1,20 +1,20 @@
 .c-rundown-header {
-  --scrollbar-color: #252627;
+  --scrollbar-color: var(--rundown-scrollbar-color);
   display: flex;
   flex-direction: row;
 
   width: auto;
   min-height: 70px;
 
-  background-color: #252627;
+  background-color: var(--rundown-scrollbar-color);
   overflow: auto;
 
-  transition: background-color .3s;
+  transition: background-color 0.3s;
 
   &--active {
-    --scrollbar-color: #761912;
-    --scrollbar-thumb-color: #561612;
-    background-color: #761912;
+    --scrollbar-color: var(--rundown-scrollbar-active-color);
+    --scrollbar-thumb-color: var(--rundown-scrollbar-thumb-active-color);
+    background-color: var(--rundown-scrollbar-active-color);
   }
 
   .exit-button {
@@ -22,10 +22,10 @@
 
     padding: 0 20px;
     height: 100%;
-    color: #888888;
+    color: var(--dark-gray-color);
     border-radius: 8px;
 
-    transition: color .2s;
+    transition: color 0.2s;
     outline: none;
 
     &:hover {
@@ -35,10 +35,10 @@
   }
 
   .timer {
-    transition: text-shadow .5s;
+    transition: text-shadow 0.5s;
 
     &.overtime {
-      text-shadow: 0 0 8px #d28e8e;
+      text-shadow: 0 0 8px var(--rundown-overtime-shadow-color);
     }
   }
 

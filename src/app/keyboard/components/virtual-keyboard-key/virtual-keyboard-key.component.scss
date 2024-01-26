@@ -8,7 +8,7 @@
   height: var(--key-size);
   padding: calc(var(--key-size) / 10);
 
-  background-color: #333333;
+  background-color: var(--rundown-key-background-color);
   color: var(--text-color);
   border-radius: calc(var(--key-size) / 10);
   border: 2px solid var(--dark-color);
@@ -19,7 +19,9 @@
   font-weight: bold;
 
   cursor: pointer;
-  transition: transform .08s, border-color .08s;
+  transition:
+    transform 0.08s,
+    border-color 0.08s;
 
   &.enter {
     margin-top: calc(-1 * var(--key-size) - var(--key-gap));
@@ -47,13 +49,16 @@
     bottom: 0;
     left: 0;
     right: 0;
-    transition: box-shadow .08s, background-color .08s;
+    transition:
+      box-shadow 0.08s,
+      background-color 0.08s;
   }
 
-  &:active, &.matched {
+  &:active,
+  &.matched {
     position: relative;
     transform: scale(0.98);
-    border-color: #111111;
+    border-color: var(--rundown-keyboard-background-color);
 
     :after {
       background-color: #00000066;

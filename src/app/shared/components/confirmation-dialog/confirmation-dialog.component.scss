@@ -19,7 +19,7 @@
 
 :host.danger {
     .c-dialog-header {
-        background-color: #c62828;
+        background-color: var(--danger-color);
     }
 }
 

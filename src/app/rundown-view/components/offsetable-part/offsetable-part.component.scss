@@ -16,7 +16,7 @@
       margin-bottom: 2px;
       height: 22px;
       position: relative;
-      background-color: rgba(26,26,26, .8);
+      background-color: rgba(26, 26, 26, 0.8);
     }
   }
 
@@ -28,15 +28,8 @@
       right: 0;
       bottom: 0;
       left: 0;
-      background: repeating-linear-gradient(
-                      120deg,
-                      #00000000,
-                      #00000000 8px,
-                      #ffff0055 8px,
-                      #ffff0055 16px
-      );
+      background: repeating-linear-gradient(120deg, #00000000, #00000000 8px, #ffff0055 8px, #ffff0055 16px);
       z-index: 10;
     }
-
   }
 }
