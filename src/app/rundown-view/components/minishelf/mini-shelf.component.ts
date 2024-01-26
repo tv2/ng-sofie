@@ -38,24 +38,26 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
       this.studioConfiguration = studioConfiguration
     })
-    this.updateMediaAndCalculate().catch(error => this.logger.data(error).error(`Failed to update media for segment '${this.segment.name}' with id '${this.segment.id}'.`))
+    this.updateMediaAndCalculate()
   }
 
-  private async updateMediaAndCalculate(): Promise<void> {
+  private updateMediaAndCalculate(): void {
     if (!this.segment.metadata?.miniShelfVideoClipFile) {
       return
     }
 
-    const media: Media = await this.mediaStateService.getMedia(this.segment.metadata?.miniShelfVideoClipFile)
-    if (!media) {
-      return
-    }
-    this.media = media
-
-    this.calculateMediaDuration()
+    this.mediaStateService
+      .subscribeToMedia(this.segment.metadata?.miniShelfVideoClipFile)
+      .then(mediaObservable =>
+        mediaObservable.subscribe(media => {
+          this.setMedia(media)
+          this.calculateMediaDurationInMsWithoutPostroll()
+        })
+      )
+      .catch(error => this.logger.data(error).error(`Failed to update media for segment '${this.segment.name}' with id '${this.segment.id}'.`))
   }
 
-  private calculateMediaDuration(): void {
+  private calculateMediaDurationInMsWithoutPostroll(): void {
     if (!this.segment.metadata?.miniShelfVideoClipFile) {
       return
     }
@@ -68,7 +70,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if ('segment' in changes) {
-      this.updateMediaAndCalculate().catch(error => this.logger.data(error).error(`Failed to update media for segment '${this.segment.name}' with id '${this.segment.id}'.`))
+      this.updateMediaAndCalculate()
     }
   }
 
@@ -105,5 +107,9 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   protected handleMissingImage(event: Event): void {
     ;(event.target as HTMLImageElement).src = this.fallbackPreviewUrl
+  }
+
+  private setMedia(media: Media): void {
+    this.media = media
   }
 }
