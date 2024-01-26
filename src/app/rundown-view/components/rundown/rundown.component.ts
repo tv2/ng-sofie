@@ -61,9 +61,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private onActionsChanged(actions: Action[]): void {
-    this.videoClipActions = actions.filter((action): action is Tv2VideoClipAction => {
-      return action && (<Tv2Action>action).metadata?.contentType === Tv2ActionContentType.VIDEO_CLIP
-    })
+    this.videoClipActions = actions.filter((action): action is Tv2VideoClipAction => (action as Tv2Action).metadata?.contentType === Tv2ActionContentType.VIDEO_CLIP)
     this.updateMiniShelfSegmentActionMappings()
   }
 
@@ -110,9 +108,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     const videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
     if (!videoClipFile) return actionMap
 
-    const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
-      return action.metadata?.fileName === videoClipFile
-    })
+    const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => action.metadata?.fileName === videoClipFile)
 
     return action ? { ...actionMap, [segment.id]: action } : actionMap
   }

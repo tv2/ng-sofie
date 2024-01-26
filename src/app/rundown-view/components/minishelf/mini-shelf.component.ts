@@ -18,12 +18,12 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction: Tv2VideoClipAction | undefined
 
-  private readonly defaultAssetForThumbnail: string = 'assets/sofie-logo.svg'
+  private readonly fallbackPreviewUrl: string = 'assets/sofie-logo.svg'
   protected media: Media
   private configurationServiceSubscription: Subscription
   private studioConfiguration: StudioConfiguration | undefined
   private readonly logger: Logger
-  protected mediaCalculatedDuration: number = 0
+  protected mediaDurationInMsWithoutPostroll: number = 0
 
   constructor(
     private readonly actionService: ActionService,
@@ -38,31 +38,39 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
       this.studioConfiguration = studioConfiguration
     })
-    this.updateMedia()
-      .then(this.calculateMediaDuration)
-      .catch(error => this.logger.error(`Failed to update media, error is ${error} .`))
+    this.updateMediaAndCalculate()
   }
 
-  private async updateMedia(): Promise<void> {
-    if (!this.segment.metadata?.miniShelfVideoClipFile) return
+  private updateMediaAndCalculate(): void {
+    if (!this.segment.metadata?.miniShelfVideoClipFile) {
+      return
+    }
 
-    const media: Media = await this.mediaStateService.getMedia(this.segment.metadata?.miniShelfVideoClipFile)
-    if (!media) return
-    this.media = media
+    this.mediaStateService
+      .subscribeToMedia(this.segment.metadata?.miniShelfVideoClipFile)
+      .then(mediaObservable =>
+        mediaObservable.subscribe(media => {
+          this.setMedia(media)
+          this.calculateMediaDurationInMsWithoutPostroll()
+        })
+      )
+      .catch(error => this.logger.data(error).error(`Failed to update media for segment '${this.segment.name}' with id '${this.segment.id}'.`))
   }
 
-  private calculateMediaDuration(): void {
-    if (!this.segment.metadata?.miniShelfVideoClipFile) return
-    if (!this.studioConfiguration) return
+  private calculateMediaDurationInMsWithoutPostroll(): void {
+    if (!this.segment.metadata?.miniShelfVideoClipFile) {
+      return
+    }
+    if (!this.studioConfiguration) {
+      return
+    }
 
-    this.mediaCalculatedDuration = Math.max(this.media.duration - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration, 0)
+    this.mediaDurationInMsWithoutPostroll = Math.max(this.media.duration - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration, 0)
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if ('segment' in changes) {
-      this.updateMedia()
-        .then(this.calculateMediaDuration)
-        .catch(error => this.logger.error(`Failed to update media, error is ${error} .`))
+      this.updateMediaAndCalculate()
     }
   }
 
@@ -71,9 +79,10 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   protected get mediaPreviewUrl(): string {
-    if (!this.studioConfiguration) return ''
-    const url: string = `${this.studioConfiguration.settings.mediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
-    return this.studioConfiguration.settings.mediaPreviewUrl ? url : this.defaultAssetForThumbnail
+    if (!this.studioConfiguration?.settings.mediaPreviewUrl) {
+      return this.fallbackPreviewUrl
+    }
+    return `${this.studioConfiguration.settings.mediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
   }
 
   public getSanitizedTitle(): string {
@@ -97,6 +106,10 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   protected handleMissingImage(event: Event): void {
-    ;(event.target as HTMLImageElement).src = this.defaultAssetForThumbnail
+    ;(event.target as HTMLImageElement).src = this.fallbackPreviewUrl
+  }
+
+  private setMedia(media: Media): void {
+    this.media = media
   }
 }

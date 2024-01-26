@@ -1,30 +1,33 @@
-import { lastValueFrom, Observable } from 'rxjs'
+import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs'
 import { Injectable } from '@angular/core'
 import { MediaService } from './media.service'
 import { Media } from './media'
-import { Logger } from '../../core/abstractions/logger.service'
 
 @Injectable()
 export class MediaStateService {
-  private readonly logger: Logger
+  private readonly mediaSubject: Map<string, BehaviorSubject<Media>> = new Map()
 
-  constructor(
-    private readonly mediaService: MediaService,
-    logger: Logger
-  ) {
-    this.logger = logger.tag('MediaStateService')
+  constructor(private readonly mediaService: MediaService) {}
+
+  public async subscribeToMedia(id: string): Promise<Observable<Media>> {
+    const mediaSubject: BehaviorSubject<Media> = await this.createMediaSubject(id)
+    return mediaSubject.asObservable()
   }
 
-  public async getMedia(id: string): Promise<Media> {
-    try {
-      return await lastValueFrom(this.fetchMedia(id))
-    } catch (error) {
-      this.logger.data(error).error('Failed to fetch media.')
-      return await Promise.reject(error)
+  private async createMediaSubject(id: string): Promise<BehaviorSubject<Media>> {
+    const mediaSubject: BehaviorSubject<Media> | undefined = this.mediaSubject.get(id)
+    if (mediaSubject) {
+      return mediaSubject
     }
+    return await this.getCleanMediaSubject(id)
   }
 
-  private fetchMedia(id: string): Observable<Media> {
-    return this.mediaService.getMedia(id)
+  private async getCleanMediaSubject(id: string): Promise<BehaviorSubject<Media>> {
+    const media: Media = await this.fetchMedia(id)
+    return new BehaviorSubject<Media>(media)
+  }
+
+  private async fetchMedia(id: string): Promise<Media> {
+    return lastValueFrom(this.mediaService.getMedia(id))
   }
 }
