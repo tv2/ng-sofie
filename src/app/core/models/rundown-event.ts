@@ -32,6 +32,10 @@ export interface PartTakenEvent extends PartEvent {
   type: RundownEventType.TAKEN
 }
 
+export interface AutoNextStartedEvent extends RundownEvent {
+  type: RundownEventType.AUTO_NEXT_STARTED
+}
+
 export interface PartSetAsNextEvent extends PartEvent {
   type: RundownEventType.SET_NEXT
 }

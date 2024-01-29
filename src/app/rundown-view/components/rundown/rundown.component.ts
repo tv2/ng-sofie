@@ -7,6 +7,8 @@ import { Part } from '../../../core/models/part'
 import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
 import { Subscription } from 'rxjs'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
+import { RundownEventObserver } from 'src/app/core/services/rundown-event-observer.service'
+import { EventSubscription } from 'src/app/event-system/abstractions/event-observer.service'
 
 @Component({
   selector: 'sofie-rundown',
@@ -16,16 +18,18 @@ import { PartEntityService } from '../../../core/services/models/part-entity.ser
 export class RundownComponent implements OnInit, OnDestroy {
   @Input()
   public rundown: Rundown
-
+  public isAutoNextStarted: boolean = false
   public currentEpochTime: number = Date.now()
   public remainingDurationInMsForOnAirPart?: number
   public startOffsetsInMsFromPlayheadForSegments: Record<string, number> = {}
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
+  private readonly rindownEventSubscriptions: EventSubscription[] = []
 
   constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
     private readonly partEntityService: PartEntityService,
+    private readonly rundownEventObserver: RundownEventObserver,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownComponent')
@@ -37,6 +41,22 @@ export class RundownComponent implements OnInit, OnDestroy {
       .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
       .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
+    this.subscribeForEventObserver()
+  }
+
+  private subscribeForEventObserver(): void {
+    this.rindownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownAutoNext(this.setAutoNextStartedToTrueFromEvent.bind(this)))
+    this.rindownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(this.setAutoNextStartedToFalseFromEvent.bind(this)))
+    this.rindownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownReset(this.setAutoNextStartedToFalseFromEvent.bind(this)))
+    this.rindownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownDeactivation(this.setAutoNextStartedToFalseFromEvent.bind(this)))
+  }
+
+  private setAutoNextStartedToTrueFromEvent(): void {
+    this.isAutoNextStarted = true
+  }
+
+  private setAutoNextStartedToFalseFromEvent(): void {
+    this.isAutoNextStarted = false
   }
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
@@ -64,6 +84,9 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.rundownTimingContextSubscription?.unsubscribe()
+    for (let rindownEventSubscription of this.rindownEventSubscriptions) {
+      rindownEventSubscription?.unsubscribe()
+    }
   }
 
   public trackSegment(_: number, segment: Segment): string {

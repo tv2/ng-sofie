@@ -20,6 +20,7 @@ import {
   PartUpdatedEvent,
   SegmentUnsyncedEvent,
   PartUnsyncedEvent,
+  AutoNextStartedEvent,
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
@@ -52,6 +53,12 @@ export class ZodRundownEventParser implements RundownEventParser {
     rundownId: zod.string().min(1),
     segmentId: zod.string().min(1),
     partId: zod.string().min(1),
+  })
+
+  private readonly rundownAutoNextStartedEventParser = zod.object({
+    type: zod.literal(RundownEventType.AUTO_NEXT_STARTED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
   })
 
   private readonly rundownSetNextEventParser = zod.object({
@@ -222,6 +229,10 @@ export class ZodRundownEventParser implements RundownEventParser {
 
   public parseTakenEvent(event: unknown): PartTakenEvent {
     return this.rundownTakenEventParser.parse(event)
+  }
+
+  public parseAutoNextStartedEvent(event: unknown): AutoNextStartedEvent {
+    return this.rundownAutoNextStartedEventParser.parse(event)
   }
 
   public parseSetNextEvent(event: unknown): PartSetAsNextEvent {

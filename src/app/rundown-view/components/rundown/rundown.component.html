@@ -4,6 +4,7 @@
                 *ngIf="!segment.isHidden"
                 [segment]="segment"
                 [isRundownActive]="rundown ? rundown.isActive : false"
+                [isAutoNextStarted]="isAutoNextStarted"
                 [durationInMsUntilSegmentIsPutOnAir]="startOffsetsInMsFromPlayheadForSegments[segment.id]"
                 [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
                 [currentEpochTime]="currentEpochTime"

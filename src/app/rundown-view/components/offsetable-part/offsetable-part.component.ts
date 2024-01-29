@@ -25,6 +25,9 @@ export class OffsetablePartComponent implements OnChanges {
   public pixelsPerSecond: number
 
   @Input()
+  public isAutoNextStarted: boolean
+
+  @Input()
   public offsetDurationInMs: number
 
   @Input()
