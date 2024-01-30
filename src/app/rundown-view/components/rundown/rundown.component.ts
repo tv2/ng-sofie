@@ -29,6 +29,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private miniShelfSegments: Segment[] = []
   protected miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
   private rundownActionsSubscription: Subscription
+  private cycleMiniShelvesTabCounter: number | undefined = undefined
 
   constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
@@ -66,7 +67,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    console.info('changes', changes)
+    // console.info('changes', changes)
     if ('rundown' in changes) {
       this.updateMiniShelfSegments()
       this.updateMiniShelfSegmentActionMappings()
@@ -126,7 +127,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private cycleMiniShelves(direction: number): void {
     const segmentOnAir: Segment | undefined = this.rundown.segments.find(segment => !segment.isHidden && segment.isOnAir)
-    console.info('segmentOnAir', segmentOnAir)
+    // console.info('segmentOnAir', segmentOnAir)
     if (!segmentOnAir) {
       this.logger.debug('No running Segment found')
       return
@@ -141,28 +142,39 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       .filter(segment => segment.isHidden)
       // extract the MiniShelves only
       .filter(segment => segment.metadata?.miniShelfVideoClipFile)
-    console.info('miniShelves', miniShelves)
+    // console.info('miniShelves', miniShelves)
     if (miniShelves.length === 0) {
       this.logger.debug('No MiniShelves found bellow the running Segment')
       return
     }
 
-    console.info('this.videoClipActions', this.videoClipActions)
-    console.info('this.miniShelfSegmentActionMappings', this.miniShelfSegmentActionMappings)
+    // console.info('this.videoClipActions', this.videoClipActions)
+    // console.info('this.miniShelfSegmentActionMappings', this.miniShelfSegmentActionMappings)
 
-    let nextAction: Tv2VideoClipAction | undefined
-    if (direction == CycleDirection.PREVIOUS) {
-      nextAction = this.miniShelfSegmentActionMappings[miniShelves[miniShelves.length - 1].id]
-      // TODO - or perhaps should break the group of MiniShelves when in between is a Segment
-    } else {
-      nextAction = this.miniShelfSegmentActionMappings[miniShelves[0].id]
+    switch (direction) {
+      case CycleDirection.NEXT:
+        this.cycleMiniShelvesTabCounter = this.cycleMiniShelvesTabCounter ?? -1
+        this.cycleMiniShelvesTabCounter += 1
+        this.cycleMiniShelvesTabCounter %= miniShelves.length
+        break
+      case CycleDirection.PREVIOUS:
+        this.cycleMiniShelvesTabCounter = this.cycleMiniShelvesTabCounter ?? miniShelves.length
+        if (this.cycleMiniShelvesTabCounter === 0) {
+          this.cycleMiniShelvesTabCounter = miniShelves.length
+        }
+        this.cycleMiniShelvesTabCounter -= 1
+        break
+      default:
+        throw new Error(`Unexpected direction: ${direction}`)
     }
+    // console.info('this.cycleMiniShelvesTabCounter', this.cycleMiniShelvesTabCounter)
 
+    const nextAction: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[miniShelves[this.cycleMiniShelvesTabCounter].id]
     if (!nextAction) {
       this.logger.debug('No next action found for MiniShelf')
       return
     }
-    console.info('nextAction', nextAction)
+    // console.info('nextAction', nextAction)
 
     this.actionStateService.executeAction(nextAction.id, this.rundown.id)
   }
