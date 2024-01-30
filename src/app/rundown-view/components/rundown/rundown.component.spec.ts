@@ -9,7 +9,7 @@ import { PartEntityService } from '../../../core/services/models/part-entity.ser
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownEventObserver } from 'src/app/core/services/rundown-event-observer.service'
 
-fdescribe('RundownComponent', () => {
+describe('RundownComponent', () => {
   it('should create', async () => {
     const component = await configureTestBed()
     expect(component).toBeTruthy()

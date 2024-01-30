@@ -24,7 +24,7 @@ export class RundownComponent implements OnInit, OnDestroy {
   public startOffsetsInMsFromPlayheadForSegments: Record<string, number> = {}
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
-  private readonly rindownEventSubscriptions: EventSubscription[] = []
+  private readonly rundownEventSubscriptions: EventSubscription[] = []
 
   constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
@@ -45,17 +45,17 @@ export class RundownComponent implements OnInit, OnDestroy {
   }
 
   private subscribeForEventObserver(): void {
-    this.rindownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownAutoNext(this.setAutoNextStartedToTrueFromEvent.bind(this)))
-    this.rindownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(this.setAutoNextStartedToFalseFromEvent.bind(this)))
-    this.rindownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownReset(this.setAutoNextStartedToFalseFromEvent.bind(this)))
-    this.rindownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownDeactivation(this.setAutoNextStartedToFalseFromEvent.bind(this)))
+    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownAutoNext(this.setAutoNextStartedToTrue.bind(this)))
+    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(this.setAutoNextStartedToFalse.bind(this)))
+    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownReset(this.setAutoNextStartedToFalse.bind(this)))
+    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownDeactivation(this.setAutoNextStartedToFalse.bind(this)))
   }
 
-  private setAutoNextStartedToTrueFromEvent(): void {
+  private setAutoNextStartedToTrue(): void {
     this.isAutoNextStarted = true
   }
 
-  private setAutoNextStartedToFalseFromEvent(): void {
+  private setAutoNextStartedToFalse(): void {
     this.isAutoNextStarted = false
   }
 
@@ -84,9 +84,7 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.rundownTimingContextSubscription?.unsubscribe()
-    for (let rindownEventSubscription of this.rindownEventSubscriptions) {
-      rindownEventSubscription?.unsubscribe()
-    }
+    this.rundownEventSubscriptions.forEach(subscription => subscription.unsubscribe)
   }
 
   public trackSegment(_: number, segment: Segment): string {

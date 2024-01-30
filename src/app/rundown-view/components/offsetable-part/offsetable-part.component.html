@@ -11,7 +11,7 @@
     </sofie-offsetable-piece>
   </div>
 </div>
-<sofie-timeline-flag [label]="part.isNext ? (isAutoNextStarted ? 'AUTO' : 'NEXT') : undefined" [turnedOn]="part.isNext"></sofie-timeline-flag>
+<sofie-timeline-flag [label]="part.isNext ? (isAutoNextStarted ? autoLabel : nextLabel) : undefined" [turnedOn]="part.isNext"></sofie-timeline-flag>
 
 <ng-template #contextMenu>
   <sofie-part-context-menu *ngIf="isRundownActive" [part]="part" [rundownId]="rundownId"></sofie-part-context-menu>
