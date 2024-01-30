@@ -18,10 +18,10 @@
       font-size: medium;
       display: block;
       text-decoration: none;
-      color: var(---primary-color);
+      color: var(--primary-color);
       &.active-tab {
         background-color: var(--background-color);
-        color: var(---primary-color);
+        color: var(--primary-color);
       }
     }
   }

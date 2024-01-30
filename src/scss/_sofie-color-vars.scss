@@ -1,5 +1,5 @@
 body {
-  ---primary-color: #1f9ac7;
+  --primary-color: #1f9ac7;
   --danger-color: #c62828;
   --white-color: #ffffff;
   --light-gray-color: #f6f6f6;
@@ -10,6 +10,7 @@ body {
   --background-color: #343434;
   --green-color: green;
   --yellow-color: #ffea00;
+  --blue-color: #0f5be9;
   --orangered-color: orangered;
 
   --on-air-color: #c40000;
@@ -42,7 +43,8 @@ body {
   --gradient-black-rgba-with-04-opacity-color: rgba(0, 0, 0, 0.4);
   --gradient-black-rgba-with-06-opacity-color: rgba(0, 0, 0, 0.6);
   --gradient-black-rgba-with-08-opacity-color: rgba(0, 0, 0, 0.8);
-  
+  --gradient-green-rgba-with-04-opacity-color: rgba(0, 222, 99, 0.4);
+
   --unsynced-part-linear-gradient: repeating-linear-gradient(120deg, #00000000, #00000000 8px, #ffff0055 8px, #ffff0055 16px);
   --action-panel-scrollable-before-linear-gradient: linear-gradient(90deg, #222222ff 0%, #222222ff 10%, #22222200 100%);
   --action-panel-scrollable-after-linear-gradient: linear-gradient(-90deg, #222222ff 0%, #222222ff 10%, #22222200 100%);
