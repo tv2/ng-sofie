@@ -29,7 +29,10 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private miniShelfSegments: Segment[] = []
   protected miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
   private rundownActionsSubscription: Subscription
-  private cycleMiniShelvesTabCounter: number | undefined = undefined
+  private segmentOnAir: Segment | undefined = undefined
+  private partOnAir: Part | undefined = undefined
+  private segmentOnAirIndex: number = -1 // -1 means no Segment On-Air was found
+  private currentMiniShelfIndex: number = -1 // -1 means no MiniShelf cycling was performed
 
   constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
@@ -55,9 +58,13 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
     this.currentEpochTime = rundownTimingContext.currentEpochTime
-    const onAirPart: Part | undefined = this.rundown.segments.find(segment => segment.isOnAir)?.parts.find(part => part.isOnAir)
+    this.segmentOnAir = this.rundown.segments.find(segment => segment.isOnAir)
+    if (this.segmentOnAir) {
+      this.segmentOnAirIndex = this.rundown.segments.indexOf(this.segmentOnAir)
+    }
+    this.partOnAir = this.segmentOnAir?.parts.find(part => part.isOnAir)
 
-    this.remainingDurationInMsForOnAirPart = onAirPart ? this.partEntityService.getExpectedDuration(onAirPart) - rundownTimingContext.playedDurationInMsForOnAirPart : undefined
+    this.remainingDurationInMsForOnAirPart = this.partOnAir ? this.partEntityService.getExpectedDuration(this.partOnAir) - rundownTimingContext.playedDurationInMsForOnAirPart : undefined
     this.startOffsetsInMsFromPlayheadForSegments = this.getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext)
   }
 
@@ -67,7 +74,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    // console.info('changes', changes)
     if ('rundown' in changes) {
       this.updateMiniShelfSegments()
       this.updateMiniShelfSegmentActionMappings()
@@ -125,58 +131,63 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  private shouldCycleMiniShelves(): boolean {
+    if (!this.segmentOnAir) {
+      this.logger.debug('No Segment On-Air found')
+      return false
+    }
+    if (this.segmentOnAirIndex < 0) {
+      this.logger.debug('No Segment On-Air index found')
+      return false
+    }
+    if (!this.partOnAir) {
+      this.logger.debug('No Part On-Air found')
+      return false
+    }
+    return true
+  }
   private cycleMiniShelves(direction: number): void {
-    const segmentOnAir: Segment | undefined = this.rundown.segments.find(segment => !segment.isHidden && segment.isOnAir)
-    // console.info('segmentOnAir', segmentOnAir)
-    if (!segmentOnAir) {
-      this.logger.debug('No running Segment found')
+    if (!this.shouldCycleMiniShelves()) {
       return
     }
 
-    // now we have a running segment, and it might be a MiniShelf so should be included
-    // also no need to remember where we are in the rundown
     const miniShelves: Segment[] = this.rundown.segments
-      // what is bellow in the rundown is our field of interest: bellowSegments group [segmentOnAir, ...]
-      .filter(segment => this.rundown.segments.indexOf(segment) >= this.rundown.segments.indexOf(segmentOnAir))
-      // just exposed ones
-      .filter(segment => segment.isHidden)
-      // extract the MiniShelves only
-      .filter(segment => segment.metadata?.miniShelfVideoClipFile)
-    // console.info('miniShelves', miniShelves)
+      // look bellow the segment OnAir
+      .filter(segment => this.rundown.segments.indexOf(segment) >= this.segmentOnAirIndex)
+      // and find all MiniShelves
+      .filter(segment => this.isMiniShelfSegment(segment))
     if (miniShelves.length === 0) {
       this.logger.debug('No MiniShelves found bellow the running Segment')
       return
     }
 
-    // console.info('this.videoClipActions', this.videoClipActions)
-    // console.info('this.miniShelfSegmentActionMappings', this.miniShelfSegmentActionMappings)
-
-    switch (direction) {
-      case CycleDirection.NEXT:
-        this.cycleMiniShelvesTabCounter = this.cycleMiniShelvesTabCounter ?? -1
-        this.cycleMiniShelvesTabCounter += 1
-        this.cycleMiniShelvesTabCounter %= miniShelves.length
-        break
-      case CycleDirection.PREVIOUS:
-        this.cycleMiniShelvesTabCounter = this.cycleMiniShelvesTabCounter ?? miniShelves.length
-        if (this.cycleMiniShelvesTabCounter === 0) {
-          this.cycleMiniShelvesTabCounter = miniShelves.length
-        }
-        this.cycleMiniShelvesTabCounter -= 1
-        break
-      default:
-        throw new Error(`Unexpected direction: ${direction}`)
+    // this is the very first time we do cycle, and we should honor initially the direction
+    if (this.currentMiniShelfIndex < 0 && direction === CycleDirection.PREVIOUS) {
+      this.currentMiniShelfIndex = 0 // and re-adjust the default value
     }
-    // console.info('this.cycleMiniShelvesTabCounter', this.cycleMiniShelvesTabCounter)
 
-    const nextAction: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[miniShelves[this.cycleMiniShelvesTabCounter].id]
+    // calculate
+    let miniShelfIndex = this.currentMiniShelfIndex + direction
+    // and wrap
+    if (miniShelfIndex < 0) {
+      miniShelfIndex = miniShelves.length - 1
+    } else if (miniShelfIndex >= miniShelves.length) {
+      miniShelfIndex = 0
+    }
+
+    const nextAction: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[miniShelves[miniShelfIndex].id]
     if (!nextAction) {
       this.logger.debug('No next action found for MiniShelf')
       return
     }
-    // console.info('nextAction', nextAction)
 
+    // finally set and execute
+    this.currentMiniShelfIndex = miniShelfIndex
     this.actionStateService.executeAction(nextAction.id, this.rundown.id)
+  }
+
+  public isMiniShelfSegment(segment: Segment): boolean {
+    return <boolean>(segment.metadata?.miniShelfVideoClipFile && segment.isHidden)
   }
 }
 export enum CycleDirection {

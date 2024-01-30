@@ -9,7 +9,7 @@
                 [currentEpochTime]="currentEpochTime"
         ></sofie-segment>
         <sofie-mini-shelf
-                *ngIf="segment.metadata?.miniShelfVideoClipFile"
+                *ngIf="isMiniShelfSegment(segment)"
                 [segment]="segment"
                 [videoClipAction]="miniShelfSegmentActionMappings[segment.id]"
         ></sofie-mini-shelf>
