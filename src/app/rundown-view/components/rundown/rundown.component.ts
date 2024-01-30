@@ -152,9 +152,17 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       return
     }
 
-    const miniShelves: Segment[] = this.rundown.segments
+    const segmentsBellowSegmentOnAir: Segment[] = this.rundown.segments
       // look bellow the segment OnAir
-      .filter(segment => this.rundown.segments.indexOf(segment) >= this.segmentOnAirIndex)
+      .filter(segment => this.rundown.segments.indexOf(segment) > this.segmentOnAirIndex)
+
+    const firstSegmentBellow: Segment | undefined = segmentsBellowSegmentOnAir.find(segment => !this.isMiniShelfSegment(segment))
+    let cutMiniShelfGroupAtIndex: number = segmentsBellowSegmentOnAir.length - 1 // assume all are minishelves
+    if (firstSegmentBellow) {
+      cutMiniShelfGroupAtIndex = segmentsBellowSegmentOnAir.indexOf(firstSegmentBellow)
+    }
+    const miniShelves: Segment[] = segmentsBellowSegmentOnAir
+      .filter(segment => segmentsBellowSegmentOnAir.indexOf(segment) < cutMiniShelfGroupAtIndex)
       // and find all MiniShelves
       .filter(segment => this.isMiniShelfSegment(segment))
     if (miniShelves.length === 0) {
