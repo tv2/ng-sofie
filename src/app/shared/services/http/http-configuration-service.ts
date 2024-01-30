@@ -5,7 +5,7 @@ import { environment } from '../../../../environments/environment'
 import { catchError, map, Observable } from 'rxjs'
 import { HttpResponse } from './http-response'
 import { EntityParser } from '../../../core/abstractions/entity-parser.service'
-import { ConfigurationService } from '../configuration-service'
+import { ConfigurationService } from '../configuration.service'
 import { StudioConfiguration } from '../../models/studio-configuration'
 
 @Injectable()

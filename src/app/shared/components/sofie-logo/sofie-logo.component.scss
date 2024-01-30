@@ -8,15 +8,9 @@
   }
 
   span {
-    display: none;
-  }
-
-  &.with-text {
-    span {
-      display: inline-block;
-      font-weight: normal;
-      color: var(--text-color);
-      margin-left: 10px;
-    }
+    display: inline-block;
+    font-weight: normal;
+    color: var(--text-color);
+    margin-left: 10px;
   }
 }
