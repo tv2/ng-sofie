@@ -6,7 +6,7 @@
   background-color: var(--background-color);
   border-top: 2px solid var(--rundown-draggable-shelf-color);
   --shadow-thickness: 10px;
-  box-shadow: 0 0 var(--shadow-thickness) rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 var(--shadow-thickness) --gradient-black-rgba-with-06-opacity-color;
 
   .drag-handle {
     position: absolute;
@@ -37,7 +37,7 @@
 
     &:hover,
     &:active {
-      color: var(--rundown-draggable-shelf-color-hover);
+      color: var(--rundown-draggable-shelf-hover-color);
     }
 
     &:active {

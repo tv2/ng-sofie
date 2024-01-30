@@ -35,7 +35,7 @@
   background-color: var(--dark-gray-color);
   border-radius: 4px;
   cursor: pointer;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 2px 2px 4px var(--gradient-black-rgba-with-04-opacity-color);
   min-width: 120px;
 
   &-label {

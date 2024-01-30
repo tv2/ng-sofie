@@ -14,7 +14,7 @@
     color: var(--text-color);
 
     font-weight: normal;
-    text-shadow: rgba(0, 0, 0, 0.8) 0 0 8px;
+    text-shadow: var(--gradient-black-rgba-with-08-opacity-color) 0 0 8px;
     text-overflow: ellipsis;
     white-space: nowrap;
     z-index: 11;
