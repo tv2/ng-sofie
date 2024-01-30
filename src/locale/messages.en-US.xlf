@@ -78,10 +78,6 @@
         <source>action-triggers.no-shortcuts.label</source>
         <target state="new">No shortcuts found</target>
       </trans-unit>
-      <trans-unit id="3982465886333434114" datatype="html">
-        <source>action-triggers.keyboard-shortcuts.label</source>
-        <target state="new">Keyboard shortcuts</target>
-      </trans-unit>
       <trans-unit id="948302468790980101" datatype="html">
         <source>action-triggers.create-shortcut.button</source>
         <target state="new">Create shortcut</target>
