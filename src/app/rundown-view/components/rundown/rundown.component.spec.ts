@@ -7,6 +7,8 @@ import { DialogService } from '../../../shared/services/dialog.service'
 import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { ActionStateService } from '../../../shared/services/action-state.service'
+import { EntityParser } from '../../../core/abstractions/entity-parser.service'
 
 describe('RundownComponent', () => {
   it('should create', async () => {
@@ -34,6 +36,8 @@ async function configureTestBed(
       { provide: PartEntityService, useValue: instance(mock<PartEntityService>()) },
       { provide: RundownTimingContextStateService, useValue: instance(mockedRundownTimingContextStateService) },
       { provide: Logger, useValue: instance(mock<Logger>()) },
+      { provide: ActionStateService, useValue: instance(mock<ActionStateService>()) },
+      { provide: EntityParser, useValue: instance(mock<EntityParser>()) },
     ],
     declarations: [RundownComponent],
   }).compileComponents()

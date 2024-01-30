@@ -46,7 +46,9 @@ export class ConfirmationDialogComponent extends StronglyTypedDialog<Confirmatio
 
   constructor(@Inject(MAT_DIALOG_DATA) data: ConfirmationDialogData, dialogRef: MatDialogRef<StronglyTypedDialog<ConfirmationDialogData, boolean>, boolean>) {
     super(data, dialogRef)
-    if (!data) return
+    if (!data) {
+      return
+    }
     this.title = data.title ?? this.title
     this.message = data.message ?? this.message
     this.okButtonText = data.buttonText?.ok ?? this.okButtonText
