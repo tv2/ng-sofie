@@ -146,6 +146,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     }
     return true
   }
+
   private cycleMiniShelves(direction: number): void {
     if (!this.shouldCycleMiniShelves()) {
       return
@@ -190,6 +191,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     return <boolean>(segment.metadata?.miniShelfVideoClipFile && segment.isHidden)
   }
 }
+
 export enum CycleDirection {
   PREVIOUS = -1,
   NEXT = 1,
