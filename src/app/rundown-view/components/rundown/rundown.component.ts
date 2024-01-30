@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core'
 import { Rundown } from '../../../core/models/rundown'
 import { Segment } from '../../../core/models/segment'
 import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
@@ -7,13 +7,16 @@ import { Part } from '../../../core/models/part'
 import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
 import { Subscription } from 'rxjs'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
+import { ActionStateService } from '../../../shared/services/action-state.service'
+import { Action } from '../../../shared/models/action'
+import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 
 @Component({
   selector: 'sofie-rundown',
   templateUrl: './rundown.component.html',
   styleUrls: ['./rundown.component.scss'],
 })
-export class RundownComponent implements OnInit, OnDestroy {
+export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   @Input()
   public rundown: Rundown
 
@@ -22,10 +25,15 @@ export class RundownComponent implements OnInit, OnDestroy {
   public startOffsetsInMsFromPlayheadForSegments: Record<string, number> = {}
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
+  private videoClipActions: Tv2VideoClipAction[] = []
+  private miniShelfSegments: Segment[] = []
+  protected miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
+  private rundownActionsSubscription: Subscription
 
   constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
     private readonly partEntityService: PartEntityService,
+    private readonly actionStateService: ActionStateService,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownComponent')
@@ -37,6 +45,11 @@ export class RundownComponent implements OnInit, OnDestroy {
       .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
       .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
+    this.actionStateService
+      .subscribeToRundownActions(this.rundown.id)
+      .then(rundownActionsObservable => rundownActionsObservable.subscribe(this.onActionsChanged.bind(this)))
+      .then(rundownActionsSubscription => (this.rundownActionsSubscription = rundownActionsSubscription))
+      .catch(error => this.logger.data(error).error('Failed subscribing to rundown actions changes.'))
   }
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
@@ -45,6 +58,18 @@ export class RundownComponent implements OnInit, OnDestroy {
 
     this.remainingDurationInMsForOnAirPart = onAirPart ? this.partEntityService.getExpectedDuration(onAirPart) - rundownTimingContext.playedDurationInMsForOnAirPart : undefined
     this.startOffsetsInMsFromPlayheadForSegments = this.getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext)
+  }
+
+  private onActionsChanged(actions: Action[]): void {
+    this.videoClipActions = actions.filter((action): action is Tv2VideoClipAction => (action as Tv2Action).metadata?.contentType === Tv2ActionContentType.VIDEO_CLIP)
+    this.updateMiniShelfSegmentActionMappings()
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if ('rundown' in changes) {
+      this.updateMiniShelfSegments()
+      this.updateMiniShelfSegmentActionMappings()
+    }
   }
 
   private getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext: RundownTimingContext): Record<string, number> {
@@ -64,9 +89,27 @@ export class RundownComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.rundownTimingContextSubscription?.unsubscribe()
+    this.rundownActionsSubscription?.unsubscribe()
   }
 
   public trackSegment(_: number, segment: Segment): string {
     return segment.id
+  }
+
+  private updateMiniShelfSegments(): void {
+    this.miniShelfSegments = this.rundown.segments.filter(segment => segment.metadata?.miniShelfVideoClipFile)
+  }
+
+  private updateMiniShelfSegmentActionMappings(): void {
+    this.miniShelfSegmentActionMappings = this.miniShelfSegments.reduce(this.miniShelfSegmentsReducer.bind(this), {})
+  }
+
+  private miniShelfSegmentsReducer(actionMap: Record<string, Tv2VideoClipAction>, segment: Segment): Record<string, Tv2VideoClipAction> {
+    const videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
+    if (!videoClipFile) return actionMap
+
+    const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => action.metadata?.fileName === videoClipFile)
+
+    return action ? { ...actionMap, [segment.id]: action } : actionMap
   }
 }

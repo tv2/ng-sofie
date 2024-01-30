@@ -8,5 +8,10 @@
                 [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
                 [currentEpochTime]="currentEpochTime"
         ></sofie-segment>
+        <sofie-mini-shelf
+                *ngIf="segment.metadata?.miniShelfVideoClipFile"
+                [segment]="segment"
+                [videoClipAction]="miniShelfSegmentActionMappings[segment.id]"
+        ></sofie-mini-shelf>
     </ng-container>
 </div>
