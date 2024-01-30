@@ -147,11 +147,18 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     return true
   }
 
-  private cycleMiniShelves(direction: number): void {
+  private cycleMiniShelves(direction: CycleDirection): void {
     if (!this.shouldCycleMiniShelves()) {
       return
     }
 
+    let directionValue: number = 0
+    if (direction === CycleDirection.PREVIOUS) {
+      directionValue = -1
+    }
+    if (direction === CycleDirection.NEXT) {
+      directionValue = 1
+    }
     const segmentsBellowSegmentOnAir: Segment[] = this.rundown.segments
       // look bellow the segment OnAir
       .filter(segment => this.rundown.segments.indexOf(segment) > this.segmentOnAirIndex)
@@ -170,13 +177,13 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       return
     }
 
-    // this is the very first time we do cycle, and we should honor initially the direction
+    // this is the very first time we do cycle, and we should honor initially the directionValue
     if (this.currentMiniShelfIndex < 0 && direction === CycleDirection.PREVIOUS) {
       this.currentMiniShelfIndex = 0 // and re-adjust the default value
     }
 
     // calculate
-    let miniShelfIndex = this.currentMiniShelfIndex + direction
+    let miniShelfIndex = this.currentMiniShelfIndex + directionValue
     // and wrap
     if (miniShelfIndex < 0) {
       miniShelfIndex = miniShelves.length - 1
@@ -201,6 +208,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 }
 
 export enum CycleDirection {
-  PREVIOUS = -1,
-  NEXT = 1,
+  PREVIOUS = 'PREVIOUS',
+  NEXT = 'NEXT',
 }
