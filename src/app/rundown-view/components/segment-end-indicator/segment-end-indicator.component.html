@@ -1,11 +1,11 @@
 <sofie-timeline-flag
-    [label]="lastPartInSegment?.autoNext ? 'AUTO' : (lastPartInSegment?.isOnAir ? 'NEXT' : undefined)"
-    [turnedOn]="lastPartInSegment?.isOnAir ?? false"
-    [dimmed]="true"
-></sofie-timeline-flag>
+  [label]="lastPartInSegment?.autoNext ? autoLabel : lastPartInSegment?.isOnAir ? nextLabel : undefined"
+  [turnedOn]="lastPartInSegment?.isOnAir ?? false"
+  [dimmed]="true">
+</sofie-timeline-flag>
 
 <div class="end-indicator">
-    <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M15.5 1H21C22.1046 1 23 1.89543 23 3V10.9104C23 12.015 22.1046 12.9104 21 12.9104H2M2 12.9104L9.5 5.41045M2 12.9104L9.5 20.4104" stroke="white" stroke-width="2"></path>
-    </svg>
+  <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.5 1H21C22.1046 1 23 1.89543 23 3V10.9104C23 12.015 22.1046 12.9104 21 12.9104H2M2 12.9104L9.5 5.41045M2 12.9104L9.5 20.4104" stroke="white" stroke-width="2"></path>
+  </svg>
 </div>
