@@ -122,7 +122,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   public handleKeyboardEvent(event: KeyboardEvent): void {
     switch (event.key) {
       case 'Tab':
-        this.canMiniShelvesBeCycled() && this.cycleMiniShelves(event.shiftKey || event.altKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT)
+        this.canMiniShelvesBeCycled() && this.cycleMiniShelves(event.shiftKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT)
         event.preventDefault()
         break
     }
