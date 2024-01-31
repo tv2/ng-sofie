@@ -32,7 +32,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   protected miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
   private rundownActionsSubscription: Subscription
   private segmentOnAir: Segment | undefined = undefined
-  private partOnAir: Part | undefined = undefined
   private currentMiniShelfIndex: number = -1 // -1 means no MiniShelf cycling was performed
   protected isMiniShelfSegment: typeof isMiniShelfSegment = isMiniShelfSegment
 
@@ -61,8 +60,8 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
     this.currentEpochTime = rundownTimingContext.currentEpochTime
     this.segmentOnAir = this.rundown.segments.find(segment => segment.isOnAir)
-    this.partOnAir = this.segmentOnAir?.parts.find(part => part.isOnAir)
-    this.remainingDurationInMsForOnAirPart = this.partOnAir ? this.partEntityService.getExpectedDuration(this.partOnAir) - rundownTimingContext.playedDurationInMsForOnAirPart : undefined
+    const partOnAir: Part | undefined = this.segmentOnAir?.parts.find(part => part.isOnAir)
+    this.remainingDurationInMsForOnAirPart = partOnAir ? this.partEntityService.getExpectedDuration(partOnAir) - rundownTimingContext.playedDurationInMsForOnAirPart : undefined
     this.startOffsetsInMsFromPlayheadForSegments = this.getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext)
   }
 
