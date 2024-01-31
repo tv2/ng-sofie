@@ -33,7 +33,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private rundownActionsSubscription: Subscription
   private segmentOnAir: Segment | undefined = undefined
   private currentMiniShelfIndex: number = -1 // -1 means no MiniShelf cycling was performed
-  protected isMiniShelfSegment: typeof isMiniShelf = isMiniShelf
+  protected isMiniShelf: typeof isMiniShelf = isMiniShelf
 
   constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
