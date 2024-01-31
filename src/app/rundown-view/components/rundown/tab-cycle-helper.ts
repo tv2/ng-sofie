@@ -39,7 +39,6 @@ export function cycleMiniShelves(
   direction: CycleDirection,
   rundown: Rundown,
   logger: Logger,
-  actionStateService: ActionStateService,
   currentMiniShelfTabIndex: number,
   miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction>
 ): [number, string | undefined] {

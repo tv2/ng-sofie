@@ -128,7 +128,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       event.shiftKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT,
       this.rundown,
       this.logger,
-      this.actionStateService,
       this.currentMiniShelfTabIndex,
       this.miniShelfSegmentActionMappings
     )
