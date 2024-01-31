@@ -75,11 +75,7 @@ export function cycleMiniShelves(
   // calculate
   let miniShelfIndex = currentMiniShelfIndex + directionValue
   // and wrap on boundaries
-  if (miniShelfIndex < 0) {
-    miniShelfIndex = miniShelves.length - 1
-  } else if (miniShelfIndex >= miniShelves.length) {
-    miniShelfIndex = 0
-  }
+  miniShelfIndex = miniShelfIndex < 0 ? miniShelves.length - 1 : miniShelfIndex % miniShelves.length
 
   const tabActionSegment: Segment = miniShelves[miniShelfIndex]
   const nextAction: Tv2VideoClipAction = miniShelfSegmentActionMappings[tabActionSegment.id]
