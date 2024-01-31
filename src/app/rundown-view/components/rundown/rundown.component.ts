@@ -100,7 +100,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private updateMiniShelfSegments(): void {
-    this.miniShelfSegments = this.rundown.segments.filter(segment => segment.metadata?.miniShelfVideoClipFile)
+    this.miniShelfSegments = this.rundown.segments.filter(segment => isMiniShelf(segment))
   }
 
   private updateMiniShelfSegmentActionMappings(): void {
@@ -117,7 +117,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   @HostListener('document:keydown', ['$event'])
-  public handleTabAndShiftTabKeyboardEvents(event: KeyboardEvent): void {
+  public handleTabAndShiftTabKeyboardEvents = (event: KeyboardEvent): void => {
     if (event.key != 'Tab') {
       return
     }
