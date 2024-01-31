@@ -40,9 +40,9 @@ export function cycleMiniShelves(
   rundown: Rundown,
   logger: Logger,
   actionStateService: ActionStateService,
-  currentMiniShelfIndex: number,
+  currentMiniShelfTabIndex: number,
   miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction>
-): number {
+): [number, string | undefined] {
   let directionValue: number = 0
   directionValue = direction === CycleDirection.PREVIOUS ? -1 : directionValue
   directionValue = direction === CycleDirection.NEXT ? 1 : directionValue
@@ -61,14 +61,14 @@ export function cycleMiniShelves(
   const miniShelves: Segment[] = segmentsBellowSegmentOnAir.filter((segment, index) => isMiniShelf(segment) && index < cutMiniShelfGroupAtIndex)
   if (miniShelves.length === 0) {
     logger.debug('No MiniShelves found bellow the running Segment')
-    return -1
+    return [-1, undefined]
   }
 
   // this is the very first time we do cycle, and we should honor initially the directionValue
-  currentMiniShelfIndex = currentMiniShelfIndex < 0 && direction === CycleDirection.PREVIOUS ? 0 : currentMiniShelfIndex
+  currentMiniShelfTabIndex = currentMiniShelfTabIndex < 0 && direction === CycleDirection.PREVIOUS ? 0 : currentMiniShelfTabIndex
 
   // calculate
-  let nextMiniShelfIndex = currentMiniShelfIndex + directionValue
+  let nextMiniShelfIndex = currentMiniShelfTabIndex + directionValue
   // and wrap on boundaries
   nextMiniShelfIndex = nextMiniShelfIndex < 0 ? miniShelves.length - 1 : nextMiniShelfIndex % miniShelves.length
 
@@ -80,10 +80,8 @@ export function cycleMiniShelves(
     ].id // Tv2VideoClipAction
   if (!nextActionId) {
     logger.debug('No next action found for MiniShelf')
-    return -1
+    return [-1, undefined]
   }
-  // finally set and execute
-  currentMiniShelfIndex = nextMiniShelfIndex
-  actionStateService.executeAction(nextActionId, rundown.id)
-  return currentMiniShelfIndex
+
+  return [nextMiniShelfIndex, nextActionId]
 }

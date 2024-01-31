@@ -31,7 +31,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private miniShelfSegments: Segment[] = []
   protected miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
   private rundownActionsSubscription: Subscription
-  private currentMiniShelfIndex: number = -1 // -1 means no MiniShelf cycling was performed
+  private currentMiniShelfTabIndex: number = -1 // -1 means no MiniShelf cycling was performed
   protected isMiniShelf: typeof isMiniShelf = isMiniShelf
 
   constructor(
@@ -120,16 +120,23 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   public handleKeyboardEvent(event: KeyboardEvent): void {
     switch (event.key) {
       case 'Tab':
-        if (canMiniShelvesBeCycled(this.rundown, this.logger)) {
-          this.currentMiniShelfIndex = cycleMiniShelves(
-            event.shiftKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT,
-            this.rundown,
-            this.logger,
-            this.actionStateService,
-            this.currentMiniShelfIndex,
-            this.miniShelfSegmentActionMappings
-          )
+        if (!canMiniShelvesBeCycled(this.rundown, this.logger)) {
+          return
         }
+        const cycleResult: [number, string | undefined] = cycleMiniShelves(
+          event.shiftKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT,
+          this.rundown,
+          this.logger,
+          this.actionStateService,
+          this.currentMiniShelfTabIndex,
+          this.miniShelfSegmentActionMappings
+        )
+        this.currentMiniShelfTabIndex = cycleResult[0]
+        const nextActionId: string | undefined = cycleResult[1]
+        if (!nextActionId) {
+          return
+        }
+        this.actionStateService.executeAction(nextActionId, this.rundown.id)
         event.preventDefault()
         break
     }
