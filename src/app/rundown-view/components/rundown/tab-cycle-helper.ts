@@ -68,23 +68,25 @@ export function cycleMiniShelves(
   }
 
   // this is the very first time we do cycle, and we should honor initially the directionValue
-  if (currentMiniShelfIndex < 0 && direction === CycleDirection.PREVIOUS) {
-    currentMiniShelfIndex = 0 // and re-adjust the default value
-  }
+  currentMiniShelfIndex = currentMiniShelfIndex < 0 && direction === CycleDirection.PREVIOUS ? 0 : currentMiniShelfIndex
 
   // calculate
-  let miniShelfIndex = currentMiniShelfIndex + directionValue
+  let nextMiniShelfIndex = currentMiniShelfIndex + directionValue
   // and wrap on boundaries
-  miniShelfIndex = miniShelfIndex < 0 ? miniShelves.length - 1 : miniShelfIndex % miniShelves.length
+  nextMiniShelfIndex = nextMiniShelfIndex < 0 ? miniShelves.length - 1 : nextMiniShelfIndex % miniShelves.length
 
-  const tabActionSegment: Segment = miniShelves[miniShelfIndex]
-  const nextAction: Tv2VideoClipAction = miniShelfSegmentActionMappings[tabActionSegment.id]
-  if (!nextAction) {
+  const nextActionId: string =
+    // Record<string, Tv2VideoClipAction>[]
+    miniShelfSegmentActionMappings[
+      // Segment[]
+      miniShelves[nextMiniShelfIndex].id // Segment
+    ].id // Tv2VideoClipAction
+  if (!nextActionId) {
     logger.debug('No next action found for MiniShelf')
     return -1
   }
   // finally set and execute
-  currentMiniShelfIndex = miniShelfIndex
-  actionStateService.executeAction(nextAction.id, rundown.id)
+  currentMiniShelfIndex = nextMiniShelfIndex
+  actionStateService.executeAction(nextActionId, rundown.id)
   return currentMiniShelfIndex
 }
