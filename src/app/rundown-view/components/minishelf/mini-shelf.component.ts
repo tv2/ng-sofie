@@ -16,7 +16,7 @@ import { Logger } from '../../../core/abstractions/logger.service'
 })
 export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
-  @Input() public videoClipAction: Tv2VideoClipAction | undefined
+  @Input() public videoClipAction: Tv2VideoClipAction | undefined = undefined
 
   private readonly fallbackPreviewUrl: string = 'assets/sofie-logo.svg'
   protected media: Media
@@ -99,10 +99,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   protected executeAction(): void {
-    if (!this.videoClipAction) {
-      return
-    }
-    this.actionService.executeAction(this.videoClipAction.id, this.segment.rundownId).subscribe()
+    this.videoClipAction && this.actionService.executeAction(this.videoClipAction.id, this.segment.rundownId).subscribe()
   }
 
   protected handleMissingImage(event: Event): void {

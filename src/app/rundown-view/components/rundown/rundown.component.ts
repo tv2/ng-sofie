@@ -59,11 +59,8 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
     this.currentEpochTime = rundownTimingContext.currentEpochTime
     this.segmentOnAir = this.rundown.segments.find(segment => segment.isOnAir)
-    if (this.segmentOnAir) {
-      this.segmentOnAirIndex = this.rundown.segments.indexOf(this.segmentOnAir)
-    }
+    this.segmentOnAirIndex = this.segmentOnAir ? this.rundown.segments.indexOf(this.segmentOnAir) : -1
     this.partOnAir = this.segmentOnAir?.parts.find(part => part.isOnAir)
-
     this.remainingDurationInMsForOnAirPart = this.partOnAir ? this.partEntityService.getExpectedDuration(this.partOnAir) - rundownTimingContext.playedDurationInMsForOnAirPart : undefined
     this.startOffsetsInMsFromPlayheadForSegments = this.getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext)
   }
@@ -165,7 +162,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       // and update the above assumption to length
       cutMiniShelfGroupAtIndex = segmentsBellowSegmentOnAir.indexOf(firstNotMiniShelfSegmentBellow)
     }
-    const miniShelves: Segment[] = segmentsBellowSegmentOnAir.filter(segment => segmentsBellowSegmentOnAir.indexOf(segment) < cutMiniShelfGroupAtIndex)
+    const miniShelves: Segment[] = segmentsBellowSegmentOnAir.filter((segment, index) => this.isMiniShelfSegment(segment) && index < cutMiniShelfGroupAtIndex)
     if (miniShelves.length === 0) {
       this.logger.debug('No MiniShelves found bellow the running Segment')
       return
@@ -185,12 +182,12 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       miniShelfIndex = 0
     }
 
-    const nextAction: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[miniShelves[miniShelfIndex].id]
+    const tabActionSegment: Segment = miniShelves[miniShelfIndex]
+    const nextAction: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[tabActionSegment.id]
     if (!nextAction) {
       this.logger.debug('No next action found for MiniShelf')
       return
     }
-
     // finally set and execute
     this.currentMiniShelfIndex = miniShelfIndex
     this.actionStateService.executeAction(nextAction.id, this.rundown.id)
