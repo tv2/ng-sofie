@@ -10,7 +10,7 @@ import { PartEntityService } from '../../../core/services/models/part-entity.ser
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
-import { canMiniShelvesBeCycled, cycleMiniShelves, isMiniShelfSegment } from './tab-cycle-helper'
+import { canMiniShelvesBeCycled, cycleMiniShelves, isMiniShelf } from './tab-cycle-helper'
 import { CycleDirection } from '../../../core/models/cycle-direction'
 
 @Component({
@@ -33,7 +33,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private rundownActionsSubscription: Subscription
   private segmentOnAir: Segment | undefined = undefined
   private currentMiniShelfIndex: number = -1 // -1 means no MiniShelf cycling was performed
-  protected isMiniShelfSegment: typeof isMiniShelfSegment = isMiniShelfSegment
+  protected isMiniShelfSegment: typeof isMiniShelf = isMiniShelf
 
   constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,

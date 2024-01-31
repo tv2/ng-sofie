@@ -5,7 +5,7 @@ import { ActionStateService } from '../../../shared/services/action-state.servic
 import { Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { CycleDirection } from '../../../core/models/cycle-direction'
 
-export function isMiniShelfSegment(segment: Segment): boolean {
+export function isMiniShelf(segment: Segment): boolean {
   return <boolean>(segment.metadata?.miniShelfVideoClipFile && segment.isHidden)
 }
 export function getSegmentOnAir(runDown: Rundown): Segment | undefined {
@@ -55,13 +55,13 @@ export function cycleMiniShelves(
     // look bellow the segment OnAir
     .filter(segment => rundown.segments.indexOf(segment) > segmentOnAirIndex)
 
-  const firstNotMiniShelfSegmentBellow: Segment | undefined = segmentsBellowSegmentOnAir.find(segment => !isMiniShelfSegment(segment))
+  const firstNotMiniShelfSegmentBellow: Segment | undefined = segmentsBellowSegmentOnAir.find(segment => !isMiniShelf(segment))
   let cutMiniShelfGroupAtIndex: number = segmentsBellowSegmentOnAir.length - 1 // assume all are MiniShelves
   if (firstNotMiniShelfSegmentBellow) {
     // and update the above assumption to length
     cutMiniShelfGroupAtIndex = segmentsBellowSegmentOnAir.indexOf(firstNotMiniShelfSegmentBellow)
   }
-  const miniShelves: Segment[] = segmentsBellowSegmentOnAir.filter((segment, index) => isMiniShelfSegment(segment) && index < cutMiniShelfGroupAtIndex)
+  const miniShelves: Segment[] = segmentsBellowSegmentOnAir.filter((segment, index) => isMiniShelf(segment) && index < cutMiniShelfGroupAtIndex)
   if (miniShelves.length === 0) {
     logger.debug('No MiniShelves found bellow the running Segment')
     return -1
