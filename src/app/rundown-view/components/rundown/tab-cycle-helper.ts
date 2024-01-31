@@ -1,7 +1,6 @@
 import { Segment } from '../../../core/models/segment'
 import { Rundown } from '../../../core/models/rundown'
 import { Logger } from '../../../core/abstractions/logger.service'
-import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { CycleDirection } from '../../../core/models/cycle-direction'
 
@@ -49,7 +48,7 @@ export function cycleMiniShelves(
   const segmentOnAirIndex = getSegmentOnAirIndex(getSegmentOnAir(rundown), rundown)
   const segmentsBellowSegmentOnAir: Segment[] = rundown.segments
     // look bellow the segment OnAir
-    .filter((segment, index) => index > segmentOnAirIndex)
+    .filter((_, index) => index > segmentOnAirIndex)
 
   const firstNotMiniShelfSegmentBellow: Segment | undefined = segmentsBellowSegmentOnAir.find(segment => !isMiniShelf(segment))
   let cutMiniShelfGroupAtIndex: number = segmentsBellowSegmentOnAir.length - 1 // assume all are MiniShelves
