@@ -117,28 +117,27 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   @HostListener('document:keydown', ['$event'])
-  public handleKeyboardEvent(event: KeyboardEvent): void {
-    switch (event.key) {
-      case 'Tab':
-        if (!canMiniShelvesBeCycled(this.rundown, this.logger)) {
-          return
-        }
-        const cycleResult: [number, string | undefined] = cycleMiniShelves(
-          event.shiftKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT,
-          this.rundown,
-          this.logger,
-          this.actionStateService,
-          this.currentMiniShelfTabIndex,
-          this.miniShelfSegmentActionMappings
-        )
-        this.currentMiniShelfTabIndex = cycleResult[0]
-        const nextActionId: string | undefined = cycleResult[1]
-        if (!nextActionId) {
-          return
-        }
-        this.actionStateService.executeAction(nextActionId, this.rundown.id)
-        event.preventDefault()
-        break
+  public handleTabAndShiftTabKeyboardEvents(event: KeyboardEvent): void {
+    if (event.key != 'Tab') {
+      return
     }
+    if (!canMiniShelvesBeCycled(this.rundown, this.logger)) {
+      return
+    }
+    const cycleResult: [number, string | undefined] = cycleMiniShelves(
+      event.shiftKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT,
+      this.rundown,
+      this.logger,
+      this.actionStateService,
+      this.currentMiniShelfTabIndex,
+      this.miniShelfSegmentActionMappings
+    )
+    this.currentMiniShelfTabIndex = cycleResult[0]
+    const nextActionId: string | undefined = cycleResult[1]
+    if (!nextActionId) {
+      return
+    }
+    this.actionStateService.executeAction(nextActionId, this.rundown.id)
+    event.preventDefault()
   }
 }
