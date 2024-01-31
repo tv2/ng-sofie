@@ -58,8 +58,8 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
     this.currentEpochTime = rundownTimingContext.currentEpochTime
-    const partOnAir: Part | undefined = getSegmentOnAir(this.rundown)?.parts.find(part => part.isOnAir)
-    this.remainingDurationInMsForOnAirPart = partOnAir ? this.partEntityService.getExpectedDuration(partOnAir) - rundownTimingContext.playedDurationInMsForOnAirPart : undefined
+    const onAirPart: Part | undefined = getSegmentOnAir(this.rundown)?.parts.find(part => part.isOnAir)
+    this.remainingDurationInMsForOnAirPart = onAirPart ? this.partEntityService.getExpectedDuration(onAirPart) - rundownTimingContext.playedDurationInMsForOnAirPart : undefined
     this.startOffsetsInMsFromPlayheadForSegments = this.getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext)
   }
 
