@@ -44,16 +44,13 @@ export function cycleMiniShelves(
   miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction>
 ): number {
   let directionValue: number = 0
-  if (direction === CycleDirection.PREVIOUS) {
-    directionValue = -1
-  }
-  if (direction === CycleDirection.NEXT) {
-    directionValue = 1
-  }
+  directionValue = direction === CycleDirection.PREVIOUS ? -1 : directionValue
+  directionValue = direction === CycleDirection.NEXT ? 1 : directionValue
+
   const segmentOnAirIndex = getSegmentOnAirIndex(getSegmentOnAir(rundown), rundown)
   const segmentsBellowSegmentOnAir: Segment[] = rundown.segments
     // look bellow the segment OnAir
-    .filter(segment => rundown.segments.indexOf(segment) > segmentOnAirIndex)
+    .filter((segment, index) => index > segmentOnAirIndex)
 
   const firstNotMiniShelfSegmentBellow: Segment | undefined = segmentsBellowSegmentOnAir.find(segment => !isMiniShelf(segment))
   let cutMiniShelfGroupAtIndex: number = segmentsBellowSegmentOnAir.length - 1 // assume all are MiniShelves
