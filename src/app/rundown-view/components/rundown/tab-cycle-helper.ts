@@ -37,7 +37,6 @@ export function canMiniShelvesBeCycled(rundown: Rundown, logger: Logger): boolea
 export function cycleMiniShelves(
   direction: CycleDirection,
   rundown: Rundown,
-  logger: Logger,
   currentMiniShelfTabIndex: number,
   miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction>
 ): [number, string | undefined] {
@@ -58,7 +57,6 @@ export function cycleMiniShelves(
   }
   const miniShelves: Segment[] = segmentsBellowSegmentOnAir.filter((segment, index) => isMiniShelf(segment) && index < cutMiniShelfGroupAtIndex)
   if (miniShelves.length === 0) {
-    logger.debug('No MiniShelves found bellow the running Segment')
     return [-1, undefined]
   }
 
@@ -77,7 +75,6 @@ export function cycleMiniShelves(
       miniShelves[nextMiniShelfIndex].id // Segment
     ].id // Tv2VideoClipAction
   if (!nextActionId) {
-    logger.debug('No next action found for MiniShelf')
     return [-1, undefined]
   }
 

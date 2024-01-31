@@ -127,7 +127,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     const cycleResult: [number, string | undefined] = cycleMiniShelves(
       event.shiftKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT,
       this.rundown,
-      this.logger,
       this.currentMiniShelfTabIndex,
       this.miniShelfSegmentActionMappings
     )
