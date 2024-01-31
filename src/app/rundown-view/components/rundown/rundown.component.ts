@@ -125,13 +125,13 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   public handleKeyboardEvent(event: KeyboardEvent): void {
     switch (event.key) {
       case 'Tab':
-        this.cycleMiniShelves(event.shiftKey || event.altKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT)
+        this.canMiniShelvesBeCycled() && this.cycleMiniShelves(event.shiftKey || event.altKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT)
         event.preventDefault()
         break
     }
   }
 
-  private shouldCycleMiniShelves(): boolean {
+  private canMiniShelvesBeCycled(): boolean {
     if (!this.segmentOnAir) {
       this.logger.debug('No Segment On-Air found')
       return false
@@ -148,10 +148,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private cycleMiniShelves(direction: CycleDirection): void {
-    if (!this.shouldCycleMiniShelves()) {
-      return
-    }
-
     let directionValue: number = 0
     if (direction === CycleDirection.PREVIOUS) {
       directionValue = -1
@@ -163,15 +159,13 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       // look bellow the segment OnAir
       .filter(segment => this.rundown.segments.indexOf(segment) > this.segmentOnAirIndex)
 
-    const firstSegmentBellow: Segment | undefined = segmentsBellowSegmentOnAir.find(segment => !this.isMiniShelfSegment(segment))
-    let cutMiniShelfGroupAtIndex: number = segmentsBellowSegmentOnAir.length - 1 // assume all are minishelves
-    if (firstSegmentBellow) {
-      cutMiniShelfGroupAtIndex = segmentsBellowSegmentOnAir.indexOf(firstSegmentBellow)
+    const firstNotMiniShelfSegmentBellow: Segment | undefined = segmentsBellowSegmentOnAir.find(segment => !this.isMiniShelfSegment(segment))
+    let cutMiniShelfGroupAtIndex: number = segmentsBellowSegmentOnAir.length - 1 // assume all are MiniShelves
+    if (firstNotMiniShelfSegmentBellow) {
+      // and update the above assumption to length
+      cutMiniShelfGroupAtIndex = segmentsBellowSegmentOnAir.indexOf(firstNotMiniShelfSegmentBellow)
     }
-    const miniShelves: Segment[] = segmentsBellowSegmentOnAir
-      .filter(segment => segmentsBellowSegmentOnAir.indexOf(segment) < cutMiniShelfGroupAtIndex)
-      // and find all MiniShelves
-      .filter(segment => this.isMiniShelfSegment(segment))
+    const miniShelves: Segment[] = segmentsBellowSegmentOnAir.filter(segment => segmentsBellowSegmentOnAir.indexOf(segment) < cutMiniShelfGroupAtIndex)
     if (miniShelves.length === 0) {
       this.logger.debug('No MiniShelves found bellow the running Segment')
       return
@@ -184,7 +178,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
     // calculate
     let miniShelfIndex = this.currentMiniShelfIndex + directionValue
-    // and wrap
+    // and wrap on boundaries
     if (miniShelfIndex < 0) {
       miniShelfIndex = miniShelves.length - 1
     } else if (miniShelfIndex >= miniShelves.length) {
