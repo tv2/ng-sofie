@@ -10,7 +10,7 @@ import { PartEntityService } from '../../../core/services/models/part-entity.ser
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
-import { canMiniShelvesBeCycled, cycleMiniShelves, isMiniShelf } from './tab-cycle-helper'
+import { canMiniShelvesBeCycled, cycleMiniShelves, isMiniShelf, getSegmentOnAir } from './tab-cycle-helper'
 import { CycleDirection } from '../../../core/models/cycle-direction'
 
 @Component({
@@ -31,7 +31,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private miniShelfSegments: Segment[] = []
   protected miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
   private rundownActionsSubscription: Subscription
-  private segmentOnAir: Segment | undefined = undefined
   private currentMiniShelfIndex: number = -1 // -1 means no MiniShelf cycling was performed
   protected isMiniShelf: typeof isMiniShelf = isMiniShelf
 
@@ -59,8 +58,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
     this.currentEpochTime = rundownTimingContext.currentEpochTime
-    this.segmentOnAir = this.rundown.segments.find(segment => segment.isOnAir)
-    const partOnAir: Part | undefined = this.segmentOnAir?.parts.find(part => part.isOnAir)
+    const partOnAir: Part | undefined = getSegmentOnAir(this.rundown)?.parts.find(part => part.isOnAir)
     this.remainingDurationInMsForOnAirPart = partOnAir ? this.partEntityService.getExpectedDuration(partOnAir) - rundownTimingContext.playedDurationInMsForOnAirPart : undefined
     this.startOffsetsInMsFromPlayheadForSegments = this.getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext)
   }
