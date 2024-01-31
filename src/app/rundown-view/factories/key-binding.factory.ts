@@ -8,7 +8,7 @@ import { RundownService } from '../../core/abstractions/rundown.service'
 import { Rundown } from '../../core/models/rundown'
 import { DialogService } from '../../shared/services/dialog.service'
 import { DialogSeverity } from '../../shared/components/confirmation-dialog/confirmation-dialog.component'
-import { RundownNavigationService } from '../../shared/services/rundown-navigation-service'
+import { RundownNavigationService } from '../../shared/services/rundown-navigation.service'
 import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
 

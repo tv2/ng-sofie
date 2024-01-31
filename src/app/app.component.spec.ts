@@ -3,12 +3,14 @@ import { RouterTestingModule } from '@angular/router/testing'
 import { AppComponent } from './app.component'
 import { ConnectionErrorService } from './shared/services/connection-error.service'
 import { instance, mock } from '@typestrong/ts-mockito'
+import { SystemInformationService } from './shared/services/system-information.service'
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [AppComponent],
+      providers: [SystemInformationService],
     }).compileComponents()
   })
 
