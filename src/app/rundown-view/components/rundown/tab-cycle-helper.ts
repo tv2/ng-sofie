@@ -3,7 +3,7 @@ import { Rundown } from '../../../core/models/rundown'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Tv2VideoClipAction } from '../../../shared/models/tv2-action'
-import { CycleDirection } from './rundown.component'
+import { CycleDirection } from '../../../core/models/cycle-direction'
 
 export function isMiniShelfSegment(segment: Segment): boolean {
   return <boolean>(segment.metadata?.miniShelfVideoClipFile && segment.isHidden)

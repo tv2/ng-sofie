@@ -11,6 +11,7 @@ import { ActionStateService } from '../../../shared/services/action-state.servic
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { canMiniShelvesBeCycled, cycleMiniShelves, isMiniShelfSegment } from './tab-cycle-helper'
+import { CycleDirection } from '../../../core/models/cycle-direction'
 
 @Component({
   selector: 'sofie-rundown',
@@ -136,9 +137,4 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
         break
     }
   }
-}
-
-export enum CycleDirection {
-  PREVIOUS = 'PREVIOUS',
-  NEXT = 'NEXT',
 }
