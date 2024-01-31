@@ -10,6 +10,7 @@ import { PartEntityService } from '../../../core/services/models/part-entity.ser
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
+import { canMiniShelvesBeCycled, cycleMiniShelves, isMiniShelfSegment } from './tab-cycle-helper'
 
 @Component({
   selector: 'sofie-rundown',
@@ -31,8 +32,8 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private rundownActionsSubscription: Subscription
   private segmentOnAir: Segment | undefined = undefined
   private partOnAir: Part | undefined = undefined
-  private segmentOnAirIndex: number = -1 // -1 means no Segment On-Air was found
   private currentMiniShelfIndex: number = -1 // -1 means no MiniShelf cycling was performed
+  protected isMiniShelfSegment: typeof isMiniShelfSegment = isMiniShelfSegment
 
   constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
@@ -59,7 +60,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
     this.currentEpochTime = rundownTimingContext.currentEpochTime
     this.segmentOnAir = this.rundown.segments.find(segment => segment.isOnAir)
-    this.segmentOnAirIndex = this.segmentOnAir ? this.rundown.segments.indexOf(this.segmentOnAir) : -1
     this.partOnAir = this.segmentOnAir?.parts.find(part => part.isOnAir)
     this.remainingDurationInMsForOnAirPart = this.partOnAir ? this.partEntityService.getExpectedDuration(this.partOnAir) - rundownTimingContext.playedDurationInMsForOnAirPart : undefined
     this.startOffsetsInMsFromPlayheadForSegments = this.getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext)
@@ -122,79 +122,19 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   public handleKeyboardEvent(event: KeyboardEvent): void {
     switch (event.key) {
       case 'Tab':
-        this.canMiniShelvesBeCycled() && this.cycleMiniShelves(event.shiftKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT)
+        if (canMiniShelvesBeCycled(this.rundown, this.logger)) {
+          this.currentMiniShelfIndex = cycleMiniShelves(
+            event.shiftKey ? CycleDirection.PREVIOUS : CycleDirection.NEXT,
+            this.rundown,
+            this.logger,
+            this.actionStateService,
+            this.currentMiniShelfIndex,
+            this.miniShelfSegmentActionMappings
+          )
+        }
         event.preventDefault()
         break
     }
-  }
-
-  private canMiniShelvesBeCycled(): boolean {
-    if (!this.segmentOnAir) {
-      this.logger.debug('No Segment On-Air found')
-      return false
-    }
-    if (this.segmentOnAirIndex < 0) {
-      this.logger.debug('No Segment On-Air index found')
-      return false
-    }
-    if (!this.partOnAir) {
-      this.logger.debug('No Part On-Air found')
-      return false
-    }
-    return true
-  }
-
-  private cycleMiniShelves(direction: CycleDirection): void {
-    let directionValue: number = 0
-    if (direction === CycleDirection.PREVIOUS) {
-      directionValue = -1
-    }
-    if (direction === CycleDirection.NEXT) {
-      directionValue = 1
-    }
-    const segmentsBellowSegmentOnAir: Segment[] = this.rundown.segments
-      // look bellow the segment OnAir
-      .filter(segment => this.rundown.segments.indexOf(segment) > this.segmentOnAirIndex)
-
-    const firstNotMiniShelfSegmentBellow: Segment | undefined = segmentsBellowSegmentOnAir.find(segment => !this.isMiniShelfSegment(segment))
-    let cutMiniShelfGroupAtIndex: number = segmentsBellowSegmentOnAir.length - 1 // assume all are MiniShelves
-    if (firstNotMiniShelfSegmentBellow) {
-      // and update the above assumption to length
-      cutMiniShelfGroupAtIndex = segmentsBellowSegmentOnAir.indexOf(firstNotMiniShelfSegmentBellow)
-    }
-    const miniShelves: Segment[] = segmentsBellowSegmentOnAir.filter((segment, index) => this.isMiniShelfSegment(segment) && index < cutMiniShelfGroupAtIndex)
-    if (miniShelves.length === 0) {
-      this.logger.debug('No MiniShelves found bellow the running Segment')
-      return
-    }
-
-    // this is the very first time we do cycle, and we should honor initially the directionValue
-    if (this.currentMiniShelfIndex < 0 && direction === CycleDirection.PREVIOUS) {
-      this.currentMiniShelfIndex = 0 // and re-adjust the default value
-    }
-
-    // calculate
-    let miniShelfIndex = this.currentMiniShelfIndex + directionValue
-    // and wrap on boundaries
-    if (miniShelfIndex < 0) {
-      miniShelfIndex = miniShelves.length - 1
-    } else if (miniShelfIndex >= miniShelves.length) {
-      miniShelfIndex = 0
-    }
-
-    const tabActionSegment: Segment = miniShelves[miniShelfIndex]
-    const nextAction: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[tabActionSegment.id]
-    if (!nextAction) {
-      this.logger.debug('No next action found for MiniShelf')
-      return
-    }
-    // finally set and execute
-    this.currentMiniShelfIndex = miniShelfIndex
-    this.actionStateService.executeAction(nextAction.id, this.rundown.id)
-  }
-
-  public isMiniShelfSegment(segment: Segment): boolean {
-    return <boolean>(segment.metadata?.miniShelfVideoClipFile && segment.isHidden)
   }
 }
 
