@@ -3,7 +3,7 @@
   flex-direction: row;
   min-height: 50px;
   border-bottom: 1px solid var(--background-color);
-  background-color: #000000;
+  background-color: var(--black-color);
   color: var(--text-color);
 
   .subpanel {
@@ -40,7 +40,7 @@
     transition: color .2s, font-weight .2s, text-shadow .2s;
 
     &.overtime {
-      color: #c40000;
+      color: var(--on-air-color);
       font-weight: bold;
     }
   }

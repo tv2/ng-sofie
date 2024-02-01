@@ -12,14 +12,14 @@
 }
 
 .c-dialog-header {
-    background-color: #1769ff;
+    background-color: var(--tv2-video-clip-color);
     color: var(--white-color);
     padding: 8px 24px;
 }
 
 :host.danger {
     .c-dialog-header {
-        background-color: #c62828;
+        background-color: var(--danger-color);
     }
 }
 

@@ -65,7 +65,11 @@
   margin-right: 8px;
   margin-bottom: 8px;
   &.bg-dark {
-    background-color: rgb(50, 50, 50);
-    color: #fff;
+    background-color: var(--background-color);
+    color: var(--white-color);
+  }
+  &.bg-gray {
+    background-color: var(--dark-gray-color);
+    color: var(--white-color);
   }
 }

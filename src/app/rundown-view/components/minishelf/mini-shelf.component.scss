@@ -5,14 +5,14 @@
   margin: 5px 0 5px 20px;
   border-radius: 5px;
   overflow: hidden;
-  border: solid 1px #ccc;
-  background-color: blue;
-  box-shadow: 0 2px 2px 2px rgba(0,0,0,0.2);
+  border: solid 1px var(--gray-color);
+  background-color: var(--blue-color);
+  box-shadow: 0 2px 2px 2px var(--gradient-black-rgba-with-02-opacity-color);
 
   &:hover {
     cursor: pointer;
-    border: solid 1px #fff;
-    box-shadow: 0 0 3px 3px rgba(0, 222, 99, 0.4);
+    border: solid 1px var(--white-color);
+    box-shadow: 0 0 3px 3px var(--gradient-green-rgba-with-04-opacity-color);
   }
 
   &__thumbnail {
@@ -30,23 +30,22 @@
     align-items: center;
     justify-content: space-between;
     height: 18px;
-    background: #1768ff;
+    background: var(--blue-color);
     padding: 2px;
-    text-shadow: black 0 0 2px;
+    text-shadow: var(--black-color) 0 0 2px;
     font-weight: 450;
     font-size: 12px;
   }
 
   &__title {
-    color: white;
+    color: var(--white-color);
     max-width: 222px;
-    white-space: nowrap ;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   &__duration {
-    color: yellow;
+    color: var(--yellow-color);
   }
-
 }
