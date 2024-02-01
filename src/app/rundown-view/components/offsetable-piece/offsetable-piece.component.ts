@@ -1,7 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
 import { Piece } from '../../../core/models/piece'
 import { Tv2Piece } from '../../../core/models/tv2-piece'
 import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
+import { MediaStateService } from '../../../shared/services/media-state.service'
+import { Media } from '../../../shared/services/media'
+import { Logger } from '../../../core/abstractions/logger.service'
+import { Subscription } from 'rxjs'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 
@@ -11,7 +15,7 @@ const LABEL_TEXT_INSET_IN_PIXELS: number = 14
   styleUrls: ['./offsetable-piece.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OffsetablePieceComponent {
+export class OffsetablePieceComponent implements OnInit {
   @Input()
   public piece: Piece
 
@@ -32,6 +36,38 @@ export class OffsetablePieceComponent {
 
   @ViewChild('labelTextElement')
   public labelTextElement: ElementRef<HTMLSpanElement>
+
+  public media: Media | undefined
+
+  public isMediaPiece: boolean = false
+
+  private mediaSubscription?: Subscription
+
+  constructor(
+    private readonly mediaStateService: MediaStateService,
+    private readonly logger: Logger,
+    private readonly ref: ChangeDetectorRef
+  ) {}
+
+  public ngOnInit(): void {
+    if (this.doesPieceContainMedia()) {
+      this.isMediaPiece = true
+    }
+
+    this.mediaStateService
+      .subscribeToMedia(this.getPieceMediaSourceName())
+      .then(mediaObservable => mediaObservable.subscribe(this.updateMediaAvailabilityStatus.bind(this)))
+      .then(mediaSubscription => (this.mediaSubscription = mediaSubscription))
+      .catch(error => this.logger.data(error).error('Failed subscribing to media changes'))
+  }
+
+  private doesPieceContainMedia(): boolean {
+    const piece: Tv2Piece = this.piece as Tv2Piece
+    if (!piece.metadata.sourceName) {
+      return false
+    }
+    return !!piece.metadata.sourceName
+  }
 
   @HostBinding('style.left.px')
   public get leftInPixels(): number {
@@ -87,5 +123,31 @@ export class OffsetablePieceComponent {
   public get getPieceTypeModifierClass(): string {
     const piece: Tv2Piece = this.piece as Tv2Piece
     return [piece.metadata.type.toLowerCase().replace(/_/g, '-'), (piece.metadata.audioMode ?? Tv2AudioMode.FULL).toLowerCase().replace('_', '-')].join(' ')
+  }
+
+  public getPieceMediaSourceName(): string {
+    const piece: Tv2Piece = this.piece as Tv2Piece
+    return piece.metadata.sourceName ?? ''
+  }
+
+  public updateMediaAvailabilityStatus(media: Media | undefined): void {
+    const piece: Tv2Piece = this.piece as Tv2Piece
+    if (!piece.metadata.sourceName) {
+      return
+    }
+
+    this.media = media
+    this.ref.detectChanges()
+
+    // this.mediaStateService
+    //   .subscribeToMedia(piece.metadata.sourceName)
+    //   .then(mediaObservable =>
+    //     mediaObservable.subscribe(media => {
+    //       console.log('Hello World')
+    //       this.media = media
+    //       this.ref.detectChanges()
+    //     })
+    //   )
+    //   .catch(error => this.logger.data(error).error(`Failed to update media for piece '${this.piece.name}' with id '${this.piece.id}'.`))
   }
 }

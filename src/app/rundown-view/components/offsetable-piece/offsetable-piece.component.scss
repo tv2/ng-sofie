@@ -68,5 +68,25 @@
       background: linear-gradient(to bottom,  #1769ff 0%,#1769ff 50%, #005919 50%,#005919 100%);
     }
   }
+
+  .media-unavailable {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: repeating-linear-gradient(
+                      120deg,
+                      #00000000,
+                      #00000000 8px,
+                      #ffff0055 8px,
+                      #ffff0055 16px
+      );
+      z-index: 12;
+    }
+
+  }
 }
 

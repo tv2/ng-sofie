@@ -1,6 +1,7 @@
 <div
   class="label"
   [style.margin-left.px]="labelOffsetInPixels"
+  [class.media-unavailable]="isMediaPiece && !media"
 >
   <span #labelTextElement>{{piece.name}}</span>
 </div>

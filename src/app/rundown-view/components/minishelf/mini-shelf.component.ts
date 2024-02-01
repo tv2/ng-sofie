@@ -50,8 +50,10 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
       .subscribeToMedia(this.segment.metadata?.miniShelfVideoClipFile)
       .then(mediaObservable =>
         mediaObservable.subscribe(media => {
-          this.setMedia(media)
-          this.calculateMediaDurationInMsWithoutPostroll()
+          if (media) {
+            this.setMedia(media)
+            this.calculateMediaDurationInMsWithoutPostroll()
+          }
         })
       )
       .catch(error => this.logger.data(error).error(`Failed to update media for segment '${this.segment.name}' with id '${this.segment.id}'.`))

@@ -1,7 +1,7 @@
 import { ActionTriggerStateService } from './action-trigger-state.service'
 import { ActionTriggerService } from '../../shared/abstractions/action-trigger.service'
 import { ConnectionStatusObserver } from './connection-status-observer.service'
-import { ActionTriggerEventObserver } from '../models/action-trigger-event-observer.service'
+import { ActionTriggerEventObserver } from './action-trigger-event-observer.service'
 import { instance, mock, when } from '@typestrong/ts-mockito'
 import { of } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'

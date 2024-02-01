@@ -60,6 +60,7 @@ export class ZodEntityParser implements EntityParser {
       type: zod.nativeEnum(Tv2PieceType),
       outputLayer: zod.nativeEnum(Tv2OutputLayer).optional(),
       audioMode: zod.nativeEnum(Tv2AudioMode).optional(),
+      sourceName: zod.string().optional(),
     }),
   })
 
@@ -193,6 +194,7 @@ export class ZodEntityParser implements EntityParser {
 
   private readonly mediaDataParser = zod.object({
     id: zod.string(),
+    sourceName: zod.string(),
     duration: zod.number(),
   })
 

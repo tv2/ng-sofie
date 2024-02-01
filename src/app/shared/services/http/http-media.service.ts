@@ -17,7 +17,8 @@ export class HttpMediaService implements MediaService {
   ) {}
 
   public getMedia(id: string): Observable<Media> {
-    return this.http.get<HttpResponse<Media>>(`${environment.apiBaseUrl}/media/${id}`).pipe(
+    const sanitizedMediaId: string = id.toUpperCase().replace('/', '%2F')
+    return this.http.get<HttpResponse<Media>>(`${environment.apiBaseUrl}/media/${sanitizedMediaId}`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
       map(response => this.entityParser.parseMedia(response.data))
     )
