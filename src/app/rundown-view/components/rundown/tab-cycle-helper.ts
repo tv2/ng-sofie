@@ -11,11 +11,11 @@ export function getSegmentOnAir(runDown: Rundown): Segment | undefined {
   return runDown.segments.find(segment => segment.isOnAir)
 }
 
-export function getSegmentOnAirIndex(segmentOnAir: Segment | undefined, rundown: Rundown): number {
-  if (!segmentOnAir) {
+export function getSegmentIndex(segment: Segment | undefined, rundown: Rundown): number {
+  if (!segment) {
     return -1
   }
-  return rundown.segments.indexOf(segmentOnAir)
+  return rundown.segments.indexOf(segment)
 }
 
 export function canMiniShelvesBeCycled(rundown: Rundown, logger: Logger): boolean {
@@ -44,7 +44,7 @@ export function cycleMiniShelves(
   directionValue = direction === CycleDirection.PREVIOUS ? -1 : directionValue
   directionValue = direction === CycleDirection.NEXT ? 1 : directionValue
 
-  const segmentOnAirIndex = getSegmentOnAirIndex(getSegmentOnAir(rundown), rundown)
+  const segmentOnAirIndex = getSegmentIndex(getSegmentOnAir(rundown), rundown)
   const segmentsBellowSegmentOnAir: Segment[] = rundown.segments
     // look bellow the segment OnAir
     .filter((_, index) => index > segmentOnAirIndex)
