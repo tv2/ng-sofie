@@ -16,7 +16,6 @@ import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-bindin
 import { ActionService } from '../../shared/abstractions/action.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 
-// TODO: We need ONE central place to define colours
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
 const SPLIT_SCREEN_COLOR: string = 'var(--tv2-split-screen-upper)'
