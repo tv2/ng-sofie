@@ -10,6 +10,7 @@ import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownEventObserver } from 'src/app/core/services/rundown-event-observer.service'
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { EntityParser } from '../../../core/abstractions/entity-parser.service'
+import { MiniShelfStateService } from '../../services/mini-shelf-state.service'
 
 describe('RundownComponent', () => {
   it('should create', async () => {
@@ -42,6 +43,7 @@ async function configureTestBed(
       { provide: Logger, useValue: instance(mock<Logger>()) },
       { provide: ActionStateService, useValue: instance(mock<ActionStateService>()) },
       { provide: EntityParser, useValue: instance(mock<EntityParser>()) },
+      { provide: MiniShelfStateService, useValue: instance(mock<MiniShelfStateService>()) },
     ],
     declarations: [RundownComponent],
   }).compileComponents()
