@@ -10,12 +10,11 @@
 }
 
 .mat-row {
-  background: #f6f6f6;
+  background: var(--light-gray-color);
 
   &:hover {
     background: var(--white-color);
   }
-
 }
 
 .mat-column-status {

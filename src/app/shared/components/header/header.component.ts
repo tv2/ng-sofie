@@ -1,22 +1,28 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { Paths } from '../../../app-routing.module'
 import { Router } from '@angular/router'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { Title } from '@angular/platform-browser'
 
 @Component({
   selector: 'sofie-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
-  public title = 'Sofie'
+export class HeaderComponent implements OnInit {
+  public title: string
   private readonly logger: Logger
 
   constructor(
     private readonly router: Router,
+    private readonly titleService: Title,
     logger: Logger
   ) {
     this.logger = logger.tag('HeaderComponent')
+  }
+
+  public ngOnInit(): void {
+    this.title = this.titleService.getTitle()
   }
 
   public navigateHome(): void {

@@ -179,6 +179,12 @@
       <trans-unit id="4177582797246824978" datatype="html">
         <source>action-triggers.physical-mapping-help.tooltip</source>
       </trans-unit>
+      <trans-unit id="5184481909550121889" datatype="html">
+        <source>global.auto.label</source>
+      </trans-unit>
+      <trans-unit id="9012317992372082365" datatype="html">
+        <source>global.next.label</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

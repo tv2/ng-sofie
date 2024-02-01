@@ -1,4 +1,4 @@
-import { RundownNavigationService } from './rundown-navigation-service'
+import { RundownNavigationService } from './rundown-navigation.service'
 import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 import { Segment } from '../../core/models/segment'
 import { Rundown } from '../../core/models/rundown'

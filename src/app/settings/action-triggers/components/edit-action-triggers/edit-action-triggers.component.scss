@@ -17,8 +17,8 @@
     }
     &--selected-action {
       margin-top: 3px;
-      background-color: rgb(50, 50, 50);
-      color: #fff;
+      background-color: var(--dark-gray-color);
+      color: var(--white-color);
     }
     &--buttons {
       margin-top: auto;

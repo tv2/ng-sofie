@@ -20,6 +20,7 @@ import {
   PartUpdatedEvent,
   SegmentUnsyncedEvent,
   PartUnsyncedEvent,
+  AutoNextStartedEvent,
 } from '../models/rundown-event'
 
 @Injectable()
@@ -33,6 +34,8 @@ export abstract class RundownEventParser {
   public abstract parseTakenEvent(event: unknown): PartTakenEvent
 
   public abstract parseSetNextEvent(event: unknown): PartSetAsNextEvent
+
+  public abstract parseAutoNextStartedEvent(event: unknown): AutoNextStartedEvent
 
   public abstract parseInfinitePiecesUpdatedEvent(event: unknown): RundownInfinitePiecesUpdatedEvent
 

@@ -22,6 +22,7 @@ import {
   SegmentCreatedEvent,
   SegmentDeletedEvent,
   SegmentUnsyncedEvent,
+  AutoNextStartedEvent,
   SegmentUpdatedEvent,
 } from '../models/rundown-event'
 import { Logger } from '../abstractions/logger.service'
@@ -55,6 +56,13 @@ export class RundownEventObserver {
 
   public subscribeToRundownTake(onTaken: (event: PartTakenEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(RundownEventType.TAKEN, this.createEventValidatingConsumer(onTaken, this.rundownEventParser.parseTakenEvent.bind(this.rundownEventParser)))
+  }
+
+  public subscribeToRundownAutoNext(onAutoNextStarted: (event: AutoNextStartedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(
+      RundownEventType.AUTO_NEXT_STARTED,
+      this.createEventValidatingConsumer(onAutoNextStarted, this.rundownEventParser.parseAutoNextStartedEvent.bind(this.rundownEventParser))
+    )
   }
 
   public subscribeToRundownSetNext(onSetNext: (event: PartSetAsNextEvent) => void): EventSubscription {

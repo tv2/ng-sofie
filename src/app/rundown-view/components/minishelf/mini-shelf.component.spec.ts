@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { MiniShelfComponent } from './mini-shelf.component'
-import { ConfigurationService } from '../../../shared/services/configuration-service'
+import { ConfigurationService } from '../../../shared/services/configuration.service'
 import { instance, mock } from '@typestrong/ts-mockito'
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { TimerPipe } from '../../../shared/pipes/timer/timer.pipe'
