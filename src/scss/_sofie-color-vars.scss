@@ -1,0 +1,51 @@
+body {
+  --primary-color: #1f9ac7;
+  --danger-color: #c62828;
+  --white-color: #ffffff;
+  --light-gray-color: #f6f6f6;
+  --gray-color: #cccccc;
+  --dark-gray-color: #777777;
+  --black-color: #000000;
+  --dark-color: #3a3a3a;
+  --background-color: #343434;
+  --green-color: green;
+  --yellow-color: #ffea00;
+  --blue-color: #0f5be9;
+  --orangered-color: orangered;
+
+  --on-air-color: #c40000;
+  --next-color: #00ac17;
+
+  --tv2-camera-color: #005919;
+  --tv2-replay-color: #8d1010;
+  --tv2-remote-color: #ac29a5;
+  --tv2-graphics-color: #ca9d00;
+  --tv2-overlay-graphics-color: #ca9d00;
+  --tv2-split-screen-upper: #00a99c;
+  --tv2-split-screen-lower: #265753;
+  --tv2-voice-over-color: #370020;
+  --tv2-video-clip-color: #1769ff;
+  --tv2-manus-color: #370020;
+  --tv2-video-missing-source-gradient-color: #7c2720;
+
+  --rundown-keyboard-background-color: #111111;
+  --rundown-scrollbar-color: #252627;
+  --rundown-overtime-shadow-color: #d28e8e;
+  --rundown-scrollbar-active-color: #761912;
+  --rundown-scrollbar-thumb-active-color: #561612;
+  --rundown-key-background-color: #333333;
+  --rundown-draggable-shelf-color: #555555;
+  --rundown-segment-header-background-color: #4b4b4b;
+  --rundown-draggable-shelf-hover-color: #888888;
+  --rundown-unsynced-segment-color: #ffff00ba;
+
+  --gradient-black-rgba-with-02-opacity-color: rgba(0, 0, 0, 0.2);
+  --gradient-black-rgba-with-04-opacity-color: rgba(0, 0, 0, 0.4);
+  --gradient-black-rgba-with-06-opacity-color: rgba(0, 0, 0, 0.6);
+  --gradient-black-rgba-with-08-opacity-color: rgba(0, 0, 0, 0.8);
+  --gradient-green-rgba-with-04-opacity-color: rgba(0, 222, 99, 0.4);
+
+  --unsynced-part-linear-gradient: repeating-linear-gradient(120deg, #00000000, #00000000 8px, #ffff0055 8px, #ffff0055 16px);
+  --action-panel-scrollable-before-linear-gradient: linear-gradient(90deg, #222222ff 0%, #222222ff 10%, #22222200 100%);
+  --action-panel-scrollable-after-linear-gradient: linear-gradient(-90deg, #222222ff 0%, #222222ff 10%, #22222200 100%);
+}

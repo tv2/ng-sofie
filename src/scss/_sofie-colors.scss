@@ -1,25 +1,30 @@
 .camera_color {
   background-color: var(--tv2-camera-color) !important;
-  color: #fff;
+  color: var(--white-color);
 }
+
 .remote_color {
   background-color: var(--tv2-remote-color) !important;
-  color: #fff;
+  color: var(--white-color);
 }
+
 .video_clip_color {
   background-color: var(--tv2-video-clip-color) !important;
-  color: #fff;
+  color: var(--white-color);
 }
+
 .split_screen_color {
   background: linear-gradient(to bottom, var(--tv2-split-screen-upper) 0%, var(--tv2-split-screen-upper) 50%, var(--tv2-split-screen-lower) 50%, var(--tv2-split-screen-lower) 100%);
-  color: #fff;
+  color: var(--white-color);
 }
+
 .graphics_color {
   background-color: var(--tv2-graphics-color) !important;
 }
+
 .replay_color {
   background-color: var(--tv2-replay-color) !important;
-  color: #fff;
+  color: var(--white-color);
 }
 
 .text-danger {

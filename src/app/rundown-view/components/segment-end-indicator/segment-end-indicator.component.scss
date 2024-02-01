@@ -11,7 +11,7 @@
 
   &.active {
     path {
-      stroke: #00ac17;
+      stroke: var(--next-color);
     }
   }
 }
