@@ -5,6 +5,7 @@ import { ActionService } from '../../shared/abstractions/action.service'
 import { RundownEventObserver } from '../../core/services/rundown-event-observer.service'
 import { PartTakenEvent } from '../../core/models/rundown-event'
 import { Tv2VideoClipAction } from '../../shared/models/tv2-action'
+import { Logger } from '../../core/abstractions/logger.service'
 
 @Injectable()
 export class MiniShelfStateService {
@@ -17,8 +18,10 @@ export class MiniShelfStateService {
 
   constructor(
     private readonly actionService: ActionService,
-    rundownEventObserver: RundownEventObserver
+    rundownEventObserver: RundownEventObserver,
+    private readonly logger: Logger
   ) {
+    this.logger = logger.tag('MiniShelfStateService')
     rundownEventObserver.subscribeToRundownTake((partTakenEvent: PartTakenEvent) => {
       this.activeSegmentId = partTakenEvent.segmentId
       this.activeRundownId = partTakenEvent.rundownId
@@ -87,12 +90,12 @@ export class MiniShelfStateService {
   public findMiniShelfGroup(): Segment[] {
     const key: string[] | undefined = Array.from(this.miniShelfGroups.keys()).find(key => key.includes(this.activeSegmentId))
     if (!key) {
-      console.log(`No MiniShelfGroup found for Segment ${this.activeSegmentId}`)
+      this.logger.debug(`No MiniShelfGroup found for Segment ${this.activeSegmentId}`)
       return []
     }
     const miniShelfGroup: Segment[] | undefined = this.miniShelfGroups.get(key)
     if (!miniShelfGroup) {
-      console.log(`No Group found for key ${key}`)
+      this.logger.debug(`No Group found for key ${key}`)
       return []
     }
     return miniShelfGroup
