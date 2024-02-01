@@ -22,6 +22,9 @@ export class ScrollableTimelineComponent {
   public isRundownActive: boolean
 
   @Input()
+  public isAutoNextStarted: boolean
+
+  @Input()
   public pixelsPerSecond: number
 
   public scrollOffsetInMs: number = 0

@@ -14,4 +14,6 @@ export class SegmentEndIndicatorComponent {
   public get isLastPartOnAir(): boolean {
     return this.lastPartInSegment?.isOnAir ?? false
   }
+  public readonly nextLabel: string = $localize`global.next.label`
+  public readonly autoLabel: string = $localize`global.auto.label`
 }

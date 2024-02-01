@@ -22,13 +22,14 @@ export enum Tv2ActionContentType {
   AUDIO = 'AUDIO',
   SPLIT_SCREEN = 'SPLIT_SCREEN',
   REPLAY = 'REPLAY',
+  ROBOT = 'ROBOT',
   UNKNOWN = 'UNKNOWN',
 }
 
 export interface Tv2VideoClipAction extends Tv2PartAction {
   metadata: {
     contentType: Tv2ActionContentType.VIDEO_CLIP
-    sourceName: string
+    fileName: string
   }
 }
 

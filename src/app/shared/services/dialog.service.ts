@@ -29,7 +29,9 @@ export class DialogService {
     })
       .afterClosed()
       .subscribe(result => {
-        if (!result) return
+        if (!result) {
+          return
+        }
         onOk()
       })
   }

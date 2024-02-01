@@ -30,7 +30,7 @@ import { ActionParser } from './abstractions/action-parser.service'
 import { ZodActionParser } from './services/zod-action-parser.service'
 import { Tv2ActionParser } from './abstractions/tv2-action-parser.service'
 import { ZodTv2ActionParser } from './services/zod-tv2-action-parser.service'
-import { RundownNavigationService } from './services/rundown-navigation-service'
+import { RundownNavigationService } from './services/rundown-navigation.service'
 import { Tv2ActionPanelComponent } from './components/tv2-action-panel/tv2-action-panel.component'
 import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-card.component'
 import { TimerPipe } from './pipes/timer/timer.pipe'
@@ -43,6 +43,11 @@ import { HttpClientModule } from '@angular/common/http'
 import { HttpErrorService } from './services/http/http-error.service'
 import { Logger } from '../core/abstractions/logger.service'
 import { Tv2LoggerService } from '../core/services/tv2-logger.service'
+import { ConfigurationService } from './services/configuration.service'
+import { HttpConfigurationService } from './services/http/http-configuration-service'
+import { MediaService } from './services/media.service'
+import { HttpMediaService } from './services/http/http-media.service'
+import { MediaStateService } from './services/media-state.service'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { LoadingComponent } from './components/loading/loading.component'
 import { DropdownButtonComponent } from './components/dropdown-button/dropdown-button.component'
@@ -51,6 +56,8 @@ import { CustomCheckboxComponent } from './components/icon-checkbox/custom-check
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ButtonComponent } from './components/button/button.component'
 import { FormatKeyboardKeysPipe } from './pipes/format-keyboard-keys.pipe'
+import { SystemInformationService } from './services/system-information.service'
+import { HttpSystemInformationService } from './services/http/http-system-information.service'
 
 @NgModule({
   declarations: [
@@ -121,12 +128,17 @@ import { FormatKeyboardKeysPipe } from './pipes/format-keyboard-keys.pipe'
     { provide: ActionParser, useClass: ZodActionParser },
     { provide: ActionTriggerParser, useClass: ZodActionTriggerParser },
     { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
+    { provide: ActionStateService, useClass: ActionStateService },
+    { provide: ConfigurationService, useClass: HttpConfigurationService },
+    { provide: MediaService, useClass: HttpMediaService },
+    { provide: SystemInformationService, useClass: HttpSystemInformationService },
     HttpErrorService,
     HttpClientModule,
     DialogService,
     ConnectionErrorService,
     Tv2OutputLayerService,
     ActionStateService,
+    MediaStateService,
     RundownNavigationService,
     TimerPipe,
   ],

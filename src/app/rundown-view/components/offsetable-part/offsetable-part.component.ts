@@ -25,6 +25,9 @@ export class OffsetablePartComponent implements OnChanges {
   public pixelsPerSecond: number
 
   @Input()
+  public isAutoNextStarted: boolean
+
+  @Input()
   public offsetDurationInMs: number
 
   @Input()
@@ -40,6 +43,8 @@ export class OffsetablePartComponent implements OnChanges {
   public isRundownActive: boolean
 
   public piecesGroupedByOutputLayer: Record<Tv2OutputLayer, Piece[]> = {} as Record<Tv2OutputLayer, Piece[]>
+  public readonly autoLabel: string = $localize`global.auto.label`
+  public readonly nextLabel: string = $localize`global.next.label`
 
   constructor(
     private readonly partEntityService: PartEntityService,
