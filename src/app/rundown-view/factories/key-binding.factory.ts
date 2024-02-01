@@ -11,6 +11,7 @@ import { DialogSeverity } from '../../shared/components/confirmation-dialog/conf
 import { RundownNavigationService } from '../../shared/services/rundown-navigation.service'
 import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
+import { MiniShelfStateService } from '../services/mini-shelf-state.service'
 
 const CAMERA_COLOR: string = '#005919'
 const REMOTE_COLOR: string = '#ac29a5'
@@ -27,6 +28,7 @@ export class KeyBindingFactory {
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService,
     private readonly rundownNavigationService: RundownNavigationService,
+    private readonly miniShelfStateService: MiniShelfStateService,
     logger: Logger
   ) {
     this.logger = logger.tag('KeyBindingFactory')
@@ -114,6 +116,7 @@ export class KeyBindingFactory {
         this.createRundownKeyBinding('Set Segment Below as Next', ['Shift', 'ArrowDown'], () => this.setSegmentBelowNextAsNext(rundown)),
         this.createRundownKeyBinding('Set Earlier Part as Next', ['Shift', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
         this.createRundownKeyBinding('Set Later Part as Next', ['Shift', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
+        this.createRundownKeyBinding('Cycle MiniShelf', ['Tab'], () => this.miniShelfStateService.cycleMiniShelf()),
       ]
     }
     return [

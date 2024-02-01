@@ -12,6 +12,7 @@ import { EventSubscription } from 'src/app/event-system/abstractions/event-obser
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
+import { MiniShelfStateService } from '../../services/mini-shelf-state.service'
 
 @Component({
   selector: 'sofie-rundown',
@@ -38,6 +39,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     private readonly partEntityService: PartEntityService,
     private readonly rundownEventObserver: RundownEventObserver,
     private readonly actionStateService: ActionStateService,
+    private readonly miniShelfStateService: MiniShelfStateService,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownComponent')
@@ -50,6 +52,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
     this.subscribeForEventObserver()
+    this.miniShelfStateService.setMiniShelves(this.rundown)
   }
 
   private subscribeForEventObserver(): void {
@@ -123,13 +126,16 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private updateMiniShelfSegmentActionMappings(): void {
     this.miniShelfSegmentActionMappings = this.miniShelfSegments.reduce(this.miniShelfSegmentsReducer.bind(this), {})
+    this.miniShelfStateService.setActions(this.miniShelfSegmentActionMappings)
   }
 
   private miniShelfSegmentsReducer(actionMap: Record<string, Tv2VideoClipAction>, segment: Segment): Record<string, Tv2VideoClipAction> {
     const videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
     if (!videoClipFile) return actionMap
 
-    const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => action.metadata?.fileName === videoClipFile)
+    const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
+      return action.metadata?.fileName === videoClipFile && action.name === segment.name
+    })
 
     return action ? { ...actionMap, [segment.id]: action } : actionMap
   }
