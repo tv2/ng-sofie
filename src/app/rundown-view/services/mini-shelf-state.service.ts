@@ -12,10 +12,12 @@ export class MiniShelfStateService {
   private miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
   private activeSegmentId: string
   private activeRundownId: string
+  private currentMiniShelfIndex: number = 0
+  private lastExecutedMiniShelfGroup: Segment[]
 
   constructor(
-    private readonly rundownEventObserver: RundownEventObserver,
-    private readonly actionService: ActionService
+    private readonly actionService: ActionService,
+    rundownEventObserver: RundownEventObserver
   ) {
     rundownEventObserver.subscribeToRundownTake((partTakenEvent: PartTakenEvent) => {
       this.activeSegmentId = partTakenEvent.segmentId
@@ -23,7 +25,7 @@ export class MiniShelfStateService {
     })
   }
 
-  public setMiniShelves(rundown: Rundown): void {
+  public updateMiniShelves(rundown: Rundown): void {
     let miniShelfGroupId: string[] = []
     let miniShelfSegmentsForGroup: Segment[] = []
 
@@ -44,8 +46,6 @@ export class MiniShelfStateService {
         miniShelfSegmentsForGroup = []
       }
     }
-
-    console.log(this.miniShelfGroups)
   }
 
   private isMiniShelf(segment: Segment): boolean {
@@ -56,20 +56,45 @@ export class MiniShelfStateService {
     this.miniShelfSegmentActionMappings = miniShelfSegmentActionMappings
   }
 
-  public cycleMiniShelf(): void {
-    debugger
+  public executeVideoClipActionForSegment(segment: Segment): void {
+    const action: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[segment.id]
+    this.actionService.executeAction(action.id, this.activeRundownId).subscribe()
+  }
+
+  public cycleMiniShelfBackward(): void {
+    const miniShelfGroup: Segment[] = this.findMiniShelfGroup()
+    if (miniShelfGroup !== this.lastExecutedMiniShelfGroup) {
+      this.lastExecutedMiniShelfGroup = miniShelfGroup
+      this.currentMiniShelfIndex = miniShelfGroup.length - 1
+    } else {
+      this.currentMiniShelfIndex = this.currentMiniShelfIndex <= 0 ? miniShelfGroup.length - 1 : this.currentMiniShelfIndex - 1
+    }
+    this.executeVideoClipActionForSegment(miniShelfGroup[this.currentMiniShelfIndex])
+  }
+
+  public cycleMiniShelfForward(): void {
+    const miniShelfGroup: Segment[] = this.findMiniShelfGroup()
+    if (miniShelfGroup !== this.lastExecutedMiniShelfGroup) {
+      this.lastExecutedMiniShelfGroup = miniShelfGroup
+      this.currentMiniShelfIndex = 0
+    } else {
+      this.currentMiniShelfIndex = this.currentMiniShelfIndex >= miniShelfGroup.length - 1 ? 0 : this.currentMiniShelfIndex + 1
+    }
+
+    this.executeVideoClipActionForSegment(miniShelfGroup[this.currentMiniShelfIndex])
+  }
+
+  public findMiniShelfGroup(): Segment[] {
     const key: string[] | undefined = Array.from(this.miniShelfGroups.keys()).find(key => key.includes(this.activeSegmentId))
     if (!key) {
       console.log(`No MiniShelfGroup found for Segment ${this.activeSegmentId}`)
-      return
+      return []
     }
     const miniShelfGroup: Segment[] | undefined = this.miniShelfGroups.get(key)
     if (!miniShelfGroup) {
       console.log(`No Group found for key ${key}`)
-      return
+      return []
     }
-    const miniShelf: Segment = miniShelfGroup[0]
-    const action: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[miniShelf.id]
-    this.actionService.executeAction(action.id, this.activeRundownId).subscribe()
+    return miniShelfGroup
   }
 }

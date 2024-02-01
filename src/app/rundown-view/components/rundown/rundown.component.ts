@@ -52,7 +52,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
     this.subscribeForEventObserver()
-    this.miniShelfStateService.setMiniShelves(this.rundown)
+    this.miniShelfStateService.updateMiniShelves(this.rundown)
   }
 
   private subscribeForEventObserver(): void {
