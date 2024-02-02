@@ -15,6 +15,7 @@ export class MiniShelfStateService {
   private activeRundownId: string
   private currentMiniShelfIndex: number = 0
   private lastExecutedMiniShelfGroup: Segment[]
+  public nextSegmentId: string
 
   constructor(
     private readonly actionService: ActionService,
@@ -23,12 +24,14 @@ export class MiniShelfStateService {
   ) {
     this.logger = logger.tag('MiniShelfStateService')
     rundownEventObserver.subscribeToRundownTake((partTakenEvent: PartTakenEvent) => {
+      this.logger.data(partTakenEvent).debug('Received PartTakenEvent')
       this.activeSegmentId = partTakenEvent.segmentId
       this.activeRundownId = partTakenEvent.rundownId
     })
   }
 
   public updateMiniShelves(rundown: Rundown): void {
+    this.logger.data(rundown).debug('Updating MiniShelves')
     let miniShelfGroupId: string[] = []
     let miniShelfSegmentsForGroup: Segment[] = []
 
@@ -60,6 +63,8 @@ export class MiniShelfStateService {
   }
 
   public executeVideoClipActionForSegment(segment: Segment): void {
+    this.logger.data(segment).debug('Executing VideoClipAction for Segment')
+    this.nextSegmentId = segment.id
     const action: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[segment.id]
     this.actionService.executeAction(action.id, this.activeRundownId).subscribe()
   }
@@ -83,7 +88,7 @@ export class MiniShelfStateService {
     } else {
       this.currentMiniShelfIndex = this.currentMiniShelfIndex >= miniShelfGroup.length - 1 ? 0 : this.currentMiniShelfIndex + 1
     }
-
+    this.logger.data(miniShelfGroup[this.currentMiniShelfIndex]).debug('Executing VideoClipAction for Segment')
     this.executeVideoClipActionForSegment(miniShelfGroup[this.currentMiniShelfIndex])
   }
 
@@ -99,5 +104,13 @@ export class MiniShelfStateService {
       return []
     }
     return miniShelfGroup
+  }
+
+  public getActiveSegmentId(): string {
+    return this.activeSegmentId
+  }
+
+  public getNextSegmentId(): string {
+    return this.nextSegmentId
   }
 }

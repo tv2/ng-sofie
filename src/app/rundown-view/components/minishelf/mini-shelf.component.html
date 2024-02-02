@@ -1,5 +1,5 @@
 <div
-  class="c-mini-shelf"
+  class="c-mini-shelf {{ isOnAir ? 'c-mini-shelf--on-air' : 'not-on-air' }} {{ !isOnAir && isNext ? 'c-mini-shelf--next' : 'off-air-and-not-next' }}"
   title="{{ segment.name }}"
   (click)="executeAction()"
 >

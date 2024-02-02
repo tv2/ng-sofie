@@ -17,6 +17,8 @@ import { Logger } from '../../../core/abstractions/logger.service'
 export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction?: Tv2VideoClipAction
+  @Input() public isOnAir!: boolean
+  @Input() public isNext!: boolean
 
   private readonly fallbackPreviewUrl: string = 'assets/sofie-logo.svg'
   protected media: Media
@@ -54,7 +56,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
           this.calculateMediaDurationInMsWithoutPostroll()
         })
       )
-      .catch(error => this.logger.data(error).error(`Failed to update media for segment '${this.segment.name}' with id '${this.segment.id}'.`))
+      .catch(error => this.logger.data(error).error(`Failed to update media for segment.`))
   }
 
   private calculateMediaDurationInMsWithoutPostroll(): void {

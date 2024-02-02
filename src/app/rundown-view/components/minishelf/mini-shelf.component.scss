@@ -12,7 +12,19 @@
   &:hover {
     cursor: pointer;
     border: solid 1px var(--white-color);
-    box-shadow: 0 0 3px 3px var(--gradient-green-rgba-with-04-opacity-color);
+    box-shadow: 0 0 2px 2px var(--gradient-green-rgba-with-04-opacity-color);
+  }
+
+  &--on-air {
+    border-top: solid 1px var(--red-color);
+    border-left: solid 1px var(--red-color);
+    box-shadow: 0 0 2px 2px var(--gradient-red-rgba-with-04-opacity-color);
+  }
+
+  &--next {
+    border-right: solid 1px var(--green-color);
+    border-bottom: solid 1px var(--green-color);
+    box-shadow: 0 0 2px 2px var(--gradient-green-rgba-with-08-opacity-color);
   }
 
   &__thumbnail {

@@ -51,6 +51,12 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
       .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
+    this.actionStateService
+      .subscribeToRundownActions(this.rundown.id)
+      .then(rundownActionsObservable => rundownActionsObservable.subscribe(this.onActionsChanged.bind(this)))
+      .then(rundownActionsSubscription => (this.rundownActionsSubscription = rundownActionsSubscription))
+      .catch(error => this.logger.data(error).error('Failed subscribing to rundown actions changes.'))
+
     this.subscribeForEventObserver()
     this.miniShelfStateService.updateMiniShelves(this.rundown)
   }
@@ -68,11 +74,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private setAutoNextStartedToFalse(): void {
     this.isAutoNextStarted = false
-    this.actionStateService
-      .subscribeToRundownActions(this.rundown.id)
-      .then(rundownActionsObservable => rundownActionsObservable.subscribe(this.onActionsChanged.bind(this)))
-      .then(rundownActionsSubscription => (this.rundownActionsSubscription = rundownActionsSubscription))
-      .catch(error => this.logger.data(error).error('Failed subscribing to rundown actions changes.'))
   }
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
@@ -89,6 +90,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
+    this.logger.data(changes).debug('RundownComponent ngOnChanges')
     if ('rundown' in changes) {
       this.updateMiniShelfSegments()
       this.updateMiniShelfSegmentActionMappings()
@@ -134,9 +136,18 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     if (!videoClipFile) return actionMap
 
     const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
-      return action.metadata?.fileName === videoClipFile && action.name === segment.name
+      // return action.metadata?.fileName === videoClipFile && action.name === segment.name
+      return action.metadata?.fileName === videoClipFile
     })
 
     return action ? { ...actionMap, [segment.id]: action } : actionMap
+  }
+
+  protected miniShelfStateServicegetActiveSegmentId(id: string): boolean {
+    return this.miniShelfStateService.getActiveSegmentId() === id
+  }
+
+  protected miniShelfStateServicegetNextSegmentId(id: string): boolean {
+    return this.miniShelfStateService.getNextSegmentId() === id
   }
 }

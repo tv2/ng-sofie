@@ -12,6 +12,8 @@
         <sofie-mini-shelf
                 *ngIf="segment.metadata?.miniShelfVideoClipFile"
                 [segment]="segment"
+                [isOnAir]="miniShelfStateServicegetActiveSegmentId(segment.id)"
+                [isNext]="miniShelfStateServicegetNextSegmentId(segment.id)"
                 [videoClipAction]="miniShelfSegmentActionMappings[segment.id]"
         ></sofie-mini-shelf>
     </ng-container>
