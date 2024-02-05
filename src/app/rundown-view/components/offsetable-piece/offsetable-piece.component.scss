@@ -1,7 +1,7 @@
 :host {
   position: absolute;
   top: 0;
-  background-color: rgb(50,50,50);
+  background-color: var(--background-color);
   overflow: visible;
 
   .label {
@@ -14,58 +14,58 @@
     color: var(--text-color);
 
     font-weight: normal;
-    text-shadow: rgba(0,0,0, 0.8) 0 0 8px;
+    text-shadow: var(--gradient-black-rgba-with-08-opacity-color) 0 0 8px;
     text-overflow: ellipsis;
     white-space: nowrap;
     z-index: 11;
   }
 
   &.camera {
-    background-color: #005919;
+    background-color: var(--tv2-camera-color);
   }
 
   &.lower-third {
-    background-color: #ca9d00;
+    background-color: var(--tv2-graphics-color);
   }
 
   &.graphics {
-    background-color: #ca9d00;
+    background-color: var(--tv2-graphics-color);
   }
 
   &.remote {
-    background-color: #ac29a5;
+    background-color: var(--tv2-remote-color);
   }
 
   &.local {
-    background-color: #8d1010;
+    background-color: var(--tv2-replay-color);
   }
 
   &.manus {
     font-style: italic;
-    background-color: #370020;
+    background-color: var(--tv2-manus-color);
   }
 
   &.split-screen {
-    background: linear-gradient(to bottom,  #00a99c 0%,#00a99c 50%,#265753 50%,#265753 100%);
+    background: linear-gradient(to bottom, var(--tv2-split-screen-upper) 0%, var(--tv2-split-screen-upper) 50%, var(--tv2-split-screen-lower) 50%, var(--tv2-split-screen-lower) 100%);
   }
 
   &.voice-over {
-    background-color: #005919;
+    background-color: var(--tv2-camera-color);
   }
 
   &.replay {
-    background-color: #8d1010;
+    background-color: var(--tv2-replay-color);
 
     &.voice-over {
-      background: linear-gradient(to bottom,  #8d1010 0%,#8d1010 50%, #005919 50%,#005919 100%);
+      background: linear-gradient(to bottom, var(--tv2-replay-color) 0%, var(--tv2-replay-color) 50%, var(--tv2-camera-color) 50%, var(--tv2-camera-color) 100%);
     }
   }
 
   &.video-clip {
-    background-color: #1769ff;
+    background-color: var(--tv2-video-clip-color);
 
     &.voice-over {
-      background: linear-gradient(to bottom,  #1769ff 0%,#1769ff 50%, #005919 50%,#005919 100%);
+      background: linear-gradient(to bottom, var(--tv2-video-clip-color) 0%, var(--tv2-video-clip-color) 50%, var(--tv2-camera-color) 50%, var(--tv2-camera-color) 100%);
     }
   }
 
@@ -89,4 +89,3 @@
 
   }
 }
-

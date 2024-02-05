@@ -14,6 +14,7 @@ import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Media } from '../../shared/services/media'
 import { StudioConfiguration } from '../../shared/models/studio-configuration'
 import { PartActionType, PieceActionType } from '../../shared/models/action-type'
+import { SystemInformation } from '../../shared/models/system-information'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -204,5 +205,13 @@ export class ZodEntityParser implements EntityParser {
 
   public parseMediaAsset(media: unknown): Media {
     return this.mediaAssetParser.parse(media)
+  }
+
+  private readonly systemInformationParser = zod.object({
+    name: zod.string(),
+  })
+
+  public parseSystemInformation(systemInformation: unknown): SystemInformation {
+    return this.systemInformationParser.parse(systemInformation)
   }
 }

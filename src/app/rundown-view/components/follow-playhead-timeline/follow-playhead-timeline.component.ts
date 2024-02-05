@@ -30,6 +30,9 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   public isRundownActive: boolean
 
   @Input()
+  public isAutoNextStarted: boolean
+
+  @Input()
   public pixelsPerSecond: number
 
   @Input()

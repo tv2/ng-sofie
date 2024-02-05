@@ -3,12 +3,12 @@
   color: var(--white-color);
 
   .mat-button-wrapper {
-    color: orangered;
+    color: var(--orangered-color);
   }
 }
 
 .snackbar-warning {
-  background: yellow;
+  background: var(--yellow-color);
   color: var(--black-color);
 
   .mat-button-wrapper {
@@ -17,7 +17,7 @@
 }
 
 .snackbar-success {
-  background: green;
+  background: var(--green-color);
   color: var(--white-color);
 
   .mat-button-wrapper {

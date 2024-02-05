@@ -3,29 +3,27 @@
   margin: 4px 20px;
   overflow: hidden;
   border-radius: 10px;
-
-  box-shadow: 0 2px 2px 2px rgba(0,0,0,0.2);
-
+  box-shadow: 0 2px 2px 2px var(--gradient-black-rgba-with-02-opacity-color);
   --toolbar-height: 30px;
 
   &__header {
     flex: 0;
     min-width: 270px;
-    background-color: rgb(75,75,75);
+    background-color: var(--rundown-segment-header-background-color);
     color: var(--text-color);
-    transition: background-color .2s;
+    transition: background-color 0.2s;
   }
 
   &--has-remote-piece &__header {
-    background-color: #ac29a5;
+    background-color: var(--tv2-remote-color);
   }
 
   &--set-as-next &__header {
-    background-color: #00ac17;
+    background-color: var(--next-color);
   }
 
   &--on-air &__header {
-    background-color: #c40000;
+    background-color: var(--on-air-color);
   }
 
   &__header-toolbar {
@@ -36,7 +34,7 @@
     padding: 6px;
 
     &--unsynced {
-      background: #FFFF00BA;
+      background: var(--rundown-unsynced-segment-color);
       color: var(--black-color);
     }
 
@@ -54,7 +52,7 @@
       text-align: right;
       font-weight: bolder;
       opacity: 0.5;
-      transition: opacity .2s;
+      transition: opacity 0.2s;
 
       &:hover {
         opacity: 1;
@@ -93,22 +91,24 @@
       border-radius: 100%;
       background-color: var(--background-color);
       text-align: center;
-      transition: opacity .2s, background-color .2s;
+      transition:
+        opacity 0.2s,
+        background-color 0.2s;
 
       &:hover {
-        background-color: #666666;
+        background-color: var(--dark-gray-color);
       }
 
-      &[disabled=true] {
+      &[disabled='true'] {
         background-color: var(--background-color);
         cursor: default;
-        opacity: .4;
+        opacity: 0.4;
       }
     }
   }
 
   &__piece-layer {
-    color: #888888;
+    color: var(--dark-gray-color);
     padding: 2px 0 2px 20px;
     font-weight: bold;
     height: 24px;

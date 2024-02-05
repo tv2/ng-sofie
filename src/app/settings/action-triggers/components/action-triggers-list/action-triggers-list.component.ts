@@ -46,7 +46,7 @@ export class ActionTriggersListComponent implements OnChanges {
   ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const actionTriggerChange: SimpleChange | undefined = changes['actionTriggers']
+    const actionTriggerChange: SimpleChange | undefined = changes['actionTriggersWithAction']
     if (actionTriggerChange) {
       this.applySortQuery(this.sortQuery)
     }

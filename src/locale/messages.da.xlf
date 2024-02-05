@@ -78,10 +78,6 @@
         <source>action-triggers.no-shortcuts.label</source>
         <target state="new">No shortcuts found</target>
       </trans-unit>
-      <trans-unit id="3982465886333434114" datatype="html">
-        <source>action-triggers.keyboard-shortcuts.label</source>
-        <target state="new">Keyboard shortcuts</target>
-      </trans-unit>
       <trans-unit id="948302468790980101" datatype="html">
         <source>action-triggers.create-shortcut.button</source>
         <target state="new">Create shortcut</target>
@@ -241,6 +237,14 @@
       <trans-unit id="4177582797246824978" datatype="html">
         <source>action-triggers.physical-mapping-help.tooltip</source>
         <target state="new">The physical key combination that should be shown on the virtual keyboard in the rundown view. The field should only be used if the key combination is altered by a key mapping software like AutoHotKey.</target>
+      </trans-unit>
+      <trans-unit id="9012317992372082365" datatype="html">
+        <source>global.next.label</source>
+        <target state="new">NEXT</target>
+      </trans-unit>
+      <trans-unit id="5184481909550121889" datatype="html">
+        <source>global.auto.label</source>
+        <target state="new">AUTO</target>
       </trans-unit>
     </body>
   </file>

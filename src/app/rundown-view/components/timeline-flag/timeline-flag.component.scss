@@ -48,8 +48,8 @@
 
   &.turned-on {
     border-top-left-radius: 6px;
-    --flag-label-background-color: #00ac17;
-    --flag-bar-background-color: #00ac17;
+    --flag-label-background-color: var(--next-color);
+    --flag-bar-background-color: var(--next-color);
   }
 
   &.no-label {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 
 @Component({
   selector: 'sofie-logo',
@@ -8,6 +8,5 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 })
 export class SofieLogoComponent {
   @Input()
-  @HostBinding('class.with-text')
-  public withText: boolean = false
+  public text: string
 }
