@@ -1,4 +1,4 @@
-import { BehaviorSubject, lastValueFrom, Observable, Subject } from 'rxjs'
+import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs'
 import { Injectable, OnDestroy } from '@angular/core'
 import { MediaService } from './media.service'
 import { Media } from './media'
