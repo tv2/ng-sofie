@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs'
 import { ActionService } from '../../../shared/abstractions/action.service'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
-import { Logger } from '../../../core/abstractions/logger.service'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -22,17 +21,13 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   protected media: Media | undefined
   private configurationServiceSubscription: Subscription
   private studioConfiguration: StudioConfiguration | undefined
-  private readonly logger: Logger
   protected mediaDurationInMsWithoutPostroll: number = 0
 
   constructor(
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
-    private readonly mediaStateService: MediaStateService,
-    logger: Logger
-  ) {
-    this.logger = logger.tag('MiniShelfComponent')
-  }
+    private readonly mediaStateService: MediaStateService
+  ) {}
 
   public ngOnInit(): void {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
