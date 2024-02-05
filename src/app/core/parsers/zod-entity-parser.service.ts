@@ -192,13 +192,17 @@ export class ZodEntityParser implements EntityParser {
     return this.tv2ActionParser.parse(tv2Action)
   }
 
-  private readonly mediaDataParser = zod.object({
+  private readonly mediaAssetParser = zod.object({
     id: zod.string(),
     sourceName: zod.string(),
     duration: zod.number(),
   })
 
-  public parseMedia(media: unknown): Media {
-    return this.mediaDataParser.parse(media)
+  public parseMediaAsset(media: unknown): Media {
+    return this.mediaAssetParser.parse(media)
+  }
+
+  public parseMediaAsset(media: unknown): Media {
+    return this.mediaAssetParser.parse(media)
   }
 }

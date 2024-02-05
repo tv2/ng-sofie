@@ -1,10 +1,21 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChange,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core'
 import { Piece } from '../../../core/models/piece'
 import { Tv2Piece } from '../../../core/models/tv2-piece'
 import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
-import { Logger } from '../../../core/abstractions/logger.service'
 import { Subscription } from 'rxjs'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
@@ -15,7 +26,7 @@ const LABEL_TEXT_INSET_IN_PIXELS: number = 14
   styleUrls: ['./offsetable-piece.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OffsetablePieceComponent implements OnInit {
+export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   @Input()
   public piece: Piece
 
@@ -45,20 +56,33 @@ export class OffsetablePieceComponent implements OnInit {
 
   constructor(
     private readonly mediaStateService: MediaStateService,
-    private readonly logger: Logger,
-    private readonly ref: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
-  public ngOnInit(): void {
-    if (this.doesPieceContainMedia()) {
-      this.isMediaPiece = true
+  public updatePieceMedia(): void {
+    if (!this.doesPieceContainMedia()) {
+      this.isMediaPiece = false
+      return
     }
+    const mediaSourceName: string = this.getPieceMediaSourceName(this.piece)
+    if (!mediaSourceName) {
+      this.isMediaPiece = false
+      return
+    }
+    this.isMediaPiece = true
+    this.mediaSubscription = this.mediaStateService.subscribeToMedia(mediaSourceName).subscribe(this.updateMediaAvailabilityStatus.bind(this))
+  }
 
-    this.mediaStateService
-      .subscribeToMedia(this.getPieceMediaSourceName())
-      .then(mediaObservable => mediaObservable.subscribe(this.updateMediaAvailabilityStatus.bind(this)))
-      .then(mediaSubscription => (this.mediaSubscription = mediaSubscription))
-      .catch(error => this.logger.data(error).error('Failed subscribing to media changes'))
+  public ngOnChanges(changes: SimpleChanges): void {
+    const pieceChange: SimpleChange | undefined = changes['piece']
+    if (pieceChange) {
+      const oldMediaSourceName: string | undefined = pieceChange.previousValue ? this.getPieceMediaSourceName(pieceChange.previousValue) : undefined
+      if (oldMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
+        return
+      }
+      this.mediaSubscription?.unsubscribe()
+      this.updatePieceMedia()
+    }
   }
 
   private doesPieceContainMedia(): boolean {
@@ -125,29 +149,22 @@ export class OffsetablePieceComponent implements OnInit {
     return [piece.metadata.type.toLowerCase().replace(/_/g, '-'), (piece.metadata.audioMode ?? Tv2AudioMode.FULL).toLowerCase().replace('_', '-')].join(' ')
   }
 
-  public getPieceMediaSourceName(): string {
-    const piece: Tv2Piece = this.piece as Tv2Piece
-    return piece.metadata.sourceName ?? ''
+  public getPieceMediaSourceName(piece: Piece): string {
+    const tv2Piece: Tv2Piece = piece as Tv2Piece
+    return tv2Piece.metadata.sourceName ?? ''
   }
 
-  public updateMediaAvailabilityStatus(media: Media | undefined): void {
+  private updateMediaAvailabilityStatus(media: Media | undefined): void {
+    console.log('xxxxxx', media, media !== this.media)
     const piece: Tv2Piece = this.piece as Tv2Piece
     if (!piece.metadata.sourceName) {
       return
     }
-
     this.media = media
-    this.ref.detectChanges()
+    this.changeDetectorRef.detectChanges()
+  }
 
-    // this.mediaStateService
-    //   .subscribeToMedia(piece.metadata.sourceName)
-    //   .then(mediaObservable =>
-    //     mediaObservable.subscribe(media => {
-    //       console.log('Hello World')
-    //       this.media = media
-    //       this.ref.detectChanges()
-    //     })
-    //   )
-    //   .catch(error => this.logger.data(error).error(`Failed to update media for piece '${this.piece.name}' with id '${this.piece.id}'.`))
+  public ngOnDestroy(): void {
+    this.mediaSubscription?.unsubscribe()
   }
 }

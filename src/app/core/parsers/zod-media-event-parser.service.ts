@@ -17,7 +17,7 @@ export class ZodMediaEventParserService implements MediaEventParser {
         media: zod
           .object({})
           .passthrough()
-          .transform((media: unknown) => this.entityParser.parseMedia(media)),
+          .transform((media: unknown) => this.entityParser.parseMediaAsset(media)),
       })
       .parse(event)
   }
@@ -40,7 +40,7 @@ export class ZodMediaEventParserService implements MediaEventParser {
         media: zod
           .object({})
           .passthrough()
-          .transform((media: unknown) => this.entityParser.parseMedia(media)),
+          .transform((media: unknown) => this.entityParser.parseMediaAsset(media)),
       })
       .parse(event)
   }

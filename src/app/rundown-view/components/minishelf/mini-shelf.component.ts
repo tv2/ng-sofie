@@ -19,7 +19,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public videoClipAction: Tv2VideoClipAction | undefined
 
   private readonly fallbackPreviewUrl: string = 'assets/sofie-logo.svg'
-  protected media: Media
+  protected media: Media | undefined
   private configurationServiceSubscription: Subscription
   private studioConfiguration: StudioConfiguration | undefined
   private readonly logger: Logger
@@ -46,17 +46,9 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
       return
     }
 
-    this.mediaStateService
-      .subscribeToMedia(this.segment.metadata?.miniShelfVideoClipFile)
-      .then(mediaObservable =>
-        mediaObservable.subscribe(media => {
-          if (media) {
-            this.setMedia(media)
-            this.calculateMediaDurationInMsWithoutPostroll()
-          }
-        })
-      )
-      .catch(error => this.logger.data(error).error(`Failed to update media for segment '${this.segment.name}' with id '${this.segment.id}'.`))
+    this.mediaStateService.subscribeToMedia(this.segment.metadata?.miniShelfVideoClipFile).subscribe(media => {
+      this.updateMedia(media)
+    })
   }
 
   private calculateMediaDurationInMsWithoutPostroll(): void {
@@ -67,7 +59,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
       return
     }
 
-    this.mediaDurationInMsWithoutPostroll = Math.max(this.media.duration - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration, 0)
+    const mediaDurationInMs: number = this.media?.duration ?? 0
+    this.mediaDurationInMsWithoutPostroll = Math.max(mediaDurationInMs - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration, 0)
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -111,7 +104,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     ;(event.target as HTMLImageElement).src = this.fallbackPreviewUrl
   }
 
-  private setMedia(media: Media): void {
+  private updateMedia(media: Media | undefined): void {
     this.media = media
+    this.calculateMediaDurationInMsWithoutPostroll()
   }
 }

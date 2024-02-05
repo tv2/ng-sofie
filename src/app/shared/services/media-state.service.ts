@@ -1,4 +1,4 @@
-import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs'
+import { BehaviorSubject, lastValueFrom, Observable, Subject } from 'rxjs'
 import { Injectable } from '@angular/core'
 import { MediaService } from './media.service'
 import { Media } from './media'
@@ -19,7 +19,17 @@ export class MediaStateService {
     logger: Logger
   ) {
     this.logger = logger.tag('MediaStateService')
+    this.mediaService.getMediaAssets().then(mediaCollection => mediaCollection.forEach(media => this.updateMedia(media)))
     this.subscribeToEvents()
+  }
+
+  private updateMedia(media: Media): void {
+    const mediaSubject: BehaviorSubject<Media | undefined> | undefined = this.mediaSubjects.get(media.sourceName)
+    if (mediaSubject) {
+      mediaSubject.next(media)
+      return
+    }
+    this.mediaSubjects.set(media.sourceName, new BehaviorSubject<Media | undefined>(media))
   }
 
   private subscribeToEvents(): void {
@@ -28,7 +38,7 @@ export class MediaStateService {
   }
 
   private createMediaFromEvent(event: MediaCreatedEvent): void {
-    const mediaSubject = this.mediaSubjects.get(event.media.sourceName)
+    const mediaSubject: BehaviorSubject<Media | undefined> | undefined = this.mediaSubjects.get(event.media.sourceName)
     if (mediaSubject) {
       mediaSubject.next(event.media)
       return
@@ -44,29 +54,27 @@ export class MediaStateService {
     })
   }
 
-  public async subscribeToMedia(id: string): Promise<Observable<Media | undefined>> {
-    const mediaSubject: BehaviorSubject<Media | undefined> = await this.createMediaSubject(id)
-    return mediaSubject.asObservable()
+  public subscribeToMedia(id: string): Observable<Media | undefined> {
+    return this.createMediaSubject(id).asObservable()
   }
 
-  private async createMediaSubject(id: string): Promise<BehaviorSubject<Media | undefined>> {
+  private createMediaSubject(id: string): BehaviorSubject<Media | undefined> {
     const mediaSubject: BehaviorSubject<Media | undefined> | undefined = this.mediaSubjects.get(id)
     if (mediaSubject) {
       return mediaSubject
     }
-    const cleanMediaSubject = await this.getCleanMediaSubject(id)
-    this.mediaSubjects.set(id, cleanMediaSubject)
-    return cleanMediaSubject
-  }
-
-  private async getCleanMediaSubject(id: string): Promise<BehaviorSubject<Media | undefined>> {
-    try {
-      const media: Media = await this.fetchMedia(id)
-      return new BehaviorSubject<Media | undefined>(media)
-    } catch (error) {
-      this.logger.data(error).warn(`Failed while fetching media with id ${id} from server`)
-      return new BehaviorSubject<Media | undefined>(undefined)
-    }
+    const subject: BehaviorSubject<Media | undefined> = new BehaviorSubject<Media | undefined>(undefined)
+    this.mediaSubjects.set(id, subject)
+    this.fetchMedia(id)
+      .then(media => {
+        subject.next(media)
+        console.log('øæasldkaøældksa: ', media)
+      })
+      .catch(error => {
+        console.log('øæasldkaøældksa: error:', error)
+        this.logger.data(error).warn(`Failed while fetching media with id ${id} from server`)
+      })
+    return subject
   }
 
   private async fetchMedia(id: string): Promise<Media> {
