@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { RundownComponent } from './rundown.component'
-import { instance, mock } from '@typestrong/ts-mockito'
+import { instance, mock, when } from '@typestrong/ts-mockito'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { DialogService } from '../../../shared/services/dialog.service'
@@ -11,6 +11,7 @@ import { RundownEventObserver } from 'src/app/core/services/rundown-event-observ
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { EntityParser } from '../../../core/abstractions/entity-parser.service'
 import { MiniShelfStateService } from '../../services/mini-shelf-state.service'
+import { Rundown } from '../../../core/models/rundown'
 
 describe('RundownComponent', () => {
   it('should create', async () => {

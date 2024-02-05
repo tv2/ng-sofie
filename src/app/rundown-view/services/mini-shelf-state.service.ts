@@ -5,7 +5,6 @@ import { ActionService } from '../../shared/abstractions/action.service'
 import { RundownEventObserver } from '../../core/services/rundown-event-observer.service'
 import { PartTakenEvent } from '../../core/models/rundown-event'
 import { Tv2VideoClipAction } from '../../shared/models/tv2-action'
-import { Logger } from '../../core/abstractions/logger.service'
 
 @Injectable()
 export class MiniShelfStateService {
@@ -20,18 +19,14 @@ export class MiniShelfStateService {
   constructor(
     private readonly actionService: ActionService,
     rundownEventObserver: RundownEventObserver,
-    private readonly logger: Logger
   ) {
-    this.logger = logger.tag('MiniShelfStateService')
     rundownEventObserver.subscribeToRundownTake((partTakenEvent: PartTakenEvent) => {
-      this.logger.data(partTakenEvent).debug('Received PartTakenEvent')
       this.activeSegmentId = partTakenEvent.segmentId
       this.activeRundownId = partTakenEvent.rundownId
     })
   }
 
   public updateMiniShelves(rundown: Rundown): void {
-    this.logger.data(rundown).debug('Updating MiniShelves')
     let miniShelfGroupId: string[] = []
     let miniShelfSegmentsForGroup: Segment[] = []
 
@@ -63,7 +58,6 @@ export class MiniShelfStateService {
   }
 
   public executeVideoClipActionForSegment(segment: Segment): void {
-    this.logger.data(segment).debug('Executing VideoClipAction for Segment')
     this.nextSegmentId = segment.id
     const action: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[segment.id]
     this.actionService.executeAction(action.id, this.activeRundownId).subscribe()
@@ -88,19 +82,16 @@ export class MiniShelfStateService {
     } else {
       this.currentMiniShelfIndex = this.currentMiniShelfIndex >= miniShelfGroup.length - 1 ? 0 : this.currentMiniShelfIndex + 1
     }
-    this.logger.data(miniShelfGroup[this.currentMiniShelfIndex]).debug('Executing VideoClipAction for Segment')
     this.executeVideoClipActionForSegment(miniShelfGroup[this.currentMiniShelfIndex])
   }
 
   public findMiniShelfGroup(): Segment[] {
     const key: string[] | undefined = Array.from(this.miniShelfGroups.keys()).find(key => key.includes(this.activeSegmentId))
     if (!key) {
-      this.logger.debug(`No MiniShelfGroup found for Segment ${this.activeSegmentId}`)
       return []
     }
     const miniShelfGroup: Segment[] | undefined = this.miniShelfGroups.get(key)
     if (!miniShelfGroup) {
-      this.logger.debug(`No Group found for key ${key}`)
       return []
     }
     return miniShelfGroup
