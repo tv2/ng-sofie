@@ -1,5 +1,5 @@
 import { BehaviorSubject, lastValueFrom, Observable, Subject } from 'rxjs'
-import { Injectable } from '@angular/core'
+import { Injectable, OnDestroy } from '@angular/core'
 import { MediaService } from './media.service'
 import { Media } from './media'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
@@ -8,7 +8,7 @@ import { MediaCreatedEvent, MediaDeletedEvent } from '../../core/models/media-ev
 import { Logger } from '../../core/abstractions/logger.service'
 
 @Injectable()
-export class MediaStateService {
+export class MediaStateService implements OnDestroy {
   private readonly mediaSubjects: Map<string, BehaviorSubject<Media | undefined>> = new Map()
   private readonly subscriptions: EventSubscription[] = []
   private readonly logger: Logger
@@ -19,7 +19,9 @@ export class MediaStateService {
     logger: Logger
   ) {
     this.logger = logger.tag('MediaStateService')
-    this.mediaService.getMediaAssets().then(mediaCollection => mediaCollection.forEach(media => this.updateMedia(media)))
+    lastValueFrom(this.mediaService.getAllMedia())
+      .then(mediaAssets => mediaAssets.forEach(media => this.updateMedia(media)))
+      .catch(error => this.logger.data(error).error(`Failed while fetching all media from server`))
     this.subscribeToEvents()
   }
 
@@ -29,7 +31,11 @@ export class MediaStateService {
       mediaSubject.next(media)
       return
     }
-    this.mediaSubjects.set(media.sourceName, new BehaviorSubject<Media | undefined>(media))
+    this.mediaSubjects.set(this.getMediaSubjectKey(media.sourceName), new BehaviorSubject<Media | undefined>(media))
+  }
+
+  private getMediaSubjectKey(sourceName: string): string {
+    return sourceName.toUpperCase()
   }
 
   private subscribeToEvents(): void {
@@ -58,26 +64,18 @@ export class MediaStateService {
     return this.createMediaSubject(id).asObservable()
   }
 
-  private createMediaSubject(id: string): BehaviorSubject<Media | undefined> {
-    const mediaSubject: BehaviorSubject<Media | undefined> | undefined = this.mediaSubjects.get(id)
+  private createMediaSubject(sourceName: string): BehaviorSubject<Media | undefined> {
+    const mediaSubjectKey: string = this.getMediaSubjectKey(sourceName)
+    const mediaSubject: BehaviorSubject<Media | undefined> | undefined = this.mediaSubjects.get(mediaSubjectKey)
     if (mediaSubject) {
       return mediaSubject
     }
     const subject: BehaviorSubject<Media | undefined> = new BehaviorSubject<Media | undefined>(undefined)
-    this.mediaSubjects.set(id, subject)
-    this.fetchMedia(id)
-      .then(media => {
-        subject.next(media)
-        console.log('øæasldkaøældksa: ', media)
-      })
-      .catch(error => {
-        console.log('øæasldkaøældksa: error:', error)
-        this.logger.data(error).warn(`Failed while fetching media with id ${id} from server`)
-      })
+    this.mediaSubjects.set(mediaSubjectKey, subject)
     return subject
   }
 
-  private async fetchMedia(id: string): Promise<Media> {
-    return lastValueFrom(this.mediaService.getMedia(id))
+  public ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe())
   }
 }

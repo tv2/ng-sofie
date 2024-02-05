@@ -155,7 +155,6 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   }
 
   private updateMediaAvailabilityStatus(media: Media | undefined): void {
-    console.log('xxxxxx', media, media !== this.media)
     const piece: Tv2Piece = this.piece as Tv2Piece
     if (!piece.metadata.sourceName) {
       return

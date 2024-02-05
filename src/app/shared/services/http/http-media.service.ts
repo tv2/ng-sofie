@@ -7,7 +7,7 @@ import { HttpResponse } from './http-response'
 import { EntityParser } from '../../../core/abstractions/entity-parser.service'
 import { MediaService } from '../media.service'
 import { Media } from '../media'
-import {undefined} from "zod";
+import { undefined } from 'zod'
 
 @Injectable()
 export class HttpMediaService implements MediaService {
@@ -17,11 +17,12 @@ export class HttpMediaService implements MediaService {
     private readonly entityParser: EntityParser
   ) {}
 
-  public override getAllMedia(): Observable<Media[]> {
+  public getAllMedia(): Observable<Media[]> {
     return this.http.get<HttpResponse<Media[]>>(`${environment.apiBaseUrl}/media`).pipe(
-        catchError(error => this.httpErrorService.catchError(error)),
-        map(response => this.entityParser.parseMediaAssets(response.data))
+      catchError(error => this.httpErrorService.catchError(error)),
+      map(response => this.entityParser.parseMediaAssets(response.data))
     )
+  }
 
   public getMedia(sourceName: string): Observable<Media> {
     // TODO: Normalize media id/source name addressing (uppercase)

@@ -20,6 +20,6 @@ export abstract class EntityParser {
   public abstract parseStudioConfiguration(studioConfiguration: unknown): StudioConfiguration
   public abstract parseTv2Action(tv2Action: unknown): Tv2Action
   public abstract parseMediaAsset(media: unknown): Media
-  public abstract parseMediaAssets(media: unknown): Media
+  public abstract parseMediaAssets(media: unknown): Media[]
   public abstract parseSystemInformation(systemInformation: unknown): SystemInformation
 }
