@@ -18,7 +18,7 @@ export class MiniShelfStateService {
 
   constructor(
     private readonly actionService: ActionService,
-    rundownEventObserver: RundownEventObserver,
+    rundownEventObserver: RundownEventObserver
   ) {
     rundownEventObserver.subscribeToRundownTake((partTakenEvent: PartTakenEvent) => {
       this.activeSegmentId = partTakenEvent.segmentId
