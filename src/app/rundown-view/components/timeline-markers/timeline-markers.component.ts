@@ -40,6 +40,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   private readonly secondsPerSection: number = 5
   private readonly subsectionsPerSection: number = 5
+  private readonly timelineMarkerFillColor: string = '#5f6164'
 
   private readonly resizeSubject: Subject<void> = new Subject<void>()
 
@@ -100,7 +101,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   private drawLine(from: Point, to: Point, lineWidth: number): void {
     this.canvasContext.lineWidth = lineWidth
-    this.canvasContext.strokeStyle = 'var(--dark-gray-color)'
+    this.canvasContext.strokeStyle = this.timelineMarkerFillColor
     this.canvasContext.beginPath()
     this.canvasContext.moveTo(from.x, from.y)
     this.canvasContext.lineTo(to.x, to.y)
@@ -150,7 +151,7 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   private drawText(text: string, x: number, y: number): void {
     this.canvasContext.font = TEXT_STYLE
-    this.canvasContext.fillStyle = 'var(--dark-gray-color)'
+    this.canvasContext.fillStyle = this.timelineMarkerFillColor
     this.canvasContext.fillText(text, x, y)
   }
 
