@@ -13,11 +13,30 @@
 
     color: var(--text-color);
 
-    font-weight: normal;
-    text-shadow: var(--gradient-black-rgba-with-08-opacity-color) 0 0 8px;
+    font-weight: bold;
+    text-shadow: var(--gradient-black-rgba-with-08-opacity-color) 1px 1px 3px;
     text-overflow: ellipsis;
     white-space: nowrap;
     z-index: 11;
+  }
+
+  &.media-unavailable {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: repeating-linear-gradient(
+                      45deg,
+                      #00000000,
+                      #00000000 12px,
+                      #9a0d0daa 12px,
+                      #9a0d0daa 18px
+      );
+      z-index: 10;
+    }
   }
 
   &.camera {
@@ -67,25 +86,5 @@
     &.voice-over {
       background: linear-gradient(to bottom, var(--tv2-video-clip-color) 0%, var(--tv2-video-clip-color) 50%, var(--tv2-camera-color) 50%, var(--tv2-camera-color) 100%);
     }
-  }
-
-  .media-unavailable {
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background: repeating-linear-gradient(
-                      120deg,
-                      #00000000,
-                      #00000000 8px,
-                      #ffff0055 8px,
-                      #ffff0055 16px
-      );
-      z-index: 12;
-    }
-
   }
 }
