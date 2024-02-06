@@ -26,12 +26,16 @@ export class MediaStateService implements OnDestroy {
   }
 
   private updateMedia(media: Media): void {
-    const mediaSubject: BehaviorSubject<Media | undefined> | undefined = this.mediaSubjects.get(media.sourceName)
-    if (mediaSubject) {
-      mediaSubject.next(media)
-      return
+    const mediaSubject: BehaviorSubject<Media | undefined> | undefined = this.getMediaSubject(media.sourceName)
+    mediaSubject.next(media)
+  }
+
+  private getMediaSubject(sourceName: string): BehaviorSubject<Media | undefined> {
+    const mediaSubjectKey: string = this.getMediaSubjectKey(sourceName)
+    if (!this.mediaSubjects.has(mediaSubjectKey)) {
+      this.mediaSubjects.set(mediaSubjectKey, new BehaviorSubject<Media | undefined>(undefined))
     }
-    this.mediaSubjects.set(this.getMediaSubjectKey(media.sourceName), new BehaviorSubject<Media | undefined>(media))
+    return this.mediaSubjects.get(mediaSubjectKey)!
   }
 
   private getMediaSubjectKey(sourceName: string): string {
@@ -39,20 +43,11 @@ export class MediaStateService implements OnDestroy {
   }
 
   private subscribeToEvents(): void {
-    this.subscriptions.push(this.mediaEventObserver.subscribeToMediaCreated((event: MediaCreatedEvent) => this.createMediaFromEvent(event)))
-    this.subscriptions.push(this.mediaEventObserver.subscribeToMediaDeleted((event: MediaDeletedEvent) => this.deleteMediaFromEvent(event)))
+    this.subscriptions.push(this.mediaEventObserver.subscribeToMediaCreated((event: MediaCreatedEvent) => this.updateMedia(event.media)))
+    this.subscriptions.push(this.mediaEventObserver.subscribeToMediaDeleted((event: MediaDeletedEvent) => this.deleteMediaFromSubjects(event)))
   }
 
-  private createMediaFromEvent(event: MediaCreatedEvent): void {
-    const mediaSubject: BehaviorSubject<Media | undefined> | undefined = this.mediaSubjects.get(event.media.sourceName)
-    if (mediaSubject) {
-      mediaSubject.next(event.media)
-      return
-    }
-    this.mediaSubjects.set(event.media.sourceName, new BehaviorSubject<Media | undefined>(event.media))
-  }
-
-  private deleteMediaFromEvent(event: MediaDeletedEvent): void {
+  private deleteMediaFromSubjects(event: MediaDeletedEvent): void {
     this.mediaSubjects.forEach(subject => {
       if (subject.value?.id === event.mediaId) {
         subject.next(undefined)
@@ -60,8 +55,8 @@ export class MediaStateService implements OnDestroy {
     })
   }
 
-  public subscribeToMedia(id: string): Observable<Media | undefined> {
-    return this.createMediaSubject(id).asObservable()
+  public subscribeToMedia(sourceName: string): Observable<Media | undefined> {
+    return this.createMediaSubject(sourceName).asObservable()
   }
 
   private createMediaSubject(sourceName: string): BehaviorSubject<Media | undefined> {
