@@ -15,6 +15,7 @@ import { Media } from '../../shared/services/media'
 import { StudioConfiguration } from '../../shared/models/studio-configuration'
 import { PartActionType, PieceActionType } from '../../shared/models/action-type'
 import { SystemInformation } from '../../shared/models/system-information'
+import { Tv2Part } from '../models/tv2-part'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -81,6 +82,11 @@ export class ZodEntityParser implements EntityParser {
     isUnsynced: zod.boolean(),
     isPlanned: zod.boolean(),
     isUntimed: zod.boolean(),
+    metadata: zod
+      .object({
+        actionId: zod.string().optional(),
+      })
+      .optional(),
   })
 
   private readonly segmentParser = zod.object({
@@ -142,7 +148,7 @@ export class ZodEntityParser implements EntityParser {
     return this.pieceParser.parse(piece)
   }
 
-  public parsePart(part: unknown): Part {
+  public parsePart(part: unknown): Tv2Part {
     return this.partParser.parse(part)
   }
 

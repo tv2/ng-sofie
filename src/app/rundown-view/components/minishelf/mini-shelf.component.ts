@@ -8,6 +8,8 @@ import { ActionService } from '../../../shared/abstractions/action.service'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { RundownStateService } from '../../../core/services/rundown-state.service'
+import { Tv2Part } from '../../../core/models/tv2-part'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -17,8 +19,9 @@ import { Logger } from '../../../core/abstractions/logger.service'
 export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction?: Tv2VideoClipAction
-  @Input() public isOnAir!: boolean
-  @Input() public isNext!: boolean
+
+  public showOnAirBorder: boolean = false
+  public showNextBorder: boolean = false
 
   private readonly fallbackPreviewUrl: string = 'assets/sofie-logo.svg'
   protected media: Media
@@ -31,6 +34,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
     private readonly mediaStateService: MediaStateService,
+    private readonly rundownStateService: RundownStateService,
     logger: Logger
   ) {
     this.logger = logger.tag('MiniShelfComponent')
@@ -41,6 +45,16 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
       this.studioConfiguration = studioConfiguration
     })
     this.updateMediaAndCalculate()
+
+    this.rundownStateService.subscribeToOnAirPart(this.segment.rundownId).subscribe(onAirPart => {
+      const tv2Part: Tv2Part | undefined = onAirPart as Tv2Part | undefined
+      this.showOnAirBorder = !tv2Part || !this.videoClipAction ? false : tv2Part?.metadata?.actionId === this.videoClipAction?.id
+    })
+
+    this.rundownStateService.subscribeToNextPart(this.segment.rundownId).subscribe(nextPart => {
+      const tv2Part: Tv2Part | undefined = nextPart as Tv2Part | undefined
+      this.showNextBorder = !tv2Part || !this.videoClipAction ? false : tv2Part?.metadata?.actionId === this.videoClipAction?.id
+    })
   }
 
   private updateMediaAndCalculate(): void {

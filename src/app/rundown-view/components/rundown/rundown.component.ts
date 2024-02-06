@@ -138,18 +138,9 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     if (!videoClipFile) return actionMap
 
     const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
-      // return action.metadata?.fileName === videoClipFile && action.name === segment.name
-      return action.metadata?.fileName === videoClipFile
+      return action.metadata?.fileName === videoClipFile && action.name === segment.name
     })
 
     return action ? { ...actionMap, [segment.id]: action } : actionMap
-  }
-
-  protected miniShelfStateServicegetActiveSegmentId(id: string): boolean {
-    return this.miniShelfStateService.getActiveSegmentId() === id
-  }
-
-  protected miniShelfStateServicegetNextSegmentId(id: string): boolean {
-    return this.miniShelfStateService.getNextSegmentId() === id
   }
 }

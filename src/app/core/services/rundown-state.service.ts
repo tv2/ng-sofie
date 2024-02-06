@@ -29,12 +29,16 @@ import { EventSubscription } from '../../event-system/abstractions/event-observe
 import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { RundownEntityService } from './models/rundown-entity.service'
 import { Logger } from '../abstractions/logger.service'
+import { Part } from '../models/part'
 
 @Injectable()
 export class RundownStateService implements OnDestroy {
   private readonly rundownSubjects: Map<string, BehaviorSubject<Rundown | undefined>> = new Map()
   private eventSubscriptions: EventSubscription[]
   private readonly logger: Logger
+
+  private readonly onAirPartSubjects: Map<string, BehaviorSubject<Part | undefined>> = new Map()
+  private readonly nextPartsSubjects: Map<string, BehaviorSubject<Part | undefined>> = new Map()
 
   constructor(
     private readonly rundownService: RundownService,
@@ -250,6 +254,21 @@ export class RundownStateService implements OnDestroy {
     const { timestamp, ...rundownCursor } = event
     const progressedRundown: Rundown = this.rundownEntityService.takeNext(rundownSubject.value, rundownCursor, timestamp)
     rundownSubject.next(progressedRundown)
+
+    this.updateOnAirPartSubject(progressedRundown, event.segmentId, event.partId)
+  }
+
+  private updateOnAirPartSubject(rundown: Rundown, onAirSegmentId: string, onAirPartId: string): void {
+    const onAirPart: Part | undefined = rundown.segments.find(segment => segment.id === onAirSegmentId)?.parts.find(part => part.id === onAirPartId)
+    const onAirPartSubject: BehaviorSubject<Part | undefined> = this.getOnAirPartSubject(rundown.id)
+    onAirPartSubject.next(onAirPart)
+  }
+
+  private getOnAirPartSubject(rundownId: string): BehaviorSubject<Part | undefined> {
+    if (!this.onAirPartSubjects.has(rundownId)) {
+      this.onAirPartSubjects.set(rundownId, new BehaviorSubject<Part | undefined>(undefined))
+    }
+    return this.onAirPartSubjects.get(rundownId)!
   }
 
   private setNextPartInRundownFromEvent(event: PartSetAsNextEvent): void {
@@ -259,6 +278,21 @@ export class RundownStateService implements OnDestroy {
     }
     const progressedRundown: Rundown = this.rundownEntityService.setNext(rundownSubject.value, event)
     rundownSubject.next(progressedRundown)
+
+    this.updateNextPartSubject(progressedRundown, event.segmentId, event.partId)
+  }
+
+  private updateNextPartSubject(rundown: Rundown, nextSegmentId: string, nextPartId: string): void {
+    const nextPart: Part | undefined = rundown.segments.find(segment => segment.id === nextSegmentId)?.parts.find(part => part.id === nextPartId)
+    const nextPartSubject: BehaviorSubject<Part | undefined> = this.getNextPartSubject(rundown.id)
+    nextPartSubject.next(nextPart)
+  }
+
+  private getNextPartSubject(rundownId: string): BehaviorSubject<Part | undefined> {
+    if (!this.nextPartsSubjects.has(rundownId)) {
+      this.nextPartsSubjects.set(rundownId, new BehaviorSubject<Part | undefined>(undefined))
+    }
+    return this.nextPartsSubjects.get(rundownId)!
   }
 
   private updateInfinitePiecesFromEvent(event: RundownInfinitePiecesUpdatedEvent): void {
@@ -277,6 +311,8 @@ export class RundownStateService implements OnDestroy {
     }
     const rundownWithPart: Rundown = this.rundownEntityService.insertPartAsOnAir(rundownSubject.value, event.part, event.timestamp)
     rundownSubject.next(rundownWithPart)
+
+    this.updateOnAirPartSubject(rundownWithPart, event.part.segmentId, event.part.id)
   }
 
   private insertPartAsNextFromEvent(event: RundownPartInsertedAsNextEvent): void {
@@ -286,6 +322,8 @@ export class RundownStateService implements OnDestroy {
     }
     const rundownWithPart: Rundown = this.rundownEntityService.insertPartAsNext(rundownSubject.value, event.part)
     rundownSubject.next(rundownWithPart)
+
+    this.updateNextPartSubject(rundownWithPart, event.part.segmentId, event.part.id)
   }
 
   private insertPieceFromEvent(event: RundownPieceInsertedEvent): void {
@@ -300,6 +338,14 @@ export class RundownStateService implements OnDestroy {
   public async subscribeToRundown(rundownId: string): Promise<Observable<Rundown | undefined>> {
     const rundownSubject: BehaviorSubject<Rundown | undefined> = await this.createRundownSubject(rundownId)
     return rundownSubject.asObservable()
+  }
+
+  public subscribeToOnAirPart(rundownId: string): Observable<Part | undefined> {
+    return this.getOnAirPartSubject(rundownId).asObservable()
+  }
+
+  public subscribeToNextPart(rundownId: string): Observable<Part | undefined> {
+    return this.getNextPartSubject(rundownId).asObservable()
   }
 
   private async createRundownSubject(rundownId: string): Promise<BehaviorSubject<Rundown | undefined>> {

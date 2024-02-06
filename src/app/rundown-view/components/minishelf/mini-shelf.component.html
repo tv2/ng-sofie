@@ -1,5 +1,5 @@
 <div
-  class="c-mini-shelf {{ isOnAir ? 'c-mini-shelf--on-air' : 'not-on-air' }} {{ !isOnAir && isNext ? 'c-mini-shelf--next' : 'off-air-and-not-next' }}"
+  class="c-mini-shelf {{ showOnAirBorder ? 'c-mini-shelf--on-air' : 'not-on-air' }} {{ !showOnAirBorder && showNextBorder ? 'c-mini-shelf--next' : 'off-air-and-not-next' }}"
   title="{{ segment.name }}"
   (click)="executeAction()"
 >
@@ -11,7 +11,7 @@
         (error)=handleMissingImage($event)
     />
     <div class="c-mini-shelf__note">
-        <span class="c-mini-shelf__title">{{ getSanitizedTitle() | uppercase }}</span>
+        <span class="c-mini-shelf__title">{{ getSanitizedTitle() | uppercase }} {{ showOnAirBorder ? 'ON-AIR' : ''}} {{ showNextBorder ? 'NEXT' : ''}}</span>
         <span class="c-mini-shelf__duration">{{ mediaDurationInMsWithoutPostroll | timer : 'HH?:mm:ss' }}</span>
     </div>
 </div>
