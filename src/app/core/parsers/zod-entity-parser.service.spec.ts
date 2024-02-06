@@ -84,6 +84,7 @@ describe(ZodEntityParser.name, () => {
       const testee: ZodEntityParser = new ZodEntityParser()
       const expectedMedia: Media = {
         id: '123',
+        sourceName: 'source',
         duration: 123,
       }
       const parseMedia: Media = testee.parseMediaAsset(expectedMedia)
