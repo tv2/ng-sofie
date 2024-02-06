@@ -38,8 +38,6 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
 
   public media: Media | undefined
 
-  public isMediaPiece: boolean = false
-
   private mediaSubscription?: Subscription
 
   constructor(
@@ -49,15 +47,12 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
 
   public updatePieceMedia(): void {
     if (!this.doesPieceContainMedia()) {
-      this.isMediaPiece = false
       return
     }
     const mediaSourceName: string = this.getPieceMediaSourceName(this.piece)
     if (!mediaSourceName) {
-      this.isMediaPiece = false
       return
     }
-    this.isMediaPiece = true
     this.mediaSubscription = this.mediaStateService.subscribeToMedia(mediaSourceName).subscribe(this.updateMediaAvailabilityStatus.bind(this))
   }
 
@@ -139,7 +134,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
 
   @HostBinding('class.media-unavailable')
   public get isMediaUnavailable(): boolean {
-    return this.isMediaPiece && !this.media
+    return !!this.mediaSubscription && !this.media
   }
 
   public getPieceMediaSourceName(piece: Piece): string {

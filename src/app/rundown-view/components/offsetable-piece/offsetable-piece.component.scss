@@ -29,11 +29,11 @@
       bottom: 0;
       left: 0;
       background: repeating-linear-gradient(
-                      45deg,
-                      #00000000,
-                      #00000000 12px,
-                      #9a0d0daa 12px,
-                      #9a0d0daa 18px
+        45deg,
+        var(--transparent-color),
+        var(--transparent-color) 12px,
+        var(--rundown-media-unavailable-color) 12px,
+        var(--rundown-media-unavailable-color) 18px
       );
       z-index: 10;
     }
