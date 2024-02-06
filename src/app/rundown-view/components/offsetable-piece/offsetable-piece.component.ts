@@ -70,9 +70,6 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
 
   private doesPieceContainMedia(): boolean {
     const piece: Tv2Piece = this.piece as Tv2Piece
-    if (!piece.metadata.sourceName) {
-      return false
-    }
     return !!piece.metadata.sourceName
   }
 

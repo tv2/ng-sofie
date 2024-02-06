@@ -24,7 +24,6 @@ export class HttpMediaService implements MediaService {
   }
 
   public getMedia(sourceName: string): Observable<Media> {
-    // TODO: Normalize media id/source name addressing (uppercase)
     const sanitizedSourceName: string = this.sanitizeMediaSourceName(sourceName)
     return this.http.get<HttpResponse<Media>>(`${environment.apiBaseUrl}/media/${sanitizedSourceName}`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
@@ -33,6 +32,7 @@ export class HttpMediaService implements MediaService {
   }
 
   private sanitizeMediaSourceName(sourceName: string): string {
+    // TODO: Normalize media id/source name addressing (uppercase)
     return encodeURIComponent(sourceName.toUpperCase())
   }
 }
