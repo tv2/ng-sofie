@@ -1,6 +1,5 @@
 import { EntityParser } from '../abstractions/entity-parser.service'
 import { BasicRundown } from '../models/basic-rundown'
-import { Part } from '../models/part'
 import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
 import * as zod from 'zod'
