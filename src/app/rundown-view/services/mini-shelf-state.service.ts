@@ -27,6 +27,7 @@ export class MiniShelfStateService {
   }
 
   public updateMiniShelves(rundown: Rundown): void {
+    this.miniShelfGroups.clear()
     let miniShelfGroupId: string[] = []
     let miniShelfSegmentsForGroup: Segment[] = []
 
