@@ -133,7 +133,7 @@ describe(MiniShelfStateService.name, (): void => {
 //   return instance(mockedEventObserver)
 // }
 
-function createRundownEventObserver(): RundownEventObserver {
+function createRundownEventObserverMock(): RundownEventObserver {
   const mockedRundownEventObserver: RundownEventObserver = mock<RundownEventObserver>()
   when(mockedRundownEventObserver.subscribeToRundownTake(anything())).thenCall(value => value)
   when(mockedRundownEventObserver.subscribeToRundownSetNext(anything())).thenCall(value => value)
@@ -154,7 +154,7 @@ function createMinimalTestee(
   } = {}
 ): MiniShelfStateService {
   const mockedActionService: ActionService = params.mockedActionService ?? createActionServiceMock()
-  const mockedRundownEventObserver: RundownEventObserver = params.mockedRundownEventObserver ?? createRundownEventObserver()
+  const mockedRundownEventObserver: RundownEventObserver = params.mockedRundownEventObserver ?? createRundownEventObserverMock()
 
   return new MiniShelfStateService(instance(mockedActionService), instance(mockedRundownEventObserver))
 }
