@@ -13,8 +13,8 @@
 
     color: var(--text-color);
 
-    font-weight: bold;
-    text-shadow: var(--gradient-black-rgba-with-08-opacity-color) 1px 1px 3px;
+    font-weight: normal;
+    text-shadow: var(--gradient-black-rgba-with-08-opacity-color) 0 0 8px;
     text-overflow: ellipsis;
     white-space: nowrap;
     z-index: 11;
