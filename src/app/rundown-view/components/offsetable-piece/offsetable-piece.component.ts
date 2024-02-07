@@ -45,6 +45,18 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
+  public ngOnChanges(changes: SimpleChanges): void {
+    const pieceChange: SimpleChange | undefined = changes['piece']
+    if (pieceChange) {
+      const previousMediaSourceName: string | undefined = pieceChange.previousValue ? this.getPieceMediaSourceName(pieceChange.previousValue) : undefined
+      if (previousMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
+        return
+      }
+      this.mediaSubscription?.unsubscribe()
+      this.updatePieceMedia()
+    }
+  }
+
   public updatePieceMedia(): void {
     if (!this.doesPieceContainMedia()) {
       return
@@ -54,18 +66,6 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
       return
     }
     this.mediaSubscription = this.mediaStateService.subscribeToMedia(mediaSourceName).subscribe(this.updateMediaAvailabilityStatus.bind(this))
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    const pieceChange: SimpleChange | undefined = changes['piece']
-    if (pieceChange) {
-      const oldMediaSourceName: string | undefined = pieceChange.previousValue ? this.getPieceMediaSourceName(pieceChange.previousValue) : undefined
-      if (oldMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
-        return
-      }
-      this.mediaSubscription?.unsubscribe()
-      this.updatePieceMedia()
-    }
   }
 
   private doesPieceContainMedia(): boolean {

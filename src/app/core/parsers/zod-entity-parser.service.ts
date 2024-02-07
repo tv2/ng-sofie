@@ -205,12 +205,12 @@ export class ZodEntityParser implements EntityParser {
     return this.tv2ActionParser.parse(tv2Action)
   }
 
-  public parseMediaAsset(media: unknown): Media {
-    return this.mediaAssetParser.parse(media)
+  public parseMediaAsset(mediaAsset: unknown): Media {
+    return this.mediaAssetParser.parse(mediaAsset)
   }
 
-  public parseMediaAssets(media: unknown): Media[] {
-    return this.mediaAssetsParser.parse(media)
+  public parseMediaAssets(mediaAssets: unknown): Media[] {
+    return this.mediaAssetsParser.parse(mediaAssets)
   }
 
   public parseSystemInformation(systemInformation: unknown): SystemInformation {
