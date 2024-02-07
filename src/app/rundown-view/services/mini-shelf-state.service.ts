@@ -3,30 +3,37 @@ import { Rundown } from '../../core/models/rundown'
 import { Segment } from '../../core/models/segment'
 import { ActionService } from '../../shared/abstractions/action.service'
 import { RundownEventObserver } from '../../core/services/rundown-event-observer.service'
-import { PartTakenEvent } from '../../core/models/rundown-event'
+import { PartSetAsNextEvent, PartTakenEvent, RundownActivatedEvent } from '../../core/models/rundown-event'
 import { Tv2VideoClipAction } from '../../shared/models/tv2-action'
 
 @Injectable()
 export class MiniShelfStateService {
   private readonly miniShelfGroups: Map<string[], Segment[]> = new Map()
   private miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
-  private activeSegmentId: string
-  private activeRundownId: string
+  private activeSegmentId: string = ''
+  private activeRundownId: string = ''
   private currentMiniShelfIndex: number = 0
-  private lastExecutedMiniShelfGroup: Segment[]
-  public nextSegmentId: string
+  private lastExecutedMiniShelfGroup: Segment[] = []
+  public nextSegmentId: string = ''
 
   constructor(
     private readonly actionService: ActionService,
     rundownEventObserver: RundownEventObserver
   ) {
+    rundownEventObserver.subscribeToRundownActivation((rundownActivatedEvent: RundownActivatedEvent) => {
+      this.activeRundownId = rundownActivatedEvent.rundownId
+    })
     rundownEventObserver.subscribeToRundownTake((partTakenEvent: PartTakenEvent) => {
       this.activeSegmentId = partTakenEvent.segmentId
-      this.activeRundownId = partTakenEvent.rundownId
+    })
+    rundownEventObserver.subscribeToRundownSetNext((partSetAsNextEvent: PartSetAsNextEvent) => {
+      this.nextSegmentId = partSetAsNextEvent.segmentId
     })
   }
 
   public updateMiniShelves(rundown: Rundown): void {
+    this.activeSegmentId = rundown.segments.find(segment => segment.isOnAir)?.id || ''
+    this.activeRundownId = rundown.isActive ? rundown.id : ''
     this.miniShelfGroups.clear()
     let miniShelfGroupId: string[] = []
     let miniShelfSegmentsForGroup: Segment[] = []
@@ -59,13 +66,15 @@ export class MiniShelfStateService {
   }
 
   public executeVideoClipActionForSegment(segment: Segment): void {
-    this.nextSegmentId = segment.id
     const action: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[segment.id]
     this.actionService.executeAction(action.id, this.activeRundownId).subscribe()
   }
 
   public cycleMiniShelfBackward(): void {
     const miniShelfGroup: Segment[] = this.findMiniShelfGroup()
+    if (miniShelfGroup.length === 0) {
+      return
+    }
     if (miniShelfGroup !== this.lastExecutedMiniShelfGroup) {
       this.lastExecutedMiniShelfGroup = miniShelfGroup
       this.currentMiniShelfIndex = miniShelfGroup.length - 1
@@ -77,6 +86,9 @@ export class MiniShelfStateService {
 
   public cycleMiniShelfForward(): void {
     const miniShelfGroup: Segment[] = this.findMiniShelfGroup()
+    if (miniShelfGroup.length === 0) {
+      return
+    }
     if (miniShelfGroup !== this.lastExecutedMiniShelfGroup) {
       this.lastExecutedMiniShelfGroup = miniShelfGroup
       this.currentMiniShelfIndex = 0
@@ -87,6 +99,9 @@ export class MiniShelfStateService {
   }
 
   public findMiniShelfGroup(): Segment[] {
+    if (!this.activeSegmentId) {
+      return []
+    }
     const key: string[] | undefined = Array.from(this.miniShelfGroups.keys()).find(key => key.includes(this.activeSegmentId))
     if (!key) {
       return []
@@ -96,13 +111,5 @@ export class MiniShelfStateService {
       return []
     }
     return miniShelfGroup
-  }
-
-  public getActiveSegmentId(): string {
-    return this.activeSegmentId
-  }
-
-  public getNextSegmentId(): string {
-    return this.nextSegmentId
   }
 }

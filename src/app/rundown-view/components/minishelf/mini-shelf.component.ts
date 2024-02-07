@@ -40,7 +40,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     this.logger = logger.tag('MiniShelfComponent')
   }
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
       this.studioConfiguration = studioConfiguration
     })
@@ -54,6 +54,15 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     this.rundownStateService.subscribeToNextPart(this.segment.rundownId).subscribe(nextPart => {
       const tv2Part: Tv2Part | undefined = nextPart as Tv2Part | undefined
       this.showNextBorder = !tv2Part || !this.videoClipAction ? false : tv2Part?.metadata?.actionId === this.videoClipAction?.id
+    })
+
+    await this.rundownStateService.subscribeToRundown(this.segment.rundownId).then(rundownObservable => {
+      rundownObservable.subscribe(rundown => {
+        if (!rundown?.isActive) {
+          this.showOnAirBorder = false
+          this.showNextBorder = false
+        }
+      })
     })
   }
 

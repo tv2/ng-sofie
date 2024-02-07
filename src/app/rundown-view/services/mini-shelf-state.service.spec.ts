@@ -90,28 +90,6 @@ describe(MiniShelfStateService.name, (): void => {
       expect(testee.findMiniShelfGroup()[0].id).toEqual('mockedSegmentId')
     })
   })
-
-  describe(MiniShelfStateService.prototype.getActiveSegmentId.name, (): void => {
-    it('should be defined', (): void => {
-      const testee: MiniShelfStateService = createMinimalTestee()
-      expect(testee.getActiveSegmentId).toBeDefined()
-    })
-    it('should return activeSegmentId', (): void => {
-      const testee: MiniShelfStateService = createMinimalTesteeGetActiveSegmentId()
-      expect(testee.getActiveSegmentId()).toEqual('activeSegmentId')
-    })
-  })
-
-  describe(MiniShelfStateService.prototype.getNextSegmentId.name, (): void => {
-    it('should be defined', (): void => {
-      const testee: MiniShelfStateService = createMinimalTestee()
-      expect(testee.getNextSegmentId).toBeDefined()
-    })
-    it('should return nextSegmentId', (): void => {
-      const testee: MiniShelfStateService = createMinimalTesteeGetNextSegmentId()
-      expect(testee.getNextSegmentId()).toEqual('nextSegmentId')
-    })
-  })
 })
 
 function createRundownEventObserverMock(): RundownEventObserver {

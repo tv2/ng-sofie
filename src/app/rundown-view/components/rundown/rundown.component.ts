@@ -57,17 +57,13 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       .then(rundownActionsSubscription => (this.rundownActionsSubscription = rundownActionsSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown actions changes.'))
 
-    this.subscribeForEventObserver()
-    this.miniShelfStateService.updateMiniShelves(this.rundown)
-  }
-
-  private subscribeForEventObserver(): void {
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownAutoNext(this.setAutoNextStartedToTrue.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownReset(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownDeactivation(this.setAutoNextStartedToFalse.bind(this)))
-
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownUpdates(() => this.miniShelfStateService.updateMiniShelves(this.rundown)))
+
+    this.miniShelfStateService.updateMiniShelves(this.rundown)
   }
 
   private setAutoNextStartedToTrue(): void {
