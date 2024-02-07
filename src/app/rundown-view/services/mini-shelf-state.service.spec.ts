@@ -7,6 +7,7 @@ import { Segment } from '../../core/models/segment'
 import { Tv2SegmentMetadata } from '../../core/models/tv2-segment-metadata'
 import { Tv2ActionContentType, Tv2VideoClipAction } from '../../shared/models/tv2-action'
 import { Observable } from 'rxjs'
+import { PartSetAsNextEvent, PartTakenEvent } from '../../core/models/rundown-event'
 
 describe(MiniShelfStateService.name, (): void => {
   it('should create', (): void => {
@@ -72,7 +73,8 @@ describe(MiniShelfStateService.name, (): void => {
       expect(testee.cycleMiniShelfBackward).toBeDefined()
     })
     it('should set the nextSegmentId to the last segment in the last miniShelfGroup', (): void => {
-      const testee: MiniShelfStateService = createMinimalTesteeCycleMiniShelfAny()
+      // const testee: MiniShelfStateService = createMinimalTesteeCycleMiniShelfAny()
+      const testee: MiniShelfStateService = createMinimalTesteeCycleMiniShelfBackward()
       testee.cycleMiniShelfBackward()
       expect(testee['nextSegmentId']).toEqual('mockedSegment3Id')
     })
@@ -112,31 +114,20 @@ describe(MiniShelfStateService.name, (): void => {
   })
 })
 
-// function createRundownEventParserMock(): RundownEventParser {
-//   const mockedRundownEventParser = mock<RundownEventParser>()
-//   when(mockedRundownEventParser.parseRundownActivatedEvent(anything())).thenCall(value => value)
-//   when(mockedRundownEventParser.parseRundownDeactivatedEvent(anything())).thenCall(value => value)
-//   when(mockedRundownEventParser.parseRundownResetEvent(anything())).thenCall(value => value)
-//   when(mockedRundownEventParser.parseTakenEvent(anything())).thenCall(value => value)
-//   when(mockedRundownEventParser.parseSetNextEvent(anything())).thenCall(value => value)
-//   when(mockedRundownEventParser.parseInfinitePiecesUpdatedEvent(anything())).thenCall(value => value)
-//   return instance(mockedRundownEventParser)
-// }
-// function createLoggerMock(): Logger {
-//   const testLoggerFactory: TestLoggerFactory = new TestLoggerFactory()
-//   return testLoggerFactory.createLogger()
-// }
-//
-// function createEventObserverMock(): EventObserver {
-//   const mockedEventObserver: EventObserver = mock<EventObserver>()
-//   when(mockedEventObserver.subscribe(anyString(), anything())).thenCall(value => value)
-//   return instance(mockedEventObserver)
-// }
-
 function createRundownEventObserverMock(): RundownEventObserver {
+  const mockedPartTakenEvent: PartTakenEvent = mock<PartTakenEvent>()
+  when(mockedPartTakenEvent.rundownId).thenReturn('mockedRundownId')
+  when(mockedPartTakenEvent.segmentId).thenReturn('mockedSegment3Id')
+  when(mockedPartTakenEvent.partId).thenReturn('mockedPartId')
+  const partTakenEvent: PartTakenEvent = instance(mockedPartTakenEvent)
   const mockedRundownEventObserver: RundownEventObserver = mock<RundownEventObserver>()
-  when(mockedRundownEventObserver.subscribeToRundownTake(anything())).thenCall(value => value)
-  when(mockedRundownEventObserver.subscribeToRundownSetNext(anything())).thenCall(value => value)
+  when(mockedRundownEventObserver.subscribeToRundownTake(anything())).thenCall(value => value(partTakenEvent))
+
+  const mockedPartAsNextEvent: PartSetAsNextEvent = mock<PartSetAsNextEvent>()
+  when(mockedPartAsNextEvent.segmentId).thenReturn('mockedSegment4Id')
+  when(mockedPartAsNextEvent.partId).thenReturn('mockedPartId')
+  const partAsNextEvent: PartSetAsNextEvent = instance(mockedPartAsNextEvent)
+  when(mockedRundownEventObserver.subscribeToRundownSetNext(anything())).thenCall(value => value(partAsNextEvent))
   return mockedRundownEventObserver
 }
 
@@ -159,86 +150,85 @@ function createMinimalTestee(
   return new MiniShelfStateService(instance(mockedActionService), instance(mockedRundownEventObserver))
 }
 
-// function createMinimalTesteeCycleMiniShelfBackward(): MiniShelfStateService {
-//   // const mockedActionService: ActionService = mock<ActionService>()
-//   // when(mockedActionService.executeAction('mockedSegment3Id', 'mockedRundownId')).thenResolve()
-//   // const actionService: ActionService = instance(mockedActionService)
-//   // const mockedRundownEventObserver: RundownEventObserver = mock<RundownEventObserver>()
-//
-//   // const mockedPartTakenEvent: PartTakenEvent = mock<PartTakenEvent>()
-//   // when(mockedPartTakenEvent.rundownId).thenReturn('mockedRundownId')
-//   // when(mockedPartTakenEvent.segmentId).thenReturn('mockedSegment3Id')
-//   // const partTakenEvent: PartTakenEvent = instance(mockedPartTakenEvent)
-//   // when(mockedRundownEventObserver.subscribeToRundownTake(anything())).thenReturn()
-//   // const rundownEventObserver: RundownEventObserver = instance(mockedRundownEventObserver)
-//
-//   // const testee: MiniShelfStateService = createMinimalTestee({ mockedActionService: actionService, mockedRundownEventObserver: rundownEventObserver })
-//   const testee: MiniShelfStateService = createMinimalTestee()
-//
-//   // segment OnAir
-//   const mockedSegment0: Segment = mock<Segment>()
-//   const segment0: Segment = instance(mockedSegment0)
-//   when(mockedSegment0.id).thenReturn('mockedSegment0Id')
-//   when(mockedSegment0.isHidden).thenReturn(false)
-//   when(mockedSegment0.isOnAir).thenReturn(true)
-//
-//   // three MiniShelves
-//   const mockedSegment1: Segment = mock<Segment>()
-//   const segment1: Segment = instance(mockedSegment1)
-//   const mockTv2Segment1Metadata: Tv2SegmentMetadata = mock<Tv2SegmentMetadata>()
-//   const tv2Segment1Metadata: Tv2SegmentMetadata = instance(mockTv2Segment1Metadata)
-//   when(mockedSegment1.id).thenReturn('mockedSegment1Id')
-//   when(mockedSegment1.metadata).thenReturn(tv2Segment1Metadata)
-//   when(mockedSegment1.isHidden).thenReturn(true)
-//
-//   const mockedSegment2: Segment = mock<Segment>()
-//   const segment2: Segment = instance(mockedSegment2)
-//   const mockTv2Segment2Metadata: Tv2SegmentMetadata = mock<Tv2SegmentMetadata>()
-//   const tv2Segment2Metadata: Tv2SegmentMetadata = instance(mockTv2Segment2Metadata)
-//   when(mockedSegment2.id).thenReturn('mockedSegment2Id')
-//   when(mockedSegment2.metadata).thenReturn(tv2Segment2Metadata)
-//   when(mockedSegment2.isHidden).thenReturn(true)
-//
-//   const mockedSegment3: Segment = mock<Segment>()
-//   const segment3: Segment = instance(mockedSegment3)
-//   const mockTv2Segment3Metadata: Tv2SegmentMetadata = mock<Tv2SegmentMetadata>()
-//   const tv2Segment3Metadata: Tv2SegmentMetadata = instance(mockTv2Segment3Metadata)
-//   when(mockedSegment3.id).thenReturn('mockedSegment3Id')
-//   when(mockedSegment3.metadata).thenReturn(tv2Segment3Metadata)
-//   when(mockedSegment3.isHidden).thenReturn(true)
-//
-//   // normal segment as Next
-//   const mockedSegment4: Segment = mock<Segment>()
-//   const segment4: Segment = instance(mockedSegment4)
-//   when(mockedSegment4.id).thenReturn('mockedSegment4Id')
-//   when(mockedSegment4.isHidden).thenReturn(false)
-//   when(mockedSegment4.isNext).thenReturn(true)
-//
-//   const mockedRundown: Rundown = mock<Rundown>()
-//   when(mockedRundown.id).thenReturn('mockedRundownId')
-//   const rundown: Rundown = instance(mockedRundown)
-//   when(mockedRundown.segments).thenReturn([segment0, segment1, segment2, segment3, segment4])
-//
-//   const mockedSegment1Tv2VideoClipAction: Tv2VideoClipAction = mock<Tv2VideoClipAction>()
-//   const segment1Tv2VideoClipAction: Tv2VideoClipAction = instance(mockedSegment1Tv2VideoClipAction)
-//   when(mockedSegment1Tv2VideoClipAction.metadata).thenReturn({ contentType: Tv2ActionContentType.VIDEO_CLIP, fileName: 'fileName1' })
-//   const mockedSegment2Tv2VideoClipAction: Tv2VideoClipAction = mock<Tv2VideoClipAction>()
-//   const segment2Tv2VideoClipAction: Tv2VideoClipAction = instance(mockedSegment2Tv2VideoClipAction)
-//   when(mockedSegment2Tv2VideoClipAction.metadata).thenReturn({ contentType: Tv2ActionContentType.VIDEO_CLIP, fileName: 'fileName2' })
-//   const mockedSegment3Tv2VideoClipAction: Tv2VideoClipAction = mock<Tv2VideoClipAction>()
-//   const segment3Tv2VideoClipAction: Tv2VideoClipAction = instance(mockedSegment3Tv2VideoClipAction)
-//   when(mockedSegment3Tv2VideoClipAction.metadata).thenReturn({ contentType: Tv2ActionContentType.VIDEO_CLIP, fileName: 'fileName3' })
-//   testee.updateMiniShelves(rundown)
-//   testee.setActions({
-//     mockedSegment1Id: segment1Tv2VideoClipAction,
-//     mockedSegment2Id: segment2Tv2VideoClipAction,
-//     mockedSegment3Id: segment3Tv2VideoClipAction,
-//   })
-//   testee['activeSegmentId'] = 'mockedSegment0Id'
-//   testee['activeRundownId'] = 'mockedRundownId'
-//
-//   return testee
-// }
+function createMinimalTesteeCycleMiniShelfBackward(): MiniShelfStateService {
+  const mockedActionService: ActionService = mock<ActionService>()
+  when(mockedActionService.executeAction('mockedSegment3Id', 'mockedRundownId')).thenResolve()
+  const actionService: ActionService = instance(mockedActionService)
+  const mockedRundownEventObserver: RundownEventObserver = mock<RundownEventObserver>()
+
+  const mockedPartTakenEvent: PartTakenEvent = mock<PartTakenEvent>()
+  when(mockedPartTakenEvent.rundownId).thenReturn('mockedRundownId')
+  when(mockedPartTakenEvent.segmentId).thenReturn('mockedSegment3Id')
+  const partTakenEvent: PartTakenEvent = instance(mockedPartTakenEvent)
+  when(mockedRundownEventObserver.subscribeToRundownTake(anything())).thenCall(value => value(partTakenEvent))
+  const rundownEventObserver: RundownEventObserver = instance(mockedRundownEventObserver)
+
+  const testee: MiniShelfStateService = createMinimalTestee({ mockedActionService: actionService, mockedRundownEventObserver: rundownEventObserver })
+
+  // segment OnAir
+  const mockedSegment0: Segment = mock<Segment>()
+  const segment0: Segment = instance(mockedSegment0)
+  when(mockedSegment0.id).thenReturn('mockedSegment0Id')
+  when(mockedSegment0.isHidden).thenReturn(false)
+  when(mockedSegment0.isOnAir).thenReturn(true)
+
+  // three MiniShelves
+  const mockedSegment1: Segment = mock<Segment>()
+  const segment1: Segment = instance(mockedSegment1)
+  const mockTv2Segment1Metadata: Tv2SegmentMetadata = mock<Tv2SegmentMetadata>()
+  const tv2Segment1Metadata: Tv2SegmentMetadata = instance(mockTv2Segment1Metadata)
+  when(mockedSegment1.id).thenReturn('mockedSegment1Id')
+  when(mockedSegment1.metadata).thenReturn(tv2Segment1Metadata)
+  when(mockedSegment1.isHidden).thenReturn(true)
+
+  const mockedSegment2: Segment = mock<Segment>()
+  const segment2: Segment = instance(mockedSegment2)
+  const mockTv2Segment2Metadata: Tv2SegmentMetadata = mock<Tv2SegmentMetadata>()
+  const tv2Segment2Metadata: Tv2SegmentMetadata = instance(mockTv2Segment2Metadata)
+  when(mockedSegment2.id).thenReturn('mockedSegment2Id')
+  when(mockedSegment2.metadata).thenReturn(tv2Segment2Metadata)
+  when(mockedSegment2.isHidden).thenReturn(true)
+
+  const mockedSegment3: Segment = mock<Segment>()
+  const segment3: Segment = instance(mockedSegment3)
+  const mockTv2Segment3Metadata: Tv2SegmentMetadata = mock<Tv2SegmentMetadata>()
+  const tv2Segment3Metadata: Tv2SegmentMetadata = instance(mockTv2Segment3Metadata)
+  when(mockedSegment3.id).thenReturn('mockedSegment3Id')
+  when(mockedSegment3.metadata).thenReturn(tv2Segment3Metadata)
+  when(mockedSegment3.isHidden).thenReturn(true)
+
+  // normal segment as Next
+  const mockedSegment4: Segment = mock<Segment>()
+  const segment4: Segment = instance(mockedSegment4)
+  when(mockedSegment4.id).thenReturn('mockedSegment4Id')
+  when(mockedSegment4.isHidden).thenReturn(false)
+  when(mockedSegment4.isNext).thenReturn(true)
+
+  const mockedRundown: Rundown = mock<Rundown>()
+  when(mockedRundown.id).thenReturn('mockedRundownId')
+  const rundown: Rundown = instance(mockedRundown)
+  when(mockedRundown.segments).thenReturn([segment0, segment1, segment2, segment3, segment4])
+
+  const mockedSegment1Tv2VideoClipAction: Tv2VideoClipAction = mock<Tv2VideoClipAction>()
+  const segment1Tv2VideoClipAction: Tv2VideoClipAction = instance(mockedSegment1Tv2VideoClipAction)
+  when(mockedSegment1Tv2VideoClipAction.metadata).thenReturn({ contentType: Tv2ActionContentType.VIDEO_CLIP, fileName: 'fileName1' })
+  const mockedSegment2Tv2VideoClipAction: Tv2VideoClipAction = mock<Tv2VideoClipAction>()
+  const segment2Tv2VideoClipAction: Tv2VideoClipAction = instance(mockedSegment2Tv2VideoClipAction)
+  when(mockedSegment2Tv2VideoClipAction.metadata).thenReturn({ contentType: Tv2ActionContentType.VIDEO_CLIP, fileName: 'fileName2' })
+  const mockedSegment3Tv2VideoClipAction: Tv2VideoClipAction = mock<Tv2VideoClipAction>()
+  const segment3Tv2VideoClipAction: Tv2VideoClipAction = instance(mockedSegment3Tv2VideoClipAction)
+  when(mockedSegment3Tv2VideoClipAction.metadata).thenReturn({ contentType: Tv2ActionContentType.VIDEO_CLIP, fileName: 'fileName3' })
+  testee.updateMiniShelves(rundown)
+  testee.setActions({
+    mockedSegment1Id: segment1Tv2VideoClipAction,
+    mockedSegment2Id: segment2Tv2VideoClipAction,
+    mockedSegment3Id: segment3Tv2VideoClipAction,
+  })
+  testee['activeSegmentId'] = 'mockedSegment0Id'
+  testee['activeRundownId'] = 'mockedRundownId'
+
+  return testee
+}
 
 function createMinimalTesteeMiniShelfGroups(): MiniShelfStateService {
   const testee: MiniShelfStateService = createMinimalTestee()
