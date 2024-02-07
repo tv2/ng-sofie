@@ -26,13 +26,10 @@ describe(MiniShelfStateService.name, (): void => {
       const tv2VideoClipAction1: Tv2VideoClipAction = instance(mockedTv2VideoClipAction1)
       const mockedTv2VideoClipAction2: Tv2VideoClipAction = mock<Tv2VideoClipAction>()
       const tv2VideoClipAction2: Tv2VideoClipAction = instance(mockedTv2VideoClipAction2)
-      const mockedTv2VideoClipAction3: Tv2VideoClipAction = mock<Tv2VideoClipAction>()
-      const tv2VideoClipAction3: Tv2VideoClipAction = instance(mockedTv2VideoClipAction3)
-      testee.setActions({ '1': tv2VideoClipAction1, '2': tv2VideoClipAction2, '3': tv2VideoClipAction3 })
+      testee.setActions({ first: tv2VideoClipAction1, second: tv2VideoClipAction2 })
       expect(testee['miniShelfSegmentActionMappings']).toEqual({
-        '1': tv2VideoClipAction1,
-        '2': tv2VideoClipAction2,
-        '3': tv2VideoClipAction3,
+        first: tv2VideoClipAction1,
+        second: tv2VideoClipAction2,
       })
     })
   })
@@ -247,17 +244,5 @@ function createMinimalTesteeCycleMiniShelfAny(): MiniShelfStateService {
   const actionMap: Record<string, Tv2VideoClipAction> = { mockedSegmentId: tv2VideoClipAction }
   testee.setActions(actionMap)
   testee.updateMiniShelves(aRunDown)
-  return testee
-}
-
-function createMinimalTesteeGetNextSegmentId(): MiniShelfStateService {
-  const testee: MiniShelfStateService = createMinimalTestee()
-  testee['nextSegmentId'] = 'nextSegmentId'
-  return testee
-}
-
-function createMinimalTesteeGetActiveSegmentId(): MiniShelfStateService {
-  const testee: MiniShelfStateService = createMinimalTestee()
-  testee['activeSegmentId'] = 'activeSegmentId'
   return testee
 }
