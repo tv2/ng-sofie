@@ -5,26 +5,35 @@
   margin: 5px 0 5px 20px;
   border-radius: 5px;
   overflow: hidden;
-  border: solid 1px var(--gray-color);
   background-color: var(--blue-color);
-  box-shadow: 0 2px 2px 2px var(--gradient-black-rgba-with-02-opacity-color);
+
+  &--normal {
+    border: solid 1px var(--gray-color);
+    box-shadow: 0 0 2px 2px var(--gradient-black-rgba-with-02-opacity-color);
+  }
 
   &:hover {
     cursor: pointer;
-    border: solid 1px var(--white-color);
     box-shadow: 0 0 2px 2px var(--gradient-green-rgba-with-04-opacity-color);
   }
 
   &--on-air {
-    border-top: solid 1px var(--red-color);
-    border-left: solid 1px var(--red-color);
-    box-shadow: 0 0 2px 2px var(--gradient-red-rgba-with-04-opacity-color);
+    border: solid 2px var(--red-color);
+    box-shadow: 0 0 2px 2px var(--gradient-red-rgba-with-08-opacity-color);
   }
 
   &--next {
-    border-right: solid 1px var(--green-color);
-    border-bottom: solid 1px var(--green-color);
+    border: solid 1px var(--bright-green-color);
     box-shadow: 0 0 2px 2px var(--gradient-green-rgba-with-08-opacity-color);
+  }
+
+  &--on-air-and-next {
+    border-top: solid 2px var(--red-color);
+    border-left: solid 2px var(--red-color);
+    border-right: solid 2px var(--bright-green-color);
+    border-bottom: solid 2px var(--bright-green-color);
+    box-shadow: 0 0 2px 2px var(--gradient-red-rgba-with-08-opacity-color),
+      0 0 2px 2px var(--gradient-green-rgba-with-08-opacity-color);
   }
 
   &__thumbnail {

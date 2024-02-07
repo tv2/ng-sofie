@@ -1,5 +1,9 @@
 <div
-  class="c-mini-shelf {{ showOnAirBorder ? 'c-mini-shelf--on-air' : 'not-on-air' }} {{ !showOnAirBorder && showNextBorder ? 'c-mini-shelf--next' : 'off-air-and-not-next' }}"
+  class="c-mini-shelf
+{{ showOnAirBorder && !showNextBorder ? 'c-mini-shelf--on-air' : '' }}
+{{ !showOnAirBorder && showNextBorder ? 'c-mini-shelf--next' : '' }}
+{{ showOnAirBorder && showNextBorder ? 'c-mini-shelf--on-air-and-next' : '' }}
+{{ !showOnAirBorder && !showNextBorder ? 'c-mini-shelf--normal' : '' }}"
   title="{{ segment.name }}"
   (click)="executeAction()"
 >
