@@ -26,7 +26,7 @@ export class MediaStateService implements OnDestroy {
   }
 
   private updateMedia(media: Media): void {
-    const mediaSubject: BehaviorSubject<Media | undefined> | undefined = this.getMediaSubject(media.sourceName)
+    const mediaSubject: BehaviorSubject<Media | undefined> = this.getMediaSubject(media.sourceName)
     mediaSubject.next(media)
   }
 
@@ -56,18 +56,7 @@ export class MediaStateService implements OnDestroy {
   }
 
   public subscribeToMedia(sourceName: string): Observable<Media | undefined> {
-    return this.createMediaSubject(sourceName).asObservable()
-  }
-
-  private createMediaSubject(sourceName: string): BehaviorSubject<Media | undefined> {
-    const mediaSubjectKey: string = this.getMediaSubjectKey(sourceName)
-    const mediaSubject: BehaviorSubject<Media | undefined> | undefined = this.mediaSubjects.get(mediaSubjectKey)
-    if (mediaSubject) {
-      return mediaSubject
-    }
-    const subject: BehaviorSubject<Media | undefined> = new BehaviorSubject<Media | undefined>(undefined)
-    this.mediaSubjects.set(mediaSubjectKey, subject)
-    return subject
+    return this.getMediaSubject(sourceName).asObservable()
   }
 
   public ngOnDestroy(): void {

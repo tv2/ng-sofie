@@ -36,7 +36,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   @ViewChild('labelTextElement')
   public labelTextElement: ElementRef<HTMLSpanElement>
 
-  public media: Media | undefined
+  public media?: Media
 
   private mediaSubscription?: Subscription
 
