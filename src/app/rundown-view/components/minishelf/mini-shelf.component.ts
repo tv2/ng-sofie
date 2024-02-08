@@ -18,6 +18,7 @@ import { Tv2Part } from '../../../core/models/tv2-part'
 export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction?: Tv2VideoClipAction
+  @Input() public isRundownActive: boolean
 
   public showOnAirBorder: boolean = false
   public showNextBorder: boolean = false
@@ -35,7 +36,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     private readonly rundownStateService: RundownStateService
   ) {}
 
-  public async ngOnInit(): Promise<void> {
+  public ngOnInit(): void {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
       this.studioConfiguration = studioConfiguration
     })
@@ -49,15 +50,6 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     this.rundownStateService.subscribeToNextPart(this.segment.rundownId).subscribe(nextPart => {
       const tv2Part: Tv2Part | undefined = nextPart as Tv2Part | undefined
       this.showNextBorder = !tv2Part || !this.videoClipAction ? false : tv2Part?.metadata?.actionId === this.videoClipAction?.id
-    })
-
-    await this.rundownStateService.subscribeToRundown(this.segment.rundownId).then(rundownObservable => {
-      rundownObservable.subscribe(rundown => {
-        if (!rundown?.isActive) {
-          this.showOnAirBorder = false
-          this.showNextBorder = false
-        }
-      })
     })
   }
 
@@ -84,6 +76,12 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if ('segment' in changes) {
       this.updateMediaAndCalculate()
+    }
+    if ('isRundownActive' in changes) {
+      if (!this.isRundownActive) {
+        this.showOnAirBorder = false
+        this.showNextBorder = false
+      }
     }
   }
 

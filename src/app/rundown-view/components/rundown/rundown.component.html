@@ -12,6 +12,7 @@
         <sofie-mini-shelf
                 *ngIf="segment.metadata?.miniShelfVideoClipFile"
                 [segment]="segment"
+                [isRundownActive]="rundown ? rundown.isActive : false"
                 [videoClipAction]="miniShelfSegmentActionMappings[segment.id]"
         ></sofie-mini-shelf>
     </ng-container>
