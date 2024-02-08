@@ -79,14 +79,15 @@ describe(ZodEntityParser.name, () => {
     })
   })
 
-  describe(ZodEntityParser.prototype.parseMedia.name, () => {
+  describe(ZodEntityParser.prototype.parseMediaAsset.name, () => {
     it('parses a Media data ', () => {
       const testee: ZodEntityParser = new ZodEntityParser()
       const expectedMedia: Media = {
         id: '123',
+        sourceName: 'source',
         duration: 123,
       }
-      const parseMedia: Media = testee.parseMedia(expectedMedia)
+      const parseMedia: Media = testee.parseMediaAsset(expectedMedia)
       expect(parseMedia).toEqual(expectedMedia)
     })
   })

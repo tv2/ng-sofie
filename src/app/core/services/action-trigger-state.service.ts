@@ -5,7 +5,7 @@ import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { ActionTriggerService } from '../../shared/abstractions/action-trigger.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpdatedEvent } from '../models/action-trigger-event'
-import { ActionTriggerEventObserver } from '../models/action-trigger-event-observer.service'
+import { ActionTriggerEventObserver } from './action-trigger-event-observer.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Injectable()

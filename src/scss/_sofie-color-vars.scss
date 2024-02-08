@@ -14,6 +14,7 @@ body {
   --yellow-color: #ffea00;
   --blue-color: #0f5be9;
   --orangered-color: orangered;
+  --transparent-color: #00000000;
 
   --on-air-color: #c40000;
   --next-color: #00ac17;
@@ -21,8 +22,8 @@ body {
   --tv2-camera-color: #005919;
   --tv2-replay-color: #8d1010;
   --tv2-remote-color: #ac29a5;
-  --tv2-graphics-color: #ca9d00;
-  --tv2-overlay-graphics-color: #ca9d00;
+  --tv2-graphics-color: #b99000;
+  --tv2-overlay-graphics-color: #b99000;
   --tv2-split-screen-upper: #00a99c;
   --tv2-split-screen-lower: #265753;
   --tv2-voice-over-color: #370020;
@@ -40,6 +41,7 @@ body {
   --rundown-segment-header-background-color: #4b4b4b;
   --rundown-draggable-shelf-hover-color: #888888;
   --rundown-unsynced-segment-color: #ffff00ba;
+  --rundown-media-unavailable-color: #9a0d0daa;
   --rundown-timeline-marker-color: #5f6164;
 
   --gradient-black-rgba-with-02-opacity-color: rgba(0, 0, 0, 0.2);

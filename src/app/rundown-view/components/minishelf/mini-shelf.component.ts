@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs'
 import { ActionService } from '../../../shared/abstractions/action.service'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
-import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { Tv2Part } from '../../../core/models/tv2-part'
 
@@ -24,21 +23,17 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   public showNextBorder: boolean = false
 
   private readonly fallbackPreviewUrl: string = 'assets/sofie-logo.svg'
-  protected media: Media
+  protected media: Media | undefined
   private configurationServiceSubscription: Subscription
   private studioConfiguration?: StudioConfiguration
-  private readonly logger: Logger
   protected mediaDurationInMsWithoutPostroll: number = 0
 
   constructor(
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
     private readonly mediaStateService: MediaStateService,
-    private readonly rundownStateService: RundownStateService,
-    logger: Logger
-  ) {
-    this.logger = logger.tag('MiniShelfComponent')
-  }
+    private readonly rundownStateService: RundownStateService
+  ) {}
 
   public async ngOnInit(): Promise<void> {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
@@ -71,15 +66,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
       return
     }
 
-    this.mediaStateService
-      .subscribeToMedia(this.segment.metadata?.miniShelfVideoClipFile)
-      .then(mediaObservable =>
-        mediaObservable.subscribe(media => {
-          this.setMedia(media)
-          this.calculateMediaDurationInMsWithoutPostroll()
-        })
-      )
-      .catch(error => this.logger.data(error).error(`Failed to update media for segment.`))
+    this.mediaStateService.subscribeToMedia(this.segment.metadata?.miniShelfVideoClipFile).subscribe(media => this.updateMedia(media))
   }
 
   private calculateMediaDurationInMsWithoutPostroll(): void {
@@ -90,7 +77,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
       return
     }
 
-    this.mediaDurationInMsWithoutPostroll = Math.max(this.media.duration - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration, 0)
+    const mediaDurationInMs: number = this.media?.duration ?? 0
+    this.mediaDurationInMsWithoutPostroll = Math.max(mediaDurationInMs - this.studioConfiguration.blueprintConfiguration.ServerPostrollDuration, 0)
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -134,7 +122,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     ;(event.target as HTMLImageElement).src = this.fallbackPreviewUrl
   }
 
-  private setMedia(media: Media): void {
+  private updateMedia(media: Media | undefined): void {
     this.media = media
+    this.calculateMediaDurationInMsWithoutPostroll()
   }
 }

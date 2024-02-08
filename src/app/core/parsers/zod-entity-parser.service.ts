@@ -61,6 +61,7 @@ export class ZodEntityParser implements EntityParser {
       type: zod.nativeEnum(Tv2PieceType),
       outputLayer: zod.nativeEnum(Tv2OutputLayer).optional(),
       audioMode: zod.nativeEnum(Tv2AudioMode).optional(),
+      sourceName: zod.string().optional(),
     }),
   })
 
@@ -143,6 +144,36 @@ export class ZodEntityParser implements EntityParser {
     infinitePieces: this.pieceParser.array(),
   })
 
+  private readonly studioConfigurationParser = zod.object({
+    settings: zod.object({
+      mediaPreviewUrl: zod.string().min(9, 'Media preview url must be longer than 9 characters long i.e. http://tld'),
+    }),
+    blueprintConfiguration: zod.object({
+      ServerPostrollDuration: zod.number().min(0, 'Server post-roll duration must be 0 or more.'),
+    }),
+  })
+
+  private readonly tv2ActionParser = zod.object({
+    id: zod.string(),
+    name: zod.string(),
+    type: zod.nativeEnum(PartActionType).or(zod.nativeEnum(PieceActionType)),
+    metadata: zod.object({
+      contentType: zod.nativeEnum(Tv2ActionContentType),
+    }),
+  })
+
+  private readonly mediaAssetParser = zod.object({
+    id: zod.string(),
+    sourceName: zod.string(),
+    duration: zod.number(),
+  })
+
+  private readonly mediaAssetsParser = this.mediaAssetParser.array()
+
+  private readonly systemInformationParser = zod.object({
+    name: zod.string(),
+  })
+
   public parsePiece(piece: unknown): Tv2Piece {
     return this.pieceParser.parse(piece)
   }
@@ -171,44 +202,21 @@ export class ZodEntityParser implements EntityParser {
     return this.showStyleVariantParser.parse(showStyleVariant)
   }
 
-  private readonly studioConfigurationParser = zod.object({
-    settings: zod.object({
-      mediaPreviewUrl: zod.string().min(9, 'Media preview url must be longer than 9 characters long i.e. http://tld'),
-    }),
-    blueprintConfiguration: zod.object({
-      ServerPostrollDuration: zod.number().min(0, 'Server post-roll duration must be 0 or more.'),
-    }),
-  })
-
   public parseStudioConfiguration(studioConfiguration: unknown): StudioConfiguration {
     return this.studioConfigurationParser.parse(studioConfiguration)
   }
-
-  private readonly tv2ActionParser = zod.object({
-    id: zod.string(),
-    name: zod.string(),
-    type: zod.nativeEnum(PartActionType).or(zod.nativeEnum(PieceActionType)),
-    metadata: zod.object({
-      contentType: zod.nativeEnum(Tv2ActionContentType),
-    }),
-  })
 
   public parseTv2Action(tv2Action: unknown): Tv2Action {
     return this.tv2ActionParser.parse(tv2Action)
   }
 
-  private readonly mediaDataParser = zod.object({
-    id: zod.string(),
-    duration: zod.number(),
-  })
-
-  public parseMedia(media: unknown): Media {
-    return this.mediaDataParser.parse(media)
+  public parseMediaAsset(mediaAsset: unknown): Media {
+    return this.mediaAssetParser.parse(mediaAsset)
   }
 
-  private readonly systemInformationParser = zod.object({
-    name: zod.string(),
-  })
+  public parseMediaAssets(mediaAssets: unknown): Media[] {
+    return this.mediaAssetsParser.parse(mediaAssets)
+  }
 
   public parseSystemInformation(systemInformation: unknown): SystemInformation {
     return this.systemInformationParser.parse(systemInformation)

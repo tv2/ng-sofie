@@ -24,13 +24,16 @@ import { HttpBasicRundownService } from './services/http/http-basic-rundown.serv
 import { EntityParser } from './abstractions/entity-parser.service'
 import { ZodEntityParser } from './parsers/zod-entity-parser.service'
 import { ActionTriggerStateService } from './services/action-trigger-state.service'
-import { ActionTriggerEventObserver } from './models/action-trigger-event-observer.service'
+import { ActionTriggerEventObserver } from './services/action-trigger-event-observer.service'
 import { ActionTriggerEventParser } from './abstractions/action-trigger-event-parser'
 import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-parser.service'
 import { DomFileDownloadService } from './services/dom-file-download.service'
 import { FortAwesomeIconService } from './services/http/http-icon.service'
 import { IconService } from './abstractions/icon.service'
 import { FileDownloadService } from './abstractions/file-download.service'
+import { ZodMediaEventParserService } from './parsers/zod-media-event-parser.service'
+import { MediaEventParser } from './abstractions/media-event-parser'
+import { MediaEventObserver } from './services/media-event-observer.service'
 
 @NgModule({
   declarations: [],
@@ -57,6 +60,8 @@ import { FileDownloadService } from './abstractions/file-download.service'
     ActionTriggerStateService,
     ActionTriggerEventObserver,
     { provide: ActionTriggerEventParser, useClass: ZodActionTriggerEventParser },
+    MediaEventObserver,
+    { provide: MediaEventParser, useClass: ZodMediaEventParserService },
   ],
 })
 export class CoreModule extends EnsureLoadedOnceGuard {
