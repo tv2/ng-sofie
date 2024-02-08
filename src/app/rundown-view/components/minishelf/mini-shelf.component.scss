@@ -7,25 +7,22 @@
   overflow: hidden;
   background-color: var(--blue-color);
   box-shadow: 0 0 2px 2px var(--gradient-black-rgba-with-02-opacity-color);
-
-  &--normal {
-    border: solid 2px var(--gray-color);
-  }
+  border: solid 2px var(--gray-color);
 
   &:hover {
     cursor: pointer;
     box-shadow: 0 0 2px 2px var(--gradient-green-rgba-with-04-opacity-color);
   }
 
-  &--on-air {
+  &.is-on-air {
     border: solid 2px var(--red-color);
   }
 
-  &--next {
+  &.is-next {
     border: solid 2px var(--bright-green-color);
   }
 
-  &--on-air-and-next {
+  &.is-on-air.is-next {
     border: solid 2px var(--red-color);
     border-right: solid 2px var(--bright-green-color);
   }
