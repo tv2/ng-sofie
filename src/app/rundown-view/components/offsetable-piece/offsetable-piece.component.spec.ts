@@ -2,12 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { OffsetablePieceComponent } from './offsetable-piece.component'
 import { instance, mock } from '@typestrong/ts-mockito'
-<<<<<<< HEAD
 import { Tv2Piece } from 'src/app/core/models/tv2-piece'
-=======
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { ChangeDetectorRef } from '@angular/core'
->>>>>>> origin/develop
 
 describe(OffsetablePieceComponent.name, () => {
   let component: OffsetablePieceComponent

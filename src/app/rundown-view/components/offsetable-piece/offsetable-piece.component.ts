@@ -4,7 +4,6 @@ import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { Subscription } from 'rxjs'
-import { Piece } from 'src/app/core/models/piece'
 import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
@@ -17,7 +16,7 @@ const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 })
 export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   @Input()
-  public piece: Piece
+  public piece: Tv2Piece
 
   @Input()
   public pixelsPerSecond: number
@@ -139,9 +138,8 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     return !!this.mediaSubscription && !this.media
   }
 
-  public getPieceMediaSourceName(piece: Piece): string {
-    const tv2Piece: Tv2Piece = piece as Tv2Piece
-    return tv2Piece.metadata.sourceName ?? ''
+  public getPieceMediaSourceName(piece: Tv2Piece): string {
+    return piece.metadata.sourceName ?? ''
   }
 
   private updateMediaAvailabilityStatus(media: Media | undefined): void {
