@@ -1,6 +1,10 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
 import { Tv2Piece } from '../../../core/models/tv2-piece'
 import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
+import { MediaStateService } from '../../../shared/services/media-state.service'
+import { Media } from '../../../shared/services/media'
+import { Subscription } from 'rxjs'
+import { Piece } from 'src/app/core/models/piece'
 import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
@@ -11,9 +15,9 @@ const LABEL_TEXT_INSET_IN_PIXELS: number = 14
   styleUrls: ['./offsetable-piece.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OffsetablePieceComponent {
+export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   @Input()
-  public piece: Tv2Piece
+  public piece: Piece
 
   @Input()
   public pixelsPerSecond: number
@@ -32,6 +36,43 @@ export class OffsetablePieceComponent {
 
   @ViewChild('labelTextElement')
   public labelTextElement: ElementRef<HTMLSpanElement>
+
+  public media?: Media
+
+  private mediaSubscription?: Subscription
+
+  constructor(
+    private readonly mediaStateService: MediaStateService,
+    private readonly changeDetectorRef: ChangeDetectorRef
+  ) {}
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    const pieceChange: SimpleChange | undefined = changes['piece']
+    if (pieceChange) {
+      const previousMediaSourceName: string | undefined = pieceChange.previousValue ? this.getPieceMediaSourceName(pieceChange.previousValue) : undefined
+      if (previousMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
+        return
+      }
+      this.mediaSubscription?.unsubscribe()
+      this.updatePieceMedia()
+    }
+  }
+
+  public updatePieceMedia(): void {
+    if (!this.doesPieceContainMedia()) {
+      return
+    }
+    const mediaSourceName: string = this.getPieceMediaSourceName(this.piece)
+    if (!mediaSourceName) {
+      return
+    }
+    this.mediaSubscription = this.mediaStateService.subscribeToMedia(mediaSourceName).subscribe(this.updateMediaAvailabilityStatus.bind(this))
+  }
+
+  private doesPieceContainMedia(): boolean {
+    const piece: Tv2Piece = this.piece as Tv2Piece
+    return !!piece.metadata.sourceName
+  }
 
   @HostBinding('style.left.px')
   public get leftInPixels(): number {
@@ -91,5 +132,28 @@ export class OffsetablePieceComponent {
 
   public isThisTypeHasHoverScrub(type: Tv2PieceType): boolean {
     return type === Tv2PieceType.VIDEO_CLIP
+  }
+
+  @HostBinding('class.media-unavailable')
+  public get isMediaUnavailable(): boolean {
+    return !!this.mediaSubscription && !this.media
+  }
+
+  public getPieceMediaSourceName(piece: Piece): string {
+    const tv2Piece: Tv2Piece = piece as Tv2Piece
+    return tv2Piece.metadata.sourceName ?? ''
+  }
+
+  private updateMediaAvailabilityStatus(media: Media | undefined): void {
+    const piece: Tv2Piece = this.piece as Tv2Piece
+    if (!piece.metadata.sourceName) {
+      return
+    }
+    this.media = media
+    this.changeDetectorRef.detectChanges()
+  }
+
+  public ngOnDestroy(): void {
+    this.mediaSubscription?.unsubscribe()
   }
 }

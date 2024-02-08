@@ -11,4 +11,5 @@ export interface Tv2PieceMetadata {
   readonly type: Tv2PieceType
   readonly outputLayer?: Tv2OutputLayer
   readonly audioMode?: Tv2AudioMode
+  readonly sourceName?: string
 }

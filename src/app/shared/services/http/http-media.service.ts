@@ -16,10 +16,23 @@ export class HttpMediaService implements MediaService {
     private readonly entityParser: EntityParser
   ) {}
 
-  public getMedia(id: string): Observable<Media> {
-    return this.http.get<HttpResponse<Media>>(`${environment.apiBaseUrl}/media/${id}`).pipe(
+  public getAllMedia(): Observable<Media[]> {
+    return this.http.get<HttpResponse<Media[]>>(`${environment.apiBaseUrl}/media`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
-      map(response => this.entityParser.parseMedia(response.data))
+      map(response => this.entityParser.parseMediaAssets(response.data))
     )
+  }
+
+  public getMedia(sourceName: string): Observable<Media> {
+    const sanitizedSourceName: string = this.sanitizeMediaSourceName(sourceName)
+    return this.http.get<HttpResponse<Media>>(`${environment.apiBaseUrl}/media/${sanitizedSourceName}`).pipe(
+      catchError(error => this.httpErrorService.catchError(error)),
+      map(response => this.entityParser.parseMediaAsset(response.data))
+    )
+  }
+
+  private sanitizeMediaSourceName(sourceName: string): string {
+    // TODO: Normalize media id/source name addressing (uppercase)
+    return encodeURIComponent(sourceName.toUpperCase())
   }
 }

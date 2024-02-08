@@ -20,6 +20,25 @@
     z-index: 11;
   }
 
+  &.media-unavailable {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--transparent-color),
+        var(--transparent-color) 12px,
+        var(--rundown-media-unavailable-color) 12px,
+        var(--rundown-media-unavailable-color) 18px
+      );
+      z-index: 10;
+    }
+  }
+
   &.camera {
     background-color: var(--tv2-camera-color);
   }
