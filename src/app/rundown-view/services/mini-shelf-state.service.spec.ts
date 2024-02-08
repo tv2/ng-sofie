@@ -5,7 +5,7 @@ import { ActionService } from '../../shared/abstractions/action.service'
 import { Rundown } from '../../core/models/rundown'
 import { Segment } from '../../core/models/segment'
 import { Tv2SegmentMetadata } from '../../core/models/tv2-segment-metadata'
-import { Tv2ActionContentType, Tv2VideoClipAction } from '../../shared/models/tv2-action'
+import { Tv2VideoClipAction } from '../../shared/models/tv2-action'
 import { Observable } from 'rxjs'
 import { PartSetAsNextEvent, PartTakenEvent } from '../../core/models/rundown-event'
 
@@ -45,13 +45,6 @@ describe(MiniShelfStateService.name, (): void => {
     })
   })
 
-  describe(MiniShelfStateService.prototype.executeVideoClipActionForSegment.name, (): void => {
-    it('should be defined', (): void => {
-      const testee: MiniShelfStateService = createMinimalTestee()
-      expect(testee.executeVideoClipActionForSegment).toBeDefined()
-    })
-  })
-
   describe(MiniShelfStateService.prototype.cycleMiniShelfForward.name, (): void => {
     it('should be defined', (): void => {
       const testee: MiniShelfStateService = createMinimalTestee()
@@ -63,17 +56,6 @@ describe(MiniShelfStateService.name, (): void => {
     it('should be defined', (): void => {
       const testee: MiniShelfStateService = createMinimalTestee()
       expect(testee.cycleMiniShelfBackward).toBeDefined()
-    })
-  })
-
-  describe(MiniShelfStateService.prototype.findMiniShelfGroup.name, (): void => {
-    it('should be defined', (): void => {
-      const testee: MiniShelfStateService = createMinimalTestee()
-      expect(testee.findMiniShelfGroup).toBeDefined()
-    })
-    it('should return MiniShelf when there is a MiniShelf in Segments', (): void => {
-      const testee: MiniShelfStateService = createMinimalTesteeCycleMiniShelfAny()
-      expect(testee.findMiniShelfGroup()[0].id).toEqual('mockedSegmentId')
     })
   })
 })
@@ -211,27 +193,5 @@ function createMinimalTesteeMiniShelfGroups(): MiniShelfStateService {
   when(mockedSegment3.isHidden).thenReturn(false)
   when(mockedRundown.segments).thenReturn([instance(mockedSegment1), instance(mockedSegment2), instance(mockedSegment3)])
   testee.updateMiniShelves(instance(mockedRundown))
-  return testee
-}
-
-function createMinimalTesteeCycleMiniShelfAny(): MiniShelfStateService {
-  const testee: MiniShelfStateService = createMinimalTestee()
-  testee['activeSegmentId'] = 'mockedSegmentId'
-  testee['activeRundownId'] = 'mockedRundownId'
-  const mockedRundown: Rundown = mock<Rundown>()
-  const mockedSegment: Segment = mock<Segment>()
-  const mockTv2SegmentMetadata: Tv2SegmentMetadata = mock<Tv2SegmentMetadata>()
-  const tv2SegmentMetadata: Tv2SegmentMetadata = instance(mockTv2SegmentMetadata)
-  when(mockedSegment.id).thenReturn('mockedSegmentId')
-  when(mockedSegment.metadata).thenReturn(tv2SegmentMetadata)
-  when(mockedSegment.isHidden).thenReturn(true)
-  when(mockedRundown.segments).thenReturn([instance(mockedSegment)])
-  const aRunDown: Rundown = instance(mockedRundown)
-  const mockedTv2VideoClipAction: Tv2VideoClipAction = mock<Tv2VideoClipAction>()
-  const tv2VideoClipAction: Tv2VideoClipAction = instance(mockedTv2VideoClipAction)
-  when(mockedTv2VideoClipAction.metadata).thenReturn({ contentType: Tv2ActionContentType.VIDEO_CLIP, fileName: 'fileName' })
-  const actionMap: Record<string, Tv2VideoClipAction> = { mockedSegmentId: tv2VideoClipAction }
-  testee.setActions(actionMap)
-  testee.updateMiniShelves(aRunDown)
   return testee
 }

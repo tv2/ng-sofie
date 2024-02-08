@@ -61,7 +61,7 @@ export class MiniShelfStateService {
     this.miniShelfSegmentActionMappings = miniShelfSegmentActionMappings
   }
 
-  public executeVideoClipActionForSegment(segment: Segment): void {
+  private executeVideoClipActionForSegment(segment: Segment): void {
     const action: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[segment.id]
     this.actionService.executeAction(action.id, this.activeRundownId).subscribe()
   }
@@ -94,7 +94,7 @@ export class MiniShelfStateService {
     this.executeVideoClipActionForSegment(miniShelfGroup[this.currentMiniShelfIndex])
   }
 
-  public findMiniShelfGroup(): Segment[] {
+  private findMiniShelfGroup(): Segment[] {
     if (!this.activeSegmentId) {
       return []
     }
