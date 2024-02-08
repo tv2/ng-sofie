@@ -9,6 +9,8 @@ import { TestEntityFactory } from '../../../test/factories/test-entity.factory'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 import { Observable } from 'rxjs'
 import { Action } from '../../../shared/models/action'
+import { ConfigurationService } from '../../../shared/services/configuration.service'
+import { Shelf } from '../../../shared/models/shelf'
 
 describe(ProducerShelfComponent.name, () => {
   let component: ProducerShelfComponent
@@ -24,12 +26,17 @@ describe(ProducerShelfComponent.name, () => {
         },
       }),
     } as Observable<Action[]>)
+
+    const mockedConfigurationService: ConfigurationService = mock<ConfigurationService>()
+    when(mockedConfigurationService.getShelfConfiguration()).thenReturn(instance(mock<Observable<Shelf>>()))
+
     await TestBed.configureTestingModule({
       declarations: [ProducerShelfComponent],
       providers: [
         { provide: ActionStateService, useValue: instance(mockedActionStateService) },
         { provide: Tv2ActionParser, useValue: instance(mock<Tv2ActionParser>()) },
         { provide: ActionService, useValue: instance(mock<ActionService>()) },
+        { provide: ConfigurationService, useValue: instance(mockedConfigurationService) },
         { provide: Logger, useValue: createLogger() },
       ],
     }).compileComponents()

@@ -12,7 +12,6 @@ import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Tv2AudioMode } from '../enums/tv2-audio-mode'
 import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Media } from '../../shared/services/media'
-import { StudioConfiguration } from '../../shared/models/studio-configuration'
 import { PartActionType, PieceActionType } from '../../shared/models/action-type'
 import { SystemInformation } from '../../shared/models/system-information'
 
@@ -139,15 +138,6 @@ export class ZodEntityParser implements EntityParser {
     infinitePieces: this.pieceParser.array(),
   })
 
-  private readonly studioConfigurationParser = zod.object({
-    settings: zod.object({
-      mediaPreviewUrl: zod.string().min(9, 'Media preview url must be longer than 9 characters long i.e. http://tld'),
-    }),
-    blueprintConfiguration: zod.object({
-      ServerPostrollDuration: zod.number().min(0, 'Server post-roll duration must be 0 or more.'),
-    }),
-  })
-
   private readonly tv2ActionParser = zod.object({
     id: zod.string(),
     name: zod.string(),
@@ -195,10 +185,6 @@ export class ZodEntityParser implements EntityParser {
 
   public parseShowStyleVariant(showStyleVariant: unknown): ShowStyleVariant {
     return this.showStyleVariantParser.parse(showStyleVariant)
-  }
-
-  public parseStudioConfiguration(studioConfiguration: unknown): StudioConfiguration {
-    return this.studioConfigurationParser.parse(studioConfiguration)
   }
 
   public parseTv2Action(tv2Action: unknown): Tv2Action {
