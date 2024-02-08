@@ -8,6 +8,7 @@
   border: solid 1px var(--gray-color);
   background-color: var(--blue-color);
   box-shadow: 0 2px 2px 2px var(--gradient-black-rgba-with-02-opacity-color);
+  position: relative;
 
   &:hover {
     cursor: pointer;

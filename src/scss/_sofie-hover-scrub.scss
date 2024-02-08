@@ -1,0 +1,33 @@
+.c-sofie-hover-scrub-tooltip {
+  position: absolute;
+  display: none;
+  padding: 5px;
+  z-index: 99999;
+  flex-direction: column;
+  background-color: var(--dark-gray-color);
+  & p {
+    margin: 0;
+    color: var(--white-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 5px;
+  }
+  &:after {
+    width: 10px;
+    height: 10px;
+    background-color: var(--dark-gray-color);
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    margin-left: -5px;
+    content: ' ';
+    transform: rotate(45deg);
+    z-index: 2;
+  }
+  & .c-video-hover-scrub {
+    position: relative;
+    margin: 0 auto;
+    z-index: 3;
+  }
+}

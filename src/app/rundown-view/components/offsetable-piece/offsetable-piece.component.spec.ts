@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { OffsetablePieceComponent } from './offsetable-piece.component'
-import { Piece } from '../../../core/models/piece'
 import { instance, mock } from '@typestrong/ts-mockito'
+import { Tv2Piece } from 'src/app/core/models/tv2-piece'
 
 describe(OffsetablePieceComponent.name, () => {
   let component: OffsetablePieceComponent
@@ -18,7 +18,7 @@ describe(OffsetablePieceComponent.name, () => {
   })
 
   it('should create', () => {
-    const mockedPiece = mock<Piece>()
+    const mockedPiece = mock<Tv2Piece>()
     component.piece = instance(mockedPiece)
     expect(component).toBeTruthy()
   })

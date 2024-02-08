@@ -14,6 +14,10 @@
         <span class="c-mini-shelf__title">{{ getSanitizedTitle() | uppercase }}</span>
         <span class="c-mini-shelf__duration">{{ mediaDurationInMsWithoutPostroll | timer : 'HH?:mm:ss' }}</span>
     </div>
+    <!-- TODO get better type for mini shelf -->
+    <sofie-hover-scrub
+        *ngIf="segment.metadata?.miniShelfVideoClipFile"
+        [fileName]="segment.metadata?.miniShelfVideoClipFile"
+        [type]="'VIDEO_CLIP'">
+    </sofie-hover-scrub>
 </div>
-
-
