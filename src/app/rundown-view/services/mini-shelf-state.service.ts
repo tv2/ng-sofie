@@ -3,7 +3,7 @@ import { Rundown } from '../../core/models/rundown'
 import { Segment } from '../../core/models/segment'
 import { ActionService } from '../../shared/abstractions/action.service'
 import { RundownEventObserver } from '../../core/services/rundown-event-observer.service'
-import { PartSetAsNextEvent, PartTakenEvent, RundownActivatedEvent } from '../../core/models/rundown-event'
+import { PartTakenEvent, RundownActivatedEvent } from '../../core/models/rundown-event'
 import { Tv2VideoClipAction } from '../../shared/models/tv2-action'
 
 @Injectable()
@@ -14,7 +14,6 @@ export class MiniShelfStateService {
   private activeRundownId: string = ''
   private currentMiniShelfIndex: number = 0
   private lastExecutedMiniShelfGroup: Segment[] = []
-  public nextSegmentId: string = ''
 
   constructor(
     private readonly actionService: ActionService,
@@ -25,9 +24,6 @@ export class MiniShelfStateService {
     })
     rundownEventObserver.subscribeToRundownTake((partTakenEvent: PartTakenEvent) => {
       this.activeSegmentId = partTakenEvent.segmentId
-    })
-    rundownEventObserver.subscribeToRundownSetNext((partSetAsNextEvent: PartSetAsNextEvent) => {
-      this.nextSegmentId = partSetAsNextEvent.segmentId
     })
   }
 

@@ -57,23 +57,12 @@ describe(MiniShelfStateService.name, (): void => {
       const testee: MiniShelfStateService = createMinimalTestee()
       expect(testee.cycleMiniShelfForward).toBeDefined()
     })
-    it('should set the nextSegmentId to the first segment in the next miniShelfGroup', (): void => {
-      const testee: MiniShelfStateService = createMinimalTesteeCycleMiniShelfAny()
-      testee.cycleMiniShelfForward()
-      expect(testee['nextSegmentId']).toEqual('mockedSegment4Id')
-    })
   })
 
   describe(MiniShelfStateService.prototype.cycleMiniShelfBackward.name, (): void => {
     it('should be defined', (): void => {
       const testee: MiniShelfStateService = createMinimalTestee()
       expect(testee.cycleMiniShelfBackward).toBeDefined()
-    })
-    it('should set the nextSegmentId to the last segment in the last miniShelfGroup', (): void => {
-      // const testee: MiniShelfStateService = createMinimalTesteeCycleMiniShelfAny()
-      const testee: MiniShelfStateService = createMinimalTesteeCycleMiniShelfBackward()
-      testee.cycleMiniShelfBackward()
-      expect(testee['nextSegmentId']).toEqual('mockedSegment3Id')
     })
   })
 
