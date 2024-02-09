@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div class="main">
-        <sofie-tv2-action-panel *ngFor="let actionPanel of mappedActionPanels" title="{{actionPanel.name | uppercase }}" [actions]="actionPanel.actions" (executeAction)="executeAction($event)"></sofie-tv2-action-panel>
+        <sofie-tv2-action-panel *ngFor="let actionPanel of resolvedActionPanels" title="{{actionPanel.name | uppercase }}" [actions]="actionPanel.actions" (executeAction)="executeAction($event)"></sofie-tv2-action-panel>
         <sofie-virtual-keyboard [keyBindings]="keyBindings" [keystrokes]="keystrokes"></sofie-virtual-keyboard>
     </div>
 

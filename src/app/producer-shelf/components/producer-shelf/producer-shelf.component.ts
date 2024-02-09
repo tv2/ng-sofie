@@ -42,7 +42,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
   @Input()
   public rundown: Rundown
 
-  public mappedActionPanels: {
+  public resolvedActionPanels: {
     name: string
     actions: Tv2Action[]
   }[] = []
@@ -83,7 +83,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
     if (!this.shelf) {
       return
     }
-    this.mappedActionPanels = this.shelf.actionPanels
+    this.resolvedActionPanels = this.shelf.actionPanels
       .sort((a, b) => a.rank - b.rank)
       .map(actionPanel => {
         return {
