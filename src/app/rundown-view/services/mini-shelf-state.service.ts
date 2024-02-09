@@ -63,6 +63,9 @@ export class MiniShelfStateService {
 
   private executeVideoClipActionForSegment(segment: Segment): void {
     const action: Tv2VideoClipAction = this.miniShelfSegmentActionMappings[segment.id]
+    if (!action) {
+      return
+    }
     this.actionService.executeAction(action.id, this.activeRundownId).subscribe()
   }
 

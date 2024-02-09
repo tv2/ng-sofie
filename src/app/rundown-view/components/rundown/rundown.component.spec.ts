@@ -26,12 +26,18 @@ async function configureTestBed(
     mockedDialogService?: DialogService
     rundownEventObserver?: RundownEventObserver
     mockedRundownTimingContextStateService?: RundownTimingContextStateService
+    mockedActionStateService?: ActionStateService
+    mockedEntityParser?: EntityParser
+    mockedMiniShelfStateService?: MiniShelfStateService
   } = {}
 ): Promise<RundownComponent> {
   const mockedRundownService: RundownService = params.mockedRundownService ?? mock<RundownService>()
   const mockedRundownEventObserver: RundownEventObserver = params.rundownEventObserver ?? mock<RundownEventObserver>()
   const mockedDialogService: DialogService = params.mockedDialogService ?? mock<DialogService>()
   const mockedRundownTimingContextStateService: RundownTimingContextStateService = params.mockedRundownTimingContextStateService ?? mock<RundownTimingContextStateService>()
+  const mockedActionStateService: ActionStateService = params.mockedActionStateService ?? mock<ActionStateService>()
+  const mockedEntityParser: EntityParser = params.mockedEntityParser ?? mock<EntityParser>()
+  const mockedMiniShelfStateService: MiniShelfStateService = params.mockedMiniShelfStateService ?? mock<MiniShelfStateService>()
 
   await TestBed.configureTestingModule({
     providers: [
@@ -41,9 +47,9 @@ async function configureTestBed(
       { provide: PartEntityService, useValue: instance(mock<PartEntityService>()) },
       { provide: RundownTimingContextStateService, useValue: instance(mockedRundownTimingContextStateService) },
       { provide: Logger, useValue: instance(mock<Logger>()) },
-      { provide: ActionStateService, useValue: instance(mock<ActionStateService>()) },
-      { provide: EntityParser, useValue: instance(mock<EntityParser>()) },
-      { provide: MiniShelfStateService, useValue: instance(mock<MiniShelfStateService>()) },
+      { provide: ActionStateService, useValue: instance(mockedActionStateService) },
+      { provide: EntityParser, useValue: instance(mockedEntityParser) },
+      { provide: MiniShelfStateService, useValue: instance(mockedMiniShelfStateService) },
     ],
     declarations: [RundownComponent],
   }).compileComponents()

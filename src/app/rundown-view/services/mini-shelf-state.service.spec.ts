@@ -12,30 +12,57 @@ import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 
 describe(MiniShelfStateService.name, (): void => {
   describe(MiniShelfStateService.prototype.setActions.name, (): void => {
-    it('should be defined', (): void => {
-      const testee: MiniShelfStateService = createTestee()
-      expect(testee.setActions).toBeDefined()
+    it('cycling in any direction will not work when actions are not set', (): void => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const onAirSegment: Segment = testEntityFactory.createSegment({ id: 'onAirSegmentId', isOnAir: true })
+      const miniShelfSegmentOne: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentOne', miniShelfVideoClipFile: 'fileOne' })
+      const miniShelfSegmentTwo: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentTwo', miniShelfVideoClipFile: 'fileTwo' })
+      const miniShelfSegmentThree: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentThree', miniShelfVideoClipFile: 'fileThree' })
+      const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments: [onAirSegment, miniShelfSegmentOne, miniShelfSegmentTwo, miniShelfSegmentThree] })
+
+      const rundownEventObserver: RundownEventObserver = createRundownEventObserverWithCallbacks({ activeRundownId: rundown.id, onAirSegmentId: onAirSegment.id })
+      const actionService: ActionService = mock<ActionService>()
+      when(actionService.executeAction(anything(), anything())).thenReturn(instance(mock<Observable<void>>()))
+
+      const testee: MiniShelfStateService = createTestee({ actionService: instance(actionService), rundownEventObserver })
+      testee.updateMiniShelves(rundown)
+
+      testee.cycleMiniShelfForward()
+      testee.cycleMiniShelfBackward()
+      verify(actionService.executeAction(anything(), anything())).never()
     })
   })
 
   describe(MiniShelfStateService.prototype.updateMiniShelves.name, (): void => {
-    // TODO: `miniShelfGroups` is an internal value hence we shouldn't be testing it.
-    it('should set the miniShelfGroups', (): void => {
+    it('cycling in any direction will not work when MiniShelves are not updated', (): void => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const onAirSegment: Segment = testEntityFactory.createSegment({ id: 'onAirSegment', isOnAir: true })
-      const miniShelfSegment: Segment = createMiniShelfSegment({ id: 'miniShelfSegment' })
-      const nextSegment: Segment = testEntityFactory.createSegment({ id: 'nextSegment', isNext: true })
-      const rundown: Rundown = testEntityFactory.createRundown({ segments: [onAirSegment, miniShelfSegment, nextSegment] })
+      const onAirSegment: Segment = testEntityFactory.createSegment({ id: 'onAirSegmentId', isOnAir: true })
+      const miniShelfSegmentOne: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentOne', miniShelfVideoClipFile: 'fileOne' })
+      const miniShelfSegmentTwo: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentTwo', miniShelfVideoClipFile: 'fileTwo' })
+      const miniShelfSegmentThree: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentThree', miniShelfVideoClipFile: 'fileThree' })
+      const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments: [onAirSegment, miniShelfSegmentOne, miniShelfSegmentTwo, miniShelfSegmentThree] })
 
-      const testee: MiniShelfStateService = createTestee()
+      const rundownEventObserver: RundownEventObserver = createRundownEventObserverWithCallbacks({ activeRundownId: rundown.id, onAirSegmentId: onAirSegment.id })
+      const actionService: ActionService = mock<ActionService>()
+      when(actionService.executeAction(anything(), anything())).thenReturn(instance(mock<Observable<void>>()))
 
-      testee.updateMiniShelves(rundown)
-      expect(testee['miniShelfGroups'].size).toEqual(1)
+      const miniShelfActionRecord: Record<string, Tv2VideoClipAction> = {
+        [miniShelfSegmentOne.id]: createVideoClipAction(miniShelfSegmentOne.metadata?.miniShelfVideoClipFile),
+        [miniShelfSegmentTwo.id]: createVideoClipAction(miniShelfSegmentTwo.metadata?.miniShelfVideoClipFile),
+        [miniShelfSegmentThree.id]: createVideoClipAction(miniShelfSegmentThree.metadata?.miniShelfVideoClipFile),
+      }
+
+      const testee: MiniShelfStateService = createTestee({ actionService: instance(actionService), rundownEventObserver })
+      testee.setActions(miniShelfActionRecord)
+
+      testee.cycleMiniShelfForward()
+      testee.cycleMiniShelfBackward()
+      verify(actionService.executeAction(anything(), anything())).never()
     })
   })
 
   describe(MiniShelfStateService.prototype.cycleMiniShelfForward.name, (): void => {
-    it('execute the Action of the first miniShelf', (): void => {
+    it('can execute the Action of the first miniShelf', (): void => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const onAirSegment: Segment = testEntityFactory.createSegment({ id: 'onAirSegmentId', isOnAir: true })
       const miniShelfSegmentOne: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentOne', miniShelfVideoClipFile: 'fileOne' })
@@ -63,7 +90,7 @@ describe(MiniShelfStateService.name, (): void => {
   })
 
   describe(MiniShelfStateService.prototype.cycleMiniShelfBackward.name, (): void => {
-    it('execute the Action of the last miniShelf', (): void => {
+    it('can execute the Action of the last miniShelf', (): void => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const onAirSegment: Segment = testEntityFactory.createSegment({ id: 'onAirSegmentId', isOnAir: true })
       const miniShelfSegmentOne: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentOne', miniShelfVideoClipFile: 'fileOne' })
