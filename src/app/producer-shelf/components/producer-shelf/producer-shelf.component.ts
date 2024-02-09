@@ -9,7 +9,9 @@ import { Tv2Action } from '../../../shared/models/tv2-action'
 import { Tv2ActionParser } from '../../../shared/abstractions/tv2-action-parser.service'
 import { ActionService } from '../../../shared/abstractions/action.service'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
-import { Shelf } from '../../../shared/models/shelf'
+import { ShelfConfiguration } from '../../../shared/models/shelf-configuration'
+import { ConfigurationEventObserver } from '../../../core/services/configuration-event-observer'
+import { ShelfConfigurationUpdatedEvent } from '../../../core/models/configuration-event'
 
 const STATIC_BUTTON_ACTION_IDS: string[] = [
   'overlayInitializeAction',
@@ -49,10 +51,11 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
 
   public staticButtonActions: Tv2Action[] = []
 
-  private shelf?: Shelf
+  private shelf?: ShelfConfiguration
   private actions: Tv2Action[] = []
 
   private actionsSubscription?: EventSubscription
+  private configurationEventSubscription?: EventSubscription
 
   private readonly logger: Logger
 
@@ -61,6 +64,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
     private readonly tv2ActionParser: Tv2ActionParser,
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
+    private readonly configurationEventObserver: ConfigurationEventObserver,
     logger: Logger
   ) {
     this.logger = logger.tag('ProducerShelfComponent')
@@ -75,6 +79,11 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
 
     this.configurationService.getShelfConfiguration().subscribe(shelf => {
       this.shelf = shelf
+      this.updateActionPanels()
+    })
+
+    this.configurationEventSubscription = this.configurationEventObserver.subscribeToShelfUpdated((event: ShelfConfigurationUpdatedEvent) => {
+      this.shelf = event.shelf
       this.updateActionPanels()
     })
   }
@@ -120,5 +129,6 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.actionsSubscription?.unsubscribe()
+    this.configurationEventSubscription?.unsubscribe()
   }
 }

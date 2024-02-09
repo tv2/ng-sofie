@@ -1,11 +1,11 @@
 import { Tv2ActionContentType } from './tv2-action'
 
-export interface Shelf {
+export interface ShelfConfiguration {
   id: string
-  actionPanels: ShelfActionPanel[]
+  actionPanels: ShelfActionPanelConfiguration[]
 }
 
-export interface ShelfActionPanel {
+export interface ShelfActionPanelConfiguration {
   name: string
   rank: number
   actionFilter: Tv2ActionContentType[]

@@ -6,7 +6,7 @@ import { catchError, map, Observable } from 'rxjs'
 import { HttpResponse } from './http-response'
 import { ConfigurationService } from '../configuration.service'
 import { StudioConfiguration } from '../../models/studio-configuration'
-import { Shelf } from '../../models/shelf'
+import { ShelfConfiguration } from '../../models/shelf-configuration'
 import { ConfigurationParser } from '../../abstractions/configuration-parser.service'
 
 @Injectable()
@@ -24,10 +24,10 @@ export class HttpConfigurationService implements ConfigurationService {
     )
   }
 
-  public getShelfConfiguration(): Observable<Shelf> {
-    return this.http.get<HttpResponse<Shelf[]>>(`${environment.apiBaseUrl}/configurations/shelves`).pipe(
+  public getShelfConfiguration(): Observable<ShelfConfiguration> {
+    return this.http.get<HttpResponse<ShelfConfiguration[]>>(`${environment.apiBaseUrl}/configurations/shelves`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
-      map(response => this.configurationParser.parseShelf(response.data[0]))
+      map(response => this.configurationParser.parseShelfConfiguration(response.data[0]))
     )
   }
 }

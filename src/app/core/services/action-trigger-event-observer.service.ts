@@ -14,7 +14,7 @@ export class ActionTriggerEventObserver {
     private readonly actionTriggerEventParser: ActionTriggerEventParser,
     logger: Logger
   ) {
-    this.logger = logger.tag('ActionTriggerEventObserver')
+    this.logger = logger.tag(ActionTriggerEventObserver.name)
   }
 
   public subscribeToActionTriggerCreated(onCreated: (event: ActionTriggerCreatedEvent) => void): EventSubscription {

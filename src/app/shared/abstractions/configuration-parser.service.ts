@@ -1,7 +1,7 @@
 import { StudioConfiguration } from '../models/studio-configuration'
-import { Shelf } from '../models/shelf'
+import { ShelfConfiguration } from '../models/shelf-configuration'
 
 export abstract class ConfigurationParser {
   public abstract parseStudioConfiguration(studioConfiguration: unknown): StudioConfiguration
-  public abstract parseShelf(shelf: unknown): Shelf
+  public abstract parseShelfConfiguration(shelfConfiguration: unknown): ShelfConfiguration
 }

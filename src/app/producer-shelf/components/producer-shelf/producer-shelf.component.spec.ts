@@ -10,7 +10,8 @@ import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 import { Observable } from 'rxjs'
 import { Action } from '../../../shared/models/action'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
-import { Shelf } from '../../../shared/models/shelf'
+import { ShelfConfiguration } from '../../../shared/models/shelf-configuration'
+import { ConfigurationEventObserver } from '../../../core/services/configuration-event-observer'
 
 describe(ProducerShelfComponent.name, () => {
   let component: ProducerShelfComponent
@@ -28,7 +29,7 @@ describe(ProducerShelfComponent.name, () => {
     } as Observable<Action[]>)
 
     const mockedConfigurationService: ConfigurationService = mock<ConfigurationService>()
-    when(mockedConfigurationService.getShelfConfiguration()).thenReturn(instance(mock<Observable<Shelf>>()))
+    when(mockedConfigurationService.getShelfConfiguration()).thenReturn(instance(mock<Observable<ShelfConfiguration>>()))
 
     await TestBed.configureTestingModule({
       declarations: [ProducerShelfComponent],
@@ -37,6 +38,7 @@ describe(ProducerShelfComponent.name, () => {
         { provide: Tv2ActionParser, useValue: instance(mock<Tv2ActionParser>()) },
         { provide: ActionService, useValue: instance(mock<ActionService>()) },
         { provide: ConfigurationService, useValue: instance(mockedConfigurationService) },
+        { provide: ConfigurationEventObserver, useValue: instance(mock<ConfigurationEventObserver>()) },
         { provide: Logger, useValue: createLogger() },
       ],
     }).compileComponents()
