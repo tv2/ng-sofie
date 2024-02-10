@@ -17,12 +17,12 @@ export class MiniShelfStateService {
 
   constructor(
     private readonly actionService: ActionService,
-    rundownEventObserver: RundownEventObserver
+    private readonly rundownEventObserver: RundownEventObserver
   ) {
-    rundownEventObserver.subscribeToRundownActivation((rundownActivatedEvent: RundownActivatedEvent) => {
+    this.rundownEventObserver.subscribeToRundownActivation((rundownActivatedEvent: RundownActivatedEvent) => {
       this.activeRundownId = rundownActivatedEvent.rundownId
     })
-    rundownEventObserver.subscribeToRundownTake((partTakenEvent: PartTakenEvent) => {
+    this.rundownEventObserver.subscribeToRundownTake((partTakenEvent: PartTakenEvent) => {
       this.activeSegmentId = partTakenEvent.segmentId
     })
   }

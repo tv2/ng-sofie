@@ -21,6 +21,9 @@ describe(MiniShelfStateService.name, (): void => {
       const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments: [onAirSegment, miniShelfSegmentOne, miniShelfSegmentTwo, miniShelfSegmentThree] })
 
       const rundownEventObserver: RundownEventObserver = createRundownEventObserverWithCallbacks({ activeRundownId: rundown.id, onAirSegmentId: onAirSegment.id })
+      spyOn(rundownEventObserver, 'subscribeToRundownActivation')
+      spyOn(rundownEventObserver, 'subscribeToRundownTake')
+
       const actionService: ActionService = mock<ActionService>()
       when(actionService.executeAction(anything(), anything())).thenReturn(instance(mock<Observable<void>>()))
 
@@ -33,6 +36,9 @@ describe(MiniShelfStateService.name, (): void => {
       const testee: MiniShelfStateService = createTestee({ actionService: instance(actionService), rundownEventObserver })
       testee.setActions(miniShelfActionRecord)
       testee.updateMiniShelves(rundown)
+
+      expect(rundownEventObserver.subscribeToRundownActivation).toHaveBeenCalled()
+      expect(rundownEventObserver.subscribeToRundownTake).toHaveBeenCalled()
 
       testee.cycleMiniShelfForward()
       testee.cycleMiniShelfBackward()

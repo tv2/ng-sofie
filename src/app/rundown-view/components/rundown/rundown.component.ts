@@ -46,6 +46,8 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnInit(): void {
+    this.miniShelfStateService.updateMiniShelves(this.rundown)
+
     this.rundownTimingContextStateService
       .subscribeToRundownTimingContext(this.rundown.id)
       .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
@@ -62,8 +64,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownReset(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownDeactivation(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownUpdates(() => this.miniShelfStateService.updateMiniShelves(this.rundown)))
-
-    this.miniShelfStateService.updateMiniShelves(this.rundown)
   }
 
   private setAutoNextStartedToTrue(): void {
@@ -112,7 +112,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnDestroy(): void {
     this.rundownTimingContextSubscription?.unsubscribe()
-    this.rundownEventSubscriptions.forEach(subscription => subscription.unsubscribe)
+    this.rundownEventSubscriptions.map(subscription => subscription.unsubscribe)
     this.rundownActionsSubscription?.unsubscribe()
   }
 
