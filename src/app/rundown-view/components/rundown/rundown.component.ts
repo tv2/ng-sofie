@@ -112,7 +112,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnDestroy(): void {
     this.rundownTimingContextSubscription?.unsubscribe()
-    this.rundownEventSubscriptions.map(subscription => subscription.unsubscribe)
+    this.rundownEventSubscriptions.forEach(subscription => subscription.unsubscribe)
     this.rundownActionsSubscription?.unsubscribe()
   }
 
