@@ -119,6 +119,7 @@ describe(MiniShelfStateService.name, (): void => {
 
       testee.cycleMiniShelfForward()
       verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentOne.id].id, anything())).once()
+      verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentTwo.id].id, anything())).never
       testee.cycleMiniShelfForward()
       verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentTwo.id].id, anything())).once()
       verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentThree.id].id, anything())).never()
@@ -151,6 +152,7 @@ describe(MiniShelfStateService.name, (): void => {
 
       testee.cycleMiniShelfBackward()
       verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentThree.id].id, anything())).once()
+      verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentTwo.id].id, anything())).never()
       testee.cycleMiniShelfBackward()
       verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentTwo.id].id, anything())).once()
       verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentOne.id].id, anything())).never()
