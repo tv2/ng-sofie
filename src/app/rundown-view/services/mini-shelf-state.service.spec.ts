@@ -12,6 +12,33 @@ import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 
 describe(MiniShelfStateService.name, (): void => {
   describe(MiniShelfStateService.prototype.setActions.name, (): void => {
+    it('cycling in any direction will not work when no segment On Air', (): void => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const onAirSegment: Segment = testEntityFactory.createSegment({ id: 'onAirSegmentId', isOnAir: false })
+      const miniShelfSegmentOne: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentOne', miniShelfVideoClipFile: 'fileOne' })
+      const miniShelfSegmentTwo: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentTwo', miniShelfVideoClipFile: 'fileTwo' })
+      const miniShelfSegmentThree: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentThree', miniShelfVideoClipFile: 'fileThree' })
+      const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments: [onAirSegment, miniShelfSegmentOne, miniShelfSegmentTwo, miniShelfSegmentThree] })
+
+      const rundownEventObserver: RundownEventObserver = createRundownEventObserverWithCallbacks({ activeRundownId: rundown.id, onAirSegmentId: onAirSegment.id })
+      const actionService: ActionService = mock<ActionService>()
+      when(actionService.executeAction(anything(), anything())).thenReturn(instance(mock<Observable<void>>()))
+
+      const miniShelfActionRecord: Record<string, Tv2VideoClipAction> = {
+        [miniShelfSegmentOne.id]: createVideoClipAction(miniShelfSegmentOne.metadata?.miniShelfVideoClipFile),
+        [miniShelfSegmentTwo.id]: createVideoClipAction(miniShelfSegmentTwo.metadata?.miniShelfVideoClipFile),
+        [miniShelfSegmentThree.id]: createVideoClipAction(miniShelfSegmentThree.metadata?.miniShelfVideoClipFile),
+      }
+
+      const testee: MiniShelfStateService = createTestee({ actionService: instance(actionService), rundownEventObserver })
+      testee.setActions(miniShelfActionRecord)
+      testee.updateMiniShelves(rundown)
+
+      testee.cycleMiniShelfForward()
+      testee.cycleMiniShelfBackward()
+      verify(actionService.executeAction(anything(), anything())).never()
+    })
+
     it('cycling in any direction will not work when actions are not set', (): void => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const onAirSegment: Segment = testEntityFactory.createSegment({ id: 'onAirSegmentId', isOnAir: true })
@@ -62,7 +89,7 @@ describe(MiniShelfStateService.name, (): void => {
   })
 
   describe(MiniShelfStateService.prototype.cycleMiniShelfForward.name, (): void => {
-    it('can execute the Action of the first miniShelf', (): void => {
+    it('can execute the Action of the first miniShelf then on the next', (): void => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const onAirSegment: Segment = testEntityFactory.createSegment({ id: 'onAirSegmentId', isOnAir: true })
       const miniShelfSegmentOne: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentOne', miniShelfVideoClipFile: 'fileOne' })
@@ -86,11 +113,14 @@ describe(MiniShelfStateService.name, (): void => {
 
       testee.cycleMiniShelfForward()
       verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentOne.id].id, anything())).once()
+      testee.cycleMiniShelfForward()
+      verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentTwo.id].id, anything())).once()
+      verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentThree.id].id, anything())).never()
     })
   })
 
   describe(MiniShelfStateService.prototype.cycleMiniShelfBackward.name, (): void => {
-    it('can execute the Action of the last miniShelf', (): void => {
+    it('can execute the Action of the last miniShelf then on the previous', (): void => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const onAirSegment: Segment = testEntityFactory.createSegment({ id: 'onAirSegmentId', isOnAir: true })
       const miniShelfSegmentOne: Segment = createMiniShelfSegment({ id: 'miniShelfSegmentOne', miniShelfVideoClipFile: 'fileOne' })
@@ -115,6 +145,9 @@ describe(MiniShelfStateService.name, (): void => {
 
       testee.cycleMiniShelfBackward()
       verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentThree.id].id, anything())).once()
+      testee.cycleMiniShelfBackward()
+      verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentTwo.id].id, anything())).once()
+      verify(actionService.executeAction(miniShelfActionRecord[miniShelfSegmentOne.id].id, anything())).never()
     })
   })
 })
