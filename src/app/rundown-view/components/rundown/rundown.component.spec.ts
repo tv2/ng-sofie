@@ -18,7 +18,7 @@ import { Rundown } from '../../../core/models/rundown'
 import { Action } from '../../../shared/models/action'
 
 describe('RundownComponent', () => {
-  it('should create and receive rundown, then updates MiniShelves', async () => {
+  it('should create and receive rundown, then updates MiniShelves and subscribes several times', async () => {
     const mockedMiniShelfStateService: MiniShelfStateService = createMockOfMiniShelfStateService()
     const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
     const mockedActionStateService: ActionStateService = createMockOfActionStateService()
@@ -36,6 +36,15 @@ describe('RundownComponent', () => {
     expect(component).toBeTruthy()
     expect(component.rundown).toEqual(mockedRundown)
     verify(mockedMiniShelfStateService.updateMiniShelves(mockedRundown)).once()
+
+    verify(mockedRundownTimingContextStateService.subscribeToRundownTimingContext(mockedRundown.id)).once()
+    verify(mockedActionStateService.subscribeToRundownActions(mockedRundown.id)).once()
+
+    verify(mockedRundownEventObserver.subscribeToRundownDeactivation(anything())).once()
+    verify(mockedRundownEventObserver.subscribeToRundownAutoNext(anything())).once()
+    verify(mockedRundownEventObserver.subscribeToRundownSetNext(anything())).once()
+    verify(mockedRundownEventObserver.subscribeToRundownReset(anything())).once()
+    verify(mockedRundownEventObserver.subscribeToRundownUpdates(anything())).once()
   })
 })
 
