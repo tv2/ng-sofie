@@ -15,16 +15,16 @@
   }
 
   &.is-on-air {
-    border: solid 2px var(--red-color);
+    border: solid 2px var(--on-air-color);
   }
 
   &.is-next {
-    border: solid 2px var(--bright-green-color);
+    border: solid 2px var(--next-color);
   }
 
   &.is-on-air.is-next {
-    border: solid 2px var(--red-color);
-    border-right: solid 2px var(--bright-green-color);
+    border: solid 2px var(--on-air-color);
+    border-right: solid 2px var(--next-color);
   }
 
   &__thumbnail {
