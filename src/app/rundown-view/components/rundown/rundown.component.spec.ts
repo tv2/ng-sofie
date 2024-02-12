@@ -255,32 +255,41 @@ async function configureTestBed(
 
   fixture = TestBed.createComponent(RundownComponent)
   const component: RundownComponent = fixture.componentInstance
+
   component.rundown = params.mockedRundown ?? new TestEntityFactory().createRundown()
   fixture.detectChanges()
+
   return component
 }
 
 function createMockOfRundownTimingContextStateService(): RundownTimingContextStateService {
-  const mockedRundownTimingContextStateService: RundownTimingContextStateService = mock<RundownTimingContextStateService>()
   const mockedSubscription: Subscription = mock<Subscription>()
+
   const mockedObservable: Observable<RundownTimingContext> = mock<Observable<RundownTimingContext>>()
   when(mockedObservable.subscribe(anything())).thenReturn(instance(mockedSubscription))
+
+  const mockedRundownTimingContextStateService: RundownTimingContextStateService = mock<RundownTimingContextStateService>()
   when(mockedRundownTimingContextStateService.subscribeToRundownTimingContext(anything())).thenResolve(instance(mockedObservable))
+
   return mockedRundownTimingContextStateService
 }
 
 function createMockOfActionStateService(): ActionStateService {
-  const mockedActionStateService: ActionStateService = mock<ActionStateService>()
   const mockedSubscription: Subscription = mock<Subscription>()
+
   const mockedObservable: Observable<Action[]> = mock<Observable<Action[]>>()
   when(mockedObservable.subscribe(anything())).thenReturn(instance(mockedSubscription))
+
+  const mockedActionStateService: ActionStateService = mock<ActionStateService>()
   when(mockedActionStateService.subscribeToRundownActions(anything())).thenResolve(instance(mockedObservable))
+
   return mockedActionStateService
 }
 
 function createMockOfMiniShelfStateService(): MiniShelfStateService {
   const mockedMiniShelfStateService: MiniShelfStateService = mock<MiniShelfStateService>()
   when(mockedMiniShelfStateService.updateMiniShelves(anything())).thenResolve()
+
   return mockedMiniShelfStateService
 }
 
@@ -288,15 +297,21 @@ function createMockOfRundownEventObserver(): RundownEventObserver {
   const mockedRundownEventObserver: RundownEventObserver = mock<RundownEventObserver>()
   const mockedSubscriptionToRundownActivation: Subscription = mock<Subscription>()
   when(mockedRundownEventObserver.subscribeToRundownActivation(anything())).thenReturn(instance(mockedSubscriptionToRundownActivation))
+
   const mockedSubscriptionToRundownDeactivation: Subscription = mock<Subscription>()
   when(mockedRundownEventObserver.subscribeToRundownDeactivation(anything())).thenReturn(instance(mockedSubscriptionToRundownDeactivation))
+
   const mockedSubscriptionToRundownAutoNext: Subscription = mock<Subscription>()
   when(mockedRundownEventObserver.subscribeToRundownAutoNext(anything())).thenReturn(instance(mockedSubscriptionToRundownAutoNext))
+
   const mockedSubscriptionToRundownSetNext: Subscription = mock<Subscription>()
   when(mockedRundownEventObserver.subscribeToRundownSetNext(anything())).thenReturn(instance(mockedSubscriptionToRundownSetNext))
+
   const mockedSubscriptionToRundownReset: Subscription = mock<Subscription>()
   when(mockedRundownEventObserver.subscribeToRundownReset(anything())).thenReturn(instance(mockedSubscriptionToRundownReset))
+
   const mockedSubscriptionToRundownUpdates: Subscription = mock<Subscription>()
   when(mockedRundownEventObserver.subscribeToRundownUpdates(anything())).thenReturn(instance(mockedSubscriptionToRundownUpdates))
+
   return mockedRundownEventObserver
 }
