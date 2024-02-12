@@ -10,7 +10,6 @@ import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownEventObserver } from 'src/app/core/services/rundown-event-observer.service'
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { EntityParser } from '../../../core/abstractions/entity-parser.service'
-import { MiniShelfStateService } from '../../services/mini-shelf-state.service'
 import { Observable, Subscription } from 'rxjs'
 import { TestEntityFactory } from '../../../test/factories/test-entity.factory'
 import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
@@ -18,17 +17,18 @@ import { Rundown } from '../../../core/models/rundown'
 import { Action } from '../../../shared/models/action'
 import { SimpleChange, SimpleChanges } from '@angular/core'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
+import { MiniShelfStateService } from '../../services/mini-shelf-state.service'
 
 let fixture: ComponentFixture<RundownComponent>
 describe('RundownComponent', () => {
-  it('should create and receive rundown, then updates MiniShelves and subscribes several times', async () => {
+  it('should update MiniShelves upon init', async () => {
     const mockedMiniShelfStateService: MiniShelfStateService = createMockOfMiniShelfStateService()
     const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
     const mockedActionStateService: ActionStateService = createMockOfActionStateService()
     const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
-
     const mockedRundown: Rundown = new TestEntityFactory().createRundown()
-    const component: RundownComponent = await configureTestBed({
+
+    await configureTestBed({
       mockedRundown: mockedRundown,
       mockedRundownEventObserver: mockedRundownEventObserver,
       mockedMiniShelfStateService: mockedMiniShelfStateService,
@@ -36,26 +36,141 @@ describe('RundownComponent', () => {
       mockedActionStateService: mockedActionStateService,
     })
 
-    expect(component).toBeTruthy()
-    expect(component.rundown).toEqual(mockedRundown)
     verify(mockedMiniShelfStateService.updateMiniShelves(mockedRundown)).once()
-
-    verify(mockedRundownTimingContextStateService.subscribeToRundownTimingContext(mockedRundown.id)).once()
-    verify(mockedActionStateService.subscribeToRundownActions(mockedRundown.id)).once()
-
-    verify(mockedRundownEventObserver.subscribeToRundownDeactivation(anything())).once()
-    verify(mockedRundownEventObserver.subscribeToRundownAutoNext(anything())).once()
-    verify(mockedRundownEventObserver.subscribeToRundownSetNext(anything())).once()
-    verify(mockedRundownEventObserver.subscribeToRundownReset(anything())).once()
-    verify(mockedRundownEventObserver.subscribeToRundownUpdates(anything())).once()
   })
-  it('should update MiniShelves and ActionMappings upon change in rundown', async () => {
+
+  it('should subscribe to RundownTimingContext changes upon init', async () => {
     const mockedMiniShelfStateService: MiniShelfStateService = createMockOfMiniShelfStateService()
     const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
     const mockedActionStateService: ActionStateService = createMockOfActionStateService()
     const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
-
     const mockedRundown: Rundown = new TestEntityFactory().createRundown()
+
+    await configureTestBed({
+      mockedRundown: mockedRundown,
+      mockedRundownEventObserver: mockedRundownEventObserver,
+      mockedMiniShelfStateService: mockedMiniShelfStateService,
+      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
+      mockedActionStateService: mockedActionStateService,
+    })
+
+    verify(mockedRundownTimingContextStateService.subscribeToRundownTimingContext(mockedRundown.id)).once()
+  })
+
+  it('should subscribe to RundownActions changes upon init', async () => {
+    const mockedMiniShelfStateService: MiniShelfStateService = createMockOfMiniShelfStateService()
+    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
+    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
+    const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
+    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
+
+    await configureTestBed({
+      mockedRundown: mockedRundown,
+      mockedRundownEventObserver: mockedRundownEventObserver,
+      mockedMiniShelfStateService: mockedMiniShelfStateService,
+      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
+      mockedActionStateService: mockedActionStateService,
+    })
+
+    verify(mockedActionStateService.subscribeToRundownActions(mockedRundown.id)).once()
+  })
+
+  it('should subscribe to RundownDeactivation changes upon init', async () => {
+    const mockedMiniShelfStateService: MiniShelfStateService = createMockOfMiniShelfStateService()
+    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
+    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
+    const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
+    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
+
+    await configureTestBed({
+      mockedRundown: mockedRundown,
+      mockedRundownEventObserver: mockedRundownEventObserver,
+      mockedMiniShelfStateService: mockedMiniShelfStateService,
+      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
+      mockedActionStateService: mockedActionStateService,
+    })
+
+    verify(mockedRundownEventObserver.subscribeToRundownDeactivation(anything())).once()
+  })
+
+  it('should subscribe to RundownAutoNext changes upon init', async () => {
+    const mockedMiniShelfStateService: MiniShelfStateService = createMockOfMiniShelfStateService()
+    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
+    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
+    const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
+    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
+
+    await configureTestBed({
+      mockedRundown: mockedRundown,
+      mockedRundownEventObserver: mockedRundownEventObserver,
+      mockedMiniShelfStateService: mockedMiniShelfStateService,
+      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
+      mockedActionStateService: mockedActionStateService,
+    })
+
+    verify(mockedRundownEventObserver.subscribeToRundownAutoNext(anything())).once()
+  })
+
+  it('should subscribe to RundownSetNext changes upon init', async () => {
+    const mockedMiniShelfStateService: MiniShelfStateService = createMockOfMiniShelfStateService()
+    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
+    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
+    const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
+    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
+
+    await configureTestBed({
+      mockedRundown: mockedRundown,
+      mockedRundownEventObserver: mockedRundownEventObserver,
+      mockedMiniShelfStateService: mockedMiniShelfStateService,
+      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
+      mockedActionStateService: mockedActionStateService,
+    })
+
+    verify(mockedRundownEventObserver.subscribeToRundownSetNext(anything())).once()
+  })
+
+  it('should subscribe to RundownReset changes upon init', async () => {
+    const mockedMiniShelfStateService: MiniShelfStateService = createMockOfMiniShelfStateService()
+    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
+    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
+    const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
+    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
+
+    await configureTestBed({
+      mockedRundown: mockedRundown,
+      mockedRundownEventObserver: mockedRundownEventObserver,
+      mockedMiniShelfStateService: mockedMiniShelfStateService,
+      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
+      mockedActionStateService: mockedActionStateService,
+    })
+
+    verify(mockedRundownEventObserver.subscribeToRundownReset(anything())).once()
+  })
+
+  it('should subscribe to RundownUpdates changes upon init', async () => {
+    const mockedMiniShelfStateService: MiniShelfStateService = createMockOfMiniShelfStateService()
+    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
+    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
+    const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
+    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
+
+    await configureTestBed({
+      mockedRundown: mockedRundown,
+      mockedRundownEventObserver: mockedRundownEventObserver,
+      mockedMiniShelfStateService: mockedMiniShelfStateService,
+      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
+      mockedActionStateService: mockedActionStateService,
+    })
+    verify(mockedRundownEventObserver.subscribeToRundownUpdates(anything())).once()
+  })
+
+  it('should update MiniShelves upon change in rundown', async () => {
+    const mockedMiniShelfStateService: MiniShelfStateService = createMockOfMiniShelfStateService()
+    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
+    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
+    const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
+    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
+
     const component: RundownComponent = await configureTestBed({
       mockedRundown: mockedRundown,
       mockedRundownEventObserver: mockedRundownEventObserver,
@@ -66,9 +181,38 @@ describe('RundownComponent', () => {
 
     const changedRundown: Rundown = new TestEntityFactory().createRundown({ segments: [new TestEntityFactory().createSegment()] })
     component.rundown = changedRundown
+
     const mockedSimpleChange: SimpleChanges = { rundown: new SimpleChange(mockedRundown, changedRundown, false) }
+
     component.ngOnChanges(mockedSimpleChange)
     fixture.detectChanges()
+
+    verify(mockedMiniShelfStateService.updateMiniShelves(anything())).once()
+  })
+
+  it('should update ActionMappings upon change in rundown', async () => {
+    const mockedMiniShelfStateService: MiniShelfStateService = createMockOfMiniShelfStateService()
+    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
+    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
+    const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
+    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
+
+    const component: RundownComponent = await configureTestBed({
+      mockedRundown: mockedRundown,
+      mockedRundownEventObserver: mockedRundownEventObserver,
+      mockedMiniShelfStateService: mockedMiniShelfStateService,
+      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
+      mockedActionStateService: mockedActionStateService,
+    })
+
+    const changedRundown: Rundown = new TestEntityFactory().createRundown({ segments: [new TestEntityFactory().createSegment()] })
+    component.rundown = changedRundown
+
+    const simpleChange: SimpleChanges = { rundown: new SimpleChange(mockedRundown, changedRundown, false) }
+
+    component.ngOnChanges(simpleChange)
+    fixture.detectChanges()
+
     verify(mockedMiniShelfStateService.setActions(anything())).once()
   })
 })
