@@ -12,6 +12,7 @@ export class MediaStateService implements OnDestroy {
   private readonly mediaSubjects: Map<string, BehaviorSubject<Media | undefined>> = new Map()
   private readonly subscriptions: EventSubscription[] = []
   private readonly logger: Logger
+  private readonly mediaAvailabilitySubjects: Map<string, BehaviorSubject<boolean>> = new Map()
 
   constructor(
     private readonly mediaService: MediaService,
@@ -61,5 +62,21 @@ export class MediaStateService implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe())
+  }
+
+  public subscribeToMediaAvailability(miniShelfVideoClipFile: string | undefined): Observable<boolean> {
+    return this.getMediaAvailabilitySubject(miniShelfVideoClipFile).asObservable()
+  }
+
+  private getMediaAvailabilitySubject(miniShelfVideoClipFile: string | undefined): BehaviorSubject<boolean> {
+    const mediaAvailabilitySubjectKey = this.getMediaAvailabilitySubjectKey(miniShelfVideoClipFile)
+    if (!this.mediaAvailabilitySubjects.has(mediaAvailabilitySubjectKey)) {
+      this.mediaAvailabilitySubjects.set(mediaAvailabilitySubjectKey, new BehaviorSubject<boolean>(false))
+    }
+    return this.mediaAvailabilitySubjects.get(mediaAvailabilitySubjectKey)!
+  }
+
+  private getMediaAvailabilitySubjectKey(miniShelfVideoClipFile: string | undefined): string {
+    return miniShelfVideoClipFile?.toUpperCase() ?? ''
   }
 }

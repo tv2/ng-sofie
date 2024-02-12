@@ -25,12 +25,20 @@
     display: flex;
   }
 
+  &.media-not-available {
+    background-image: repeating-linear-gradient(
+                    45deg,
+                    transparent 0 9px,
+                    var(--on-air-color) 10px 13px
+    );
+    opacity: 0.9;
+  }
+
   &__note {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 18px;
-    background: var(--blue-color);
     padding: 2px;
     text-shadow: var(--black-color) 0 0 2px;
     font-weight: 450;

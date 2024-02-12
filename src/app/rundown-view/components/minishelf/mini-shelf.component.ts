@@ -22,6 +22,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   private configurationServiceSubscription: Subscription
   private studioConfiguration: StudioConfiguration | undefined
   protected mediaDurationInMsWithoutPostroll: number = 0
+  protected mediaNotAvailable: boolean = false
 
   constructor(
     private readonly actionService: ActionService,
@@ -42,6 +43,9 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     this.mediaStateService.subscribeToMedia(this.segment.metadata?.miniShelfVideoClipFile).subscribe(media => this.updateMedia(media))
+    this.mediaStateService.subscribeToMediaAvailability(this.segment.metadata?.miniShelfVideoClipFile).subscribe(availability => {
+      this.mediaNotAvailable = !availability
+    })
   }
 
   private calculateMediaDurationInMsWithoutPostroll(): void {
@@ -98,6 +102,10 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private updateMedia(media: Media | undefined): void {
+    if (!media) {
+      this.mediaNotAvailable = true
+      return
+    }
     this.media = media
     this.calculateMediaDurationInMsWithoutPostroll()
   }

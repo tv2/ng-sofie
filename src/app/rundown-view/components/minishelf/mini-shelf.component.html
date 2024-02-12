@@ -2,6 +2,7 @@
   class="c-mini-shelf"
   title="{{ segment.name }}"
   (click)="executeAction()"
+  [ngClass]="{ 'media-not-available': mediaNotAvailable }"
 >
 <!--  TODO: add ThumbnailComponent and use it here-->
     <img
