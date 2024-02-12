@@ -8,6 +8,7 @@ import { MediaStateService } from '../../../shared/services/media-state.service'
 import { ActionService } from '../../../shared/abstractions/action.service'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
+import { RundownEventObserver } from '../../../core/services/rundown-event-observer.service'
 
 describe('MiniShelfComponent', () => {
   it('should create', async () => {
@@ -23,6 +24,7 @@ async function configureTestBed(
     mockedConfigurationService?: ConfigurationService
     mockedActionStateService?: ActionStateService
     mockedActionService?: ActionService
+    mockedRunDownEventObserver?: RundownEventObserver
   } = {}
 ): Promise<MiniShelfComponent> {
   const mockedConfigurationService: ConfigurationService = params.mockedConfigurationService ?? mock<ConfigurationService>()
@@ -31,6 +33,7 @@ async function configureTestBed(
   const mockedActionService: ActionService = params.mockedActionService ?? mock<ActionService>()
   const mockedLogger: Logger = mock<Logger>()
   const mockedRundownStateService: RundownStateService = params.mockedRundownStateService ?? mock<RundownStateService>()
+  const mockedRundownEventObserver: RundownEventObserver = params.mockedRunDownEventObserver ?? mock<RundownEventObserver>()
 
   await TestBed.configureTestingModule({
     declarations: [MiniShelfComponent, TimerPipe],
@@ -41,6 +44,7 @@ async function configureTestBed(
       { provide: ActionService, useValue: instance(mockedActionService) },
       { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
       { provide: Logger, useValue: instance(mockedLogger) },
+      { provide: RundownEventObserver, useValue: instance(mockedRundownEventObserver) },
     ],
   }).compileComponents()
 

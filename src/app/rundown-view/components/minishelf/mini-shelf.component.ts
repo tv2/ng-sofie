@@ -9,6 +9,7 @@ import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { Tv2Part } from '../../../core/models/tv2-part'
+import { RundownEventObserver } from '../../../core/services/rundown-event-observer.service'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -18,7 +19,6 @@ import { Tv2Part } from '../../../core/models/tv2-part'
 export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction?: Tv2VideoClipAction
-  @Input() public isRundownActive: boolean
 
   public showOnAirBorder: boolean = false
   public showNextBorder: boolean = false
@@ -33,7 +33,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
     private readonly mediaStateService: MediaStateService,
-    private readonly rundownStateService: RundownStateService
+    private readonly rundownStateService: RundownStateService,
+    private readonly rundownEventObserver: RundownEventObserver
   ) {}
 
   public ngOnInit(): void {
@@ -51,6 +52,14 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
       const tv2Part: Tv2Part | undefined = nextPart as Tv2Part | undefined
       this.showNextBorder = !tv2Part || !this.videoClipAction ? false : tv2Part?.metadata?.actionId === this.videoClipAction?.id
     })
+
+    this.rundownEventObserver.subscribeToRundownDeactivation(() => this.clearBorders())
+    this.rundownEventObserver.subscribeToRundownReset(() => this.clearBorders())
+  }
+
+  private clearBorders(): void {
+    this.showOnAirBorder = false
+    this.showNextBorder = false
   }
 
   private updateMediaAndCalculate(): void {
@@ -76,12 +85,6 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if ('segment' in changes) {
       this.updateMediaAndCalculate()
-    }
-    if ('isRundownActive' in changes) {
-      if (!this.isRundownActive) {
-        this.showOnAirBorder = false
-        this.showNextBorder = false
-      }
     }
   }
 
