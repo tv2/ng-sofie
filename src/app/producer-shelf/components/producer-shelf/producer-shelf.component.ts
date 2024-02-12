@@ -29,6 +29,11 @@ const STATIC_BUTTON_ACTION_IDS: string[] = [
   'studioMicrophonesDownAction',
 ]
 
+interface ActionPanel {
+  name: string
+  actions: Tv2Action[]
+}
+
 @Component({
   selector: 'sofie-producer-shelf',
   templateUrl: './producer-shelf.component.html',
@@ -44,10 +49,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
   @Input()
   public rundown: Rundown
 
-  public resolvedActionPanels: {
-    name: string
-    actions: Tv2Action[]
-  }[] = []
+  public resolvedActionPanels: ActionPanel[] = []
 
   public staticButtonActions: Tv2Action[] = []
 
