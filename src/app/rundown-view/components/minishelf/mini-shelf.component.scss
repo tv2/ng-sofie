@@ -3,11 +3,11 @@
   max-width: min-content;
   padding: 0;
   margin: 5px 0 5px 20px;
-  border-radius: 5px;
   overflow: hidden;
   background-color: var(--blue-color);
-  box-shadow: 0 0 2px 2px var(--gradient-black-rgba-with-02-opacity-color);
+  border-radius: 5px;
   border: solid 2px var(--gray-color);
+  box-shadow: 0 0 2px 2px var(--gradient-black-rgba-with-02-opacity-color);
 
   &:hover {
     cursor: pointer;
@@ -28,33 +28,33 @@
   }
 
   &__thumbnail {
+    display: flex;
+    padding: 0;
+    margin: 0;
     width: 100%;
     height: 60px;
     object-fit: cover;
     object-position: 50% 60%;
-    padding: 0;
-    margin: 0;
-    display: flex;
   }
 
   &__note {
     display: flex;
+    padding: 2px;
+    height: 18px;
     align-items: center;
     justify-content: space-between;
-    height: 18px;
     background: var(--blue-color);
-    padding: 2px;
     text-shadow: var(--black-color) 0 0 2px;
     font-weight: 450;
     font-size: 12px;
   }
 
   &__title {
-    color: var(--white-color);
     max-width: 212px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--white-color);
   }
 
   &__duration {
