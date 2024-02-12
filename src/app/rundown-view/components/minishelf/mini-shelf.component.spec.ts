@@ -18,6 +18,7 @@ describe('MiniShelfComponent', () => {
 
 async function configureTestBed(
   params: {
+    mockedRundownStateService?: RundownStateService
     mockedMediaStateService?: MediaStateService
     mockedConfigurationService?: ConfigurationService
     mockedActionStateService?: ActionStateService
@@ -29,6 +30,7 @@ async function configureTestBed(
   const mockedMediaStateService: MediaStateService = params.mockedMediaStateService ?? mock<MediaStateService>()
   const mockedActionService: ActionService = params.mockedActionService ?? mock<ActionService>()
   const mockedLogger: Logger = mock<Logger>()
+  const mockedRundownStateService: RundownStateService = params.mockedRundownStateService ?? mock<RundownStateService>()
 
   await TestBed.configureTestingModule({
     declarations: [MiniShelfComponent, TimerPipe],
@@ -37,7 +39,7 @@ async function configureTestBed(
       { provide: ActionStateService, useValue: instance(mockedActionStateService) },
       { provide: MediaStateService, useValue: instance(mockedMediaStateService) },
       { provide: ActionService, useValue: instance(mockedActionService) },
-      { provide: RundownStateService, useValue: instance(RundownStateService) },
+      { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
       { provide: Logger, useValue: instance(mockedLogger) },
     ],
   }).compileComponents()
