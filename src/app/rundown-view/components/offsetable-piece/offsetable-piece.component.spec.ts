@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { OffsetablePieceComponent } from './offsetable-piece.component'
 import { instance, mock } from '@typestrong/ts-mockito'
-import { Tv2Piece } from 'src/app/core/models/tv2-piece'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { ChangeDetectorRef } from '@angular/core'
+import { TestEntityFactory } from 'src/app/test/factories/test-entity.factory'
 
 describe(OffsetablePieceComponent.name, () => {
   let component: OffsetablePieceComponent
@@ -26,8 +26,9 @@ describe(OffsetablePieceComponent.name, () => {
   })
 
   it('should create', () => {
-    const mockedPiece = mock<Tv2Piece>()
-    component.piece = instance(mockedPiece)
+    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+    const mockedPiece = testEntityFactory.createPiece()
+    component.piece = mockedPiece
     expect(component).toBeTruthy()
   })
 })

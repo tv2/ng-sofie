@@ -1,13 +1,11 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { Subscription } from 'rxjs'
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core'
+import { Observable, Subject, takeUntil } from 'rxjs'
 import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 import { StudioConfiguration } from 'src/app/shared/models/studio-configuration'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 
 export interface VideoHoverScrubPositonsAndMoment {
   whereIsUserCursorInPercent: number
-  top: number
-  left: number
   isShown: boolean
   playedDurationForPartInMs?: number
 }
@@ -23,73 +21,76 @@ export interface HoverScrubElementSizes {
   styleUrls: ['./hover-scrub.component.scss'],
 })
 export class HoverScrubComponent implements OnInit, OnDestroy {
-  @Input() public playedDurationForPartInMs: number
-  @Input() public type: string
   @Input() public fileName?: string
+  @Input() public hoverScrubElementWidth: number
+  @Input() public hoverScrubMouseEventObservable: Observable<MouseEvent | undefined>
+  @Input() public playedDurationForPartInMs: number = 0
+  @Input() public type: Tv2PieceType
   public hoverScrubVideoSrc: string
   private readonly hoverScrubTopOffset = 15
-  private readonly timeoutDurationAfterMouseMoveInMs = 5
   private studioConfiguration: StudioConfiguration
-  private configurationServiceSubscription: Subscription
-  private timeoutAfterMouseMove?: NodeJS.Timeout
   public videoHoverScrubPositonsAndMoment: VideoHoverScrubPositonsAndMoment
   public hoverScrubElementSizes: HoverScrubElementSizes
-  @ViewChild('hoverScrubElement')
-  public hoverScrubElement: ElementRef<HTMLDivElement>
-  public hoverScrubTooltipElementRef: HTMLDivElement
+  public hoverScrubTooltipElemen: HTMLDivElement
+  private readonly unsubscribe$: Subject<null> = new Subject<null>()
 
-  constructor(private readonly configurationService: ConfigurationService) {}
+  constructor(
+    private readonly configurationService: ConfigurationService,
+    private readonly changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   public get isVideoHoverScrub(): boolean {
     return this.type === Tv2PieceType.VIDEO_CLIP
-  }
-
-  public onMouseEnterInVideoTimeline(event: MouseEvent): void {
-    this.calculateIsUserCursorInPercent(event)
-  }
-
-  public onMouseMoveInVideoTimeline(event: MouseEvent): void {
-    this.calculateIsUserCursorInPercent(event)
-  }
-
-  public onMouseLeaveInVideoTimeline(): void {
-    this.videoHoverScrubPositonsAndMoment = {
-      ...this.videoHoverScrubPositonsAndMoment,
-      isShown: false,
-    }
   }
 
   public ngOnInit(): void {
     this.setWidthAndHeightBasedOnType()
     this.appendHoverScrubTooltipElementToBody()
     if (this.isVideoHoverScrub) {
-      this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
-        this.studioConfiguration = studioConfiguration
-        this.setVideoSrc()
-      })
+      this.configurationService
+        .getStudioConfiguration()
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((studioConfiguration: StudioConfiguration) => {
+          this.studioConfiguration = studioConfiguration
+          this.createVideoSrc()
+        })
     }
+    this.hoverScrubMouseEventObservable.pipe(takeUntil(this.unsubscribe$)).subscribe(event => this.checkEventHoverScrubMouse(event))
+  }
+
+  public checkEventHoverScrubMouse(event: MouseEvent | undefined): void {
+    if (event) {
+      this.calculateIsUserCursorInPercent(event)
+    } else {
+      this.videoHoverScrubPositonsAndMoment = {
+        ...this.videoHoverScrubPositonsAndMoment,
+        isShown: false,
+      }
+      this.hideHoverElement()
+    }
+    this.changeDetectorRef.detectChanges()
   }
 
   private appendHoverScrubTooltipElementToBody(): void {
-    this.hoverScrubTooltipElementRef = document.createElement('div')
-    this.hoverScrubTooltipElementRef.className = 'c-sofie-hover-scrub-tooltip'
+    this.hoverScrubTooltipElemen = document.createElement('div')
+    this.hoverScrubTooltipElemen.className = 'c-sofie-hover-scrub-tooltip'
     const body: HTMLElement = document.getElementsByTagName('body')[0]
-    body.append(this.hoverScrubTooltipElementRef)
+    body.append(this.hoverScrubTooltipElemen)
   }
 
   public ngOnDestroy(): void {
-    this.configurationServiceSubscription?.unsubscribe()
-    this.hoverScrubTooltipElementRef.remove()
+    this.unsubscribe$.unsubscribe()
+    this.hoverScrubTooltipElemen.remove()
   }
 
   private setWidthAndHeightBasedOnType(): void {
     this.hoverScrubElementSizes = {
       width: this.type === Tv2PieceType.VIDEO_CLIP ? 170 : 200,
-      height: this.type === Tv2PieceType.VIDEO_CLIP ? 120 : 60,
+      height: this.type === Tv2PieceType.VIDEO_CLIP ? 125 : 60,
     }
   }
 
-  private setVideoSrc(): void {
+  private createVideoSrc(): void {
     if (this.studioConfiguration?.settings.mediaPreviewUrl && this.fileName) {
       // TODO test hoverScrubVideoSrc is working on stage env
       // this.hoverScrubVideoSrc = 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4'
@@ -101,24 +102,34 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
     if (!this.hoverScrubVideoSrc && this.isVideoHoverScrub) {
       return
     }
-    if (this.timeoutAfterMouseMove) {
-      clearTimeout(this.timeoutAfterMouseMove)
-    }
+
     const elementStartPositonTop = event.pageY - event.offsetY
-    const elementWidth = this.hoverScrubElement.nativeElement.clientWidth
-    this.timeoutAfterMouseMove = setTimeout(() => {
-      this.videoHoverScrubPositonsAndMoment = {
-        left: this.calculateHoverScrubLeftPositonBasedOnUserCursor(event.clientX, this.hoverScrubElementSizes.width),
-        top: elementStartPositonTop - this.hoverScrubElementSizes.height - this.hoverScrubTopOffset,
-        whereIsUserCursorInPercent: this.getWhereIsUserCursorInPercent(elementWidth, event.offsetX),
-        playedDurationForPartInMs: this.playedDurationForPartInMs,
-        isShown: true,
-      }
-    }, this.timeoutDurationAfterMouseMoveInMs)
+    const elementLeftPositonInPx: number = this.calculateHoverScrubLeftPositonBasedOnUserCursor(event.clientX, this.hoverScrubElementSizes.width)
+    const elementTopPositonInPx: number = elementStartPositonTop - this.hoverScrubElementSizes.height - this.hoverScrubTopOffset
+
+    this.videoHoverScrubPositonsAndMoment = {
+      whereIsUserCursorInPercent: this.getWhereIsUserCursorInPercent(this.hoverScrubElementWidth, event.offsetX),
+      playedDurationForPartInMs: this.playedDurationForPartInMs,
+      isShown: true,
+    }
+    this.getCurrentPositonBaseOnUserCursor(elementTopPositonInPx, elementLeftPositonInPx)
   }
 
   private getWhereIsUserCursorInPercent(timelineWidth: number, relativeParentPostion: number): number {
     return Math.round((relativeParentPostion / timelineWidth) * 100)
+  }
+
+  private getCurrentPositonBaseOnUserCursor(topPositionInPx: number, leftPositonInPx: number): void {
+    if (this.hoverScrubTooltipElemen) {
+      this.hoverScrubTooltipElemen.setAttribute(
+        'style',
+        `top: ${topPositionInPx}px; left: ${leftPositonInPx}px; width: ${this.hoverScrubElementSizes.width}px; height: ${this.hoverScrubElementSizes.height}px; display: flex`
+      )
+    }
+  }
+
+  private hideHoverElement(): void {
+    this.hoverScrubTooltipElemen.setAttribute('style', `display: none;`)
   }
 
   private calculateHoverScrubLeftPositonBasedOnUserCursor(clientX: number, videoElementWidth: number): number {

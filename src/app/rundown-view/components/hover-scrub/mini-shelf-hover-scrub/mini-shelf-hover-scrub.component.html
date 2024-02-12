@@ -1,0 +1,15 @@
+<div
+  #pieceHoverScrubElement
+  (mouseenter)="onMouseEnterInVideoTimeline($event)"
+  (mousemove)="onMouseMoveInVideoTimeline($event)"
+  (mouseleave)="onMouseLeaveInVideoTimeline()"
+  class="c-hover-scrub-hover-element">
+</div>
+
+<sofie-hover-scrub
+  *ngIf="pieceHoverScrubElement"
+  [fileName]="fileName"
+  [hoverScrubElementWidth]="pieceHoverScrubElement.clientWidth"
+  [type]="type"
+  [hoverScrubMouseEventObservable]="mouseHoverEventSubject.asObservable()">
+</sofie-hover-scrub>

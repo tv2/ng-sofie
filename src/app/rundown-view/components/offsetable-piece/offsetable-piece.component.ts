@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
-import { Tv2Piece } from '../../../core/models/tv2-piece'
+import { Tv2Piece, Tv2PieceMetadata } from '../../../core/models/tv2-piece'
 import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { Subscription } from 'rxjs'
 import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
+import { Piece } from 'src/app/core/models/piece'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 
@@ -16,7 +17,7 @@ const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 })
 export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   @Input()
-  public piece: Tv2Piece
+  public piece: Piece
 
   @Input()
   public pixelsPerSecond: number
@@ -55,6 +56,12 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
       this.mediaSubscription?.unsubscribe()
       this.updatePieceMedia()
     }
+  }
+
+  public get getTv2PieceMetadata(): Tv2PieceMetadata {
+    const piece: Tv2Piece = this.piece as Tv2Piece
+    const piaceMetadata: Tv2PieceMetadata = piece.metadata && { ...piece.metadata }
+    return piaceMetadata
   }
 
   public updatePieceMedia(): void {
@@ -129,8 +136,9 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     return [piece.metadata.type.toLowerCase().replace(/_/g, '-'), (piece.metadata.audioMode ?? Tv2AudioMode.FULL).toLowerCase().replace('_', '-')].join(' ')
   }
 
-  public isThisTypeHasHoverScrub(type: Tv2PieceType): boolean {
-    return type === Tv2PieceType.VIDEO_CLIP
+  public shouldShowHoverScrub(): boolean {
+    const tv2Piece: Tv2Piece = this.piece as Tv2Piece
+    return tv2Piece.metadata?.type === Tv2PieceType.VIDEO_CLIP
   }
 
   @HostBinding('class.media-unavailable')
@@ -138,8 +146,9 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     return !!this.mediaSubscription && !this.media
   }
 
-  public getPieceMediaSourceName(piece: Tv2Piece): string {
-    return piece.metadata.sourceName ?? ''
+  public getPieceMediaSourceName(piece: Piece): string {
+    const tv2Piece: Tv2Piece = piece as Tv2Piece
+    return tv2Piece.metadata.sourceName ?? ''
   }
 
   private updateMediaAvailabilityStatus(media: Media | undefined): void {

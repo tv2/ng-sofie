@@ -12,7 +12,7 @@ describe('VideoContentHoverScrubComponent', () => {
 
     fixture = TestBed.createComponent(VideoContentHoverScrubComponent)
     component = fixture.componentInstance
-    component.hoverScrubTooltipElementRef = document.createElement('div')
+    component.hoverScrubElemen = document.createElement('div')
     fixture.detectChanges()
   })
 

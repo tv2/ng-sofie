@@ -1,10 +1,4 @@
 <div class="label" [style.margin-left.px]="labelOffsetInPixels">
   <span #labelTextElement>{{ piece.name }}</span>
-  <!-- TODO get file name from meta data -->
-  <sofie-hover-scrub
-    *ngIf="isThisTypeHasHoverScrub(piece.metadata.type)"
-    [fileName]="piece.id.split('_').pop()"
-    [type]="piece.metadata.type"
-    [playedDurationForPartInMs]="playedDurationForPartInMs">
-  </sofie-hover-scrub>
+  <sofie-piece-hover-scrub *ngIf="shouldShowHoverScrub()" [fileName]="piece.name" [type]="getTv2PieceMetadata.type" [playedDurationForPartInMs]="playedDurationForPartInMs"></sofie-piece-hover-scrub>
 </div>

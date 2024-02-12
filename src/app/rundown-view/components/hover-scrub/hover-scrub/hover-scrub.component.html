@@ -1,18 +1,9 @@
-<div
-  #hoverScrubElement
-  (mouseenter)="onMouseEnterInVideoTimeline($event)"
-  (mousemove)="onMouseMoveInVideoTimeline($event)"
-  (mouseleave)="onMouseLeaveInVideoTimeline()"
-  class="c-hover-scrub-container">
-</div>
-
-<ng-container>
-  <sofie-video-content-hover-scrub
-    *ngIf="videoHoverScrubPositonsAndMoment && fileName"
-    [hoverScrubElementSizes]="hoverScrubElementSizes"
-    [hoverScrubVideoSrc]="hoverScrubVideoSrc"
-    [hoverScrubTooltipElementRef]="hoverScrubTooltipElementRef"
-    [fileName]="fileName"
-    [videoHoverScrubPositonsAndMoment]="videoHoverScrubPositonsAndMoment">
-  </sofie-video-content-hover-scrub>
-</ng-container>
+<sofie-video-content-hover-scrub
+  *ngIf="videoHoverScrubPositonsAndMoment && hoverScrubVideoSrc && fileName"
+  [hoverScrubElementSizes]="hoverScrubElementSizes"
+  [hoverScrubVideoSrc]="hoverScrubVideoSrc"
+  [type]="type"
+  [hoverScrubTooltipElemen]="hoverScrubTooltipElemen"
+  [fileName]="fileName"
+  [videoHoverScrubPositonsAndMoment]="videoHoverScrubPositonsAndMoment">
+</sofie-video-content-hover-scrub>
