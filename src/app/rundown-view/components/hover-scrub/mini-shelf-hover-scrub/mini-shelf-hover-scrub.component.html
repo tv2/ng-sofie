@@ -1,8 +1,8 @@
 <div
   #pieceHoverScrubElement
-  (mouseenter)="onMouseEnterInVideoTimeline($event)"
-  (mousemove)="onMouseMoveInVideoTimeline($event)"
-  (mouseleave)="onMouseLeaveInVideoTimeline()"
+  (mouseenter)="emitNewHoverScrubMouseEvent($event)"
+  (mousemove)="emitNewHoverScrubMouseEvent($event)"
+  (mouseleave)="emitNewHoverScrubMouseEvent()"
   class="c-hover-scrub-hover-element">
 </div>
 

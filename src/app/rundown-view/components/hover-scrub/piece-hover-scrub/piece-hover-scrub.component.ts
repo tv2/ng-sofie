@@ -11,24 +11,14 @@ export class PieceHoverScrubComponent {
   @Input() public playedDurationForPartInMs: number
   @Input() public type: Tv2PieceType
   @Input() public fileName?: string
-  private readonly timeoutDurationAfterMouseMoveInMs = 5
-  private timeoutAfterMouseMove?: NodeJS.Timeout
+
   public mouseHoverEventSubject: Subject<MouseEvent | undefined> = new Subject<MouseEvent | undefined>()
   public hoverScrubMouseEvent: MouseEvent | undefined
 
-  public onMouseEnterInVideoTimeline(event: MouseEvent): void {
-    this.emitNewHoverScrubMouseEvent(event)
-  }
+  private readonly timeoutDurationAfterMouseMoveInMs = 5
+  private timeoutAfterMouseMove?: NodeJS.Timeout
 
-  public onMouseMoveInVideoTimeline(event: MouseEvent): void {
-    this.emitNewHoverScrubMouseEvent(event)
-  }
-
-  public onMouseLeaveInVideoTimeline(): void {
-    this.emitNewHoverScrubMouseEvent(undefined)
-  }
-
-  private emitNewHoverScrubMouseEvent(event: MouseEvent | undefined): void {
+  public emitNewHoverScrubMouseEvent(event: MouseEvent | undefined = undefined): void {
     if (this.timeoutAfterMouseMove) {
       clearTimeout(this.timeoutAfterMouseMove)
     }

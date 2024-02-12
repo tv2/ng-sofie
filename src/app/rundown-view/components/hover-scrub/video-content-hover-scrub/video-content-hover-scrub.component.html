@@ -1,0 +1,4 @@
+<div style="display: none">
+  <p #videoTitleRef [class]="type.toLocaleLowerCase() + '_color'">{{ fileName }}</p>
+  <video #videoElementRef class="c-video-hover-scrub" [src]="hoverScrubVideoSource" [style]="'height:' + (hoverScrubElementSize.height - 35) + 'px'">{{ fileName }}</video>
+</div>

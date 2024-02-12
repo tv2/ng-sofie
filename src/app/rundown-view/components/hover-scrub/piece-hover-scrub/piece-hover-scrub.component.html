@@ -1,8 +1,8 @@
 <div
   #pieceHoverScrubElement
-  (mouseenter)="onMouseEnterInVideoTimeline($event)"
-  (mousemove)="onMouseMoveInVideoTimeline($event)"
-  (mouseleave)="onMouseLeaveInVideoTimeline()"
+  (mouseenter)="emitNewHoverScrubMouseEvent($event)"
+  (mousemove)="emitNewHoverScrubMouseEvent($event)"
+  (mouseleave)="emitNewHoverScrubMouseEvent()"
   class="c-hover-scrub-hover-element">
 </div>
 
@@ -10,7 +10,7 @@
   *ngIf="pieceHoverScrubElement"
   [fileName]="fileName"
   [type]="type"
-  [playedDurationForPartInMs]="playedDurationForPartInMs"
+  [playedDurationInMs]="playedDurationForPartInMs"
   [hoverScrubElementWidth]="pieceHoverScrubElement.clientWidth"
   [hoverScrubMouseEventObservable]="mouseHoverEventSubject.asObservable()">
 </sofie-hover-scrub>
