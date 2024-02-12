@@ -88,7 +88,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    this.logger.data(changes).debug('RundownComponent ngOnChanges')
     if ('rundown' in changes) {
       this.updateMiniShelfSegments()
       this.updateMiniShelfSegmentActionMappings()
