@@ -60,7 +60,6 @@ export class HoverScrubComponent implements OnInit, OnDestroy, OnChanges {
       return
     }
     this.setWidthAndHeightBasedOnType()
-    this.setNewStylesToHoverScrubTooltipElement()
   }
 
   public ngOnInit(): void {
@@ -90,13 +89,8 @@ export class HoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   private appendHoverScrubTooltipElementToBody(): void {
     this.hoverScrubTooltipElemen = document.createElement('div')
     this.hoverScrubTooltipElemen.className = 'c-sofie-hover-scrub-tooltip'
-    this.setNewStylesToHoverScrubTooltipElement()
     const body: HTMLElement = document.getElementsByTagName('body')[0]
     body.append(this.hoverScrubTooltipElemen)
-  }
-
-  private setNewStylesToHoverScrubTooltipElement(): void {
-    this.hoverScrubTooltipElemen.setAttribute('style', `width: ${this.hoverScrubElementSize.width}px; height: ${this.hoverScrubElementSize.height}px`)
   }
 
   public get isAvailableVideoHoverScrub(): boolean {
@@ -113,7 +107,7 @@ export class HoverScrubComponent implements OnInit, OnDestroy, OnChanges {
 
   private createVideoSource(): void {
     if (this.studioConfiguration?.settings.mediaPreviewUrl && this.fileName) {
-      // TODO test hoverScrubVideoSource is working on stage env
+      // TODO remove test code
       // this.hoverScrubVideoSource = 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4'
       this.hoverScrubVideoSource = `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/${this.fileName}`
     }
