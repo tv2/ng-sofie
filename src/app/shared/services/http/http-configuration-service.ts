@@ -25,7 +25,7 @@ export class HttpConfigurationService implements ConfigurationService {
   }
 
   public getShelfConfiguration(): Observable<ShelfConfiguration> {
-    return this.http.get<HttpResponse<ShelfConfiguration[]>>(`${environment.apiBaseUrl}/configurations/shelves`).pipe(
+    return this.http.get<HttpResponse<ShelfConfiguration[]>>(`${environment.apiBaseUrl}/configurations/shelfConfigurations`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
       map(response => this.configurationParser.parseShelfConfiguration(response.data[0]))
     )
