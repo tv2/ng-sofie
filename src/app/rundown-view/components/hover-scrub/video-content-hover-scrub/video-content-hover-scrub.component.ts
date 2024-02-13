@@ -17,20 +17,23 @@ export class VideoContentHoverScrubComponent implements OnChanges {
   @Input() public videoHoverScrubPositonsAndMoment: VideoHoverScrubPositonsAndMoment
   @Input() public hoverScrubTooltipElemen: HTMLElement
 
+  public readonly videoContainerWidth = 160
+  public currentVideoTimeInS: number
+  public videoDurationInS: number
   private isVideoContentAppended: boolean = false
 
-  @ViewChild('videoElementRef')
-  public videoElementRef: ElementRef<HTMLVideoElement>
+  @ViewChild('viceoTooltipElementRef')
+  public viceoTooltipElementRef: ElementRef<HTMLDivElement>
 
-  @ViewChild('videoTitleRef')
-  public videoTitleRef: ElementRef<HTMLParagraphElement>
+  @ViewChild('viceoElementRef')
+  public viceoElementRef: ElementRef<HTMLVideoElement>
 
   public ngOnChanges(changes: SimpleChanges): void {
     const videoHoverScrubPositonsAndMomentChange: SimpleChange | undefined = changes['videoHoverScrubPositonsAndMoment']
     if (!videoHoverScrubPositonsAndMomentChange) {
       return
     }
-    if (this.videoTitleRef && this.videoElementRef && !this.isVideoContentAppended) {
+    if (this.viceoTooltipElementRef && !this.isVideoContentAppended) {
       this.appendVideoContentToHoverScrubTooltip()
     }
     this.setNewTimeForVideoElement()
@@ -38,36 +41,30 @@ export class VideoContentHoverScrubComponent implements OnChanges {
 
   private appendVideoContentToHoverScrubTooltip(): void {
     this.isVideoContentAppended = true
-    this.hoverScrubTooltipElemen.appendChild(this.videoTitleRef.nativeElement)
-    this.hoverScrubTooltipElemen.appendChild(this.videoElementRef.nativeElement)
+    this.hoverScrubTooltipElemen.appendChild(this.viceoTooltipElementRef.nativeElement)
   }
 
   private setNewTimeForVideoElement(): void {
-    if (!this.videoElementRef?.nativeElement.duration) {
+    if (!this.viceoElementRef?.nativeElement.duration) {
       return
     }
 
     if (this.videoHoverScrubPositonsAndMoment.isShown) {
-      const videoDuration: number = this.videoElementRef.nativeElement.duration
-      this.videoElementRef.nativeElement.currentTime = this.getCurrentTimeBasedOnCursor(
+      const videoDuration: number = Math.round(this.viceoElementRef.nativeElement.duration * ROUNDING_PRECISION) / ROUNDING_PRECISION
+      this.videoDurationInS = videoDuration
+      this.currentVideoTimeInS = this.getCurrentTimeBasedOnCursor(
         videoDuration,
         this.videoHoverScrubPositonsAndMoment.cursorLocationInPercent,
         this.videoHoverScrubPositonsAndMoment.playedDurationInMs ? this.videoHoverScrubPositonsAndMoment.playedDurationInMs / 1000 : 0
       )
+      this.viceoElementRef.nativeElement.currentTime = this.currentVideoTimeInS
     }
   }
 
   private getCurrentTimeBasedOnCursor(videoDuration: number, userCursorInPercent: number, playedDurationInS: number): number {
     const videoDurationWithoutPlayedDuration = videoDuration - playedDurationInS
-    return Math.round((playedDurationInS + (videoDurationWithoutPlayedDuration / 100) * userCursorInPercent) * ROUNDING_PRECISION) / ROUNDING_PRECISION
+    return videoDurationWithoutPlayedDuration > 0
+      ? Math.round((playedDurationInS + (videoDurationWithoutPlayedDuration / 100) * userCursorInPercent) * ROUNDING_PRECISION) / ROUNDING_PRECISION
+      : playedDurationInS
   }
-
-  // private resetHoverScrubContainer(): void {
-  //   this.isVideoContentAppended = false
-  //   this.hoverScrubTooltipElemen.innerHTML = ''
-  // }
-
-  // public ngOnDestroy(): void {
-  //   this.resetHoverScrubContainer()
-  // }
 }

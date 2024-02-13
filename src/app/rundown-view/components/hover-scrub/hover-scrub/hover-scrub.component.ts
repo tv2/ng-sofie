@@ -15,8 +15,10 @@ export interface HoverScrubElementSize {
   height: number
 }
 
-export const WIDTH_FOR_VIDEO_CONTENT_IN_PX: number = 170
-export const HEIGHT_FOR_VIDEO_CONTENT_IN_PX: number = 125
+export const WIDTH_FOR_VIDEO_CONTENT_IN_PX: number = 320
+export const WIDTH_FOR_SINGLE_CHARACTER_IN_PX: number = 6
+export const MINIMUM_CHARACTERS_FOR_START_INCREASE_WIDTH: number = 20
+export const HEIGHT_FOR_VIDEO_CONTENT_IN_PX: number = 90
 export const WIDTH_FOR_TEXT_CONTENT_IN_PX: number = 200
 export const HEIGHT_FOR_TEXT_CONTENT_IN_PX: number = 60
 
@@ -26,7 +28,7 @@ export const HEIGHT_FOR_TEXT_CONTENT_IN_PX: number = 60
   styleUrls: ['./hover-scrub.component.scss'],
 })
 export class HoverScrubComponent implements OnInit, OnDestroy {
-  @Input() public fileName?: string
+  @Input() public fileName: string
   @Input() public hoverScrubElementWidth: number
   @Input() public hoverScrubMouseEventObservable: Observable<MouseEvent | undefined>
   @Input() public playedDurationInMs: number = 0
@@ -37,7 +39,7 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
   public hoverScrubElementSize: HoverScrubElementSize
   public hoverScrubTooltipElemen: HTMLDivElement
 
-  private readonly hoverScrubTopOffset = 15
+  private readonly hoverScrubTopOffset = 5
   private studioConfiguration: StudioConfiguration
   private readonly unsubscribe$: Subject<null> = new Subject<null>()
 
@@ -69,14 +71,19 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
 
   private setWidthAndHeightBasedOnType(): void {
     this.hoverScrubElementSize = {
-      width: this.type === Tv2PieceType.VIDEO_CLIP ? WIDTH_FOR_VIDEO_CONTENT_IN_PX : WIDTH_FOR_TEXT_CONTENT_IN_PX,
+      width: this.type === Tv2PieceType.VIDEO_CLIP ? this.calculateWidth() : WIDTH_FOR_TEXT_CONTENT_IN_PX,
       height: this.type === Tv2PieceType.VIDEO_CLIP ? HEIGHT_FOR_VIDEO_CONTENT_IN_PX : HEIGHT_FOR_TEXT_CONTENT_IN_PX,
     }
+  }
+
+  private calculateWidth(): number {
+    return WIDTH_FOR_VIDEO_CONTENT_IN_PX + Math.max((this.fileName?.length - MINIMUM_CHARACTERS_FOR_START_INCREASE_WIDTH) * WIDTH_FOR_SINGLE_CHARACTER_IN_PX, 0)
   }
 
   private appendHoverScrubTooltipElementToBody(): void {
     this.hoverScrubTooltipElemen = document.createElement('div')
     this.hoverScrubTooltipElemen.className = 'c-sofie-hover-scrub-tooltip'
+    this.hoverScrubTooltipElemen.setAttribute('style', `width: ${this.hoverScrubElementSize.width}; height: ${this.hoverScrubElementSize.height}`)
     const body: HTMLElement = document.getElementsByTagName('body')[0]
     body.append(this.hoverScrubTooltipElemen)
   }

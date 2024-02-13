@@ -8,7 +8,7 @@ import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
   styleUrls: ['./mini-shelf-hover-scrub.component.scss'],
 })
 export class MiniShelfHoverScrubComponent {
-  @Input() public fileName?: string
+  @Input() public fileName: string
 
   public readonly type: Tv2PieceType = Tv2PieceType.VIDEO_CLIP
   public mouseHoverEventSubject: Subject<MouseEvent | undefined> = new Subject<MouseEvent | undefined>()

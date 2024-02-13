@@ -185,6 +185,9 @@
       <trans-unit id="9012317992372082365" datatype="html">
         <source>global.next.label</source>
       </trans-unit>
+      <trans-unit id="1461657427455059144" datatype="html">
+        <source>rundown-overview.hover-scrub.full-duration.label</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

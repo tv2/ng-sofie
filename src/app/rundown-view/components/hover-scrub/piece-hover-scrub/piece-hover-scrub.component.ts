@@ -10,7 +10,7 @@ import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 export class PieceHoverScrubComponent {
   @Input() public playedDurationForPartInMs: number
   @Input() public type: Tv2PieceType
-  @Input() public fileName?: string
+  @Input() public fileName: string
 
   public mouseHoverEventSubject: Subject<MouseEvent | undefined> = new Subject<MouseEvent | undefined>()
   public hoverScrubMouseEvent: MouseEvent | undefined

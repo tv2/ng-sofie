@@ -246,6 +246,10 @@
         <source>global.auto.label</source>
         <target state="new">AUTO</target>
       </trans-unit>
+      <trans-unit id="1461657427455059144" datatype="html">
+        <source>rundown-overview.hover-scrub.full-duration.label</source>
+        <target state="new">Full duration</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
