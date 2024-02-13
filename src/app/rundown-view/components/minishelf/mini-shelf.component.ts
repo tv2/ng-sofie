@@ -46,7 +46,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     this.mediaSubscription = this.mediaStateService.subscribeToMedia(mediaFileName).subscribe(this.updateMediaAvailabilityStatus.bind(this))
   }
 
-  public getSegmentMediaFileName(segment: Segment): string {
+  private getSegmentMediaFileName(segment: Segment): string {
     const tv2SegmentMetadata: Tv2SegmentMetadata | undefined = segment.metadata
     return tv2SegmentMetadata?.miniShelfVideoClipFile ?? ''
   }
