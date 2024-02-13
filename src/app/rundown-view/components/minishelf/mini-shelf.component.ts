@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core'
+import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
 import { StudioConfiguration } from '../../../shared/models/studio-configuration'
@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs'
 import { ActionService } from '../../../shared/abstractions/action.service'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
+import { Tv2SegmentMetadata } from '../../../core/models/tv2-segment-metadata'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -22,12 +23,13 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   private configurationServiceSubscription: Subscription
   private studioConfiguration: StudioConfiguration | undefined
   protected mediaDurationInMsWithoutPostroll: number = 0
-  protected mediaNotAvailable: boolean = false
+  private mediaSubscription: Subscription
 
   constructor(
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
-    private readonly mediaStateService: MediaStateService
+    private readonly mediaStateService: MediaStateService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -38,16 +40,26 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private updateMediaAndCalculate(): void {
-    if (!this.segment.metadata?.miniShelfVideoClipFile) {
+    const mediaSourceName: string = this.getSegmentMediaVideoClipFileName(this.segment)
+    if (!mediaSourceName) {
       return
     }
-
-    this.mediaStateService.subscribeToMedia(this.segment.metadata?.miniShelfVideoClipFile).subscribe(media => this.updateMedia(media))
-    this.mediaStateService.subscribeToMediaAvailability(this.segment.metadata?.miniShelfVideoClipFile).subscribe(availability => {
-      this.mediaNotAvailable = !availability
-    })
+    this.mediaSubscription = this.mediaStateService.subscribeToMedia(mediaSourceName).subscribe(this.updateMediaAvailabilityStatus.bind(this))
   }
 
+  public getSegmentMediaVideoClipFileName(segment: Segment): string {
+    const tv2SegmentMetadata: Tv2SegmentMetadata = segment.metadata as Tv2SegmentMetadata
+    return tv2SegmentMetadata.miniShelfVideoClipFile ?? ''
+  }
+
+  private updateMediaAvailabilityStatus(media: Media | undefined): void {
+    if (this.getSegmentMediaVideoClipFileName(this.segment) === '') {
+      return
+    }
+    this.media = media
+    this.calculateMediaDurationInMsWithoutPostroll()
+    this.changeDetectorRef.detectChanges()
+  }
   private calculateMediaDurationInMsWithoutPostroll(): void {
     if (!this.segment.metadata?.miniShelfVideoClipFile) {
       return
@@ -68,6 +80,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnDestroy(): void {
     this.configurationServiceSubscription?.unsubscribe()
+    this.mediaSubscription?.unsubscribe()
   }
 
   protected get mediaPreviewUrl(): string {
@@ -101,12 +114,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     ;(event.target as HTMLImageElement).src = this.fallbackPreviewUrl
   }
 
-  private updateMedia(media: Media | undefined): void {
-    if (!media) {
-      this.mediaNotAvailable = true
-      return
-    }
-    this.media = media
-    this.calculateMediaDurationInMsWithoutPostroll()
+  @HostBinding('class.media-not-available')
+  public get isMediaUnavailable(): boolean {
+    return !!this.mediaSubscription && !this.media
   }
 }
