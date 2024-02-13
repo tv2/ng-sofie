@@ -25,6 +25,11 @@
     display: flex;
   }
 
+  &.media-unavailable{
+    background-image: var(--transparent-and-red-stripes);
+    opacity: 0.9;
+  }
+
   &__note {
     display: flex;
     align-items: center;

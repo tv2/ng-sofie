@@ -51,4 +51,13 @@ body {
   --unsynced-part-linear-gradient: repeating-linear-gradient(120deg, #00000000, #00000000 8px, #ffff0055 8px, #ffff0055 16px);
   --action-panel-scrollable-before-linear-gradient: linear-gradient(90deg, #222222ff 0%, #222222ff 10%, #22222200 100%);
   --action-panel-scrollable-after-linear-gradient: linear-gradient(-90deg, #222222ff 0%, #222222ff 10%, #22222200 100%);
+
+  --transparent-and-red-stripes: repeating-linear-gradient(
+                  45deg,
+                  var(--transparent-color),
+                  var(--transparent-color) 12px,
+                  var(--rundown-media-unavailable-color) 12px,
+                  var(--rundown-media-unavailable-color) 18px
+  );
+
 }
