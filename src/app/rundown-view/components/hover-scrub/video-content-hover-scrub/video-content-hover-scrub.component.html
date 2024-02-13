@@ -1,5 +1,5 @@
 <div style="display: none">
-  <div class="c-video-hover-scrub-tooltip" #viceoTooltipElementRef>
+  <div class="c-video-hover-scrub-tooltip" #videoTooltipElementRef>
     <div class="c-video-hover-scrub-tooltip__video" [style]="'width:' + videoContainerWidth + 'px'">
       <video #viceoElementRef [src]="hoverScrubVideoSource">{{ fileName }}</video>
       <span *ngIf="currentVideoTimeInS" class="c-video-hover-scrub-tooltip__video--cursor-time">{{ currentVideoTimeInS * 1000 | timer: 'HH?:mm:ss' }}</span>

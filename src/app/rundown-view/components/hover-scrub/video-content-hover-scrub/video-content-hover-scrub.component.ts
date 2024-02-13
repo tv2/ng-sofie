@@ -24,8 +24,8 @@ export class VideoContentHoverScrubComponent implements OnChanges {
   public videoDurationInS: number
   private isVideoContentAppended: boolean = false
 
-  @ViewChild('viceoTooltipElementRef')
-  public viceoTooltipElementRef: ElementRef<HTMLDivElement>
+  @ViewChild('videoTooltipElementRef')
+  public videoTooltipElementRef: ElementRef<HTMLDivElement>
 
   @ViewChild('viceoElementRef')
   public viceoElementRef: ElementRef<HTMLVideoElement>
@@ -35,7 +35,7 @@ export class VideoContentHoverScrubComponent implements OnChanges {
     if (!videoHoverScrubPositonsAndMomentChange) {
       return
     }
-    if (this.viceoTooltipElementRef && !this.isVideoContentAppended) {
+    if (this.videoTooltipElementRef && !this.isVideoContentAppended) {
       this.appendVideoContentToHoverScrubTooltip()
     }
     this.setNewTimeForVideoElement()
@@ -43,7 +43,7 @@ export class VideoContentHoverScrubComponent implements OnChanges {
 
   private appendVideoContentToHoverScrubTooltip(): void {
     this.isVideoContentAppended = true
-    this.hoverScrubTooltipElemen.appendChild(this.viceoTooltipElementRef.nativeElement)
+    this.hoverScrubTooltipElemen.appendChild(this.videoTooltipElementRef.nativeElement)
   }
 
   private setNewTimeForVideoElement(): void {

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
 import { Observable, Subject, takeUntil } from 'rxjs'
 import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
@@ -28,7 +28,7 @@ export const HEIGHT_FOR_TEXT_CONTENT_IN_PX: number = 90
   templateUrl: './hover-scrub.component.html',
   styleUrls: ['./hover-scrub.component.scss'],
 })
-export class HoverScrubComponent implements OnInit, OnDestroy {
+export class HoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public fileName: string
   @Input() public hoverScrubElementWidth: number
   @Input() public hoverScrubMouseEventObservable: Observable<MouseEvent | undefined>
@@ -50,6 +50,18 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
     private readonly configurationService: ConfigurationService,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    const isMediaUnavailableChange: SimpleChange | undefined = changes['isMediaUnavailable']
+    if (!isMediaUnavailableChange) {
+      return
+    }
+    if (!this.hoverScrubTooltipElemen) {
+      return
+    }
+    this.setWidthAndHeightBasedOnType()
+    this.setNewStylesToHoverScrubTooltipElement()
+  }
 
   public ngOnInit(): void {
     this.setWidthAndHeightBasedOnType()
@@ -78,9 +90,13 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
   private appendHoverScrubTooltipElementToBody(): void {
     this.hoverScrubTooltipElemen = document.createElement('div')
     this.hoverScrubTooltipElemen.className = 'c-sofie-hover-scrub-tooltip'
-    this.hoverScrubTooltipElemen.setAttribute('style', `width: ${this.hoverScrubElementSize.width}px; height: ${this.hoverScrubElementSize.height}px`)
+    this.setNewStylesToHoverScrubTooltipElement()
     const body: HTMLElement = document.getElementsByTagName('body')[0]
     body.append(this.hoverScrubTooltipElemen)
+  }
+
+  private setNewStylesToHoverScrubTooltipElement(): void {
+    this.hoverScrubTooltipElemen.setAttribute('style', `width: ${this.hoverScrubElementSize.width}px; height: ${this.hoverScrubElementSize.height}px`)
   }
 
   public get isAvailableVideoHoverScrub(): boolean {
@@ -98,8 +114,8 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
   private createVideoSource(): void {
     if (this.studioConfiguration?.settings.mediaPreviewUrl && this.fileName) {
       // TODO test hoverScrubVideoSource is working on stage env
-      this.hoverScrubVideoSource = 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4'
-      // this.hoverScrubVideoSource = `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/${this.fileName}`
+      // this.hoverScrubVideoSource = 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4'
+      this.hoverScrubVideoSource = `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/${this.fileName}`
     }
   }
 
