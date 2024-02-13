@@ -26,13 +26,22 @@
   }
 
   &.media-not-available {
-    background-image: repeating-linear-gradient(
-                    45deg,
-                    transparent 0 9px,
-                    var(--on-air-color) 10px 13px
-    );
-    opacity: 0.9;
-  }
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: repeating-linear-gradient(
+                      45deg,
+                      var(--transparent-color),
+                      var(--transparent-color) 12px,
+                      var(--rundown-media-unavailable-color) 12px,
+                      var(--rundown-media-unavailable-color) 18px
+      );
+      z-index: 10;
+    }  }
 
   &__note {
     display: flex;

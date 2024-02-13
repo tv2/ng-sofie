@@ -23,7 +23,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   private configurationServiceSubscription: Subscription
   private studioConfiguration: StudioConfiguration | undefined
   protected mediaDurationInMsWithoutPostroll: number = 0
-  private mediaSubscription: Subscription
+  private mediaSubscription: Subscription | undefined
 
   constructor(
     private readonly actionService: ActionService,
@@ -36,24 +36,23 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
       this.studioConfiguration = studioConfiguration
     })
-    this.updateMediaAndCalculate()
   }
 
-  private updateMediaAndCalculate(): void {
-    const mediaSourceName: string = this.getSegmentMediaVideoClipFileName(this.segment)
-    if (!mediaSourceName) {
+  private subscribeToMedia(): void {
+    const mediaFileName: string = this.getSegmentMediaFileName(this.segment)
+    if (!mediaFileName) {
       return
     }
-    this.mediaSubscription = this.mediaStateService.subscribeToMedia(mediaSourceName).subscribe(this.updateMediaAvailabilityStatus.bind(this))
+    this.mediaSubscription = this.mediaStateService.subscribeToMedia(mediaFileName).subscribe(this.updateMediaAvailabilityStatus.bind(this))
   }
 
-  public getSegmentMediaVideoClipFileName(segment: Segment): string {
-    const tv2SegmentMetadata: Tv2SegmentMetadata = segment.metadata as Tv2SegmentMetadata
-    return tv2SegmentMetadata.miniShelfVideoClipFile ?? ''
+  public getSegmentMediaFileName(segment: Segment): string {
+    const tv2SegmentMetadata: Tv2SegmentMetadata | undefined = segment.metadata
+    return tv2SegmentMetadata?.miniShelfVideoClipFile ?? ''
   }
 
   private updateMediaAvailabilityStatus(media: Media | undefined): void {
-    if (this.getSegmentMediaVideoClipFileName(this.segment) === '') {
+    if (!media) {
       return
     }
     this.media = media
@@ -61,9 +60,6 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     this.changeDetectorRef.detectChanges()
   }
   private calculateMediaDurationInMsWithoutPostroll(): void {
-    if (!this.segment.metadata?.miniShelfVideoClipFile) {
-      return
-    }
     if (!this.studioConfiguration) {
       return
     }
@@ -74,7 +70,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if ('segment' in changes) {
-      this.updateMediaAndCalculate()
+      this.subscribeToMedia()
     }
   }
 
