@@ -21,7 +21,7 @@ export const WIDTH_FOR_SINGLE_CHARACTER_IN_PX: number = 6
 export const MINIMUM_CHARACTERS_FOR_START_INCREASE_WIDTH: number = 20
 export const HEIGHT_FOR_VIDEO_CONTENT_IN_PX: number = 90
 export const WIDTH_FOR_TEXT_CONTENT_IN_PX: number = 200
-export const HEIGHT_FOR_TEXT_CONTENT_IN_PX: number = 60
+export const HEIGHT_FOR_TEXT_CONTENT_IN_PX: number = 90
 
 @Component({
   selector: 'sofie-hover-scrub',
@@ -34,6 +34,7 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
   @Input() public hoverScrubMouseEventObservable: Observable<MouseEvent | undefined>
   @Input() public playedDurationInMs: number = 0
   @Input() public type: Tv2PieceType
+  @Input() public isMediaUnavailable?: boolean
   @Input() public pieceLifespan?: PieceLifespan
 
   public hoverScrubVideoSource: string
@@ -55,7 +56,7 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
     this.appendHoverScrubTooltipElementToBody()
     this.hoverScrubMouseEventObservable.pipe(takeUntil(this.unsubscribe$)).subscribe(event => this.checkEventHoverScrubMouse(event))
 
-    if (!this.isVideoHoverScrub) {
+    if (!this.isAvailableVideoHoverScrub) {
       return
     }
     this.configurationService
@@ -69,25 +70,29 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
 
   private setWidthAndHeightBasedOnType(): void {
     this.hoverScrubElementSize = {
-      width: this.isVideoHoverScrub ? this.calculateWidth() : WIDTH_FOR_TEXT_CONTENT_IN_PX,
-      height: this.isVideoHoverScrub ? HEIGHT_FOR_VIDEO_CONTENT_IN_PX : HEIGHT_FOR_TEXT_CONTENT_IN_PX,
+      width: this.isAvailableVideoHoverScrub ? this.calculateVideoHoverScrubWidth : this.calculateNotTextHoverScrubWidth,
+      height: this.isAvailableVideoHoverScrub ? HEIGHT_FOR_VIDEO_CONTENT_IN_PX : HEIGHT_FOR_TEXT_CONTENT_IN_PX,
     }
   }
 
   private appendHoverScrubTooltipElementToBody(): void {
     this.hoverScrubTooltipElemen = document.createElement('div')
     this.hoverScrubTooltipElemen.className = 'c-sofie-hover-scrub-tooltip'
-    this.hoverScrubTooltipElemen.setAttribute('style', `width: ${this.hoverScrubElementSize.width}; height: ${this.hoverScrubElementSize.height}`)
+    this.hoverScrubTooltipElemen.setAttribute('style', `width: ${this.hoverScrubElementSize.width}px; height: ${this.hoverScrubElementSize.height}px`)
     const body: HTMLElement = document.getElementsByTagName('body')[0]
     body.append(this.hoverScrubTooltipElemen)
   }
 
-  public get isVideoHoverScrub(): boolean {
-    return this.type === Tv2PieceType.VIDEO_CLIP
+  public get isAvailableVideoHoverScrub(): boolean {
+    return this.type === Tv2PieceType.VIDEO_CLIP && !this.isMediaUnavailable
   }
 
-  private calculateWidth(): number {
+  private get calculateVideoHoverScrubWidth(): number {
     return WIDTH_FOR_VIDEO_CONTENT_IN_PX + Math.max((this.fileName?.length - MINIMUM_CHARACTERS_FOR_START_INCREASE_WIDTH) * WIDTH_FOR_SINGLE_CHARACTER_IN_PX, 0)
+  }
+
+  private get calculateNotTextHoverScrubWidth(): number {
+    return WIDTH_FOR_TEXT_CONTENT_IN_PX + Math.max((this.fileName?.length - MINIMUM_CHARACTERS_FOR_START_INCREASE_WIDTH) * WIDTH_FOR_SINGLE_CHARACTER_IN_PX, 0)
   }
 
   private createVideoSource(): void {
@@ -116,7 +121,7 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
   }
 
   private calculateHoverScrubLocation(event: MouseEvent): void {
-    if (!this.hoverScrubVideoSource && this.isVideoHoverScrub) {
+    if (!this.hoverScrubVideoSource && this.isAvailableVideoHoverScrub) {
       return
     }
 

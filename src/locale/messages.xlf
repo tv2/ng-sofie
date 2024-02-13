@@ -206,6 +206,9 @@
       <trans-unit id="926910340253948378" datatype="html">
         <source>rundown-overview.piece-lifespan.start-spanning-segment-then-sticky-rundown.label</source>
       </trans-unit>
+      <trans-unit id="7106742347850471576" datatype="html">
+        <source>rundown-overview.hover-scrub.source-unavailable.label</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

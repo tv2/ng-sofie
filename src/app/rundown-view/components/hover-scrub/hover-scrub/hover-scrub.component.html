@@ -1,10 +1,22 @@
-<sofie-video-content-hover-scrub
-  *ngIf="videoHoverScrubPositonsAndMoment && hoverScrubVideoSource && fileName"
-  [hoverScrubElementSize]="hoverScrubElementSize"
-  [hoverScrubVideoSource]="hoverScrubVideoSource"
-  [type]="type"
-  [hoverScrubTooltipElemen]="hoverScrubTooltipElemen"
-  [fileName]="fileName"
-  [pieceLifespan]="pieceLifespan"
-  [videoHoverScrubPositonsAndMoment]="videoHoverScrubPositonsAndMoment">
-</sofie-video-content-hover-scrub>
+<ng-container *ngIf="videoHoverScrubPositonsAndMoment && fileName">
+  <sofie-video-content-hover-scrub
+    *ngIf="!isMediaUnavailable; else unavailableVideoContentHoverScrub"
+    [hoverScrubElementSize]="hoverScrubElementSize"
+    [hoverScrubVideoSource]="hoverScrubVideoSource"
+    [type]="type"
+    [hoverScrubTooltipElemen]="hoverScrubTooltipElemen"
+    [fileName]="fileName"
+    [pieceLifespan]="pieceLifespan"
+    [videoHoverScrubPositonsAndMoment]="videoHoverScrubPositonsAndMoment">
+  </sofie-video-content-hover-scrub>
+  <ng-template #unavailableVideoContentHoverScrub>
+    <sofie-unavailable-video-hover-scrub
+      [hoverScrubElementSize]="hoverScrubElementSize"
+      [type]="type"
+      [hoverScrubTooltipElemen]="hoverScrubTooltipElemen"
+      [fileName]="fileName"
+      [pieceLifespan]="pieceLifespan"
+      [videoHoverScrubPositonsAndMoment]="videoHoverScrubPositonsAndMoment">
+    </sofie-unavailable-video-hover-scrub>
+  </ng-template>
+</ng-container>

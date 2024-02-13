@@ -11,6 +11,7 @@ import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
 export class PieceHoverScrubComponent {
   @Input() public playedDurationForPartInMs: number
   @Input() public type: Tv2PieceType
+  @Input() public isMediaUnavailable: boolean
   @Input() public pieceLifespan: PieceLifespan
   @Input() public fileName: string
 

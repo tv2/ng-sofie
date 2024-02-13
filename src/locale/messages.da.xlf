@@ -274,6 +274,10 @@
         <source>rundown-overview.piece-lifespan.sticky-until-segment-change.label</source>
         <target state="new">Sticky until segment change</target>
       </trans-unit>
+      <trans-unit id="7106742347850471576" datatype="html">
+        <source>rundown-overview.hover-scrub.source-unavailable.label</source>
+        <target state="new">Source unavailable</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

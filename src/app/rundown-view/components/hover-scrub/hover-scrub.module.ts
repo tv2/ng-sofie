@@ -5,9 +5,10 @@ import { VideoContentHoverScrubComponent } from './video-content-hover-scrub/vid
 import { PieceHoverScrubComponent } from './piece-hover-scrub/piece-hover-scrub.component'
 import { MiniShelfHoverScrubComponent } from './mini-shelf-hover-scrub/mini-shelf-hover-scrub.component'
 import { SharedModule } from 'src/app/shared/shared.module'
+import { UnavailableVideoHoverScrubComponent } from './unavailable-video-hover-scrub/unavailable-video-hover-scrub.component'
 
 @NgModule({
-  declarations: [HoverScrubComponent, VideoContentHoverScrubComponent, PieceHoverScrubComponent, MiniShelfHoverScrubComponent],
+  declarations: [HoverScrubComponent, VideoContentHoverScrubComponent, PieceHoverScrubComponent, MiniShelfHoverScrubComponent, UnavailableVideoHoverScrubComponent],
   imports: [CommonModule, SharedModule],
   exports: [PieceHoverScrubComponent, MiniShelfHoverScrubComponent],
 })
