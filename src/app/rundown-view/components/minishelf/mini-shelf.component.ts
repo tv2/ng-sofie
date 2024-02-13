@@ -110,7 +110,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     ;(event.target as HTMLImageElement).src = this.fallbackPreviewUrl
   }
 
-  @HostBinding('class.media-not-available')
+  @HostBinding('class.transparent-and-red-stripes')
   public get isMediaUnavailable(): boolean {
     return !!this.mediaSubscription && !this.media
   }

@@ -129,7 +129,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     return [piece.metadata.type.toLowerCase().replace(/_/g, '-'), (piece.metadata.audioMode ?? Tv2AudioMode.FULL).toLowerCase().replace('_', '-')].join(' ')
   }
 
-  @HostBinding('class.media-unavailable')
+  @HostBinding('class.transparent-and-red-stripes')
   public get isMediaUnavailable(): boolean {
     return !!this.mediaSubscription && !this.media
   }
