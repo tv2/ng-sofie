@@ -2,7 +2,7 @@ import { Tv2ActionContentType } from './tv2-action'
 
 export interface ShelfConfiguration {
   id: string
-  actionPanels: ShelfActionPanelConfiguration[]
+  actionPanelConfigurations: ShelfActionPanelConfiguration[]
 }
 
 export interface ShelfActionPanelConfiguration {

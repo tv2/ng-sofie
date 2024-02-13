@@ -21,12 +21,12 @@ export class ZodConfigurationParser extends ConfigurationParser {
   private readonly shelfActionPanelConfigurationParser = zod.object({
     name: zod.string(),
     rank: zod.number(),
-    actionFilter: zod.array(zod.nativeEnum(Tv2ActionContentType)),
+    actionFilter: zod.nativeEnum(Tv2ActionContentType).array(),
   })
 
   private readonly shelfConfigurationParser = zod.object({
     id: zod.string(),
-    actionPanels: zod.array(this.shelfActionPanelConfigurationParser),
+    actionPanelConfigurations: zod.array(this.shelfActionPanelConfigurationParser),
   })
 
   public parseShelfConfiguration(shelfConfiguration: unknown): ShelfConfiguration {

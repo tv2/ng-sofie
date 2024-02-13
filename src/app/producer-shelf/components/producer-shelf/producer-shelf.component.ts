@@ -94,7 +94,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
     if (!this.shelf) {
       return
     }
-    this.resolvedActionPanels = this.shelf.actionPanels
+    this.resolvedActionPanels = this.shelf.actionPanelConfigurations
       .sort((a, b) => a.rank - b.rank)
       .map(actionPanel => {
         return {
