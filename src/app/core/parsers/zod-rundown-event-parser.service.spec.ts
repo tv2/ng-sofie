@@ -20,6 +20,7 @@ import { Piece } from '../models/piece'
 import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 import { RundownTimingType } from '../enums/rundown-timing-type'
 import { BasicRundown } from '../models/basic-rundown'
+import { PieceLifespan } from '../models/piece-lifespan'
 
 describe(ZodRundownEventParser.name, () => {
   describe(ZodRundownEventParser.prototype.parseRundownActivatedEvent.name, () => {
@@ -183,6 +184,7 @@ describe(ZodRundownEventParser.name, () => {
             layer: 'some-layer',
             start: 0,
             isPlanned: false,
+            lifespan: PieceLifespan.WITHIN_PART,
           },
           {
             id: 'some-other-piece-id',
@@ -191,6 +193,7 @@ describe(ZodRundownEventParser.name, () => {
             layer: 'some-lother-ayer',
             start: 0,
             isPlanned: false,
+            lifespan: PieceLifespan.WITHIN_PART,
           },
         ],
       }

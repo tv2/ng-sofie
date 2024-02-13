@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Observable, Subject, takeUntil } from 'rxjs'
 import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
+import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
 import { StudioConfiguration } from 'src/app/shared/models/studio-configuration'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 
@@ -33,19 +34,16 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
   @Input() public hoverScrubMouseEventObservable: Observable<MouseEvent | undefined>
   @Input() public playedDurationInMs: number = 0
   @Input() public type: Tv2PieceType
+  @Input() public pieceLifespan?: PieceLifespan
 
   public hoverScrubVideoSource: string
   public videoHoverScrubPositonsAndMoment: VideoHoverScrubPositonsAndMoment
   public hoverScrubElementSize: HoverScrubElementSize
   public hoverScrubTooltipElemen: HTMLDivElement
 
-  private readonly hoverScrubTopOffset = 5
   private studioConfiguration: StudioConfiguration
+  private readonly hoverScrubTopOffset = 0
   private readonly unsubscribe$: Subject<null> = new Subject<null>()
-
-  public get isVideoHoverScrub(): boolean {
-    return this.type === Tv2PieceType.VIDEO_CLIP
-  }
 
   constructor(
     private readonly configurationService: ConfigurationService,
@@ -71,13 +69,9 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
 
   private setWidthAndHeightBasedOnType(): void {
     this.hoverScrubElementSize = {
-      width: this.type === Tv2PieceType.VIDEO_CLIP ? this.calculateWidth() : WIDTH_FOR_TEXT_CONTENT_IN_PX,
-      height: this.type === Tv2PieceType.VIDEO_CLIP ? HEIGHT_FOR_VIDEO_CONTENT_IN_PX : HEIGHT_FOR_TEXT_CONTENT_IN_PX,
+      width: this.isVideoHoverScrub ? this.calculateWidth() : WIDTH_FOR_TEXT_CONTENT_IN_PX,
+      height: this.isVideoHoverScrub ? HEIGHT_FOR_VIDEO_CONTENT_IN_PX : HEIGHT_FOR_TEXT_CONTENT_IN_PX,
     }
-  }
-
-  private calculateWidth(): number {
-    return WIDTH_FOR_VIDEO_CONTENT_IN_PX + Math.max((this.fileName?.length - MINIMUM_CHARACTERS_FOR_START_INCREASE_WIDTH) * WIDTH_FOR_SINGLE_CHARACTER_IN_PX, 0)
   }
 
   private appendHoverScrubTooltipElementToBody(): void {
@@ -86,6 +80,14 @@ export class HoverScrubComponent implements OnInit, OnDestroy {
     this.hoverScrubTooltipElemen.setAttribute('style', `width: ${this.hoverScrubElementSize.width}; height: ${this.hoverScrubElementSize.height}`)
     const body: HTMLElement = document.getElementsByTagName('body')[0]
     body.append(this.hoverScrubTooltipElemen)
+  }
+
+  public get isVideoHoverScrub(): boolean {
+    return this.type === Tv2PieceType.VIDEO_CLIP
+  }
+
+  private calculateWidth(): number {
+    return WIDTH_FOR_VIDEO_CONTENT_IN_PX + Math.max((this.fileName?.length - MINIMUM_CHARACTERS_FOR_START_INCREASE_WIDTH) * WIDTH_FOR_SINGLE_CHARACTER_IN_PX, 0)
   }
 
   private createVideoSource(): void {

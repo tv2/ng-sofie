@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { Subject } from 'rxjs'
 import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
+import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
 
 @Component({
   selector: 'sofie-piece-hover-scrub',
@@ -10,6 +11,7 @@ import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 export class PieceHoverScrubComponent {
   @Input() public playedDurationForPartInMs: number
   @Input() public type: Tv2PieceType
+  @Input() public pieceLifespan: PieceLifespan
   @Input() public fileName: string
 
   public mouseHoverEventSubject: Subject<MouseEvent | undefined> = new Subject<MouseEvent | undefined>()

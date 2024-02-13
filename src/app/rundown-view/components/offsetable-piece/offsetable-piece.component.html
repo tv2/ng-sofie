@@ -1,4 +1,9 @@
 <div class="label" [style.margin-left.px]="labelOffsetInPixels">
   <span #labelTextElement>{{ piece.name }}</span>
-  <sofie-piece-hover-scrub *ngIf="shouldShowHoverScrub()" [fileName]="piece.name" [type]="getTv2PieceMetadata.type" [playedDurationForPartInMs]="playedDurationForPartInMs"></sofie-piece-hover-scrub>
+  <sofie-piece-hover-scrub
+    *ngIf="shouldShowHoverScrub()"
+    [pieceLifespan]="piece.lifespan"
+    [fileName]="piece.name"
+    [type]="getTv2PieceMetadata.type"
+    [playedDurationForPartInMs]="playedDurationForPartInMs"></sofie-piece-hover-scrub>
 </div>

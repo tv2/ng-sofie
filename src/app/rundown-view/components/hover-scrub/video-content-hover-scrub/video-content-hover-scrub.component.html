@@ -2,15 +2,15 @@
   <div class="c-video-hover-scrub-tooltip" #viceoTooltipElementRef>
     <div class="c-video-hover-scrub-tooltip__video" [style]="'width:' + videoContainerWidth + 'px'">
       <video #viceoElementRef [src]="hoverScrubVideoSource">{{ fileName }}</video>
-      <span *ngIf="currentVideoTimeInS" class="c-video-hover-scrub-tooltip__video--cursor-time">{{ currentVideoTimeInS * 1000 | timer: 'HH?:mm:ss.ms' }}</span>
+      <span *ngIf="currentVideoTimeInS" class="c-video-hover-scrub-tooltip__video--cursor-time">{{ currentVideoTimeInS * 1000 | timer: 'HH?:mm:ss' }}</span>
       <span class="c-video-hover-scrub-tooltip__video--background-mask"></span>
     </div>
     <div class="c-video-hover-scrub-tooltip__description" [style]="'max-width:' + (hoverScrubElementSize.width - videoContainerWidth) + 'px'">
       <p class="c-video-hover-scrub-tooltip__description--title" [class]="type.toLocaleLowerCase() + '_color'">{{ fileName }}</p>
       <p class="c-video-hover-scrub-tooltip__description--duration">
-        <span i18n>rundown-overview.hover-scrub.full-duration.label</span>: <span *ngIf="videoDurationInS">{{ videoDurationInS * 1000 | timer: 'HH?:mm:ss.ms' }}</span>
+        <span i18n>rundown-overview.hover-scrub.full-duration.label</span>: <span *ngIf="videoDurationInS">{{ videoDurationInS * 1000 | timer: 'HH?:mm:ss' }}</span>
       </p>
-      <p class="c-video-hover-scrub-tooltip__description--transition">Manual out</p>
+      <p *ngIf="pieceLifespan" class="c-video-hover-scrub-tooltip__description--transition">{{ getTranlationForPieceLifespan() }}</p>
     </div>
   </div>
 </div>

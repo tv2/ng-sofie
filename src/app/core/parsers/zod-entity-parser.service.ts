@@ -15,6 +15,7 @@ import { Media } from '../../shared/services/media'
 import { StudioConfiguration } from '../../shared/models/studio-configuration'
 import { PartActionType, PieceActionType } from '../../shared/models/action-type'
 import { SystemInformation } from '../../shared/models/system-information'
+import { PieceLifespan } from '../models/piece-lifespan'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -56,6 +57,7 @@ export class ZodEntityParser implements EntityParser {
     start: zod.number(),
     duration: zod.number().optional(),
     isPlanned: zod.boolean(),
+    lifespan: zod.nativeEnum(PieceLifespan),
     // TODO: Should this be less TV2 specific.
     metadata: zod.object({
       type: zod.nativeEnum(Tv2PieceType),

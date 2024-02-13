@@ -250,6 +250,30 @@
         <source>rundown-overview.hover-scrub.full-duration.label</source>
         <target state="new">Full duration</target>
       </trans-unit>
+      <trans-unit id="2034200581680650159" datatype="html">
+        <source>rundown-overview.piece-lifespan.within-part.label</source>
+        <target state="new">Within part</target>
+      </trans-unit>
+      <trans-unit id="8644673226907563596" datatype="html">
+        <source>rundown-overview.piece-lifespan.spanning-until-rundown-end.label</source>
+        <target state="new">Spanning until rundown end</target>
+      </trans-unit>
+      <trans-unit id="5403423725077749106" datatype="html">
+        <source>rundown-overview.piece-lifespan.spanning-until-segment-end.label</source>
+        <target state="new">Spanning until segment end</target>
+      </trans-unit>
+      <trans-unit id="926910340253948378" datatype="html">
+        <source>rundown-overview.piece-lifespan.start-spanning-segment-then-sticky-rundown.label</source>
+        <target state="new">Start spanning segment then sticky rundown</target>
+      </trans-unit>
+      <trans-unit id="7856664369878580754" datatype="html">
+        <source>rundown-overview.piece-lifespan.sticky-until-rundown-change.label</source>
+        <target state="new">Sticky until rundown change</target>
+      </trans-unit>
+      <trans-unit id="3756253066454906988" datatype="html">
+        <source>rundown-overview.piece-lifespan.sticky-until-segment-change.label</source>
+        <target state="new">Sticky until segment change</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
