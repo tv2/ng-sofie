@@ -14,9 +14,9 @@ export class ZodConfigurationEventParser extends ConfigurationEventParser {
   public parseShelfConfigurationUpdatedEvent(event: unknown): ShelfConfigurationUpdatedEvent {
     return zod
       .object({
-        type: zod.literal(ConfigurationEventType.SHELF_UPDATED),
+        type: zod.literal(ConfigurationEventType.SHELF_CONFIGURATION_UPDATED),
         timestamp: zod.number(),
-        shelf: zod
+        shelfConfiguration: zod
           .object({})
           .passthrough()
           .transform((shelfConfiguration: unknown) => this.configurationParser.parseShelfConfiguration(shelfConfiguration)),

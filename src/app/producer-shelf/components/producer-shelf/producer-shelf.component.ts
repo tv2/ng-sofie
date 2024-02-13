@@ -53,7 +53,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
 
   public staticButtonActions: Tv2Action[] = []
 
-  private shelf?: ShelfConfiguration
+  private shelfConfiguration?: ShelfConfiguration
   private actions: Tv2Action[] = []
 
   private actionsSubscription?: EventSubscription
@@ -80,21 +80,21 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
       .catch(error => this.logger.data(error).error('Failed subscribing to actions.'))
 
     this.configurationService.getShelfConfiguration().subscribe(shelf => {
-      this.shelf = shelf
+      this.shelfConfiguration = shelf
       this.updateActionPanels()
     })
 
     this.configurationEventSubscription = this.configurationEventObserver.subscribeToShelfUpdated((event: ShelfConfigurationUpdatedEvent) => {
-      this.shelf = event.shelf
+      this.shelfConfiguration = event.shelfConfiguration
       this.updateActionPanels()
     })
   }
 
   private updateActionPanels(): void {
-    if (!this.shelf) {
+    if (!this.shelfConfiguration) {
       return
     }
-    this.resolvedActionPanels = this.shelf.actionPanelConfigurations
+    this.resolvedActionPanels = this.shelfConfiguration.actionPanelConfigurations
       .sort((a, b) => a.rank - b.rank)
       .map(actionPanel => {
         return {

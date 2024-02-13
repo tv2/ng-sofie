@@ -7,6 +7,6 @@ export interface ConfigurationEvent extends TypedEvent {
 }
 
 export interface ShelfConfigurationUpdatedEvent extends ConfigurationEvent {
-  readonly type: ConfigurationEventType.SHELF_UPDATED
-  readonly shelf: ShelfConfiguration
+  readonly type: ConfigurationEventType.SHELF_CONFIGURATION_UPDATED
+  readonly shelfConfiguration: ShelfConfiguration
 }

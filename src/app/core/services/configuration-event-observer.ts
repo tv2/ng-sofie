@@ -20,7 +20,7 @@ export class ConfigurationEventObserver {
 
   public subscribeToShelfUpdated(onUpdated: (event: ShelfConfigurationUpdatedEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(
-      ConfigurationEventType.SHELF_UPDATED,
+      ConfigurationEventType.SHELF_CONFIGURATION_UPDATED,
       this.createEventValidatingConsumer(onUpdated, this.configurationEventParser.parseShelfConfigurationUpdatedEvent.bind(this.configurationEventParser))
     )
   }
