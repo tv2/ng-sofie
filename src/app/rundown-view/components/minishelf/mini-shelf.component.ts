@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core'
+import { Component, HostBinding, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
 import { StudioConfiguration } from '../../../shared/models/studio-configuration'
@@ -28,8 +28,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
-    private readonly mediaStateService: MediaStateService,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly mediaStateService: MediaStateService
   ) {}
 
   public ngOnInit(): void {
@@ -57,7 +56,6 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     }
     this.media = media
     this.calculateMediaDurationInMsWithoutPostroll()
-    this.changeDetectorRef.detectChanges()
   }
   private calculateMediaDurationInMsWithoutPostroll(): void {
     if (!this.studioConfiguration) {
@@ -69,7 +67,11 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if ('segment' in changes) {
+    const segmentChange: SimpleChange | undefined = changes['segment']
+    if (segmentChange) {
+      if (segmentChange.previousValue === segmentChange.currentValue) {
+        return
+      }
       this.subscribeToMedia()
     }
   }
