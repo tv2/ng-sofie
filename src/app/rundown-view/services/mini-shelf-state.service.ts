@@ -111,4 +111,8 @@ export class MiniShelfStateService {
     }
     return miniShelfGroup
   }
+
+  public getVideoClipAction(miniShelf: Segment): Tv2VideoClipAction {
+    return this.miniShelfSegmentActionMappings[miniShelf.id]
+  }
 }

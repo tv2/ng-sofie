@@ -3,7 +3,6 @@ import { Keys } from '../../keyboard/value-objects/key-binding'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
 import { Tv2CameraAction, Tv2RemoteAction, Tv2TransitionAction } from '../../shared/models/tv2-action'
-import { PartActionType } from '../../shared/models/action-type'
 import { RundownService } from '../../core/abstractions/rundown.service'
 import { Rundown } from '../../core/models/rundown'
 import { DialogService } from '../../shared/services/dialog.service'
@@ -12,6 +11,8 @@ import { RundownNavigationService } from '../../shared/services/rundown-navigati
 import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
 import { MiniShelfStateService } from '../services/mini-shelf-state.service'
+import { PartActionType } from '../../shared/models/action-type'
+import { MiniShelfCycleService } from '../services/minishelf-cycle.service'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -29,6 +30,7 @@ export class KeyBindingFactory {
     private readonly dialogService: DialogService,
     private readonly rundownNavigationService: RundownNavigationService,
     private readonly miniShelfStateService: MiniShelfStateService,
+    private readonly miniShelfCycleService: MiniShelfCycleService,
     logger: Logger
   ) {
     this.logger = logger.tag('KeyBindingFactory')
@@ -117,7 +119,9 @@ export class KeyBindingFactory {
         this.createRundownKeyBinding('Set Earlier Part as Next', ['Shift', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
         this.createRundownKeyBinding('Set Later Part as Next', ['Shift', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
         this.createRundownKeyBinding('Cycle MiniShelf', ['Tab'], () => this.miniShelfStateService.cycleMiniShelfForward()),
-        this.createRundownKeyBinding('Cycle MiniShelf', ['Shift', 'Tab'], () => this.miniShelfStateService.cycleMiniShelfBackward()),
+        this.createRundownKeyBinding('Cycle MiniShelf', ['Shift', 'Tab'], () => this.miniShelfCycleService.cycleMiniShelfBackward()),
+        this.createRundownKeyBinding('Cycle MiniShelf Deterministic', ['Shift', 'Space'], () => this.miniShelfCycleService.cycleMiniShelfForward()),
+        this.createRundownKeyBinding('Cycle MiniShelf Deterministic', ['Alt', 'Space'], () => this.miniShelfCycleService.cycleMiniShelfBackward()),
       ]
     }
     return [
