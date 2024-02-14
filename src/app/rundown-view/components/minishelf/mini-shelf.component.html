@@ -8,7 +8,7 @@
     <img
         class="c-mini-shelf__thumbnail"
         [src]=mediaPreviewUrl
-        [alt]="segment.name? segment.name : 'Title is not available.'"
+        [alt]="segment.name ?? ''"
         (error)=handleMissingImage($event)
     />
     <div class="c-mini-shelf__note">
