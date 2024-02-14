@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { RundownComponent } from './rundown.component'
-import { anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
+import { anyString, anything, instance, mock, verify, when } from '@typestrong/ts-mockito'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { DialogService } from '../../../shared/services/dialog.service'
@@ -12,12 +12,12 @@ import { ActionStateService } from '../../../shared/services/action-state.servic
 import { EntityParser } from '../../../core/abstractions/entity-parser.service'
 import { Observable, Subscription } from 'rxjs'
 import { TestEntityFactory } from '../../../test/factories/test-entity.factory'
-import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
 import { Rundown } from '../../../core/models/rundown'
 import { Action } from '../../../shared/models/action'
 import { SimpleChange, SimpleChanges } from '@angular/core'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 import { MiniShelfStateService } from '../../services/mini-shelf-state.service'
+import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
 
 let fixture: ComponentFixture<RundownComponent>
 describe('RundownComponent', () => {
@@ -263,14 +263,8 @@ async function configureTestBed(
 }
 
 function createMockOfRundownTimingContextStateService(): RundownTimingContextStateService {
-  const mockedSubscription: Subscription = mock<Subscription>()
-
-  const mockedObservable: Observable<RundownTimingContext> = mock<Observable<RundownTimingContext>>()
-  when(mockedObservable.subscribe(anything())).thenReturn(instance(mockedSubscription))
-
   const mockedRundownTimingContextStateService: RundownTimingContextStateService = mock<RundownTimingContextStateService>()
-  when(mockedRundownTimingContextStateService.subscribeToRundownTimingContext(anything())).thenResolve(instance(mockedObservable))
-
+  when(mockedRundownTimingContextStateService.subscribeToRundownTimingContext(anyString())).thenCall(() => Promise.resolve(new Observable<RundownTimingContext>()))
   return mockedRundownTimingContextStateService
 }
 
