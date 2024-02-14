@@ -24,7 +24,7 @@ async function configureTestBed(
     mockedConfigurationService?: ConfigurationService
     mockedActionStateService?: ActionStateService
     mockedActionService?: ActionService
-    mockedRunDownEventObserver?: RundownEventObserver
+    mockedRundownEventObserver?: RundownEventObserver
   } = {}
 ): Promise<MiniShelfComponent> {
   const mockedConfigurationService: ConfigurationService = params.mockedConfigurationService ?? mock<ConfigurationService>()
@@ -33,7 +33,7 @@ async function configureTestBed(
   const mockedActionService: ActionService = params.mockedActionService ?? mock<ActionService>()
   const mockedLogger: Logger = mock<Logger>()
   const mockedRundownStateService: RundownStateService = params.mockedRundownStateService ?? mock<RundownStateService>()
-  const mockedRundownEventObserver: RundownEventObserver = params.mockedRunDownEventObserver ?? mock<RundownEventObserver>()
+  const mockedRundownEventObserver: RundownEventObserver = params.mockedRundownEventObserver ?? mock<RundownEventObserver>()
 
   await TestBed.configureTestingModule({
     declarations: [MiniShelfComponent, TimerPipe],
