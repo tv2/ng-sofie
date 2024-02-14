@@ -182,9 +182,9 @@ describe('RundownComponent', () => {
     const changedRundown: Rundown = new TestEntityFactory().createRundown({ segments: [new TestEntityFactory().createSegment()] })
     component.rundown = changedRundown
 
-    const mockedSimpleChange: SimpleChanges = { rundown: new SimpleChange(mockedRundown, changedRundown, false) }
+    const simpleChange: SimpleChanges = { rundown: new SimpleChange(mockedRundown, changedRundown, false) }
 
-    component.ngOnChanges(mockedSimpleChange)
+    component.ngOnChanges(simpleChange)
     fixture.detectChanges()
 
     verify(mockedMiniShelfStateService.updateMiniShelves(anything())).once()
