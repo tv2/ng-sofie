@@ -51,10 +51,10 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private updateMediaAvailabilityStatus(media: Media | undefined): void {
+    this.media = media
     if (!media) {
       return
     }
-    this.media = media
     this.calculateMediaDurationInMsWithoutPostroll()
   }
   private calculateMediaDurationInMsWithoutPostroll(): void {
