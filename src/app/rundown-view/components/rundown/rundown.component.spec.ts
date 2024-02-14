@@ -269,17 +269,10 @@ function createMockOfRundownTimingContextStateService(): RundownTimingContextSta
 }
 
 function createMockOfActionStateService(): ActionStateService {
-  const mockedSubscription: Subscription = mock<Subscription>()
-
-  const mockedObservable: Observable<Action[]> = mock<Observable<Action[]>>()
-  when(mockedObservable.subscribe(anything())).thenReturn(instance(mockedSubscription))
-
   const mockedActionStateService: ActionStateService = mock<ActionStateService>()
-  when(mockedActionStateService.subscribeToRundownActions(anything())).thenResolve(instance(mockedObservable))
-
+  when(mockedActionStateService.subscribeToRundownActions(anything())).thenResolve(new Observable<Action[]>())
   return mockedActionStateService
 }
-
 function createMockOfMiniShelfStateService(): MiniShelfStateService {
   const mockedMiniShelfStateService: MiniShelfStateService = mock<MiniShelfStateService>()
   when(mockedMiniShelfStateService.updateMiniShelves(anything())).thenResolve()
