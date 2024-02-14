@@ -270,7 +270,7 @@ function createMockOfRundownTimingContextStateService(): RundownTimingContextSta
 
 function createMockOfActionStateService(): ActionStateService {
   const mockedActionStateService: ActionStateService = mock<ActionStateService>()
-  when(mockedActionStateService.subscribeToRundownActions(anything())).thenResolve(new Observable<Action[]>())
+  when(mockedActionStateService.subscribeToRundownActions(anyString())).thenResolve(new Observable<Action[]>())
   return mockedActionStateService
 }
 function createMockOfMiniShelfStateService(): MiniShelfStateService {
@@ -280,25 +280,36 @@ function createMockOfMiniShelfStateService(): MiniShelfStateService {
   return mockedMiniShelfStateService
 }
 
+// function createMockOfRundownEventObserver(): RundownEventObserver {
+//   const mockedRundownEventObserver: RundownEventObserver = mock<RundownEventObserver>()
+//   const mockedSubscriptionToRundownActivation: Subscription = mock<Subscription>()
+//   when(mockedRundownEventObserver.subscribeToRundownActivation(anything())).thenReturn(instance(mockedSubscriptionToRundownActivation))
+//
+//   const mockedSubscriptionToRundownDeactivation: Subscription = mock<Subscription>()
+//   when(mockedRundownEventObserver.subscribeToRundownDeactivation(anything())).thenReturn(instance(mockedSubscriptionToRundownDeactivation))
+//
+//   const mockedSubscriptionToRundownAutoNext: Subscription = mock<Subscription>()
+//   when(mockedRundownEventObserver.subscribeToRundownAutoNext(anything())).thenReturn(instance(mockedSubscriptionToRundownAutoNext))
+//
+//   const mockedSubscriptionToRundownSetNext: Subscription = mock<Subscription>()
+//   when(mockedRundownEventObserver.subscribeToRundownSetNext(anything())).thenReturn(instance(mockedSubscriptionToRundownSetNext))
+//
+//   const mockedSubscriptionToRundownReset: Subscription = mock<Subscription>()
+//   when(mockedRundownEventObserver.subscribeToRundownReset(anything())).thenReturn(instance(mockedSubscriptionToRundownReset))
+//
+//   const mockedSubscriptionToRundownUpdates: Subscription = mock<Subscription>()
+//   when(mockedRundownEventObserver.subscribeToRundownUpdates(anything())).thenReturn(instance(mockedSubscriptionToRundownUpdates))
+//
+//   return mockedRundownEventObserver
+// }
 function createMockOfRundownEventObserver(): RundownEventObserver {
   const mockedRundownEventObserver: RundownEventObserver = mock<RundownEventObserver>()
-  const mockedSubscriptionToRundownActivation: Subscription = mock<Subscription>()
-  when(mockedRundownEventObserver.subscribeToRundownActivation(anything())).thenReturn(instance(mockedSubscriptionToRundownActivation))
-
-  const mockedSubscriptionToRundownDeactivation: Subscription = mock<Subscription>()
-  when(mockedRundownEventObserver.subscribeToRundownDeactivation(anything())).thenReturn(instance(mockedSubscriptionToRundownDeactivation))
-
-  const mockedSubscriptionToRundownAutoNext: Subscription = mock<Subscription>()
-  when(mockedRundownEventObserver.subscribeToRundownAutoNext(anything())).thenReturn(instance(mockedSubscriptionToRundownAutoNext))
-
-  const mockedSubscriptionToRundownSetNext: Subscription = mock<Subscription>()
-  when(mockedRundownEventObserver.subscribeToRundownSetNext(anything())).thenReturn(instance(mockedSubscriptionToRundownSetNext))
-
-  const mockedSubscriptionToRundownReset: Subscription = mock<Subscription>()
-  when(mockedRundownEventObserver.subscribeToRundownReset(anything())).thenReturn(instance(mockedSubscriptionToRundownReset))
-
-  const mockedSubscriptionToRundownUpdates: Subscription = mock<Subscription>()
-  when(mockedRundownEventObserver.subscribeToRundownUpdates(anything())).thenReturn(instance(mockedSubscriptionToRundownUpdates))
+  when(mockedRundownEventObserver.subscribeToRundownActivation(anyString())).thenCall(() => new Subscription())
+  when(mockedRundownEventObserver.subscribeToRundownDeactivation(anything())).thenCall(() => new Subscription())
+  when(mockedRundownEventObserver.subscribeToRundownAutoNext(anything())).thenCall(() => new Subscription())
+  when(mockedRundownEventObserver.subscribeToRundownSetNext(anything())).thenCall(() => new Subscription())
+  when(mockedRundownEventObserver.subscribeToRundownReset(anything())).thenCall(() => new Subscription())
+  when(mockedRundownEventObserver.subscribeToRundownUpdates(anything())).thenCall(() => new Subscription())
 
   return mockedRundownEventObserver
 }
