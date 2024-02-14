@@ -280,28 +280,6 @@ function createMockOfMiniShelfStateService(): MiniShelfStateService {
   return mockedMiniShelfStateService
 }
 
-// function createMockOfRundownEventObserver(): RundownEventObserver {
-//   const mockedRundownEventObserver: RundownEventObserver = mock<RundownEventObserver>()
-//   const mockedSubscriptionToRundownActivation: Subscription = mock<Subscription>()
-//   when(mockedRundownEventObserver.subscribeToRundownActivation(anything())).thenReturn(instance(mockedSubscriptionToRundownActivation))
-//
-//   const mockedSubscriptionToRundownDeactivation: Subscription = mock<Subscription>()
-//   when(mockedRundownEventObserver.subscribeToRundownDeactivation(anything())).thenReturn(instance(mockedSubscriptionToRundownDeactivation))
-//
-//   const mockedSubscriptionToRundownAutoNext: Subscription = mock<Subscription>()
-//   when(mockedRundownEventObserver.subscribeToRundownAutoNext(anything())).thenReturn(instance(mockedSubscriptionToRundownAutoNext))
-//
-//   const mockedSubscriptionToRundownSetNext: Subscription = mock<Subscription>()
-//   when(mockedRundownEventObserver.subscribeToRundownSetNext(anything())).thenReturn(instance(mockedSubscriptionToRundownSetNext))
-//
-//   const mockedSubscriptionToRundownReset: Subscription = mock<Subscription>()
-//   when(mockedRundownEventObserver.subscribeToRundownReset(anything())).thenReturn(instance(mockedSubscriptionToRundownReset))
-//
-//   const mockedSubscriptionToRundownUpdates: Subscription = mock<Subscription>()
-//   when(mockedRundownEventObserver.subscribeToRundownUpdates(anything())).thenReturn(instance(mockedSubscriptionToRundownUpdates))
-//
-//   return mockedRundownEventObserver
-// }
 function createMockOfRundownEventObserver(): RundownEventObserver {
   const mockedRundownEventObserver: RundownEventObserver = mock<RundownEventObserver>()
   when(mockedRundownEventObserver.subscribeToRundownActivation(anyString())).thenCall(() => new Subscription())
