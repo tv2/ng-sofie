@@ -276,10 +276,10 @@ export class RundownStateService implements OnDestroy {
   }
 
   private getOnAirPart(rundownId: string): Part | undefined {
-    return this.rundownSubjects.get(rundownId)?.value?.segments
-      .find(segment => segment.isOnAir)
-      ?.parts
-      .find(part => part.isOnAir)
+    return this.rundownSubjects
+      .get(rundownId)
+      ?.value?.segments.find(segment => segment.isOnAir)
+      ?.parts.find(part => part.isOnAir)
   }
 
   private setNextPartInRundownFromEvent(event: PartSetAsNextEvent): void {
@@ -307,10 +307,10 @@ export class RundownStateService implements OnDestroy {
   }
 
   private getNextPart(rundownId: string): Part | undefined {
-    return this.rundownSubjects.get(rundownId)?.value?.segments
-      .find(segment => segment.isNext)
-      ?.parts
-      .find(part => part.isNext)
+    return this.rundownSubjects
+      .get(rundownId)
+      ?.value?.segments.find(segment => segment.isNext)
+      ?.parts.find(part => part.isNext)
   }
 
   private updateInfinitePiecesFromEvent(event: RundownInfinitePiecesUpdatedEvent): void {

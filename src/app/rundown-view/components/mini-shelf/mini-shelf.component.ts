@@ -33,9 +33,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
     private readonly mediaStateService: MediaStateService,
-    private readonly rundownStateService: RundownStateService,
+    private readonly rundownStateService: RundownStateService
   ) {}
-
 
   public ngOnInit(): void {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {

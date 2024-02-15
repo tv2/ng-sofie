@@ -23,10 +23,7 @@ export class MiniShelfNavigationService {
   }
 
   private getOnAirPart(rundown: Rundown): Tv2Part {
-    const nextPart: Part | undefined = rundown.segments
-      .find(segment => segment.isOnAir)
-      ?.parts
-      .find(part => part.isOnAir)
+    const nextPart: Part | undefined = rundown.segments.find(segment => segment.isOnAir)?.parts.find(part => part.isOnAir)
 
     if (!nextPart) {
       throw new Error('Unable to to find next part.')
@@ -35,10 +32,7 @@ export class MiniShelfNavigationService {
   }
 
   private getNextPart(rundown: Rundown): Tv2Part {
-    const nextPart: Part | undefined = rundown.segments
-      .find(segment => segment.isNext)
-      ?.parts
-      .find(part => part.isNext)
+    const nextPart: Part | undefined = rundown.segments.find(segment => segment.isNext)?.parts.find(part => part.isNext)
 
     if (!nextPart) {
       throw new Error('Unable to to find next part.')
@@ -47,11 +41,11 @@ export class MiniShelfNavigationService {
   }
 
   private getNearestMiniShelfSegmentGroupBeneathOnAirSegment(rundown: Rundown): Segment[] {
-    const onAirSegmentIndex: number =  rundown.segments.findIndex(segment => segment.isOnAir)
+    const onAirSegmentIndex: number = rundown.segments.findIndex(segment => segment.isOnAir)
     if (onAirSegmentIndex < 0) {
       throw new Error('Unable to find on air segment.')
     }
-    const firstMiniShelfIndex: number = rundown.segments.findIndex((segment, index) => index > onAirSegmentIndex &&  this.isMiniShelf(segment))
+    const firstMiniShelfIndex: number = rundown.segments.findIndex((segment, index) => index > onAirSegmentIndex && this.isMiniShelf(segment))
     if (firstMiniShelfIndex < 0) {
       throw new Error('Unable to find mini shelf.')
     }
@@ -65,7 +59,9 @@ export class MiniShelfNavigationService {
   }
 
   private getCurrentMiniShelfSegmentIndexFromActionId(actionId: string, miniShelfSegmentGroup: Segment[], rundownActions: Tv2Action[]): number {
-    const videoClipAction: Tv2VideoClipAction | undefined = rundownActions.find((action): action is Tv2VideoClipAction => action.metadata.contentType === Tv2ActionContentType.VIDEO_CLIP && action.id === actionId)
+    const videoClipAction: Tv2VideoClipAction | undefined = rundownActions.find(
+      (action): action is Tv2VideoClipAction => action.metadata.contentType === Tv2ActionContentType.VIDEO_CLIP && action.id === actionId
+    )
     if (!videoClipAction) {
       return -1
     }
