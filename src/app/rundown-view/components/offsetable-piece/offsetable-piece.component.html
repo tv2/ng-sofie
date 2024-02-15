@@ -1,5 +1,6 @@
 <div
   class="label"
+  [ngClass]="{'transparent-red-zebra-opacity': isMediaUnavailable}"
   [style.margin-left.px]="labelOffsetInPixels"
 >
   <span #labelTextElement>{{piece.name}}</span>

@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
 import { StudioConfiguration } from '../../../shared/models/studio-configuration'
@@ -112,7 +112,6 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     ;(event.target as HTMLImageElement).src = this.fallbackPreviewUrl
   }
 
-  @HostBinding('class.media-unavailable')
   public get isMediaUnavailable(): boolean {
     return !!this.mediaSubscription && !this.media
   }

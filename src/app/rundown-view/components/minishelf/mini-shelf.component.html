@@ -1,5 +1,6 @@
 <div
   class="c-mini-shelf"
+  [ngClass]="{'transparent-red-zebra-opacity': isMediaUnavailable}"
   title="{{ segment.name }}"
   (click)="executeAction()"
 >
