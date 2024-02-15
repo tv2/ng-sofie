@@ -8,6 +8,8 @@ import { EntityParser } from '../../../core/abstractions/entity-parser.service'
 import { ConfigurationService } from '../configuration.service'
 import { StudioConfiguration } from '../../models/studio-configuration'
 
+const CONFIGURATION_URL: string = `${environment.apiBaseUrl}/configurations`
+
 @Injectable()
 export class HttpConfigurationService implements ConfigurationService {
   constructor(
@@ -17,9 +19,13 @@ export class HttpConfigurationService implements ConfigurationService {
   ) {}
 
   public getStudioConfiguration(): Observable<StudioConfiguration> {
-    return this.http.get<HttpResponse<StudioConfiguration>>(`${environment.apiBaseUrl}/configurations/studio`).pipe(
+    return this.http.get<HttpResponse<StudioConfiguration>>(`${CONFIGURATION_URL}/studio`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
       map(response => this.entityParser.parseStudioConfiguration(response.data))
     )
+  }
+
+  public clearConfigurationCache(): Observable<void> {
+    return this.http.post<void>(`${CONFIGURATION_URL}/cache/clear`, null).pipe(catchError(error => this.httpErrorService.catchError(error)))
   }
 }

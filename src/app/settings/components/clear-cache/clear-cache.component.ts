@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
-import { ConfigurationCacheService } from '../../services/configuration-cache.service'
 import { DialogService } from 'src/app/shared/services/dialog.service'
+import { ConfigurationService } from '../../../shared/services/configuration.service'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'sofie-clear-cache',
@@ -9,8 +10,9 @@ import { DialogService } from 'src/app/shared/services/dialog.service'
 })
 export class ClearCacheComponent {
   constructor(
-    private readonly configurationCacheService: ConfigurationCacheService,
-    private readonly dialogService: DialogService
+    private readonly configurationService: ConfigurationService,
+    private readonly dialogService: DialogService,
+    private readonly snackbar: MatSnackBar
   ) {}
 
   public showClearCacheConfirmModal(): void {
@@ -18,6 +20,11 @@ export class ClearCacheComponent {
   }
 
   public clearConfigurationCache(): void {
-    this.configurationCacheService.clearConfigurationCache().subscribe()
+    this.configurationService.clearConfigurationCache().subscribe(() => {
+      // Note: This functionality is only until we control the entire settings page, so there should be no need for translation.
+      this.snackbar.open('The configuration cache was cleared', $localize`global.dismiss.label`, {
+        panelClass: 'snackbar-success',
+      })
+    })
   }
 }

@@ -3,4 +3,5 @@ import { Observable } from 'rxjs'
 
 export abstract class ConfigurationService {
   public abstract getStudioConfiguration(): Observable<StudioConfiguration>
+  public abstract clearConfigurationCache(): Observable<void>
 }
