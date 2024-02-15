@@ -138,6 +138,8 @@ export class RundownStateService implements OnDestroy {
     }
     const inactiveRundown: Rundown = this.rundownEntityService.deactivate(rundownSubject.value, event.timestamp)
     rundownSubject.next(inactiveRundown)
+    this.getOnAirPartSubject(event.rundownId)?.next(undefined)
+    this.getNextPartSubject(event.rundownId)?.next(undefined)
   }
 
   private createRundownFromEvent(event: RundownCreatedEvent): void {
@@ -244,6 +246,8 @@ export class RundownStateService implements OnDestroy {
       return
     }
     this.resetRundownSubject(rundownSubject, event.rundownId)
+    this.getOnAirPartSubject(event.rundownId)?.next(undefined)
+    this.getNextPartSubject(event.rundownId)?.next(undefined)
   }
 
   private takePartInRundownFromEvent(event: PartTakenEvent): void {
@@ -266,9 +270,16 @@ export class RundownStateService implements OnDestroy {
 
   private getOnAirPartSubject(rundownId: string): BehaviorSubject<Part | undefined> {
     if (!this.onAirPartSubjects.has(rundownId)) {
-      this.onAirPartSubjects.set(rundownId, new BehaviorSubject<Part | undefined>(undefined))
+      this.onAirPartSubjects.set(rundownId, new BehaviorSubject<Part | undefined>(this.getOnAirPart(rundownId)))
     }
     return this.onAirPartSubjects.get(rundownId)!
+  }
+
+  private getOnAirPart(rundownId: string): Part | undefined {
+    return this.rundownSubjects.get(rundownId)?.value?.segments
+      .find(segment => segment.isOnAir)
+      ?.parts
+      .find(part => part.isOnAir)
   }
 
   private setNextPartInRundownFromEvent(event: PartSetAsNextEvent): void {
@@ -290,9 +301,16 @@ export class RundownStateService implements OnDestroy {
 
   private getNextPartSubject(rundownId: string): BehaviorSubject<Part | undefined> {
     if (!this.nextPartsSubjects.has(rundownId)) {
-      this.nextPartsSubjects.set(rundownId, new BehaviorSubject<Part | undefined>(undefined))
+      this.nextPartsSubjects.set(rundownId, new BehaviorSubject<Part | undefined>(this.getNextPart(rundownId)))
     }
     return this.nextPartsSubjects.get(rundownId)!
+  }
+
+  private getNextPart(rundownId: string): Part | undefined {
+    return this.rundownSubjects.get(rundownId)?.value?.segments
+      .find(segment => segment.isNext)
+      ?.parts
+      .find(part => part.isNext)
   }
 
   private updateInfinitePiecesFromEvent(event: RundownInfinitePiecesUpdatedEvent): void {
