@@ -1,18 +1,12 @@
-<div
-  #pieceHoverScrubElement
-  (mouseenter)="emitNewHoverScrubMouseEvent($event)"
-  (mousemove)="emitNewHoverScrubMouseEvent($event)"
-  (mouseleave)="emitNewHoverScrubMouseEvent()"
-  class="c-hover-scrub-hover-element">
-</div>
+<div #tooltipHoverElement (mouseenter)="emitNewHoverMouseEvent($event)" (mousemove)="emitNewHoverMouseEvent($event)" (mouseleave)="emitNewHoverMouseEvent()" class="c-hover-scrub-hover-element"></div>
 
-<sofie-hover-scrub
-  *ngIf="pieceHoverScrubElement"
-  [fileName]="fileName"
-  [type]="type"
-  [pieceLifespan]="pieceLifespan"
-  [isMediaUnavailable]="isMediaUnavailable"
-  [playedDurationInMs]="playedDurationForPartInMs"
-  [hoverScrubElementWidth]="pieceHoverScrubElement.clientWidth"
-  [hoverScrubMouseEventObservable]="mouseHoverEventSubject.asObservable()">
-</sofie-hover-scrub>
+<sofie-tooltip *ngIf="tooltipHoverElement" [tooltipElementHoverMouseEventObservable]="mouseHoverEventSubject.asObservable()">
+  <sofie-video-hover-scrub
+    [fileName]="fileName"
+    [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth"
+    [type]="type"
+    [pieceLifespan]="pieceLifespan"
+    [tooltipHoverMouseEventObservable]="mouseHoverEventSubject.asObservable()"
+    [isMediaUnavailable]="isMediaUnavailable">
+  </sofie-video-hover-scrub>
+</sofie-tooltip>

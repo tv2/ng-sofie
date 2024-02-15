@@ -1,0 +1,92 @@
+.c-video-hover-scrub-tooltip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 10px 22px 0px var(--gradient-black-rgba-with-08-opacity-color);
+  background-color: var(--rundown-scrollbar-color);
+  justify-content: flex-start;
+  overflow: hidden;
+  border-radius: 10px;
+  &__description {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex-grow: 1;
+    align-self: stretch;
+    & p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px;
+      padding-right: 10px;
+    }
+    &--title {
+      color: var(--white-color);
+      background-color: var(--background-color);
+      width: 100%;
+      padding: 5px;
+      margin: 0;
+      font-weight: 500;
+    }
+    &--duration {
+      color: var(--white-color);
+      margin: 10px 0 0 5px;
+    }
+    &--transition {
+      color: var(--white-color);
+      margin: auto 0 5px 5px;
+    }
+  }
+  &__video {
+    height: 100%;
+    position: relative;
+    width: 160px;
+    height: 90px;
+    &--cursor-time {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      color: var(--white-color);
+      font-size: 12px;
+      z-index: 3;
+    }
+    &--background-mask {
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      box-shadow: inset 0px -20px 20px 0px var(--gradient-black-rgba-with-06-opacity-color);
+    }
+    & video {
+      width: 160px;
+      height: 90px;
+    }
+  }
+  &.c-unavailable-video-hover-scrub {
+    & .c-video-hover-scrub-tooltip__description {
+      & .c-video-hover-scrub-tooltip__description--unavailable {
+        display: flex;
+        color: var(--black-color);
+        background-color: var(--yellow-color);
+        padding: 5px 15px;
+        margin: 0;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 600;
+        & fa-icon {
+          color: var(--dark-color);
+          margin-right: 5px;
+        }
+      }
+      & .c-video-hover-scrub-tooltip__description--transition {
+        margin: 10px 0 10px 15px;
+      }
+      & .c-video-hover-scrub-tooltip__description--title {
+        padding-left: 15px;
+      }
+    }
+  }
+}

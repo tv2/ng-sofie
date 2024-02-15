@@ -58,6 +58,7 @@ import { ButtonComponent } from './components/button/button.component'
 import { FormatKeyboardKeysPipe } from './pipes/format-keyboard-keys.pipe'
 import { SystemInformationService } from './services/system-information.service'
 import { HttpSystemInformationService } from './services/http/http-system-information.service'
+import { TooltipComponent } from './components/tooltip/tooltip.component'
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { HttpSystemInformationService } from './services/http/http-system-inform
     DropdownButtonComponent,
     CustomCheckboxComponent,
     ButtonComponent,
+    TooltipComponent,
   ],
   imports: [
     CommonModule,
@@ -119,6 +121,7 @@ import { HttpSystemInformationService } from './services/http/http-system-inform
     ReactiveFormsModule,
     FormsModule,
     ButtonComponent,
+    TooltipComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },

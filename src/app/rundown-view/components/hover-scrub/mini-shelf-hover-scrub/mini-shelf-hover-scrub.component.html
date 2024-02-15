@@ -1,15 +1,6 @@
-<div
-  #pieceHoverScrubElement
-  (mouseenter)="emitNewHoverScrubMouseEvent($event)"
-  (mousemove)="emitNewHoverScrubMouseEvent($event)"
-  (mouseleave)="emitNewHoverScrubMouseEvent()"
-  class="c-hover-scrub-hover-element">
-</div>
+<div #tooltipHoverElement (mouseenter)="emitNewHoverMouseEvent($event)" (mousemove)="emitNewHoverMouseEvent($event)" (mouseleave)="emitNewHoverMouseEvent()" class="c-hover-scrub-hover-element"></div>
 
-<sofie-hover-scrub
-  *ngIf="pieceHoverScrubElement"
-  [fileName]="fileName"
-  [hoverScrubElementWidth]="pieceHoverScrubElement.clientWidth"
-  [type]="type"
-  [hoverScrubMouseEventObservable]="mouseHoverEventSubject.asObservable()">
-</sofie-hover-scrub>
+<sofie-tooltip *ngIf="tooltipHoverElement" [tooltipElementHoverMouseEventObservable]="mouseHoverEventSubject.asObservable()">
+  <sofie-video-hover-scrub [fileName]="fileName" [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth" [type]="type" [tooltipHoverMouseEventObservable]="mouseHoverEventSubject.asObservable()">
+  </sofie-video-hover-scrub>
+</sofie-tooltip>

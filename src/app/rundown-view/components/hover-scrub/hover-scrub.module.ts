@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { HoverScrubComponent } from './hover-scrub/hover-scrub.component'
-import { VideoContentHoverScrubComponent } from './video-content-hover-scrub/video-content-hover-scrub.component'
 import { PieceHoverScrubComponent } from './piece-hover-scrub/piece-hover-scrub.component'
 import { MiniShelfHoverScrubComponent } from './mini-shelf-hover-scrub/mini-shelf-hover-scrub.component'
 import { SharedModule } from 'src/app/shared/shared.module'
-import { UnavailableVideoHoverScrubComponent } from './unavailable-video-hover-scrub/unavailable-video-hover-scrub.component'
+import { VideoHoverScrubComponent } from './video-hover-scrub/video-hover-scrub.component'
 
 @NgModule({
-  declarations: [HoverScrubComponent, VideoContentHoverScrubComponent, PieceHoverScrubComponent, MiniShelfHoverScrubComponent, UnavailableVideoHoverScrubComponent],
+  declarations: [VideoHoverScrubComponent, PieceHoverScrubComponent, MiniShelfHoverScrubComponent],
   imports: [CommonModule, SharedModule],
   exports: [PieceHoverScrubComponent, MiniShelfHoverScrubComponent],
 })

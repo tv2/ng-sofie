@@ -1,23 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { HoverScrubComponent } from './hover-scrub.component'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 import { instance, mock } from '@typestrong/ts-mockito'
 import { of } from 'rxjs'
+import { TooltipComponent } from './tooltip.component'
 
-describe('HoverScrubComponent', () => {
-  let component: HoverScrubComponent
-  let fixture: ComponentFixture<HoverScrubComponent>
+describe('TooltipComponent', () => {
+  let component: TooltipComponent
+  let fixture: ComponentFixture<TooltipComponent>
 
   beforeEach(async () => {
     const mockedConfigurationService: ConfigurationService = mock<ConfigurationService>()
     await TestBed.configureTestingModule({
-      declarations: [HoverScrubComponent],
+      declarations: [TooltipComponent],
       providers: [{ provide: ConfigurationService, useValue: instance(mockedConfigurationService) }],
     }).compileComponents()
 
-    fixture = TestBed.createComponent(HoverScrubComponent)
+    fixture = TestBed.createComponent(TooltipComponent)
     component = fixture.componentInstance
-    component.hoverScrubMouseEventObservable = of(undefined)
+    component.tooltipElementHoverMouseEventObservable = of(undefined)
     fixture.detectChanges()
   })
 

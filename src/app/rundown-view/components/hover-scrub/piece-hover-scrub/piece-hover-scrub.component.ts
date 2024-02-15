@@ -21,7 +21,7 @@ export class PieceHoverScrubComponent {
   private readonly timeoutDurationAfterMouseMoveInMs = 5
   private timeoutAfterMouseMove?: NodeJS.Timeout
 
-  public emitNewHoverScrubMouseEvent(event: MouseEvent | undefined = undefined): void {
+  public emitNewHoverMouseEvent(event?: MouseEvent): void {
     if (this.timeoutAfterMouseMove) {
       clearTimeout(this.timeoutAfterMouseMove)
     }
