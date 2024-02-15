@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core'
 import { Rundown } from '../../core/models/rundown'
-import { Subscription } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import { Logger } from '../../core/abstractions/logger.service'
 import { Tv2VideoClipAction } from '../../shared/models/tv2-action'
 import { Segment } from '../../core/models/segment'
@@ -46,6 +46,33 @@ export class NewMiniShelfStateService implements OnDestroy {
       .catch(error => this.logger.data(error).error(`Failed subscribing to rundown with id '${rundownId}'.`))
   }
 
+  public ngOnDestroy(): void {
+    this.rundownSubscription?.unsubscribe()
+  }
+
+  private setRundown(rundown: Rundown | undefined): void {
+    console.log('setRundown', rundown)
+    if (!rundown) {
+      return
+    }
+    this.rundown = rundown
+    this.updateMiniShelfSegments()
+    this.updateMiniShelfSegmentActionMappings()
+  }
+
+  public getVideoClipAction(miniShelf: Segment): Tv2VideoClipAction {
+    console.log('getVideoClipAction', miniShelf)
+    return this.miniShelfSegmentActionMappings[miniShelf.id]
+  }
+
+  private updateMiniShelfSegments(): void {
+    this.miniShelfSegments = this.rundown.segments.filter(segment => segment.metadata?.miniShelfVideoClipFile)
+  }
+
+  private updateMiniShelfSegmentActionMappings(): void {
+    this.miniShelfSegmentActionMappings = this.miniShelfSegments.reduce(this.miniShelfSegmentsReducer.bind(this), {})
+  }
+
   private miniShelfSegmentsReducer(actionMap: Record<string, Tv2VideoClipAction>, segment: Segment): Record<string, Tv2VideoClipAction> {
     const videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
     if (!videoClipFile) return actionMap
@@ -57,22 +84,9 @@ export class NewMiniShelfStateService implements OnDestroy {
     return action ? { ...actionMap, [segment.id]: action } : actionMap
   }
 
-  public ngOnDestroy(): void {
-    this.rundownSubscription?.unsubscribe()
-  }
-
-  private setRundown(rundown: Rundown | undefined): void {
-    console.log('setRundown', rundown)
-    if (!rundown) {
-      return
-    }
-    this.rundown = rundown
-    this.miniShelfSegments = this.rundown.segments.filter(segment => segment.metadata?.miniShelfVideoClipFile)
-    this.miniShelfSegmentActionMappings = this.miniShelfSegments.reduce(this.miniShelfSegmentsReducer.bind(this), {})
-  }
-
-  public getVideoClipAction(miniShelf: Segment): Tv2VideoClipAction {
-    console.log(miniShelf)
-    return this.miniShelfSegmentActionMappings[miniShelf.id]
+  public subscribeToMiniShelfSegments(): Observable<Segment[]> {
+    return new Observable<Segment[]>(observer => {
+      observer.next(this.miniShelfSegments)
+    })
   }
 }
