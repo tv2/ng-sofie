@@ -4,10 +4,11 @@ import { Rundown } from '../../core/models/rundown'
 import { Piece } from '../../core/models/piece'
 import { RundownTimingType } from '../../core/enums/rundown-timing-type'
 import { ActionTrigger } from 'src/app/shared/models/action-trigger'
-import { Tv2ActionContentType, Tv2PartAction } from 'src/app/shared/models/tv2-action'
+import { Tv2ActionContentType, Tv2PartAction, Tv2VideoClipAction } from 'src/app/shared/models/tv2-action'
 import { PartActionType } from 'src/app/shared/models/action-type'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
+import { Tv2SegmentMetadata } from '../../core/models/tv2-segment-metadata'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -95,5 +96,32 @@ export class TestEntityFactory {
       },
       ...actionTrigger,
     }
+  }
+
+  public createTv2SegmentMetadata(tv2SegmentMetadata: Partial<Tv2SegmentMetadata> = {}): Tv2SegmentMetadata {
+    return {
+      miniShelfVideoClipFile: 'mini-shelf-video-clip-file',
+      ...tv2SegmentMetadata,
+    }
+  }
+
+  public createMiniShelfSegment(params?: { id?: string; miniShelfVideoClipFile?: string }): Segment {
+    const segmentMetadata: Tv2SegmentMetadata = {
+      miniShelfVideoClipFile: params?.miniShelfVideoClipFile ?? 'someFileName',
+    }
+    return this.createSegment({
+      id: params?.id ?? 'segmentId',
+      isHidden: true,
+      metadata: segmentMetadata,
+    })
+  }
+  public createTv2VideoClipAction(fileName?: string): Tv2VideoClipAction {
+    return {
+      id: `actionId_${fileName ?? 'someFileName'}`,
+      metadata: {
+        contentType: Tv2ActionContentType.VIDEO_CLIP,
+        fileName: fileName ?? 'someFileName',
+      },
+    } as Tv2VideoClipAction
   }
 }
