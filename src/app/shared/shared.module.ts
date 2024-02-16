@@ -58,6 +58,8 @@ import { ButtonComponent } from './components/button/button.component'
 import { FormatKeyboardKeysPipe } from './pipes/format-keyboard-keys.pipe'
 import { SystemInformationService } from './services/system-information.service'
 import { HttpSystemInformationService } from './services/http/http-system-information.service'
+import { ConfigurationParser } from './abstractions/configuration-parser.service'
+import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
 
 @NgModule({
   declarations: [
@@ -128,6 +130,7 @@ import { HttpSystemInformationService } from './services/http/http-system-inform
     { provide: ActionParser, useClass: ZodActionParser },
     { provide: ActionTriggerParser, useClass: ZodActionTriggerParser },
     { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
+    { provide: ConfigurationParser, useClass: ZodConfigurationParser },
     { provide: ActionStateService, useClass: ActionStateService },
     { provide: ConfigurationService, useClass: HttpConfigurationService },
     { provide: MediaService, useClass: HttpMediaService },
