@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs'
 import { ActionService } from '../../../shared/abstractions/action.service'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
-import { Tv2SegmentMetadata } from '../../../core/models/tv2-segment-metadata'
 
 @Component({
   selector: 'sofie-mini-shelf',
