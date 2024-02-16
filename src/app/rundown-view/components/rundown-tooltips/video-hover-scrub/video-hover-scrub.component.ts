@@ -39,15 +39,14 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.tooltipHoverMouseEventObservable.pipe(takeUntil(this.unsubscribe$)).subscribe(event => this.setNewTimeForVideoElement(event))
-    if (this.videoElementRef) {
-      this.configurationService
-        .getStudioConfiguration()
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe((studioConfiguration: StudioConfiguration) => {
-          this.studioConfiguration = studioConfiguration
-          this.hoverScrubVideoSource = this.createVideoSource()
-        })
-    }
+
+    this.configurationService
+      .getStudioConfiguration()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((studioConfiguration: StudioConfiguration) => {
+        this.studioConfiguration = studioConfiguration
+        this.hoverScrubVideoSource = this.createVideoSource()
+      })
   }
 
   private setNewTimeForVideoElement(event?: MouseEvent): void {
@@ -68,8 +67,8 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy {
 
   private createVideoSource(): string {
     // TODO remove test code
-    // return 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4'
-    return `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/${this.fileName}`
+    return 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4'
+    // return `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/${this.fileName}`
   }
 
   private getCursorLocationInPercent(timelineWidth: number, relativeParentPostion: number): number {

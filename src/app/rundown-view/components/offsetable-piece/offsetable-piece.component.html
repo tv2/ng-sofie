@@ -1,12 +1,12 @@
 <div class="label" [style.margin-left.px]="labelOffsetInPixels">
   <span #labelTextElement>{{ piece.name }}</span>
 
-  <sofie-piece-hover-scrub
+  <sofie-piece-tooltip
     *ngIf="shouldShowHoverScrub()"
     [pieceLifespan]="piece.lifespan"
     [fileName]="piece.name"
     [type]="getTv2PieceMetadata.type"
     [playedDurationForPartInMs]="playedDurationForPartInMs"
     [isMediaUnavailable]="isMediaUnavailable">
-  </sofie-piece-hover-scrub>
+  </sofie-piece-tooltip>
 </div>

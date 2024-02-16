@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 import { instance, mock } from '@typestrong/ts-mockito'
-import { MiniShelfHoverScrubComponent } from './mini-shelf-hover-scrub.component'
+import { PieceTooltipComponent } from './piece-tooltip.component'
 
-describe('MiniShelfHoverScrubComponent', () => {
-  let component: MiniShelfHoverScrubComponent
-  let fixture: ComponentFixture<MiniShelfHoverScrubComponent>
+describe('PieceTooltipComponent', () => {
+  let component: PieceTooltipComponent
+  let fixture: ComponentFixture<PieceTooltipComponent>
 
   beforeEach(async () => {
     const mockedConfigurationService: ConfigurationService = mock<ConfigurationService>()
     await TestBed.configureTestingModule({
-      declarations: [MiniShelfHoverScrubComponent],
+      declarations: [PieceTooltipComponent],
       providers: [{ provide: ConfigurationService, useValue: instance(mockedConfigurationService) }],
     }).compileComponents()
 
-    fixture = TestBed.createComponent(MiniShelfHoverScrubComponent)
+    fixture = TestBed.createComponent(PieceTooltipComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })

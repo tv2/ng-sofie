@@ -10,6 +10,7 @@ export class TooltipComponent implements OnDestroy, AfterViewInit {
   @Input() public tooltipElementHoverMouseEventObservable: Observable<MouseEvent | undefined>
 
   private readonly unsubscribe$: Subject<void> = new Subject<void>()
+  private isTooltipAppended: boolean = false
 
   @ViewChild('tooltipElementWrapper')
   public tooltipElementWrapper: ElementRef<HTMLDivElement>
@@ -23,7 +24,6 @@ export class TooltipComponent implements OnDestroy, AfterViewInit {
     if (!this.tooltipElementWrapper?.nativeElement) {
       return
     }
-    this.appendTooltipElementToBody()
     this.tooltipElementHoverMouseEventObservable.pipe(takeUntil(this.unsubscribe$)).subscribe(event => this.checkMouseEvent(event))
   }
 
@@ -33,11 +33,16 @@ export class TooltipComponent implements OnDestroy, AfterViewInit {
   }
 
   private checkMouseEvent(event?: MouseEvent): void {
-    if (event) {
-      this.calculateTooltipLocation(event)
-    } else {
-      this.tooltipElementWrapper.nativeElement.classList.add('hidden')
+    if (!event) {
+      this.tooltipElementWrapper.nativeElement.remove()
+      this.isTooltipAppended = false
+      return
     }
+    if (!this.isTooltipAppended) {
+      this.isTooltipAppended = true
+      this.appendTooltipElementToBody()
+    }
+    this.calculateTooltipLocation(event)
     this.changeDetectorRef.detectChanges()
   }
 

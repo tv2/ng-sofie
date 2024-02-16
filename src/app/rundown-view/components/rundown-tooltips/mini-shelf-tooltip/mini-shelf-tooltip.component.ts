@@ -3,11 +3,11 @@ import { Subject } from 'rxjs'
 import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 
 @Component({
-  selector: 'sofie-mini-shelf-hover-scrub',
-  templateUrl: './mini-shelf-hover-scrub.component.html',
-  styleUrls: ['./mini-shelf-hover-scrub.component.scss'],
+  selector: 'sofie-mini-shelf-tooltip',
+  templateUrl: './mini-shelf-tooltip.component.html',
+  styleUrls: ['./mini-shelf-tooltip.component.scss'],
 })
-export class MiniShelfHoverScrubComponent {
+export class MiniShelfTooltipComponent {
   @Input() public fileName: string
 
   public readonly type: Tv2PieceType = Tv2PieceType.VIDEO_CLIP

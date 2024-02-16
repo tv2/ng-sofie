@@ -4,11 +4,11 @@ import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
 
 @Component({
-  selector: 'sofie-piece-hover-scrub',
-  templateUrl: './piece-hover-scrub.component.html',
-  styleUrls: ['./piece-hover-scrub.component.scss'],
+  selector: 'sofie-piece-tooltip',
+  templateUrl: './piece-tooltip.component.html',
+  styleUrls: ['./piece-tooltip.component.scss'],
 })
-export class PieceHoverScrubComponent {
+export class PieceTooltipComponent {
   @Input() public playedDurationForPartInMs: number
   @Input() public type: Tv2PieceType
   @Input() public isMediaUnavailable: boolean
