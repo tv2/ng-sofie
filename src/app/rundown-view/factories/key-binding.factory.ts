@@ -213,7 +213,7 @@ export class KeyBindingFactory {
       this.miniShelfCycleService.cycleMiniShelfForward(rundown)
     } catch (error) {
       this.logger.data(error).error('Failed cycling forward in mini shelves.')
-      this.snackBar.open('Unable to cycle forward in mini shelves.', undefined, { panelClass: 'snackbar-danger', duration: 3000000 })
+      this.snackBar.open('Unable to cycle forward in mini shelves.', undefined, { panelClass: 'snackbar-danger', duration: 3000 })
     }
   }
 
@@ -222,7 +222,7 @@ export class KeyBindingFactory {
       this.miniShelfCycleService.cycleMiniShelfBackward(rundown)
     } catch (error) {
       this.logger.data(error).error('Failed cycling backward in mini shelves.')
-      this.snackBar.open('Unable to cycle backward in mini shelves.', undefined, { panelClass: 'snackbar-danger', duration: 3000000 })
+      this.snackBar.open('Unable to cycle backward in mini shelves.', undefined, { panelClass: 'snackbar-danger', duration: 3000 })
     }
   }
 
