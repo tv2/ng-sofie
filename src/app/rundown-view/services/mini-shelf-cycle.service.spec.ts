@@ -11,22 +11,6 @@ import { Segment } from '../../core/models/segment'
 describe(MiniShelfCycleService.name, () => {
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
-  it('should create', () => {
-    const miniShelfNavigationServiceMock: MiniShelfNavigationService = mock<MiniShelfNavigationService>()
-
-    const actionStateServiceMock: ActionStateService = mock<ActionStateService>()
-
-    const actionServiceMock: ActionService = mock<ActionService>()
-
-    const testee: MiniShelfCycleService = createTestee({
-      actionService: actionServiceMock,
-      actionStateService: actionStateServiceMock,
-      miniShelfNavigationService: miniShelfNavigationServiceMock,
-    })
-
-    expect(testee).toBeTruthy()
-  })
-
   it('should set as next the second MiniShelf after a segment onAir on cycle backwards and not the first one', () => {
     const actionService: ActionService = mock<ActionService>()
     when(actionService.executeAction(anyString(), anyString())).thenReturn(instance(mock<Observable<void>>()) as Observable<void>)
