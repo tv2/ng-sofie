@@ -47,8 +47,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private getSegmentMediaFileName(segment: Segment): string {
-    const tv2SegmentMetadata: Tv2SegmentMetadata | undefined = segment.metadata
-    return tv2SegmentMetadata?.miniShelfVideoClipFile ?? ''
+    return segment.metadata?.miniShelfVideoClipFile ?? ''
   }
 
   private updateMediaAvailabilityStatus(media: Media | undefined): void {
