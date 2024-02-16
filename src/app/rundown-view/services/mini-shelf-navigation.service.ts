@@ -71,7 +71,9 @@ export class MiniShelfNavigationService {
   public getPreviousMiniShelfSegment(rundown: Rundown, rundownActions: Tv2Action[]): Segment {
     const currentActionId: string | undefined = this.getCurrentMiniShelfActionId(rundown)
     const miniShelfSegmentGroup: Segment[] = this.getNearestMiniShelfSegmentGroupBeneathOnAirSegment(rundown)
-    const currentMiniShelfSegmentIndex: number = currentActionId ? this.getCurrentMiniShelfSegmentIndexFromActionId(currentActionId, miniShelfSegmentGroup, rundownActions) : 0
+    const currentMiniShelfSegmentIndex: number = currentActionId
+      ? this.getCurrentMiniShelfSegmentIndexFromActionId(currentActionId, miniShelfSegmentGroup, rundownActions)
+      : miniShelfSegmentGroup.length
 
     const nextMiniShelfSegmentIndex: number = (miniShelfSegmentGroup.length + currentMiniShelfSegmentIndex - 1) % miniShelfSegmentGroup.length
     return miniShelfSegmentGroup[nextMiniShelfSegmentIndex]

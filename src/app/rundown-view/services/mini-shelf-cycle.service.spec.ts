@@ -21,6 +21,7 @@ describe(MiniShelfCycleService.name, () => {
     const segment: Segment = testEntityFactory.createSegment({
       id: 'segmentOnAir',
       isOnAir: true,
+      isNext: true,
       isHidden: false,
       parts: [
         testEntityFactory.createPart({
@@ -76,6 +77,7 @@ describe(MiniShelfCycleService.name, () => {
     const segment: Segment = testEntityFactory.createSegment({
       id: 'segmentOnAir',
       isOnAir: true,
+      isNext: true,
       isHidden: false,
       parts: [
         testEntityFactory.createPart({
