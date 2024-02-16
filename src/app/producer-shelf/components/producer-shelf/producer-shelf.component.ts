@@ -79,8 +79,8 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
       .then(actionsSubscription => (this.actionsSubscription = actionsSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to actions.'))
 
-    this.configurationService.getShelfConfiguration().subscribe(shelf => {
-      this.shelfConfiguration = shelf
+    this.configurationService.getShelfConfiguration().subscribe(shelfConfiguration => {
+      this.shelfConfiguration = shelfConfiguration
       this.updateActionPanels()
     })
 
