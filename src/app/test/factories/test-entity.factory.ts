@@ -115,6 +115,7 @@ export class TestEntityFactory {
       metadata: segmentMetadata,
     })
   }
+
   public createTv2VideoClipAction(fileName?: string): Tv2VideoClipAction {
     return {
       id: `actionId_${fileName ?? 'someFileName'}`,
