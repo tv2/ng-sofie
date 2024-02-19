@@ -118,7 +118,7 @@ describe('MiniShelfComponent', () => {
 
     const componentElement: HTMLElement = fixture.nativeElement.querySelector('div.c-mini-shelf')
 
-    expect(componentElement.classList.contains('transparent-red-zebra-opacity')).toBe(true)
+    expect(componentElement.classList.contains('unavailable-media')).toBe(true)
   })
 })
 
