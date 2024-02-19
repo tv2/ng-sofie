@@ -1,4 +1,4 @@
-<ng-container *ngIf="shouldShowHoverScrub">
+<ng-container *ngIf="shouldShowHoverScrub && !isMediaUnavailable">
   <div
     #tooltipHoverElement
     (mouseenter)="emitNewHoverMouseEvent($event)"
@@ -6,14 +6,12 @@
     (mouseleave)="emitNewHoverMouseEvent()"
     class="c-hover-scrub-hover-element"></div>
 
-  <sofie-tooltip [tooltipElementHoverMousePositon]="tooltipElementHoverMousePosition">
+  <sofie-tooltip [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
     <sofie-video-hover-scrub
       [filename]="piece.name"
+      [playedDurationInMs]="playedDurationForPartInMs"
       [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth"
-      [type]="getPieceType"
-      [pieceLifespan]="piece.lifespan"
-      [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition"
-      [isMediaUnavailable]="isMediaUnavailable">
+      [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
     </sofie-video-hover-scrub>
   </sofie-tooltip>
 </ng-container>

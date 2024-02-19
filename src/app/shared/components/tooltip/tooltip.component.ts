@@ -7,7 +7,7 @@ import { TooltipMousePosition } from 'src/app/core/models/tooltips'
   styleUrls: ['./tooltip.component.scss'],
 })
 export class TooltipComponent implements OnChanges {
-  @Input() public tooltipElementHoverMousePositon?: TooltipMousePosition
+  @Input() public tooltipElementHoverMousePosition?: TooltipMousePosition
   private isTooltipAppended: boolean = false
 
   @ViewChild('tooltipElementWrapper')
@@ -19,8 +19,8 @@ export class TooltipComponent implements OnChanges {
   constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const tooltipElementHoverMousePositonChange: SimpleChange | undefined = changes['tooltipElementHoverMousePositon']
-    if (!tooltipElementHoverMousePositonChange || !this.tooltipElementWrapper?.nativeElement) {
+    const tooltipElementHoverMousePositionChange: SimpleChange | undefined = changes['tooltipElementHoverMousePosition']
+    if (!tooltipElementHoverMousePositionChange || !this.tooltipElementWrapper?.nativeElement) {
       return
     }
 
@@ -32,7 +32,7 @@ export class TooltipComponent implements OnChanges {
   }
 
   private checkMouseEvent(): void {
-    if (!this.tooltipElementHoverMousePositon) {
+    if (!this.tooltipElementHoverMousePosition) {
       this.tooltipElementWrapper.nativeElement.remove()
       this.isTooltipAppended = false
       return
@@ -41,7 +41,7 @@ export class TooltipComponent implements OnChanges {
       this.isTooltipAppended = true
       this.appendTooltipElementToBody()
     }
-    this.calculateTooltipLocation(this.tooltipElementHoverMousePositon)
+    this.calculateTooltipLocation(this.tooltipElementHoverMousePosition)
     this.changeDetectorRef.detectChanges()
   }
 

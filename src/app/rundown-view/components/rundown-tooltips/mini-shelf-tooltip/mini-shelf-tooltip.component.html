@@ -1,6 +1,6 @@
 <div #tooltipHoverElement (mouseenter)="emitNewHoverMouseEvent($event)" (mousemove)="emitNewHoverMouseEvent($event)" (mouseleave)="emitNewHoverMouseEvent()" class="c-hover-scrub-hover-element"></div>
 
-<sofie-tooltip [tooltipElementHoverMousePositon]="tooltipElementHoverMousePosition">
-  <sofie-video-hover-scrub [filename]="filename" [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth" [type]="type" [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
+<sofie-tooltip [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
+  <sofie-video-hover-scrub [filename]="filename" [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth" [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
   </sofie-video-hover-scrub>
 </sofie-tooltip>

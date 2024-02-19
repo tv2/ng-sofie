@@ -28,7 +28,7 @@ export class PieceTooltipComponent {
 
   public get shouldShowHoverScrub(): boolean {
     const tv2Piece: Tv2Piece = this.piece as Tv2Piece
-    return tv2Piece.metadata?.type === Tv2PieceType.VIDEO_CLIP
+    return tv2Piece.metadata?.type === Tv2PieceType.VIDEO_CLIP || tv2Piece.metadata?.type === Tv2PieceType.JINGLE
   }
 
   public emitNewHoverMouseEvent(event?: MouseEvent): void {

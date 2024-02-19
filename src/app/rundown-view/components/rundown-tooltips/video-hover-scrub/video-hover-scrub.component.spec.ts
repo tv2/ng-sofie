@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 import { VideoHoverScrubComponent } from './video-hover-scrub.component'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 import { instance, mock, when } from '@typestrong/ts-mockito'
@@ -20,7 +19,6 @@ describe('VideoHoverScrubComponent', () => {
 
     fixture = TestBed.createComponent(VideoHoverScrubComponent)
     component = fixture.componentInstance
-    component.type = Tv2PieceType.VIDEO_CLIP
     fixture.detectChanges()
   })
   it('should create', () => {

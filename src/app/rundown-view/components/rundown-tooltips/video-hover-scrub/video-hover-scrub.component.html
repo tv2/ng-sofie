@@ -1,18 +1,7 @@
-<div class="c-video-hover-scrub-tooltip" [ngClass]="{ 'c-unavailable-video-hover-scrub': isMediaUnavailable }" #videoTooltipElementRef>
-  <div *ngIf="!isMediaUnavailable" class="c-video-hover-scrub-tooltip__video">
+<div class="c-video-hover-scrub-tooltip">
+  <div class="c-video-hover-scrub-tooltip__video">
     <video #videoElementRef [src]="hoverScrubVideoSource ? hoverScrubVideoSource : ''"></video>
-    <span *ngIf="currentVideoTimeInS" class="c-video-hover-scrub-tooltip__video--cursor-time">{{ currentVideoTimeInS * 1000 | timer: 'HH?:mm:ss' }}</span>
+    <span *ngIf="currentVideoTimeInMs" class="c-video-hover-scrub-tooltip__video--cursor-time">{{ currentVideoTimeInMs | timer: 'HH?:mm:ss' }}</span>
     <span class="c-video-hover-scrub-tooltip__video--background-mask"></span>
-  </div>
-  <div class="c-video-hover-scrub-tooltip__description">
-    <p class="c-video-hover-scrub-tooltip__description--title" [class]="type.toLocaleLowerCase() + '_color'">{{ filename }}</p>
-    <p *ngIf="!isMediaUnavailable" class="c-video-hover-scrub-tooltip__description--duration">
-      <span i18n>rundown-overview.hover-scrub.full-duration.label</span>: <span>{{ (videoDurationInS ? videoDurationInS * 1000 : 0) | timer: 'HH?:mm:ss' }}</span>
-    </p>
-    <p *ngIf="isMediaUnavailable" class="c-video-hover-scrub-tooltip__description--unavailable">
-      <sofie-icon-button class="material-icons c-delete-rundown-icon" [iconButton]="IconButton.TRIANGLE_EXCLAMATION" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button>
-      <span i18n>rundown-overview.hover-scrub.source-unavailable.label</span>
-    </p>
-    <p *ngIf="pieceLifespan" class="c-video-hover-scrub-tooltip__description--transition">{{ getTranlationForPieceLifespan() }}</p>
   </div>
 </div>

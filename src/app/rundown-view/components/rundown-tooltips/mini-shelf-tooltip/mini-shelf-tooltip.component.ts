@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core'
-import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 import { TooltipMousePosition } from 'src/app/core/models/tooltips'
 
 @Component({
@@ -9,8 +8,6 @@ import { TooltipMousePosition } from 'src/app/core/models/tooltips'
 })
 export class MiniShelfTooltipComponent {
   @Input() public filename: string
-
-  public readonly type: Tv2PieceType = Tv2PieceType.VIDEO_CLIP
   public tooltipElementHoverMousePosition?: TooltipMousePosition
 
   private readonly timeoutDurationAfterMouseMoveInMs = 5
