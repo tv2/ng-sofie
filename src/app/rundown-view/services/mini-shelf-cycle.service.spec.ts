@@ -45,7 +45,6 @@ describe(MiniShelfCycleService.name, () => {
     })
 
     const miniShelfNavigationService: MiniShelfNavigationService = mock<MiniShelfNavigationService>()
-    // when(miniShelfNavigationService.getNextMiniShelfSegment(anything(), anything())).thenReturn(segment)
     when(miniShelfNavigationService.getPreviousMiniShelfSegment(anything(), anything())).thenReturn(secondMiniShelf)
 
     const testee: MiniShelfCycleService = createTestee({
