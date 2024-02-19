@@ -45,7 +45,7 @@
       left: 0;
       bottom: var(--scrollbar-size);
       width: 20px;
-      background: var(-action-panel-scrollable-before-linear-gradient);
+      background: var(--action-panel-scrollable-before-linear-gradient);
       pointer-events: none;
     }
 
@@ -57,7 +57,7 @@
       right: 0;
       bottom: var(--scrollbar-size);
       width: 20px;
-      background: var(-action-panel-scrollable-after-linear-gradient);
+      background: var(--action-panel-scrollable-after-linear-gradient);
       pointer-events: none;
     }
 
