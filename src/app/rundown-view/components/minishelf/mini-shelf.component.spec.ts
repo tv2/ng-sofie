@@ -33,7 +33,7 @@ describe('MiniShelfComponent', () => {
     expect(titleElement?.textContent).toBe(expectedTitle)
   })
 
-  it('should have correct value for calculated duration', async () => {
+  it('calculates value of 01:23:45 for given media with duration of 5030000ms', async () => {
     await configureTestBed({
       mockedConfigurationService: createConfigurationService(),
       mockedMediaStateService: createMediaStateService({ duration: 5030000 }),
@@ -60,13 +60,13 @@ describe('MiniShelfComponent', () => {
     const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
     const component: MiniShelfComponent = fixture.componentInstance
     const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-    component.segment = testEntityFactory.createSegment({ metadata: { miniShelfVideoClipFile: 'media' } })
+    component.segment = testEntityFactory.createSegment({ metadata: { miniShelfVideoClipFile: 'video' } })
     component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
 
     const thumbnailElement: HTMLElement = fixture.nativeElement.querySelector('img.c-mini-shelf__thumbnail')
-    expect(thumbnailElement?.getAttribute('src')).toEqual('http://media.preview.url/media/thumbnail/media')
+    expect(thumbnailElement?.getAttribute('src')).toEqual('http://media.preview.url/media/thumbnail/video')
   })
 
   it('should execute action when clicked', async () => {
