@@ -3,7 +3,6 @@ import { Keys } from '../../keyboard/value-objects/key-binding'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
 import { Tv2CameraAction, Tv2RemoteAction, Tv2TransitionAction } from '../../shared/models/tv2-action'
-import { PartActionType } from '../../shared/models/action-type'
 import { RundownService } from '../../core/abstractions/rundown.service'
 import { Rundown } from '../../core/models/rundown'
 import { DialogService } from '../../shared/services/dialog.service'
@@ -12,6 +11,9 @@ import { RundownNavigationService } from '../../shared/services/rundown-navigati
 import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
 import { MiniShelfStateService } from '../services/mini-shelf-state.service'
+import { PartActionType } from '../../shared/models/action-type'
+import { MiniShelfCycleService } from '../services/mini-shelf-cycle.service'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -29,6 +31,8 @@ export class KeyBindingFactory {
     private readonly dialogService: DialogService,
     private readonly rundownNavigationService: RundownNavigationService,
     private readonly miniShelfStateService: MiniShelfStateService,
+    private readonly miniShelfCycleService: MiniShelfCycleService,
+    private readonly snackBar: MatSnackBar,
     logger: Logger
   ) {
     this.logger = logger.tag('KeyBindingFactory')
@@ -118,6 +122,8 @@ export class KeyBindingFactory {
         this.createRundownKeyBinding('Set Later Part as Next', ['Shift', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
         this.createRundownKeyBinding('Cycle MiniShelf', ['Tab'], () => this.miniShelfStateService.cycleMiniShelfForward()),
         this.createRundownKeyBinding('Cycle MiniShelf', ['Shift', 'Tab'], () => this.miniShelfStateService.cycleMiniShelfBackward()),
+        this.createRundownKeyBinding('Cycle MiniShelf D->', ['Shift', 'Space'], () => this.cycleMiniShelfForward(rundown)),
+        this.createRundownKeyBinding('Cycle MiniShelf D<-', ['Alt', 'Space'], () => this.cycleMiniShelfBackward(rundown)),
       ]
     }
     return [
@@ -199,6 +205,24 @@ export class KeyBindingFactory {
       this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
     } catch (error) {
       this.logger.data(error).warn('Failed setting a later part as next.')
+    }
+  }
+
+  private cycleMiniShelfForward(rundown: Rundown): void {
+    try {
+      this.miniShelfCycleService.cycleMiniShelfForward(rundown)
+    } catch (error) {
+      this.logger.data(error).error('Failed cycling forward in mini shelves.')
+      this.snackBar.open('Unable to cycle forward in mini shelves.', undefined, { panelClass: 'snackbar-danger', duration: 3000 })
+    }
+  }
+
+  private cycleMiniShelfBackward(rundown: Rundown): void {
+    try {
+      this.miniShelfCycleService.cycleMiniShelfBackward(rundown)
+    } catch (error) {
+      this.logger.data(error).error('Failed cycling backward in mini shelves.')
+      this.snackBar.open('Unable to cycle backward in mini shelves.', undefined, { panelClass: 'snackbar-danger', duration: 3000 })
     }
   }
 

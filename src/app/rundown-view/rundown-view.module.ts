@@ -31,8 +31,10 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
 import { OnAirDetailsPanelComponent } from './components/on-air-details-panel/on-air-details-panel.component'
 import { CountdownLabelComponent } from './components/countdown-label/countdown-label.component'
 import { ActionTriggerProducerKeyBindingService } from './services/action-trigger-producer-key-binding.service'
-import { MiniShelfComponent } from './components/minishelf/mini-shelf.component'
+import { MiniShelfComponent } from './components/mini-shelf/mini-shelf.component'
 import { MiniShelfStateService } from './services/mini-shelf-state.service'
+import { MiniShelfCycleService } from './services/mini-shelf-cycle.service'
+import { MiniShelfNavigationService } from './services/mini-shelf-navigation.service'
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { MiniShelfStateService } from './services/mini-shelf-state.service'
     { provide: KeyBindingService, useClass: ActionTriggerProducerKeyBindingService },
     Tv2ActionGroupService,
     { provide: KeyboardConfigurationService, useClass: ProducerKeyboardConfigurationService },
+    MiniShelfCycleService,
+    MiniShelfNavigationService,
     KeyBindingFactory,
     MiniShelfStateService,
   ],
