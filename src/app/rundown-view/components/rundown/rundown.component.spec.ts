@@ -19,20 +19,6 @@ import { RundownTimingContext } from '../../../core/models/rundown-timing-contex
 
 let fixture: ComponentFixture<RundownComponent>
 describe('RundownComponent', () => {
-  it('should update MiniShelves upon init', async () => {
-    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
-    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
-    const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
-    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
-
-    await configureTestBed({
-      mockedRundown: mockedRundown,
-      mockedRundownEventObserver: mockedRundownEventObserver,
-      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
-      mockedActionStateService: mockedActionStateService,
-    })
-  })
-
   it('should subscribe to RundownTimingContext changes upon init', async () => {
     const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
     const mockedActionStateService: ActionStateService = createMockOfActionStateService()
