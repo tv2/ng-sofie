@@ -1,6 +1,6 @@
 <div #tooltipHoverElement (mouseenter)="emitNewHoverMouseEvent($event)" (mousemove)="emitNewHoverMouseEvent($event)" (mouseleave)="emitNewHoverMouseEvent()" class="c-hover-scrub-hover-element"></div>
 
-<sofie-tooltip *ngIf="tooltipHoverElement" [tooltipElementHoverMouseEventObservable]="mouseHoverEventSubject.asObservable()">
-  <sofie-video-hover-scrub [fileName]="fileName" [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth" [type]="type" [tooltipHoverMouseEventObservable]="mouseHoverEventSubject.asObservable()">
+<sofie-tooltip [tooltipElementHoverMousePositon]="tooltipElementHoverMousePosition">
+  <sofie-video-hover-scrub [filename]="filename" [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth" [type]="type" [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
   </sofie-video-hover-scrub>
 </sofie-tooltip>

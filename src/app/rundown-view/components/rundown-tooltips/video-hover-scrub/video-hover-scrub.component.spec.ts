@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 import { VideoHoverScrubComponent } from './video-hover-scrub.component'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
-import { anything, instance, mock, when } from '@typestrong/ts-mockito'
-import { Observable, Subscription, of } from 'rxjs'
+import { instance, mock, when } from '@typestrong/ts-mockito'
+import { Observable, of } from 'rxjs'
 import { TimerPipe } from 'src/app/shared/pipes/timer/timer.pipe'
 import { StudioConfiguration } from 'src/app/shared/models/studio-configuration'
 
@@ -21,7 +21,6 @@ describe('VideoHoverScrubComponent', () => {
     fixture = TestBed.createComponent(VideoHoverScrubComponent)
     component = fixture.componentInstance
     component.type = Tv2PieceType.VIDEO_CLIP
-    component.tooltipHoverMouseEventObservable = of(undefined)
     fixture.detectChanges()
   })
   it('should create', () => {

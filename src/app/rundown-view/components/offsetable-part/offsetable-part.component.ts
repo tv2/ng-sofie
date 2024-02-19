@@ -42,7 +42,7 @@ export class OffsetablePartComponent implements OnChanges {
   @Input()
   public isRundownActive: boolean
 
-  public piecesGroupedByOutputLayer: Record<Tv2OutputLayer, Tv2Piece[]> = {} as Record<Tv2OutputLayer, Tv2Piece[]>
+  public piecesGroupedByOutputLayer: Record<Tv2OutputLayer, Piece[]> = {} as Record<Tv2OutputLayer, Piece[]>
   public readonly autoLabel: string = $localize`global.auto.label`
   public readonly nextLabel: string = $localize`global.next.label`
 

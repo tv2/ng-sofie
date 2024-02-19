@@ -1,10 +1,11 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
 import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
-import { Observable, Subject, takeUntil } from 'rxjs'
+import { Subject, takeUntil } from 'rxjs'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 import { StudioConfiguration } from 'src/app/shared/models/studio-configuration'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
+import { TooltipMousePosition } from 'src/app/core/models/tooltips'
 
 const ROUNDING_PRECISION: number = 100
 
@@ -13,11 +14,11 @@ const ROUNDING_PRECISION: number = 100
   templateUrl: './video-hover-scrub.component.html',
   styleUrls: ['./video-hover-scrub.component.scss'],
 })
-export class VideoHoverScrubComponent implements OnInit, OnDestroy {
-  @Input() public fileName: string
+export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() public filename: string
   @Input() public type: Tv2PieceType
   @Input() public tooltipHoverElementWidth: number
-  @Input() public tooltipHoverMouseEventObservable: Observable<MouseEvent | undefined>
+  @Input() public tooltipElementHoverMousePosition?: TooltipMousePosition
   @Input() public pieceLifespan?: PieceLifespan
   @Input() public playedDurationInMs?: number
   @Input() public isMediaUnavailable?: boolean
@@ -38,8 +39,6 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy {
   constructor(private readonly configurationService: ConfigurationService) {}
 
   public ngOnInit(): void {
-    this.tooltipHoverMouseEventObservable.pipe(takeUntil(this.unsubscribe$)).subscribe(event => this.setNewTimeForVideoElement(event))
-
     this.configurationService
       .getStudioConfiguration()
       .pipe(takeUntil(this.unsubscribe$))
@@ -49,16 +48,25 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy {
       })
   }
 
-  private setNewTimeForVideoElement(event?: MouseEvent): void {
+  public ngOnChanges(changes: SimpleChanges): void {
+    const tooltipElementHoverMouseEventChange: SimpleChange | undefined = changes['tooltipElementHoverMouseEvent']
+    if (!tooltipElementHoverMouseEventChange) {
+      return
+    }
+
+    this.setNewTimeForVideoElement(this.tooltipElementHoverMousePosition)
+  }
+
+  private setNewTimeForVideoElement(mousePosition?: TooltipMousePosition): void {
     if (!this.videoElementRef?.nativeElement.duration) {
       return
     }
-    if (event) {
+    if (mousePosition) {
       const videoDuration: number = Math.round(this.videoElementRef.nativeElement.duration * ROUNDING_PRECISION) / ROUNDING_PRECISION
       this.videoDurationInS = videoDuration
       this.currentVideoTimeInS = this.getCurrentTimeBasedOnCursor(
         videoDuration,
-        this.getCursorLocationInPercent(this.tooltipHoverElementWidth, event.offsetX),
+        this.getCursorLocationInPercent(this.tooltipHoverElementWidth, mousePosition.parrentElementOffsetX),
         this.playedDurationInMs ? this.playedDurationInMs / 1000 : 0
       )
       this.videoElementRef.nativeElement.currentTime = this.currentVideoTimeInS
@@ -66,9 +74,7 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy {
   }
 
   private createVideoSource(): string {
-    // TODO remove test code
-    return 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4'
-    // return `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/${this.fileName}`
+    return `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/${this.filename}`
   }
 
   private getCursorLocationInPercent(timelineWidth: number, relativeParentPostion: number): number {

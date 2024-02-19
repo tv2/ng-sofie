@@ -5,7 +5,7 @@
     <span class="c-video-hover-scrub-tooltip__video--background-mask"></span>
   </div>
   <div class="c-video-hover-scrub-tooltip__description">
-    <p class="c-video-hover-scrub-tooltip__description--title" [class]="type.toLocaleLowerCase() + '_color'">{{ fileName }}</p>
+    <p class="c-video-hover-scrub-tooltip__description--title" [class]="type.toLocaleLowerCase() + '_color'">{{ filename }}</p>
     <p *ngIf="!isMediaUnavailable" class="c-video-hover-scrub-tooltip__description--duration">
       <span i18n>rundown-overview.hover-scrub.full-duration.label</span>: <span>{{ (videoDurationInS ? videoDurationInS * 1000 : 0) | timer: 'HH?:mm:ss' }}</span>
     </p>
