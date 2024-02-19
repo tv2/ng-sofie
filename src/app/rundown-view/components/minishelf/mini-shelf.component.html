@@ -1,19 +1,23 @@
 <div
   class="c-mini-shelf"
-  [ngClass]="{'unavailable-media': isMediaUnavailable}"
   title="{{ segment.name }}"
   (click)="executeAction()"
 >
 <!--  TODO: add ThumbnailComponent and use it here-->
-    <img
-        class="c-mini-shelf__thumbnail"
-        src="{{ mediaPreviewUrl }}"
-        alt="{{ segment.name? segment.name : 'Title is not available.' }}"
-        (error)=handleMissingImage($event)
-    />
-    <div class="c-mini-shelf__note">
-        <span class="c-mini-shelf__title">{{ getSanitizedTitle() | uppercase }}</span>
-        <span class="c-mini-shelf__duration">{{ mediaDurationInMsWithoutPostroll | timer : 'HH?:mm:ss' }}</span>
+    <div
+      class="c-mini-shelf__media-container"
+      [ngClass]="{'media-unavailable': isMediaUnavailable}"
+    >
+        <img
+            class="c-mini-shelf__thumbnail"
+            src="{{ mediaPreviewUrl }}"
+            alt="{{ segment.name? segment.name : 'Title is not available.' }}"
+            (error)=handleMissingImage($event)
+        />
+        <div class="c-mini-shelf__note">
+            <span class="c-mini-shelf__title">{{ getSanitizedTitle() | uppercase }}</span>
+            <span class="c-mini-shelf__duration">{{ mediaDurationInMsWithoutPostroll | timer : 'HH?:mm:ss' }}</span>
+        </div>
     </div>
 </div>
 

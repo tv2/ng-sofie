@@ -91,7 +91,7 @@ describe('MiniShelfComponent', () => {
     verify(actionService.executeAction(anyString(), anyString())).once()
   })
 
-  it('should have red zebra stripes if media is not available', async () => {
+  it('should have red zebra stripes on thumbnail if media is not available', async () => {
     const actionService: ActionService = createActionService()
     const mockedMediaStateService: MediaStateService = mock<MediaStateService>()
     when(mockedMediaStateService.subscribeToMedia(anyString())).thenCall(
@@ -116,9 +116,9 @@ describe('MiniShelfComponent', () => {
 
     fixture.detectChanges()
 
-    const componentElement: HTMLElement = fixture.nativeElement.querySelector('div.c-mini-shelf')
+    const thumbnailElement: HTMLImageElement = fixture.nativeElement.querySelector('div.c-mini-shelf__media-container')
 
-    expect(componentElement.classList.contains('unavailable-media')).toBe(true)
+    expect(thumbnailElement.classList.contains('media-unavailable')).toBe(true)
   })
 })
 
