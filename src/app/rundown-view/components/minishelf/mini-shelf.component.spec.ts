@@ -148,38 +148,6 @@ function createConfigurationService(): ConfigurationService {
   return mockedConfigurationService
 }
 
-// function createMediaService(): MediaService {
-//   const mockedMediaService: MediaService = mock<MediaService>()
-//   when(mockedMediaService.getAllMedia()).thenCall(
-//     () =>
-//       new Observable<Media[]>(observer => {
-//         const media: Media = new TestEntityFactory().createMedia()
-//         observer.next([media])
-//         observer.complete()
-//       })
-//   )
-//   when(mockedMediaService.getMedia(anyString())).thenCall(
-//     () =>
-//       new Observable<Media>(observer => {
-//         const media: Media = new TestEntityFactory().createMedia()
-//         observer.next(media)
-//         observer.complete()
-//       })
-//   )
-//   return mockedMediaService
-// }
-//
-// function createMediaEventObserver(): MediaEventObserver {
-//   const mockedMediaEventObserver: MediaEventObserver = mock<MediaEventObserver>()
-//   when(mockedMediaEventObserver.subscribeToMediaCreated(anyString())).thenCall(() => {
-//     return new Observable(observer => {
-//       observer.next(new TestEntityFactory().createMedia())
-//       observer.complete()
-//     })
-//   })
-//   return mockedMediaEventObserver
-// }
-
 function createMediaStateService(media: Partial<Media> = {}): MediaStateService {
   const mockedMediaStateService: MediaStateService = mock<MediaStateService>()
   when(mockedMediaStateService.subscribeToMedia(anyString())).thenCall(
