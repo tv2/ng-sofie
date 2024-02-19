@@ -32,7 +32,6 @@ import { OnAirDetailsPanelComponent } from './components/on-air-details-panel/on
 import { CountdownLabelComponent } from './components/countdown-label/countdown-label.component'
 import { ActionTriggerProducerKeyBindingService } from './services/action-trigger-producer-key-binding.service'
 import { MiniShelfComponent } from './components/mini-shelf/mini-shelf.component'
-import { MiniShelfStateService } from './services/mini-shelf-state.service'
 import { MiniShelfCycleService } from './services/mini-shelf-cycle.service'
 import { MiniShelfNavigationService } from './services/mini-shelf-navigation.service'
 
@@ -68,7 +67,6 @@ import { MiniShelfNavigationService } from './services/mini-shelf-navigation.ser
     MiniShelfCycleService,
     MiniShelfNavigationService,
     KeyBindingFactory,
-    MiniShelfStateService,
   ],
   imports: [SharedModule, RundownViewRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule],
 })

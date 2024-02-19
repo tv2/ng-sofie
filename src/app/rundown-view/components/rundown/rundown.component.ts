@@ -12,7 +12,6 @@ import { EventSubscription } from 'src/app/event-system/abstractions/event-obser
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
-import { MiniShelfStateService } from '../../services/mini-shelf-state.service'
 
 @Component({
   selector: 'sofie-rundown',
@@ -39,15 +38,12 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     private readonly partEntityService: PartEntityService,
     private readonly rundownEventObserver: RundownEventObserver,
     private readonly actionStateService: ActionStateService,
-    private readonly miniShelfStateService: MiniShelfStateService,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownComponent')
   }
 
   public ngOnInit(): void {
-    this.miniShelfStateService.updateMiniShelves(this.rundown)
-
     this.rundownTimingContextStateService
       .subscribeToRundownTimingContext(this.rundown.id)
       .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
@@ -63,7 +59,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownReset(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownDeactivation(this.setAutoNextStartedToFalse.bind(this)))
-    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownUpdates(() => this.miniShelfStateService.updateMiniShelves(this.rundown)))
   }
 
   private setAutoNextStartedToTrue(): void {
@@ -125,7 +120,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private updateMiniShelfSegmentActionMappings(): void {
     this.miniShelfSegmentActionMappings = this.miniShelfSegments.reduce(this.miniShelfSegmentsReducer.bind(this), {})
-    this.miniShelfStateService.setActions(this.miniShelfSegmentActionMappings)
   }
 
   private miniShelfSegmentsReducer(actionMap: Record<string, Tv2VideoClipAction>, segment: Segment): Record<string, Tv2VideoClipAction> {

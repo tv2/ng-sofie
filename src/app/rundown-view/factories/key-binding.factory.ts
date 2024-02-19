@@ -10,7 +10,6 @@ import { DialogSeverity } from '../../shared/components/confirmation-dialog/conf
 import { RundownNavigationService } from '../../shared/services/rundown-navigation.service'
 import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
-import { MiniShelfStateService } from '../services/mini-shelf-state.service'
 import { PartActionType } from '../../shared/models/action-type'
 import { MiniShelfCycleService } from '../services/mini-shelf-cycle.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -30,7 +29,6 @@ export class KeyBindingFactory {
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService,
     private readonly rundownNavigationService: RundownNavigationService,
-    private readonly miniShelfStateService: MiniShelfStateService,
     private readonly miniShelfCycleService: MiniShelfCycleService,
     private readonly snackBar: MatSnackBar,
     logger: Logger
@@ -120,10 +118,8 @@ export class KeyBindingFactory {
         this.createRundownKeyBinding('Set Segment Below as Next', ['Shift', 'ArrowDown'], () => this.setSegmentBelowNextAsNext(rundown)),
         this.createRundownKeyBinding('Set Earlier Part as Next', ['Shift', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
         this.createRundownKeyBinding('Set Later Part as Next', ['Shift', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
-        this.createRundownKeyBinding('Cycle MiniShelf', ['Tab'], () => this.miniShelfStateService.cycleMiniShelfForward()),
-        this.createRundownKeyBinding('Cycle MiniShelf', ['Shift', 'Tab'], () => this.miniShelfStateService.cycleMiniShelfBackward()),
-        this.createRundownKeyBinding('Cycle MiniShelf D->', ['Shift', 'Space'], () => this.cycleMiniShelfForward(rundown)),
-        this.createRundownKeyBinding('Cycle MiniShelf D<-', ['Alt', 'Space'], () => this.cycleMiniShelfBackward(rundown)),
+        this.createRundownKeyBinding('Cycle MiniShelf D->', ['Tab'], () => this.cycleMiniShelfForward(rundown)),
+        this.createRundownKeyBinding('Cycle MiniShelf D<-', ['Shift', 'Tab'], () => this.cycleMiniShelfBackward(rundown)),
       ]
     }
     return [
