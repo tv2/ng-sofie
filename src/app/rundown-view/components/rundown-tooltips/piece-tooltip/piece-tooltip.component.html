@@ -1,10 +1,5 @@
 <ng-container *ngIf="shouldShowHoverScrub && !isMediaUnavailable">
-  <div
-    #tooltipHoverElement
-    (mouseenter)="emitNewHoverMouseEvent($event)"
-    (mousemove)="emitNewHoverMouseEvent($event)"
-    (mouseleave)="emitNewHoverMouseEvent()"
-    class="c-hover-scrub-hover-element"></div>
+  <div #tooltipHoverElement class="c-hover-scrub-hover-element"></div>
 
   <sofie-tooltip [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
     <sofie-video-hover-scrub

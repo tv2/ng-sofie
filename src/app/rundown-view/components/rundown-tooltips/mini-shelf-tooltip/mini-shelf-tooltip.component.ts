@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core'
+import { ChangeDetectorRef, Component, HostListener, Input } from '@angular/core'
 import { TooltipMousePosition } from 'src/app/core/models/tooltips'
 
 @Component({
@@ -16,6 +16,9 @@ export class MiniShelfTooltipComponent {
 
   constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
 
+  @HostListener('mouseenter', ['$event'])
+  @HostListener('mousemove', ['$event'])
+  @HostListener('mouseleave', [])
   public emitNewHoverMouseEvent(event?: MouseEvent): void {
     if (this.timeoutAfterMouseMove) {
       clearTimeout(this.timeoutAfterMouseMove)
