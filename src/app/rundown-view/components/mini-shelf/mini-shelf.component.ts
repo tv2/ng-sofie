@@ -19,8 +19,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction?: Tv2VideoClipAction
 
-  protected actionIdForOnAirPart?: string
-  protected actionIdForNextPart?: string
+  private actionIdForOnAirPart?: string
+  private actionIdForNextPart?: string
 
   private readonly fallbackPreviewUrl: string = 'assets/sofie-logo.svg'
   protected media: Media | undefined
