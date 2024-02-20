@@ -7,6 +7,8 @@ import { ActionStateService } from '../../shared/services/action-state.service'
 import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 import { Action } from '../../shared/models/action'
 import { Segment } from '../../core/models/segment'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { TestLoggerFactory } from '../../test/factories/test-logger.factory'
 
 describe(MiniShelfCycleService.name, () => {
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
@@ -124,31 +126,31 @@ describe(MiniShelfCycleService.name, () => {
   })
 })
 
-function createTestee(params?: { actionService?: ActionService; miniShelfNavigationService?: MiniShelfNavigationService; actionStateService?: ActionStateService }): MiniShelfCycleService {
-  let miniShelfNavigationService: MiniShelfNavigationService
+function createTestee(
+  params: {
+    actionService?: ActionService
+    miniShelfNavigationService?: MiniShelfNavigationService
+    actionStateService?: ActionStateService
+    snackBar?: MatSnackBar
+  } = {}
+): MiniShelfCycleService {
+  const miniShelfNavigationService: MiniShelfNavigationService = params.miniShelfNavigationService ?? mock<MiniShelfNavigationService>()
 
-  if (!params?.miniShelfNavigationService) {
-    const miniShelfNavigationServiceMock: MiniShelfNavigationService = mock<MiniShelfNavigationService>()
-    miniShelfNavigationService = instance(miniShelfNavigationServiceMock)
-  }
+  const actionStateService: ActionStateService = params.actionStateService ?? mock<ActionStateService>()
 
-  let actionStateService: ActionStateService
+  const actionServiceMock: ActionService = mock<ActionService>()
+  when(actionServiceMock.executeAction(anything(), anything())).thenReturn(instance(mock<Observable<void>>()) as Observable<void>)
+  when(actionServiceMock.getActionsByRundownId(anyString())).thenReturn(instance(mock<Observable<Action[]>>()) as Observable<Action[]>)
+  when(actionServiceMock.getSystemActions()).thenReturn(instance(mock<Observable<Action[]>>()) as Observable<Action[]>)
 
-  if (!params?.actionStateService) {
-    const actionStateServiceMock: ActionStateService = mock<ActionStateService>()
-    actionStateService = instance(actionStateServiceMock)
-  }
+  const actionService: ActionService = params.actionService ?? actionServiceMock
 
-  let actionService: ActionService
-
-  if (!params?.actionService) {
-    const actionServiceMock: ActionService = mock<ActionService>()
-    when(actionServiceMock.executeAction(anything(), anything())).thenReturn(instance(mock<Observable<void>>()) as Observable<void>)
-    when(actionServiceMock.getActionsByRundownId(anyString())).thenReturn(instance(mock<Observable<Action[]>>()) as Observable<Action[]>)
-    when(actionServiceMock.getSystemActions()).thenReturn(instance(mock<Observable<Action[]>>()) as Observable<Action[]>)
-
-    actionService = instance(actionServiceMock)
-  }
-
-  return new MiniShelfCycleService(params?.miniShelfNavigationService ?? miniShelfNavigationService!, params?.actionStateService ?? actionStateService!, params?.actionService ?? actionService!)
+  const snackBar: MatSnackBar = params.snackBar ?? mock<MatSnackBar>()
+  return new MiniShelfCycleService(
+    params?.miniShelfNavigationService ?? instance(miniShelfNavigationService),
+    params?.actionStateService ?? instance(actionStateService),
+    params?.actionService ?? instance(actionService),
+    params?.snackBar ?? instance(snackBar),
+    new TestLoggerFactory().createLogger()
+  )
 }

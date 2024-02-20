@@ -12,7 +12,6 @@ import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
 import { PartActionType } from '../../shared/models/action-type'
 import { MiniShelfCycleService } from '../services/mini-shelf-cycle.service'
-import { MatSnackBar } from '@angular/material/snack-bar'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -30,7 +29,6 @@ export class KeyBindingFactory {
     private readonly dialogService: DialogService,
     private readonly rundownNavigationService: RundownNavigationService,
     private readonly miniShelfCycleService: MiniShelfCycleService,
-    private readonly snackBar: MatSnackBar,
     logger: Logger
   ) {
     this.logger = logger.tag('KeyBindingFactory')
@@ -118,8 +116,8 @@ export class KeyBindingFactory {
         this.createRundownKeyBinding('Set Segment Below as Next', ['Shift', 'ArrowDown'], () => this.setSegmentBelowNextAsNext(rundown)),
         this.createRundownKeyBinding('Set Earlier Part as Next', ['Shift', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
         this.createRundownKeyBinding('Set Later Part as Next', ['Shift', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
-        this.createRundownKeyBinding('Cycle MiniShelf', ['Tab'], () => this.cycleMiniShelfForward(rundown)),
-        this.createRundownKeyBinding('Cycle MiniShelf', ['Shift', 'Tab'], () => this.cycleMiniShelfBackward(rundown)),
+        this.createRundownKeyBinding('Cycle MiniShelf', ['Tab'], () => this.miniShelfCycleService.cycleMiniShelfForward(rundown)),
+        this.createRundownKeyBinding('Cycle MiniShelf', ['Shift', 'Tab'], () => this.miniShelfCycleService.cycleMiniShelfBackward(rundown)),
       ]
     }
     return [
@@ -201,24 +199,6 @@ export class KeyBindingFactory {
       this.rundownService.setNext(rundown.id, cursor.segmentId, cursor.partId).subscribe()
     } catch (error) {
       this.logger.data(error).warn('Failed setting a later part as next.')
-    }
-  }
-
-  private cycleMiniShelfForward(rundown: Rundown): void {
-    try {
-      this.miniShelfCycleService.cycleMiniShelfForward(rundown)
-    } catch (error) {
-      this.logger.data(error).error('Failed cycling forward in mini shelves.')
-      this.snackBar.open('Unable to cycle forward in mini shelves.', undefined, { panelClass: 'snackbar-danger', duration: 3000 })
-    }
-  }
-
-  private cycleMiniShelfBackward(rundown: Rundown): void {
-    try {
-      this.miniShelfCycleService.cycleMiniShelfBackward(rundown)
-    } catch (error) {
-      this.logger.data(error).error('Failed cycling backward in mini shelves.')
-      this.snackBar.open('Unable to cycle backward in mini shelves.', undefined, { panelClass: 'snackbar-danger', duration: 3000 })
     }
   }
 
