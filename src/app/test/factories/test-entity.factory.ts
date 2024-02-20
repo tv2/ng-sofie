@@ -9,6 +9,8 @@ import { PartActionType } from 'src/app/shared/models/action-type'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 import { Tv2SegmentMetadata } from '../../core/models/tv2-segment-metadata'
+import { AutoNextStartedEvent, PartSetAsNextEvent, RundownResetEvent } from '../../core/models/rundown-event'
+import { RundownEventType } from '../../core/models/rundown-event-type'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -117,5 +119,26 @@ export class TestEntityFactory {
         fileName: fileName ?? 'someFileName',
       },
     } as Tv2VideoClipAction
+  }
+
+  public createRundownResetEvent(rundownResetEvent: Partial<RundownResetEvent> = {}): RundownResetEvent {
+    return {
+      type: RundownEventType.RESET,
+      ...rundownResetEvent,
+    } as RundownResetEvent
+  }
+
+  public createAutoNextStartedEvent(autoNextStartedEvent: Partial<AutoNextStartedEvent> = {}): AutoNextStartedEvent {
+    return {
+      type: RundownEventType.AUTO_NEXT_STARTED,
+      ...autoNextStartedEvent,
+    } as AutoNextStartedEvent
+  }
+
+  public createPartSetAsNextEvent(partSetAsNextEvent: Partial<PartSetAsNextEvent> = {}): PartSetAsNextEvent {
+    return {
+      type: RundownEventType.SET_NEXT,
+      ...partSetAsNextEvent,
+    } as PartSetAsNextEvent
   }
 }
