@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
+import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
 import { TooltipMousePosition } from 'src/app/core/models/tooltips'
 
 @Component({
@@ -6,7 +6,7 @@ import { TooltipMousePosition } from 'src/app/core/models/tooltips'
   templateUrl: './tooltip.component.html',
   styleUrls: ['./tooltip.component.scss'],
 })
-export class TooltipComponent implements OnChanges {
+export class TooltipComponent implements OnChanges, OnDestroy {
   @Input() public tooltipElementHoverMousePosition?: TooltipMousePosition
   private isTooltipAppended: boolean = false
 
@@ -31,10 +31,14 @@ export class TooltipComponent implements OnChanges {
     document.body.append(this.tooltipElementWrapper.nativeElement)
   }
 
+  private removeTooltipElement(): void {
+    this.tooltipElementWrapper.nativeElement.remove()
+    this.isTooltipAppended = false
+  }
+
   private checkMouseEvent(): void {
     if (!this.tooltipElementHoverMousePosition) {
-      this.tooltipElementWrapper.nativeElement.remove()
-      this.isTooltipAppended = false
+      this.removeTooltipElement()
       return
     }
     if (!this.isTooltipAppended) {
@@ -52,5 +56,9 @@ export class TooltipComponent implements OnChanges {
     this.tooltipElementWrapper.nativeElement.setAttribute('style', `top: ${elementTopPositonInPx}px; left: 0px; ${elWidth === 0 && 'visibility: hidden;'}`)
     this.tooltipElementContent.nativeElement.setAttribute('style', `left: ${elWidth === 0 ? '0' : elementLeftPositonInPx}px`)
     this.tooltipElementWrapper.nativeElement.classList.remove('hidden')
+  }
+
+  public ngOnDestroy(): void {
+    this.removeTooltipElement()
   }
 }
