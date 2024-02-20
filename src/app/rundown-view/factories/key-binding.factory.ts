@@ -118,8 +118,8 @@ export class KeyBindingFactory {
         this.createRundownKeyBinding('Set Segment Below as Next', ['Shift', 'ArrowDown'], () => this.setSegmentBelowNextAsNext(rundown)),
         this.createRundownKeyBinding('Set Earlier Part as Next', ['Shift', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
         this.createRundownKeyBinding('Set Later Part as Next', ['Shift', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
-        this.createRundownKeyBinding('Cycle MiniShelf D->', ['Tab'], () => this.cycleMiniShelfForward(rundown)),
-        this.createRundownKeyBinding('Cycle MiniShelf D<-', ['Shift', 'Tab'], () => this.cycleMiniShelfBackward(rundown)),
+        this.createRundownKeyBinding('Cycle MiniShelf', ['Tab'], () => this.cycleMiniShelfForward(rundown)),
+        this.createRundownKeyBinding('Cycle MiniShelf', ['Shift', 'Tab'], () => this.cycleMiniShelfBackward(rundown)),
       ]
     }
     return [
