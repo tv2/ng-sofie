@@ -17,7 +17,6 @@ import { Action } from '../../../shared/models/action'
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
 
-let fixture: ComponentFixture<RundownComponent>
 describe('RundownComponent', () => {
   it('should subscribe to RundownTimingContext changes upon init', async () => {
     const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
@@ -119,7 +118,7 @@ async function configureTestBed(
     declarations: [RundownComponent],
   }).compileComponents()
 
-  fixture = TestBed.createComponent(RundownComponent)
+  const fixture: ComponentFixture<RundownComponent> = TestBed.createComponent(RundownComponent)
 
   const component: RundownComponent = fixture.componentInstance
 
