@@ -1,6 +1,6 @@
 <div
   class="c-mini-shelf"
-  [ngClass]="{ 'is-on-air': actionIdForOnAirPart && actionIdForOnAirPart === videoClipAction?.id, 'is-next': actionIdForNextPart && actionIdForNextPart === videoClipAction?.id }"
+  [ngClass]="{ 'is-on-air': shouldShowOnAirBorder(), 'is-next': shouldShowNextBorder() }"
   [title]=segment.name
   (click)="executeAction()"
 >
