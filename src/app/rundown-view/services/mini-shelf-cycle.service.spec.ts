@@ -39,6 +39,7 @@ describe(MiniShelfCycleService.name, () => {
       id: 'firstMiniShelf',
       miniShelfVideoClipFile: 'firstMiniShelf',
     })
+
     const secondMiniShelf: Segment = testEntityFactory.createMiniShelfSegment({
       id: 'secondMiniShelf',
       miniShelfVideoClipFile: 'secondMiniShelf',
@@ -94,6 +95,7 @@ describe(MiniShelfCycleService.name, () => {
       id: 'firstMiniShelf',
       miniShelfVideoClipFile: 'firstMiniShelf',
     })
+
     const secondMiniShelf: Segment = testEntityFactory.createMiniShelfSegment({
       id: 'secondMiniShelf',
       miniShelfVideoClipFile: 'secondMiniShelf',
@@ -124,18 +126,21 @@ describe(MiniShelfCycleService.name, () => {
 
 function createTestee(params?: { actionService?: ActionService; miniShelfNavigationService?: MiniShelfNavigationService; actionStateService?: ActionStateService }): MiniShelfCycleService {
   let miniShelfNavigationService: MiniShelfNavigationService
+
   if (!params?.miniShelfNavigationService) {
     const miniShelfNavigationServiceMock: MiniShelfNavigationService = mock<MiniShelfNavigationService>()
     miniShelfNavigationService = instance(miniShelfNavigationServiceMock)
   }
 
   let actionStateService: ActionStateService
+
   if (!params?.actionStateService) {
     const actionStateServiceMock: ActionStateService = mock<ActionStateService>()
     actionStateService = instance(actionStateServiceMock)
   }
 
   let actionService: ActionService
+
   if (!params?.actionService) {
     const actionServiceMock: ActionService = mock<ActionService>()
     when(actionServiceMock.executeAction(anything(), anything())).thenReturn(instance(mock<Observable<void>>()) as Observable<void>)

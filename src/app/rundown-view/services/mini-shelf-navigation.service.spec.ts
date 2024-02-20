@@ -35,6 +35,7 @@ describe(MiniShelfNavigationService.name, () => {
       id: 'firstMiniShelf',
       miniShelfVideoClipFile: 'firstMiniShelf',
     })
+
     const secondMiniShelf: Segment = testEntityFactory.createMiniShelfSegment({
       id: 'secondMiniShelf',
       miniShelfVideoClipFile: 'secondMiniShelf',
@@ -47,7 +48,9 @@ describe(MiniShelfNavigationService.name, () => {
     })
 
     const testee: MiniShelfNavigationService = createTestee()
+
     const expectedSegment: Segment = testee.getPreviousMiniShelfSegment(rundown, [actionOne, actionTwo])
+
     expect(expectedSegment).toEqual(firstMiniShelf)
   })
 
@@ -76,6 +79,7 @@ describe(MiniShelfNavigationService.name, () => {
       id: 'firstMiniShelf',
       miniShelfVideoClipFile: 'firstMiniShelfVideoClipFile',
     })
+
     const secondMiniShelf: Segment = testEntityFactory.createMiniShelfSegment({
       id: 'secondMiniShelf',
       miniShelfVideoClipFile: 'secondMiniShelfVideoClipFile',
@@ -88,7 +92,9 @@ describe(MiniShelfNavigationService.name, () => {
     })
 
     const testee: MiniShelfNavigationService = createTestee()
+
     const expectedSegment: Segment = testee.getNextMiniShelfSegment(rundown, [actionOne, actionTwo])
+
     expect(expectedSegment).toEqual(firstMiniShelf)
   })
 })

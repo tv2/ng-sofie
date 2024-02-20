@@ -21,30 +21,24 @@ let fixture: ComponentFixture<RundownComponent>
 describe('RundownComponent', () => {
   it('should subscribe to RundownTimingContext changes upon init', async () => {
     const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
-    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
-    const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
+
     const mockedRundown: Rundown = new TestEntityFactory().createRundown()
 
     await configureTestBed({
       mockedRundown: mockedRundown,
-      mockedRundownEventObserver: mockedRundownEventObserver,
       mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
-      mockedActionStateService: mockedActionStateService,
     })
 
     verify(mockedRundownTimingContextStateService.subscribeToRundownTimingContext(mockedRundown.id)).once()
   })
 
   it('should subscribe to RundownActions changes upon init', async () => {
-    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
     const mockedActionStateService: ActionStateService = createMockOfActionStateService()
-    const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
+
     const mockedRundown: Rundown = new TestEntityFactory().createRundown()
 
     await configureTestBed({
       mockedRundown: mockedRundown,
-      mockedRundownEventObserver: mockedRundownEventObserver,
-      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
       mockedActionStateService: mockedActionStateService,
     })
 
@@ -52,64 +46,40 @@ describe('RundownComponent', () => {
   })
 
   it('should subscribe to RundownDeactivation changes upon init', async () => {
-    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
-    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
     const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
-    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
 
     await configureTestBed({
-      mockedRundown: mockedRundown,
       mockedRundownEventObserver: mockedRundownEventObserver,
-      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
-      mockedActionStateService: mockedActionStateService,
     })
 
     verify(mockedRundownEventObserver.subscribeToRundownDeactivation(anything())).once()
   })
 
   it('should subscribe to RundownAutoNext changes upon init', async () => {
-    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
-    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
     const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
-    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
 
     await configureTestBed({
-      mockedRundown: mockedRundown,
       mockedRundownEventObserver: mockedRundownEventObserver,
-      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
-      mockedActionStateService: mockedActionStateService,
     })
 
     verify(mockedRundownEventObserver.subscribeToRundownAutoNext(anything())).once()
   })
 
   it('should subscribe to RundownSetNext changes upon init', async () => {
-    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
-    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
     const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
-    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
 
     await configureTestBed({
-      mockedRundown: mockedRundown,
       mockedRundownEventObserver: mockedRundownEventObserver,
-      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
-      mockedActionStateService: mockedActionStateService,
     })
 
     verify(mockedRundownEventObserver.subscribeToRundownSetNext(anything())).once()
   })
 
   it('should subscribe to RundownReset changes upon init', async () => {
-    const mockedRundownTimingContextStateService: RundownTimingContextStateService = createMockOfRundownTimingContextStateService()
-    const mockedActionStateService: ActionStateService = createMockOfActionStateService()
     const mockedRundownEventObserver: RundownEventObserver = createMockOfRundownEventObserver()
-    const mockedRundown: Rundown = new TestEntityFactory().createRundown()
 
     await configureTestBed({
-      mockedRundown: mockedRundown,
       mockedRundownEventObserver: mockedRundownEventObserver,
-      mockedRundownTimingContextStateService: mockedRundownTimingContextStateService,
-      mockedActionStateService: mockedActionStateService,
     })
 
     verify(mockedRundownEventObserver.subscribeToRundownReset(anything())).once()
@@ -129,10 +99,10 @@ async function configureTestBed(
   } = {}
 ): Promise<RundownComponent> {
   const mockedRundownService: RundownService = params.mockedRundownService ?? mock<RundownService>()
-  const mockedRundownEventObserver: RundownEventObserver = params.mockedRundownEventObserver ?? mock<RundownEventObserver>()
+  const mockedRundownEventObserver: RundownEventObserver = params.mockedRundownEventObserver ?? createMockOfRundownEventObserver()
   const mockedDialogService: DialogService = params.mockedDialogService ?? mock<DialogService>()
   const mockedRundownTimingContextStateService: RundownTimingContextStateService = params.mockedRundownTimingContextStateService ?? createMockOfRundownTimingContextStateService()
-  const mockedActionStateService: ActionStateService = params.mockedActionStateService ?? mock<ActionStateService>()
+  const mockedActionStateService: ActionStateService = params.mockedActionStateService ?? createMockOfActionStateService()
   const mockedEntityParser: EntityParser = params.mockedEntityParser ?? mock<EntityParser>()
 
   await TestBed.configureTestingModule({
@@ -150,9 +120,11 @@ async function configureTestBed(
   }).compileComponents()
 
   fixture = TestBed.createComponent(RundownComponent)
+
   const component: RundownComponent = fixture.componentInstance
 
   component.rundown = params.mockedRundown ?? new TestEntityFactory().createRundown()
+
   fixture.detectChanges()
 
   return component
@@ -161,12 +133,14 @@ async function configureTestBed(
 function createMockOfRundownTimingContextStateService(): RundownTimingContextStateService {
   const mockedRundownTimingContextStateService: RundownTimingContextStateService = mock<RundownTimingContextStateService>()
   when(mockedRundownTimingContextStateService.subscribeToRundownTimingContext(anyString())).thenCall(() => Promise.resolve(new Observable<RundownTimingContext>()))
+
   return mockedRundownTimingContextStateService
 }
 
 function createMockOfActionStateService(): ActionStateService {
   const mockedActionStateService: ActionStateService = mock<ActionStateService>()
   when(mockedActionStateService.subscribeToRundownActions(anyString())).thenResolve(new Observable<Action[]>())
+
   return mockedActionStateService
 }
 
