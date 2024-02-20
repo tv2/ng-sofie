@@ -121,11 +121,11 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     this.calculateMediaDurationInMsWithoutPostroll()
   }
 
-  protected shouldShowOnAirBorder(): '' | undefined | boolean {
-    return this.actionIdForOnAirPart && this.actionIdForOnAirPart === this.videoClipAction?.id
+  protected shouldShowOnAirBorder(): boolean {
+    return !!this.actionIdForOnAirPart && this.actionIdForOnAirPart === this.videoClipAction?.id
   }
 
-  protected shouldShowNextBorder(): '' | undefined | boolean {
-    return this.actionIdForNextPart && this.actionIdForNextPart == this.videoClipAction?.id
+  protected shouldShowNextBorder(): boolean {
+    return !!this.actionIdForNextPart && this.actionIdForNextPart == this.videoClipAction?.id
   }
 }
