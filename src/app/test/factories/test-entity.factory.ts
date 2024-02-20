@@ -98,13 +98,6 @@ export class TestEntityFactory {
     }
   }
 
-  public createTv2SegmentMetadata(tv2SegmentMetadata: Partial<Tv2SegmentMetadata> = {}): Tv2SegmentMetadata {
-    return {
-      miniShelfVideoClipFile: 'mini-shelf-video-clip-file',
-      ...tv2SegmentMetadata,
-    }
-  }
-
   public createMiniShelfSegment(params?: { id?: string; miniShelfVideoClipFile?: string }): Segment {
     const segmentMetadata: Tv2SegmentMetadata = {
       miniShelfVideoClipFile: params?.miniShelfVideoClipFile ?? 'someFileName',
