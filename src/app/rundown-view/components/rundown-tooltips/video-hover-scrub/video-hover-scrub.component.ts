@@ -15,9 +15,12 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public tooltipHoverElementWidth: number
   @Input() public tooltipElementHoverMousePosition?: TooltipMousePosition
   @Input() public playedDurationInMs?: number
+  @Input() public durationInMs: number
+  @Input() public isJingle?: boolean
 
   public currentVideoTimeInMs: number
   public hoverScrubVideoSource: string
+  public wasVideoVisible: boolean
 
   @ViewChild('videoElementRef')
   public videoElementRef: ElementRef<HTMLVideoElement>
@@ -50,22 +53,26 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private setNewTimeForVideoElement(mousePosition?: TooltipMousePosition): void {
-    if (!this.videoElementRef?.nativeElement.duration) {
+    if (!this.videoElementRef?.nativeElement) {
       return
     }
-    if (mousePosition) {
-      const videoDurationInMs: number = this.videoElementRef.nativeElement.duration * 1000
-      this.currentVideoTimeInMs = this.getCurrentTimeBasedOnCursor(
-        videoDurationInMs,
-        this.getCursorLocationInPercent(this.tooltipHoverElementWidth, mousePosition.parrentElementOffsetX),
-        this.playedDurationInMs ? this.playedDurationInMs : 0
-      )
-      this.videoElementRef.nativeElement.currentTime = this.currentVideoTimeInMs
+    if (!mousePosition) {
+      return
     }
+
+    this.wasVideoVisible = true
+    this.currentVideoTimeInMs = this.getCurrentTimeBasedOnCursor(
+      this.durationInMs,
+      this.getCursorLocationInPercent(this.tooltipHoverElementWidth, mousePosition.parrentElementOffsetX),
+      this.playedDurationInMs ? this.playedDurationInMs : 0
+    )
+    this.videoElementRef.nativeElement.currentTime = this.currentVideoTimeInMs / 1000
   }
 
   private createVideoSource(): string {
-    return `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/${this.filename}`
+    return this.isJingle
+      ? `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/${this.studioConfiguration.blueprintConfiguration.JingleFolder}/${this.filename}`
+      : `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/${this.filename}`
   }
 
   private getCursorLocationInPercent(timelineWidth: number, relativeParentPostion: number): number {

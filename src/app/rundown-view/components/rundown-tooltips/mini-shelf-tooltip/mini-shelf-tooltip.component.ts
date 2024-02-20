@@ -8,6 +8,7 @@ import { TooltipMousePosition } from 'src/app/core/models/tooltips'
 })
 export class MiniShelfTooltipComponent {
   @Input() public filename: string
+  @Input() public durationInMs: number
   public tooltipElementHoverMousePosition?: TooltipMousePosition
 
   private readonly timeoutDurationAfterMouseMoveInMs = 5

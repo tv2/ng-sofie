@@ -28,7 +28,7 @@ describe('VideoHoverScrubComponent', () => {
 
 function createMockOfConfigurationService(): ConfigurationService {
   const mockedConfigurationService = mock<ConfigurationService>()
-  const mockedObservable: Observable<StudioConfiguration> = of({ settings: { mediaPreviewUrl: '' }, blueprintConfiguration: { ServerPostrollDuration: 0 } })
+  const mockedObservable: Observable<StudioConfiguration> = of({ settings: { mediaPreviewUrl: '' }, blueprintConfiguration: { ServerPostrollDuration: 0, JingleFolder: '' } })
   when(mockedConfigurationService.getStudioConfiguration()).thenReturn(mockedObservable)
   return mockedConfigurationService
 }

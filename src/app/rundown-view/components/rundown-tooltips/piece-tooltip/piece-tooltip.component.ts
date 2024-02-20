@@ -13,8 +13,10 @@ export class PieceTooltipComponent {
   @Input() public playedDurationForPartInMs?: number
   @Input() public isMediaUnavailable?: boolean
   @Input() public piece: Piece
+  @Input() public durationInMs: number
 
   public tooltipElementHoverMousePosition?: TooltipMousePosition
+  public Tv2PieceType = Tv2PieceType
 
   private readonly timeoutDurationAfterMouseMoveInMs = 5
   private timeoutAfterMouseMove?: NodeJS.Timeout

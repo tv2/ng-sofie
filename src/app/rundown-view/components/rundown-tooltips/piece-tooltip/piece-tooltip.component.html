@@ -11,7 +11,9 @@
       [filename]="piece.name"
       [playedDurationInMs]="playedDurationForPartInMs"
       [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth"
-      [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
+      [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition"
+      [durationInMs]="durationInMs"
+      [isJingle]="getPieceType === Tv2PieceType.JINGLE">
     </sofie-video-hover-scrub>
   </sofie-tooltip>
 </ng-container>
