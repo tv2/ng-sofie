@@ -40,7 +40,7 @@ export class MiniShelfCycleService {
       throw new Error('Unable to extract video clip filename.')
     }
     const videoClipAction: Action | undefined = rundownActions.find(
-      action => action.metadata.contentType === Tv2ActionContentType.VIDEO_CLIP && (action as Tv2VideoClipAction).metadata.fileName === videoClipFilename
+      action => segment.name === action.name && action.metadata.contentType === Tv2ActionContentType.VIDEO_CLIP && (action as Tv2VideoClipAction).metadata.fileName === videoClipFilename
     )
     if (!videoClipAction) {
       throw new Error('Unable to find video clip action.')

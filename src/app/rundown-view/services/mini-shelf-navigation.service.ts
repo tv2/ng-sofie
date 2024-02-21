@@ -65,7 +65,7 @@ export class MiniShelfNavigationService {
     if (!videoClipAction) {
       return -1
     }
-    return miniShelfSegmentGroup.findIndex(segment => segment.metadata?.miniShelfVideoClipFile === videoClipAction.metadata.fileName)
+    return miniShelfSegmentGroup.findIndex(segment => segment.name === videoClipAction.name && segment.metadata?.miniShelfVideoClipFile === videoClipAction.metadata.fileName)
   }
 
   public getPreviousMiniShelfSegment(rundown: Rundown, rundownActions: Tv2Action[]): Segment {

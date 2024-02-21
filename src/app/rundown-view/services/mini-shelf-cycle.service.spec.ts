@@ -9,16 +9,20 @@ import { Action } from '../../shared/models/action'
 import { Segment } from '../../core/models/segment'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { TestLoggerFactory } from '../../test/factories/test-logger.factory'
+import { Tv2Action } from '../../shared/models/tv2-action'
 
 describe(MiniShelfCycleService.name, () => {
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
   it('should set as next the second MiniShelf after a segment onAir on cycle backwards and not the first one', () => {
-    const actionService: ActionService = mock<ActionService>()
-    when(actionService.executeAction(anyString(), anyString())).thenReturn(instance(mock<Observable<void>>()) as Observable<void>)
+    const mockedActionService: ActionService = mock<ActionService>()
+    when(mockedActionService.executeAction(anyString(), anyString())).thenReturn(instance(mock<Observable<void>>()) as Observable<void>)
 
-    const actionStateService: ActionStateService = mock<ActionStateService>()
-    when(actionStateService.getRundownActions(anyString())).thenReturn([testEntityFactory.createTv2VideoClipAction('firstMiniShelf'), testEntityFactory.createTv2VideoClipAction('secondMiniShelf')])
+    const firstAction: Tv2Action = testEntityFactory.createTv2VideoClipAction('firstMiniShelfName', 'firstMiniShelfVideoClipFile')
+    const secondAction: Tv2Action = testEntityFactory.createTv2VideoClipAction('secondMiniShelfName', 'secondMiniShelfVideoClipFile')
+
+    const mockedActionStateService: ActionStateService = mock<ActionStateService>()
+    when(mockedActionStateService.getRundownActions(anyString())).thenReturn([firstAction, secondAction])
 
     const segment: Segment = testEntityFactory.createSegment({
       id: 'segmentOnAir',
@@ -38,43 +42,48 @@ describe(MiniShelfCycleService.name, () => {
     })
 
     const firstMiniShelf: Segment = testEntityFactory.createMiniShelfSegment({
-      id: 'firstMiniShelf',
-      miniShelfVideoClipFile: 'firstMiniShelf',
+      id: 'firstMiniShelfId',
+      name: firstAction.name,
+      miniShelfVideoClipFile: 'firstMiniShelfVideoClipFile',
     })
 
     const secondMiniShelf: Segment = testEntityFactory.createMiniShelfSegment({
-      id: 'secondMiniShelf',
-      miniShelfVideoClipFile: 'secondMiniShelf',
+      id: 'secondMiniShelfId',
+      name: secondAction.name,
+      miniShelfVideoClipFile: 'secondMiniShelfVideoClipFile',
     })
 
     const miniShelfNavigationService: MiniShelfNavigationService = mock<MiniShelfNavigationService>()
     when(miniShelfNavigationService.getPreviousMiniShelfSegment(anything(), anything())).thenReturn(secondMiniShelf)
 
     const testee: MiniShelfCycleService = createTestee({
-      actionService: instance(actionService),
-      actionStateService: instance(actionStateService),
+      actionService: instance(mockedActionService),
+      actionStateService: instance(mockedActionStateService),
       miniShelfNavigationService: instance(miniShelfNavigationService),
     })
 
-    testee.cycleMiniShelfBackward(
-      testEntityFactory.createRundown({
-        id: 'rundown-id',
-        isActive: true,
-        segments: [segment, firstMiniShelf, secondMiniShelf],
-      })
-    )
+    const rundown = testEntityFactory.createRundown({
+      id: 'rundown-id',
+      isActive: true,
+      segments: [segment, firstMiniShelf, secondMiniShelf],
+    })
 
-    verify(actionService.executeAction('actionId_secondMiniShelf', 'rundown-id')).once()
+    testee.cycleMiniShelfBackward(rundown)
 
-    verify(actionService.executeAction('actionId_firstMiniShelf', 'rundown-id')).never()
+    verify(mockedActionService.executeAction(firstAction.id, rundown.id)).never()
+
+    verify(mockedActionService.executeAction(secondAction.id, rundown.id)).once()
   })
 
   it('should set as next the first MiniShelf after a segment onAir on cycle forwards and not the second one', () => {
-    const actionService: ActionService = mock<ActionService>()
-    when(actionService.executeAction(anyString(), anyString())).thenReturn(instance(mock<Observable<void>>()) as Observable<void>)
+    const mockedActionService: ActionService = mock<ActionService>()
+    when(mockedActionService.executeAction(anyString(), anyString())).thenReturn(instance(mock<Observable<void>>()) as Observable<void>)
 
-    const actionStateService: ActionStateService = mock<ActionStateService>()
-    when(actionStateService.getRundownActions(anyString())).thenReturn([testEntityFactory.createTv2VideoClipAction('firstMiniShelf'), testEntityFactory.createTv2VideoClipAction('secondMiniShelf')])
+    const firstAction: Tv2Action = testEntityFactory.createTv2VideoClipAction('firstMiniShelfName', 'firstMiniShelfVideoClipFile')
+    const secondAction: Tv2Action = testEntityFactory.createTv2VideoClipAction('secondMiniShelfName', 'secondMiniShelfVideoClipFile')
+
+    const mockedActionStateService: ActionStateService = mock<ActionStateService>()
+    when(mockedActionStateService.getRundownActions(anyString())).thenReturn([firstAction, secondAction])
 
     const segment: Segment = testEntityFactory.createSegment({
       id: 'segmentOnAir',
@@ -94,35 +103,37 @@ describe(MiniShelfCycleService.name, () => {
     })
 
     const firstMiniShelf: Segment = testEntityFactory.createMiniShelfSegment({
-      id: 'firstMiniShelf',
-      miniShelfVideoClipFile: 'firstMiniShelf',
+      id: 'firstMiniShelfId',
+      name: firstAction.name,
+      miniShelfVideoClipFile: 'firstMiniShelfVideoClipFile',
     })
 
     const secondMiniShelf: Segment = testEntityFactory.createMiniShelfSegment({
-      id: 'secondMiniShelf',
-      miniShelfVideoClipFile: 'secondMiniShelf',
+      id: 'secondMiniShelfId',
+      name: secondAction.name,
+      miniShelfVideoClipFile: 'secondMiniShelfVideoClipFile',
     })
 
     const miniShelfNavigationService: MiniShelfNavigationService = mock<MiniShelfNavigationService>()
-    when(miniShelfNavigationService.getPreviousMiniShelfSegment(anything(), anything())).thenReturn(firstMiniShelf)
+    when(miniShelfNavigationService.getNextMiniShelfSegment(anything(), anything())).thenReturn(secondMiniShelf)
 
     const testee: MiniShelfCycleService = createTestee({
-      actionService: instance(actionService),
-      actionStateService: instance(actionStateService),
+      actionService: instance(mockedActionService),
+      actionStateService: instance(mockedActionStateService),
       miniShelfNavigationService: instance(miniShelfNavigationService),
     })
 
-    testee.cycleMiniShelfBackward(
-      testEntityFactory.createRundown({
-        id: 'rundown-id',
-        isActive: true,
-        segments: [segment, firstMiniShelf, secondMiniShelf],
-      })
-    )
+    const rundown = testEntityFactory.createRundown({
+      id: 'rundown-id',
+      isActive: true,
+      segments: [segment, firstMiniShelf, secondMiniShelf],
+    })
 
-    verify(actionService.executeAction('actionId_firstMiniShelf', 'rundown-id')).once()
+    testee.cycleMiniShelfForward(rundown)
 
-    verify(actionService.executeAction('actionId_secondMiniShelf', 'rundown-id')).never()
+    verify(mockedActionService.executeAction(firstAction.id, rundown.id)).never()
+
+    verify(mockedActionService.executeAction(secondAction.id, rundown.id)).once()
   })
 })
 

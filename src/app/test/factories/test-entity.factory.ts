@@ -100,20 +100,22 @@ export class TestEntityFactory {
     }
   }
 
-  public createMiniShelfSegment(params?: { id?: string; miniShelfVideoClipFile?: string }): Segment {
+  public createMiniShelfSegment(params?: { id?: string; name?: string; miniShelfVideoClipFile?: string }): Segment {
     const segmentMetadata: Tv2SegmentMetadata = {
       miniShelfVideoClipFile: params?.miniShelfVideoClipFile ?? 'someFileName',
     }
     return this.createSegment({
       id: params?.id ?? 'segmentId',
+      name: params?.name ?? 'segmentName',
       isHidden: true,
       metadata: segmentMetadata,
     })
   }
 
-  public createTv2VideoClipAction(fileName?: string): Tv2VideoClipAction {
+  public createTv2VideoClipAction(name?: string, fileName?: string): Tv2VideoClipAction {
     return {
       id: `actionId_${fileName ?? 'someFileName'}`,
+      name: name ?? 'actionName',
       metadata: {
         contentType: Tv2ActionContentType.VIDEO_CLIP,
         fileName: fileName ?? 'someFileName',
