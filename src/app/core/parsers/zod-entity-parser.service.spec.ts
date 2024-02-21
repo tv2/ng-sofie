@@ -14,6 +14,7 @@ describe(ZodEntityParser.name, () => {
         },
         blueprintConfiguration: {
           ServerPostrollDuration: 123,
+          JingleFolder: '',
         },
       }
       const parseStudioConfiguration: StudioConfiguration = testee.parseStudioConfiguration(expectedStudioConfiguration)
@@ -28,6 +29,7 @@ describe(ZodEntityParser.name, () => {
         },
         blueprintConfiguration: {
           ServerPostrollDuration: 123,
+          JingleFolder: '',
         },
       }
       const result = (): StudioConfiguration => testee.parseStudioConfiguration(expectedStudioConfiguration)
@@ -42,6 +44,7 @@ describe(ZodEntityParser.name, () => {
         },
         blueprintConfiguration: {
           ServerPostrollDuration: 123,
+          JingleFolder: '',
         },
       }
       const result = (): StudioConfiguration => testee.parseStudioConfiguration(expectedStudioConfiguration)
@@ -56,6 +59,7 @@ describe(ZodEntityParser.name, () => {
         },
         blueprintConfiguration: {
           ServerPostrollDuration: 123,
+          JingleFolder: '',
         },
       }
       const result = (): StudioConfiguration => testee.parseStudioConfiguration(expectedStudioConfiguration)
