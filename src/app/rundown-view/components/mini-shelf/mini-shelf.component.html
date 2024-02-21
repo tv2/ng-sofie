@@ -1,6 +1,6 @@
 <div
   class="c-mini-shelf"
-  [ngClass]="{ 'is-on-air': shouldShowOnAirBorder(), 'is-next': shouldShowNextBorder() }"
+  [ngClass]="{ 'on-air': shouldShowOnAirBorder(), 'next': shouldShowNextBorder() }"
   [title]=segment.name
   (click)="executeAction()"
 >

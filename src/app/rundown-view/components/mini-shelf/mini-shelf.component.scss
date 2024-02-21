@@ -14,15 +14,15 @@
     box-shadow: 0 0 2px 2px var(--gradient-green-rgba-with-04-opacity-color);
   }
 
-  &.is-on-air {
+  &.on-air {
     border: solid 2px var(--on-air-color);
   }
 
-  &.is-next {
+  &.next {
     border: solid 2px var(--next-color);
   }
 
-  &.is-on-air.is-next {
+  &.on-air.next {
     border: solid 2px var(--on-air-color);
     border-right: solid 2px var(--next-color);
   }
