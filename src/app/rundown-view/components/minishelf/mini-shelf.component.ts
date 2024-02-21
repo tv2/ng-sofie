@@ -102,7 +102,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     this.calculateMediaDurationInMsWithoutPostroll()
   }
 
-  public get getMediaFilename(): string {
+  public get mediaFilename(): string {
     return this.segment.metadata?.miniShelfVideoClipFile ?? ''
   }
 }

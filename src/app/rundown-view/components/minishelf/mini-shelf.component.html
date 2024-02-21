@@ -3,7 +3,6 @@
   title="{{ segment.name }}"
   (click)="executeAction()"
 >
-  <!--  TODO: add ThumbnailComponent and use it here-->
   <img
         class="c-mini-shelf__thumbnail"
         src="{{ mediaPreviewUrl }}"
@@ -14,5 +13,5 @@
     <span class="c-mini-shelf__title">{{ getSanitizedTitle() | uppercase }}</span>
     <span class="c-mini-shelf__duration">{{ mediaDurationInMsWithoutPostroll | timer : 'HH?:mm:ss' }}</span>
   </div>
-  <sofie-mini-shelf-tooltip [durationInMs]="mediaDurationInMsWithoutPostroll" [filename]="getMediaFilename"></sofie-mini-shelf-tooltip>
+  <sofie-mini-shelf-tooltip [durationInMs]="mediaDurationInMsWithoutPostroll" [filename]="mediaFilename"></sofie-mini-shelf-tooltip>
 </div>
