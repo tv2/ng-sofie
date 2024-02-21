@@ -14,6 +14,12 @@ import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { PartEvent } from '../../../core/models/rundown-event'
 
+const SMOOTH_SCROLL_CONFIGURATION: ScrollIntoViewOptions = {
+  behavior: 'smooth',
+  block: 'nearest',
+  inline: 'nearest',
+}
+
 @Component({
   selector: 'sofie-rundown',
   templateUrl: './rundown.component.html',
@@ -58,11 +64,16 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private subscribeToEventObserver(): void {
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownAutoNext(this.setAutoNextStartedToTrue.bind(this)))
-    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownReset(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownDeactivation(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownTake(this.scrollViewToSegment.bind(this)))
-    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(this.scrollViewToSegment.bind(this)))
+
+    this.rundownEventSubscriptions.push(
+      this.rundownEventObserver.subscribeToRundownSetNext(event => {
+        this.setAutoNextStartedToFalse()
+        this.scrollViewToSegment(event)
+      })
+    )
   }
 
   private setAutoNextStartedToTrue(): void {
@@ -84,11 +95,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       return
     }
 
-    document.getElementById(event.segmentId)?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-      inline: 'nearest',
-    })
+    element.scrollIntoView(SMOOTH_SCROLL_CONFIGURATION)
   }
 
   public isInsideViewport(element: HTMLElement): boolean {
