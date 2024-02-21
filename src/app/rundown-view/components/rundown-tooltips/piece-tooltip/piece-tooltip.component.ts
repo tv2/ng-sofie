@@ -41,7 +41,7 @@ export class PieceTooltipComponent {
     }, this.timeoutDurationAfterMouseMoveInMs)
   }
 
-  public get getPieceType(): Tv2PieceType {
+  public get tv2PieceType(): Tv2PieceType {
     const piece: Tv2Piece = this.piece as Tv2Piece
     return piece.metadata.type
   }
