@@ -34,6 +34,9 @@ import { FileDownloadService } from './abstractions/file-download.service'
 import { ZodMediaEventParserService } from './parsers/zod-media-event-parser.service'
 import { MediaEventParser } from './abstractions/media-event-parser'
 import { MediaEventObserver } from './services/media-event-observer.service'
+import { ConfigurationEventParser } from './abstractions/configuration-event-parser'
+import { ZodConfigurationEventParser } from './parsers/zod-configuration-event-parser.service'
+import { ConfigurationEventObserver } from './services/configuration-event-observer'
 
 @NgModule({
   declarations: [],
@@ -59,7 +62,9 @@ import { MediaEventObserver } from './services/media-event-observer.service'
     RundownTimingContextStateService,
     ActionTriggerStateService,
     ActionTriggerEventObserver,
+    ConfigurationEventObserver,
     { provide: ActionTriggerEventParser, useClass: ZodActionTriggerEventParser },
+    { provide: ConfigurationEventParser, useClass: ZodConfigurationEventParser },
     MediaEventObserver,
     { provide: MediaEventParser, useClass: ZodMediaEventParserService },
   ],
