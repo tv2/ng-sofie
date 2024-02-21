@@ -13,30 +13,32 @@ export class MiniShelfNavigationService {
     const currentMiniShelfSegmentIndex: number = currentActionId ? this.getCurrentMiniShelfSegmentIndexFromActionId(currentActionId, miniShelfSegmentGroup, rundownActions) : -1
 
     const nextMiniShelfSegmentIndex: number = (currentMiniShelfSegmentIndex + 1) % miniShelfSegmentGroup.length
+
     return miniShelfSegmentGroup[nextMiniShelfSegmentIndex]
   }
 
   private getCurrentMiniShelfActionId(rundown: Rundown): string | undefined {
     const onAirPart: Tv2Part = this.getOnAirPart(rundown)
     const nextPart: Tv2Part = this.getNextPart(rundown)
+
     return nextPart?.metadata?.actionId ?? onAirPart.metadata?.actionId
   }
 
   private getOnAirPart(rundown: Rundown): Tv2Part {
     const nextPart: Part | undefined = rundown.segments.find(segment => segment.isOnAir)?.parts.find(part => part.isOnAir)
-
     if (!nextPart) {
       throw new Error('Unable to to find next part.')
     }
+
     return nextPart as Tv2Part
   }
 
   private getNextPart(rundown: Rundown): Tv2Part {
     const nextPart: Part | undefined = rundown.segments.find(segment => segment.isNext)?.parts.find(part => part.isNext)
-
     if (!nextPart) {
       throw new Error('Unable to to find next part.')
     }
+
     return nextPart as Tv2Part
   }
 
@@ -45,12 +47,15 @@ export class MiniShelfNavigationService {
     if (onAirSegmentIndex < 0) {
       throw new Error('Unable to find on air segment.')
     }
+
     const firstMiniShelfIndex: number = rundown.segments.findIndex((segment, index) => index > onAirSegmentIndex && this.isMiniShelf(segment))
     if (firstMiniShelfIndex < 0) {
       throw new Error('Unable to find mini shelf.')
     }
+
     const maybeLastMiniShelfIndex: number = rundown.segments.findIndex((segment, index) => index > firstMiniShelfIndex && !this.isMiniShelf(segment))
     const lastMiniShelfIndex: number = maybeLastMiniShelfIndex < 0 ? rundown.segments.length : maybeLastMiniShelfIndex
+
     return rundown.segments.slice(firstMiniShelfIndex, lastMiniShelfIndex)
   }
 
@@ -65,6 +70,7 @@ export class MiniShelfNavigationService {
     if (!videoClipAction) {
       return -1
     }
+
     return miniShelfSegmentGroup.findIndex(segment => segment.name === videoClipAction.name && segment.metadata?.miniShelfVideoClipFile === videoClipAction.metadata.fileName)
   }
 
@@ -74,6 +80,7 @@ export class MiniShelfNavigationService {
     const currentMiniShelfSegmentIndex: number = currentActionId ? this.getCurrentMiniShelfSegmentIndexFromActionId(currentActionId, miniShelfSegmentGroup, rundownActions) : 0
 
     const nextMiniShelfSegmentIndex: number = (miniShelfSegmentGroup.length + currentMiniShelfSegmentIndex - 1) % miniShelfSegmentGroup.length
+
     return miniShelfSegmentGroup[nextMiniShelfSegmentIndex]
   }
 }
