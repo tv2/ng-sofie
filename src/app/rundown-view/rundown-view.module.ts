@@ -32,6 +32,9 @@ import { OnAirDetailsPanelComponent } from './components/on-air-details-panel/on
 import { CountdownLabelComponent } from './components/countdown-label/countdown-label.component'
 import { ActionTriggerProducerKeyBindingService } from './services/action-trigger-producer-key-binding.service'
 import { MiniShelfComponent } from './components/mini-shelf/mini-shelf.component'
+import { VideoHoverScrubComponent } from './components/rundown-tooltips/video-hover-scrub/video-hover-scrub.component'
+import { MiniShelfTooltipComponent } from './components/rundown-tooltips/mini-shelf-tooltip/mini-shelf-tooltip.component'
+import { PieceTooltipComponent } from './components/rundown-tooltips/piece-tooltip/piece-tooltip.component'
 import { MiniShelfCycleService } from './services/mini-shelf-cycle.service'
 import { MiniShelfNavigationService } from './services/mini-shelf-navigation.service'
 
@@ -57,6 +60,9 @@ import { MiniShelfNavigationService } from './services/mini-shelf-navigation.ser
     RundownViewComponent,
     CountdownLabelComponent,
     MiniShelfComponent,
+    VideoHoverScrubComponent,
+    PieceTooltipComponent,
+    MiniShelfTooltipComponent,
   ],
   exports: [SegmentComponent],
   providers: [

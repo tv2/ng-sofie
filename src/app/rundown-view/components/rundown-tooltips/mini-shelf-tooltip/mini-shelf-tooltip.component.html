@@ -1,0 +1,10 @@
+<div #tooltipHoverElement class="c-hover-scrub-hover-element"></div>
+
+<sofie-tooltip [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
+  <sofie-video-hover-scrub
+    [filename]="filename"
+    [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth"
+    [durationInMs]="durationInMs"
+    [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
+  </sofie-video-hover-scrub>
+</sofie-tooltip>

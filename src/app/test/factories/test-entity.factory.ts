@@ -11,6 +11,7 @@ import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 import { Tv2SegmentMetadata } from '../../core/models/tv2-segment-metadata'
 import { AutoNextStartedEvent, PartSetAsNextEvent, RundownResetEvent } from '../../core/models/rundown-event'
 import { RundownEventType } from '../../core/models/rundown-event-type'
+import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -69,6 +70,7 @@ export class TestEntityFactory {
       layer: 'layer-id',
       start: 0,
       isPlanned: true,
+      lifespan: PieceLifespan.WITHIN_PART,
       ...piece,
     }
   }
