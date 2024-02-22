@@ -12,7 +12,8 @@ import { EventSubscription } from 'src/app/event-system/abstractions/event-obser
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
-import { PartEvent } from '../../../core/models/rundown-event'
+import { PartEvent, RundownInfinitePiecesUpdatedEvent } from '../../../core/models/rundown-event'
+import { Piece } from '../../../core/models/piece'
 
 const SMOOTH_SCROLL_CONFIGURATION: ScrollIntoViewOptions = {
   behavior: 'smooth',
@@ -68,12 +69,21 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     this.subscribeToEventObserver()
   }
 
+  private updateInfinitePieces(event: RundownInfinitePiecesUpdatedEvent): void {
+    event.infinitePieces.forEach((infinitePiece: Piece) => {
+      this.rundown.segments
+        .find(segment => segment.isOnAir)
+        ?.parts.find(part => part.id === infinitePiece.partId)
+        ?.pieces.push(infinitePiece)
+    })
+  }
+
   private subscribeToEventObserver(): void {
+    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownInfinitePiecesUpdated(this.updateInfinitePieces.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownAutoNext(this.setAutoNextStartedToTrue.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownReset(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownDeactivation(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownTake(this.scrollViewToSegment.bind(this)))
-
     this.rundownEventSubscriptions.push(
       this.rundownEventObserver.subscribeToRundownSetNext(event => {
         this.setAutoNextStartedToFalse()

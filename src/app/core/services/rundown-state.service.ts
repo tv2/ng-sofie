@@ -52,8 +52,8 @@ export class RundownStateService implements OnDestroy {
   }
 
   private subscribeToEvents(): void {
-    const connectionStatusSubscriptions = this.subscribeToConnectionStatus()
-    const rundownEventSubscriptions = this.subscribeToRundownEvents()
+    const connectionStatusSubscriptions: EventSubscription[] = this.subscribeToConnectionStatus()
+    const rundownEventSubscriptions: EventSubscription[] = this.subscribeToRundownEvents()
     this.eventSubscriptions = [...rundownEventSubscriptions, ...connectionStatusSubscriptions]
   }
 
