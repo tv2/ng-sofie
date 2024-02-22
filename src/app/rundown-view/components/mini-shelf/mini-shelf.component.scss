@@ -28,6 +28,10 @@
     border-right: solid 2px var(--next-color);
   }
 
+  .media-unavailable {
+    background: var(--transparent-and-red-stripes);
+  }
+
   &__thumbnail {
     display: flex;
     padding: 0;
@@ -44,7 +48,6 @@
     height: 18px;
     align-items: center;
     justify-content: space-between;
-    background: var(--blue-color);
     text-shadow: var(--black-color) 0 0 2px;
     font-weight: 450;
     font-size: 12px;

@@ -8,10 +8,12 @@ import { Tv2ActionContentType, Tv2PartAction, Tv2VideoClipAction } from 'src/app
 import { PartActionType } from 'src/app/shared/models/action-type'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
-import { Tv2SegmentMetadata } from '../../core/models/tv2-segment-metadata'
+import { StudioConfiguration } from '../../shared/models/studio-configuration'
+import { Media } from '../../shared/services/media'
+import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
 import { AutoNextStartedEvent, PartSetAsNextEvent, RundownResetEvent } from '../../core/models/rundown-event'
 import { RundownEventType } from '../../core/models/rundown-event-type'
-import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
+import { Tv2SegmentMetadata } from '../../core/models/tv2-segment-metadata'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -144,5 +146,27 @@ export class TestEntityFactory {
       type: RundownEventType.SET_NEXT,
       ...partSetAsNextEvent,
     } as PartSetAsNextEvent
+  }
+
+  public createStudioConfiguration(studioConfiguration: Partial<StudioConfiguration> = {}): StudioConfiguration {
+    return {
+      settings: {
+        mediaPreviewUrl: 'http://media.preview.url',
+      },
+      blueprintConfiguration: {
+        JingleFolder: 'jingle-folder',
+        ServerPostrollDuration: 4200,
+      },
+      ...studioConfiguration,
+    }
+  }
+
+  public createMedia(media: Partial<Media> = {}): Media {
+    return {
+      id: 'media-id',
+      sourceName: 'media',
+      duration: 5 * 60 * 1000,
+      ...media,
+    }
   }
 }

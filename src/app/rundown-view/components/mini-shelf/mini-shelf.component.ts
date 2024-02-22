@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
 import { StudioConfiguration } from '../../../shared/models/studio-configuration'
@@ -63,9 +63,6 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private calculateMediaDurationInMsWithoutPostroll(): void {
-    if (!this.segment.metadata?.miniShelfVideoClipFile) {
-      return
-    }
     if (!this.studioConfiguration) {
       return
     }
@@ -75,7 +72,12 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if ('segment' in changes) {
+    const segmentChange: SimpleChange | undefined = changes['segment']
+    if (segmentChange) {
+      if (segmentChange.previousValue === segmentChange.currentValue) {
+        return
+      }
+
       this.updateMediaAndCalculate()
     }
   }
@@ -89,6 +91,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.studioConfiguration?.settings.mediaPreviewUrl) {
       return this.fallbackPreviewUrl
     }
+
     return `${this.studioConfiguration.settings.mediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
   }
 
@@ -109,6 +112,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.videoClipAction) {
       return
     }
+
     this.actionService.executeAction(this.videoClipAction.id, this.segment.rundownId).subscribe()
   }
 
@@ -119,6 +123,10 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   private updateMedia(media: Media | undefined): void {
     this.media = media
     this.calculateMediaDurationInMsWithoutPostroll()
+  }
+
+  public get isMediaUnavailable(): boolean {
+    return !!this.mediaSubscription && !this.media
   }
 
   protected shouldShowOnAirBorder(): boolean {
