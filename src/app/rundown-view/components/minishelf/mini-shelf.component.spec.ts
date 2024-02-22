@@ -37,7 +37,7 @@ describe('MiniShelfComponent', () => {
     expect(titleElement?.textContent).toBe(expectedTitle)
   })
 
-  it('calculates value of 01:23:45 for given media with duration of 5030000ms', async () => {
+  it('calculates value of 01:23:45 for given media with duration of 5030000ms and serverPostrollDuration of 4200ms', async () => {
     await configureTestBed({
       mockedConfigurationService: createConfigurationService(),
       mockedMediaStateService: createMediaStateService({ duration: 5030000 }),
@@ -56,6 +56,48 @@ describe('MiniShelfComponent', () => {
     const durationElement: HTMLElement = fixture.nativeElement.querySelector('span.c-mini-shelf__duration')
 
     expect(durationElement?.textContent).toEqual('01:23:45')
+  })
+
+  it('calculates value of 00:01 for given media with duration of 5700ms and serverPostrollDuration of 4200ms', async () => {
+    await configureTestBed({
+      mockedConfigurationService: createConfigurationService(),
+      mockedMediaStateService: createMediaStateService({ duration: 5700 }),
+    })
+
+    const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
+    const component: MiniShelfComponent = fixture.componentInstance
+    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+
+    component.segment = testEntityFactory.createSegment({ name: 'media', metadata: createTv2SegmentMetadata() })
+
+    component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
+
+    fixture.detectChanges()
+
+    const durationElement: HTMLElement = fixture.nativeElement.querySelector('span.c-mini-shelf__duration')
+
+    expect(durationElement?.textContent).toEqual('00:01')
+  })
+
+  it('calculates value of 00:00 for given media with duration of 1234ms and serverPostrollDuration of 4200ms', async () => {
+    await configureTestBed({
+      mockedConfigurationService: createConfigurationService(),
+      mockedMediaStateService: createMediaStateService({ duration: 1234 }),
+    })
+
+    const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
+    const component: MiniShelfComponent = fixture.componentInstance
+    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+
+    component.segment = testEntityFactory.createSegment({ name: 'media', metadata: createTv2SegmentMetadata() })
+
+    component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
+
+    fixture.detectChanges()
+
+    const durationElement: HTMLElement = fixture.nativeElement.querySelector('span.c-mini-shelf__duration')
+
+    expect(durationElement?.textContent).toEqual('00:00')
   })
 
   it('should have thumbnail with correct url', async () => {
