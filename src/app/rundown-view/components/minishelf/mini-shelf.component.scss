@@ -16,6 +16,10 @@
     box-shadow: 0 0 3px 3px var(--gradient-green-rgba-with-04-opacity-color);
   }
 
+  .media-unavailable {
+    background: var(--transparent-and-red-stripes);
+  }
+
   &__thumbnail {
     width: 100%;
     height: 60px;
@@ -31,7 +35,6 @@
     align-items: center;
     justify-content: space-between;
     height: 18px;
-    background: var(--blue-color);
     padding: 2px;
     text-shadow: var(--black-color) 0 0 2px;
     font-weight: 450;

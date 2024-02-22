@@ -4,10 +4,12 @@ import { Rundown } from '../../core/models/rundown'
 import { Piece } from '../../core/models/piece'
 import { RundownTimingType } from '../../core/enums/rundown-timing-type'
 import { ActionTrigger } from 'src/app/shared/models/action-trigger'
-import { Tv2ActionContentType, Tv2PartAction } from 'src/app/shared/models/tv2-action'
+import { Tv2ActionContentType, Tv2PartAction, Tv2VideoClipAction } from 'src/app/shared/models/tv2-action'
 import { PartActionType } from 'src/app/shared/models/action-type'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
+import { StudioConfiguration } from '../../shared/models/studio-configuration'
+import { Media } from '../../shared/services/media'
 import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
 
 export class TestEntityFactory {
@@ -96,6 +98,42 @@ export class TestEntityFactory {
         contentType: Tv2ActionContentType.CAMERA,
       },
       ...actionTrigger,
+    }
+  }
+
+  public createTv2VideoClipAction(tv2VideoClipAction: Partial<Tv2VideoClipAction> = {}): Tv2VideoClipAction {
+    return {
+      id: 'tv2-video-clip-action-id',
+      name: 'tv2-video-clip-action-name',
+      type: PartActionType.INSERT_PART_AS_ON_AIR,
+      description: 'tv2-video-clip-action-description',
+      metadata: {
+        contentType: Tv2ActionContentType.VIDEO_CLIP,
+        fileName: 'tv2-video-clip-action-file-name',
+      },
+      ...tv2VideoClipAction,
+    }
+  }
+
+  public createStudioConfiguration(studioConfiguration: Partial<StudioConfiguration> = {}): StudioConfiguration {
+    return {
+      settings: {
+        mediaPreviewUrl: 'http://media.preview.url',
+      },
+      blueprintConfiguration: {
+        JingleFolder: 'jingle-folder',
+        ServerPostrollDuration: 4200,
+      },
+      ...studioConfiguration,
+    }
+  }
+
+  public createMedia(media: Partial<Media> = {}): Media {
+    return {
+      id: 'media-id',
+      sourceName: 'media',
+      duration: 5 * 60 * 1000,
+      ...media,
     }
   }
 }

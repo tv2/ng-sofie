@@ -28,13 +28,7 @@
       right: 0;
       bottom: 0;
       left: 0;
-      background: repeating-linear-gradient(
-        45deg,
-        var(--transparent-color),
-        var(--transparent-color) 12px,
-        var(--rundown-media-unavailable-color) 12px,
-        var(--rundown-media-unavailable-color) 18px
-      );
+      background: var(--transparent-and-red-stripes);
       z-index: 10;
     }
   }

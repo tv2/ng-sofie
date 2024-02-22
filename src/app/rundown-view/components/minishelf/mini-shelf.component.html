@@ -3,15 +3,21 @@
   title="{{ segment.name }}"
   (click)="executeAction()"
 >
-  <img
-        class="c-mini-shelf__thumbnail"
-        src="{{ mediaPreviewUrl }}"
-        alt="{{ segment.name? segment.name : 'Title is not available.' }}"
-        (error)=handleMissingImage($event)
-    />
-  <div class="c-mini-shelf__note">
-    <span class="c-mini-shelf__title">{{ getSanitizedTitle() | uppercase }}</span>
-    <span class="c-mini-shelf__duration">{{ mediaDurationInMsWithoutPostroll | timer : 'HH?:mm:ss' }}</span>
-  </div>
-  <sofie-mini-shelf-tooltip [durationInMs]="mediaDurationInMsWithoutPostroll" [filename]="mediaFilename"></sofie-mini-shelf-tooltip>
+    <!--  TODO: add ThumbnailComponent and use it here-->
+    <div
+      class="c-mini-shelf__media-container"
+      [ngClass]="{'media-unavailable': isMediaUnavailable}"
+    >
+        <img
+            class="c-mini-shelf__thumbnail"
+            src="{{ mediaPreviewUrl }}"
+            alt="{{ segment.name? segment.name : 'Title is not available.' }}"
+            (error)=handleMissingImage($event)
+        />
+        <div class="c-mini-shelf__note">
+            <span class="c-mini-shelf__title">{{ getSanitizedTitle() | uppercase }}</span>
+            <span class="c-mini-shelf__duration">{{ mediaDurationInMsWithoutPostroll | timer : 'HH?:mm:ss' }}</span>
+        </div>
+        <sofie-mini-shelf-tooltip [durationInMs]="mediaDurationInMsWithoutPostroll" [filename]="mediaFilename"></sofie-mini-shelf-tooltip>
+    </div>
 </div>
