@@ -10,6 +10,7 @@ import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 import { StudioConfiguration } from '../../shared/models/studio-configuration'
 import { Media } from '../../shared/services/media'
+import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -68,6 +69,7 @@ export class TestEntityFactory {
       layer: 'layer-id',
       start: 0,
       isPlanned: true,
+      lifespan: PieceLifespan.WITHIN_PART,
       ...piece,
     }
   }
@@ -119,6 +121,7 @@ export class TestEntityFactory {
         mediaPreviewUrl: 'http://media.preview.url',
       },
       blueprintConfiguration: {
+        JingleFolder: 'jingle-folder',
         ServerPostrollDuration: 4200,
       },
       ...studioConfiguration,

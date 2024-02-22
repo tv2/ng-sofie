@@ -3,7 +3,7 @@
   title="{{ segment.name }}"
   (click)="executeAction()"
 >
-<!--  TODO: add ThumbnailComponent and use it here-->
+    <!--  TODO: add ThumbnailComponent and use it here-->
     <div
       class="c-mini-shelf__media-container"
       [ngClass]="{'media-unavailable': isMediaUnavailable}"
@@ -18,7 +18,6 @@
             <span class="c-mini-shelf__title">{{ getSanitizedTitle() | uppercase }}</span>
             <span class="c-mini-shelf__duration">{{ mediaDurationInMsWithoutPostroll | timer : 'HH?:mm:ss' }}</span>
         </div>
+        <sofie-mini-shelf-tooltip [durationInMs]="mediaDurationInMsWithoutPostroll" [filename]="mediaFilename"></sofie-mini-shelf-tooltip>
     </div>
 </div>
-
-

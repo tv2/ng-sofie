@@ -115,4 +115,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   public get isMediaUnavailable(): boolean {
     return !!this.mediaSubscription && !this.media
   }
+
+  public get mediaFilename(): string {
+    return this.segment.metadata?.miniShelfVideoClipFile ?? ''
+  }
 }
