@@ -1,0 +1,11 @@
+.c-sofie-tooltip-wrapper {
+  position: absolute;
+  z-index: 9999;
+  transform: translate(0, -100%);
+  width: 100%;
+  overflow: visible;
+  .c-sofie-tooltip-content {
+    position: relative;
+    display: inline-block;
+  }
+}

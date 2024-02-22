@@ -1,10 +1,10 @@
+import { Tv2Piece } from 'src/app/core/models/tv2-piece'
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
-import { Piece } from '../../../core/models/piece'
-import { Tv2Piece } from '../../../core/models/tv2-piece'
 import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { Subscription } from 'rxjs'
+import { Piece } from 'src/app/core/models/piece'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 
