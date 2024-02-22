@@ -20,7 +20,11 @@ import { EventSubscription } from '../../../event-system/abstractions/event-obse
 
 describe('RundownComponent', () => {
   it('should create', async () => {
+    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
     const component: RundownComponent = await configureTestBed()
+
+    component.rundown = testEntityFactory.createRundown()
+
     expect(component).toBeTruthy()
   })
 })
@@ -60,13 +64,7 @@ async function configureTestBed(
 
   const fixture: ComponentFixture<RundownComponent> = TestBed.createComponent(RundownComponent)
 
-  const component: RundownComponent = fixture.componentInstance
-
-  component.rundown = params.mockedRundown ?? new TestEntityFactory().createRundown()
-
-  fixture.detectChanges()
-
-  return component
+  return fixture.componentInstance
 }
 
 function createMockOfRundownTimingContextStateService(): RundownTimingContextStateService {
@@ -84,10 +82,10 @@ function createMockOfActionStateService(): ActionStateService {
 }
 
 function createMockedEventSubscription(): EventSubscription {
-  const mockedSubscription = mock<EventSubscription>()
-  when(mockedSubscription.unsubscribe()).thenReturn()
+  const mockedEventSubscription: EventSubscription = mock<EventSubscription>()
+  when(mockedEventSubscription.unsubscribe()).thenCall(() => {})
 
-  return instance(mockedSubscription)
+  return instance(mockedEventSubscription)
 }
 
 function createMockOfRundownEventObserver(): RundownEventObserver {

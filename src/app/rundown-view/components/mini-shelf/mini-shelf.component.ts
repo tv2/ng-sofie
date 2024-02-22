@@ -128,4 +128,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   protected shouldShowNextBorder(): boolean {
     return !!this.actionIdForNextPart && this.actionIdForNextPart == this.videoClipAction?.id
   }
+
+  public get mediaFilename(): string {
+    return this.segment.metadata?.miniShelfVideoClipFile ?? ''
+  }
 }
