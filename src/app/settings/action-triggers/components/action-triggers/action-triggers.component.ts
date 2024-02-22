@@ -41,13 +41,12 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
       .getActionTriggerObservable()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(actionTriggers => {
-        this.actionTriggersWithAction = JSON.parse(
-          JSON.stringify(
-            (actionTriggers as ActionTrigger<KeyboardTriggerData>[]).map(actionTrigger => {
-              return { actionTrigger: { ...actionTrigger }, action: this.actions.find(action => action.id === actionTrigger.actionId) }
-            })
-          )
-        )
+        this.actionTriggersWithAction = actionTriggers.map(actionTrigger => {
+          return {
+            actionTrigger,
+            action: this.actions.find(action => action.id === actionTrigger.actionId),
+          } as ActionTriggerWithAction<KeyboardTriggerData>
+        })
         this.setIsLoading(false)
       })
   }
