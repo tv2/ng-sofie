@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs'
 import { ActionService } from '../../../shared/abstractions/action.service'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
+import { RundownStateService } from '../../../core/services/rundown-state.service'
+import { Tv2Part } from '../../../core/models/tv2-part'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -15,46 +17,49 @@ import { Media } from '../../../shared/services/media'
 })
 export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
-  @Input() public videoClipAction: Tv2VideoClipAction | undefined
+  @Input() public videoClipAction?: Tv2VideoClipAction
+
+  private actionIdForOnAirPart?: string
+  private actionIdForNextPart?: string
 
   private readonly fallbackPreviewUrl: string = 'assets/sofie-logo.svg'
   protected media: Media | undefined
   private configurationServiceSubscription: Subscription
-  private studioConfiguration: StudioConfiguration | undefined
+  private mediaSubscription?: Subscription
+  private studioConfiguration?: StudioConfiguration
   protected mediaDurationInMsWithoutPostroll: number = 0
-  private mediaSubscription: Subscription | undefined
 
   constructor(
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
-    private readonly mediaStateService: MediaStateService
+    private readonly mediaStateService: MediaStateService,
+    private readonly rundownStateService: RundownStateService
   ) {}
 
   public ngOnInit(): void {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
       this.studioConfiguration = studioConfiguration
     })
-    this.subscribeToMedia()
+    this.updateMediaAndCalculate()
+
+    this.rundownStateService.subscribeToOnAirPart(this.segment.rundownId).subscribe(onAirPart => {
+      const onAirTv2Part: Tv2Part | undefined = onAirPart as Tv2Part | undefined
+      this.actionIdForOnAirPart = onAirTv2Part?.metadata?.actionId
+    })
+
+    this.rundownStateService.subscribeToNextPart(this.segment.rundownId).subscribe(nextPart => {
+      const nextTv2Part: Tv2Part | undefined = nextPart as Tv2Part | undefined
+      this.actionIdForNextPart = nextTv2Part?.metadata?.actionId
+    })
   }
 
-  private subscribeToMedia(): void {
-    const mediaFileName: string = this.getSegmentMediaFileName(this.segment)
-    if (!mediaFileName) {
+  private updateMediaAndCalculate(): void {
+    if (!this.segment.metadata?.miniShelfVideoClipFile) {
       return
     }
-    this.mediaSubscription = this.mediaStateService.subscribeToMedia(mediaFileName).subscribe(this.updateMediaAvailabilityStatus.bind(this))
-  }
 
-  private getSegmentMediaFileName(segment: Segment): string {
-    return segment.metadata?.miniShelfVideoClipFile ?? ''
-  }
-
-  private updateMediaAvailabilityStatus(media: Media | undefined): void {
-    this.media = media
-    if (!media) {
-      return
-    }
-    this.calculateMediaDurationInMsWithoutPostroll()
+    this.mediaSubscription?.unsubscribe()
+    this.mediaSubscription = this.mediaStateService.subscribeToMedia(this.segment.metadata?.miniShelfVideoClipFile).subscribe(media => this.updateMedia(media))
   }
 
   private calculateMediaDurationInMsWithoutPostroll(): void {
@@ -72,7 +77,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
       if (segmentChange.previousValue === segmentChange.currentValue) {
         return
       }
-      this.subscribeToMedia()
+
+      this.updateMediaAndCalculate()
     }
   }
 
@@ -85,6 +91,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.studioConfiguration?.settings.mediaPreviewUrl) {
       return this.fallbackPreviewUrl
     }
+
     return `${this.studioConfiguration.settings.mediaPreviewUrl}/media/thumbnail/${this.segment.metadata?.miniShelfVideoClipFile}`
   }
 
@@ -105,6 +112,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.videoClipAction) {
       return
     }
+
     this.actionService.executeAction(this.videoClipAction.id, this.segment.rundownId).subscribe()
   }
 
@@ -112,8 +120,21 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     ;(event.target as HTMLImageElement).src = this.fallbackPreviewUrl
   }
 
+  private updateMedia(media: Media | undefined): void {
+    this.media = media
+    this.calculateMediaDurationInMsWithoutPostroll()
+  }
+
   public get isMediaUnavailable(): boolean {
     return !!this.mediaSubscription && !this.media
+  }
+
+  protected shouldShowOnAirBorder(): boolean {
+    return !!this.actionIdForOnAirPart && this.actionIdForOnAirPart === this.videoClipAction?.id
+  }
+
+  protected shouldShowNextBorder(): boolean {
+    return !!this.actionIdForNextPart && this.actionIdForNextPart == this.videoClipAction?.id
   }
 
   public get mediaFilename(): string {

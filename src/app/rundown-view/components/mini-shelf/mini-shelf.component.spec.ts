@@ -7,11 +7,16 @@ import { TimerPipe } from '../../../shared/pipes/timer/timer.pipe'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { ActionService } from '../../../shared/abstractions/action.service'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { RundownStateService } from '../../../core/services/rundown-state.service'
+import { RundownEventObserver } from '../../../core/services/rundown-event-observer.service'
 import { TestEntityFactory } from '../../../test/factories/test-entity.factory'
 import { StudioConfiguration } from '../../../shared/models/studio-configuration'
 import { Observable } from 'rxjs'
 import { Media } from '../../../shared/services/media'
 import { Tv2SegmentMetadata } from '../../../core/models/tv2-segment-metadata'
+import { MiniShelfTooltipComponent } from '../rundown-tooltips/mini-shelf-tooltip/mini-shelf-tooltip.component'
+import { TooltipComponent } from '../../../shared/components/tooltip/tooltip.component'
+import { VideoHoverScrubComponent } from '../rundown-tooltips/video-hover-scrub/video-hover-scrub.component'
 
 describe('MiniShelfComponent', () => {
   it('should have segment name capitalized as title text', async () => {
@@ -223,12 +228,22 @@ function createMediaStateService(media: Partial<Media> = {}): MediaStateService 
   return mockedMediaStateService
 }
 
+function createMockOfRundownStateService(): RundownStateService {
+  const mockedRundownStateService: RundownStateService = mock<RundownStateService>()
+  when(mockedRundownStateService.subscribeToOnAirPart(anyString())).thenCall(() => new Observable())
+  when(mockedRundownStateService.subscribeToNextPart(anyString())).thenCall(() => new Observable())
+
+  return mockedRundownStateService
+}
+
 async function configureTestBed(
   params: {
+    mockedRundownStateService?: RundownStateService
     mockedMediaStateService?: MediaStateService
     mockedConfigurationService?: ConfigurationService
     mockedActionStateService?: ActionStateService
     mockedActionService?: ActionService
+    mockedRundownEventObserver?: RundownEventObserver
   } = {}
 ): Promise<void> {
   const mockedConfigurationService: ConfigurationService = params.mockedConfigurationService ?? mock<ConfigurationService>()
@@ -236,15 +251,22 @@ async function configureTestBed(
   const mockedMediaStateService: MediaStateService = params.mockedMediaStateService ?? mock<MediaStateService>()
   const mockedActionService: ActionService = params.mockedActionService ?? mock<ActionService>()
   const mockedLogger: Logger = mock<Logger>()
+  const mockedRundownStateService: RundownStateService = params.mockedRundownStateService ?? createMockOfRundownStateService()
+  const mockedRundownEventObserver: RundownEventObserver = params.mockedRundownEventObserver ?? mock<RundownEventObserver>()
 
   await TestBed.configureTestingModule({
-    declarations: [MiniShelfComponent, TimerPipe],
+    declarations: [MiniShelfComponent, TimerPipe, MiniShelfTooltipComponent, TooltipComponent, VideoHoverScrubComponent],
     providers: [
       { provide: ConfigurationService, useValue: instance(mockedConfigurationService) },
       { provide: ActionStateService, useValue: instance(mockedActionStateService) },
       { provide: MediaStateService, useValue: instance(mockedMediaStateService) },
       { provide: ActionService, useValue: instance(mockedActionService) },
+      { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
       { provide: Logger, useValue: instance(mockedLogger) },
+      { provide: RundownEventObserver, useValue: instance(mockedRundownEventObserver) },
+      { provide: MiniShelfTooltipComponent, useValue: mock<MiniShelfTooltipComponent>() },
+      { provide: TooltipComponent, useValue: mock<TooltipComponent>() },
+      { provide: VideoHoverScrubComponent, useValue: mock<VideoHoverScrubComponent>() },
     ],
   }).compileComponents()
 }

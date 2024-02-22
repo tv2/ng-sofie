@@ -1,6 +1,7 @@
 <div
   class="c-mini-shelf"
-  title="{{ segment.name }}"
+  [ngClass]="{ 'on-air': shouldShowOnAirBorder(), 'next': shouldShowNextBorder() }"
+  [title]=segment.name
   (click)="executeAction()"
 >
     <!--  TODO: add ThumbnailComponent and use it here-->
@@ -10,8 +11,8 @@
     >
         <img
             class="c-mini-shelf__thumbnail"
-            src="{{ mediaPreviewUrl }}"
-            alt="{{ segment.name? segment.name : 'Title is not available.' }}"
+            [src]=mediaPreviewUrl
+            [alt]="segment.name? segment.name : 'Title is not available.'"
             (error)=handleMissingImage($event)
         />
         <div class="c-mini-shelf__note">

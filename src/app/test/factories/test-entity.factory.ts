@@ -11,6 +11,9 @@ import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 import { StudioConfiguration } from '../../shared/models/studio-configuration'
 import { Media } from '../../shared/services/media'
 import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
+import { AutoNextStartedEvent, PartSetAsNextEvent, RundownResetEvent } from '../../core/models/rundown-event'
+import { RundownEventType } from '../../core/models/rundown-event-type'
+import { Tv2SegmentMetadata } from '../../core/models/tv2-segment-metadata'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -101,18 +104,48 @@ export class TestEntityFactory {
     }
   }
 
-  public createTv2VideoClipAction(tv2VideoClipAction: Partial<Tv2VideoClipAction> = {}): Tv2VideoClipAction {
+  public createMiniShelfSegment(params?: { id?: string; name?: string; miniShelfVideoClipFile?: string }): Segment {
+    const segmentMetadata: Tv2SegmentMetadata = {
+      miniShelfVideoClipFile: params?.miniShelfVideoClipFile ?? 'someFileName',
+    }
+    return this.createSegment({
+      id: params?.id ?? 'segmentId',
+      name: params?.name ?? 'segmentName',
+      isHidden: true,
+      metadata: segmentMetadata,
+    })
+  }
+
+  public createTv2VideoClipAction(name?: string, fileName?: string): Tv2VideoClipAction {
     return {
-      id: 'tv2-video-clip-action-id',
-      name: 'tv2-video-clip-action-name',
-      type: PartActionType.INSERT_PART_AS_ON_AIR,
-      description: 'tv2-video-clip-action-description',
+      id: `actionId_${fileName ?? 'someFileName'}`,
+      name: name ?? 'actionName',
       metadata: {
         contentType: Tv2ActionContentType.VIDEO_CLIP,
-        fileName: 'tv2-video-clip-action-file-name',
+        fileName: fileName ?? 'someFileName',
       },
-      ...tv2VideoClipAction,
-    }
+    } as Tv2VideoClipAction
+  }
+
+  public createRundownResetEvent(rundownResetEvent: Partial<RundownResetEvent> = {}): RundownResetEvent {
+    return {
+      type: RundownEventType.RESET,
+      ...rundownResetEvent,
+    } as RundownResetEvent
+  }
+
+  public createAutoNextStartedEvent(autoNextStartedEvent: Partial<AutoNextStartedEvent> = {}): AutoNextStartedEvent {
+    return {
+      type: RundownEventType.AUTO_NEXT_STARTED,
+      ...autoNextStartedEvent,
+    } as AutoNextStartedEvent
+  }
+
+  public createPartSetAsNextEvent(partSetAsNextEvent: Partial<PartSetAsNextEvent> = {}): PartSetAsNextEvent {
+    return {
+      type: RundownEventType.SET_NEXT,
+      ...partSetAsNextEvent,
+    } as PartSetAsNextEvent
   }
 
   public createStudioConfiguration(studioConfiguration: Partial<StudioConfiguration> = {}): StudioConfiguration {

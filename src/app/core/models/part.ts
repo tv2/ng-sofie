@@ -15,4 +15,5 @@ export interface Part {
   readonly isUnsynced: boolean
   readonly isPlanned: boolean
   readonly isUntimed: boolean
+  readonly metadata?: unknown
 }
