@@ -56,6 +56,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     }
     this.calculateMediaDurationInMsWithoutPostroll()
   }
+
   private calculateMediaDurationInMsWithoutPostroll(): void {
     if (!this.studioConfiguration) {
       return
