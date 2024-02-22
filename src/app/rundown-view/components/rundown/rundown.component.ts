@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core'
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core'
 import { Rundown } from '../../../core/models/rundown'
 import { Segment } from '../../../core/models/segment'
 import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
@@ -12,6 +12,13 @@ import { EventSubscription } from 'src/app/event-system/abstractions/event-obser
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
+import { PartEvent } from '../../../core/models/rundown-event'
+
+const SMOOTH_SCROLL_CONFIGURATION: ScrollIntoViewOptions = {
+  behavior: 'smooth',
+  block: 'nearest',
+  inline: 'nearest',
+}
 
 @Component({
   selector: 'sofie-rundown',
@@ -33,6 +40,9 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   protected miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
   private rundownActionsSubscription: Subscription
 
+  @ViewChild('segmentList')
+  public segmentListElement: ElementRef<HTMLCanvasElement>
+
   constructor(
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
     private readonly partEntityService: PartEntityService,
@@ -49,14 +59,21 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
       .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
-    this.subscribeForEventObserver()
+    this.subscribeToEventObserver()
   }
 
-  private subscribeForEventObserver(): void {
+  private subscribeToEventObserver(): void {
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownAutoNext(this.setAutoNextStartedToTrue.bind(this)))
-    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownReset(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownDeactivation(this.setAutoNextStartedToFalse.bind(this)))
+    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownTake(this.scrollViewToSegment.bind(this)))
+
+    this.rundownEventSubscriptions.push(
+      this.rundownEventObserver.subscribeToRundownSetNext(event => {
+        this.setAutoNextStartedToFalse()
+        this.scrollViewToSegment(event)
+      })
+    )
   }
 
   private setAutoNextStartedToTrue(): void {
@@ -70,6 +87,20 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       .then(rundownActionsObservable => rundownActionsObservable.subscribe(this.onActionsChanged.bind(this)))
       .then(rundownActionsSubscription => (this.rundownActionsSubscription = rundownActionsSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown actions changes.'))
+  }
+
+  public scrollViewToSegment(event: PartEvent): void {
+    const element: HTMLElement | null = document.getElementById(event.segmentId)
+    if (!element || this.isInsideViewport(element)) {
+      return
+    }
+
+    element.scrollIntoView(SMOOTH_SCROLL_CONFIGURATION)
+  }
+
+  public isInsideViewport(element: HTMLElement): boolean {
+    const elementRect: DOMRect = element.getBoundingClientRect()
+    return elementRect.top >= this.segmentListElement.nativeElement.clientHeight && elementRect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
   }
 
   private onRundownTimingContextChanged(rundownTimingContext: RundownTimingContext): void {
@@ -107,12 +138,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     return Math.max(0, expectedDurationInMsForOnAirSegment - rundownTimingContext.playedDurationInMsForOnAirSegment)
   }
 
-  public ngOnDestroy(): void {
-    this.rundownTimingContextSubscription?.unsubscribe()
-    this.rundownEventSubscriptions.forEach(subscription => subscription.unsubscribe)
-    this.rundownActionsSubscription?.unsubscribe()
-  }
-
   public trackSegment(_: number, segment: Segment): string {
     return segment.id
   }
@@ -132,5 +157,11 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => action.metadata?.fileName === videoClipFile)
 
     return action ? { ...actionMap, [segment.id]: action } : actionMap
+  }
+
+  public ngOnDestroy(): void {
+    this.rundownTimingContextSubscription?.unsubscribe()
+    this.rundownEventSubscriptions.forEach(subscription => subscription.unsubscribe)
+    this.rundownActionsSubscription?.unsubscribe()
   }
 }
