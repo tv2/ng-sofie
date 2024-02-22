@@ -15,6 +15,8 @@ import { Observable } from 'rxjs'
 import { Media } from '../../../shared/services/media'
 import { Tv2SegmentMetadata } from '../../../core/models/tv2-segment-metadata'
 import { MiniShelfTooltipComponent } from '../rundown-tooltips/mini-shelf-tooltip/mini-shelf-tooltip.component'
+import { TooltipComponent } from '../../../shared/components/tooltip/tooltip.component'
+import { VideoHoverScrubComponent } from '../rundown-tooltips/video-hover-scrub/video-hover-scrub.component'
 
 describe('MiniShelfComponent', () => {
   it('should have segment name capitalized as title text', async () => {
@@ -253,7 +255,7 @@ async function configureTestBed(
   const mockedRundownEventObserver: RundownEventObserver = params.mockedRundownEventObserver ?? mock<RundownEventObserver>()
 
   await TestBed.configureTestingModule({
-    declarations: [MiniShelfComponent, TimerPipe, MiniShelfTooltipComponent],
+    declarations: [MiniShelfComponent, TimerPipe, MiniShelfTooltipComponent, TooltipComponent, VideoHoverScrubComponent],
     providers: [
       { provide: ConfigurationService, useValue: instance(mockedConfigurationService) },
       { provide: ActionStateService, useValue: instance(mockedActionStateService) },
@@ -262,6 +264,9 @@ async function configureTestBed(
       { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
       { provide: Logger, useValue: instance(mockedLogger) },
       { provide: RundownEventObserver, useValue: instance(mockedRundownEventObserver) },
+      { provide: MiniShelfTooltipComponent, useValue: mock<MiniShelfTooltipComponent>() },
+      { provide: TooltipComponent, useValue: mock<TooltipComponent>() },
+      { provide: VideoHoverScrubComponent, useValue: mock<VideoHoverScrubComponent>() },
     ],
   }).compileComponents()
 }
