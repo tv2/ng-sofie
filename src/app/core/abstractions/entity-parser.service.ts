@@ -6,7 +6,6 @@ import { Piece } from '../models/piece'
 import { ShowStyleVariant } from '../models/show-style-variant'
 import { Tv2Action } from '../../shared/models/tv2-action'
 import { Media } from '../../shared/services/media'
-import { StudioConfiguration } from '../../shared/models/studio-configuration'
 import { SystemInformation } from '../../shared/models/system-information'
 
 export abstract class EntityParser {
@@ -17,7 +16,6 @@ export abstract class EntityParser {
   public abstract parsePart(part: unknown): Part
   public abstract parsePiece(piece: unknown): Piece
   public abstract parseShowStyleVariant(showStyleVariant: unknown): ShowStyleVariant
-  public abstract parseStudioConfiguration(studioConfiguration: unknown): StudioConfiguration
   public abstract parseTv2Action(tv2Action: unknown): Tv2Action
   public abstract parseMediaAsset(media: unknown): Media
   public abstract parseMediaAssets(media: unknown): Media[]

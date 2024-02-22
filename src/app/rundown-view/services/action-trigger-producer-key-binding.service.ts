@@ -48,7 +48,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     private readonly actionService: ActionService,
     logger: Logger
   ) {
-    this.logger = logger.tag(ActionTriggerProducerKeyBindingService.name)
+    this.logger = logger.tag('ActionTriggerProducerKeyBindingService')
     this.keyBindingsSubject = new BehaviorSubject(this.keyBindings)
   }
 

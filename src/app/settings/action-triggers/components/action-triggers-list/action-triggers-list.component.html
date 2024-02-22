@@ -44,7 +44,7 @@
               </p>
               <div>
                 <span class="c-custom-badge bg-dark">{{
-                  (actionsTrigger.data.mappedToKeys && actionsTrigger.data.mappedToKeys.length > 0 ? actionsTrigger.data.mappedToKeys : actionsTrigger.data.keys) | formatKeyboardKeys
+                  (actionsTrigger.data.mappedToKeys && actionsTrigger.data.mappedToKeys.length > 0 ? actionsTrigger.data.mappedToKeys! : actionsTrigger.data.keys) | formatKeyboardKeys
                 }}</span>
                 <span class="c-custom-badge bg-gray" [class]="actionTriggerWithActions.action.metadata.contentType.toLocaleLowerCase() + '_color'">{{ actionTriggerWithActions.action.name }}</span>
               </div>
