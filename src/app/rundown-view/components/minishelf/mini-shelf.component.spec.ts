@@ -23,13 +23,17 @@ describe('MiniShelfComponent', () => {
     const component: MiniShelfComponent = fixture.componentInstance
     const testEntityFactory: TestEntityFactory = new TestEntityFactory()
     const segmentName: string = 'segment-with-video-clip'
+
     component.segment = testEntityFactory.createSegment({ name: segmentName })
+
     component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
 
     const titleElement: HTMLElement = fixture.nativeElement.querySelector('span.c-mini-shelf__title')
+
     const expectedTitle: string = segmentName.toUpperCase()
+
     expect(titleElement?.textContent).toBe(expectedTitle)
   })
 
@@ -42,12 +46,15 @@ describe('MiniShelfComponent', () => {
     const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
     const component: MiniShelfComponent = fixture.componentInstance
     const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+
     component.segment = testEntityFactory.createSegment({ name: 'media', metadata: createTv2SegmentMetadata() })
+
     component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
 
     const durationElement: HTMLElement = fixture.nativeElement.querySelector('span.c-mini-shelf__duration')
+
     expect(durationElement?.textContent).toEqual('01:23:45')
   })
 
@@ -60,12 +67,15 @@ describe('MiniShelfComponent', () => {
     const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
     const component: MiniShelfComponent = fixture.componentInstance
     const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+
     component.segment = testEntityFactory.createSegment({ metadata: { miniShelfVideoClipFile: 'video' } })
+
     component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
 
     const thumbnailElement: HTMLElement = fixture.nativeElement.querySelector('img.c-mini-shelf__thumbnail')
+
     expect(thumbnailElement?.getAttribute('src')).toEqual('http://media.preview.url/media/thumbnail/video')
   })
 
@@ -80,12 +90,17 @@ describe('MiniShelfComponent', () => {
     const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
     const component: MiniShelfComponent = fixture.componentInstance
     const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+
     component.segment = testEntityFactory.createSegment({ name: 'media', metadata: createTv2SegmentMetadata() })
+
     component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
 
     const componentElement: HTMLElement = fixture.nativeElement.querySelector('div.c-mini-shelf')
+
+    expect(componentElement).toBeTruthy()
+
     componentElement.click()
 
     verify(actionService.executeAction(anyString(), anyString())).once()
@@ -93,6 +108,7 @@ describe('MiniShelfComponent', () => {
 
   it('should have red zebra stripes on thumbnail if media is not available', async () => {
     const actionService: ActionService = createActionService()
+
     const mockedMediaStateService: MediaStateService = mock<MediaStateService>()
     when(mockedMediaStateService.subscribeToMedia(anyString())).thenCall(
       () =>
@@ -111,7 +127,9 @@ describe('MiniShelfComponent', () => {
     const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
     const component: MiniShelfComponent = fixture.componentInstance
     const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+
     component.segment = testEntityFactory.createSegment({ name: 'media-not-available', metadata: createTv2SegmentMetadata() })
+
     component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
@@ -132,6 +150,7 @@ function createTv2SegmentMetadata(tv2SegmentMetadata: Partial<Tv2SegmentMetadata
 function createActionService(): ActionService {
   const mockedActionService: ActionService = mock<ActionService>()
   when(mockedActionService.executeAction(anyString(), anyString())).thenCall(() => new Observable())
+
   return mockedActionService
 }
 
@@ -145,6 +164,7 @@ function createConfigurationService(): ConfigurationService {
         observer.complete()
       })
   )
+
   return mockedConfigurationService
 }
 
@@ -157,6 +177,7 @@ function createMediaStateService(media: Partial<Media> = {}): MediaStateService 
         observer.complete()
       })
   )
+
   return mockedMediaStateService
 }
 
