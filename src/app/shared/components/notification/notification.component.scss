@@ -31,6 +31,8 @@ $animation-fill-mode: forwards;
 
 .text {
   padding-left: var(--status-color-width);
+  overflow-wrap: break-word;
+  width: 95%;
 }
 
 sofie-icon-button {

@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core'
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
@@ -61,7 +60,6 @@ import { HttpSystemInformationService } from './services/http/http-system-inform
 import { TooltipComponent } from './components/tooltip/tooltip.component'
 import { ConfigurationParser } from './abstractions/configuration-parser.service'
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
-import { NotificationService } from './services/notification.service'
 import { NotificationContainerComponent } from './components/notification-container/notification-container.component'
 import { NotificationComponent } from './components/notification/notification.component'
 
@@ -91,7 +89,6 @@ import { NotificationComponent } from './components/notification/notification.co
   imports: [
     CommonModule,
     HttpClientModule,
-    MatSnackBarModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -132,7 +129,6 @@ import { NotificationComponent } from './components/notification/notification.co
     NotificationContainerComponent,
   ],
   providers: [
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
     { provide: Logger, useClass: Tv2LoggerService },
     { provide: ActionService, useClass: HttpActionService },
     { provide: ActionTriggerService, useClass: HttpActionTriggerService },
@@ -153,7 +149,6 @@ import { NotificationComponent } from './components/notification/notification.co
     MediaStateService,
     RundownNavigationService,
     TimerPipe,
-    NotificationService,
   ],
 })
 export class SharedModule {}

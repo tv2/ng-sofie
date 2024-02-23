@@ -2,6 +2,7 @@ import { AfterViewInit, ApplicationRef, Component, ComponentRef, createComponent
 import { NotificationService } from '../../services/notification.service'
 import { Subject, takeUntil } from 'rxjs'
 import { NotificationComponent } from '../notification/notification.component'
+import { Notification } from '../../models/notification'
 
 const NOTIFICATION_DURATION_MS: number = 5000
 const TOP_PADDING: number = 5
@@ -40,21 +41,22 @@ export class NotificationContainerComponent implements OnInit, OnDestroy, AfterV
     this.notificationService
       .subscribeToNotifications()
       .pipe(takeUntil(this.destroySubject))
-      .subscribe(() => this.createNotification())
+      .subscribe((notification: Notification) => this.createNotification(notification))
   }
 
-  private createNotification(): void {
-    const notificationElement: HTMLElement = this.createNotificationElement()
+  private createNotification(notification: Notification): void {
+    const notificationElement: HTMLElement = this.createNotificationElement(notification)
     this.insertNotificationIntoContainer(notificationElement)
     this.setRemoveNotificationTimer(notificationElement)
     this.moveNotificationsDown()
   }
 
-  private createNotificationElement(): HTMLElement {
+  private createNotificationElement(notification: Notification): HTMLElement {
     const notificationComponentRef: ComponentRef<NotificationComponent> = createComponent(NotificationComponent, {
       environmentInjector: this.applicationRef.injector,
     })
 
+    notificationComponentRef.instance.notification = notification
     notificationComponentRef.instance.onRemoveCallback = (notificationElement: HTMLElement): void => this.removeNotificationElement(notificationElement)
     notificationComponentRef.changeDetectorRef.detectChanges()
 

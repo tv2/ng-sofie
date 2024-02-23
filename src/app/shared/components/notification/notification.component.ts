@@ -1,5 +1,7 @@
-import { Component, ElementRef, Input } from '@angular/core'
+import { Component, ElementRef, Input, OnInit } from '@angular/core'
 import { IconButton, IconButtonSize } from '../../enums/icon-button'
+import { Notification } from '../../models/notification'
+import { StatusCode } from '../../enums/status-code'
 
 const INFO_COLOR: string = 'var(--blue-color)'
 const WARNING_COLOR: string = 'var(--yellow-color)'
@@ -14,14 +16,18 @@ const BACKGROUND_COLOR: string = 'var(--white-color)'
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss'],
 })
-export class NotificationComponent {
+export class NotificationComponent implements OnInit {
+  @Input()
+  public notification: Notification
   @Input()
   public onRemoveCallback: (element: HTMLElement) => void
 
   public readonly IconButton = IconButton
   public readonly IconButtonSize = IconButtonSize
 
-  constructor(private readonly elementRef: ElementRef) {
+  constructor(private readonly elementRef: ElementRef) {}
+
+  public ngOnInit(): void {
     this.setBackground()
   }
 
@@ -35,7 +41,16 @@ export class NotificationComponent {
   }
 
   private getStatusColor(): string {
-    const isEven: number = Math.floor(Math.random() * 10) % 2
-    return isEven ? INFO_COLOR : ERROR_COLOR
+    switch (this.notification.statusCode) {
+      case StatusCode.WARNING: {
+        return WARNING_COLOR
+      }
+      case StatusCode.BAD: {
+        return ERROR_COLOR
+      }
+      default: {
+        return INFO_COLOR
+      }
+    }
   }
 }
