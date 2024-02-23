@@ -7,7 +7,7 @@ const NOTIFICATION_DURATION_MS: number = 5000
 const TOP_PADDING: number = 5
 const PIXEL_POSTFIX: string = 'px'
 
-const STACK_GAP: number = 15
+const STACK_GAP: number = 5
 
 @Component({
   selector: 'sofie-notification-container',
@@ -16,7 +16,10 @@ const STACK_GAP: number = 15
 })
 export class NotificationContainerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input()
-  public topOffset: number
+  public topOffset: number = 0
+
+  @Input()
+  public rightOffset: number = 0
 
   private readonly destroySubject: Subject<void> = new Subject()
 
@@ -30,6 +33,7 @@ export class NotificationContainerComponent implements OnInit, OnDestroy, AfterV
 
   public ngAfterViewInit(): void {
     this.elementRef.nativeElement.style.top = TOP_PADDING + this.topOffset + PIXEL_POSTFIX
+    this.elementRef.nativeElement.style.right = this.rightOffset + PIXEL_POSTFIX
   }
 
   public ngOnInit(): void {

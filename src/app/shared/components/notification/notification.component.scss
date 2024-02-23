@@ -3,15 +3,16 @@ $animation-function: ease;
 $animation-fill-mode: forwards;
 
 :host {
-  color: white;
-  background: #222;
+  --gradient-degree: 90deg;
+  --status-color-width: 5%;
   padding: 10px;
-  border-radius: 3px;
+  border-radius: 10px;
   box-sizing: border-box;
   position: absolute;
-  display: inline-flex;
+  display: flex;
   top: 0;
   left: 0;
+  width: 98%;
   transform: translateX(500px);
   transition: top $animation-duration $animation-function;
   animation: slide-from-right $animation-duration $animation-function $animation-fill-mode;
@@ -20,4 +21,18 @@ $animation-fill-mode: forwards;
 
 @keyframes slide-from-right {
   100% { transform: translateX(0) }
+}
+
+.notification-body {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.text {
+  padding-left: var(--status-color-width);
+}
+
+sofie-icon-button {
+  padding-right: 2px;
 }
