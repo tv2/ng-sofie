@@ -1,10 +1,11 @@
 <div
   class="label"
-  [style.margin-left.px]="labelOffsetInPixels">
+  [style.z-index]="10 + groupIndex + ';'"
+>
 
   <span
     #labelTextElement
-    [style.z-index]="10 + groupIndex">{{ piece.name }}</span>
+    >{{ piece.name }}</span>
 
   <sofie-piece-tooltip
     [groupIndex]="groupIndex"
