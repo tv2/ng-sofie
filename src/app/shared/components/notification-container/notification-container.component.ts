@@ -4,7 +4,7 @@ import { Subject, takeUntil } from 'rxjs'
 import { NotificationComponent } from '../notification/notification.component'
 import { Notification } from '../../models/notification'
 
-const NOTIFICATION_DURATION_MS: number = 5000
+const NOTIFICATION_DURATION_MS: number = 7000
 const TOP_PADDING: number = 5
 const PIXEL_POSTFIX: string = 'px'
 
@@ -48,7 +48,7 @@ export class NotificationContainerComponent implements OnInit, OnDestroy, AfterV
     const notificationElement: HTMLElement = this.createNotificationElement(notification)
     this.insertNotificationIntoContainer(notificationElement)
     this.setRemoveNotificationTimer(notificationElement)
-    this.moveNotificationsDown()
+    this.moveNotifications()
   }
 
   private createNotificationElement(notification: Notification): HTMLElement {
@@ -81,22 +81,19 @@ export class NotificationContainerComponent implements OnInit, OnDestroy, AfterV
     }
     this.notificationElements.splice(index, 1)
 
-    for (let i = index; i < this.notificationElements.length; i++) {
-      const element: HTMLElement = this.notificationElements[i]
-      element.style.top = (element.offsetHeight + STACK_GAP) * i + PIXEL_POSTFIX
-    }
+    this.moveNotifications()
   }
 
-  private moveNotificationsDown(): void {
-    if (this.notificationElements.length < 2) {
+  private moveNotifications(): void {
+    if (this.notificationElements.length === 0) {
       return
     }
-    const offsetGap: number = 0
-    let spaceFromTop: number = this.notificationElements[0].offsetHeight + offsetGap + STACK_GAP
+    this.notificationElements[0].style.top = 0 + PIXEL_POSTFIX
+    let top: number = this.notificationElements[0].offsetHeight + STACK_GAP
     for (let i = 1; i < this.notificationElements.length; i++) {
       const notificationElement: HTMLElement = this.notificationElements[i]
-      notificationElement.style.top = spaceFromTop + PIXEL_POSTFIX
-      spaceFromTop += notificationElement.offsetHeight + STACK_GAP
+      notificationElement.style.top = top + PIXEL_POSTFIX
+      top += notificationElement.offsetHeight + STACK_GAP
     }
   }
 
