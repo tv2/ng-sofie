@@ -1,0 +1,23 @@
+$animation-duration: 0.3s;
+$animation-function: ease;
+$animation-fill-mode: forwards;
+
+:host {
+  color: white;
+  background: #222;
+  padding: 10px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  position: absolute;
+  display: inline-flex;
+  top: 0;
+  left: 0;
+  transform: translateX(500px);
+  transition: top $animation-duration $animation-function;
+  animation: slide-from-right $animation-duration $animation-function $animation-fill-mode;
+  z-index: 50;
+}
+
+@keyframes slide-from-right {
+  100% { transform: translateX(0) }
+}

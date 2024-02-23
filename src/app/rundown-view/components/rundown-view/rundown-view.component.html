@@ -6,7 +6,7 @@
 
 <ng-template #rundownLoaded>
     <ng-container *ngIf="rundown; else rundownRemoved">
-        <sofie-rundown-header [rundown]="rundown"></sofie-rundown-header>
+        <sofie-rundown-header #headerComponent [rundown]="rundown"></sofie-rundown-header>
         <sofie-on-air-details-panel *ngIf="rundown.isActive" [rundown]="rundown"></sofie-on-air-details-panel>
         <sofie-rundown [rundown]="rundown"></sofie-rundown>
         <sofie-draggable-shelf localStorageKey="producer-shelf">
@@ -16,6 +16,7 @@
                     [rundown]="rundown"
             ></sofie-producer-shelf>
         </sofie-draggable-shelf>
+        <sofie-notification-container [topOffset]="headerComponent.elementRef.nativeElement.offsetHeight"></sofie-notification-container>
     </ng-container>
 </ng-template>
 

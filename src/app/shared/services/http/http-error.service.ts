@@ -3,17 +3,20 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { HttpErrorResponse } from '@angular/common/http'
 import { EMPTY, Observable } from 'rxjs'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { NotificationService } from '../notification.service'
 
 @Injectable()
 export class HttpErrorService {
   constructor(
     private readonly snackBar: MatSnackBar,
+    private readonly notificationService: NotificationService,
     private readonly logger: Logger
   ) {}
 
   public catchError(error: HttpErrorResponse): Observable<never> {
     this.logger.data(error).error('Caught Error:')
-    this.openSnackBarIfError(error)
+    this.notificationService.createNotification()
+    // this.openSnackBarIfError(error)
     return EMPTY
   }
 

@@ -1,0 +1,8 @@
+$container-width: 300px;
+
+:host {
+  position: absolute;
+  width: $container-width;
+  //top: 0;
+  right: 0;
+}

@@ -61,6 +61,9 @@ import { HttpSystemInformationService } from './services/http/http-system-inform
 import { TooltipComponent } from './components/tooltip/tooltip.component'
 import { ConfigurationParser } from './abstractions/configuration-parser.service'
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
+import { NotificationService } from './services/notification.service'
+import { NotificationContainerComponent } from './components/notification-container/notification-container.component'
+import { NotificationComponent } from './components/notification/notification.component'
 
 @NgModule({
   declarations: [
@@ -82,6 +85,8 @@ import { ZodConfigurationParser } from './services/zod-configuration-parser.serv
     CustomCheckboxComponent,
     ButtonComponent,
     TooltipComponent,
+    NotificationContainerComponent,
+    NotificationComponent,
   ],
   imports: [
     CommonModule,
@@ -124,6 +129,7 @@ import { ZodConfigurationParser } from './services/zod-configuration-parser.serv
     FormsModule,
     ButtonComponent,
     TooltipComponent,
+    NotificationContainerComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
@@ -147,6 +153,7 @@ import { ZodConfigurationParser } from './services/zod-configuration-parser.serv
     MediaStateService,
     RundownNavigationService,
     TimerPipe,
+    NotificationService,
   ],
 })
 export class SharedModule {}
