@@ -1,18 +1,17 @@
 :host {
   position: absolute;
   top: 0;
-  background-color: var(--background-color);
-  overflow: auto;
-  border-left: 2px solid var(--black-color);
+  overflow: visible;
 
   .label {
     position: relative;
     display: block;
 
     height: 22px;
-    padding: 3px 3px;
+    padding: 1px 1px 1px 4px;
 
     color: var(--text-color);
+    border-left: 2px solid var(--black-color);
 
     font-weight: normal;
     text-shadow: var(--gradient-black-rgba-with-08-opacity-color) 0 0 8px;

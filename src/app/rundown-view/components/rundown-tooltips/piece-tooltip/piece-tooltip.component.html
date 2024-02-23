@@ -13,6 +13,6 @@
       [durationInMs]="durationInMs"
       [isJingle]="tv2PieceType === Tv2PieceType.JINGLE">
     </sofie-video-hover-scrub>
-    <div *ngSwitchCase="false">{{ piece.name }}</div>
+    <div *ngSwitchCase="false">{{ groupIndex }} {{ piece.name }}</div>
   </sofie-tooltip>
 </ng-container>

@@ -1,5 +1,15 @@
-<div class="label" [style.margin-left.px]="labelOffsetInPixels">
-  <span #labelTextElement>{{ piece.name }}</span>
+<div
+  class="label"
+  [style.margin-left.px]="labelOffsetInPixels">
 
-  <sofie-piece-tooltip [piece]="piece" [durationInMs]="partDuration" [playedDurationForPartInMs]="playedDurationForPartInMs" [isMediaUnavailable]="isMediaUnavailable"> </sofie-piece-tooltip>
+  <span
+    #labelTextElement
+    [style.z-index]="10 + groupIndex">{{ piece.name }}</span>
+
+  <sofie-piece-tooltip
+    [groupIndex]="groupIndex"
+    [piece]="piece"
+    [durationInMs]="partDuration"
+    [playedDurationForPartInMs]="playedDurationForPartInMs"
+    [isMediaUnavailable]="isMediaUnavailable"></sofie-piece-tooltip>
 </div>

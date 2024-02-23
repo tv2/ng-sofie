@@ -14,6 +14,7 @@ export class PieceTooltipComponent {
   @Input() public isMediaUnavailable?: boolean
   @Input() public piece: Piece
   @Input() public durationInMs: number
+  @Input() public groupIndex: number
 
   public tooltipElementHoverMousePosition?: TooltipMousePosition
   public Tv2PieceType = Tv2PieceType
