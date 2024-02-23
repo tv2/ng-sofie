@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   private readonly logger: Logger
 
   constructor(
-    private readonly elementReference: ElementRef,
+    elementReference: ElementRef,
     private readonly router: Router,
     private readonly titleService: Title,
     logger: Logger

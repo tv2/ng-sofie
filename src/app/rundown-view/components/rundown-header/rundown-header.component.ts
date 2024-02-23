@@ -41,7 +41,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public elementRef: ElementRef
 
   constructor(
-    private readonly elementReference: ElementRef,
+    elementReference: ElementRef,
     private readonly showStyleVariantStateService: ShowStyleVariantStateService,
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
     logger: Logger
