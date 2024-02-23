@@ -3,6 +3,8 @@
   z-index: 9999;
   transform: translate(0, -100%);
   width: 100%;
+  color: var(--white-color);
+
   overflow: visible;
   .c-sofie-tooltip-content {
     position: relative;

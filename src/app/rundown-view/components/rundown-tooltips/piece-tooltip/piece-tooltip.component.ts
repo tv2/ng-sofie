@@ -20,6 +20,8 @@ export class PieceTooltipComponent {
 
   private readonly timeoutDurationAfterMouseMoveInMs = 5
   private timeoutAfterMouseMove?: NodeJS.Timeout
+  private readonly visibleOnTypes: Tv2PieceType[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.JINGLE, Tv2PieceType.REPLAY]
+  private readonly videoHoverScrubTypes: Tv2PieceType[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.JINGLE]
 
   @HostListener('mouseenter', ['$event'])
   @HostListener('mousemove', ['$event'])
@@ -50,6 +52,11 @@ export class PieceTooltipComponent {
 
   public get shouldShowHoverScrub(): boolean {
     const tv2Piece: Tv2Piece = this.piece as Tv2Piece
-    return tv2Piece.metadata?.type === Tv2PieceType.VIDEO_CLIP || tv2Piece.metadata?.type === Tv2PieceType.JINGLE
+    return this.visibleOnTypes.indexOf(tv2Piece.metadata?.type) !== -1
+  }
+
+  protected withVideoHoverScrub(): boolean {
+    const tv2Piece: Tv2Piece = this.piece as Tv2Piece
+    return this.videoHoverScrubTypes.indexOf(tv2Piece.metadata?.type) !== -1
   }
 }
