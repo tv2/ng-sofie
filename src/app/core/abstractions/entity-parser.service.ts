@@ -21,5 +21,6 @@ export abstract class EntityParser {
   public abstract parseMediaAsset(media: unknown): Media
   public abstract parseMediaAssets(media: unknown): Media[]
   public abstract parseSystemInformation(systemInformation: unknown): SystemInformation
+  public abstract parseStatusMessage(statusMessages: unknown): StatusMessage
   public abstract parseStatusMessages(statusMessages: unknown): StatusMessage[]
 }

@@ -2,10 +2,16 @@ import { NotificationContainerComponent } from './notification-container.compone
 import { instance, mock } from '@typestrong/ts-mockito'
 import { ApplicationRef, ElementRef } from '@angular/core'
 import { NotificationService } from '../../services/notification.service'
+import { StatusMessageEventObserver } from '../../../core/services/status-message-event-observer'
 
 describe('NotificationContainerComponent', () => {
   it('should create', () => {
-    const testee: NotificationContainerComponent = new NotificationContainerComponent(instance(mock(ElementRef)), instance(mock(ApplicationRef)), instance(mock(NotificationService)))
+    const testee: NotificationContainerComponent = new NotificationContainerComponent(
+      instance(mock(ElementRef)),
+      instance(mock(ApplicationRef)),
+      instance(mock(NotificationService)),
+      instance(mock(StatusMessageEventObserver))
+    )
     expect(testee).toBeTruthy()
   })
 })

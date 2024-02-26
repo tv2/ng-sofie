@@ -3,6 +3,10 @@ import { NotificationService } from '../../services/notification.service'
 import { Subject, takeUntil } from 'rxjs'
 import { NotificationComponent } from '../notification/notification.component'
 import { Notification } from '../../models/notification'
+import { StatusMessageEventObserver } from '../../../core/services/status-message-event-observer'
+import { EventSubscription } from '../../../event-system/abstractions/event-observer.service'
+import { StatusMessage } from '../../models/status-message'
+import { StatusCode } from '../../enums/status-code'
 
 const NOTIFICATION_DURATION_MS: number = 7000
 const TOP_PADDING: number = 5
@@ -26,10 +30,13 @@ export class NotificationContainerComponent implements OnInit, OnDestroy, AfterV
 
   private readonly notificationElements: HTMLElement[] = []
 
+  private statusMessageEventSubscription: EventSubscription
+
   constructor(
     private readonly elementRef: ElementRef,
     private readonly applicationRef: ApplicationRef,
-    private readonly notificationService: NotificationService
+    private readonly notificationService: NotificationService,
+    private readonly statusMessageEventObserver: StatusMessageEventObserver
   ) {}
 
   public ngAfterViewInit(): void {
@@ -42,6 +49,10 @@ export class NotificationContainerComponent implements OnInit, OnDestroy, AfterV
       .subscribeToNotifications()
       .pipe(takeUntil(this.destroySubject))
       .subscribe((notification: Notification) => this.createNotification(notification))
+
+    this.statusMessageEventSubscription = this.statusMessageEventObserver.subscribeToStatusMessageEvents(statusMessageEvent =>
+      this.createNotificationFromStatusMessage(statusMessageEvent.statusMessage)
+    )
   }
 
   private createNotification(notification: Notification): void {
@@ -97,8 +108,19 @@ export class NotificationContainerComponent implements OnInit, OnDestroy, AfterV
     }
   }
 
+  private createNotificationFromStatusMessage(statusMessage: StatusMessage): void {
+    const message: string = `${statusMessage.title}: ${statusMessage.message}` + (statusMessage.statusCode === StatusCode.GOOD ? ` Okay` : '')
+    const notification: Notification = {
+      message,
+      statusCode: statusMessage.statusCode,
+    }
+    this.createNotification(notification)
+  }
+
   public ngOnDestroy(): void {
     this.destroySubject.next()
     this.destroySubject.complete()
+
+    this.statusMessageEventSubscription.unsubscribe()
   }
 }

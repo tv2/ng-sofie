@@ -163,14 +163,14 @@ export class ZodEntityParser implements EntityParser {
     name: zod.string(),
   })
 
-  private readonly statusMessagesParser = zod
-    .object({
-      id: zod.string(),
-      title: zod.string(),
-      message: zod.string(),
-      statusCode: zod.nativeEnum(StatusCode),
-    })
-    .array()
+  private readonly statusMessageParser = zod.object({
+    id: zod.string(),
+    title: zod.string(),
+    message: zod.string(),
+    statusCode: zod.nativeEnum(StatusCode),
+  })
+
+  private readonly statusMessagesParser = this.statusMessageParser.array()
 
   public parsePiece(piece: unknown): Tv2Piece {
     return this.pieceParser.parse(piece)
@@ -214,6 +214,10 @@ export class ZodEntityParser implements EntityParser {
 
   public parseSystemInformation(systemInformation: unknown): SystemInformation {
     return this.systemInformationParser.parse(systemInformation)
+  }
+
+  public parseStatusMessage(statusMessages: unknown): StatusMessage {
+    return this.statusMessageParser.parse(statusMessages)
   }
 
   public parseStatusMessages(statusMessages: unknown): StatusMessage[] {
