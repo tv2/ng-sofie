@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Logger } from '../abstractions/logger.service'
-import {
-  EventConsumer,
-  EventObserver,
-  EventSubscription,
-  TypedEvent
-} from '../../event-system/abstractions/event-observer.service'
+import { EventConsumer, EventObserver, EventSubscription, TypedEvent } from '../../event-system/abstractions/event-observer.service'
 import { StatusMessageEventType } from '../models/status-message-event-type'
 import { StatusMessageEventParser } from '../abstractions/status-message-event-parser'
 import { StatusMessageEvent } from '../models/status-message-event'
