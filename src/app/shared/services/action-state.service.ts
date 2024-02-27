@@ -114,6 +114,10 @@ export class ActionStateService {
     return lastValueFrom(this.actionService.getSystemActions())
   }
 
+  public getRundownActions(rundownId: string): Action[] {
+    return this.actionsSubjects.get(rundownId)?.value ?? []
+  }
+
   public destroy(): void {
     this.actionsSubjects.forEach(subject => subject.complete())
     this.eventSubscriptions.forEach(eventSubscription => eventSubscription.unsubscribe())

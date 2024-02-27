@@ -12,6 +12,7 @@ export enum IconButton {
   SQUARE_CHECK = 'SQUARE_CHECK',
   SORT_DOWN = 'SORT_DOWN',
   SORT_UP = 'SORT_UP',
+  TRIANGLE_EXCLAMATION = 'TRIANGLE_EXCLAMATION',
 }
 
 export enum IconButtonSize {

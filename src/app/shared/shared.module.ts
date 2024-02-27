@@ -58,6 +58,7 @@ import { ButtonComponent } from './components/button/button.component'
 import { FormatKeyboardKeysPipe } from './pipes/format-keyboard-keys.pipe'
 import { SystemInformationService } from './services/system-information.service'
 import { HttpSystemInformationService } from './services/http/http-system-information.service'
+import { TooltipComponent } from './components/tooltip/tooltip.component'
 import { ConfigurationParser } from './abstractions/configuration-parser.service'
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
 import { DialogComponent } from './components/dialog/dialog.component'
@@ -88,6 +89,7 @@ import { SofieTableHeaderComponent } from './components/sofie-table-header/sofie
     MultiSelectComponent,
     DialogComponent,
     SofieTableHeaderComponent,
+    TooltipComponent,
   ],
   imports: [
     CommonModule,
@@ -133,6 +135,7 @@ import { SofieTableHeaderComponent } from './components/sofie-table-header/sofie
     MultiSelectComponent,
     DialogComponent,
     SofieTableHeaderComponent,
+    TooltipComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },

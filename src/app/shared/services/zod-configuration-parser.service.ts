@@ -11,6 +11,7 @@ export class ZodConfigurationParser extends ConfigurationParser {
     }),
     blueprintConfiguration: zod.object({
       ServerPostrollDuration: zod.number().min(0, 'Server post-roll duration must be 0 or more.'),
+      JingleFolder: zod.string(),
     }),
   })
 
