@@ -62,8 +62,8 @@ import { ConfigurationParser } from './abstractions/configuration-parser.service
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
 import { NotificationPanelComponent } from './components/notification-panel/notification-panel.component'
 import { NotificationCardComponent } from './components/notification-card/notification-card.component'
-import { NotificationPopupContainerComponent } from './components/notification-popup-container/notification-popup-container.component';
-import { NotificationIconComponent } from './components/notification-icon/notification-icon.component';
+import { NotificationPopupContainerComponent } from './components/notification-popup-container/notification-popup-container.component'
+import { NotificationIconComponent } from './components/notification-icon/notification-icon.component'
 import { NotificationPopupComponent } from './components/notification-popup-component/notification-popup.component'
 
 @NgModule({

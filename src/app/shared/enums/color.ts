@@ -1,4 +1,4 @@
+// Note: the colors in here should mach the attributes in _sofie-color-vars.scss
 export enum Color {
-  RED = 'red',
-  BLUE = 'blue',
+  ON_AIR = 'var(--on-air-color)',
 }

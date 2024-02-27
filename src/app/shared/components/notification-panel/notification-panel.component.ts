@@ -13,6 +13,7 @@ export class NotificationPanelComponent implements OnInit, OnDestroy {
   public showPanel: boolean = false
   public notifications: Notification[] = []
 
+  private readonly timeoutMap: Map<string, NodeJS.Timeout> = new Map()
   private readonly destroySubject: Subject<void> = new Subject()
 
   constructor(
@@ -44,7 +45,8 @@ export class NotificationPanelComponent implements OnInit, OnDestroy {
     if (notification.isPersistent) {
       return
     }
-    setTimeout(() => this.removeNotification(notification), 5000)
+    const timeout: NodeJS.Timeout = setTimeout(() => this.removeNotification(notification), 5000)
+    this.timeoutMap.set(notification.id, timeout)
   }
 
   public removeNotification(notification: Notification): void {
@@ -53,6 +55,16 @@ export class NotificationPanelComponent implements OnInit, OnDestroy {
       return
     }
     this.notifications.splice(index, 1)
+    this.stopTimeout(notification)
+  }
+
+  private stopTimeout(notification: Notification): void {
+    if (!this.timeoutMap.has(notification.id)) {
+      return
+    }
+    const timeout: NodeJS.Timeout = this.timeoutMap.get(notification.id)!
+    clearTimeout(timeout)
+    this.timeoutMap.delete(notification.id)
   }
 
   public ngOnDestroy(): void {

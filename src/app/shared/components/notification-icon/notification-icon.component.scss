@@ -3,4 +3,19 @@
   padding: 10px;
   height: 100%;
   align-items: center;
+
+  sofie-icon-button {
+    &.error {
+      color: var(--danger-color);
+
+    }
+
+    &.no-error {
+      color: var(--dark-gray-color);
+    }
+
+    &:hover {
+      color: var(--white-color);
+    }
+  }
 }
