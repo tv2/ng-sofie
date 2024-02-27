@@ -1,14 +1,11 @@
 <div [cdkContextMenuTriggerFor]="contextMenu" class="piece-layers" [class.unsynced]="part.isUnsynced">
   <div *ngFor="let outputLayer of outputLayers" class="piece-layer">
-    <sofie-offsetable-piece
-      *ngFor="let piece of piecesGroupedByOutputLayer[outputLayer]; trackBy: trackPiece"
-      [piece]="piece"
-      [pixelsPerSecond]="pixelsPerSecond"
-      [partDuration]="partDurationInMs()"
-      [playedDurationForPartInMs]="playedDurationInMs"
-      [prePlayheadDurationInMs]="prePlayheadDurationInMs"
-      [postPlayheadDurationInMs]="postPlayheadDurationInMs">
-    </sofie-offsetable-piece>
+    <sofie-offsetable-stack
+      [part]="part"
+      [piecesForStack]="piecesGroupedByOutputLayer[outputLayer]"
+      [dataInTranzit]="dataInTranzit"
+    >
+    </sofie-offsetable-stack>
   </div>
 </div>
 <sofie-timeline-flag [label]="part.isNext ? (isAutoNextStarted ? autoLabel : nextLabel) : undefined" [turnedOn]="part.isNext"></sofie-timeline-flag>

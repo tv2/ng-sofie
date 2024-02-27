@@ -1,0 +1,12 @@
+<ul *ngFor="let stackKey of pieceStack.stackKeys" class="piece-stack">
+  <li *ngFor="let piece of pieceStack.stacks[stackKey]">
+    <sofie-offsetable-piece
+      [piece]="piece"
+      [pixelsPerSecond]="getPixelsPerSecond()"
+      [partDuration]="pieceStack.duration"
+      [playedDurationForPartInMs]="playedDurationInMs"
+      [prePlayheadDurationInMs]="getPrePlayheadDurationInMs()"
+      [postPlayheadDurationInMs]="getPostPlayheadDurationInMs()">
+    </sofie-offsetable-piece>
+  </li>
+</ul>
