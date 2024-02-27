@@ -1,0 +1,81 @@
+<div class="c-action-panel-list">
+  <div class="c-settings-page__header">
+    <div>
+      <input type="text" [(ngModel)]="search" placeholder="Search" />
+    </div>
+    <div>
+      <ng-container *ngIf="this.selectedActionPanelIds.size === 0; else multiSelectionActions">
+        <sofie-edit-action-panel [shelfConfiguration]="shelfConfiguration" [buttonLabel]="createNewLabel" buttonClasses="c-sofie-button c-sofie-button-primary me-2"></sofie-edit-action-panel>
+        <button class="c-sofie-button c-sofie-button-primary me-2" (click)="exportActionPanels()" i18n>global.export.label</button>
+        <sofie-action-panel-import [shelfConfiguration]="shelfConfiguration" ></sofie-action-panel-import>
+      </ng-container>
+    </div>
+    <ng-template #multiSelectionActions>
+      <button class="c-sofie-button c-sofie-button-primary me-2" (click)="exportSelectedActionPanels()" i18n>global.export-selected.label</button>
+      <button class="c-sofie-button c-sofie-button-danger" (click)="openDeleteSelectedActionPanelDialog()" i18n>global.delete-selected.label</button>
+    </ng-template>
+  </div>
+
+  <table class="c-sofie-table" *ngIf="filteredActionsPannels.length > 0; else noActionPanelAvailable">
+    <thead>
+      <tr>
+        <th class="c-sofie-table-header xs">
+          <div class="c-sofie-table__checkbox" [ngClass]="this.selectedActionPanelIds.size > 0 ? 'd-flex' : ''">
+            <sofie-custom-checkbox [isSelected]="isAllActionPanelSelected()" checkboxId="'allActionPanel'" (onChange)="toggleAllActionPanelSelection($event)"></sofie-custom-checkbox>
+          </div>
+        </th>
+        <sofie-table-header
+          *ngFor="let shelfActionPanelTableHeader of shelfActionPanelTableHeaders"
+          [headerData]="shelfActionPanelTableHeader"
+          [sortColumn]="sortColumn"
+          [sortDirection]="sortDirection"
+          (onSortClick)="saveSortValues($event)">
+        </sofie-table-header>
+        <th class="c-sofie-table-header sm"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container>
+        <tr *ngFor="let actionPanelRow of filteredActionsPannels; let i = index">
+          <td>
+            <div class="c-sofie-table__checkbox" [ngClass]="this.selectedActionPanelIds.size > 0 ? 'd-flex' : ''">
+              <sofie-custom-checkbox
+                [isSelected]="isActionPanelSelected(actionPanelRow.id)"
+                [checkboxId]="i + '_panel'"
+                (onChange)="setActionPanelSelection(actionPanelRow.id, $event)"></sofie-custom-checkbox>
+            </div>
+          </td>
+          <td>
+            {{ actionPanelRow.name }}
+          </td>
+          <td>
+            {{ actionPanelRow.rank }}
+          </td>
+          <td>
+            <span class="c-custom-badge me-2 mb-2 bg-dark" [ngClass]="actionFilter.toLocaleLowerCase() + '_color'" *ngFor="let actionFilter of actionPanelRow.actionFilter; let filterIndex = index">
+              {{ actionFilter | translationKnownValues }}
+            </span>
+          </td>
+          <td>
+            <sofie-edit-action-panel
+              [iconButton]="IconButton.PEN"
+              [buttonTooltipText]="'Edit action panel'"
+              [iconButtonSize]="IconButtonSize.L"
+              [shelfConfiguration]="shelfConfiguration"
+              buttonClasses="c-only-icon-button pe-0 ps-0 me-2"
+              [actionPanelIndex]="i">
+            </sofie-edit-action-panel>
+            <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" tooltipText="Copy action panel" iconButtonClasess="me-2" [iconButtonSize]="IconButtonSize.L" (click)="cloneActionPanel(i)">
+            </sofie-icon-button>
+            <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" tooltipText="Delete action panel" [iconButtonSize]="IconButtonSize.L" (click)="openDeleteActionPanelDialog(i)"> </sofie-icon-button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <ng-template #noActionPanelAvailable>
+    <div class="c-sofie-table-no-items">
+      <p i18n>action-panels.no-items.label</p>
+    </div>
+  </ng-template>
+</div>

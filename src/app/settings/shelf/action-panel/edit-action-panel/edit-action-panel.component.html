@@ -1,0 +1,40 @@
+<sofie-dialog
+  [iconButtonSize]="iconButtonSize"
+  [iconButton]="iconButton"
+  [buttonLabel]="buttonLabel"
+  [buttonClasses]="buttonClasses"
+  [isDialogOpen]="isEditDialogOpen"
+  [dialogTitle]="dialogTitleLabel"
+  (onDialogClose)="isEditDialogOpen = false"
+  (onClickOpen)="isEditDialogOpen = true">
+  <form class="c-form mt-5" [formGroup]="panelForm">
+    <div class="c-form-field c-sofie-form-control">
+      <label>{{ actionPanelNameLabel }}</label>
+      <input [placeholder]="actionPanelNameLabel" [readonly]="isSubmitting" type="text" formControlName="name" />
+    </div>
+
+    <div class="c-form-field c-sofie-form-control">
+      <label>{{ actionPanelFiltersLabel }}</label>
+      <sofie-multi-select
+        [selectedOptionsIds]="this.formFiltersArray.value"
+        [options]="filterActionPanelOptions"
+        (onItemSelectionChange)="actionPanelFiltersChange($event)"
+        [placeholder]="noFiltersSelectedLabel"></sofie-multi-select>
+    </div>
+
+    <div class="c-form-field c-sofie-form-control">
+      <label>{{ rankPanelLabel }}</label>
+      <input [placeholder]="rankPanelLabel" [readonly]="isSubmitting" type="number" formControlName="rank" />
+    </div>
+  </form>
+  <div class="c-dialog-body__actions">
+    <button
+      class="c-sofie-button c-sofie-button-primary me-2"
+      [disabled]="panelForm.invalid"
+      [title]="panelForm.invalid ? submitButtonTooltipError + ': ' + getFormValidationErrors : ''"
+      (click)="formSubmit()">
+      {{ submitButtonLabel }}
+    </button>
+    <button class="c-sofie-button c-sofie-button-outline-primary" (click)="isEditDialogOpen = false">{{ 'Close' }}</button>
+  </div>
+</sofie-dialog>

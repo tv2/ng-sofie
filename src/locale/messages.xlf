@@ -119,9 +119,6 @@
       <trans-unit id="9004520789605873710" datatype="html">
         <source>global.close.button</source>
       </trans-unit>
-      <trans-unit id="6102207617999365668" datatype="html">
-        <source>action-triggers.submit-tooltip.error</source>
-      </trans-unit>
       <trans-unit id="5115532688749023793" datatype="html">
         <source>action-triggers.no-selected-action.label</source>
       </trans-unit>
@@ -184,6 +181,81 @@
       </trans-unit>
       <trans-unit id="9012317992372082365" datatype="html">
         <source>global.next.label</source>
+      </trans-unit>
+      <trans-unit id="4384831734174772961" datatype="html">
+        <source>settings.shelf.label</source>
+      </trans-unit>
+      <trans-unit id="8566219553884482008" datatype="html">
+        <source>settings.shelf.action-panels.label</source>
+      </trans-unit>
+      <trans-unit id="4313463332740374796" datatype="html">
+        <source>global.create-new.label</source>
+      </trans-unit>
+      <trans-unit id="6050389772118678864" datatype="html">
+        <source>global.export.label</source>
+      </trans-unit>
+      <trans-unit id="5790831128450193508" datatype="html">
+        <source>action-panels.no-items.label</source>
+      </trans-unit>
+      <trans-unit id="249423270498322985" datatype="html">
+        <source>action-panel.panel-name.label</source>
+      </trans-unit>
+      <trans-unit id="3495993720885162413" datatype="html">
+        <source>action-panel.rank.label</source>
+      </trans-unit>
+      <trans-unit id="1815356496030084291" datatype="html">
+        <source>action-panel.create-title.label</source>
+      </trans-unit>
+      <trans-unit id="4759095365296086563" datatype="html">
+        <source>action-panel.update-title.label</source>
+      </trans-unit>
+      <trans-unit id="6515199819488915752" datatype="html">
+        <source>global.submit-tooltip.error</source>
+      </trans-unit>
+      <trans-unit id="8033398649275459944" datatype="html">
+        <source>action-panel.no-filters-selected.label</source>
+      </trans-unit>
+      <trans-unit id="1842982718967386055" datatype="html">
+        <source>global.audio.label</source>
+      </trans-unit>
+      <trans-unit id="1887044897982242749" datatype="html">
+        <source>global.robot.label</source>
+      </trans-unit>
+      <trans-unit id="2951845926043442554" datatype="html">
+        <source>global.graphics.label</source>
+      </trans-unit>
+      <trans-unit id="3522238577113202288" datatype="html">
+        <source>global.video-clip.label</source>
+      </trans-unit>
+      <trans-unit id="389262478828731921" datatype="html">
+        <source>global.remote.label</source>
+      </trans-unit>
+      <trans-unit id="6046979654633268329" datatype="html">
+        <source>global.camera.label</source>
+      </trans-unit>
+      <trans-unit id="7053378516611820006" datatype="html">
+        <source>global.split-screen.label</source>
+      </trans-unit>
+      <trans-unit id="8164633860480723989" datatype="html">
+        <source>global.unknown.label</source>
+      </trans-unit>
+      <trans-unit id="8361312030303141039" datatype="html">
+        <source>global.replay.label</source>
+      </trans-unit>
+      <trans-unit id="8633433908703192113" datatype="html">
+        <source>global.transition.label</source>
+      </trans-unit>
+      <trans-unit id="5944821486251382171" datatype="html">
+        <source>global.filters.label</source>
+      </trans-unit>
+      <trans-unit id="125592769491380843" datatype="html">
+        <source>action-panel.delete.confirmation</source>
+      </trans-unit>
+      <trans-unit id="8750100022773328100" datatype="html">
+        <source>action-panel.delete-selected.confirmation</source>
+      </trans-unit>
+      <trans-unit id="4121868262213030663" datatype="html">
+        <source>global.import.button</source>
       </trans-unit>
     </body>
   </file>

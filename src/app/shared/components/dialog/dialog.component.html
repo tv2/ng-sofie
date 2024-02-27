@@ -1,0 +1,10 @@
+<sofie-button (onClick)="onClickOpen.emit()" [label]="buttonLabel" [iconButtonSize]="iconButtonSize" [iconButton]="iconButton" [buttonClasses]="buttonClasses"></sofie-button>
+
+<ng-template #dialogContentRef>
+  <div class="c-dialog-body">
+    <div *ngIf="dialogTitle" class="c-dialog-body__header">
+      <h4>{{ dialogTitle }}</h4>
+    </div>
+    <ng-content></ng-content>
+  </div>
+</ng-template>

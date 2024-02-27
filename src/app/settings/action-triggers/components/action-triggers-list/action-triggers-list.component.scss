@@ -2,9 +2,10 @@
   width: 100%;
   min-width: 300px;
   &__search {
-    margin-bottom: 24px;
+    margin: 24px 30px;
     display: flex;
     align-items: center;
+
     & input {
       width: 100%;
       padding: 8px;
@@ -12,7 +13,7 @@
     }
   }
   &__items {
-    max-height: calc(100vh - 233px);
+    max-height: calc(100vh - 290px);
     overflow: auto;
   }
   &__card {
@@ -55,21 +56,5 @@
       text-align: center;
       font-weight: lighter;
     }
-  }
-}
-
-.c-custom-badge {
-  padding: 5px 8px;
-  border-radius: 4px;
-  display: inline-block;
-  margin-right: 8px;
-  margin-bottom: 8px;
-  &.bg-dark {
-    background-color: var(--background-color);
-    color: var(--white-color);
-  }
-  &.bg-gray {
-    background-color: var(--dark-gray-color);
-    color: var(--white-color);
   }
 }

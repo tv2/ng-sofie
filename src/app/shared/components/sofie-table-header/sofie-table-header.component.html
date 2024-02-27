@@ -1,0 +1,7 @@
+<th class="c-sofie-table-header" [ngClass]="headerData.size && headerData.size" (click)="onSortClick.emit(headerData)">
+  {{ headerData.label }}
+  <span *ngIf="sortColumn === headerData.key">
+    <sofie-icon-button *ngIf="sortDirection === SortDirection.ASC" [iconButton]="IconButton.SORT_DOWN" [iconButtonSize]="IconButtonSize.XS"></sofie-icon-button>
+    <sofie-icon-button *ngIf="sortDirection === SortDirection.DESC" [iconButton]="IconButton.SORT_UP" [iconButtonSize]="IconButtonSize.XS"></sofie-icon-button>
+  </span>
+</th>

@@ -6,6 +6,7 @@ import { ClearCacheComponent } from './components/clear-cache/clear-cache.compon
 export enum SettingsPaths {
   SETTINGS = '',
   KEYBOARD_MAPPINGS = 'keyboard-mappings',
+  SHELF = 'shelf',
   CLEAR_CACHE = 'clear-cache',
 }
 
@@ -16,6 +17,7 @@ const routes: Routes = [
     children: [
       { path: SettingsPaths.SETTINGS, redirectTo: SettingsPaths.KEYBOARD_MAPPINGS, pathMatch: 'full' },
       { path: SettingsPaths.KEYBOARD_MAPPINGS, loadChildren: () => import('./action-triggers/action-triggers.module').then(module => module.ActionTriggersModule) },
+      { path: SettingsPaths.SHELF, loadChildren: () => import('./shelf/shelf.module').then(module => module.ShelfModule) },
       { path: SettingsPaths.CLEAR_CACHE, component: ClearCacheComponent },
     ],
   },

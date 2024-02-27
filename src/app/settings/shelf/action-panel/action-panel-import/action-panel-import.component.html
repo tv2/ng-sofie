@@ -1,0 +1,4 @@
+<div class="action-import">
+  <button class="c-sofie-button c-sofie-button-primary" (click)="fileDropRef.click()" i18n>global.import.button</button>
+  <input accept="application/json" class="action-import__input" type="file" #fileDropRef id="fileDrop" (change)="uploadFile(fileDropRef)" />
+</div>

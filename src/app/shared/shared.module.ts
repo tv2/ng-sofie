@@ -60,6 +60,10 @@ import { SystemInformationService } from './services/system-information.service'
 import { HttpSystemInformationService } from './services/http/http-system-information.service'
 import { ConfigurationParser } from './abstractions/configuration-parser.service'
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
+import { DialogComponent } from './components/dialog/dialog.component'
+import { MultiSelectComponent } from './components/multi-select/multi-select.component'
+import { TranslationKnownValuesPipe } from './pipes/translation-known-values.pipe'
+import { SofieTableHeaderComponent } from './components/sofie-table-header/sofie-table-header.component'
 
 @NgModule({
   declarations: [
@@ -67,6 +71,7 @@ import { ZodConfigurationParser } from './services/zod-configuration-parser.serv
     ConfirmationDialogComponent,
     MinimumPipe,
     MaximumPipe,
+    TranslationKnownValuesPipe,
     FormatKeyboardKeysPipe,
     SofieLogoComponent,
     SpacerComponent,
@@ -80,6 +85,9 @@ import { ZodConfigurationParser } from './services/zod-configuration-parser.serv
     DropdownButtonComponent,
     CustomCheckboxComponent,
     ButtonComponent,
+    MultiSelectComponent,
+    DialogComponent,
+    SofieTableHeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -105,6 +113,7 @@ import { ZodConfigurationParser } from './services/zod-configuration-parser.serv
     CommonModule,
     HeaderComponent,
     MinimumPipe,
+    TranslationKnownValuesPipe,
     MaximumPipe,
     FormatKeyboardKeysPipe,
     TimerPipe,
@@ -121,6 +130,9 @@ import { ZodConfigurationParser } from './services/zod-configuration-parser.serv
     ReactiveFormsModule,
     FormsModule,
     ButtonComponent,
+    MultiSelectComponent,
+    DialogComponent,
+    SofieTableHeaderComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
@@ -144,6 +156,7 @@ import { ZodConfigurationParser } from './services/zod-configuration-parser.serv
     MediaStateService,
     RundownNavigationService,
     TimerPipe,
+    TranslationKnownValuesPipe,
   ],
 })
 export class SharedModule {}

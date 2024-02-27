@@ -158,10 +158,6 @@
         <source>global.close.button</source>
         <target state="new">Close</target>
       </trans-unit>
-      <trans-unit id="6102207617999365668" datatype="html">
-        <source>action-triggers.submit-tooltip.error</source>
-        <target state="new">Please enter a value for the following fields</target>
-      </trans-unit>
       <trans-unit id="5115532688749023793" datatype="html">
         <source>action-triggers.no-selected-action.label</source>
         <target state="new">No action selected</target>
@@ -245,6 +241,106 @@
       <trans-unit id="5184481909550121889" datatype="html">
         <source>global.auto.label</source>
         <target state="new">AUTO</target>
+      </trans-unit>
+      <trans-unit id="4384831734174772961" datatype="html">
+        <source>settings.shelf.label</source>
+        <target state="new">Shelf</target>
+      </trans-unit>
+      <trans-unit id="8566219553884482008" datatype="html">
+        <source>settings.shelf.action-panels.label</source>
+        <target state="new">Action panels</target>
+      </trans-unit>
+      <trans-unit id="4313463332740374796" datatype="html">
+        <source>global.create-new.label</source>
+        <target state="new">Create new</target>
+      </trans-unit>
+      <trans-unit id="6050389772118678864" datatype="html">
+        <source>global.export.label</source>
+        <target state="new">Export</target>
+      </trans-unit>
+      <trans-unit id="5790831128450193508" datatype="html">
+        <source>action-panels.no-items.label</source>
+        <target state="new">No action pannels found</target>
+      </trans-unit>
+      <trans-unit id="249423270498322985" datatype="html">
+        <source>action-panel.panel-name.label</source>
+        <target state="new">Panel name</target>
+      </trans-unit>
+      <trans-unit id="3495993720885162413" datatype="html">
+        <source>action-panel.rank.label</source>
+        <target state="new">Rank</target>
+      </trans-unit>
+      <trans-unit id="4759095365296086563" datatype="html">
+        <source>action-panel.update-title.label</source>
+        <target state="new">Update action panel</target>
+      </trans-unit>
+      <trans-unit id="1815356496030084291" datatype="html">
+        <source>action-panel.create-title.label</source>
+        <target state="new">Create action panel</target>
+      </trans-unit>
+      <trans-unit id="6515199819488915752" datatype="html">
+        <source>global.submit-tooltip.error</source>
+        <target state="new">Please enter a value for the following fields</target>
+      </trans-unit>
+      <trans-unit id="8033398649275459944" datatype="html">
+        <source>action-panel.no-filters-selected.label</source>
+        <target state="new">No filters selected</target>
+      </trans-unit>
+      <trans-unit id="1842982718967386055" datatype="html">
+        <source>global.audio.label</source>
+        <target state="new">Audio</target>
+      </trans-unit>
+      <trans-unit id="389262478828731921" datatype="html">
+        <source>global.remote.label</source>
+        <target state="new">Remote</target>
+      </trans-unit>
+      <trans-unit id="6046979654633268329" datatype="html">
+        <source>global.camera.label</source>
+        <target state="new">Camera</target>
+      </trans-unit>
+      <trans-unit id="2951845926043442554" datatype="html">
+        <source>global.graphics.label</source>
+        <target state="new">Graphics</target>
+      </trans-unit>
+      <trans-unit id="8361312030303141039" datatype="html">
+        <source>global.replay.label</source>
+        <target state="new">Replay</target>
+      </trans-unit>
+      <trans-unit id="1887044897982242749" datatype="html">
+        <source>global.robot.label</source>
+        <target state="new">Robot</target>
+      </trans-unit>
+      <trans-unit id="7053378516611820006" datatype="html">
+        <source>global.split-screen.label</source>
+        <target state="new">Split screen</target>
+      </trans-unit>
+      <trans-unit id="8633433908703192113" datatype="html">
+        <source>global.transition.label</source>
+        <target state="new">Transition</target>
+      </trans-unit>
+      <trans-unit id="8164633860480723989" datatype="html">
+        <source>global.unknown.label</source>
+        <target state="new">Unknown</target>
+      </trans-unit>
+      <trans-unit id="3522238577113202288" datatype="html">
+        <source>global.video-clip.label</source>
+        <target state="new">Video clip</target>
+      </trans-unit>
+      <trans-unit id="5944821486251382171" datatype="html">
+        <source>global.filters.label</source>
+        <target state="new">Filters</target>
+      </trans-unit>
+      <trans-unit id="125592769491380843" datatype="html">
+        <source>action-panel.delete.confirmation</source>
+        <target state="new">Are you sure you want to delete this action panel?</target>
+      </trans-unit>
+      <trans-unit id="8750100022773328100" datatype="html">
+        <source>action-panel.delete-selected.confirmation</source>
+        <target state="new">Are you sure you want to delete all selected action panels?</target>
+      </trans-unit>
+      <trans-unit id="4121868262213030663" datatype="html">
+        <source>global.import.button</source>
+        <target state="new">Import</target>
       </trans-unit>
     </body>
   </file>

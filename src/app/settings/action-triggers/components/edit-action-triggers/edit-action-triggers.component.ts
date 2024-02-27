@@ -25,7 +25,7 @@ export class EditActionTriggersComponent implements OnChanges {
   public readonly physicalMappingHelpInfo = $localize`action-triggers.physical-mapping-help.tooltip`
   public readonly triggerOnLabel = $localize`action-triggers.trigger-on.label`
   public readonly selectedActionLabel = $localize`action-triggers.selected-action.label`
-  public readonly submitButtonTooltipError = $localize`action-triggers.submit-tooltip.error`
+  public readonly submitButtonTooltipError = $localize`global.submit-tooltip.error`
   public readonly ActionArgumentSchemaType = ActionArgumentSchemaType
   public readonly IconButton = IconButton
   public readonly IconButtonSize = IconButtonSize

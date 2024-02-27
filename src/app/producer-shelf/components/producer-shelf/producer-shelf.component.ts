@@ -9,7 +9,7 @@ import { Tv2Action } from '../../../shared/models/tv2-action'
 import { Tv2ActionParser } from '../../../shared/abstractions/tv2-action-parser.service'
 import { ActionService } from '../../../shared/abstractions/action.service'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
-import { ShelfConfiguration } from '../../../shared/models/shelf-configuration'
+import { ShelfActionPanelConfiguration, ShelfConfiguration } from '../../../shared/models/shelf-configuration'
 import { ConfigurationEventObserver } from '../../../core/services/configuration-event-observer'
 import { ShelfConfigurationUpdatedEvent } from '../../../core/models/configuration-event'
 
@@ -53,7 +53,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
 
   public staticButtonActions: Tv2Action[] = []
 
-  private shelfConfiguration?: ShelfConfiguration
+  private shelfConfiguration?: ShelfConfiguration<ShelfActionPanelConfiguration>
   private actions: Tv2Action[] = []
 
   private actionsSubscription?: EventSubscription

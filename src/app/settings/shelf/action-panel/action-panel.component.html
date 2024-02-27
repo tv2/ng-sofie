@@ -1,0 +1,12 @@
+<h2 class="c-settings-title" i18n>settings.shelf.action-panels.label</h2>
+<div class="c-settings-page">
+  <ng-container *ngIf="!isLoading; else loader">
+    <div class="c-action-panel">
+      <sofie-action-panel-list [shelfConfiguration]="shelfConfiguration"></sofie-action-panel-list>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #loader>
+  <sofie-loading></sofie-loading>
+</ng-template>

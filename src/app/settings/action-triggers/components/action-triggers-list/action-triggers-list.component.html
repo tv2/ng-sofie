@@ -9,7 +9,7 @@
         (onSelect)="applyUserActionToSelectedActionTriggers($event)"
         label="Selected">
       </sofie-dropdown-button>
-      <sofie-button (onClick)="setSelectMode(false)" label="Disable multiselect"></sofie-button>
+      <sofie-button (onClick)="setSelectMode(false)" label="Disable multiselect" [buttonClasses]="'c-sofie-button c-sofie-button-primary ms-2'"></sofie-button>
     </ng-container>
 
     <ng-template #turnOnSelectModeButton>
@@ -22,7 +22,7 @@
         (onSelect)="applySortQuery($event)">
       </sofie-dropdown-button>
 
-      <sofie-button (onClick)="setSelectMode(true)" label="Enable multiselect"></sofie-button>
+      <sofie-button (onClick)="setSelectMode(true)" label="Enable multiselect" [buttonClasses]="'c-sofie-button c-sofie-button-primary ms-2'"></sofie-button>
     </ng-template>
   </div>
   <div class="c-action-triggers-list__items">
@@ -43,10 +43,10 @@
                 {{ actionsTrigger.data.label }}
               </p>
               <div>
-                <span class="c-custom-badge bg-dark">{{
+                <span class="c-custom-badge mb-2 me-2 bg-dark">{{
                   (actionsTrigger.data.mappedToKeys && actionsTrigger.data.mappedToKeys.length > 0 ? actionsTrigger.data.mappedToKeys! : actionsTrigger.data.keys) | formatKeyboardKeys
                 }}</span>
-                <span class="c-custom-badge bg-gray" [class]="actionTriggerWithActions.action.metadata.contentType.toLocaleLowerCase() + '_color'">{{ actionTriggerWithActions.action.name }}</span>
+                <span class="c-custom-badge mb-2 me-2 bg-gray" [class]="actionTriggerWithActions.action.metadata.contentType.toLocaleLowerCase() + '_color'">{{ actionTriggerWithActions.action.name }}</span>
               </div>
             </div>
             <div *ngIf="!selectMode" class="c-action-triggers-list__card--actions">

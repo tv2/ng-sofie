@@ -37,6 +37,7 @@ import { MediaEventObserver } from './services/media-event-observer.service'
 import { ConfigurationEventParser } from './abstractions/configuration-event-parser'
 import { ZodConfigurationEventParser } from './parsers/zod-configuration-event-parser.service'
 import { ConfigurationEventObserver } from './services/configuration-event-observer'
+import { ShelfConfigurationStateService } from './services/shelf-configuration-state.service'
 
 @NgModule({
   declarations: [],
@@ -61,6 +62,7 @@ import { ConfigurationEventObserver } from './services/configuration-event-obser
     RundownTimingService,
     RundownTimingContextStateService,
     ActionTriggerStateService,
+    ShelfConfigurationStateService,
     ActionTriggerEventObserver,
     ConfigurationEventObserver,
     { provide: ActionTriggerEventParser, useClass: ZodActionTriggerEventParser },

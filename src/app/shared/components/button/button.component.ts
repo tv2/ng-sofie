@@ -13,7 +13,7 @@ export class ButtonComponent implements OnInit {
   @Input() public iconButtonSize: IconButtonSize
   @Input() public iconButton: IconButton
   @Input() public label: string = ''
-  @Input() public selected: string = ''
+  @Input() public buttonClasses: string
   @Output() public readonly onClick: EventEmitter<void> = new EventEmitter<void>()
   constructor(private readonly iconService: IconService) {}
 

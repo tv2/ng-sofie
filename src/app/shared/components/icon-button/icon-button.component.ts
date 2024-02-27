@@ -19,6 +19,9 @@ export class IconButtonComponent implements OnInit {
   public tooltipText: string = ''
 
   @Input()
+  public iconButtonClasess: string = ''
+
+  @Input()
   @HostBinding('attr.disabled')
   public disabled: boolean = false
 

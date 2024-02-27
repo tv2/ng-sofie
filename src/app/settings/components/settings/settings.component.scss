@@ -4,6 +4,7 @@
   display: flex;
   &__content {
     flex-grow: 1;
+    background-color: var(--gray-color);
   }
   &__menu {
     flex: 0 0 14rem;
