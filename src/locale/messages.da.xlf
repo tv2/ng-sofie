@@ -341,6 +341,7 @@
       <trans-unit id="4121868262213030663" datatype="html">
         <source>global.import.button</source>
         <target state="new">Import</target>
+      </trans-unit>
       <trans-unit id="1461657427455059144" datatype="html">
         <source>rundown-overview.hover-scrub.full-duration.label</source>
         <target state="new">Full duration</target>
