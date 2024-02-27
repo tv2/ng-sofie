@@ -18,6 +18,7 @@ export class MultiSelectComponent {
   @Input() public options: MultiSelectOptions[]
   @Input() public selectedOptionsIds: string[]
   @Input() public placeholder: string
+  @Input() public showOnlyItemsCountLabel?: string
 
   @Output() public readonly onItemSelectionChange: EventEmitter<string[]> = new EventEmitter<string[]>()
 

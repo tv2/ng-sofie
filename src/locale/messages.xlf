@@ -281,6 +281,9 @@
       <trans-unit id="7106742347850471576" datatype="html">
         <source>rundown-overview.hover-scrub.source-unavailable.label</source>
       </trans-unit>
+      <trans-unit id="4308163900742586914" datatype="html">
+        <source>global.selected-filters.label</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

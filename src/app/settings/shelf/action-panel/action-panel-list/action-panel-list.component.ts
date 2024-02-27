@@ -1,10 +1,13 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core'
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { ShelfActionPanelConfiguration, ShelfActionPanelConfigurationWithId, ShelfConfiguration } from 'src/app/shared/models/shelf-configuration'
 import { SofieTableHeader, SofieTableHeaderSize, SortDirection } from '../../../../shared/components/sofie-table-header/sofie-table-header.component'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
+import { MultiSelectOptions } from 'src/app/shared/components/multi-select/multi-select.component'
+import { Tv2ActionContentType } from 'src/app/shared/models/tv2-action'
+import { TranslationKnownValuesPipe } from 'src/app/shared/pipes/translation-known-values.pipe'
 
 export enum ShelfActionPanelHeaderKeys {
   NAME = 'name',
@@ -17,10 +20,12 @@ export enum ShelfActionPanelHeaderKeys {
   templateUrl: './action-panel-list.component.html',
   styleUrls: ['./action-panel-list.component.scss'],
 })
-export class ActionPanelListComponent implements OnChanges {
+export class ActionPanelListComponent implements OnChanges, OnInit {
   @Input() public shelfConfiguration: ShelfConfiguration<ShelfActionPanelConfigurationWithId>
 
   public readonly createNewLabel: string = $localize`global.create-new.label`
+  public readonly selectedFiltersLabel: string = $localize`global.selected-filters.label`
+  public readonly filtersLabel: string = $localize`global.filters.label`
   public readonly shelfActionPanelTableHeaders: SofieTableHeader[] = [
     { isSortable: true, key: ShelfActionPanelHeaderKeys.NAME, size: SofieTableHeaderSize.md, label: 'Panel name' },
     { isSortable: true, key: ShelfActionPanelHeaderKeys.RANK, size: SofieTableHeaderSize.md, label: 'Rank' },
@@ -31,10 +36,13 @@ export class ActionPanelListComponent implements OnChanges {
   public sortColumn: ShelfActionPanelHeaderKeys = ShelfActionPanelHeaderKeys.RANK
   public sortDirection: SortDirection = SortDirection.ASC
   public search: string = ''
+  public actionPanelFilters: Tv2ActionContentType[] = []
+  public filterActionPanelOptions: MultiSelectOptions[]
 
   constructor(
     private readonly dialogService: DialogService,
     private readonly fileDownloadService: FileDownloadService,
+    private readonly translationKnownValuesPipe: TranslationKnownValuesPipe,
     private readonly configurationService: ConfigurationService
   ) {}
 
@@ -43,6 +51,13 @@ export class ActionPanelListComponent implements OnChanges {
       this.resortTable()
       this.selectedActionPanelIds.clear()
     }
+  }
+
+  public ngOnInit(): void {
+    const tv2ActionContentTypeArray: string[] = Object.keys(Tv2ActionContentType)
+    this.filterActionPanelOptions = tv2ActionContentTypeArray.map(key => {
+      return { id: key, label: this.translationKnownValuesPipe.transform(key), classesOnSelected: `${key.toLocaleLowerCase()}_color` }
+    })
   }
 
   private resortTable(): void {
@@ -185,8 +200,26 @@ export class ActionPanelListComponent implements OnChanges {
   public get filteredActionsPannels(): ShelfActionPanelConfigurationWithId[] {
     const lowercasedSearchQuery: string = this.search.toLocaleLowerCase()
     return this.shelfConfiguration.actionPanelConfigurations.filter(
-      actionPannel => actionPannel.name.toLocaleLowerCase().includes(lowercasedSearchQuery) || actionPannel.rank.toString().toLocaleLowerCase().includes(lowercasedSearchQuery)
+      actionPannel =>
+        this.isFiltersSelectedForPanelConfigurations(actionPannel.actionFilter) &&
+        (actionPannel.name.toLocaleLowerCase().includes(lowercasedSearchQuery) || actionPannel.rank.toString().toLocaleLowerCase().includes(lowercasedSearchQuery))
     )
+  }
+
+  private isFiltersSelectedForPanelConfigurations(panelConfigurationsFilters: Tv2ActionContentType[]): boolean {
+    if (this.actionPanelFilters.length === 0) {
+      return true
+    }
+    for (let selectedFilter of this.actionPanelFilters) {
+      if (panelConfigurationsFilters.find(filter => filter === selectedFilter)) {
+        return true
+      }
+    }
+    return false
+  }
+
+  public actionPanelFiltersChange(selectedFiltersIds: string[]): void {
+    this.actionPanelFilters = selectedFiltersIds as Tv2ActionContentType[]
   }
 
   protected readonly IconButton = IconButton

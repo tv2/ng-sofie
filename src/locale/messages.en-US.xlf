@@ -374,6 +374,10 @@
         <source>rundown-overview.hover-scrub.source-unavailable.label</source>
         <target state="new">Source unavailable</target>
       </trans-unit>
+      <trans-unit id="4308163900742586914" datatype="html">
+        <source>global.selected-filters.label</source>
+        <target state="new">Selected filters</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -1,13 +1,22 @@
 <div class="c-action-panel-list">
   <div class="c-settings-page__header">
-    <div>
-      <input type="text" [(ngModel)]="search" placeholder="Search" />
+    <div class="c-settings-page__header--filters">
+      <input class="me-2" type="text" [(ngModel)]="search" placeholder="Search" />
+      <div>
+        <sofie-multi-select
+          [selectedOptionsIds]="actionPanelFilters"
+          [options]="filterActionPanelOptions"
+          (onItemSelectionChange)="actionPanelFiltersChange($event)"
+          [showOnlyItemsCountLabel]="selectedFiltersLabel"
+          [placeholder]="filtersLabel">
+        </sofie-multi-select>
+      </div>
     </div>
     <div>
       <ng-container *ngIf="this.selectedActionPanelIds.size === 0; else multiSelectionActions">
         <sofie-edit-action-panel [shelfConfiguration]="shelfConfiguration" [buttonLabel]="createNewLabel" buttonClasses="c-sofie-button c-sofie-button-primary me-2"></sofie-edit-action-panel>
         <button class="c-sofie-button c-sofie-button-primary me-2" (click)="exportActionPanels()" i18n>global.export.label</button>
-        <sofie-action-panel-import [shelfConfiguration]="shelfConfiguration" ></sofie-action-panel-import>
+        <sofie-action-panel-import [shelfConfiguration]="shelfConfiguration"></sofie-action-panel-import>
       </ng-container>
     </div>
     <ng-template #multiSelectionActions>

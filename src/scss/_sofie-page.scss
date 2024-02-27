@@ -117,6 +117,12 @@
     margin-bottom: 24px;
     margin: 25px 30px;
     justify-content: space-between;
+    &--filters {
+      display: flex;
+      & > div, & > input {
+        min-width: 250px;
+      }
+    }
   }
 }
 

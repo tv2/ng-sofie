@@ -1,9 +1,20 @@
 <div class="c-multi-select-trigger" mat-button [matMenuTriggerFor]="dropdownMenu">
   <ng-container *ngIf="selectedOptionsIds && selectedOptionsIds.length > 0; else noOptionsSelected">
-    <div class="c-multi-select-trigger--selected-option" [ngClass]="getOptionById(selectedOptionId)?.classesOnSelected" *ngFor="let selectedOptionId of selectedOptionsIds; let i = index">
-      <span class="me-2">{{ getOptionById(selectedOptionId)?.label }}</span>
-      <sofie-icon-button iconButtonClasess="text-white" [iconButton]="IconButton.XMARK" [iconButtonSize]="IconButtonSize.S" (click)="$event.stopPropagation(); unselectOption(i)"></sofie-icon-button>
-    </div>
+    <ng-container *ngIf="showOnlyItemsCountLabel && selectedOptionsIds.length > 1; else showItemsNames">
+      <div class="c-multi-select-trigger--show-only-items-count">
+        <span class="me-2">{{ selectedOptionsIds.length }} {{ showOnlyItemsCountLabel }}</span>
+        <sofie-icon-button
+          [iconButton]="IconButton.XMARK"
+          [iconButtonSize]="IconButtonSize.S"
+          (click)="$event.stopPropagation(); onItemSelectionChange.emit([])"></sofie-icon-button>
+      </div>
+    </ng-container>
+    <ng-template #showItemsNames>
+      <div class="c-multi-select-trigger--selected-option" [ngClass]="getOptionById(selectedOptionId)?.classesOnSelected" *ngFor="let selectedOptionId of selectedOptionsIds; let i = index">
+        <span class="me-2">{{ getOptionById(selectedOptionId)?.label }}</span>
+        <sofie-icon-button iconButtonClasess="text-white" [iconButton]="IconButton.XMARK" [iconButtonSize]="IconButtonSize.S" (click)="$event.stopPropagation(); unselectOption(i)"></sofie-icon-button>
+      </div>
+    </ng-template>
   </ng-container>
   <ng-template #noOptionsSelected>
     <div class="c-multi-select-trigger--no-selected">

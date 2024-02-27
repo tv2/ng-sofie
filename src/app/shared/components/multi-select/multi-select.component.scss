@@ -4,6 +4,7 @@
   border: 1px solid var(--gray-color);
   display: flex;
   flex-wrap: wrap;
+  font-size: 14px;
   &--selected-option {
     padding: 3px 6px;
     border-radius: 4px;
@@ -16,6 +17,13 @@
   &--no-selected {
     padding: 3px 0;
     margin-bottom: 5px;
+    color: var(--dark-gray-color);
+  }
+  &--show-only-items-count {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    margin-bottom: 5px;
+    width: 100%;
   }
 }
-
