@@ -1,0 +1,3 @@
+<div *ngIf="showPanel">
+    <sofie-notification-card *ngFor="let notification of notifications" [notification]="notification" [isRemovable]="!notification.isPersistent" [onRemoveCallback]="removeNotification.bind(this)"></sofie-notification-card>
+</div>

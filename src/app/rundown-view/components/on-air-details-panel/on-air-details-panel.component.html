@@ -1,5 +1,4 @@
 <sofie-spacer></sofie-spacer>
-
 <div class="subpanel">
     <span class="subpanel__label">Part countdown</span>
     <span class="subpanel__value"><span *ngIf="remainingDurationInMsForOnAirPart !== undefined" [class.overtime]="remainingDurationInMsForOnAirPart > 0" class="timer">{{ remainingDurationInMsForOnAirPart | timer: '#+HH?:mm:ss' }}</span></span>
@@ -21,3 +20,4 @@
 </div>
 
 <sofie-spacer></sofie-spacer>
+<sofie-notification-icon></sofie-notification-icon>

@@ -12,15 +12,17 @@ const STATUS_COLOR_WIDTH: string = 'var(--status-color-width)'
 const BACKGROUND_COLOR: string = 'var(--white-color)'
 
 @Component({
-  selector: 'sofie-notification',
-  templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss'],
+  selector: 'sofie-notification-card',
+  templateUrl: './notification-card.component.html',
+  styleUrls: ['./notification-card.component.scss'],
 })
-export class NotificationComponent implements OnInit {
+export class NotificationCardComponent implements OnInit {
   @Input()
   public notification: Notification
   @Input()
-  public onRemoveCallback: (element: HTMLElement) => void
+  public isRemovable: boolean
+  @Input()
+  public onRemoveCallback: (notification: Notification) => void
 
   public readonly IconButton = IconButton
   public readonly IconButtonSize = IconButtonSize
@@ -32,7 +34,7 @@ export class NotificationComponent implements OnInit {
   }
 
   public remove(): void {
-    this.onRemoveCallback(this.elementRef.nativeElement)
+    this.onRemoveCallback(this.notification)
   }
 
   private setBackground(): void {

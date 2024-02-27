@@ -60,8 +60,11 @@ import { HttpSystemInformationService } from './services/http/http-system-inform
 import { TooltipComponent } from './components/tooltip/tooltip.component'
 import { ConfigurationParser } from './abstractions/configuration-parser.service'
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
-import { NotificationContainerComponent } from './components/notification-container/notification-container.component'
-import { NotificationComponent } from './components/notification/notification.component'
+import { NotificationPanelComponent } from './components/notification-panel/notification-panel.component'
+import { NotificationCardComponent } from './components/notification-card/notification-card.component'
+import { NotificationPopupContainerComponent } from './components/notification-popup-container/notification-popup-container.component';
+import { NotificationIconComponent } from './components/notification-icon/notification-icon.component';
+import { NotificationPopupComponent } from './components/notification-popup-component/notification-popup.component'
 
 @NgModule({
   declarations: [
@@ -83,8 +86,12 @@ import { NotificationComponent } from './components/notification/notification.co
     CustomCheckboxComponent,
     ButtonComponent,
     TooltipComponent,
-    NotificationContainerComponent,
-    NotificationComponent,
+    NotificationPopupContainerComponent,
+    NotificationCardComponent,
+    NotificationPanelComponent,
+    NotificationCardComponent,
+    NotificationIconComponent,
+    NotificationPopupComponent,
   ],
   imports: [
     CommonModule,
@@ -126,7 +133,9 @@ import { NotificationComponent } from './components/notification/notification.co
     FormsModule,
     ButtonComponent,
     TooltipComponent,
-    NotificationContainerComponent,
+    NotificationPopupContainerComponent,
+    NotificationPanelComponent,
+    NotificationIconComponent,
   ],
   providers: [
     { provide: Logger, useClass: Tv2LoggerService },

@@ -9,6 +9,7 @@ import { KeyboardConfigurationService } from '../../abstractions/keyboard-config
 import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 import { Rundown } from '../../../core/models/rundown'
 import { ConnectionStatusObserver } from '../../../core/services/connection-status-observer.service'
+import { NotificationService } from '../../../shared/services/notification.service'
 
 describe('RundownViewComponent', () => {
   it('should create', async () => {
@@ -24,6 +25,9 @@ async function configureTestBed(
   const mockedConnectionStatusObserver: ConnectionStatusObserver = params.connectionStatusObserver ?? instance(createMockOfConnectionStatusObserver())
   const mockedKeyboardConfigurationService: KeyboardConfigurationService = params.keyboardConfigurationService ?? instance(mock<KeyboardConfigurationService>())
 
+  const notificationService: NotificationService = mock(NotificationService)
+  when(notificationService.subscribeToNotificationPanelIsOpen()).thenReturn(new Observable())
+
   await TestBed.configureTestingModule({
     imports: [RouterModule.forRoot([])],
     providers: [
@@ -31,6 +35,7 @@ async function configureTestBed(
       { provide: RundownStateService, useValue: mockedRundownStateService },
       { provide: ConnectionStatusObserver, useValue: mockedConnectionStatusObserver },
       { provide: KeyboardConfigurationService, useValue: mockedKeyboardConfigurationService },
+      { provide: NotificationService, useValue: instance(notificationService) },
       { provide: Logger, useValue: createLogger() },
     ],
     declarations: [RundownViewComponent],

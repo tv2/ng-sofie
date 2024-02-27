@@ -32,3 +32,8 @@
     color: var(--text-color);
   }
 }
+
+.rundown-view-body {
+  display: flex;
+  overflow: auto;
+}

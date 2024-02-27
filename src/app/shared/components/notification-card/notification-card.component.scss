@@ -1,7 +1,3 @@
-$animation-duration: 0.3s;
-$animation-function: ease;
-$animation-fill-mode: forwards;
-
 :host {
   --gradient-degree: 90deg;
   --status-color-width: 5%;
@@ -9,23 +5,11 @@ $animation-fill-mode: forwards;
   border-radius: 10px;
   box-sizing: border-box;
   box-shadow: 1px 1px 2px var(--black-color-with-alpha);
-  position: absolute;
   display: flex;
   color: var(--black-color);
-  top: 0;
-  left: 0;
-  width: 98%;
-  transform: translateX(500px);
-  transition: top $animation-duration $animation-function;
-  animation: slide-from-right $animation-duration $animation-function $animation-fill-mode;
-  z-index: 50;
 }
 
-@keyframes slide-from-right {
-  100% { transform: translateX(0) }
-}
-
-.notification-body {
+.notification-card {
   display: flex;
   width: 100%;
   justify-content: space-between;
