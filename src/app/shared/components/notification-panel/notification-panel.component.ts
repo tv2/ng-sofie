@@ -1,13 +1,31 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core'
 import { NotificationService } from '../../services/notification.service'
 import { Subject, takeUntil } from 'rxjs'
 import { SystemInformationService } from '../../services/system-information.service'
 import { Notification } from '../../models/notification'
+import { animate, state, style, transition, trigger } from '@angular/animations'
 
 @Component({
   selector: 'sofie-notification-panel',
   templateUrl: './notification-panel.component.html',
   styleUrls: ['./notification-panel.component.scss'],
+  animations: [
+    trigger('showPanel', [
+      state(
+        'true',
+        style({
+          width: '400px',
+        })
+      ),
+      state(
+        'false',
+        style({
+          width: '0px',
+        })
+      ),
+      transition('true <=> false', animate('300ms ease-in-out')),
+    ]),
+  ],
 })
 export class NotificationPanelComponent implements OnInit, OnDestroy {
   public showPanel: boolean = false
@@ -20,6 +38,10 @@ export class NotificationPanelComponent implements OnInit, OnDestroy {
     private readonly notificationStateService: NotificationService,
     private readonly systemInformationService: SystemInformationService
   ) {}
+
+  @HostBinding('@showPanel') get showPanelAnimation(): boolean {
+    return this.showPanel
+  }
 
   public ngOnInit(): void {
     this.notificationStateService

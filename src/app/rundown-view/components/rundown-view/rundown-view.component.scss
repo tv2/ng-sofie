@@ -1,5 +1,5 @@
 :host {
-  --text-color: var(--gray-color);
+  --text-color: var(--grey-color);
   --scrollbar-color: var(--rundown-key-background-color);
   --scrollbar-thumb-color: var(--rundown-scrollbar-color);
   --scrollbar-size: 15px;
@@ -35,5 +35,5 @@
 
 .rundown-view-body {
   display: flex;
-  overflow: auto;
+  overflow: hidden;
 }

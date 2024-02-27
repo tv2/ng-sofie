@@ -32,7 +32,7 @@
   display: inline-block;
   padding: 12px 20px;
   margin: 10px;
-  background-color: var(--dark-gray-color);
+  background-color: var(--dark-grey-color);
   border-radius: 4px;
   cursor: pointer;
   box-shadow: 2px 2px 4px var(--gradient-black-rgba-with-04-opacity-color);
@@ -51,7 +51,7 @@
   }
 
   &:hover {
-    background-color: var(--gray-color);
+    background-color: var(--grey-color);
   }
 
   &--matched,
