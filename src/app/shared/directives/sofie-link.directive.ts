@@ -5,7 +5,7 @@ import { Logger } from 'src/app/core/abstractions/logger.service'
 @Directive({ selector: '[sofieLink]' })
 export class SofieLinkDirective {
   @Input() public routerLink: string[]
-  @Input() public isRelativeToactivatedRoute: boolean
+  @Input() public isRelativeToActivatedRoute: boolean
 
   constructor(
     private readonly router: Router,
@@ -18,14 +18,14 @@ export class SofieLinkDirective {
   @HostListener('mousedown', ['$event']) public onMouseEnter(event: MouseEvent): void {
     if (event.ctrlKey) {
       const linkString = this.routerLink.join('/')
-      if (this.isRelativeToactivatedRoute) {
+      if (this.isRelativeToActivatedRoute) {
         const relativeUrl = this.activatedRoute.snapshot.parent?.url ? this.activatedRoute.snapshot.parent?.url.map(urlSegment => urlSegment.path).join('/') : ''
         window.open(`/${relativeUrl}/${linkString}`)
       } else {
         window.open(`/${linkString}`)
       }
     } else {
-      if (this.isRelativeToactivatedRoute) {
+      if (this.isRelativeToActivatedRoute) {
         this.router.navigate(this.routerLink, { relativeTo: this.activatedRoute }).catch(error => this.logger.data(error).warn(`Failed navigating to /${this.routerLink.join('/')}.`))
       } else {
         this.router.navigate(this.routerLink).catch(error => this.logger.data(error).warn(`Failed navigating to /${this.routerLink.join('/')}.`))
