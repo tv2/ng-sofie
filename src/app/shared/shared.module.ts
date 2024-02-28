@@ -60,6 +60,7 @@ import { SystemInformationService } from './services/system-information.service'
 import { HttpSystemInformationService } from './services/http/http-system-information.service'
 import { ConfigurationParser } from './abstractions/configuration-parser.service'
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
+import { SofieLinkDirective } from './directives/sofie-link.directive'
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { ZodConfigurationParser } from './services/zod-configuration-parser.serv
     DropdownButtonComponent,
     CustomCheckboxComponent,
     ButtonComponent,
+    SofieLinkDirective,
   ],
   imports: [
     CommonModule,
@@ -121,6 +123,7 @@ import { ZodConfigurationParser } from './services/zod-configuration-parser.serv
     ReactiveFormsModule,
     FormsModule,
     ButtonComponent,
+    SofieLinkDirective,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
