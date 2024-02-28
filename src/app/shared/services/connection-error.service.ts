@@ -3,6 +3,8 @@ import { ConnectionStatusObserver } from '../../core/services/connection-status-
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { NotificationService } from './notification.service'
 
+const CONNECTION_NOTIFICATION_ID: string = 'CONNECTION_NOTIFICATION_ID'
+
 @Injectable()
 export class ConnectionErrorService implements OnDestroy {
   private readonly subscriptions: EventSubscription[]
@@ -12,8 +14,10 @@ export class ConnectionErrorService implements OnDestroy {
     private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {
     this.subscriptions = [
-      this.connectionStatusObserver.subscribeToClosed(() => this.notificationService.createErrorNotification($localize`:connection-error:Lost connection to backend. Attempting to reconnect...`)),
-      this.connectionStatusObserver.subscribeToReconnect(() => this.notificationService.createInfoNotification('Reconnected to backend.')),
+      this.connectionStatusObserver.subscribeToClosed(() =>
+        this.notificationService.createErrorNotification($localize`:connection-error:Lost connection to backend. Attempting to reconnect...`, CONNECTION_NOTIFICATION_ID)
+      ),
+      this.connectionStatusObserver.subscribeToReconnect(() => this.notificationService.createInfoNotification('Reconnected to backend.', CONNECTION_NOTIFICATION_ID)),
     ]
   }
 

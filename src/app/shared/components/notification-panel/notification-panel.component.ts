@@ -4,6 +4,8 @@ import { Subject, takeUntil } from 'rxjs'
 import { SystemInformationService } from '../../services/system-information.service'
 import { Notification } from '../../models/notification'
 import { animate, state, style, transition, trigger } from '@angular/animations'
+import { ConnectionStatusObserver } from '../../../core/services/connection-status-observer.service'
+import { EventSubscription } from '../../../event-system/abstractions/event-observer.service'
 
 @Component({
   selector: 'sofie-notification-panel',
@@ -33,10 +35,12 @@ export class NotificationPanelComponent implements OnInit, OnDestroy {
 
   private readonly timeoutMap: Map<string, NodeJS.Timeout> = new Map()
   private readonly destroySubject: Subject<void> = new Subject()
+  private reconnectEventSubscription: EventSubscription
 
   constructor(
     private readonly notificationStateService: NotificationService,
-    private readonly systemInformationService: SystemInformationService
+    private readonly systemInformationService: SystemInformationService,
+    private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {}
 
   @HostBinding('@showPanel') get showPanelAnimation(): boolean {
@@ -60,6 +64,11 @@ export class NotificationPanelComponent implements OnInit, OnDestroy {
         this.setRemoveNotificationTimer(notification)
       })
 
+    this.reconnectEventSubscription = this.connectionStatusObserver.subscribeToReconnect(() => this.loadStatusMessages())
+    this.loadStatusMessages()
+  }
+
+  private loadStatusMessages(): void {
     this.systemInformationService.getStatusMessages().subscribe(statusMessages => statusMessages.map(statusMessage => this.notificationStateService.createNotificationFromStatusMessage(statusMessage)))
   }
 
@@ -92,5 +101,6 @@ export class NotificationPanelComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroySubject.next()
     this.destroySubject.complete()
+    this.reconnectEventSubscription.unsubscribe()
   }
 }

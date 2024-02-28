@@ -30,26 +30,26 @@ export class NotificationService {
     this.newNotificationSubject.next(notification)
   }
 
-  public createInfoNotification(message: string): void {
-    const notification: Notification = this.createNotification(message, StatusCode.GOOD)
+  public createInfoNotification(message: string, id?: string): void {
+    const notification: Notification = this.createNotification(message, StatusCode.GOOD, id)
     this.newNotificationSubject.next(notification)
   }
 
-  private createNotification(message: string, statusCode: StatusCode): Notification {
+  private createNotification(message: string, statusCode: StatusCode, id?: string): Notification {
     return {
-      id: generateUuid(),
+      id: id ?? generateUuid(),
       message,
       statusCode,
     }
   }
 
-  public createErrorNotification(message: string): void {
-    const notification: Notification = this.createNotification(message, StatusCode.BAD)
+  public createErrorNotification(message: string, id?: string): void {
+    const notification: Notification = this.createNotification(message, StatusCode.BAD, id)
     this.newNotificationSubject.next(notification)
   }
 
-  public createWarningNotification(message: string): void {
-    const notification: Notification = this.createNotification(message, StatusCode.WARNING)
+  public createWarningNotification(message: string, id?: string): void {
+    const notification: Notification = this.createNotification(message, StatusCode.WARNING, id)
     this.newNotificationSubject.next(notification)
   }
 
