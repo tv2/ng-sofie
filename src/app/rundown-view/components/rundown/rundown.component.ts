@@ -59,6 +59,12 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       .then(rundownTimingContextObservable => rundownTimingContextObservable.subscribe(this.onRundownTimingContextChanged.bind(this)))
       .then(rundownTimingContextSubscription => (this.rundownTimingContextSubscription = rundownTimingContextSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to rundown timing context changes.'))
+    this.actionStateService
+      .subscribeToRundownActions(this.rundown.id)
+      .then(rundownActionsObservable => rundownActionsObservable.subscribe(this.onActionsChanged.bind(this)))
+      .then(rundownActionsSubscription => (this.rundownActionsSubscription = rundownActionsSubscription))
+      .catch(error => this.logger.data(error).error('Failed subscribing to rundown actions changes.'))
+
     this.subscribeToEventObserver()
   }
 
@@ -67,7 +73,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownReset(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownDeactivation(this.setAutoNextStartedToFalse.bind(this)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownTake(this.scrollViewToSegment.bind(this)))
-
     this.rundownEventSubscriptions.push(
       this.rundownEventObserver.subscribeToRundownSetNext(event => {
         this.setAutoNextStartedToFalse()
@@ -82,11 +87,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private setAutoNextStartedToFalse(): void {
     this.isAutoNextStarted = false
-    this.actionStateService
-      .subscribeToRundownActions(this.rundown.id)
-      .then(rundownActionsObservable => rundownActionsObservable.subscribe(this.onActionsChanged.bind(this)))
-      .then(rundownActionsSubscription => (this.rundownActionsSubscription = rundownActionsSubscription))
-      .catch(error => this.logger.data(error).error('Failed subscribing to rundown actions changes.'))
   }
 
   public scrollViewToSegment(event: PartEvent): void {
@@ -154,7 +154,9 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     const videoClipFile: string | undefined = segment.metadata?.miniShelfVideoClipFile
     if (!videoClipFile) return actionMap
 
-    const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => action.metadata?.fileName === videoClipFile)
+    const action: Tv2VideoClipAction | undefined = this.videoClipActions.find(action => {
+      return action.metadata?.fileName === videoClipFile && action.name === segment.name
+    })
 
     return action ? { ...actionMap, [segment.id]: action } : actionMap
   }
