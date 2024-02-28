@@ -2,5 +2,13 @@
   display: contents;
   & .c-sofie-table-header {
     cursor: pointer;
+    & .c-sofie-table-header-hover-arrow {
+      display: none;
+    }
+    &:hover {
+      & .c-sofie-table-header-hover-arrow {
+        display: inline-block;
+      }
+    }
   }
 }

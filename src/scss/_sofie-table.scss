@@ -19,6 +19,9 @@
     border-bottom: 1px solid var(--gray-color);
     z-index: 3;
     line-height: 25px;
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--dark-gray-color);
   }
   &__checkbox {
     align-items: center;
