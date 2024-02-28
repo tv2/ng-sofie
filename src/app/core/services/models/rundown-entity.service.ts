@@ -165,8 +165,8 @@ export class RundownEntityService {
     if (segmentForPartIndex < 0) {
       return rundown
     }
-    const partToUpdateIndex: number | undefined = rundown.segments[segmentForPartIndex].parts.findIndex(existingPart => part.segmentId.startsWith(existingPart.id))
-    if (partToUpdateIndex) {
+    const partToUpdateIndex: number | undefined = rundown.segments[segmentForPartIndex].parts.findIndex(existingPart => part.segmentId.startsWith(existingPart.segmentId))
+    if (partToUpdateIndex > -1) {
       rundown.segments[segmentForPartIndex].parts[partToUpdateIndex] = part
     }
     return rundown

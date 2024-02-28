@@ -1,5 +1,6 @@
 interface BlueprintConfiguration {
   ServerPostrollDuration: number
+  JingleFolder: string
 }
 
 interface StudioSettings {

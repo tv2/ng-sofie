@@ -31,7 +31,12 @@ import { KeyBindingFactory } from './factories/key-binding.factory'
 import { OnAirDetailsPanelComponent } from './components/on-air-details-panel/on-air-details-panel.component'
 import { CountdownLabelComponent } from './components/countdown-label/countdown-label.component'
 import { ActionTriggerProducerKeyBindingService } from './services/action-trigger-producer-key-binding.service'
-import { MiniShelfComponent } from './components/minishelf/mini-shelf.component'
+import { MiniShelfComponent } from './components/mini-shelf/mini-shelf.component'
+import { VideoHoverScrubComponent } from './components/rundown-tooltips/video-hover-scrub/video-hover-scrub.component'
+import { MiniShelfTooltipComponent } from './components/rundown-tooltips/mini-shelf-tooltip/mini-shelf-tooltip.component'
+import { PieceTooltipComponent } from './components/rundown-tooltips/piece-tooltip/piece-tooltip.component'
+import { MiniShelfCycleService } from './services/mini-shelf-cycle.service'
+import { MiniShelfNavigationService } from './services/mini-shelf-navigation.service'
 
 @NgModule({
   declarations: [
@@ -55,6 +60,9 @@ import { MiniShelfComponent } from './components/minishelf/mini-shelf.component'
     RundownViewComponent,
     CountdownLabelComponent,
     MiniShelfComponent,
+    VideoHoverScrubComponent,
+    PieceTooltipComponent,
+    MiniShelfTooltipComponent,
   ],
   exports: [SegmentComponent],
   providers: [
@@ -62,6 +70,8 @@ import { MiniShelfComponent } from './components/minishelf/mini-shelf.component'
     { provide: KeyBindingService, useClass: ActionTriggerProducerKeyBindingService },
     Tv2ActionGroupService,
     { provide: KeyboardConfigurationService, useClass: ProducerKeyboardConfigurationService },
+    MiniShelfCycleService,
+    MiniShelfNavigationService,
     KeyBindingFactory,
   ],
   imports: [SharedModule, RundownViewRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule],

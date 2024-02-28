@@ -1,6 +1,5 @@
 import { EntityParser } from '../abstractions/entity-parser.service'
 import { BasicRundown } from '../models/basic-rundown'
-import { Part } from '../models/part'
 import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
 import * as zod from 'zod'
@@ -14,6 +13,8 @@ import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Media } from '../../shared/services/media'
 import { PartActionType, PieceActionType } from '../../shared/models/action-type'
 import { SystemInformation } from '../../shared/models/system-information'
+import { Tv2Part } from '../models/tv2-part'
+import { PieceLifespan } from '../models/piece-lifespan'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -55,6 +56,7 @@ export class ZodEntityParser implements EntityParser {
     start: zod.number(),
     duration: zod.number().optional(),
     isPlanned: zod.boolean(),
+    lifespan: zod.nativeEnum(PieceLifespan),
     // TODO: Should this be less TV2 specific.
     metadata: zod.object({
       type: zod.nativeEnum(Tv2PieceType),
@@ -81,6 +83,11 @@ export class ZodEntityParser implements EntityParser {
     isUnsynced: zod.boolean(),
     isPlanned: zod.boolean(),
     isUntimed: zod.boolean(),
+    metadata: zod
+      .object({
+        actionId: zod.string().optional(),
+      })
+      .optional(),
   })
 
   private readonly segmentParser = zod.object({
@@ -163,7 +170,7 @@ export class ZodEntityParser implements EntityParser {
     return this.pieceParser.parse(piece)
   }
 
-  public parsePart(part: unknown): Part {
+  public parsePart(part: unknown): Tv2Part {
     return this.partParser.parse(part)
   }
 
