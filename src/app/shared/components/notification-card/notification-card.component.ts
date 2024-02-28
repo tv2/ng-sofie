@@ -47,11 +47,11 @@ export class NotificationCardComponent implements OnInit {
       case StatusCode.WARNING: {
         return WARNING_COLOR
       }
-      case StatusCode.BAD: {
-        return ERROR_COLOR
+      case StatusCode.GOOD: {
+        return INFO_COLOR
       }
       default: {
-        return INFO_COLOR
+        return ERROR_COLOR
       }
     }
   }
