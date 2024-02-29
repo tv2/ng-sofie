@@ -7,7 +7,7 @@
 
   <mat-toolbar-row class="c-header__main-menu">
     <mat-nav-list>
-      <a class="c-header__nav-item" i18n>header-component.rundowns.label</a>
+      <a class="c-header__nav-item" sofieLink [routerLink]="[Paths.RUNDOWNS]" [isRelativeToActivatedRoute]="false" i18n>header-component.rundowns.label</a>
       <a class="c-header__nav-item" sofieLink [routerLink]="[Paths.STATUS]" [isRelativeToActivatedRoute]="false" i18n>header-component.status.label</a>
     </mat-nav-list>
     <mat-nav-list>
