@@ -12,8 +12,11 @@ import { IconService } from 'src/app/core/abstractions/icon.service'
 export class ButtonComponent implements OnInit {
   @Input() public iconButtonSize: IconButtonSize
   @Input() public iconButton: IconButton
-  @Input() public label: string = ''
   @Input() public buttonClasses: string
+  @Input() public type: string = 'button'
+  @Input() public tooltip?: string
+  @Input() public label?: string
+  @Input() public disabled: boolean = false
   @Output() public readonly onClick: EventEmitter<void> = new EventEmitter<void>()
   constructor(private readonly iconService: IconService) {}
 

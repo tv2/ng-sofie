@@ -26,6 +26,9 @@ export class ActionPanelListComponent implements OnChanges, OnInit {
   public readonly createNewLabel: string = $localize`global.create-new.label`
   public readonly selectedFiltersLabel: string = $localize`global.selected-filters.label`
   public readonly filtersLabel: string = $localize`global.filters.label`
+  public readonly exportLabel: string = $localize`global.export.label`
+  public readonly exportSelectedLabel: string = $localize`global.export-selected.label`
+  public readonly deleteSelectedLabel: string = $localize`global.delete-selected.label`
   public readonly shelfActionPanelTableHeaders: SofieTableHeader[] = [
     { isSortable: true, key: ShelfActionPanelHeaderKeys.NAME, size: SofieTableHeaderSize.md, label: 'Panel name' },
     { isSortable: true, key: ShelfActionPanelHeaderKeys.RANK, size: SofieTableHeaderSize.md, label: 'Rank' },

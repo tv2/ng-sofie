@@ -12,6 +12,8 @@ import { ShelfActionPanelConfiguration, ShelfActionPanelConfigurationWithId, She
 export class ActionPanelImportComponent {
   @Input() public shelfConfiguration: ShelfConfiguration<ShelfActionPanelConfigurationWithId>
 
+  public readonly importLabel = $localize`global.import.button`
+
   constructor(
     private readonly configurationService: ConfigurationService,
     private readonly configurationParser: ConfigurationParser,

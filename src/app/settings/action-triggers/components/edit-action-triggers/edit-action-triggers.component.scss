@@ -22,16 +22,5 @@
       background-color: var(--dark-gray-color);
       color: var(--white-color);
     }
-    &--buttons {
-      margin-top: auto;
-      & button {
-        display: block;
-        margin-bottom: 16px;
-        width: 100%;
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-    }
   }
 }

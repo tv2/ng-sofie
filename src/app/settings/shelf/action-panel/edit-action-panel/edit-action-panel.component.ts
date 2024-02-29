@@ -32,6 +32,7 @@ export class EditActionPanelComponent implements OnInit {
   public readonly rankPanelLabel: string = $localize`action-panel.rank.label`
   public readonly submitButtonTooltipError = $localize`global.submit-tooltip.error`
   public readonly noFiltersSelectedLabel = $localize`action-panel.no-filters-selected.label`
+  public readonly closeLabel = $localize`global.close.button`
 
   constructor(
     private readonly formBuilder: FormBuilder,

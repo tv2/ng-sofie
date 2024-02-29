@@ -15,13 +15,13 @@
     <div>
       <ng-container *ngIf="this.selectedActionPanelIds.size === 0; else multiSelectionActions">
         <sofie-edit-action-panel [shelfConfiguration]="shelfConfiguration" [buttonLabel]="createNewLabel" buttonClasses="c-sofie-button c-sofie-button-primary me-2"></sofie-edit-action-panel>
-        <button class="c-sofie-button c-sofie-button-primary me-2" (click)="exportActionPanels()" i18n>global.export.label</button>
+        <sofie-button [label]="exportLabel" (onClick)="exportActionPanels()" [buttonClasses]="'c-sofie-button c-sofie-button-primary me-2'"> </sofie-button>
         <sofie-action-panel-import [shelfConfiguration]="shelfConfiguration"></sofie-action-panel-import>
       </ng-container>
     </div>
     <ng-template #multiSelectionActions>
-      <button class="c-sofie-button c-sofie-button-primary me-2" (click)="exportSelectedActionPanels()" i18n>global.export-selected.label</button>
-      <button class="c-sofie-button c-sofie-button-danger" (click)="openDeleteSelectedActionPanelDialog()" i18n>global.delete-selected.label</button>
+      <sofie-button [label]="exportSelectedLabel" (onClick)="exportSelectedActionPanels()" [buttonClasses]="'c-sofie-button c-sofie-button-primary me-2'"> </sofie-button>
+      <sofie-button [label]="deleteSelectedLabel" (onClick)="openDeleteSelectedActionPanelDialog()" [buttonClasses]="'c-sofie-button c-sofie-button-danger'"> </sofie-button>
     </ng-template>
   </div>
 
@@ -29,7 +29,7 @@
     <thead>
       <tr>
         <th class="c-sofie-table-header xs">
-          <div class="c-sofie-table__checkbox" [ngClass]="this.selectedActionPanelIds.size > 0 ? 'd-flex' : ''">
+          <div class="c-sofie-table__checkbox" [ngClass]="this.selectedActionPanelIds.size > 0 ? 'flex' : ''">
             <sofie-custom-checkbox [isSelected]="isAllActionPanelSelected()" checkboxId="'allActionPanel'" (onChange)="toggleAllActionPanelSelection($event)"></sofie-custom-checkbox>
           </div>
         </th>
@@ -47,7 +47,7 @@
       <ng-container>
         <tr *ngFor="let actionPanelRow of filteredActionsPannels; let i = index">
           <td>
-            <div class="c-sofie-table__checkbox" [ngClass]="this.selectedActionPanelIds.size > 0 ? 'd-flex' : ''">
+            <div class="c-sofie-table__checkbox" [ngClass]="this.selectedActionPanelIds.size > 0 ? 'flex' : ''">
               <sofie-custom-checkbox
                 [isSelected]="isActionPanelSelected(actionPanelRow.id)"
                 [checkboxId]="i + '_panel'"

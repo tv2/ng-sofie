@@ -26,6 +26,9 @@ export class EditActionTriggersComponent implements OnChanges {
   public readonly triggerOnLabel = $localize`action-triggers.trigger-on.label`
   public readonly selectedActionLabel = $localize`action-triggers.selected-action.label`
   public readonly submitButtonTooltipError = $localize`global.submit-tooltip.error`
+  public readonly updateButtonLabel = $localize`global.update.button`
+  public readonly createButtonLabel = $localize`global.create.button`
+  public readonly closeButtonLabel = $localize`global.close.button`
   public readonly ActionArgumentSchemaType = ActionArgumentSchemaType
   public readonly IconButton = IconButton
   public readonly IconButtonSize = IconButtonSize

@@ -15,6 +15,8 @@ export class ActionTriggersImportComponent {
   @Input() public actionTriggersWithAction: ActionTriggerWithAction<KeyboardTriggerData>[]
   @Input() public isDisabled: boolean
 
+  public readonly importShortcutLabel = $localize`action-triggers.import-shortcuts.button`
+
   constructor(
     private readonly actionTriggerService: ActionTriggerService,
     private readonly actionTriggerParser: ActionTriggerParser,

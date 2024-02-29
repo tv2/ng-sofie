@@ -21,6 +21,9 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
   public actionTriggersWithAction: ActionTriggerWithAction<KeyboardTriggerData>[]
   private readonly unsubscribe$: Subject<null> = new Subject<null>()
 
+  public readonly createShortcutLabel = $localize`action-triggers.create-shortcut.button`
+  public readonly exportShortcutLabel = $localize`action-triggers.export-shortcuts.button`
+
   constructor(
     private readonly actionTriggerStateService: ActionTriggerStateService,
     private readonly fileDownloadService: FileDownloadService,

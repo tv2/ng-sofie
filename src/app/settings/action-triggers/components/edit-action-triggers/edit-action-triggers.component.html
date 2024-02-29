@@ -58,25 +58,16 @@
         </div>
       </ng-container>
 
-      <div class="c-edit-actions-triggers__form--buttons">
-        <button
-          [title]="actionForm.invalid ? submitButtonTooltipError + ': ' + getFormValidationErrors : ''"
+      <div class="mt-auto">
+        <sofie-button
+          type="submit"
+          [tooltip]="actionForm.invalid ? submitButtonTooltipError + ': ' + getFormValidationErrors : ''"
           [disabled]="actionForm.invalid"
-          *ngIf="isUpdateForm; else createButton"
-          class="c-sofie-button c-sofie-button-primary"
-          type="submit">
-          <span i18n>global.update.button</span>
-        </button>
-        <ng-template #createButton
-          ><button
-            [title]="actionForm.invalid ? submitButtonTooltipError + ': ' + getFormValidationErrors : ''"
-            [disabled]="actionForm.invalid"
-            class="c-sofie-button c-sofie-button-primary"
-            type="submit">
-            <span i18n>global.create.button</span>
-          </button></ng-template
-        >
-        <button class="c-sofie-button c-sofie-button-gray" (click)="onCancel.emit()" type="button" i18n>global.close.button</button>
+          [label]="isUpdateForm ? updateButtonLabel : createButtonLabel"
+          [buttonClasses]="'c-sofie-button c-sofie-button-primary width-full block mb-2'">
+        </sofie-button>
+
+        <sofie-button [label]="closeButtonLabel" (onClick)="onCancel.emit()" [buttonClasses]="'c-sofie-button c-sofie-button-gray width-full block'"> </sofie-button>
       </div>
     </div>
     <sofie-select-action-trigger [actions]="actions" [isSubmitting]="isSubmitting" [selectedActionId]="actionForm.get('actionId')?.value" (onActionTriggerOpen)="openNewActionTrigger($event)">

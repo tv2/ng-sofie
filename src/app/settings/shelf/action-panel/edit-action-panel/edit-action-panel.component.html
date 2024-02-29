@@ -28,13 +28,14 @@
     </div>
   </form>
   <div class="c-dialog-body__actions">
-    <button
-      class="c-sofie-button c-sofie-button-primary me-2"
-      [disabled]="panelForm.invalid"
+    <sofie-button
+      [label]="submitButtonLabel"
       [title]="panelForm.invalid ? submitButtonTooltipError + ': ' + getFormValidationErrors : ''"
-      (click)="formSubmit()">
-      {{ submitButtonLabel }}
-    </button>
-    <button class="c-sofie-button c-sofie-button-outline-primary" (click)="isEditDialogOpen = false">{{ 'Close' }}</button>
+      (onClick)="formSubmit()"
+      [disabled]="panelForm.invalid"
+      [buttonClasses]="'c-sofie-button c-sofie-button-primary me-2'">
+    </sofie-button>
+
+    <sofie-button [label]="closeLabel" (onClick)="isEditDialogOpen = false" [buttonClasses]="'c-sofie-button c-sofie-button-outline-primary'"> </sofie-button>
   </div>
 </sofie-dialog>

@@ -1,8 +1,8 @@
 <div class="c-action-triggers-actions">
   <h2 class="c-settings-title" i18n>settings.keyboard-mappings.label</h2>
   <div>
-    <button class="c-sofie-button c-sofie-button-primary me-2" (click)="createActionTrigger()" i18n>action-triggers.create-shortcut.button</button>
-    <button class="c-sofie-button c-sofie-button-primary me-2" (click)="exportActionsTriggers()" i18n>action-triggers.export-shortcuts.button</button>
+    <sofie-button (onClick)="createActionTrigger()" [label]="createShortcutLabel" [buttonClasses]="'c-sofie-button c-sofie-button-primary me-2'"></sofie-button>
+    <sofie-button (onClick)="exportActionsTriggers()" [label]="exportShortcutLabel" [buttonClasses]="'c-sofie-button c-sofie-button-primary me-2'"></sofie-button>
     <sofie-action-triggers-import [actionTriggersWithAction]="actionTriggersWithAction" [isDisabled]="isLoading"></sofie-action-triggers-import>
   </div>
 </div>

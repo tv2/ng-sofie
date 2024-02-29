@@ -1,4 +1,4 @@
-<button (click)="onClick.emit()" [ngClass]="buttonClasses">
+<button [type]="type" [disabled]="disabled" (click)="onClick.emit()" [ngClass]="buttonClasses" [title]="tooltip ? tooltip : ''">
   <fa-icon *ngIf="iconButtonProp && iconButtonSizeProp" [icon]="iconButtonProp" [size]="iconButtonSizeProp"></fa-icon>
   <span *ngIf="label">{{ label }}</span>
 </button>
