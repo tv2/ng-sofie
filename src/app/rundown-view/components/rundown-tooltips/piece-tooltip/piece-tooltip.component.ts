@@ -52,4 +52,9 @@ export class PieceTooltipComponent {
     const tv2Piece: Tv2Piece = this.piece as Tv2Piece
     return tv2Piece.metadata?.type === Tv2PieceType.VIDEO_CLIP || tv2Piece.metadata?.type === Tv2PieceType.JINGLE
   }
+
+  public getPieceType(): Tv2PieceType {
+    const tv2Piece: Tv2Piece = this.piece as Tv2Piece
+    return tv2Piece.metadata.type
+  }
 }
