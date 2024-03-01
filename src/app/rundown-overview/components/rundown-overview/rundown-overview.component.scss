@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  max-height: 100vh;
+  overflow: auto;
+}
 .mat-table {
   padding: 0 3em;
   margin: 3em 0;
