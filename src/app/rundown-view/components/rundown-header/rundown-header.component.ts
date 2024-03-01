@@ -41,13 +41,13 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public elementRef: ElementRef
 
   constructor(
-    elementReference: ElementRef,
+    elementRef: ElementRef,
     private readonly showStyleVariantStateService: ShowStyleVariantStateService,
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownHeaderComponent')
-    this.elementRef = elementReference
+    this.elementRef = elementRef
   }
 
   public ngOnInit(): void {

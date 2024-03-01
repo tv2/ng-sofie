@@ -5,13 +5,10 @@
   align-items: center;
 
   sofie-icon-button {
+    color: var(--dark-gray-color);
+
     &.error {
       color: var(--danger-color);
-
-    }
-
-    &.no-error {
-      color: var(--dark-gray-color);
     }
 
     &:hover {

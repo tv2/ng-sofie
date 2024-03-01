@@ -1,1 +1,1 @@
-<sofie-icon-button [ngClass]="{ error: hasNotification, 'no-error': !hasNotification}" [iconButton]="IconButton.CIRCLE_EXCLAMATION" [iconButtonSize]="IconButtonSize.XXL" (click)="toggleNotificationPanel()"></sofie-icon-button>
+<sofie-icon-button [ngClass]="{ error: hasNotification() }" [iconButton]="IconButton.CIRCLE_EXCLAMATION" [iconButtonSize]="IconButtonSize.XXL" (click)="toggleNotificationPanel()"></sofie-icon-button>

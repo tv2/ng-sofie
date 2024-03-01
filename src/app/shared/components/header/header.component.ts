@@ -16,13 +16,13 @@ export class HeaderComponent implements OnInit {
   private readonly logger: Logger
 
   constructor(
-    elementReference: ElementRef,
+    elementRef: ElementRef,
     private readonly router: Router,
     private readonly titleService: Title,
     logger: Logger
   ) {
     this.logger = logger.tag('HeaderComponent')
-    this.elementRef = elementReference
+    this.elementRef = elementRef
   }
 
   public ngOnInit(): void {

@@ -54,7 +54,7 @@ export class NotificationIconComponent implements OnInit, OnDestroy {
     this.destroySubject.complete()
   }
 
-  get hasNotification(): boolean {
+  public hasNotification(): boolean {
     return this.notifications.length > 0
   }
 }

@@ -18,7 +18,7 @@
 .text {
   padding-left: var(--status-color-width);
   overflow-wrap: break-word;
-  width: 95%;
+  width: calc(100% - var(--status-color-width))
 }
 
 sofie-icon-button {
