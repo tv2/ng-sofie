@@ -7,6 +7,7 @@ import { ShowStyleVariant } from '../models/show-style-variant'
 import { Tv2Action } from '../../shared/models/tv2-action'
 import { Media } from '../../shared/services/media'
 import { SystemInformation } from '../../shared/models/system-information'
+import { StatusMessage } from '../../shared/models/status-message'
 
 export abstract class EntityParser {
   public abstract parseBasicRundown(basicRundown: unknown): BasicRundown
@@ -20,4 +21,6 @@ export abstract class EntityParser {
   public abstract parseMediaAsset(media: unknown): Media
   public abstract parseMediaAssets(media: unknown): Media[]
   public abstract parseSystemInformation(systemInformation: unknown): SystemInformation
+  public abstract parseStatusMessage(statusMessages: unknown): StatusMessage
+  public abstract parseStatusMessages(statusMessages: unknown): StatusMessage[]
 }

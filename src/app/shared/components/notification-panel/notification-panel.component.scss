@@ -1,0 +1,11 @@
+:host {
+  background: var(--rundown-scrollbar-color);
+}
+
+div {
+  width: 400px;
+
+  sofie-notification-card {
+    margin: 5px;
+  }
+}
