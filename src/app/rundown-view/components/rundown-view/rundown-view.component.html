@@ -6,9 +6,13 @@
 
 <ng-template #rundownLoaded>
     <ng-container *ngIf="rundown; else rundownRemoved">
-        <sofie-rundown-header [rundown]="rundown"></sofie-rundown-header>
-        <sofie-on-air-details-panel *ngIf="rundown.isActive" [rundown]="rundown"></sofie-on-air-details-panel>
-        <sofie-rundown [rundown]="rundown"></sofie-rundown>
+        <sofie-rundown-header #header [rundown]="rundown"></sofie-rundown-header>
+        <sofie-on-air-details-panel #onAirDetails [rundown]="rundown"></sofie-on-air-details-panel>
+        <sofie-notification-popup-container *ngIf="shouldShowPopupNotifications" [topOffset]="header.elementRef.nativeElement.offsetHeight + onAirDetails.elementRef.nativeElement.offsetHeight"></sofie-notification-popup-container>
+        <div class="rundown-view-body">
+            <sofie-rundown [rundown]="rundown"></sofie-rundown>
+            <sofie-notification-panel></sofie-notification-panel>
+        </div>
         <sofie-draggable-shelf localStorageKey="producer-shelf">
             <sofie-producer-shelf
                     [keyBindings]="keyBindings"

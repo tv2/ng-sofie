@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
 import { Rundown } from '../../../core/models/rundown'
 import { Piece } from '../../../core/models/piece'
 import { ShowStyleVariantStateService } from '../../../core/services/show-style-variant-state.service'
@@ -38,12 +38,16 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
 
+  public elementRef: ElementRef
+
   constructor(
+    elementRef: ElementRef,
     private readonly showStyleVariantStateService: ShowStyleVariantStateService,
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
     logger: Logger
   ) {
     this.logger = logger.tag('RundownHeaderComponent')
+    this.elementRef = elementRef
   }
 
   public ngOnInit(): void {
