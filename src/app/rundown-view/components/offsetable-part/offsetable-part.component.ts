@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Part } from '../../../core/models/part'
 import { Tv2PieceGroupService } from '../../services/tv2-piece-group.service'
 import { Piece } from '../../../core/models/piece'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 import { Tv2Piece } from '../../../core/models/tv2-piece'
-import { Tv2PieceDataInTranzit } from '../offsetable-stack/offsetable-stack.component'
 
 const KEEP_VISIBLE_DURATION_IN_MS: number = 20_000
 
@@ -15,7 +14,7 @@ const KEEP_VISIBLE_DURATION_IN_MS: number = 20_000
   styleUrls: ['./offsetable-part.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OffsetablePartComponent implements OnChanges, OnInit {
+export class OffsetablePartComponent implements OnChanges {
   @Input()
   public part: Part
 
@@ -46,20 +45,11 @@ export class OffsetablePartComponent implements OnChanges, OnInit {
   public piecesGroupedByOutputLayer: Record<Tv2OutputLayer, Tv2Piece[]> = {} as Record<Tv2OutputLayer, Tv2Piece[]>
   public readonly autoLabel: string = $localize`global.auto.label`
   public readonly nextLabel: string = $localize`global.next.label`
-  protected dataInTranzit: Tv2PieceDataInTranzit = {} as Tv2PieceDataInTranzit
 
   constructor(
     private readonly partEntityService: PartEntityService,
     private readonly pieceGroupService: Tv2PieceGroupService
   ) {}
-
-  public ngOnInit(): void {
-    this.dataInTranzit = {
-      pixelsPerSecond: this.pixelsPerSecond,
-      prePlayheadDurationInMs: this.prePlayheadDurationInMs,
-      postPlayheadDurationInMs: this.postPlayheadDurationInMs,
-    }
-  }
 
   @HostBinding('style.width.px')
   public get displayDurationInPixels(): number {
@@ -92,21 +82,6 @@ export class OffsetablePartComponent implements OnChanges, OnInit {
       // TODO: How do we convert this correctly from Piece to Tv2Piece?
       this.piecesGroupedByOutputLayer = this.pieceGroupService.groupByOutputLayer(visiblePieces as Tv2Piece[])
     }
-
-    const pixelsPerSecondChange: SimpleChange | undefined = changes['pixelsPerSecond']
-    if (pixelsPerSecondChange) {
-      this.dataInTranzit.pixelsPerSecond = pixelsPerSecondChange.currentValue
-    }
-
-    const prePlayheadDurationInMsChange: SimpleChange | undefined = changes['prePlayheadDurationInMs']
-    if (prePlayheadDurationInMsChange) {
-      this.dataInTranzit.prePlayheadDurationInMs = prePlayheadDurationInMsChange.currentValue
-    }
-
-    const postPlayheadDurationInMsChange: SimpleChange | undefined = changes['postPlayheadDurationInMs']
-    if (postPlayheadDurationInMsChange) {
-      this.dataInTranzit.postPlayheadDurationInMs = postPlayheadDurationInMsChange.currentValue
-    }
   }
 
   private getVisiblePieces(): Piece[] {
@@ -121,9 +96,5 @@ export class OffsetablePartComponent implements OnChanges, OnInit {
     }
     const pieceEndTimeInMs: number = piece.start + piece.duration
     return piece.start - KEEP_VISIBLE_DURATION_IN_MS <= partDurationInMsAtEndOfPartViewport && pieceEndTimeInMs + KEEP_VISIBLE_DURATION_IN_MS >= this.offsetDurationInMs
-  }
-
-  public trackPiece(_: number, piece: Piece): string {
-    return piece.id
   }
 }

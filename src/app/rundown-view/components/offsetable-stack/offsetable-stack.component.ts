@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges } from '@angular/core'
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
 import { Piece } from '../../../core/models/piece'
 import { Tv2Piece } from '../../../core/models/tv2-piece'
-import { Part } from '../../../core/models/part'
+import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 
 @Component({
   selector: 'sofie-offsetable-stack',
@@ -9,19 +9,17 @@ import { Part } from '../../../core/models/part'
   styleUrls: ['./offsetable-stack.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OffsetableStackComponent implements OnChanges, OnDestroy {
-  @Input() public part: Part
+export class OffsetableStackComponent implements OnChanges {
   @Input() public piecesForStack: Tv2Piece[]
-  @Input() protected pixelsPerSecond: number = 0
-  @Input() protected prePlayheadDurationInMs: number = 0
-  @Input() protected postPlayheadDurationInMs: number = 0
-  @Input() public offsetDurationInMs: number = 0
-  @Input() public dataInTranzit: Tv2PieceDataInTranzit = {} as Tv2PieceDataInTranzit
+  @Input() public outputLayer: Tv2OutputLayer
+
+  @ViewChild('stackPieces') protected stackPieces: ElementRef<HTMLDivElement>
 
   protected pieceStack: Tv2PieceStack = {
     start: 0,
     duration: 0,
     pieces: [],
+    piecesNames: [],
     stacks: {},
     stackKeys: [],
   }
@@ -29,35 +27,10 @@ export class OffsetableStackComponent implements OnChanges, OnDestroy {
   constructor() {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    let shown: boolean = false
-
     const piecesForStackChange: SimpleChange | undefined = changes['piecesForStack']
-    if (piecesForStackChange && piecesForStackChange.currentValue.length > 0) {
+    if (piecesForStackChange && piecesForStackChange.currentValue?.length > 0) {
       this.pieceStack = this.createPieceStack(piecesForStackChange.currentValue)
-      shown = true
     }
-
-    const dataInTranzitChange: SimpleChange | undefined = changes['dataInTranzit']
-    if (dataInTranzitChange) {
-      this.dataInTranzit = dataInTranzitChange.currentValue
-      shown = true
-    }
-
-    if (!shown) {
-      // eslint-disable-next-line no-console
-      console.log(this.pieceStack)
-    }
-  }
-
-  public ngOnDestroy(): void {
-    throw new Error(`Method not implemented.`)
-  }
-
-  public get playedDurationInMs(): number {
-    if (!this.part.isOnAir) {
-      return 0
-    }
-    return Date.now() - this.part.executedAt
   }
 
   private createPieceStack(pieces: Piece[]): Tv2PieceStack {
@@ -66,16 +39,19 @@ export class OffsetableStackComponent implements OnChanges, OnDestroy {
     return stacker.getPieceStack()
   }
 
-  protected getPixelsPerSecond(): number {
-    return this.dataInTranzit.pixelsPerSecond
+  public toggleStackPieces(): void {
+    if (!this.stackPieces) {
+      return
+    }
+    if (this.stackPieces.nativeElement.classList.contains('hidden')) {
+      this.stackPieces.nativeElement.classList.replace('hidden', 'stack-pieces')
+    } else {
+      this.stackPieces.nativeElement.classList.replace('stack-pieces', 'hidden')
+    }
   }
 
-  protected getPrePlayheadDurationInMs(): number {
-    return this.dataInTranzit.prePlayheadDurationInMs
-  }
-
-  protected getPostPlayheadDurationInMs(): number {
-    return this.dataInTranzit.postPlayheadDurationInMs
+  public trackPiece(_: number, piece: Piece): string {
+    return piece.id
   }
 }
 
@@ -89,6 +65,7 @@ export interface Tv2PieceStack {
   start: number
   duration: number
   pieces: Tv2Piece[]
+  piecesNames: string[]
   stacks: Record<number, Tv2Piece[]>
   stackKeys: number[]
 }
@@ -98,6 +75,7 @@ class Tv2PieceStacker {
     start: Number.MAX_SAFE_INTEGER,
     duration: 0,
     pieces: [],
+    piecesNames: [],
     stacks: {},
     stackKeys: [],
   }
@@ -113,7 +91,12 @@ class Tv2PieceStacker {
       this.pieceStack.duration = piece.duration > this.pieceStack.duration ? piece.duration : 0
     }
 
-    this.pieceStack.pieces.push(piece)
+    const pieceToUpdate: Tv2Piece | undefined = this.pieceStack.pieces.find(p => p.id === piece.id)
+    if (pieceToUpdate) {
+      this.pieceStack.pieces[this.pieceStack.pieces.indexOf(pieceToUpdate)] = piece
+    } else {
+      this.pieceStack.pieces.push(piece)
+    }
   }
 
   public getPieceStack(): Tv2PieceStack {
@@ -122,12 +105,17 @@ class Tv2PieceStacker {
         if (!(piece.start in stacks)) {
           stacks[piece.start] = []
         }
-        stacks[piece.start].push(piece)
+        if (stacks[piece.start].indexOf(piece) < 0) {
+          stacks[piece.start].push(piece)
+        }
         return stacks
       },
       {} as Record<number, Tv2Piece[]>
     )
+
     this.pieceStack.stackKeys = Object.keys(this.pieceStack.stacks).map(key => parseInt(key, 10))
+    this.pieceStack.piecesNames = this.pieceStack.pieces.map(piece => piece.name)
+
     return this.pieceStack
   }
 }
