@@ -3,7 +3,7 @@
   padding-left: 32px;
   & .c-select-actions-triggers {
     width: 100%;
-    background-color: var(--grey-color);
+    background-color: var(--gray-color);
     & h3 {
       margin-top: 0;
       margin-bottom: 16px;
@@ -19,7 +19,7 @@
     &__list {
       height: calc(100vh - 370px);
       overflow: auto;
-      border-right: 1px solid var(--grey-color);
+      border-right: 1px solid var(--gray-color);
       & > div {
         display: flex;
         flex-wrap: wrap;

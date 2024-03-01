@@ -10,7 +10,7 @@
 }
 
 .mat-row {
-  background: var(--light-grey-color);
+  background: var(--light-gray-color);
 
   &:hover {
     background: var(--white-color);
@@ -35,7 +35,7 @@
 
 .c-delete-rundown-icon {
   cursor: pointer;
-  color: darkgrey;
+  color: var(--dark-gray-color);
   user-select: none;
 
   &:hover {

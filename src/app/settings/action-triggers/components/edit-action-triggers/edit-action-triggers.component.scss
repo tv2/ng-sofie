@@ -1,6 +1,6 @@
 .c-edit-actions-triggers {
   padding-left: 16px;
-  border-left: 1px solid var(--grey-color);
+  border-left: 1px solid var(--gray-color);
   height: 100%;
   & h4 {
     margin-top: 0;
@@ -17,7 +17,7 @@
     }
     &--selected-action {
       margin-top: 3px;
-      background-color: var(--dark-grey-color);
+      background-color: var(--dark-gray-color);
       color: var(--white-color);
     }
     &--buttons {

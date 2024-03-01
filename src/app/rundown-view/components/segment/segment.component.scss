@@ -96,7 +96,7 @@
         background-color 0.2s;
 
       &:hover {
-        background-color: var(--dark-grey-color);
+        background-color: var(--dark-gray-color);
       }
 
       &[disabled='true'] {
@@ -108,7 +108,7 @@
   }
 
   &__piece-layer {
-    color: var(--dark-grey-color);
+    color: var(--dark-gray-color);
     padding: 2px 0 2px 20px;
     font-weight: bold;
     height: 24px;
