@@ -1,26 +1,43 @@
 <div
   [cdkContextMenuTriggerFor]="contextMenu"
   class="piece-layers"
-  [class.unsynced]="part.isUnsynced"
->
+  [class.unsynced]="part.isUnsynced">
   <div *ngFor="let outputLayer of outputLayers" class="piece-layer">
     <sofie-offsetable-piece
-      *ngIf="piecesGroupedByOutputLayer[outputLayer] && piecesGroupedByOutputLayer[outputLayer].length === 1"
-      [piece]="piecesGroupedByOutputLayer[outputLayer][0]"
+      *ngIf="piecesGroupedByOutputLayerThenStart[outputLayer] && Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer]).length === 1"
+      [piece]="piecesGroupedByOutputLayerThenStart[outputLayer][+Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer])[0]][0]"
       [pixelsPerSecond]="pixelsPerSecond"
       [partDuration]="partDurationInMs()"
       [playedDurationForPartInMs]="playedDurationInMs"
       [prePlayheadDurationInMs]="prePlayheadDurationInMs"
       [postPlayheadDurationInMs]="postPlayheadDurationInMs">
     </sofie-offsetable-piece>
-    <sofie-offsetable-stack
-      *ngIf="piecesGroupedByOutputLayer[outputLayer] && piecesGroupedByOutputLayer[outputLayer].length > 1"
-      class="piece-layer"
-      [outputLayer]="outputLayer"
-      [piecesForStack]="piecesGroupedByOutputLayer[outputLayer]">
-    </sofie-offsetable-stack>
+    <div
+      *ngIf="piecesGroupedByOutputLayerThenStart[outputLayer] && Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer]).length > 1"
+      class="stack-layer">
+      <div
+        *ngFor="let startKey of Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer])">
+        <sofie-offsetable-piece
+          *ngIf="piecesGroupedByOutputLayerThenStart[outputLayer][+startKey] && Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]).length === 1"
+          [piece]="piecesGroupedByOutputLayerThenStart[outputLayer][+startKey][0]"
+          [pixelsPerSecond]="pixelsPerSecond"
+          [partDuration]="partDurationInMs()"
+          [playedDurationForPartInMs]="playedDurationInMs"
+          [prePlayheadDurationInMs]="prePlayheadDurationInMs"
+          [postPlayheadDurationInMs]="postPlayheadDurationInMs">
+        </sofie-offsetable-piece>
+        <sofie-offsetable-stack
+          class="stack"
+          *ngIf="piecesGroupedByOutputLayerThenStart[outputLayer][+startKey] && Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]).length > 1"
+          [outputLayer]="outputLayer"
+          [startKey]="startKey"
+          [piecesFromOutputLayerAndStartKey]="piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]">
+        </sofie-offsetable-stack>
+      </div>
+    </div>
   </div>
 </div>
+
 <sofie-timeline-flag [label]="part.isNext ? (isAutoNextStarted ? autoLabel : nextLabel) : undefined" [turnedOn]="part.isNext"></sofie-timeline-flag>
 
 <ng-template #contextMenu>

@@ -42,7 +42,7 @@ export class OffsetablePartComponent implements OnChanges {
   @Input()
   public isRundownActive: boolean
 
-  public piecesGroupedByOutputLayer: Record<Tv2OutputLayer, Tv2Piece[]> = {} as Record<Tv2OutputLayer, Tv2Piece[]>
+  protected piecesGroupedByOutputLayerThenStart: Record<Tv2OutputLayer, Record<number, Tv2Piece[]>> = {} as Record<Tv2OutputLayer, Record<number, Tv2Piece[]>>
   public readonly autoLabel: string = $localize`global.auto.label`
   public readonly nextLabel: string = $localize`global.next.label`
 
@@ -80,7 +80,8 @@ export class OffsetablePartComponent implements OnChanges {
     if (partChange) {
       const visiblePieces: Piece[] = this.getVisiblePieces()
       // TODO: How do we convert this correctly from Piece to Tv2Piece?
-      this.piecesGroupedByOutputLayer = this.pieceGroupService.groupByOutputLayer(visiblePieces as Tv2Piece[])
+      // this.piecesGroupedByOutputLayer = this.pieceGroupService.groupByOutputLayer(visiblePieces as Tv2Piece[])
+      this.piecesGroupedByOutputLayerThenStart = this.pieceGroupService.makeOutputLayerStacks(visiblePieces as Tv2Piece[])
     }
   }
 
@@ -97,4 +98,6 @@ export class OffsetablePartComponent implements OnChanges {
     const pieceEndTimeInMs: number = piece.start + piece.duration
     return piece.start - KEEP_VISIBLE_DURATION_IN_MS <= partDurationInMsAtEndOfPartViewport && pieceEndTimeInMs + KEEP_VISIBLE_DURATION_IN_MS >= this.offsetDurationInMs
   }
+
+  protected readonly Object = Object
 }

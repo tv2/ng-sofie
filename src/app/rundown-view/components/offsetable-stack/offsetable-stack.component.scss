@@ -35,6 +35,7 @@
 
   .piece-in-stack {
     width: 100%;
+    display: block;
 
     padding: 0 5px;
     margin: 0;
@@ -49,6 +50,14 @@
 
     border: solid 1px var(--background-color);
     border-radius: 5px;
+  }
+
+  .overlay {
+    background-color: var(--tv2-overlay-graphics-color);
+  }
+
+  .auxiliary {
+    background-color: var(--tv2-auxiliary);
   }
 
   .program {

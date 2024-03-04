@@ -1,15 +1,12 @@
-<div *ngFor="let stackKey of pieceStack.stackKeys">
-  <div
-    *ngIf="pieceStack.stacks[stackKey].length > 1"
-    [class]="'stack-label ' + outputLayer.toLowerCase()"
-    (click)="toggleStackPieces()"
-  >{{ pieceStack.piecesNames.join(', ') }}</div>
-  <div #stackPieces
-       [class]="(pieceStack.stacks[stackKey].length > 1 ? 'hidden': '')"
-  >
-      <span
-        [class]="outputLayer.toLowerCase() + ' piece-in-stack'"
-        *ngFor="let piece of pieceStack.stacks[stackKey] trackBy: trackPiece"
-      >{{ piece.name }}</span>
-  </div>
+<div
+  class="piece-stack-toggle"
+  (click)="toggleStackPieces()"
+>
+  {{ piecesFromOutputLayerAndStartKey.join(', ') }}
+</div>
+<div
+  [class]="outputLayer.toLowerCase() + ' piece-in-stack'"
+  *ngFor="let piece of piecesFromOutputLayerAndStartKey; index as i"
+>
+  {{i}}->{{ piece.name }}
 </div>

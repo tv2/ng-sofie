@@ -10,10 +10,13 @@ import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OffsetableStackComponent implements OnChanges {
-  @Input() public piecesForStack: Tv2Piece[]
+  @Input() public piecesFromOutputLayerAndStartKey: Tv2Piece[]
   @Input() public outputLayer: Tv2OutputLayer
+  @Input() public startKey: string
 
   @ViewChild('stackPieces') protected stackPieces: ElementRef<HTMLDivElement>
+
+  protected readonly Object = Object
 
   protected pieceStack: Tv2PieceStack = {
     start: 0,
@@ -48,10 +51,6 @@ export class OffsetableStackComponent implements OnChanges {
     } else {
       this.stackPieces.nativeElement.classList.replace('stack-pieces', 'hidden')
     }
-  }
-
-  public trackPiece(_: number, piece: Piece): string {
-    return piece.id
   }
 }
 
@@ -91,12 +90,14 @@ class Tv2PieceStacker {
       this.pieceStack.duration = piece.duration > this.pieceStack.duration ? piece.duration : 0
     }
 
-    const pieceToUpdate: Tv2Piece | undefined = this.pieceStack.pieces.find(p => p.id === piece.id)
-    if (pieceToUpdate) {
-      this.pieceStack.pieces[this.pieceStack.pieces.indexOf(pieceToUpdate)] = piece
-    } else {
-      this.pieceStack.pieces.push(piece)
-    }
+    // const pieceToUpdate: Tv2Piece | undefined = this.pieceStack.pieces.find(p => p.id === piece.id)
+    // if (pieceToUpdate) {
+    //   this.pieceStack.pieces[this.pieceStack.pieces.indexOf(pieceToUpdate)] = piece
+    // } else {
+    //   this.pieceStack.pieces.push(piece)
+    // }
+
+    this.pieceStack.pieces.push(piece)
   }
 
   public getPieceStack(): Tv2PieceStack {
