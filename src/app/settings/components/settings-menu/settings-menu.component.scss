@@ -1,4 +1,4 @@
-.c-side-bar {
+.side-menu {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@
   padding: 0;
   border-right: 1px solid var(--gray-color);
 
-  &__nav-item {
+  .menu-item {
     font-weight: lighter;
     width: 100%;
     padding-top: 0;
@@ -19,13 +19,12 @@
       text-decoration: none;
       color: var(--black-color);
       &.active-tab {
-        color: var(--white-color);
-        background-color: var(--background-color);
+        background-color: var(--light-gray-color);
       }
     }
   }
 
-  &__nav-submenu {
+  .menu-sub-item {
     width: 100%;
     font-weight: lighter;
     padding-top: 0;
@@ -37,21 +36,8 @@
       text-decoration: none;
       color: var(--black-color);
       &.active-tab {
-        font-weight: 400;
-        text-decoration: underline;
-        &::before {
-          content: ' \203A';
-          position: absolute;
-          left: 16px;
-          top: 10px;
-          font-size: 26px;
-          line-height: 16px;
-        }
+        background-color: var(--light-gray-color);
       }
     }
-  }
-
-  &__nav-item:hover {
-    cursor: pointer;
   }
 }
