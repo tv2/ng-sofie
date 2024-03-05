@@ -80,8 +80,7 @@ export class OffsetablePartComponent implements OnChanges {
     if (partChange) {
       const visiblePieces: Piece[] = this.getVisiblePieces()
       // TODO: How do we convert this correctly from Piece to Tv2Piece?
-      // this.piecesGroupedByOutputLayer = this.pieceGroupService.groupByOutputLayer(visiblePieces as Tv2Piece[])
-      this.piecesGroupedByOutputLayerThenStart = this.pieceGroupService.makeOutputLayerStacks(visiblePieces as Tv2Piece[])
+      this.piecesGroupedByOutputLayerThenStart = this.pieceGroupService.groupByOutputLayerThenStart(visiblePieces as Tv2Piece[])
     }
   }
 

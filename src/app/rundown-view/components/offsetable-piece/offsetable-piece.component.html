@@ -1,5 +1,6 @@
 <div class="label" [style.margin-left.px]="labelOffsetInPixels">
-  <span #labelTextElement>{{ piece.name }}</span>
-
+  <span #labelTextElement
+        [style.width.px]="getLabelTextElementWidth()"
+  >{{ this.followingPieceStart ? this.followingPieceStart : '###' }}{{ piece.name }}</span>
   <sofie-piece-tooltip [piece]="piece" [durationInMs]="partDuration" [playedDurationForPartInMs]="playedDurationForPartInMs" [isMediaUnavailable]="isMediaUnavailable"> </sofie-piece-tooltip>
 </div>

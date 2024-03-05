@@ -33,6 +33,8 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   @Input()
   public postPlayheadDurationInMs: number
 
+  @Input() public followingPieceStart?: number
+
   @ViewChild('labelTextElement')
   public labelTextElement: ElementRef<HTMLSpanElement>
 
@@ -98,14 +100,14 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     return availablePieceDurationInPartInMs + minimumDisplayDurationInMs
   }
 
-  public get labelOffsetInPixels(): number {
+  protected get labelOffsetInPixels(): number {
     const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start)
     const displayOffsetInMs: number = Math.min(playedDurationForPieceInMs, this.prePlayheadDurationInMs)
     const displayOffsetWithLabelTextOffsetInMs: number = displayOffsetInMs - this.getDurationInMsSpendAfterLabelTextEnds()
     return (displayOffsetWithLabelTextOffsetInMs * this.pixelsPerSecond) / 1000
   }
 
-  public getDurationInMsSpendAfterLabelTextEnds(): number {
+  private getDurationInMsSpendAfterLabelTextEnds(): number {
     if (!this.piece.duration) {
       return 0
     }
@@ -150,5 +152,9 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
 
   public ngOnDestroy(): void {
     this.mediaSubscription?.unsubscribe()
+  }
+
+  protected getLabelTextElementWidth(): number {
+    return ((this.followingPieceStart ? this.followingPieceStart - this.piece.start : this.piece.duration || Number.MAX_SAFE_INTEGER) * this.pixelsPerSecond) / 1000
   }
 }

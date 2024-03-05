@@ -22,23 +22,24 @@ export class Tv2PieceGroupService {
     )
   }
 
-  public makeOutputLayerStacks(pieces: Tv2Piece[]): Record<Tv2OutputLayer, Record<number, Tv2Piece[]>> {
-    const piecesByLayers = this.groupByOutputLayer(pieces)
-    const piecesByLayerKeys = Object.keys(piecesByLayers) as Tv2OutputLayer[]
+  public groupByOutputLayerThenStart(pieces: Tv2Piece[]): Record<Tv2OutputLayer, Record<number, Tv2Piece[]>> {
+    const piecesByLayer = this.groupByOutputLayer(pieces)
+    const piecesByLayerKeys = Object.keys(piecesByLayer) as Tv2OutputLayer[]
     const outputLayerStacks: Record<Tv2OutputLayer, Record<number, Tv2Piece[]>> = {} as Record<Tv2OutputLayer, Record<number, Tv2Piece[]>>
 
-    piecesByLayerKeys.forEach((outputLayer: Tv2OutputLayer) => {
-      const piecesForLayer: Tv2Piece[] = piecesByLayers[outputLayer]
-      const piecesForLayerStacks: Record<number, Tv2Piece[]> = {} as Record<number, Tv2Piece[]>
-      outputLayerStacks[outputLayer] = piecesForLayer.reduce((stacks: Record<number, Tv2Piece[]>, piece: Tv2Piece) => {
-        const pieceStart: number = piece.start
-        if (!(pieceStart in stacks)) {
-          stacks[pieceStart] = []
-        }
-        stacks[pieceStart].push(piece)
-        return stacks
-      }, piecesForLayerStacks)
-    })
+    for (const outputLayer of piecesByLayerKeys) {
+      outputLayerStacks[outputLayer] = piecesByLayer[outputLayer].reduce(
+        (stacks: Record<number, Tv2Piece[]>, piece: Tv2Piece) => {
+          if (!stacks[piece.start]) {
+            stacks[piece.start] = []
+          }
+          stacks[piece.start].push(piece)
+          return stacks
+        },
+        {} as Record<number, Tv2Piece[]>
+      )
+    }
+
     return outputLayerStacks
   }
 }

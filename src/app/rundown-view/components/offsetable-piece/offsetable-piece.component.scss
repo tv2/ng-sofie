@@ -18,6 +18,14 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     z-index: 11;
+
+    span {
+      min-width: 22px;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   &.media-unavailable {
