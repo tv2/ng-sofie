@@ -5,8 +5,8 @@ import { ConnectionStatusObserver } from './connection-status-observer.service'
 import { ActionTriggerService } from '../../shared/abstractions/action-trigger.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { ActionTriggerCreatedEvent, ActionTriggerDeletedEvent, ActionTriggerUpdatedEvent } from '../models/action-trigger-event'
-import { ActionTriggerEventObserver } from '../models/action-trigger-event-observer.service'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { ActionTriggerEventObserver } from './action-trigger-event-observer.service'
+import { NotificationService } from '../../shared/services/notification.service'
 
 @Injectable()
 export class ActionTriggerStateService {
@@ -17,7 +17,7 @@ export class ActionTriggerStateService {
   constructor(
     private readonly actionTriggerService: ActionTriggerService,
     private readonly connectionStatusObserver: ConnectionStatusObserver,
-    private readonly snackBar: MatSnackBar,
+    private readonly notificationService: NotificationService,
     private readonly actionTriggerEventObserver: ActionTriggerEventObserver
   ) {
     this.subscriptions.push(this.connectionStatusObserver.subscribeToReconnect(() => this.resetActionTriggers()))
@@ -45,12 +45,12 @@ export class ActionTriggerStateService {
     const actionTriggers: ActionTrigger[] = this.actionTriggersSubject.value
     const index: number = actionTriggers.findIndex(actionTrigger => actionTrigger.id === actionTriggerUpdatedEvent.actionTrigger.id)
     if (index === -1) {
-      this.openDangerSnackBar('Failed to updated shortcut')
+      this.notificationService.createErrorNotification('Failed to updated shortcut')
       return
     }
     actionTriggers[index] = actionTriggerUpdatedEvent.actionTrigger
     this.actionTriggersSubject.next(actionTriggers)
-    this.openSnackBar('Successfully updated shortcut')
+    this.notificationService.createInfoNotification('Successfully updated shortcut')
   }
 
   private removeActionTriggerFromEvent(actionTriggerDeletedEvent: ActionTriggerDeletedEvent): void {
@@ -62,13 +62,13 @@ export class ActionTriggerStateService {
     }
     actionTriggers.splice(index, 1)
     this.actionTriggersSubject.next(actionTriggers)
-    this.openSnackBar('Successfully deleted shortcut')
+    this.notificationService.createInfoNotification('Successfully deleted shortcut')
   }
 
   private createActionTriggerFromEvent(actionTriggerCreatedEvent: ActionTriggerCreatedEvent): void {
     const updatedActionTriggers: ActionTrigger[] = [...this.actionTriggersSubject.value, actionTriggerCreatedEvent.actionTrigger]
     this.actionTriggersSubject.next(updatedActionTriggers)
-    this.openSnackBar('Successfully created shortcut.')
+    this.notificationService.createInfoNotification('Successfully created shortcut.')
   }
 
   public getActionTriggerObservable(): Observable<ActionTrigger[]> {
@@ -77,13 +77,5 @@ export class ActionTriggerStateService {
 
   public destroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe)
-  }
-
-  private openSnackBar(message: string): void {
-    this.snackBar.open(message, $localize`global.dismiss.label`, { panelClass: 'snackbar-success' })
-  }
-
-  private openDangerSnackBar(message: string): void {
-    this.snackBar.open(message, $localize`global.dismiss.label`, { panelClass: 'snackbar-danger' })
   }
 }

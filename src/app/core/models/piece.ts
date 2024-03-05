@@ -1,3 +1,5 @@
+import { PieceLifespan } from './piece-lifespan'
+
 export interface Piece {
   readonly id: string
   readonly partId: string
@@ -6,5 +8,6 @@ export interface Piece {
   readonly start: number
   readonly duration?: number
   readonly isPlanned: boolean
+  readonly lifespan: PieceLifespan
   readonly metadata?: unknown
 }

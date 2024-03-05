@@ -5,9 +5,34 @@ import { ActionStateService } from '../../../shared/services/action-state.servic
 import { Action } from '../../../shared/models/action'
 import { EventSubscription } from '../../../event-system/abstractions/event-observer.service'
 import { Logger } from '../../../core/abstractions/logger.service'
-import { Tv2Action, Tv2ActionContentType } from '../../../shared/models/tv2-action'
+import { Tv2Action } from '../../../shared/models/tv2-action'
 import { Tv2ActionParser } from '../../../shared/abstractions/tv2-action-parser.service'
 import { ActionService } from '../../../shared/abstractions/action.service'
+import { ConfigurationService } from '../../../shared/services/configuration.service'
+import { ShelfConfiguration } from '../../../shared/models/shelf-configuration'
+import { ConfigurationEventObserver } from '../../../core/services/configuration-event-observer'
+import { ShelfConfigurationUpdatedEvent } from '../../../core/models/configuration-event'
+
+const STATIC_BUTTON_ACTION_IDS: string[] = [
+  'overlayInitializeAction',
+  'continueGraphicsAction',
+  'clearGraphicsAction',
+  'fadePersistedAudioAction',
+  'allOutGraphicsAction',
+  'themeOutAction',
+  'downstreamKeyer1OnAction',
+  'downstreamKeyer2OnAction',
+  'downstreamKeyer1OffAction',
+  'downstreamKeyer2OffAction',
+  'studioMicrophonesUpAction',
+  'studioMicrophonesDownAction',
+  'studioMicrophonesDownAction',
+]
+
+interface ActionPanel {
+  name: string
+  actions: Tv2Action[]
+}
 
 @Component({
   selector: 'sofie-producer-shelf',
@@ -24,11 +49,15 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
   @Input()
   public rundown: Rundown
 
-  private actionsSubscription?: EventSubscription
+  public resolvedActionPanels: ActionPanel[] = []
 
-  public actions: Tv2Action[] = []
-  public cameraActions: Tv2Action[] = []
-  public videoClipActions: Tv2Action[] = []
+  public staticButtonActions: Tv2Action[] = []
+
+  private shelfConfiguration?: ShelfConfiguration
+  private actions: Tv2Action[] = []
+
+  private actionsSubscription?: EventSubscription
+  private configurationEventSubscription?: EventSubscription
 
   private readonly logger: Logger
 
@@ -36,6 +65,8 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
     private readonly actionStateService: ActionStateService,
     private readonly tv2ActionParser: Tv2ActionParser,
     private readonly actionService: ActionService,
+    private readonly configurationService: ConfigurationService,
+    private readonly configurationEventObserver: ConfigurationEventObserver,
     logger: Logger
   ) {
     this.logger = logger.tag('ProducerShelfComponent')
@@ -47,14 +78,40 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
       .then(actionsObservable => actionsObservable.subscribe(this.onActionsChanged.bind(this)))
       .then(actionsSubscription => (this.actionsSubscription = actionsSubscription))
       .catch(error => this.logger.data(error).error('Failed subscribing to actions.'))
+
+    this.configurationService.getShelfConfiguration().subscribe(shelfConfiguration => {
+      this.shelfConfiguration = shelfConfiguration
+      this.updateActionPanels()
+    })
+
+    this.configurationEventSubscription = this.configurationEventObserver.subscribeToShelfUpdated((event: ShelfConfigurationUpdatedEvent) => {
+      this.shelfConfiguration = event.shelfConfiguration
+      this.updateActionPanels()
+    })
+  }
+
+  private updateActionPanels(): void {
+    if (!this.shelfConfiguration) {
+      return
+    }
+    this.resolvedActionPanels = this.shelfConfiguration.actionPanelConfigurations
+      .sort((a, b) => a.rank - b.rank)
+      .map(actionPanel => {
+        return {
+          name: actionPanel.name,
+          actions: this.actions.filter(action => actionPanel.actionFilter.includes(action.metadata.contentType)),
+        }
+      })
   }
 
   private onActionsChanged(actions: Action[]): void {
-    const tv2Actions: Tv2Action[] = this.getValidTv2Actions(actions)
-    // TODO: create Tv2ActionsStateService that also groups them
-    this.actions = tv2Actions
-    this.cameraActions = tv2Actions.filter(action => action.metadata.contentType === Tv2ActionContentType.CAMERA)
-    this.videoClipActions = tv2Actions.filter(action => action.metadata.contentType === Tv2ActionContentType.VIDEO_CLIP)
+    this.actions = this.getValidTv2Actions(actions)
+    this.updateActionPanels()
+    this.updateStaticButtonActions()
+  }
+
+  private updateStaticButtonActions(): void {
+    this.staticButtonActions = this.actions.filter(action => STATIC_BUTTON_ACTION_IDS.includes(action.id))
   }
 
   private getValidTv2Actions(actions: Action[]): Tv2Action[] {
@@ -74,5 +131,6 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.actionsSubscription?.unsubscribe()
+    this.configurationEventSubscription?.unsubscribe()
   }
 }

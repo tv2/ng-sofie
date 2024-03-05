@@ -3,8 +3,8 @@
     height: 100%;
     cursor: pointer;
     padding: 8px;
-    background-color: rgb(50, 50, 50);
-    color: #fff;
+    background-color: var(--dark-gray-color);
+    color: var(--white-color);
     text-overflow: ellipsis;
     font-size: 0.9rem;
     overflow: hidden;

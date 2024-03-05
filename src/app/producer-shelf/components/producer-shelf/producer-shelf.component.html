@@ -1,13 +1,10 @@
 <div class="wrapper">
     <div class="main">
-        <sofie-tv2-action-panel title="ALL ACTIONS" [actions]="actions" (executeAction)="executeAction($event)"></sofie-tv2-action-panel>
-        <sofie-tv2-action-panel *ngIf="cameraActions.length > 0" title="ADLIB PANEL: Camera (Wrapping)" [actions]="cameraActions" [isScrollable]="false" (executeAction)="executeAction($event)"></sofie-tv2-action-panel>
-        <sofie-tv2-action-panel *ngIf="videoClipActions.length > 0" title="ADLIB PANEL: SERVER" [actions]="videoClipActions" (executeAction)="executeAction($event)"></sofie-tv2-action-panel>
-
+        <sofie-tv2-action-panel *ngFor="let actionPanel of resolvedActionPanels" title="{{actionPanel.name | uppercase }}" [actions]="actionPanel.actions" (executeAction)="executeAction($event)"></sofie-tv2-action-panel>
         <sofie-virtual-keyboard [keyBindings]="keyBindings" [keystrokes]="keystrokes"></sofie-virtual-keyboard>
     </div>
 
     <div class="sidebar">
-        <sofie-tv2-action-panel title="STATIC BUTTONS" [actions]="cameraActions" (executeAction)="executeAction($event)" [isScrollable]="false"></sofie-tv2-action-panel>
+        <sofie-tv2-action-panel title="STATIC BUTTONS" [actions]="staticButtonActions" (executeAction)="executeAction($event)" [isScrollable]="false"></sofie-tv2-action-panel>
     </div>
 </div>

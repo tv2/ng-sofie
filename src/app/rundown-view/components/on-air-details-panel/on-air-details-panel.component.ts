@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
 import { Rundown } from '../../../core/models/rundown'
 import { Piece } from '../../../core/models/piece'
 import { Tv2PieceMetadata } from '../../../core/models/tv2-piece'
@@ -29,11 +29,15 @@ export class OnAirDetailsPanelComponent implements OnChanges, OnInit, OnDestroy 
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
 
+  public elementRef: ElementRef
+
   constructor(
+    elementRef: ElementRef,
     private readonly partEntityService: PartEntityService,
     private readonly rundownTimingContextStateService: RundownTimingContextStateService,
     logger: Logger
   ) {
+    this.elementRef = elementRef
     this.logger = logger.tag('RundownSubheaderComponent')
   }
 

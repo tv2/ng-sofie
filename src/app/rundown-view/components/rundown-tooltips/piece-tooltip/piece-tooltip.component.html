@@ -1,0 +1,14 @@
+<ng-container *ngIf="shouldShowHoverScrub && !isMediaUnavailable">
+  <div #tooltipHoverElement class="c-hover-scrub-hover-element"></div>
+
+  <sofie-tooltip [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
+    <sofie-video-hover-scrub
+      [filename]="piece.name"
+      [playedDurationInMs]="playedDurationForPartInMs"
+      [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth"
+      [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition"
+      [durationInMs]="durationInMs"
+      [isJingle]="tv2PieceType === Tv2PieceType.JINGLE">
+    </sofie-video-hover-scrub>
+  </sofie-tooltip>
+</ng-container>

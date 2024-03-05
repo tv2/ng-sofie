@@ -1,0 +1,7 @@
+<div class="c-video-hover-scrub-tooltip">
+  <div class="c-video-hover-scrub-tooltip__video">
+    <video #videoElementRef [src]="wasVideoVisible ? hoverScrubVideoSource : ''"></video>
+    <span *ngIf="currentVideoTimeInMs" class="c-video-hover-scrub-tooltip__video--cursor-time">{{ currentVideoTimeInMs | timer: 'HH?:mm:ss' }}</span>
+    <span class="c-video-hover-scrub-tooltip__video--background-mask"></span>
+  </div>
+</div>

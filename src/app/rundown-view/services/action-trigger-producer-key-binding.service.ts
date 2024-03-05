@@ -16,13 +16,12 @@ import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-bindin
 import { ActionService } from '../../shared/abstractions/action.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 
-// TODO: We need ONE central place to define colours
-const CAMERA_COLOR: string = '#005919'
-const REMOTE_COLOR: string = '#ac29a5'
-const SPLIT_SCREEN_COLOR: string = '#00a99c'
-const REPLAY_COLOR: string = '#8d1010'
-const VIDEO_CLIP_COLOR: string = '#1769ff'
-const GRAPHICS_COLOR: string = '#ca9d00'
+const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
+const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
+const SPLIT_SCREEN_COLOR: string = 'var(--tv2-split-screen-upper)'
+const REPLAY_COLOR: string = 'var(--tv2-replay-color)'
+const VIDEO_CLIP_COLOR: string = 'var(--tv2-video-clip-color)'
+const GRAPHICS_COLOR: string = 'var(--tv2-graphics-color)'
 
 @Injectable()
 export class ActionTriggerProducerKeyBindingService implements KeyBindingService {
@@ -49,7 +48,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     private readonly actionService: ActionService,
     logger: Logger
   ) {
-    this.logger = logger.tag(ActionTriggerProducerKeyBindingService.name)
+    this.logger = logger.tag('ActionTriggerProducerKeyBindingService')
     this.keyBindingsSubject = new BehaviorSubject(this.keyBindings)
   }
 

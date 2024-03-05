@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+  padding: 10px;
+  height: 100%;
+  align-items: center;
+
+  sofie-icon-button {
+    color: var(--dark-gray-color);
+
+    &.error {
+      color: var(--danger-color);
+    }
+
+    &:hover {
+      color: var(--white-color);
+    }
+  }
+}

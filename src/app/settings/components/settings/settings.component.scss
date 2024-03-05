@@ -1,6 +1,6 @@
 .c-settings {
   min-height: calc(100vh - 70px);
-  border-top: 1px solid #fff;
+  border-top: 1px solid var(--white-color);
   display: flex;
   &__content {
     flex-grow: 1;

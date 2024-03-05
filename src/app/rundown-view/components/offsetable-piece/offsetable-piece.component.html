@@ -1,6 +1,5 @@
-<div
-  class="label"
-  [style.margin-left.px]="labelOffsetInPixels"
->
-  <span #labelTextElement>{{piece.name}}</span>
+<div class="label" [style.margin-left.px]="labelOffsetInPixels">
+  <span #labelTextElement>{{ piece.name }}</span>
+
+  <sofie-piece-tooltip [piece]="piece" [durationInMs]="partDuration" [playedDurationForPartInMs]="playedDurationForPartInMs" [isMediaUnavailable]="isMediaUnavailable"> </sofie-piece-tooltip>
 </div>

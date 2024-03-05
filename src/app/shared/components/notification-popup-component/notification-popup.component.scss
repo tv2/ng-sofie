@@ -1,0 +1,18 @@
+$animation-duration: 0.3s;
+$animation-function: ease;
+$animation-fill-mode: forwards;
+
+:host {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 98%;
+  transform: translateX(500px);
+  transition: top $animation-duration $animation-function;
+  animation: slide-from-right $animation-duration $animation-function $animation-fill-mode;
+  z-index: 50;
+}
+
+@keyframes slide-from-right {
+  100% { transform: translateX(0) }
+}

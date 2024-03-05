@@ -100,7 +100,8 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   private drawLine(from: Point, to: Point, lineWidth: number): void {
     this.canvasContext.lineWidth = lineWidth
-    this.canvasContext.strokeStyle = '#5f6164'
+    const strokeColor: string = getComputedStyle(this.canvasElement.nativeElement).getPropertyValue('--rundown-timeline-marker-color')
+    this.canvasContext.strokeStyle = strokeColor
     this.canvasContext.beginPath()
     this.canvasContext.moveTo(from.x, from.y)
     this.canvasContext.lineTo(to.x, to.y)
@@ -150,7 +151,8 @@ export class TimelineMarkersComponent implements AfterViewInit, OnChanges {
 
   private drawText(text: string, x: number, y: number): void {
     this.canvasContext.font = TEXT_STYLE
-    this.canvasContext.fillStyle = '#5f6164'
+    const fillStyle: string = getComputedStyle(this.canvasElement.nativeElement).getPropertyValue('--rundown-timeline-marker-color')
+    this.canvasContext.fillStyle = fillStyle
     this.canvasContext.fillText(text, x, y)
   }
 

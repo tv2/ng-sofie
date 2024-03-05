@@ -1,0 +1,38 @@
+.c-video-hover-scrub-tooltip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 10px 22px 0px var(--gradient-black-rgba-with-08-opacity-color);
+  background-color: var(--rundown-scrollbar-color);
+  justify-content: flex-start;
+  overflow: hidden;
+  border-radius: 10px;
+  &__video {
+    height: 100%;
+    position: relative;
+    width: 160px;
+    height: 90px;
+    &--cursor-time {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      color: var(--white-color);
+      font-size: 12px;
+      z-index: 3;
+    }
+    &--background-mask {
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      box-shadow: inset 0px -20px 20px 0px var(--gradient-black-rgba-with-06-opacity-color);
+    }
+    & video {
+      width: 160px;
+      height: 90px;
+    }
+  }
+}

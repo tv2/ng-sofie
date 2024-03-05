@@ -1,6 +1,5 @@
 import { EntityParser } from '../abstractions/entity-parser.service'
 import { BasicRundown } from '../models/basic-rundown'
-import { Part } from '../models/part'
 import { Rundown } from '../models/rundown'
 import { Segment } from '../models/segment'
 import * as zod from 'zod'
@@ -12,9 +11,12 @@ import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Tv2AudioMode } from '../enums/tv2-audio-mode'
 import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Media } from '../../shared/services/media'
-import { StudioConfiguration } from '../../shared/models/studio-configuration'
 import { PartActionType, PieceActionType } from '../../shared/models/action-type'
 import { SystemInformation } from '../../shared/models/system-information'
+import { Tv2Part } from '../models/tv2-part'
+import { PieceLifespan } from '../models/piece-lifespan'
+import { StatusMessage } from '../../shared/models/status-message'
+import { StatusCode } from '../../shared/enums/status-code'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -56,11 +58,13 @@ export class ZodEntityParser implements EntityParser {
     start: zod.number(),
     duration: zod.number().optional(),
     isPlanned: zod.boolean(),
+    lifespan: zod.nativeEnum(PieceLifespan),
     // TODO: Should this be less TV2 specific.
     metadata: zod.object({
       type: zod.nativeEnum(Tv2PieceType),
       outputLayer: zod.nativeEnum(Tv2OutputLayer).optional(),
       audioMode: zod.nativeEnum(Tv2AudioMode).optional(),
+      sourceName: zod.string().optional(),
     }),
   })
 
@@ -81,6 +85,11 @@ export class ZodEntityParser implements EntityParser {
     isUnsynced: zod.boolean(),
     isPlanned: zod.boolean(),
     isUntimed: zod.boolean(),
+    metadata: zod
+      .object({
+        actionId: zod.string().optional(),
+      })
+      .optional(),
   })
 
   private readonly segmentParser = zod.object({
@@ -138,11 +147,41 @@ export class ZodEntityParser implements EntityParser {
     infinitePieces: this.pieceParser.array(),
   })
 
+  private readonly tv2ActionParser = zod.object({
+    id: zod.string(),
+    name: zod.string(),
+    type: zod.nativeEnum(PartActionType).or(zod.nativeEnum(PieceActionType)),
+    metadata: zod.object({
+      contentType: zod.nativeEnum(Tv2ActionContentType),
+    }),
+  })
+
+  private readonly mediaAssetParser = zod.object({
+    id: zod.string(),
+    sourceName: zod.string(),
+    duration: zod.number(),
+  })
+
+  private readonly mediaAssetsParser = this.mediaAssetParser.array()
+
+  private readonly systemInformationParser = zod.object({
+    name: zod.string(),
+  })
+
+  private readonly statusMessageParser = zod.object({
+    id: zod.string(),
+    title: zod.string(),
+    message: zod.string(),
+    statusCode: zod.nativeEnum(StatusCode),
+  })
+
+  private readonly statusMessagesParser = this.statusMessageParser.array()
+
   public parsePiece(piece: unknown): Tv2Piece {
     return this.pieceParser.parse(piece)
   }
 
-  public parsePart(part: unknown): Part {
+  public parsePart(part: unknown): Tv2Part {
     return this.partParser.parse(part)
   }
 
@@ -166,46 +205,27 @@ export class ZodEntityParser implements EntityParser {
     return this.showStyleVariantParser.parse(showStyleVariant)
   }
 
-  private readonly studioConfigurationParser = zod.object({
-    settings: zod.object({
-      mediaPreviewUrl: zod.string().min(9, 'Media preview url must be longer than 9 characters long i.e. http://tld'),
-    }),
-    blueprintConfiguration: zod.object({
-      ServerPostrollDuration: zod.number().min(0, 'Server post-roll duration must be 0 or more.'),
-    }),
-  })
-
-  public parseStudioConfiguration(studioConfiguration: unknown): StudioConfiguration {
-    return this.studioConfigurationParser.parse(studioConfiguration)
-  }
-
-  private readonly tv2ActionParser = zod.object({
-    id: zod.string(),
-    name: zod.string(),
-    type: zod.nativeEnum(PartActionType).or(zod.nativeEnum(PieceActionType)),
-    metadata: zod.object({
-      contentType: zod.nativeEnum(Tv2ActionContentType),
-    }),
-  })
-
   public parseTv2Action(tv2Action: unknown): Tv2Action {
     return this.tv2ActionParser.parse(tv2Action)
   }
 
-  private readonly mediaDataParser = zod.object({
-    id: zod.string(),
-    duration: zod.number(),
-  })
-
-  public parseMedia(media: unknown): Media {
-    return this.mediaDataParser.parse(media)
+  public parseMediaAsset(mediaAsset: unknown): Media {
+    return this.mediaAssetParser.parse(mediaAsset)
   }
 
-  private readonly systemInformationParser = zod.object({
-    name: zod.string(),
-  })
+  public parseMediaAssets(mediaAssets: unknown): Media[] {
+    return this.mediaAssetsParser.parse(mediaAssets)
+  }
 
   public parseSystemInformation(systemInformation: unknown): SystemInformation {
     return this.systemInformationParser.parse(systemInformation)
+  }
+
+  public parseStatusMessage(statusMessages: unknown): StatusMessage {
+    return this.statusMessageParser.parse(statusMessages)
+  }
+
+  public parseStatusMessages(statusMessages: unknown): StatusMessage[] {
+    return this.statusMessagesParser.parse(statusMessages)
   }
 }

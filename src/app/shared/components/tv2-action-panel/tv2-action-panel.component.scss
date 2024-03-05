@@ -1,12 +1,11 @@
 :host {
-  --scrollbar-color: #222222;
-  --scrollbar-thumb-color: #111111;
+  --scrollbar-color: var(--rundown-scrollbar-color);
+  --scrollbar-thumb-color: var(--rundown-keyboard-background-color);
   position: relative;
   display: block;
   border-radius: 8px;
-  background-color: #222222;
+  background-color: var(--scrollbar-color);
   overflow: hidden;
-
 
   .title {
     color: var(--text-color);
@@ -46,7 +45,7 @@
       left: 0;
       bottom: var(--scrollbar-size);
       width: 20px;
-      background: linear-gradient(90deg, #222222FF 0%, #222222FF 10%, #22222200 100%);
+      background: var(--action-panel-scrollable-before-linear-gradient);
       pointer-events: none;
     }
 
@@ -58,7 +57,7 @@
       right: 0;
       bottom: var(--scrollbar-size);
       width: 20px;
-      background: linear-gradient(-90deg, #222222FF 0%, #222222FF 10%, #22222200 100%);
+      background: var(--action-panel-scrollable-after-linear-gradient);
       pointer-events: none;
     }
 
