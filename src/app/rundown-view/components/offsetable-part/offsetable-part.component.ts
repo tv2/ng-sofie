@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core'
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, OnChanges, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Part } from '../../../core/models/part'
 import { Tv2PieceGroupService } from '../../services/tv2-piece-group.service'
@@ -41,6 +41,8 @@ export class OffsetablePartComponent implements OnChanges {
 
   @Input()
   public isRundownActive: boolean
+
+  @ViewChild('pieceStackToggle') protected pieceStackToggle: ElementRef<HTMLDivElement>
 
   protected piecesGroupedByOutputLayerThenStart: Record<Tv2OutputLayer, Record<number, Tv2Piece[]>> = {} as Record<Tv2OutputLayer, Record<number, Tv2Piece[]>>
   public readonly autoLabel: string = $localize`global.auto.label`
@@ -99,4 +101,35 @@ export class OffsetablePartComponent implements OnChanges {
   }
 
   protected readonly Object = Object
+
+  public trackPiece(_: number, piece: Piece): string {
+    return piece.id
+  }
+
+  protected getFollowingPieceStart(outputLayer: Tv2OutputLayer, startKey: string, pieceId: string): number | undefined {
+    if (!outputLayer || !startKey || !pieceId) {
+      return undefined
+    }
+    const followingPiece: Tv2Piece | undefined = this.piecesGroupedByOutputLayerThenStart[outputLayer][+startKey].find(piece => piece.id === pieceId)
+    return followingPiece ? followingPiece.start : undefined
+  }
+
+  protected togglePieceStack(): void {
+    if (!this.pieceStackToggle) {
+      return
+    }
+    const stackElements: Element | null | undefined = this.pieceStackToggle.nativeElement.parentNode?.querySelector('div.piece-stack')
+    if (!stackElements) {
+      return
+    }
+    if (stackElements.classList.contains('hidden-click')) {
+      stackElements.classList.replace('hidden-click', 'piece-stack-click')
+    } else {
+      stackElements.classList.replace('piece-stack-click', 'hidden-click')
+    }
+  }
+
+  protected getPieceStackToggleText(outputLayer: Tv2OutputLayer, startKey: string): string {
+    return this.piecesGroupedByOutputLayerThenStart[outputLayer][+startKey].map(piece => piece.name).join(', ')
+  }
 }
