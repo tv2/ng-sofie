@@ -9,7 +9,9 @@ import { MatSnackBar } from '@angular/material/snack-bar'
   styleUrls: ['./clear-cache.component.scss'],
 })
 export class ClearCacheComponent {
-  public readonly clearCacheLabel = $localize`clear-cache.button.label`
+  public readonly title: string = $localize`clear-cache.title`
+  public readonly clearCacheLabel: string = $localize`clear-cache.button.label`
+
   constructor(
     private readonly configurationService: ConfigurationService,
     private readonly dialogService: DialogService,

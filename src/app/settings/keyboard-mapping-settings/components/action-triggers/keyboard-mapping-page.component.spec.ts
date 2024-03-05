@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { ActionTriggersComponent } from './action-triggers.component'
+import { KeyboardMappingPageComponent } from './keyboard-mapping-page.component'
 import { instance, mock } from '@typestrong/ts-mockito'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { TestEntityFactory } from 'src/app/test/factories/test-entity.factory'
@@ -9,7 +9,7 @@ import { ActionStateService } from 'src/app/shared/services/action-state.service
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
 
-describe('ActionTriggersComponent', () => {
+describe('KeyboardMappingPageComponent', () => {
   it('should create', async () => {
     const component = await configureTestBed()
     expect(component).toBeTruthy()
@@ -35,7 +35,7 @@ describe('ActionTriggersComponent', () => {
   })
 })
 
-async function configureTestBed(): Promise<ActionTriggersComponent> {
+async function configureTestBed(): Promise<KeyboardMappingPageComponent> {
   const mockedActionTriggerStateService: ActionTriggerStateService = mock<ActionTriggerStateService>()
   const testLoggerFactory: TestLoggerFactory = new TestLoggerFactory()
   await TestBed.configureTestingModule({
@@ -45,10 +45,10 @@ async function configureTestBed(): Promise<ActionTriggersComponent> {
       { provide: ActionStateService, useValue: instance(mock<ActionStateService>()) },
       { provide: FileDownloadService, useValue: instance(mock<FileDownloadService>()) },
     ],
-    declarations: [ActionTriggersComponent],
+    declarations: [KeyboardMappingPageComponent],
   }).compileComponents()
 
-  const fixture: ComponentFixture<ActionTriggersComponent> = TestBed.createComponent(ActionTriggersComponent)
+  const fixture: ComponentFixture<KeyboardMappingPageComponent> = TestBed.createComponent(KeyboardMappingPageComponent)
   const component = fixture.componentInstance
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
   component.actionTriggersWithAction = [

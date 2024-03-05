@@ -13,6 +13,8 @@ export class ActionPanelComponent implements OnInit, OnDestroy {
   public isLoading: boolean = true
   public shelfConfiguration: ShelfConfiguration<ShelfActionPanelConfigurationWithId>
 
+  public title: string = $localize`settings.shelf.action-panels.label`
+
   private readonly unsubscribe$: Subject<null> = new Subject<null>()
 
   constructor(

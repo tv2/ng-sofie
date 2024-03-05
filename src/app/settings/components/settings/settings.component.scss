@@ -1,12 +1,13 @@
-.c-settings {
-  min-height: calc(100vh - 70px);
-  border-top: 1px solid var(--white-color);
+.container {
+  height: 100%;
   display: flex;
-  &__content {
+
+  .body {
     flex-grow: 1;
-    background-color: var(--gray-color);
+    background-color: var(--light-gray-color);
   }
-  &__menu {
+
+  .side-menu {
     flex: 0 0 14rem;
   }
 }

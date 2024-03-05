@@ -3,14 +3,14 @@
     <a routerLinkActive="active-tab" [routerLink]="[SettingsPath.KEYBOARD_MAPPINGS]" i18n>settings.keyboard-mappings.label</a>
   </div>
   <div class="c-side-bar__nav-item">
-    <a routerLinkActive="active-tab" [routerLink]="[SettingsPath.CLEAR_CACHE]" i18n>settings.clear-cache.label</a>
-  </div>
-  <div class="c-side-bar__nav-item">
     <a routerLinkActive="active-tab" [routerLink]="[SettingsPath.SHELF]" i18n>settings.shelf.label</a>
   </div>
   <div *ngIf="isShelfRouteActive" class="c-side-bar__nav-submenu">
     <div class="c-side-bar__nav-submenu--item">
       <a routerLinkActive="active-tab" [routerLink]="[SettingsPath.SHELF, ShelfPath.ACTION_PANELS]" i18n>settings.shelf.action-panels.label</a>
     </div>
+  </div>
+  <div class="c-side-bar__nav-item">
+    <a routerLinkActive="active-tab" [routerLink]="[SettingsPath.CLEAR_CACHE]" i18n>settings.clear-cache.label</a>
   </div>
 </div>

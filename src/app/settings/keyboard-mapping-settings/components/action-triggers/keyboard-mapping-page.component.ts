@@ -10,10 +10,10 @@ import { FileDownloadService } from 'src/app/core/abstractions/file-download.ser
 
 @Component({
   selector: 'sofie-action-triggers',
-  templateUrl: './action-triggers.component.html',
-  styleUrls: ['./action-triggers.component.scss'],
+  templateUrl: './keyboard-mapping-page.component.html',
+  styleUrls: ['./keyboard-mapping-page.component.scss'],
 })
-export class ActionTriggersComponent implements OnInit, OnDestroy {
+export class KeyboardMappingPageComponent implements OnInit, OnDestroy {
   public selectedActionTrigger?: ActionTriggerWithAction<KeyboardTriggerData>
   public isShowingCreateActionTriggerForm: boolean
   public isLoading: boolean = true
@@ -21,8 +21,9 @@ export class ActionTriggersComponent implements OnInit, OnDestroy {
   public actionTriggersWithAction: ActionTriggerWithAction<KeyboardTriggerData>[]
   private readonly unsubscribe$: Subject<null> = new Subject<null>()
 
-  public readonly createShortcutLabel = $localize`action-triggers.create-shortcut.button`
-  public readonly exportShortcutLabel = $localize`action-triggers.export-shortcuts.button`
+  public readonly title: string = $localize`settings.keyboard-mappings.label`
+  public readonly createShortcutLabel: string = $localize`action-triggers.create-shortcut.button`
+  public readonly exportShortcutLabel: string = $localize`action-triggers.export-shortcuts.button`
 
   constructor(
     private readonly actionTriggerStateService: ActionTriggerStateService,

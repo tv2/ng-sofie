@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { NavigationEnd, Router } from '@angular/router'
 import { Subject, takeUntil } from 'rxjs'
 import { SettingsPath } from 'src/app/settings/settings-routing.module'
-import { ShelfSettingsPath } from '../../../shelf-settings/shelf-settings.module'
+import { ShelfSettingsPath } from '../../shelf-settings/shelf-settings.module'
 
 @Component({
   selector: 'sofie-settings-menu',

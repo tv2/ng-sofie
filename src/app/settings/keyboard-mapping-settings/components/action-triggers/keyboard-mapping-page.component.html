@@ -1,0 +1,23 @@
+<sofie-settings-page [title]="title">
+    <div class="header-buttons mb-5">
+        <sofie-button (onClick)="createActionTrigger()" [label]="createShortcutLabel" [buttonClasses]="'c-sofie-button c-sofie-button-primary me-2'"></sofie-button>
+        <sofie-button (onClick)="exportActionsTriggers()" [label]="exportShortcutLabel" [buttonClasses]="'c-sofie-button c-sofie-button-primary me-2'"></sofie-button>
+        <sofie-action-triggers-import [actionTriggersWithAction]="actionTriggersWithAction" [isDisabled]="isLoading"></sofie-action-triggers-import>
+    </div>
+
+    <sofie-card *ngIf="!isLoading; else loading">
+        <div class="c-action-triggers__body">
+            <div class="c-action-triggers__body--list" [ngClass]="{ 'c-action-triggers__body--list-open': selectedActionTrigger || isShowingCreateActionTriggerForm }">
+                <sofie-action-triggers-list [actionTriggersWithAction]="actionTriggersWithAction" [selectedActionTrigger]="selectedActionTrigger" (onActionTriggerOpen)="selectActionTriggerForEditing($event)">
+                </sofie-action-triggers-list>
+            </div>
+            <div *ngIf="selectedActionTrigger || isShowingCreateActionTriggerForm" class="c-action-triggers__body--edit">
+                <sofie-edit-action-triggers [actions]="actions" (onCancel)="cancelActionTrigger()" [selectedActionTrigger]="selectedActionTrigger"></sofie-edit-action-triggers>
+            </div>
+        </div>
+    </sofie-card>
+
+    <ng-template #loading>
+        <sofie-loading></sofie-loading>
+    </ng-template>
+</sofie-settings-page>

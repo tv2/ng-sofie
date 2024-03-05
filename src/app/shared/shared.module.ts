@@ -64,7 +64,8 @@ import { ZodConfigurationParser } from './services/zod-configuration-parser.serv
 import { DialogComponent } from './components/dialog/dialog.component'
 import { MultiSelectComponent } from './components/multi-select/multi-select.component'
 import { TranslationKnownValuesPipe } from './pipes/translation-known-values.pipe'
-import { SofieTableHeaderComponent } from './components/sofie-table-header/sofie-table-header.component'
+import { SofieTableHeaderComponent } from './components/sofie-table-header/sofie-table-header.component';
+import { CardComponent } from './components/card/card.component'
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { SofieTableHeaderComponent } from './components/sofie-table-header/sofie
     DialogComponent,
     SofieTableHeaderComponent,
     TooltipComponent,
+    CardComponent,
   ],
   imports: [
     CommonModule,
@@ -136,6 +138,7 @@ import { SofieTableHeaderComponent } from './components/sofie-table-header/sofie
     DialogComponent,
     SofieTableHeaderComponent,
     TooltipComponent,
+    CardComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
