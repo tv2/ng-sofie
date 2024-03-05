@@ -1,5 +1,5 @@
 import { ConfigurationParser } from '../abstractions/configuration-parser.service'
-import { ShelfActionPanelConfiguration, ShelfConfiguration } from '../models/shelf-configuration'
+import { ShelfConfiguration } from '../models/shelf-configuration'
 import { StudioConfiguration } from '../models/studio-configuration'
 import * as zod from 'zod'
 import { Tv2ActionContentType } from '../models/tv2-action'
@@ -20,6 +20,7 @@ export class ZodConfigurationParser extends ConfigurationParser {
   }
 
   private readonly shelfActionPanelConfigurationParser = zod.object({
+    id: zod.string(),
     name: zod.string(),
     rank: zod.number(),
     actionFilter: zod.nativeEnum(Tv2ActionContentType).array(),
@@ -30,7 +31,7 @@ export class ZodConfigurationParser extends ConfigurationParser {
     actionPanelConfigurations: zod.array(this.shelfActionPanelConfigurationParser),
   })
 
-  public parseShelfConfiguration(shelfConfiguration: unknown): ShelfConfiguration<ShelfActionPanelConfiguration> {
+  public parseShelfConfiguration(shelfConfiguration: unknown): ShelfConfiguration {
     return this.shelfConfigurationParser.parse(shelfConfiguration)
   }
 }

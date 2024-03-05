@@ -6,7 +6,7 @@ import { catchError, map, Observable } from 'rxjs'
 import { HttpResponse } from './http-response'
 import { ConfigurationService } from '../configuration.service'
 import { StudioConfiguration } from '../../models/studio-configuration'
-import { ShelfActionPanelConfiguration, ShelfConfiguration } from '../../models/shelf-configuration'
+import { ShelfConfiguration } from '../../models/shelf-configuration'
 import { ConfigurationParser } from '../../abstractions/configuration-parser.service'
 
 const CONFIGURATION_URL: string = `${environment.apiBaseUrl}/configurations`
@@ -26,14 +26,14 @@ export class HttpConfigurationService implements ConfigurationService {
     )
   }
 
-  public getShelfConfiguration(): Observable<ShelfConfiguration<ShelfActionPanelConfiguration>> {
-    return this.http.get<HttpResponse<ShelfConfiguration<ShelfActionPanelConfiguration>[]>>(`${environment.apiBaseUrl}/configurations/shelfConfigurations`).pipe(
+  public getShelfConfiguration(): Observable<ShelfConfiguration> {
+    return this.http.get<HttpResponse<ShelfConfiguration[]>>(`${environment.apiBaseUrl}/configurations/shelfConfigurations`).pipe(
       catchError(error => this.httpErrorService.catchError(error)),
       map(response => this.configurationParser.parseShelfConfiguration(response.data[0]))
     )
   }
 
-  public updateShelfConfiguration(shelfConfiguration: ShelfConfiguration<ShelfActionPanelConfiguration>): Observable<void> {
+  public updateShelfConfiguration(shelfConfiguration: ShelfConfiguration): Observable<void> {
     return this.http.put<void>(`${environment.apiBaseUrl}/configurations/shelfConfigurations`, shelfConfiguration).pipe(catchError(error => this.httpErrorService.catchError(error)))
   }
 

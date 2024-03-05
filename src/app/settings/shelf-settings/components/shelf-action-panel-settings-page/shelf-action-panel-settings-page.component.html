@@ -1,5 +1,5 @@
 <sofie-settings-page [title]="title">
-    <sofie-card *ngIf="!isLoading; else loading">
+    <sofie-card *ngIf="shelfConfiguration; else loading">
         <sofie-action-panel-list [shelfConfiguration]="shelfConfiguration"></sofie-action-panel-list>
     </sofie-card>
     <ng-template #loading>

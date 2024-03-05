@@ -1,17 +1,6 @@
-import {
-  ShelfActionPanelConfiguration,
-  ShelfActionPanelConfigurationWithId,
-  ShelfConfiguration
-} from 'src/app/shared/models/shelf-configuration'
+import { ShelfActionPanelConfiguration, ShelfConfiguration } from 'src/app/shared/models/shelf-configuration'
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core'
-import {
-  AbstractControl,
-  FormBuilder,
-  UntypedFormArray,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators
-} from '@angular/forms'
+import { AbstractControl, FormBuilder, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MultiSelectOptions } from 'src/app/shared/components/multi-select/multi-select.component'
 import { Tv2ActionContentType } from 'src/app/shared/models/tv2-action'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
@@ -23,7 +12,7 @@ import { TranslationKnownValuesPipe } from 'src/app/shared/pipes/translation-kno
   styleUrls: ['./edit-action-panel.component.scss'],
 })
 export class EditActionPanelComponent implements OnInit {
-  @Input() public shelfConfiguration: ShelfConfiguration<ShelfActionPanelConfigurationWithId>
+  @Input() public shelfConfiguration: ShelfConfiguration
   @Input() public actionPanelIndex?: number
 
   public filterActionPanelOptions: MultiSelectOptions[]
@@ -105,7 +94,7 @@ export class EditActionPanelComponent implements OnInit {
   }
 
   private updateActionPanel(editActionPanelValue: ShelfActionPanelConfiguration): void {
-    const copyOfShelfConfiguration: ShelfConfiguration<ShelfActionPanelConfiguration> = JSON.parse(JSON.stringify(this.shelfConfiguration))
+    const copyOfShelfConfiguration: ShelfConfiguration = JSON.parse(JSON.stringify(this.shelfConfiguration))
     if (this.actionPanelIndex !== undefined) {
       copyOfShelfConfiguration.actionPanelConfigurations[this.actionPanelIndex] = editActionPanelValue
     } else {

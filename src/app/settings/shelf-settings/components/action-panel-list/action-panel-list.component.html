@@ -25,7 +25,7 @@
     </ng-template>
   </div>
 
-  <table class="c-sofie-table" *ngIf="filteredActionsPannels.length > 0; else noActionPanelAvailable">
+  <table class="c-sofie-table" *ngIf="filteredActionsPanels.length > 0; else noActionPanelAvailable">
     <thead>
       <tr>
         <th class="c-sofie-table-header xs">
@@ -45,7 +45,7 @@
     </thead>
     <tbody>
       <ng-container>
-        <tr *ngFor="let actionPanelRow of filteredActionsPannels; let i = index">
+        <tr *ngFor="let actionPanelRow of filteredActionsPanels; let i = index">
           <td>
             <div class="c-sofie-table__checkbox" [ngClass]="this.selectedActionPanelIds.size > 0 ? 'flex' : ''">
               <sofie-custom-checkbox

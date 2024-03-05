@@ -10,7 +10,7 @@ import { TestLoggerFactory } from '../../../test/factories/test-logger.factory'
 import { Observable } from 'rxjs'
 import { Action } from '../../../shared/models/action'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
-import { ShelfActionPanelConfiguration, ShelfConfiguration } from '../../../shared/models/shelf-configuration'
+import { ShelfConfiguration } from '../../../shared/models/shelf-configuration'
 import { ConfigurationEventObserver } from '../../../core/services/configuration-event-observer'
 
 describe(ProducerShelfComponent.name, () => {
@@ -29,7 +29,7 @@ describe(ProducerShelfComponent.name, () => {
     } as Observable<Action[]>)
 
     const mockedConfigurationService: ConfigurationService = mock<ConfigurationService>()
-    when(mockedConfigurationService.getShelfConfiguration()).thenReturn(instance(mock<Observable<ShelfConfiguration<ShelfActionPanelConfiguration>>>()))
+    when(mockedConfigurationService.getShelfConfiguration()).thenReturn(instance(mock<Observable<ShelfConfiguration>>()))
 
     await TestBed.configureTestingModule({
       declarations: [ProducerShelfComponent],

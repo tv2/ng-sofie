@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
-import { ShelfActionPanelConfiguration, ShelfActionPanelConfigurationWithId, ShelfConfiguration } from 'src/app/shared/models/shelf-configuration'
+import { ShelfActionPanelConfiguration, ShelfConfiguration } from 'src/app/shared/models/shelf-configuration'
 import { SofieTableHeader, SofieTableHeaderSize, SortDirection } from '../../../../shared/components/sofie-table-header/sofie-table-header.component'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { DialogService } from 'src/app/shared/services/dialog.service'
@@ -21,7 +21,7 @@ export enum ShelfActionPanelHeaderKeys {
   styleUrls: ['./action-panel-list.component.scss'],
 })
 export class ActionPanelListComponent implements OnChanges, OnInit {
-  @Input() public shelfConfiguration: ShelfConfiguration<ShelfActionPanelConfigurationWithId>
+  @Input() public shelfConfiguration: ShelfConfiguration
 
   public readonly createNewLabel: string = $localize`global.create-new.label`
   public readonly selectedFiltersLabel: string = $localize`global.selected-filters.label`
@@ -91,7 +91,7 @@ export class ActionPanelListComponent implements OnChanges, OnInit {
     }
   }
 
-  private saveNewPanelConfigurations(newPanelConfigurations: ShelfActionPanelConfigurationWithId[]): void {
+  private saveNewPanelConfigurations(newPanelConfigurations: ShelfActionPanelConfiguration[]): void {
     this.shelfConfiguration = { id: this.shelfConfiguration.id, actionPanelConfigurations: [...newPanelConfigurations] }
   }
 
@@ -135,8 +135,7 @@ export class ActionPanelListComponent implements OnChanges, OnInit {
   }
 
   public exportActionPanels(): void {
-    const shelfConfiguration: ShelfConfiguration<ShelfActionPanelConfiguration> = this.shelfConfigurationWithoutIds
-    this.fileDownloadService.downloadText(JSON.stringify(shelfConfiguration), 'shelf-configuration.json')
+    this.fileDownloadService.downloadText(JSON.stringify(this.shelfConfiguration), 'shelf-configuration.json')
   }
 
   public exportSelectedActionPanels(): void {
@@ -144,23 +143,11 @@ export class ActionPanelListComponent implements OnChanges, OnInit {
     this.fileDownloadService.downloadText(
       JSON.stringify({
         id: this.shelfConfiguration.id,
-        actionPanelConfigurations: this.removeIdFromConfigurations(filteredShelfConfiguration),
+        actionPanelConfigurations: filteredShelfConfiguration,
       }),
       'selected-shelf-configuration.json'
     )
     this.selectedActionPanelIds.clear()
-  }
-
-  private removeIdFromConfigurations(actionPanelConfigurations: ShelfActionPanelConfigurationWithId[]): ShelfActionPanelConfiguration[] {
-    return [
-      ...actionPanelConfigurations.map(panelConfiguration => {
-        return {
-          actionFilter: panelConfiguration.actionFilter,
-          name: panelConfiguration.name,
-          rank: panelConfiguration.rank,
-        }
-      }),
-    ]
   }
 
   public openDeleteSelectedActionPanelDialog(): void {
@@ -171,20 +158,7 @@ export class ActionPanelListComponent implements OnChanges, OnInit {
 
   private deleteSelectedActionPanel(): void {
     const selectedPanelConfigurations = this.shelfConfiguration.actionPanelConfigurations.filter(panelConfiguration => !this.selectedActionPanelIds.has(panelConfiguration.id))
-    this.configurationService.updateShelfConfiguration({ id: this.shelfConfiguration.id, actionPanelConfigurations: this.removeIdFromConfigurations(selectedPanelConfigurations) }).subscribe()
-  }
-
-  private get shelfConfigurationWithoutIds(): ShelfConfiguration<ShelfActionPanelConfiguration> {
-    return {
-      id: this.shelfConfiguration.id,
-      actionPanelConfigurations: this.shelfConfiguration.actionPanelConfigurations.map(panelConfiguration => {
-        return {
-          actionFilter: panelConfiguration.actionFilter,
-          name: panelConfiguration.name,
-          rank: panelConfiguration.rank,
-        }
-      }),
-    }
+    this.configurationService.updateShelfConfiguration({ id: this.shelfConfiguration.id, actionPanelConfigurations: selectedPanelConfigurations }).subscribe()
   }
 
   public openDeleteActionPanelDialog(actionPanelIndex: number): void {
@@ -194,23 +168,23 @@ export class ActionPanelListComponent implements OnChanges, OnInit {
   }
 
   public deleteActionPanelByIndex(actionPanelIndex: number): void {
-    const copyOfShelfConfiguration: ShelfConfiguration<ShelfActionPanelConfigurationWithId> = JSON.parse(JSON.stringify(this.shelfConfigurationWithoutIds))
+    const copyOfShelfConfiguration: ShelfConfiguration = JSON.parse(JSON.stringify(this.shelfConfiguration))
     copyOfShelfConfiguration.actionPanelConfigurations.splice(actionPanelIndex, 1)
     this.configurationService.updateShelfConfiguration(copyOfShelfConfiguration).subscribe()
   }
 
   public cloneActionPanel(actionPanelIndex: number): void {
-    const copyOfShelfConfiguration: ShelfConfiguration<ShelfActionPanelConfiguration> = JSON.parse(JSON.stringify(this.shelfConfigurationWithoutIds))
+    const copyOfShelfConfiguration: ShelfConfiguration = JSON.parse(JSON.stringify(this.shelfConfiguration))
     copyOfShelfConfiguration.actionPanelConfigurations.splice(actionPanelIndex, 0, copyOfShelfConfiguration.actionPanelConfigurations[actionPanelIndex])
     this.configurationService.updateShelfConfiguration(copyOfShelfConfiguration).subscribe()
   }
 
-  public get filteredActionsPannels(): ShelfActionPanelConfigurationWithId[] {
-    const lowercasedSearchQuery: string = this.search.toLocaleLowerCase()
+  public get filteredActionsPanels(): ShelfActionPanelConfiguration[] {
+    const lowerCasedSearchQuery: string = this.search.toLocaleLowerCase()
     return this.shelfConfiguration.actionPanelConfigurations.filter(
-      actionPannel =>
-        this.isFiltersSelectedForPanelConfigurations(actionPannel.actionFilter) &&
-        (actionPannel.name.toLocaleLowerCase().includes(lowercasedSearchQuery) || actionPannel.rank.toString().toLocaleLowerCase().includes(lowercasedSearchQuery))
+      actionPanel =>
+        this.isFiltersSelectedForPanelConfigurations(actionPanel.actionFilter) &&
+        (actionPanel.name.toLocaleLowerCase().includes(lowerCasedSearchQuery) || actionPanel.rank.toString().toLocaleLowerCase().includes(lowerCasedSearchQuery))
     )
   }
 

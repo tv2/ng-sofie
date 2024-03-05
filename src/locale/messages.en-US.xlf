@@ -248,7 +248,7 @@
       </trans-unit>
       <trans-unit id="8566219553884482008" datatype="html">
         <source>settings.shelf.action-panels.label</source>
-        <target state="new">Action panels</target>
+        <target state="new">Shelf Action panels</target>
       </trans-unit>
       <trans-unit id="4313463332740374796" datatype="html">
         <source>global.create-new.label</source>
