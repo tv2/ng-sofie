@@ -26,13 +26,22 @@
           [prePlayheadDurationInMs]="prePlayheadDurationInMs"
           [postPlayheadDurationInMs]="postPlayheadDurationInMs">
         </sofie-offsetable-piece>
-        <sofie-offsetable-stack
-          class="stack"
-          *ngIf="piecesGroupedByOutputLayerThenStart[outputLayer][+startKey] && Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]).length > 1"
-          [outputLayer]="outputLayer"
-          [startKey]="startKey"
-          [piecesFromOutputLayerAndStartKey]="piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]">
-        </sofie-offsetable-stack>
+        <div class="stack"
+          *ngIf="piecesGroupedByOutputLayerThenStart[outputLayer][+startKey] && Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]).length > 1">
+          <div class="piece-stack-toggle">
+            {{ piecesGroupedByOutputLayerThenStart[outputLayer][+startKey].join(', ') }}
+          </div>
+          <sofie-offsetable-piece
+            *ngFor="let piece of piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]; index as stackPieceIndex"
+            [piece]="piece"
+            [pixelsPerSecond]="pixelsPerSecond"
+            [partDuration]="partDurationInMs()"
+            [playedDurationForPartInMs]="playedDurationInMs"
+            [prePlayheadDurationInMs]="prePlayheadDurationInMs"
+            [postPlayheadDurationInMs]="postPlayheadDurationInMs"
+            [style.z-index]="stackPieceIndex">
+          </sofie-offsetable-piece>
+        </div>
       </div>
     </div>
   </div>

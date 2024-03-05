@@ -37,7 +37,6 @@ import { MiniShelfTooltipComponent } from './components/rundown-tooltips/mini-sh
 import { PieceTooltipComponent } from './components/rundown-tooltips/piece-tooltip/piece-tooltip.component'
 import { MiniShelfCycleService } from './services/mini-shelf-cycle.service'
 import { MiniShelfNavigationService } from './services/mini-shelf-navigation.service'
-import { OffsetableStackComponent } from './components/offsetable-stack/offsetable-stack.component'
 
 @NgModule({
   declarations: [
@@ -54,7 +53,6 @@ import { OffsetableStackComponent } from './components/offsetable-stack/offsetab
     FollowPlayheadTimelineComponent,
     OffsetablePartComponent,
     OffsetablePieceComponent,
-    OffsetableStackComponent,
     ScrollableTimelineComponent,
     RundownHeaderPanelComponent,
     SegmentContextMenuComponent,
