@@ -1,4 +1,4 @@
-<sofie-button (onClick)="onClickOpen.emit()" [label]="buttonLabel" [iconButtonSize]="iconButtonSize" [iconButton]="iconButton" [buttonClasses]="buttonClasses"></sofie-button>
+<sofie-icon-button (click)="onClickOpen.emit()" [iconButtonSize]="iconButtonSize" [iconButton]="iconButton">{{buttonLabel}}</sofie-icon-button>
 
 <ng-template #dialogContentRef>
   <div class="c-dialog-body">

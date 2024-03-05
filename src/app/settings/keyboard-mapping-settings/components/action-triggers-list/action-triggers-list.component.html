@@ -9,7 +9,7 @@
         (onSelect)="applyUserActionToSelectedActionTriggers($event)"
         label="Selected">
       </sofie-dropdown-button>
-      <sofie-button (onClick)="setSelectMode(false)" label="Disable multiselect" [buttonClasses]="'c-sofie-button c-sofie-button-primary ms-2'"></sofie-button>
+      <sofie-button (click)="setSelectMode(false)">Disable multiselect</sofie-button>
     </ng-container>
 
     <ng-template #turnOnSelectModeButton>
@@ -22,7 +22,7 @@
         (onSelect)="applySortQuery($event)">
       </sofie-dropdown-button>
 
-      <sofie-button (onClick)="setSelectMode(true)" label="Enable multiselect" [buttonClasses]="'c-sofie-button c-sofie-button-primary ms-2'"></sofie-button>
+      <sofie-button (click)="setSelectMode(true)">Enable multiselect</sofie-button>
     </ng-template>
   </div>
   <div class="c-action-triggers-list__items">

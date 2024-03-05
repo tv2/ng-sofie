@@ -1,8 +1,4 @@
 <sofie-dialog
-  [iconButtonSize]="iconButtonSize"
-  [iconButton]="iconButton"
-  [buttonLabel]="buttonLabel"
-  [buttonClasses]="buttonClasses"
   [isDialogOpen]="isEditDialogOpen"
   [dialogTitle]="dialogTitleLabel"
   (onDialogClose)="isEditDialogOpen = false"
@@ -29,13 +25,13 @@
   </form>
   <div class="c-dialog-body__actions">
     <sofie-button
-      [label]="submitButtonLabel"
       [title]="panelForm.invalid ? submitButtonTooltipError + ': ' + getFormValidationErrors : ''"
-      (onClick)="formSubmit()"
+      (click)="formSubmit()"
       [disabled]="panelForm.invalid"
-      [buttonClasses]="'c-sofie-button c-sofie-button-primary me-2'">
+    >
+        {{submitButtonLabel}}
     </sofie-button>
 
-    <sofie-button [label]="closeLabel" (onClick)="isEditDialogOpen = false" [buttonClasses]="'c-sofie-button c-sofie-button-outline-primary'"> </sofie-button>
+    <sofie-button (click)="isEditDialogOpen = false">{{closeLabel}}</sofie-button>
   </div>
 </sofie-dialog>

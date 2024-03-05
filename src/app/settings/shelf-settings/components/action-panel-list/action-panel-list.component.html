@@ -14,14 +14,14 @@
     </div>
     <div>
       <ng-container *ngIf="this.selectedActionPanelIds.size === 0; else multiSelectionActions">
-        <sofie-edit-action-panel [shelfConfiguration]="shelfConfiguration" [buttonLabel]="createNewLabel" buttonClasses="c-sofie-button c-sofie-button-primary me-2"></sofie-edit-action-panel>
-        <sofie-button [label]="exportLabel" (onClick)="exportActionPanels()" [buttonClasses]="'c-sofie-button c-sofie-button-primary me-2'"> </sofie-button>
+        <sofie-button class="me-1" (click)="openCreateNewActionPanel()">{{createNewLabel}}</sofie-button>
+        <sofie-button class="me-1" (click)="exportActionPanels()">{{exportLabel}}</sofie-button>
         <sofie-action-panel-import [shelfConfiguration]="shelfConfiguration"></sofie-action-panel-import>
       </ng-container>
     </div>
     <ng-template #multiSelectionActions>
-      <sofie-button [label]="exportSelectedLabel" (onClick)="exportSelectedActionPanels()" [buttonClasses]="'c-sofie-button c-sofie-button-primary me-2'"> </sofie-button>
-      <sofie-button [label]="deleteSelectedLabel" (onClick)="openDeleteSelectedActionPanelDialog()" [buttonClasses]="'c-sofie-button c-sofie-button-danger'"> </sofie-button>
+      <sofie-button class="me-1" (click)="exportSelectedActionPanels()">{{exportSelectedLabel}}</sofie-button>
+      <sofie-button (click)="openDeleteSelectedActionPanelDialog()" type="DANGER">{{deleteSelectedLabel}}</sofie-button>
     </ng-template>
   </div>
 
@@ -67,11 +67,7 @@
           </td>
           <td>
             <sofie-edit-action-panel
-              [iconButton]="IconButton.PEN"
-              [buttonTooltipText]="'Edit action panel'"
-              [iconButtonSize]="IconButtonSize.L"
               [shelfConfiguration]="shelfConfiguration"
-              buttonClasses="c-only-icon-button pe-0 ps-0 me-2"
               [actionPanelIndex]="i">
             </sofie-edit-action-panel>
             <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" tooltipText="Copy action panel" iconButtonClasess="me-2" [iconButtonSize]="IconButtonSize.L" (click)="cloneActionPanel(i)">

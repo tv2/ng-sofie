@@ -1,10 +1,20 @@
-import { ShelfActionPanelConfiguration, ShelfActionPanelConfigurationWithId, ShelfConfiguration } from 'src/app/shared/models/shelf-configuration'
+import {
+  ShelfActionPanelConfiguration,
+  ShelfActionPanelConfigurationWithId,
+  ShelfConfiguration
+} from 'src/app/shared/models/shelf-configuration'
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core'
-import { AbstractControl, FormBuilder, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
+import {
+  AbstractControl,
+  FormBuilder,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms'
 import { MultiSelectOptions } from 'src/app/shared/components/multi-select/multi-select.component'
 import { Tv2ActionContentType } from 'src/app/shared/models/tv2-action'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
-import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { TranslationKnownValuesPipe } from 'src/app/shared/pipes/translation-known-values.pipe'
 
 @Component({
@@ -15,11 +25,6 @@ import { TranslationKnownValuesPipe } from 'src/app/shared/pipes/translation-kno
 export class EditActionPanelComponent implements OnInit {
   @Input() public shelfConfiguration: ShelfConfiguration<ShelfActionPanelConfigurationWithId>
   @Input() public actionPanelIndex?: number
-  @Input() public iconButtonSize: IconButtonSize
-  @Input() public iconButton: IconButton
-  @Input() public buttonLabel: string
-  @Input() public buttonTooltipText: string
-  @Input() public buttonClasses: string
 
   public filterActionPanelOptions: MultiSelectOptions[]
   public isEditDialogOpen: boolean = false

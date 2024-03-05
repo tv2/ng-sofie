@@ -129,6 +129,11 @@ export class ActionPanelListComponent implements OnChanges, OnInit {
     return this.selectedActionPanelIds.size === this.shelfConfiguration.actionPanelConfigurations.length
   }
 
+  public openCreateNewActionPanel(): void {
+    // TODO: Implement
+    alert('Open create new ActionPanel')
+  }
+
   public exportActionPanels(): void {
     const shelfConfiguration: ShelfConfiguration<ShelfActionPanelConfiguration> = this.shelfConfigurationWithoutIds
     this.fileDownloadService.downloadText(JSON.stringify(shelfConfiguration), 'shelf-configuration.json')

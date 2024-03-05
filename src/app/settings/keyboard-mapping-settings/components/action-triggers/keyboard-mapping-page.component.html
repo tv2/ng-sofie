@@ -1,7 +1,7 @@
 <sofie-settings-page [title]="title">
     <div class="header-buttons mb-5">
-        <sofie-button (onClick)="createActionTrigger()" [label]="createShortcutLabel" [buttonClasses]="'c-sofie-button c-sofie-button-primary me-2'"></sofie-button>
-        <sofie-button (onClick)="exportActionsTriggers()" [label]="exportShortcutLabel" [buttonClasses]="'c-sofie-button c-sofie-button-primary me-2'"></sofie-button>
+        <sofie-button (click)="createActionTrigger()">{{createShortcutLabel}}</sofie-button>
+        <sofie-button (click)="exportActionsTriggers()">{{exportShortcutLabel}}</sofie-button>
         <sofie-action-triggers-import [actionTriggersWithAction]="actionTriggersWithAction" [isDisabled]="isLoading"></sofie-action-triggers-import>
     </div>
 

@@ -59,15 +59,11 @@
       </ng-container>
 
       <div class="mt-auto">
-        <sofie-button
-          type="submit"
-          [tooltip]="actionForm.invalid ? submitButtonTooltipError + ': ' + getFormValidationErrors : ''"
-          [disabled]="actionForm.invalid"
-          [label]="isUpdateForm ? updateButtonLabel : createButtonLabel"
-          [buttonClasses]="'c-sofie-button c-sofie-button-primary width-full block mb-2'">
+        <sofie-button [disabled]="actionForm.invalid">
+            {{isUpdateForm ? updateButtonLabel : createButtonLabel}}
         </sofie-button>
 
-        <sofie-button [label]="closeButtonLabel" (onClick)="onCancel.emit()" [buttonClasses]="'c-sofie-button c-sofie-button-gray width-full block'"> </sofie-button>
+        <sofie-button (click)="onCancel.emit()">{{closeButtonLabel}}</sofie-button>
       </div>
     </div>
     <sofie-select-action-trigger [actions]="actions" [isSubmitting]="isSubmitting" [selectedActionId]="actionForm.get('actionId')?.value" (onActionTriggerOpen)="openNewActionTrigger($event)">
