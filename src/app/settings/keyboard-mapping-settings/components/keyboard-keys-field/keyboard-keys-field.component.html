@@ -4,7 +4,7 @@
       {{ label }}
       <span *ngIf="isRequired" class="text-danger">*</span>
     </span>
-    <sofie-icon-button *ngIf="helpIconText" [iconButton]="IconButton.CIRCLE_QUESTION" [tooltipText]="helpIconText" [iconButtonSize]="IconButtonSize.M"> </sofie-icon-button
+    <sofie-icon-button *ngIf="helpIconText" [iconButton]="IconButton.CIRCLE_QUESTION" [tooltip]="helpIconText" [iconButtonSize]="IconButtonSize.M"> </sofie-icon-button
   ></label>
   <div class="sofie-input-with-icon">
     <input (focus)="this.setFirstKeyAfterUserFocus(true)" [readonly]="true" (keydown)="onKeyDown($event)" placeholder="Click the keys one by one" [value]="value | formatKeyboardKeys" />

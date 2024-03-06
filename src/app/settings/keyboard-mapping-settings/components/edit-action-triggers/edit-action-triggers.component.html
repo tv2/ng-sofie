@@ -48,7 +48,7 @@
           <label
             >{{ selectedAction.argument.name }}
             <span class="text-danger">*</span>
-            <sofie-icon-button [iconButton]="IconButton.CIRCLE_QUESTION" [tooltipText]="selectedAction.argument.description" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button
+            <sofie-icon-button [iconButton]="IconButton.CIRCLE_QUESTION" [tooltip]="selectedAction.argument.description" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button
           ></label>
           <input
             [type]="selectedAction.argument.type === ActionArgumentSchemaType.NUMBER ? 'number' : 'string'"

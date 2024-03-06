@@ -6,6 +6,7 @@ import { ShelfConfigurationUpdatedEvent } from '../../../../core/models/configur
 import { EventSubscription } from '../../../../event-system/abstractions/event-observer.service'
 import { SofieTableHeader, SortDirection } from '../../../../shared/components/table/table.component'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
+import { DialogService } from '../../../../shared/services/dialog.service'
 
 @Component({
   selector: 'sofie-action-panel',
@@ -13,6 +14,7 @@ import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
   styleUrls: ['./shelf-action-panel-settings-page.component.scss'],
 })
 export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy {
+  protected readonly IconButton = IconButton
   protected readonly IconButtonSize = IconButtonSize
 
   public shelfConfiguration: ShelfConfiguration
@@ -47,7 +49,8 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
 
   constructor(
     private readonly shelfConfigurationStateService: ConfigurationService,
-    private readonly configurationEventObserver: ConfigurationEventObserver
+    private readonly configurationEventObserver: ConfigurationEventObserver,
+    private readonly dialogService: DialogService
   ) {}
 
   public ngOnInit(): void {
@@ -114,5 +117,33 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
 
   public isAllActionPanelsSelected(): boolean {
     return this.selectedActionPanels.size === this.shelfConfiguration.actionPanelConfigurations.length
+  }
+
+  public deleteActionPanel(actionPanel: ShelfActionPanelConfiguration): void {
+    this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`action-panel.delete.confirmation`, $localize`global.delete.label`, () => {
+      const index: number = this.shelfConfiguration.actionPanelConfigurations.indexOf(actionPanel)
+      if (index < 0) {
+        return
+      }
+      this.shelfConfiguration.actionPanelConfigurations.splice(index, 1)
+      this.shelfConfigurationStateService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
+
+      // TODO: Make notification once we have the new notification changes
+    })
+  }
+
+  public duplicateActionPanel(actionPanel: ShelfActionPanelConfiguration): void {
+    const index: number = this.shelfConfiguration.actionPanelConfigurations.indexOf(actionPanel)
+    if (index < 0) {
+      return
+    }
+    const duplicatedActionPanel: ShelfActionPanelConfiguration = {
+      id: '', // Backend will generate a random id
+      name: actionPanel.name,
+      rank: actionPanel.rank,
+      actionFilter: actionPanel.actionFilter,
+    }
+    this.shelfConfiguration.actionPanelConfigurations.splice(index, 0, duplicatedActionPanel)
+    this.shelfConfigurationStateService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
   }
 }

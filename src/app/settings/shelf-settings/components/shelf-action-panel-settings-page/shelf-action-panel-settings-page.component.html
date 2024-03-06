@@ -32,6 +32,13 @@
                         {{ filter | translationKnownValues }}
                     </sofie-rounded-box>
                 </td>
+                <td>
+                    <div class="align-table-data-end pe-5">
+                        <sofie-icon-button class="me-2" [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Edit Action Panel'"></sofie-icon-button>
+                        <sofie-icon-button class="me-2" [iconButton]="IconButton.TWO_SHEETS_COPY" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateActionPanel(actionPanel)"></sofie-icon-button>
+                        <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Delete Action Panel'" (click)="deleteActionPanel(actionPanel)"></sofie-icon-button>
+                    </div>
+                </td>
             </tr>
         </sofie-table>
         <hr>

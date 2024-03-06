@@ -53,12 +53,12 @@
             <div *ngIf="!selectMode" class="c-action-triggers-list__card--actions">
               <sofie-icon-button
                 [iconButton]="IconButton.PEN"
-                tooltipText="Edit action trigger"
+                tooltip="Edit action trigger"
                 [iconButtonSize]="IconButtonSize.L"
                 (click)="selectActionTrigger(actionTriggerWithActions)"></sofie-icon-button>
-              <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" tooltipText="Copy action trigger" [iconButtonSize]="IconButtonSize.L" (click)="cloneActionTrigger(actionTriggerWithActions)">
+              <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" tooltip="Copy action trigger" [iconButtonSize]="IconButtonSize.L" (click)="cloneActionTrigger(actionTriggerWithActions)">
               </sofie-icon-button>
-              <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" tooltipText="Delete action trigger" [iconButtonSize]="IconButtonSize.L" (click)="openDeleteActionTriggerDialog(actionsTrigger.id)">
+              <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" tooltip="Delete action trigger" [iconButtonSize]="IconButtonSize.L" (click)="openDeleteActionTriggerDialog(actionsTrigger.id)">
               </sofie-icon-button>
             </div>
           </div>
