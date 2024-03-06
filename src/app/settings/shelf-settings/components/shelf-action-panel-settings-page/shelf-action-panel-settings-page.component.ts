@@ -145,10 +145,24 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
   }
 
+  public openCreateActionPanel(): void {
+    this.dialogService.openSidebarDialog<EditShelfActionPanelConfigurationDialogComponent, ShelfActionPanelConfiguration>(
+      EditShelfActionPanelConfigurationDialogComponent,
+      (result?: ShelfActionPanelConfiguration) => {
+        if (!result) {
+          return
+        }
+        this.shelfConfiguration.actionPanelConfigurations.push(result)
+        this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
+
+        // TODO: Make notification once we have the new notification changes
+      }
+    )
+  }
+
   public openEditActionPanel(actionPanel: ShelfActionPanelConfiguration): void {
     this.dialogService.openSidebarDialog<EditShelfActionPanelConfigurationDialogComponent, ShelfActionPanelConfiguration>(
       EditShelfActionPanelConfigurationDialogComponent,
-      actionPanel,
       (result?: ShelfActionPanelConfiguration) => {
         if (!result) {
           return
@@ -161,7 +175,8 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
         this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
 
         // TODO: Make notification once we have the new notification changes
-      }
+      },
+      actionPanel
     )
   }
 }

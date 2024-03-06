@@ -12,7 +12,7 @@ import { TranslationActionTypePipe } from '../../../../shared/pipes/translation-
   styleUrls: ['./edit-shelf-action-panel-configuration-dialog.component.scss'],
 })
 export class EditShelfActionPanelConfigurationDialogComponent implements OnInit {
-  public actionPanel: ShelfActionPanelConfiguration
+  public actionPanel?: ShelfActionPanelConfiguration
   public actionContentOptions: MultiSelectOption<Tv2ActionContentType>[] = []
 
   public form: FormGroup
@@ -28,9 +28,9 @@ export class EditShelfActionPanelConfigurationDialogComponent implements OnInit 
 
   public ngOnInit(): void {
     this.form = this.formBuilder.group({
-      name: [this.actionPanel.name, [Validators.required]],
-      actionFilter: [this.actionPanel.actionFilter, [Validators.required]],
-      rank: [this.actionPanel.rank, [Validators.required]],
+      name: [this.actionPanel?.name ?? '', [Validators.required]],
+      actionFilter: [this.actionPanel?.actionFilter ?? [], [Validators.required]],
+      rank: [this.actionPanel?.rank ?? 0, [Validators.required]],
     })
 
     this.actionContentOptions = Object.values(Tv2ActionContentType).map(actionContent => {

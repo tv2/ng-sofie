@@ -36,7 +36,7 @@ export class DialogService {
       })
   }
 
-  public openSidebarDialog<T, R>(component: ComponentType<T>, data: R, onClose: (result: R) => void): void {
+  public openSidebarDialog<T, R>(component: ComponentType<T>, onClose: (result: R) => void, data?: R): void {
     this.dialog
       .open(component, {
         data,
