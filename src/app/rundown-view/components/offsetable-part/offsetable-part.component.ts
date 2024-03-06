@@ -121,30 +121,9 @@ export class OffsetablePartComponent implements OnChanges {
     if (!stackElements) {
       return
     }
-    if (stackElements.classList.contains('hidden-click')) {
-      stackElements.classList.replace('hidden-click', 'piece-stack-click')
-    } else {
-      stackElements.classList.replace('piece-stack-click', 'hidden-click')
-    }
-    // piece tooltip component to be created
-    //
-    // const pieceStackTogglesLeft: number = this.pieceStackToggle.nativeElement.getBoundingClientRect().left
-    // const pieceStackToggleTop: number = this.pieceStackToggle.nativeElement.getBoundingClientRect().top
-    // document.querySelectorAll('div.stack-tooltip').forEach((element: Element) => {
-    //   element.remove()
-    // })
-    // const stackTooltip: HTMLDivElement = document.createElement('div', { is: 'stack-tooltip' })
-    // stackTooltip.classList.add('stack-tooltip')
-    // stackTooltip.style.position = 'absolute'
-    // stackTooltip.style.left = `${pieceStackTogglesLeft}px`
-    // stackTooltip.style.top = `${22 + pieceStackToggleTop}px`
-    // stackTooltip.innerHTML = stackElements.innerHTML
-    // document.body.append(stackTooltip)
-    // setTimeout(() => {
-    //   document.querySelectorAll('div.stack-tooltip').forEach((element: Element) => {
-    //     element.remove()
-    //   })
-    // }, 5000)
+    // todo: replace with piece tooltip component once available
+    stackElements.classList.toggle('hidden-click')
+    stackElements.classList.toggle('piece-stack-click')
   }
 
   protected getPieceStackToggleText(outputLayer: Tv2OutputLayer, startKey: string): string {
