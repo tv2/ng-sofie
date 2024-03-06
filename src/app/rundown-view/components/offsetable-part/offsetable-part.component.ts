@@ -42,7 +42,8 @@ export class OffsetablePartComponent implements OnChanges {
   @Input()
   public isRundownActive: boolean
 
-  @ViewChild('pieceStackToggle') protected pieceStackToggle: ElementRef<HTMLDivElement>
+  @ViewChild('pieceStackToggle')
+  protected pieceStackToggle: ElementRef<HTMLDivElement>
 
   protected piecesGroupedByOutputLayerThenStart: Record<Tv2OutputLayer, Record<number, Tv2Piece[]>> = {} as Record<Tv2OutputLayer, Record<number, Tv2Piece[]>>
   public readonly autoLabel: string = $localize`global.auto.label`
@@ -100,8 +101,6 @@ export class OffsetablePartComponent implements OnChanges {
     return piece.start - KEEP_VISIBLE_DURATION_IN_MS <= partDurationInMsAtEndOfPartViewport && pieceEndTimeInMs + KEEP_VISIBLE_DURATION_IN_MS >= this.offsetDurationInMs
   }
 
-  protected readonly Object = Object
-
   public trackPiece(_: number, piece: Piece): string {
     return piece.id
   }
@@ -127,6 +126,25 @@ export class OffsetablePartComponent implements OnChanges {
     } else {
       stackElements.classList.replace('piece-stack-click', 'hidden-click')
     }
+    // piece tooltip component to be created
+    //
+    // const pieceStackTogglesLeft: number = this.pieceStackToggle.nativeElement.getBoundingClientRect().left
+    // const pieceStackToggleTop: number = this.pieceStackToggle.nativeElement.getBoundingClientRect().top
+    // document.querySelectorAll('div.stack-tooltip').forEach((element: Element) => {
+    //   element.remove()
+    // })
+    // const stackTooltip: HTMLDivElement = document.createElement('div', { is: 'stack-tooltip' })
+    // stackTooltip.classList.add('stack-tooltip')
+    // stackTooltip.style.position = 'absolute'
+    // stackTooltip.style.left = `${pieceStackTogglesLeft}px`
+    // stackTooltip.style.top = `${22 + pieceStackToggleTop}px`
+    // stackTooltip.innerHTML = stackElements.innerHTML
+    // document.body.append(stackTooltip)
+    // setTimeout(() => {
+    //   document.querySelectorAll('div.stack-tooltip').forEach((element: Element) => {
+    //     element.remove()
+    //   })
+    // }, 5000)
   }
 
   protected getPieceStackToggleText(outputLayer: Tv2OutputLayer, startKey: string): string {
@@ -137,5 +155,24 @@ export class OffsetablePartComponent implements OnChanges {
           `[${piece.start / 1000}s,${piece.duration || 0 / 1000 || '-'}s]${piece.name}`
       )
       .join(', ')
+  }
+
+  protected numberOfPiecesByOutputLayerAndStartKey(outputLayer: Tv2OutputLayer, startKey: number): number {
+    if (!this.piecesGroupedByOutputLayerThenStart[outputLayer] || !this.piecesGroupedByOutputLayerThenStart[outputLayer][startKey]) {
+      return 0
+    }
+    return this.piecesGroupedByOutputLayerThenStart[outputLayer][startKey].length
+  }
+
+  protected outputLayerHasItems(outputLayer: Tv2OutputLayer): boolean {
+    if (!this.piecesGroupedByOutputLayerThenStart[outputLayer]) {
+      return false
+    }
+
+    return 0 !== Object.keys(this.piecesGroupedByOutputLayerThenStart[outputLayer]).length
+  }
+
+  protected getStartKeysForOutputLayer(outputLayer: Tv2OutputLayer): string[] {
+    return Object.keys(this.piecesGroupedByOutputLayerThenStart[outputLayer])
   }
 }

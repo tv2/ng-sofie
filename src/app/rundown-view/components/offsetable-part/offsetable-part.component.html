@@ -1,14 +1,10 @@
-<div
-  [cdkContextMenuTriggerFor]="contextMenu"
-  class="piece-layers"
-  [class.unsynced]="part.isUnsynced">
-
+<div [cdkContextMenuTriggerFor]="contextMenu" class="piece-layers" [class.unsynced]="part.isUnsynced">
   <div *ngFor="let outputLayer of outputLayers" class="piece-layer">
-    <ng-container *ngIf="piecesGroupedByOutputLayerThenStart[outputLayer] && Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer]).length !== 0">
-      <ng-container *ngFor="let startKey of Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer]) || []; index as startKeyIndex;">
-        <!-- single piece stack -->
+    <ng-container *ngIf="outputLayerHasItems(outputLayer)">
+      <ng-container *ngFor="let startKey of getStartKeysForOutputLayer(outputLayer) || []; index as startKeyIndex;">
+        <!-- single piece not stack -->
         <sofie-offsetable-piece
-          *ngIf="piecesGroupedByOutputLayerThenStart[outputLayer][+startKey] && Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]).length === 1"
+          *ngIf="numberOfPiecesByOutputLayerAndStartKey(outputLayer, +startKey) === 1"
           [piece]="piecesGroupedByOutputLayerThenStart[outputLayer][+startKey][0]"
           [pixelsPerSecond]="pixelsPerSecond"
           [partDuration]="partDurationInMs()"
@@ -18,8 +14,8 @@
           [style.z-index]="startKeyIndex">
         </sofie-offsetable-piece>
 
-        <!-- multiple piece stack -->
-        <ng-container *ngIf="piecesGroupedByOutputLayerThenStart[outputLayer][+startKey] && Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]).length > 1">
+        <!-- multiple pieces stack -->
+        <ng-container *ngIf="numberOfPiecesByOutputLayerAndStartKey(outputLayer, +startKey) > 1">
           <div #pieceStackToggle class="piece-stack-toggle {{ outputLayer.toLowerCase() }}" (click)="togglePieceStack()">
             {{ getPieceStackToggleText(outputLayer, startKey) }}
           </div>
