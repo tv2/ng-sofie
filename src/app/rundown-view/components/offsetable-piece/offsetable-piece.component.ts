@@ -77,14 +77,14 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   }
 
   @HostBinding('style.left.px')
-  public get leftInPixels(): number {
+  protected get leftInPixels(): number {
     const offsetInMs: number = this.piece.start - Math.max(0, this.playedDurationForPartInMs - this.prePlayheadDurationInMs)
     const displayOffsetInMs: number = Math.max(0, offsetInMs)
     return (displayOffsetInMs * this.pixelsPerSecond) / 1000
   }
 
   @HostBinding('style.width.px')
-  public get widthInPixels(): number {
+  protected get widthInPixels(): number {
     const displayDurationInMs: number = this.getDisplayDurationInMs()
     return Math.floor((this.pixelsPerSecond * displayDurationInMs) / 1000)
   }

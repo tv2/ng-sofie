@@ -16,10 +16,14 @@
 
         <!-- multiple pieces stack -->
         <ng-container *ngIf="numberOfPiecesByOutputLayerAndStartKey(outputLayer, +startKey) > 1">
-          <div #pieceStackToggle class="piece-stack-toggle {{ outputLayer.toLowerCase() }}" (click)="togglePieceStack()">
+          <div class="piece-stack-toggle {{ outputLayer.toLowerCase() }}"
+               (click)="togglePieceStack()"
+               [style.left.px]="getPieceStackOffset(outputLayer, startKey)"
+               [style.width.px]="getPieceStackDuration(outputLayer, startKey)">
             {{ getPieceStackToggleText(outputLayer, startKey) }}
           </div>
-          <div class="piece-stack hidden-click">
+
+          <div #pieceStackToToggle class="piece-stack hidden-click">
             <sofie-offsetable-piece
               *ngFor="let piece of piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]; trackBy trackPiece; index as pieceIndex"
               [piece]="piece"

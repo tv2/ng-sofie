@@ -42,8 +42,8 @@ export class OffsetablePartComponent implements OnChanges {
   @Input()
   public isRundownActive: boolean
 
-  @ViewChild('pieceStackToggle')
-  protected pieceStackToggle: ElementRef<HTMLDivElement>
+  @ViewChild('pieceStackToToggle')
+  protected pieceStackToToggle: ElementRef<HTMLDivElement>
 
   protected piecesGroupedByOutputLayerThenStart: Record<Tv2OutputLayer, Record<number, Tv2Piece[]>> = {} as Record<Tv2OutputLayer, Record<number, Tv2Piece[]>>
   public readonly autoLabel: string = $localize`global.auto.label`
@@ -114,26 +114,16 @@ export class OffsetablePartComponent implements OnChanges {
   }
 
   protected togglePieceStack(): void {
-    if (!this.pieceStackToggle) {
-      return
-    }
-    const stackElements: Element | null | undefined = this.pieceStackToggle.nativeElement.parentNode?.querySelector('div.piece-stack')
-    if (!stackElements) {
+    if (!this.pieceStackToToggle) {
       return
     }
     // todo: replace with piece tooltip component once available
-    stackElements.classList.toggle('hidden-click')
-    stackElements.classList.toggle('piece-stack-click')
+    this.pieceStackToToggle.nativeElement.classList.toggle('hidden-click')
+    this.pieceStackToToggle.nativeElement.classList.toggle('piece-stack-click')
   }
 
   protected getPieceStackToggleText(outputLayer: Tv2OutputLayer, startKey: string): string {
-    return this.piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]
-      .map(
-        piece =>
-          // `${piece.start}:${piece.id}@${piece.name}`
-          `[${piece.start / 1000}s,${piece.duration || 0 / 1000 || '-'}s]${piece.name}`
-      )
-      .join(', ')
+    return this.piecesGroupedByOutputLayerThenStart[outputLayer][+startKey].map(piece => piece.name).join(', ')
   }
 
   protected numberOfPiecesByOutputLayerAndStartKey(outputLayer: Tv2OutputLayer, startKey: number): number {
@@ -153,5 +143,13 @@ export class OffsetablePartComponent implements OnChanges {
 
   protected getStartKeysForOutputLayer(outputLayer: Tv2OutputLayer): string[] {
     return Object.keys(this.piecesGroupedByOutputLayerThenStart[outputLayer])
+  }
+
+  protected getPieceStackDuration(outputLayer: Tv2OutputLayer, startKey: string): number {
+    return ((this.piecesGroupedByOutputLayerThenStart[outputLayer][+startKey].reduce((acc, piece) => acc + (piece.duration || 0), 0) || Number.MAX_SAFE_INTEGER) * this.pixelsPerSecond) / 1000
+  }
+
+  protected getPieceStackOffset(outputLayer: Tv2OutputLayer, startKey: string): number {
+    return (this.piecesGroupedByOutputLayerThenStart[outputLayer][+startKey][0].start * this.pixelsPerSecond) / 1000
   }
 }
