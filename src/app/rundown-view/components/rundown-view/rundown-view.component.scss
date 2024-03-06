@@ -34,13 +34,8 @@
   }
 
   .rundown-viewport {
-    position: relative;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .rundown-viewport-body {
     display: flex;
+    position: relative;
     height: 100%;
     overflow: hidden;
 
