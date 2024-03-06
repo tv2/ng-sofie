@@ -130,6 +130,12 @@ export class OffsetablePartComponent implements OnChanges {
   }
 
   protected getPieceStackToggleText(outputLayer: Tv2OutputLayer, startKey: string): string {
-    return this.piecesGroupedByOutputLayerThenStart[outputLayer][+startKey].map(piece => piece.name).join(', ')
+    return this.piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]
+      .map(
+        piece =>
+          // `${piece.start}:${piece.id}@${piece.name}`
+          `[${piece.start / 1000}s,${piece.duration || 0 / 1000 || '-'}s]${piece.name}`
+      )
+      .join(', ')
   }
 }
