@@ -104,7 +104,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     const playedDurationForPieceInMs: number = Math.max(0, this.playedDurationForPartInMs - this.piece.start)
     const displayOffsetInMs: number = Math.min(playedDurationForPieceInMs, this.prePlayheadDurationInMs)
     const displayOffsetWithLabelTextOffsetInMs: number = displayOffsetInMs - this.getDurationInMsSpendAfterLabelTextEnds()
-    return (displayOffsetWithLabelTextOffsetInMs * this.pixelsPerSecond) / 1000
+    return Math.floor((displayOffsetWithLabelTextOffsetInMs * this.pixelsPerSecond) / 1000)
   }
 
   private getDurationInMsSpendAfterLabelTextEnds(): number {
@@ -154,7 +154,11 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     this.mediaSubscription?.unsubscribe()
   }
 
-  protected getLabelTextElementWidth(): number {
-    return ((this.followingPieceStart ? this.followingPieceStart - this.piece.start : this.piece.duration || Number.MAX_SAFE_INTEGER) * this.pixelsPerSecond) / 1000
+  protected calculateLabelTextElementWidth(): number {
+    const durationTillFollowingPieceStartInMs: number = this.followingPieceStart || this.piece.duration || 0 - this.piece.start - LABEL_TEXT_INSET_IN_PIXELS
+    if (durationTillFollowingPieceStartInMs > 0) {
+      return Math.floor((durationTillFollowingPieceStartInMs * this.pixelsPerSecond) / 1000)
+    }
+    return Math.floor(((this.piece.duration || Number.MAX_SAFE_INTEGER) * this.pixelsPerSecond) / 1000)
   }
 }

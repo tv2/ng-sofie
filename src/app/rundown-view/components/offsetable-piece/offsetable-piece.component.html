@@ -1,4 +1,4 @@
 <div class="label" [style.margin-left.px]="labelOffsetInPixels">
-  <span #labelTextElement [style.width.px]="getLabelTextElementWidth()">{{ piece.name }}</span>
-  <sofie-piece-tooltip [piece]="piece" [durationInMs]="partDuration" [playedDurationForPartInMs]="playedDurationForPartInMs" [isMediaUnavailable]="isMediaUnavailable"> </sofie-piece-tooltip>
+  <span #labelTextElement [style.max-width.px]="calculateLabelTextElementWidth">{{ piece.name }}</span>
+  <sofie-piece-tooltip [piece]="piece" [durationInMs]="partDuration" [playedDurationForPartInMs]="playedDurationForPartInMs" [isMediaUnavailable]="isMediaUnavailable"></sofie-piece-tooltip>
 </div>
