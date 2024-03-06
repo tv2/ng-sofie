@@ -24,8 +24,6 @@
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 20;
-        background-color: #004444;
       }
 
       .hidden-click {
@@ -35,7 +33,7 @@
       .piece-stack-click {
         position: absolute;
 
-        top: 9px;
+        top: 7px;
         left: 0;
 
         display: flex;
@@ -46,6 +44,59 @@
 
         sofie-offsetable-piece {
           height: 11px;
+        }
+      }
+
+      .overlay {
+        background-color: var(--tv2-overlay-graphics-color);
+      }
+
+      .auxiliary {
+        background-color: var(--tv2-auxiliary);
+      }
+
+      .program {
+        background-color: var(--green-color);
+      }
+
+      .camera {
+        background-color: var(--tv2-camera-color);
+      }
+
+      .lower-third {
+        background-color: var(--tv2-graphics-color);
+      }
+
+      .graphics {
+        background-color: var(--tv2-graphics-color);
+      }
+
+      .remote {
+        background-color: var(--tv2-remote-color);
+      }
+
+      .local {
+        background-color: var(--tv2-replay-color);
+      }
+
+      .manus {
+        font-style: italic;
+        background-color: var(--tv2-manus-color);
+      }
+
+      .split-screen {
+        background: linear-gradient(to bottom, var(--tv2-split-screen-upper) 0%, var(--tv2-split-screen-upper) 50%, var(--tv2-split-screen-lower) 50%, var(--tv2-split-screen-lower) 100%);
+      }
+
+      .voice-over {
+        background-color: var(--tv2-camera-color);
+      }
+
+      .replay {
+        background-color: var(--tv2-replay-color);
+
+        .voice-over {
+          background: linear-gradient(to bottom, var(--tv2-replay-color) 0%, var(--tv2-replay-color) 50%, var(--tv2-camera-color) 50%, var(--tv2-camera-color) 100%);
         }
       }
     }

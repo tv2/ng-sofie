@@ -20,7 +20,7 @@
 
         <!-- multiple piece stack -->
         <ng-container *ngIf="piecesGroupedByOutputLayerThenStart[outputLayer][+startKey] && Object.keys(piecesGroupedByOutputLayerThenStart[outputLayer][+startKey]).length > 1">
-          <div #pieceStackToggle class="piece-stack-toggle" (click)="togglePieceStack()">
+          <div #pieceStackToggle class="piece-stack-toggle {{ outputLayer.toLowerCase() }}" (click)="togglePieceStack()">
             {{ getPieceStackToggleText(outputLayer, startKey) }}
           </div>
           <div class="piece-stack hidden-click">
@@ -33,7 +33,7 @@
               [prePlayheadDurationInMs]="prePlayheadDurationInMs"
               [postPlayheadDurationInMs]="postPlayheadDurationInMs"
               [followingPieceStart]="getFollowingPieceStart(outputLayer, startKey, piece.id)"
-              [style.top.px]="2+10*pieceIndex">
+              [style.top.px]="11*pieceIndex">
             </sofie-offsetable-piece>
           </div>
         </ng-container>
