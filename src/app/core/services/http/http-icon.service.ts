@@ -3,6 +3,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import {
   faArrowsH,
   faBars,
+  faCheck,
   faCircleQuestion,
   faCopy,
   faMinus,
@@ -44,6 +45,8 @@ export class FortAwesomeIconService implements IconService {
         return faSquare
       case IconButton.SQUARE_CHECK:
         return faSquareCheck
+      case IconButton.CHECK:
+        return faCheck
       case IconButton.PEN:
         return faPen
       case IconButton.CIRCLE_QUESTION:

@@ -5,7 +5,7 @@ import { ActionPanelListComponent } from './action-panel-list.component'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
-import { TranslationKnownValuesPipe } from 'src/app/shared/pipes/translation-known-values.pipe'
+import { TranslationActionTypePipe } from 'src/app/shared/pipes/translation-known-values.pipe'
 
 describe('ActionPanelListComponent', () => {
   it('should create', async () => {
@@ -18,13 +18,13 @@ async function configureTestBed(): Promise<ActionPanelListComponent> {
   const mockedConfigurationService: ConfigurationService = mock<ConfigurationService>()
   const mockedDialogService: DialogService = mock<DialogService>()
   const mockedFileDownloadService: FileDownloadService = mock<FileDownloadService>()
-  const mockedTranslationKnownValuesPipe: TranslationKnownValuesPipe = mock<TranslationKnownValuesPipe>()
+  const mockedTranslationKnownValuesPipe: TranslationActionTypePipe = mock<TranslationActionTypePipe>()
   await TestBed.configureTestingModule({
     providers: [
       { provide: ConfigurationService, useValue: instance(mockedConfigurationService) },
       { provide: DialogService, useValue: instance(mockedDialogService) },
       { provide: FileDownloadService, useValue: instance(mockedFileDownloadService) },
-      { provide: TranslationKnownValuesPipe, useValue: instance(mockedTranslationKnownValuesPipe) },
+      { provide: TranslationActionTypePipe, useValue: instance(mockedTranslationKnownValuesPipe) },
     ],
     declarations: [ActionPanelListComponent],
     imports: [ReactiveFormsModule, FormsModule],

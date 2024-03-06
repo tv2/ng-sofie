@@ -3,13 +3,13 @@
     <div class="c-settings-page__header--filters">
       <input class="me-2" type="text" [(ngModel)]="search" placeholder="Search" />
       <div>
-        <sofie-multi-select
+        <sofie-multi-select-old
           [selectedOptionsIds]="actionPanelFilters"
           [options]="filterActionPanelOptions"
           (onItemSelectionChange)="actionPanelFiltersChange($event)"
           [showOnlyItemsCountLabel]="selectedFiltersLabel"
           [placeholder]="filtersLabel">
-        </sofie-multi-select>
+        </sofie-multi-select-old>
       </div>
     </div>
     <div>
@@ -61,7 +61,7 @@
           </td>
           <td>
             <span class="c-custom-badge me-2 mb-2 bg-dark" [ngClass]="actionFilter.toLocaleLowerCase() + '-color'" *ngFor="let actionFilter of actionPanelRow.actionFilter; let filterIndex = index">
-              {{ actionFilter | translationKnownValues }}
+              {{ actionFilter | translationActionType }}
             </span>
           </td>
           <td>

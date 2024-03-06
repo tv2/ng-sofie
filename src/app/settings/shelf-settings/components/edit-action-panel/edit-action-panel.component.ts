@@ -1,10 +1,10 @@
 import { ShelfActionPanelConfiguration, ShelfConfiguration } from 'src/app/shared/models/shelf-configuration'
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core'
 import { AbstractControl, FormBuilder, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
-import { MultiSelectOptions } from 'src/app/shared/components/multi-select/multi-select.component'
 import { Tv2ActionContentType } from 'src/app/shared/models/tv2-action'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
-import { TranslationKnownValuesPipe } from 'src/app/shared/pipes/translation-known-values.pipe'
+import { TranslationActionTypePipe } from 'src/app/shared/pipes/translation-known-values.pipe'
+import { MultiSelectOptions } from '../../../../shared/components/multi-select-old/multi-select-component-old.component'
 
 @Component({
   selector: 'sofie-edit-action-panel',
@@ -31,7 +31,7 @@ export class EditActionPanelComponent implements OnInit {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly translationKnownValuesPipe: TranslationKnownValuesPipe,
+    private readonly translationKnownValuesPipe: TranslationActionTypePipe,
     private readonly configurationService: ConfigurationService
   ) {}
 

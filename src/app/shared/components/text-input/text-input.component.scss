@@ -6,3 +6,10 @@ div {
 label {
   font-weight: lighter;
 }
+
+input {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--gray-color);
+  color: var(--dark-color);
+}

@@ -1,0 +1,29 @@
+.c-multi-select-trigger {
+  padding: 5px 16px 0px 16px;
+  border-radius: 4px;
+  border: 1px solid var(--gray-color);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 14px;
+  &--selected-option {
+    padding: 3px 6px;
+    border-radius: 4px;
+    background-color: var(--background-color);
+    margin-left: 5px;
+    margin-bottom: 5px;
+    color: var(--white-color);
+    display: flex;
+  }
+  &--no-selected {
+    padding: 3px 0;
+    margin-bottom: 5px;
+    color: var(--dark-gray-color);
+  }
+  &--show-only-items-count {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    margin-bottom: 5px;
+    width: 100%;
+  }
+}

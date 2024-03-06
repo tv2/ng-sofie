@@ -2,9 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core'
 import { Tv2ActionContentType } from '../models/tv2-action'
 
 @Pipe({
-  name: 'translationKnownValues',
+  name: 'translationActionType',
 })
-export class TranslationKnownValuesPipe implements PipeTransform {
+export class TranslationActionTypePipe implements PipeTransform {
   public transform(value: string): string {
     switch (value) {
       case Tv2ActionContentType.AUDIO:

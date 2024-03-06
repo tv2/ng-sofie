@@ -5,9 +5,9 @@ import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
-import { MultiSelectOptions } from 'src/app/shared/components/multi-select/multi-select.component'
 import { Tv2ActionContentType } from 'src/app/shared/models/tv2-action'
-import { TranslationKnownValuesPipe } from 'src/app/shared/pipes/translation-known-values.pipe'
+import { TranslationActionTypePipe } from 'src/app/shared/pipes/translation-known-values.pipe'
+import { MultiSelectOptions } from '../../../../shared/components/multi-select-old/multi-select-component-old.component'
 
 export enum ShelfActionPanelHeaderKeys {
   NAME = 'name',
@@ -45,7 +45,7 @@ export class ActionPanelListComponent implements OnChanges, OnInit {
   constructor(
     private readonly dialogService: DialogService,
     private readonly fileDownloadService: FileDownloadService,
-    private readonly translationKnownValuesPipe: TranslationKnownValuesPipe,
+    private readonly translationActionTypePipe: TranslationActionTypePipe,
     private readonly configurationService: ConfigurationService
   ) {}
 
@@ -59,7 +59,7 @@ export class ActionPanelListComponent implements OnChanges, OnInit {
   public ngOnInit(): void {
     const tv2ActionContentTypeArray: string[] = Object.keys(Tv2ActionContentType)
     this.filterActionPanelOptions = tv2ActionContentTypeArray.map(key => {
-      return { id: key, label: this.translationKnownValuesPipe.transform(key), classesOnSelected: `${key.toLocaleLowerCase()}_color` }
+      return { id: key, label: this.translationActionTypePipe.transform(key), classesOnSelected: `${key.toLocaleLowerCase()}_color` }
     })
   }
 

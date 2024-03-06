@@ -2,6 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ShelfActionPanelConfiguration } from '../../../../shared/models/shelf-configuration'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { MultiSelectOption } from '../../../../shared/components/multi-select/multi-select.component'
+import { Tv2ActionContentType } from '../../../../shared/models/tv2-action'
+import { TranslationActionTypePipe } from '../../../../shared/pipes/translation-known-values.pipe'
 
 @Component({
   selector: 'sofie-edit-shelf-action-panel-configuration-dialog',
@@ -10,13 +13,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 })
 export class EditShelfActionPanelConfigurationDialogComponent implements OnInit {
   public actionPanel: ShelfActionPanelConfiguration
+  public actionContentOptions: MultiSelectOption<Tv2ActionContentType>[] = []
 
   public form: FormGroup
 
   constructor(
     @Inject(MAT_DIALOG_DATA) actionPanel: ShelfActionPanelConfiguration,
     private readonly dialogRef: MatDialogRef<EditShelfActionPanelConfigurationDialogComponent>,
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private readonly translationActionTypePipe: TranslationActionTypePipe
   ) {
     this.actionPanel = actionPanel
   }
@@ -24,7 +29,15 @@ export class EditShelfActionPanelConfigurationDialogComponent implements OnInit 
   public ngOnInit(): void {
     this.form = this.formBuilder.group({
       name: [this.actionPanel.name, [Validators.required]],
+      actionFilter: [this.actionPanel.actionFilter, [Validators.required]],
       rank: [this.actionPanel.rank, [Validators.required]],
+    })
+
+    this.actionContentOptions = Object.values(Tv2ActionContentType).map(actionContent => {
+      return {
+        name: this.translationActionTypePipe.transform(actionContent),
+        value: actionContent,
+      }
     })
   }
 

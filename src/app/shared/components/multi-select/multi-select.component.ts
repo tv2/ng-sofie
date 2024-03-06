@@ -1,49 +1,131 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { IconButton, IconButtonSize } from '../../enums/icon-button'
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 
-export interface MultiSelectOptions {
-  label: string
-  id: string
-  classesOnSelected?: string
-  classesOnList?: string
+export interface MultiSelectOption<T> {
+  name: string
+  value: T
+}
+
+interface SelectableOption<T> extends MultiSelectOption<T> {
+  isSelected: boolean
 }
 
 @Component({
   selector: 'sofie-multi-select',
   templateUrl: './multi-select.component.html',
   styleUrls: ['./multi-select.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: MultiSelectComponent,
+    },
+  ],
 })
-export class MultiSelectComponent {
-  @Input() public options: MultiSelectOptions[]
-  @Input() public selectedOptionsIds: string[]
-  @Input() public placeholder: string
-  @Input() public showOnlyItemsCountLabel?: string
+export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
+  protected IconButton = IconButton
+  protected IconButtonSize = IconButtonSize
 
-  @Output() public readonly onItemSelectionChange: EventEmitter<string[]> = new EventEmitter<string[]>()
+  @Input() public options: MultiSelectOption<T>[] = []
+  public selectableOptions: SelectableOption<T>[] = []
 
-  public readonly IconButton = IconButton
-  public readonly IconButtonSize = IconButtonSize
+  @Input() public label: string
+  @Input() public placeholder?: string
 
-  public getOptionById(optionId: string): MultiSelectOptions | undefined {
-    return this.options.find(option => option.id === optionId)
+  public selectedOptions: SelectableOption<T>[] = []
+
+  private onChangeCallback: (value: T[]) => void
+  private onTouchedCallback: () => void
+
+  private values: T[] = []
+
+  private isTouched: boolean = false
+
+  constructor() {}
+
+  public ngOnInit(): void {
+    this.selectableOptions = this.options.map(option => {
+      return {
+        ...option,
+        isSelected: false,
+      }
+    })
   }
 
-  public isOptionSelected(option: MultiSelectOptions): boolean {
-    return !!this.selectedOptionsIds.find(selectedOptionId => selectedOptionId === option.id)
-  }
-
-  public onOptionClick(option: MultiSelectOptions): void {
-    const selectedOptionIndex: number = this.selectedOptionsIds.findIndex(selectedOptionId => selectedOptionId === option.id)
-    if (selectedOptionIndex !== -1) {
-      this.unselectOption(selectedOptionIndex)
-    } else {
-      this.onItemSelectionChange.emit([...this.selectedOptionsIds, option.id])
+  public toggleOption(option: SelectableOption<T>): void {
+    this.markAsTouched()
+    option.isSelected = !option.isSelected
+    if (option.isSelected) {
+      this.selectedOptions.push(option)
+      this.updateValuesFromSelectedOptions()
+      return
     }
+    const index: number = this.selectedOptions.indexOf(option)
+    if (index < 0) {
+      return
+    }
+    this.selectedOptions.splice(index, 1)
+
+    this.updateValuesFromSelectedOptions()
   }
 
-  public unselectOption(optionIndex: number): void {
-    this.selectedOptionsIds.splice(optionIndex, 1)
-    this.onItemSelectionChange.emit([...this.selectedOptionsIds])
+  private markAsTouched(): void {
+    if (this.isTouched || !this.onTouchedCallback) {
+      return
+    }
+    this.onTouchedCallback()
+    this.isTouched = true
+  }
+
+  private updateValuesFromSelectedOptions(): void {
+    this.values = this.selectedOptions.map(option => option.value)
+    if (!this.onChangeCallback) {
+      return
+    }
+    this.onChangeCallback(this.values)
+  }
+
+  public getSelectedOptionsAsDisplay(): string {
+    return this.selectedOptions
+      .map(option => option.name)
+      .reduce((a, b) => {
+        return `${a}, ${b}`
+      })
+  }
+
+  public clearAllSelected(): void {
+    this.clearSelectedOptions()
+    this.updateValuesFromSelectedOptions()
+  }
+
+  private clearSelectedOptions(): void {
+    this.selectableOptions.map(option => (option.isSelected = false))
+    this.selectedOptions = []
+  }
+
+  public writeValue(value: T[]): void {
+    this.values = value
+    this.updateSelectedOptionsFromValues()
+  }
+
+  private updateSelectedOptionsFromValues(): void {
+    this.clearSelectedOptions()
+    this.values.forEach(value => {
+      const option: SelectableOption<T> | undefined = this.selectableOptions.find(option => option.value === value)
+      if (!option) {
+        return
+      }
+      option.isSelected = true
+      this.selectedOptions.push(option)
+    })
+  }
+
+  public registerOnChange(changeCallback: (value: T[]) => void): void {
+    this.onChangeCallback = changeCallback
+  }
+
+  public registerOnTouched(touchCallback: () => void): void {
+    this.onTouchedCallback = touchCallback
   }
 }

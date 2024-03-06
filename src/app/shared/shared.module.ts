@@ -62,8 +62,7 @@ import { TooltipComponent } from './components/tooltip/tooltip.component'
 import { ConfigurationParser } from './abstractions/configuration-parser.service'
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
 import { DialogComponent } from './components/dialog/dialog.component'
-import { MultiSelectComponent } from './components/multi-select/multi-select.component'
-import { TranslationKnownValuesPipe } from './pipes/translation-known-values.pipe'
+import { TranslationActionTypePipe } from './pipes/translation-known-values.pipe'
 import { SofieTableHeaderComponent } from './components/sofie-table-header/sofie-table-header.component'
 import { CardComponent } from './components/card/card.component'
 import { TableComponent } from './components/table/table.component'
@@ -74,6 +73,8 @@ import { EditShelfActionPanelConfigurationDialogComponent } from '../settings/sh
 import { TextInputComponent } from './components/text-input/text-input.component'
 import { NumberInputComponent } from './components/number-input/number-input.component'
 import { ButtonGroupComponent } from './components/button-group/button-group.component'
+import { MultiSelectOldComponent } from './components/multi-select-old/multi-select-component-old.component'
+import { MultiSelectComponent } from './components/multi-select/multi-select.component'
 
 @NgModule({
   declarations: [
@@ -81,7 +82,7 @@ import { ButtonGroupComponent } from './components/button-group/button-group.com
     ConfirmationDialogComponent,
     MinimumPipe,
     MaximumPipe,
-    TranslationKnownValuesPipe,
+    TranslationActionTypePipe,
     FormatKeyboardKeysPipe,
     SofieLogoComponent,
     SpacerComponent,
@@ -95,7 +96,7 @@ import { ButtonGroupComponent } from './components/button-group/button-group.com
     DropdownButtonComponent,
     CheckboxComponent,
     ButtonComponent,
-    MultiSelectComponent,
+    MultiSelectOldComponent,
     DialogComponent,
     SofieTableHeaderComponent,
     TooltipComponent,
@@ -108,6 +109,7 @@ import { ButtonGroupComponent } from './components/button-group/button-group.com
     TextInputComponent,
     NumberInputComponent,
     ButtonGroupComponent,
+    MultiSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -133,7 +135,7 @@ import { ButtonGroupComponent } from './components/button-group/button-group.com
     CommonModule,
     HeaderComponent,
     MinimumPipe,
-    TranslationKnownValuesPipe,
+    TranslationActionTypePipe,
     MaximumPipe,
     FormatKeyboardKeysPipe,
     TimerPipe,
@@ -150,7 +152,7 @@ import { ButtonGroupComponent } from './components/button-group/button-group.com
     ReactiveFormsModule,
     FormsModule,
     ButtonComponent,
-    MultiSelectComponent,
+    MultiSelectOldComponent,
     DialogComponent,
     SofieTableHeaderComponent,
     TooltipComponent,
@@ -159,6 +161,7 @@ import { ButtonGroupComponent } from './components/button-group/button-group.com
     RoundedBoxComponent,
     ActionContentCssColorPipe,
     ButtonGroupComponent,
+    MultiSelectComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
@@ -182,7 +185,7 @@ import { ButtonGroupComponent } from './components/button-group/button-group.com
     MediaStateService,
     RundownNavigationService,
     TimerPipe,
-    TranslationKnownValuesPipe,
+    TranslationActionTypePipe,
   ],
 })
 export class SharedModule {}

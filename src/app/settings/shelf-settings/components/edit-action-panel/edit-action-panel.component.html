@@ -11,11 +11,11 @@
 
     <div class="c-form-field c-sofie-form-control">
       <label>{{ actionPanelFiltersLabel }}</label>
-      <sofie-multi-select
+      <sofie-multi-select-old
         [selectedOptionsIds]="this.formFiltersArray.value"
         [options]="filterActionPanelOptions"
         (onItemSelectionChange)="actionPanelFiltersChange($event)"
-        [placeholder]="noFiltersSelectedLabel"></sofie-multi-select>
+        [placeholder]="noFiltersSelectedLabel"></sofie-multi-select-old>
     </div>
 
     <div class="c-form-field c-sofie-form-control">
