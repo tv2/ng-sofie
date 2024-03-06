@@ -2,11 +2,11 @@
     <sofie-card *ngIf="shelfConfiguration; else loading">
         <div class="top-section p-4">
             <div>Insert search filter and multiselect here</div>
-            <div>
-                <sofie-button class="me-1">Create new*</sofie-button>
-                <sofie-button class="me-1">Export*</sofie-button>
+            <sofie-button-group>
+                <sofie-button>Create new*</sofie-button>
+                <sofie-button>Export*</sofie-button>
                 <sofie-button>Import*</sofie-button>
-            </div>
+            </sofie-button-group>
         </div>
 
         <sofie-table>
@@ -33,11 +33,11 @@
                     </sofie-rounded-box>
                 </td>
                 <td>
-                    <div class="align-table-data-end pe-5">
-                        <sofie-icon-button class="me-2" [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Edit Action Panel'"></sofie-icon-button>
-                        <sofie-icon-button class="me-2" [iconButton]="IconButton.TWO_SHEETS_COPY" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateActionPanel(actionPanel)"></sofie-icon-button>
+                    <sofie-button-group class="align-table-data-end pe-5">
+                        <sofie-icon-button [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Edit Action Panel'" (click)="openEditActionPanel(actionPanel)"></sofie-icon-button>
+                        <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateActionPanel(actionPanel)"></sofie-icon-button>
                         <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Delete Action Panel'" (click)="deleteActionPanel(actionPanel)"></sofie-icon-button>
-                    </div>
+                    </sofie-button-group>
                 </td>
             </tr>
         </sofie-table>

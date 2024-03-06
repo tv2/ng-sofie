@@ -1,0 +1,12 @@
+.button-group {
+  display: flex;
+
+  > sofie-button, > sofie-icon-button {
+    margin-right: 6px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+

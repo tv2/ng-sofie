@@ -69,6 +69,11 @@ import { CardComponent } from './components/card/card.component'
 import { TableComponent } from './components/table/table.component'
 import { RoundedBoxComponent } from './components/badge/rounded-box.component'
 import { ActionContentCssColorPipe } from './pipes/action-content-css-color.pipe'
+import { SidebarContainerComponent } from './components/sidebar-container/sidebar-container.component'
+import { EditShelfActionPanelConfigurationDialogComponent } from '../settings/shelf-settings/components/edit-shelf-action-panel-confinguration/edit-shelf-action-panel-configuration-dialog.component'
+import { TextInputComponent } from './components/text-input/text-input.component'
+import { NumberInputComponent } from './components/number-input/number-input.component'
+import { ButtonGroupComponent } from './components/button-group/button-group.component'
 
 @NgModule({
   declarations: [
@@ -98,6 +103,11 @@ import { ActionContentCssColorPipe } from './pipes/action-content-css-color.pipe
     TableComponent,
     RoundedBoxComponent,
     ActionContentCssColorPipe,
+    SidebarContainerComponent,
+    EditShelfActionPanelConfigurationDialogComponent,
+    TextInputComponent,
+    NumberInputComponent,
+    ButtonGroupComponent,
   ],
   imports: [
     CommonModule,
@@ -148,6 +158,7 @@ import { ActionContentCssColorPipe } from './pipes/action-content-css-color.pipe
     TableComponent,
     RoundedBoxComponent,
     ActionContentCssColorPipe,
+    ButtonGroupComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },

@@ -7,6 +7,7 @@ import { EventSubscription } from '../../../../event-system/abstractions/event-o
 import { SofieTableHeader, SortDirection } from '../../../../shared/components/table/table.component'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { DialogService } from '../../../../shared/services/dialog.service'
+import { EditShelfActionPanelConfigurationDialogComponent } from '../edit-shelf-action-panel-confinguration/edit-shelf-action-panel-configuration-dialog.component'
 
 @Component({
   selector: 'sofie-action-panel',
@@ -25,20 +26,17 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     {
       name: 'Panel name',
       isBeingUsedForSorting: true,
-      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-      sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration) => a.name.localeCompare(b.name),
+      sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration): number => a.name.localeCompare(b.name),
       sortDirection: SortDirection.DESC,
     },
     {
       name: 'Rank',
-      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-      sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration) => a.rank - b.rank,
+      sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration): number => a.rank - b.rank,
       sortDirection: SortDirection.DESC,
     },
     {
       name: 'Filters',
-      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-      sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration) => a.actionFilter.toString().localeCompare(b.actionFilter.toString()),
+      sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration): number => a.actionFilter.toString().localeCompare(b.actionFilter.toString()),
       sortDirection: SortDirection.DESC,
     },
   ]
@@ -48,13 +46,13 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   private shelfConfigurationEventSubscription: EventSubscription
 
   constructor(
-    private readonly shelfConfigurationStateService: ConfigurationService,
+    private readonly configurationService: ConfigurationService,
     private readonly configurationEventObserver: ConfigurationEventObserver,
     private readonly dialogService: DialogService
   ) {}
 
   public ngOnInit(): void {
-    this.shelfConfigurationStateService.getShelfConfiguration().subscribe(shelfConfiguration => this.updateShelfConfiguration(shelfConfiguration))
+    this.configurationService.getShelfConfiguration().subscribe(shelfConfiguration => this.updateShelfConfiguration(shelfConfiguration))
     this.shelfConfigurationEventSubscription = this.configurationEventObserver.subscribeToShelfUpdated((shelfConfigurationUpdateEvent: ShelfConfigurationUpdatedEvent) =>
       this.updateShelfConfiguration(shelfConfigurationUpdateEvent.shelfConfiguration)
     )
@@ -126,7 +124,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
         return
       }
       this.shelfConfiguration.actionPanelConfigurations.splice(index, 1)
-      this.shelfConfigurationStateService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
+      this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
 
       // TODO: Make notification once we have the new notification changes
     })
@@ -144,6 +142,26 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
       actionFilter: actionPanel.actionFilter,
     }
     this.shelfConfiguration.actionPanelConfigurations.splice(index, 0, duplicatedActionPanel)
-    this.shelfConfigurationStateService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
+    this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
+  }
+
+  public openEditActionPanel(actionPanel: ShelfActionPanelConfiguration): void {
+    this.dialogService.openSidebarDialog<EditShelfActionPanelConfigurationDialogComponent, ShelfActionPanelConfiguration>(
+      EditShelfActionPanelConfigurationDialogComponent,
+      actionPanel,
+      (result?: ShelfActionPanelConfiguration) => {
+        if (!result) {
+          return
+        }
+        const index: number = this.shelfConfiguration.actionPanelConfigurations.findIndex(panel => panel.id === result.id)
+        if (index < 0) {
+          return
+        }
+        this.shelfConfiguration.actionPanelConfigurations.splice(index, 1, result)
+        this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
+
+        // TODO: Make notification once we have the new notification changes
+      }
+    )
   }
 }

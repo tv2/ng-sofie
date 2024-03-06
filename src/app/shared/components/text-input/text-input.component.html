@@ -1,0 +1,4 @@
+<div class="pt-2 pb-2">
+    <label *ngIf="label">{{ label }}</label>
+    <input [placeholder]="placeholder ?? label" type="text" [(ngModel)]="value" (change)="onChange()" [disabled]="isDisabled"/>
+</div>

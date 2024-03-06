@@ -35,4 +35,18 @@ export class DialogService {
         onOk()
       })
   }
+
+  public openSidebarDialog<T, R>(component: ComponentType<T>, data: R, onClose: (result: R) => void): void {
+    this.dialog
+      .open(component, {
+        data,
+        position: { top: '0', right: '0' },
+        height: '100%',
+        enterAnimationDuration: '0ms',
+        exitAnimationDuration: '0ms',
+        panelClass: 'sidebar-dialog',
+      })
+      .afterClosed()
+      .subscribe(result => onClose(result))
+  }
 }
