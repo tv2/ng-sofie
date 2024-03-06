@@ -1,6 +1,6 @@
 <sofie-settings-page [title]="title">
     <sofie-card *ngIf="shelfConfiguration; else loading">
-        <div class="top-section p-4">
+        <ng-container cardHeader>
             <div>
                 Insert search filter and multiselect here
             </div>
@@ -9,7 +9,7 @@
                 <sofie-button i18n>global.export.label</sofie-button>
                 <sofie-button i18n>global.import.button</sofie-button>
             </sofie-button-group>
-        </div>
+        </ng-container>
 
         <sofie-table>
             <th tableHeader class="checkbox-column p-2">

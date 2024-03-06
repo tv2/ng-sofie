@@ -9,7 +9,7 @@ import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
 
 @Component({
-  selector: 'sofie-action-triggers',
+  selector: 'sofie-keyboard-mapping-page',
   templateUrl: './keyboard-mapping-page.component.html',
   styleUrls: ['./keyboard-mapping-page.component.scss'],
 })
