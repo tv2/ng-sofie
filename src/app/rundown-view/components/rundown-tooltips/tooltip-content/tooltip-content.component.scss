@@ -1,0 +1,20 @@
+:host {
+
+  .content {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: 10px;
+
+    .field {
+      padding: 5px;
+      margin-top: 5px;
+
+      font-size: 12px;
+      color: var(--light-gray-color);
+
+      .data {
+        margin-left: 5px;
+      }
+    }
+  }
+}

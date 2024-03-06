@@ -5,6 +5,8 @@ import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { Subscription } from 'rxjs'
 import { Piece } from 'src/app/core/models/piece'
+import { TooltipContentField } from '../../../shared/abstractions/tooltip-content-field'
+import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 
@@ -36,6 +38,8 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   @ViewChild('labelTextElement')
   public labelTextElement: ElementRef<HTMLSpanElement>
 
+  public tooltipContentFields: TooltipContentField[]
+
   public media?: Media
 
   private mediaSubscription?: Subscription
@@ -52,8 +56,49 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
       if (previousMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
         return
       }
+      this.updatePieceTooltipContent()
       this.mediaSubscription?.unsubscribe()
       this.updatePieceMedia()
+    }
+  }
+
+  public updatePieceTooltipContent(): void {
+    const tv2Piece: Tv2Piece = this.piece as Tv2Piece
+    switch (tv2Piece.metadata.type) {
+      case Tv2PieceType.VIDEO_CLIP:
+        this.tooltipContentFields = [
+          { label: 'Name of clip', data: this.piece.name + 'assasasasasasaasasasassaasasassa' },
+          { label: 'Duration', data: '' + this.getDurationForPieceWithNoEnding() / 1000 ?? 'Unknown' },
+          { label: 'Media is available for playout', data: this.media ? 'Yes' : 'No' },
+          { label: 'Media is available for playout', data: this.media ? 'Yes' : 'No' },
+        ]
+        break
+      case Tv2PieceType.JINGLE:
+        this.tooltipContentFields = [
+          { label: 'Name of clip', data: this.piece.name },
+          { label: 'Duration', data: '' + this.getDisplayDurationInMs() / 1000 ?? 'Unknown' },
+          { label: 'Media is available for playout', data: this.media ? 'Yes' : 'No' },
+        ]
+        break
+      case Tv2PieceType.GRAPHICS:
+        this.tooltipContentFields = [
+          { label: 'Name', data: this.piece.name },
+          { label: 'Something else', data: tv2Piece.metadata.sourceName ?? 'Who knows?' },
+          { label: 'What do we know about this?', data: tv2Piece.lifespan },
+        ]
+        break
+      case Tv2PieceType.AUDIO:
+        this.tooltipContentFields = [
+          { label: 'Name', data: tv2Piece.name },
+          { label: 'Timecode', data: tv2Piece.lifespan },
+        ]
+        break
+      case Tv2PieceType.OVERLAY_GRAPHICS:
+        this.tooltipContentFields = [
+          { label: 'Name', data: tv2Piece.name },
+          { label: 'Outtype', data: tv2Piece.lifespan },
+        ]
+        break
     }
   }
 

@@ -15,9 +15,7 @@
         <div class='header' [class]="getPieceType().toLocaleLowerCase() + '_color'">
           {{piece.name}}
         </div>
-        <div class="content">
-          Here is the body with piece information
-        </div>
+          <ng-content></ng-content>
       </div>
     </div>
   </sofie-tooltip>
