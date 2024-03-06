@@ -33,7 +33,8 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   @Input()
   public postPlayheadDurationInMs: number
 
-  @Input() public followingPieceStart?: number
+  @Input()
+  public followingPieceStart?: number
 
   @ViewChild('labelTextElement')
   public labelTextElement: ElementRef<HTMLSpanElement>
