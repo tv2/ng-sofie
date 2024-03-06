@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { ShelfActionPanelConfiguration, ShelfConfiguration } from 'src/app/shared/models/shelf-configuration'
-import { SofieTableHeader, SofieTableHeaderSize, SortDirection } from '../../../../shared/components/sofie-table-header/sofie-table-header.component'
+import { SofieTableHeaderToBeDeleted, SofieTableHeaderSize, SortDirection } from '../../../../shared/components/sofie-table-header/sofie-table-header.component'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
@@ -29,7 +29,7 @@ export class ActionPanelListComponent implements OnChanges, OnInit {
   public readonly exportLabel: string = $localize`global.export.label`
   public readonly exportSelectedLabel: string = $localize`global.export-selected.label`
   public readonly deleteSelectedLabel: string = $localize`global.delete-selected.label`
-  public readonly shelfActionPanelTableHeaders: SofieTableHeader[] = [
+  public readonly shelfActionPanelTableHeaders: SofieTableHeaderToBeDeleted[] = [
     { isSortable: true, key: ShelfActionPanelHeaderKeys.NAME, size: SofieTableHeaderSize.md, label: 'Panel name' },
     { isSortable: true, key: ShelfActionPanelHeaderKeys.RANK, size: SofieTableHeaderSize.md, label: 'Rank' },
     { isSortable: true, key: ShelfActionPanelHeaderKeys.FILTERS, label: 'Filters' },
@@ -95,7 +95,7 @@ export class ActionPanelListComponent implements OnChanges, OnInit {
     this.shelfConfiguration = { id: this.shelfConfiguration.id, actionPanelConfigurations: [...newPanelConfigurations] }
   }
 
-  public saveSortValues(sortColumn: SofieTableHeader): void {
+  public saveSortValues(sortColumn: SofieTableHeaderToBeDeleted): void {
     if (this.sortColumn === sortColumn.key) {
       this.sortDirection = this.sortDirection === SortDirection.DESC ? SortDirection.ASC : SortDirection.DESC
     } else {

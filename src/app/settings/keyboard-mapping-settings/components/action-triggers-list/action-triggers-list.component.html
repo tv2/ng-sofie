@@ -33,20 +33,21 @@
             *ngIf="actionTriggerWithActions.actionTrigger as actionsTrigger"
             class="c-action-triggers-list__card c-sofie-card"
             [ngClass]="{ 'c-action-triggers-list__card--selected': selectedActionTrigger && selectedActionTrigger.actionTrigger.id && selectedActionTrigger.actionTrigger.id === actionsTrigger.id }">
-            <sofie-custom-checkbox
+            <sofie-checkbox
               *ngIf="selectMode"
               [isSelected]="isActionTriggerSelected(actionsTrigger.id)"
-              [checkboxId]="actionsTrigger.id"
-              (onChange)="setActionTriggerSelection(actionsTrigger.id, $event)"></sofie-custom-checkbox>
+              (onToggle)="setActionTriggerSelection(actionsTrigger.id, $event)"></sofie-checkbox>
             <div class="c-action-triggers-list__card--body" (click)="selectActionTrigger(actionTriggerWithActions)">
               <p>
                 {{ actionsTrigger.data.label }}
               </p>
               <div>
-                <span class="c-custom-badge mb-2 me-2 bg-dark">{{
-                  (actionsTrigger.data.mappedToKeys && actionsTrigger.data.mappedToKeys.length > 0 ? actionsTrigger.data.mappedToKeys! : actionsTrigger.data.keys) | formatKeyboardKeys
-                }}</span>
-                <span class="c-custom-badge mb-2 me-2 bg-gray" [class]="actionTriggerWithActions.action.metadata.contentType.toLocaleLowerCase() + '_color'">{{ actionTriggerWithActions.action.name }}</span>
+                  <sofie-rounded-box class="me-2">
+                      {{ (actionsTrigger.data.mappedToKeys && actionsTrigger.data.mappedToKeys.length > 0 ? actionsTrigger.data.mappedToKeys! : actionsTrigger.data.keys) | formatKeyboardKeys }}
+                  </sofie-rounded-box>
+                  <sofie-rounded-box class="{{ actionTriggerWithActions.action.metadata.contentType | actionContentCssColor }}">
+                      {{ actionTriggerWithActions.action.name }}
+                  </sofie-rounded-box>
               </div>
             </div>
             <div *ngIf="!selectMode" class="c-action-triggers-list__card--actions">

@@ -52,7 +52,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { LoadingComponent } from './components/loading/loading.component'
 import { DropdownButtonComponent } from './components/dropdown-button/dropdown-button.component'
 import { MatMenuModule } from '@angular/material/menu'
-import { CustomCheckboxComponent } from './components/icon-checkbox/custom-checkbox.component'
+import { CheckboxComponent } from './components/icon-checkbox/checkbox.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ButtonComponent } from './components/button/button.component'
 import { FormatKeyboardKeysPipe } from './pipes/format-keyboard-keys.pipe'
@@ -64,8 +64,11 @@ import { ZodConfigurationParser } from './services/zod-configuration-parser.serv
 import { DialogComponent } from './components/dialog/dialog.component'
 import { MultiSelectComponent } from './components/multi-select/multi-select.component'
 import { TranslationKnownValuesPipe } from './pipes/translation-known-values.pipe'
-import { SofieTableHeaderComponent } from './components/sofie-table-header/sofie-table-header.component';
+import { SofieTableHeaderComponent } from './components/sofie-table-header/sofie-table-header.component'
 import { CardComponent } from './components/card/card.component'
+import { TableComponent } from './components/table/table.component'
+import { RoundedBoxComponent } from './components/badge/rounded-box.component'
+import { ActionContentCssColorPipe } from './pipes/action-content-css-color.pipe'
 
 @NgModule({
   declarations: [
@@ -85,13 +88,16 @@ import { CardComponent } from './components/card/card.component'
     TimerPipe,
     LoadingComponent,
     DropdownButtonComponent,
-    CustomCheckboxComponent,
+    CheckboxComponent,
     ButtonComponent,
     MultiSelectComponent,
     DialogComponent,
     SofieTableHeaderComponent,
     TooltipComponent,
     CardComponent,
+    TableComponent,
+    RoundedBoxComponent,
+    ActionContentCssColorPipe,
   ],
   imports: [
     CommonModule,
@@ -130,7 +136,7 @@ import { CardComponent } from './components/card/card.component'
     Tv2ActionCardComponent,
     LoadingComponent,
     DropdownButtonComponent,
-    CustomCheckboxComponent,
+    CheckboxComponent,
     ReactiveFormsModule,
     FormsModule,
     ButtonComponent,
@@ -139,6 +145,9 @@ import { CardComponent } from './components/card/card.component'
     SofieTableHeaderComponent,
     TooltipComponent,
     CardComponent,
+    TableComponent,
+    RoundedBoxComponent,
+    ActionContentCssColorPipe,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },

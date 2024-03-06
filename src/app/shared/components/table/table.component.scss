@@ -1,0 +1,30 @@
+table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+
+  .checkbox-column {
+    width: 50px;
+    text-align: center;
+  }
+
+  thead {
+
+    th {
+      color: var(--dark-gray-color);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+  }
+
+  tbody {
+    tr {
+      border-top: 1px solid var(--gray-color);
+      td {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    }
+  }
+}

@@ -11,6 +11,7 @@ import {
   faSort,
   faSortDown,
   faSortUp,
+  faSquare,
   faSquareCheck,
   faTrashCan,
   faTriangleExclamation,
@@ -23,7 +24,7 @@ import { IconService } from '../../abstractions/icon.service'
 export class FortAwesomeIconService implements IconService {
   public getIconProperty(iconButton: IconButton): IconProp {
     switch (iconButton) {
-      case IconButton.XMARK:
+      case IconButton.X_MARK:
         return faXmark
       case IconButton.TRASH_CAN:
         return faTrashCan
@@ -39,6 +40,8 @@ export class FortAwesomeIconService implements IconService {
         return faCopy
       case IconButton.VERTICAL_OPPOSING_TRIANGLES:
         return faSort
+      case IconButton.SQUARE:
+        return faSquare
       case IconButton.SQUARE_CHECK:
         return faSquareCheck
       case IconButton.PEN:

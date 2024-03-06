@@ -1,7 +1,43 @@
 <sofie-settings-page [title]="title">
     <sofie-card *ngIf="shelfConfiguration; else loading">
+        <div class="top-section p-4">
+            <div>Insert search filter and multiselect here</div>
+            <div>
+                <sofie-button class="me-1">Create new*</sofie-button>
+                <sofie-button class="me-1">Export*</sofie-button>
+                <sofie-button>Import*</sofie-button>
+            </div>
+        </div>
+
+        <sofie-table>
+            <th tableHeader class="checkbox-column p-2">
+                <sofie-checkbox [isSelected]="isAllActionPanelsSelected()" (onToggle)="toggleAllActionPanels($event)"></sofie-checkbox>
+            </th>
+            <th tableHeader *ngFor="let header of headers" (click)="toggleTableHeaderForSorting(header)">
+                {{header.name}}
+                 <sofie-icon-button [ngClass]="{ 'hidden': !header.isBeingUsedForSorting }"  [iconButton]="getSortIcon(header)" [iconButtonSize]="IconButtonSize.XS"></sofie-icon-button>
+            </th>
+            <tr tableBody *ngFor="let actionPanel of shelfConfiguration.actionPanelConfigurations">
+                <td class="checkbox-column">
+                    <sofie-checkbox [isSelected]="isActionPanelSelected(actionPanel)" (onToggle)="toggleActionPanel($event, actionPanel)"></sofie-checkbox>
+                </td>
+                <td>
+                    {{actionPanel.name}}
+                </td>
+                <td>
+                    {{actionPanel.rank}}
+                </td>
+                <td>
+                    <sofie-rounded-box *ngFor="let filter of actionPanel.actionFilter" class="{{ filter | actionContentCssColor }} me-2">
+                        {{ filter | translationKnownValues }}
+                    </sofie-rounded-box>
+                </td>
+            </tr>
+        </sofie-table>
+        <hr>
         <sofie-action-panel-list [shelfConfiguration]="shelfConfiguration"></sofie-action-panel-list>
     </sofie-card>
+
     <ng-template #loading>
         <sofie-loading></sofie-loading>
     </ng-template>

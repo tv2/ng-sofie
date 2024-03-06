@@ -4,7 +4,7 @@
       <div class="c-multi-select-trigger--show-only-items-count">
         <span class="me-2">{{ selectedOptionsIds.length }} {{ showOnlyItemsCountLabel }}</span>
         <sofie-icon-button
-          [iconButton]="IconButton.XMARK"
+          [iconButton]="IconButton.X_MARK"
           [iconButtonSize]="IconButtonSize.S"
           (click)="$event.stopPropagation(); onItemSelectionChange.emit([])"></sofie-icon-button>
       </div>
@@ -12,7 +12,7 @@
     <ng-template #showItemsNames>
       <div class="c-multi-select-trigger--selected-option" [ngClass]="getOptionById(selectedOptionId)?.classesOnSelected" *ngFor="let selectedOptionId of selectedOptionsIds; let i = index">
         <span class="me-2">{{ getOptionById(selectedOptionId)?.label }}</span>
-        <sofie-icon-button iconButtonClasess="text-white" [iconButton]="IconButton.XMARK" [iconButtonSize]="IconButtonSize.S" (click)="$event.stopPropagation(); unselectOption(i)"></sofie-icon-button>
+        <sofie-icon-button iconButtonClasess="text-white" [iconButton]="IconButton.X_MARK" [iconButtonSize]="IconButtonSize.S" (click)="$event.stopPropagation(); unselectOption(i)"></sofie-icon-button>
       </div>
     </ng-template>
   </ng-container>
@@ -24,7 +24,7 @@
 </div>
 <mat-menu class="c-multi-select-menu" #dropdownMenu="matMenu">
   <div [ngClass]="option.classesOnList" (click)="$event.stopPropagation()" class="c-multi-select-menu--item" *ngFor="let option of options">
-    <sofie-custom-checkbox #checkBox [isSelected]="isOptionSelected(option)" [checkboxId]="option.id" (onChange)="onOptionClick(option)"></sofie-custom-checkbox>
+    <sofie-checkbox #checkBox [isSelected]="isOptionSelected(option)" (onToggle)="onOptionClick(option)"></sofie-checkbox>
     <span class="ms-3" (click)="onOptionClick(option)">{{ option.label }}</span>
   </div>
 </mat-menu>

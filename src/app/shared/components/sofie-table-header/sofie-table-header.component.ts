@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 
-export interface SofieTableHeader {
+export interface SofieTableHeaderToBeDeleted {
   key: string
   size?: SofieTableHeaderSize
   label?: string
@@ -22,15 +22,15 @@ export enum SofieTableHeaderSize {
 }
 
 @Component({
-  selector: 'sofie-table-header',
+  selector: 'sofie-table-header-to-be-deleted',
   templateUrl: './sofie-table-header.component.html',
   styleUrls: ['./sofie-table-header.component.scss'],
 })
 export class SofieTableHeaderComponent {
-  @Input() public headerData: SofieTableHeader
+  @Input() public headerData: SofieTableHeaderToBeDeleted
   @Input() public sortColumn: string
   @Input() public sortDirection: SortDirection
-  @Output() public onSortClick: EventEmitter<SofieTableHeader> = new EventEmitter<SofieTableHeader>()
+  @Output() public onSortClick: EventEmitter<SofieTableHeaderToBeDeleted> = new EventEmitter<SofieTableHeaderToBeDeleted>()
 
   public SortDirection = SortDirection
 

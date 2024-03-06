@@ -8,6 +8,6 @@
   ></label>
   <div class="sofie-input-with-icon">
     <input (focus)="this.setFirstKeyAfterUserFocus(true)" [readonly]="true" (keydown)="onKeyDown($event)" placeholder="Click the keys one by one" [value]="value | formatKeyboardKeys" />
-    <sofie-icon-button *ngIf="value && value.length > 0" [iconButton]="IconButton.XMARK" (click)="clearKeyboardField()" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button>
+    <sofie-icon-button *ngIf="value && value.length > 0" [iconButton]="IconButton.X_MARK" (click)="clearKeyboardField()" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button>
   </div>
 </div>
