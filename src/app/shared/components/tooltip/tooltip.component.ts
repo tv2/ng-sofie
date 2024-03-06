@@ -7,11 +7,14 @@ import { TooltipMousePosition } from 'src/app/core/models/tooltips'
   styleUrls: ['./tooltip.component.scss'],
 })
 export class TooltipComponent implements OnChanges, OnDestroy {
-  @Input() public tooltipElementHoverMousePosition?: TooltipMousePosition
+  @Input()
+  public tooltipElementHoverMousePosition?: TooltipMousePosition
 
-  @ViewChild('tooltipElementWrapper') public tooltipElementWrapper: ElementRef<HTMLDivElement>
+  @ViewChild('tooltipElementWrapper')
+  protected tooltipElementWrapper: ElementRef<HTMLDivElement>
 
-  @ViewChild('tooltipElementContent') public tooltipElementContent: ElementRef<HTMLDivElement>
+  @ViewChild('tooltipElementContent')
+  protected tooltipElementContent: ElementRef<HTMLDivElement>
 
   private isTooltipAppended: boolean = false
 
