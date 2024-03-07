@@ -76,8 +76,9 @@ import { ButtonGroupComponent } from './components/button-group/button-group.com
 import { MultiSelectOldComponent } from './components/multi-select-old/multi-select-component-old.component'
 import { MultiSelectComponent } from './components/multi-select/multi-select.component'
 import { DomFileDownloadService } from './services/dom-file-download.service'
-import { FileDownloadService } from './abstractions/file-download.service';
+import { FileDownloadService } from './abstractions/file-download.service'
 import { JsonImportButtonComponent } from './components/json-import-button/json-import-button.component'
+import { JsonExportButtonComponent } from './components/json-export-button/json-export-button.component'
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { JsonImportButtonComponent } from './components/json-import-button/json-
     ButtonGroupComponent,
     MultiSelectComponent,
     JsonImportButtonComponent,
+    JsonExportButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -167,6 +169,7 @@ import { JsonImportButtonComponent } from './components/json-import-button/json-
     ButtonGroupComponent,
     MultiSelectComponent,
     JsonImportButtonComponent,
+    JsonExportButtonComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },

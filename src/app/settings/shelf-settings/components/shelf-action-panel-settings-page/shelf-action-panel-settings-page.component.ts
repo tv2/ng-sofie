@@ -19,6 +19,8 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   protected readonly IconButton = IconButton
   protected readonly IconButtonSize = IconButtonSize
 
+  protected shelfConfigurationFileName: string = 'self-configuration'
+
   public shelfConfiguration: ShelfConfiguration
 
   public title: string = $localize`settings.shelf.action-panels.label`
