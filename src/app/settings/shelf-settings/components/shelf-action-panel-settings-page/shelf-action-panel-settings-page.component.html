@@ -16,30 +16,29 @@
                 [entities]="shelfConfiguration.actionPanelConfigurations"
                 [headers]="headers"
                 [rowTemplate]="tableRowTemplate"
+                [shouldShowRowCallback]="doesActionPanelMatchSearchFilter.bind(this)"
                 [showCheckboxes]="true"
                 [(selectedEntities)]="selectedActionPanels"
         >
             <ng-template #tableRowTemplate let-actionPanel="tableRowData">
-                <ng-container *ngIf="doesActionPanelMatchSearchFilter(actionPanel)">
-                    <td>
-                        {{ actionPanel.name }}
-                    </td>
-                    <td>
-                        {{ actionPanel.rank }}
-                    </td>
-                    <td>
-                        <sofie-rounded-box *ngFor="let filter of actionPanel.actionFilter" class="{{ filter | actionContentCssColor }} me-2">
-                            {{ filter | translationActionType }}
-                        </sofie-rounded-box>
-                    </td>
-                    <td>
-                        <sofie-button-group class="align-table-data-end">
-                            <sofie-icon-button [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Edit Action Panel'" (click)="openEditActionPanel(actionPanel)"></sofie-icon-button>
-                            <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateActionPanel(actionPanel)"></sofie-icon-button>
-                            <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Delete Action Panel'" (click)="deleteActionPanel(actionPanel)"></sofie-icon-button>
-                        </sofie-button-group>
-                    </td>
-                </ng-container>
+                <td>
+                    {{ actionPanel.name }}
+                </td>
+                <td>
+                    {{ actionPanel.rank }}
+                </td>
+                <td>
+                    <sofie-rounded-box *ngFor="let filter of actionPanel.actionFilter" class="{{ filter | actionContentCssColor }} me-2">
+                        {{ filter | translationActionType }}
+                    </sofie-rounded-box>
+                </td>
+                <td>
+                    <sofie-button-group class="align-table-data-end">
+                        <sofie-icon-button [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Edit Action Panel'" (click)="openEditActionPanel(actionPanel)"></sofie-icon-button>
+                        <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateActionPanel(actionPanel)"></sofie-icon-button>
+                        <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Delete Action Panel'" (click)="deleteActionPanel(actionPanel)"></sofie-icon-button>
+                    </sofie-button-group>
+                </td>
             </ng-template>
         </sofie-table>
     </sofie-card>

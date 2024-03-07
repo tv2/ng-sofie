@@ -9,13 +9,15 @@
         </th>
     </thead>
     <tbody>
-        <tr *ngFor="let entity of entities">
-            <td *ngIf="showCheckboxes" class="checkbox-column">
-                <sofie-checkbox [isSelected]="isEntitySelected(entity)" (onToggle)="toggleEntity($event, entity)"></sofie-checkbox>
-            </td>
-            <ng-container [ngTemplateOutlet]="rowTemplate" [ngTemplateOutletContext]="getRowTemplateContext(entity)">
-            </ng-container>
-        </tr>
+        <ng-container *ngFor="let entity of entities">
+            <tr *ngIf="shouldShowRowCallback(entity)">
+                <td *ngIf="showCheckboxes" class="checkbox-column">
+                    <sofie-checkbox [isSelected]="isEntitySelected(entity)" (onToggle)="toggleEntity($event, entity)"></sofie-checkbox>
+                </td>
+                <ng-container [ngTemplateOutlet]="rowTemplate" [ngTemplateOutletContext]="getRowTemplateContext(entity)">
+                </ng-container>
+            </tr>
+        </ng-container>
     </tbody>
 </table>
 

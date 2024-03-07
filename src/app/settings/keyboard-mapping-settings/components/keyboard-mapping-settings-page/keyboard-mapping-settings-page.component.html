@@ -15,6 +15,7 @@
             [entities]="actionTriggersWithAction"
             [headers]="headers"
             [rowTemplate]="tableRowTemplate"
+            [shouldShowRowCallback]="doesActionTriggerMatchSearchQuery.bind(this)"
             [showCheckboxes]="true"
             [(selectedEntities)]="selectedActionTriggers"
         >
