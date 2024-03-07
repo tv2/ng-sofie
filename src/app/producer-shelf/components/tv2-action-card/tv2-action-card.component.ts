@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core'
-import { Tv2Action } from '../../models/tv2-action'
+import { Tv2Action } from '../../../shared/models/tv2-action'
 
 @Component({
   selector: 'sofie-tv2-action-card',

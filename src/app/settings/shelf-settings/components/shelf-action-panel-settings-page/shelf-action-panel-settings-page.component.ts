@@ -28,18 +28,18 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
 
   public readonly headers: SofieTableHeader<ShelfActionPanelConfiguration>[] = [
     {
-      name: 'Panel name',
+      name: $localize`action-panel.panel-name.label`,
       sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration): number => a.name.localeCompare(b.name),
       sortDirection: SortDirection.DESC,
     },
     {
-      name: 'Rank',
+      name: $localize`action-panel.rank.label`,
       isBeingUsedForSorting: true,
       sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration): number => a.rank - b.rank,
       sortDirection: SortDirection.DESC,
     },
     {
-      name: 'Filters',
+      name: $localize`global.filters.label`,
       sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration): number => a.actionFilter.toString().localeCompare(b.actionFilter.toString()),
       sortDirection: SortDirection.DESC,
     },

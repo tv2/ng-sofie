@@ -12,6 +12,10 @@ import { TranslationActionTypePipe } from '../../../../shared/pipes/translation-
   styleUrls: ['./edit-shelf-action-panel-configuration-dialog.component.scss'],
 })
 export class EditShelfActionPanelConfigurationDialogComponent implements OnInit {
+  public nameLabel: string = $localize`action-panel.panel-name.label`
+  public filterLabel: string = $localize`global.filters.label`
+  public rankLabel: string = $localize`action-panel.rank.label`
+
   public actionPanel?: ShelfActionPanelConfiguration
   public actionContentOptions: MultiSelectOption<Tv2ActionContentType>[] = []
 

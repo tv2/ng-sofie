@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { Tv2ActionCardComponent } from './tv2-action-card.component'
-import { Tv2ActionContentType } from '../../models/tv2-action'
-import { PartActionType } from '../../models/action-type'
+import { Tv2ActionContentType } from '../../../shared/models/tv2-action'
+import { PartActionType } from '../../../shared/models/action-type'
 
 describe('ActionCardComponent', () => {
   let component: Tv2ActionCardComponent

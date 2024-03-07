@@ -31,8 +31,6 @@ import { ZodActionParser } from './services/zod-action-parser.service'
 import { Tv2ActionParser } from './abstractions/tv2-action-parser.service'
 import { ZodTv2ActionParser } from './services/zod-tv2-action-parser.service'
 import { RundownNavigationService } from './services/rundown-navigation.service'
-import { Tv2ActionPanelComponent } from './components/tv2-action-panel/tv2-action-panel.component'
-import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-card.component'
 import { TimerPipe } from './pipes/timer/timer.pipe'
 import { MatSelectModule } from '@angular/material/select'
 import { ActionTriggerService } from './abstractions/action-trigger.service'
@@ -60,19 +58,15 @@ import { HttpSystemInformationService } from './services/http/http-system-inform
 import { TooltipComponent } from './components/tooltip/tooltip.component'
 import { ConfigurationParser } from './abstractions/configuration-parser.service'
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
-import { DialogComponent } from './components/dialog/dialog.component'
 import { TranslationActionTypePipe } from './pipes/translation-known-values.pipe'
-import { SofieTableHeaderComponent } from './components/sofie-table-header/sofie-table-header.component'
 import { CardComponent } from './components/card/card.component'
 import { TableComponent } from './components/table/table.component'
 import { RoundedBoxComponent } from './components/badge/rounded-box.component'
 import { ActionContentCssColorPipe } from './pipes/action-content-css-color.pipe'
 import { SidebarContainerComponent } from './components/sidebar-container/sidebar-container.component'
-import { EditShelfActionPanelConfigurationDialogComponent } from '../settings/shelf-settings/components/edit-shelf-action-panel-confinguration/edit-shelf-action-panel-configuration-dialog.component'
 import { TextInputComponent } from './components/text-input/text-input.component'
 import { NumberInputComponent } from './components/number-input/number-input.component'
 import { ButtonGroupComponent } from './components/button-group/button-group.component'
-import { MultiSelectOldComponent } from './components/multi-select-old/multi-select-component-old.component'
 import { MultiSelectComponent } from './components/multi-select/multi-select.component'
 import { DomFileDownloadService } from './services/dom-file-download.service'
 import { FileDownloadService } from './abstractions/file-download.service'
@@ -93,23 +87,17 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component'
     IconButtonComponent,
     DraggableShelfComponent,
     ContextMenuComponent,
-    Tv2ActionPanelComponent,
-    Tv2ActionCardComponent,
     TimerPipe,
     LoadingComponent,
     DropdownButtonComponent,
     CheckboxComponent,
     ButtonComponent,
-    MultiSelectOldComponent,
-    DialogComponent,
-    SofieTableHeaderComponent,
     TooltipComponent,
     CardComponent,
     TableComponent,
     RoundedBoxComponent,
     ActionContentCssColorPipe,
     SidebarContainerComponent,
-    EditShelfActionPanelConfigurationDialogComponent,
     TextInputComponent,
     NumberInputComponent,
     ButtonGroupComponent,
@@ -150,17 +138,12 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component'
     IconButtonComponent,
     DraggableShelfComponent,
     ContextMenuComponent,
-    Tv2ActionPanelComponent,
-    Tv2ActionCardComponent,
     LoadingComponent,
     DropdownButtonComponent,
     CheckboxComponent,
     ReactiveFormsModule,
     FormsModule,
     ButtonComponent,
-    MultiSelectOldComponent,
-    DialogComponent,
-    SofieTableHeaderComponent,
     TooltipComponent,
     CardComponent,
     TableComponent,
@@ -171,6 +154,8 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component'
     JsonImportButtonComponent,
     JsonExportButtonComponent,
     TextInputComponent,
+    NumberInputComponent,
+    SidebarContainerComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
