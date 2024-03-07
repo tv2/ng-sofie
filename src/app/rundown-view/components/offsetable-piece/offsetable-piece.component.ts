@@ -83,7 +83,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     return (displayOffsetInMs * this.pixelsPerSecond) / 1000
   }
 
-  @HostBinding('style.width.px')
+  // @HostBinding('style.width.px')
   protected get widthInPixels(): number {
     const displayDurationInMs: number = this.getDisplayDurationInMs()
     return Math.floor((this.pixelsPerSecond * displayDurationInMs) / 1000)
@@ -126,7 +126,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     return Math.max(0, playedDurationForPieceInMs + labelTextDurationInMs - this.piece.duration)
   }
 
-  @HostBinding('class')
+  // @HostBinding('class')
   public get getPieceTypeModifierClass(): string {
     const piece: Tv2Piece = this.piece as Tv2Piece
     return [piece.metadata.type.toLowerCase().replace(/_/g, '-'), (piece.metadata.audioMode ?? Tv2AudioMode.FULL).toLowerCase().replace('_', '-')].join(' ')
