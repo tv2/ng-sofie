@@ -226,10 +226,6 @@
         <source>settings.keyboard-mappings.label</source>
         <target state="new">Keyboard mappings</target>
       </trans-unit>
-      <trans-unit id="7160101351914247309" datatype="html">
-        <source>global.dismiss.label</source>
-        <target state="new">DISMISS</target>
-      </trans-unit>
       <trans-unit id="4177582797246824978" datatype="html">
         <source>action-triggers.physical-mapping-help.tooltip</source>
         <target state="new">The physical key combination that should be shown on the virtual keyboard in the rundown view. The field should only be used if the key combination is altered by a key mapping software like AutoHotKey.</target>
@@ -250,17 +246,13 @@
         <source>settings.shelf.action-panels.label</source>
         <target state="new">Shelf Action panels</target>
       </trans-unit>
-      <trans-unit id="4313463332740374796" datatype="html">
-        <source>global.create-new.label</source>
-        <target state="new">Create new</target>
+      <trans-unit id="2803021013738697812" datatype="html">
+        <source>global.create.label</source>
+        <target state="new">Create</target>
       </trans-unit>
       <trans-unit id="6050389772118678864" datatype="html">
         <source>global.export.label</source>
         <target state="new">Export</target>
-      </trans-unit>
-      <trans-unit id="5790831128450193508" datatype="html">
-        <source>action-panels.no-items.label</source>
-        <target state="new">No action pannels found</target>
       </trans-unit>
       <trans-unit id="249423270498322985" datatype="html">
         <source>action-panel.panel-name.label</source>
@@ -270,21 +262,9 @@
         <source>action-panel.rank.label</source>
         <target state="new">Rank</target>
       </trans-unit>
-      <trans-unit id="4759095365296086563" datatype="html">
-        <source>action-panel.update-title.label</source>
-        <target state="new">Update action panel</target>
-      </trans-unit>
-      <trans-unit id="1815356496030084291" datatype="html">
-        <source>action-panel.create-title.label</source>
-        <target state="new">Create action panel</target>
-      </trans-unit>
       <trans-unit id="6515199819488915752" datatype="html">
         <source>global.submit-tooltip.error</source>
         <target state="new">Please enter a value for the following fields</target>
-      </trans-unit>
-      <trans-unit id="8033398649275459944" datatype="html">
-        <source>action-panel.no-filters-selected.label</source>
-        <target state="new">No filters selected</target>
       </trans-unit>
       <trans-unit id="1842982718967386055" datatype="html">
         <source>global.audio.label</source>
@@ -334,49 +314,9 @@
         <source>action-panel.delete.confirmation</source>
         <target state="new">Are you sure you want to delete this action panel?</target>
       </trans-unit>
-      <trans-unit id="8750100022773328100" datatype="html">
-        <source>action-panel.delete-selected.confirmation</source>
-        <target state="new">Are you sure you want to delete all selected action panels?</target>
-      </trans-unit>
       <trans-unit id="4121868262213030663" datatype="html">
         <source>global.import.button</source>
         <target state="new">Import</target>
-      </trans-unit>
-      <trans-unit id="1461657427455059144" datatype="html">
-        <source>rundown-overview.hover-scrub.full-duration.label</source>
-        <target state="new">Full duration</target>
-      </trans-unit>
-      <trans-unit id="2034200581680650159" datatype="html">
-        <source>rundown-overview.piece-lifespan.within-part.label</source>
-        <target state="new">Within part</target>
-      </trans-unit>
-      <trans-unit id="8644673226907563596" datatype="html">
-        <source>rundown-overview.piece-lifespan.spanning-until-rundown-end.label</source>
-        <target state="new">Spanning until rundown end</target>
-      </trans-unit>
-      <trans-unit id="5403423725077749106" datatype="html">
-        <source>rundown-overview.piece-lifespan.spanning-until-segment-end.label</source>
-        <target state="new">Spanning until segment end</target>
-      </trans-unit>
-      <trans-unit id="926910340253948378" datatype="html">
-        <source>rundown-overview.piece-lifespan.start-spanning-segment-then-sticky-rundown.label</source>
-        <target state="new">Start spanning segment then sticky rundown</target>
-      </trans-unit>
-      <trans-unit id="7856664369878580754" datatype="html">
-        <source>rundown-overview.piece-lifespan.sticky-until-rundown-change.label</source>
-        <target state="new">Sticky until rundown change</target>
-      </trans-unit>
-      <trans-unit id="3756253066454906988" datatype="html">
-        <source>rundown-overview.piece-lifespan.sticky-until-segment-change.label</source>
-        <target state="new">Sticky until segment change</target>
-      </trans-unit>
-      <trans-unit id="7106742347850471576" datatype="html">
-        <source>rundown-overview.hover-scrub.source-unavailable.label</source>
-        <target state="new">Source unavailable</target>
-      </trans-unit>
-      <trans-unit id="4308163900742586914" datatype="html">
-        <source>global.selected-filters.label</source>
-        <target state="new">Selected filters</target>
       </trans-unit>
     </body>
   </file>

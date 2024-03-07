@@ -76,7 +76,7 @@ import { DomFileDownloadService } from './services/dom-file-download.service'
 import { FileDownloadService } from './abstractions/file-download.service'
 import { JsonImportButtonComponent } from './components/json-import-button/json-import-button.component'
 import { JsonExportButtonComponent } from './components/json-export-button/json-export-button.component'
-import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { CheckboxComponent } from './components/checkbox/checkbox.component'
 import { EmptyTableComponent } from './components/empty-table/empty-table.component'
 
 @NgModule({
@@ -195,6 +195,7 @@ import { EmptyTableComponent } from './components/empty-table/empty-table.compon
     RundownNavigationService,
     TimerPipe,
     TranslationActionTypePipe,
+    FormatKeyboardKeysPipe,
   ],
 })
 export class SharedModule {}

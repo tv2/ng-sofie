@@ -1,0 +1,67 @@
+<sofie-settings-page [title]="title">
+    <sofie-card *ngIf="actionTriggersWithAction; else loading">
+        <ng-container cardHeader>
+            <sofie-text-input [placeholder]="'Search'" [(value)]="actionTriggerSearchQuery"></sofie-text-input>
+            <sofie-spacer></sofie-spacer>
+            <sofie-button-group>
+                <sofie-button i18n>global.create.label</sofie-button>
+                <sofie-json-export-button [exportData]="getActionTriggersWithoutActions()" [exportedFileName]="actionTriggersFileName"></sofie-json-export-button>
+                <sofie-json-import-button (onUpload)="actionTriggersUploaded($event)" [validator]="validateActionTriggers.bind(this)"></sofie-json-import-button>
+                <sofie-button *ngIf="selectedActionTriggers.size > 0" [type]="'DANGER'" (click)="deleteSelectedActionTriggers()" i18n>global.delete-selected.label</sofie-button>
+            </sofie-button-group>
+        </ng-container>
+
+        <sofie-table *ngIf="actionTriggersWithAction.length > 0; else emptyTable">
+            <th tableHeader class="checkbox-column p-2">
+                <sofie-checkbox [isSelected]="isAllActionTriggersSelected()" (onToggle)="toggleAllActionTriggers($event)"></sofie-checkbox>
+            </th>
+            <th tableHeader *ngFor="let header of headers" (click)="toggleTableHeaderForSorting(header)">
+                {{header.name}}
+                <sofie-icon-button [ngClass]="{ 'hidden': !header.isBeingUsedForSorting }"  [iconButton]="getSortIcon(header)" [iconButtonSize]="IconButtonSize.XS"></sofie-icon-button>
+            </th>
+            <ng-container tableBody *ngFor="let actionTrigger of actionTriggersWithAction">
+                <tr *ngIf="doesActionTriggerMatchSearchQuery(actionTrigger)">
+                    <td class="checkbox-column">
+                        <sofie-checkbox [isSelected]="isActionTriggerSelected(actionTrigger)" (onToggle)="toggleActionTrigger($event, actionTrigger)"></sofie-checkbox>
+                    </td>
+                    <td>
+                        {{ actionTrigger.action.name }}
+                    </td>
+                    <td>
+                        <sofie-rounded-box>{{ getShortcutName(actionTrigger) }}</sofie-rounded-box>
+                    </td>
+                    <td>
+                        <sofie-rounded-box class="{{ actionTrigger.action.metadata.contentType | actionContentCssColor }}">{{ actionTrigger.action.name }}</sofie-rounded-box>
+                    </td>
+                    <td>
+                        <sofie-button-group class="align-table-data-end pe-5">
+                            <sofie-icon-button [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Edit Action Panel'" (click)="openEditActionTrigger(actionTrigger)"></sofie-icon-button>
+                            <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateActionTrigger(actionTrigger)"></sofie-icon-button>
+                            <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Delete Action Panel'" (click)="deleteActionTrigger(actionTrigger)"></sofie-icon-button>
+                        </sofie-button-group>
+                    </td>
+                </tr>
+            </ng-container>
+        </sofie-table>
+
+        <hr>
+
+        <div class="c-action-triggers__body">
+            <div class="c-action-triggers__body--list" [ngClass]="{ 'c-action-triggers__body--list-open': toBeDeletedUsedAsSelectedActionTrigger || toBeDeletedIsShowingCreateActionTriggerForm }">
+                <sofie-action-triggers-list [actionTriggersWithAction]="actionTriggersWithAction" [selectedActionTrigger]="toBeDeletedUsedAsSelectedActionTrigger" (onActionTriggerOpen)="selectActionTriggerForEditing($event)">
+                </sofie-action-triggers-list>
+            </div>
+            <div *ngIf="toBeDeletedUsedAsSelectedActionTrigger || toBeDeletedIsShowingCreateActionTriggerForm" class="c-action-triggers__body--edit">
+                <sofie-edit-action-triggers [actions]="actions" (onCancel)="cancelActionTrigger()" [selectedActionTrigger]="toBeDeletedUsedAsSelectedActionTrigger"></sofie-edit-action-triggers>
+            </div>
+        </div>
+    </sofie-card>
+
+    <ng-template #loading>
+        <sofie-loading></sofie-loading>
+    </ng-template>
+
+    <ng-template #emptyTable>
+        <sofie-empty-table [text]="'No Action Triggers found'"></sofie-empty-table>
+    </ng-template>
+</sofie-settings-page>

@@ -8,13 +8,13 @@ import { SingleActionTriggerBoxComponent } from './components/select-action-trig
 import { ActionTriggersImportComponent } from './components/action-triggers-import/action-triggers-import.component'
 import { KeyboardKeysFieldComponent } from './components/keyboard-keys-field/keyboard-keys-field.component'
 import { SettingsSharedModule } from '../settings-shared/settings-shared.module'
-import { KeyboardMappingPageComponent } from './components/keyboard-mapping-page/keyboard-mapping-page.component'
+import { KeyboardMappingSettingsPageComponent } from './components/keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 
-const routes: Routes = [{ path: '', component: KeyboardMappingPageComponent }]
+const routes: Routes = [{ path: '', component: KeyboardMappingSettingsPageComponent }]
 
 @NgModule({
   declarations: [
-    KeyboardMappingPageComponent,
+    KeyboardMappingSettingsPageComponent,
     ActionTriggersListComponent,
     EditActionTriggersComponent,
     SelectActionTriggerComponent,

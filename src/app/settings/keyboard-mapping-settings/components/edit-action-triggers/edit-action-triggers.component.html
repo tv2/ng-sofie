@@ -4,6 +4,11 @@
     <ng-template #createLabel><span i18n>action-triggers.create-shortcut.title</span></ng-template>
   </h4>
   <form class="c-edit-actions-triggers__form" (ngSubmit)="submit()" [formGroup]="actionForm">
+      <sofie-button [disabled]="actionForm.invalid">
+          {{isUpdateForm ? updateButtonLabel : createButtonLabel}}
+      </sofie-button>
+
+      <sofie-button (click)="onCancel.emit()">{{closeButtonLabel}}</sofie-button>
     <div>
       <ng-container formGroupName="data">
         <div class="c-edit-actions-triggers__form--field c-sofie-form-control">
@@ -58,13 +63,7 @@
         </div>
       </ng-container>
 
-      <div class="mt-auto">
-        <sofie-button [disabled]="actionForm.invalid">
-            {{isUpdateForm ? updateButtonLabel : createButtonLabel}}
-        </sofie-button>
 
-        <sofie-button (click)="onCancel.emit()">{{closeButtonLabel}}</sofie-button>
-      </div>
     </div>
     <sofie-select-action-trigger [actions]="actions" [isSubmitting]="isSubmitting" [selectedActionId]="actionForm.get('actionId')?.value" (onActionTriggerOpen)="openNewActionTrigger($event)">
     </sofie-select-action-trigger>

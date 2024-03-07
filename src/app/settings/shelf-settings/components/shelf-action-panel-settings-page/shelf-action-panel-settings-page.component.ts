@@ -22,8 +22,8 @@ import { NotificationService } from '../../../../shared/services/notification.se
 export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy {
   protected readonly IconButton = IconButton
   protected readonly IconButtonSize = IconButtonSize
-
-  protected shelfConfigurationFileName: string = 'shelf-configuration'
+  protected readonly title: string = $localize`settings.shelf.action-panels.label`
+  protected readonly shelfConfigurationFileName: string = 'shelf-configuration'
 
   public readonly selectedActionPanels: Set<ShelfActionPanelConfiguration> = new Set()
 
@@ -47,7 +47,6 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   ]
 
   public shelfConfiguration: ShelfConfiguration
-  public title: string = $localize`settings.shelf.action-panels.label`
 
   public actionPanelNameSearchQuery: string
   public actionContentMultiSelectOptions: MultiSelectOption<Tv2ActionContentType>[] = []
