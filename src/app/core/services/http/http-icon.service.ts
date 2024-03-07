@@ -4,6 +4,7 @@ import {
   faArrowsH,
   faBars,
   faCheck,
+  faCircleExclamation,
   faCircleQuestion,
   faCopy,
   faMinus,
@@ -57,6 +58,8 @@ export class FortAwesomeIconService implements IconService {
         return faSortUp
       case IconButton.TRIANGLE_EXCLAMATION:
         return faTriangleExclamation
+      case IconButton.CIRCLE_EXCLAMATION:
+        return faCircleExclamation
       default:
         return faXmark
     }

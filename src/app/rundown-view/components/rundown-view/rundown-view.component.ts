@@ -7,6 +7,8 @@ import { KeyboardConfigurationService } from '../../abstractions/keyboard-config
 import { KeyBinding } from '../../../keyboard/value-objects/key-binding'
 import { ConnectionStatusObserver } from '../../../core/services/connection-status-observer.service'
 import { EventSubscription } from '../../../event-system/abstractions/event-observer.service'
+import { Subject, takeUntil } from 'rxjs'
+import { NotificationService } from '../../../shared/services/notification.service'
 
 @Component({
   selector: 'sofie-rundown-view',
@@ -22,6 +24,9 @@ export class RundownViewComponent implements OnInit, OnDestroy {
   public keystrokes: string[] = []
   public rundownWasRemoved: boolean
   public isLoadingRundown: boolean = true
+  public shouldShowPopupNotifications: boolean
+
+  private readonly destroySubject: Subject<void> = new Subject()
 
   @HostBinding('tabindex')
   public get tabindex(): string {
@@ -33,6 +38,7 @@ export class RundownViewComponent implements OnInit, OnDestroy {
     private readonly rundownStateService: RundownStateService,
     private readonly connectionStatusObserver: ConnectionStatusObserver,
     private readonly keyboardConfigurationService: KeyboardConfigurationService,
+    private readonly notificationStateService: NotificationService,
     logger: Logger,
     private readonly hostElement: ElementRef
   ) {
@@ -47,6 +53,11 @@ export class RundownViewComponent implements OnInit, OnDestroy {
     }
     this.connectionStatusSubscription = this.connectionStatusObserver.subscribeToReconnect(() => this.subscribeToRundown(rundownId))
     this.subscribeToRundown(rundownId)
+
+    this.notificationStateService
+      .subscribeToNotificationPanelIsOpen()
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe(isNotificationPanelOpen => (this.shouldShowPopupNotifications = !isNotificationPanelOpen))
   }
 
   private subscribeToRundown(rundownId: string): void {

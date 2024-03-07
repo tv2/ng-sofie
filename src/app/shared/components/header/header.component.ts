@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, ElementRef, OnInit } from '@angular/core'
 import { Paths } from '../../../app-routing.module'
 import { Router } from '@angular/router'
 import { Logger } from '../../../core/abstractions/logger.service'
@@ -11,14 +11,18 @@ import { Title } from '@angular/platform-browser'
 })
 export class HeaderComponent implements OnInit {
   public title: string
+  public elementRef: ElementRef
+
   private readonly logger: Logger
 
   constructor(
+    elementRef: ElementRef,
     private readonly router: Router,
     private readonly titleService: Title,
     logger: Logger
   ) {
     this.logger = logger.tag('HeaderComponent')
+    this.elementRef = elementRef
   }
 
   public ngOnInit(): void {

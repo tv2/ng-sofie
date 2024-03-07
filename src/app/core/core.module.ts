@@ -35,6 +35,9 @@ import { MediaEventObserver } from './services/media-event-observer.service'
 import { ConfigurationEventParser } from './abstractions/configuration-event-parser'
 import { ZodConfigurationEventParser } from './parsers/zod-configuration-event-parser.service'
 import { ConfigurationEventObserver } from './services/configuration-event-observer'
+import { StatusMessageEventParser } from './abstractions/status-message-event-parser'
+import { ZodStatusMessageEventParser } from './parsers/zod-status-message-event-parser'
+import { StatusMessageEventObserver } from './services/status-message-event-observer'
 
 @NgModule({
   declarations: [],
@@ -64,6 +67,8 @@ import { ConfigurationEventObserver } from './services/configuration-event-obser
     { provide: ConfigurationEventParser, useClass: ZodConfigurationEventParser },
     MediaEventObserver,
     { provide: MediaEventParser, useClass: ZodMediaEventParserService },
+    StatusMessageEventObserver,
+    { provide: StatusMessageEventParser, useClass: ZodStatusMessageEventParser },
   ],
 })
 export class CoreModule extends EnsureLoadedOnceGuard {

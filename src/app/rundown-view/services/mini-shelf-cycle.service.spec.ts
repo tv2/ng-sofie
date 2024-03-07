@@ -7,9 +7,9 @@ import { ActionStateService } from '../../shared/services/action-state.service'
 import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 import { Action } from '../../shared/models/action'
 import { Segment } from '../../core/models/segment'
-import { MatSnackBar } from '@angular/material/snack-bar'
 import { TestLoggerFactory } from '../../test/factories/test-logger.factory'
 import { Tv2Action } from '../../shared/models/tv2-action'
+import { NotificationService } from '../../shared/services/notification.service'
 
 describe(MiniShelfCycleService.name, () => {
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
@@ -142,12 +142,12 @@ function createTestee(
     actionService?: ActionService
     miniShelfNavigationService?: MiniShelfNavigationService
     actionStateService?: ActionStateService
-    snackBar?: MatSnackBar
+    notificationService?: NotificationService
   } = {}
 ): MiniShelfCycleService {
-  const miniShelfNavigationService: MiniShelfNavigationService = params.miniShelfNavigationService ?? mock<MiniShelfNavigationService>()
+  const miniShelfNavigationService: MiniShelfNavigationService = params.miniShelfNavigationService ?? mock(MiniShelfNavigationService)
 
-  const actionStateService: ActionStateService = params.actionStateService ?? mock<ActionStateService>()
+  const actionStateService: ActionStateService = params.actionStateService ?? mock(ActionStateService)
 
   const actionServiceMock: ActionService = mock<ActionService>()
   when(actionServiceMock.executeAction(anything(), anything())).thenReturn(instance(mock<Observable<void>>()) as Observable<void>)
@@ -156,12 +156,12 @@ function createTestee(
 
   const actionService: ActionService = params.actionService ?? actionServiceMock
 
-  const snackBar: MatSnackBar = params.snackBar ?? mock<MatSnackBar>()
+  const notificationService: NotificationService = params.notificationService ?? mock(NotificationService)
   return new MiniShelfCycleService(
     params?.miniShelfNavigationService ?? instance(miniShelfNavigationService),
     params?.actionStateService ?? instance(actionStateService),
     params?.actionService ?? instance(actionService),
-    params?.snackBar ?? instance(snackBar),
+    params?.notificationService ?? instance(notificationService),
     new TestLoggerFactory().createLogger()
   )
 }

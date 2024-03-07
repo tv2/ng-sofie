@@ -15,6 +15,7 @@ export enum IconButton {
   SORT_DOWN = 'SORT_DOWN',
   SORT_UP = 'SORT_UP',
   TRIANGLE_EXCLAMATION = 'TRIANGLE_EXCLAMATION',
+  CIRCLE_EXCLAMATION = 'CIRCLE_EXCLAMATION',
 }
 
 export enum IconButtonSize {

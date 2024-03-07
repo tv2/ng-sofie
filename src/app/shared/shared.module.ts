@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core'
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
@@ -58,6 +57,11 @@ import { HttpSystemInformationService } from './services/http/http-system-inform
 import { TooltipComponent } from './components/tooltip/tooltip.component'
 import { ConfigurationParser } from './abstractions/configuration-parser.service'
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
+import { NotificationPanelComponent } from './components/notification-panel/notification-panel.component'
+import { NotificationCardComponent } from './components/notification-card/notification-card.component'
+import { NotificationPopupContainerComponent } from './components/notification-popup-container/notification-popup-container.component'
+import { NotificationIconComponent } from './components/notification-icon/notification-icon.component'
+import { NotificationPopupComponent } from './components/notification-popup-component/notification-popup.component'
 import { TranslationActionTypePipe } from './pipes/translation-known-values.pipe'
 import { CardComponent } from './components/card/card.component'
 import { TableComponent } from './components/table/table.component'
@@ -93,6 +97,12 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component'
     CheckboxComponent,
     ButtonComponent,
     TooltipComponent,
+    NotificationPopupContainerComponent,
+    NotificationCardComponent,
+    NotificationPanelComponent,
+    NotificationCardComponent,
+    NotificationIconComponent,
+    NotificationPopupComponent,
     CardComponent,
     TableComponent,
     RoundedBoxComponent,
@@ -108,7 +118,6 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component'
   imports: [
     CommonModule,
     HttpClientModule,
-    MatSnackBarModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -145,6 +154,9 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component'
     FormsModule,
     ButtonComponent,
     TooltipComponent,
+    NotificationPopupContainerComponent,
+    NotificationPanelComponent,
+    NotificationIconComponent,
     CardComponent,
     TableComponent,
     RoundedBoxComponent,
@@ -158,7 +170,6 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component'
     SidebarContainerComponent,
   ],
   providers: [
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
     { provide: Logger, useClass: Tv2LoggerService },
     { provide: ActionService, useClass: HttpActionService },
     { provide: ActionTriggerService, useClass: HttpActionTriggerService },
