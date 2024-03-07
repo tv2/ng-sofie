@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { NotificationService } from '../../services/notification.service'
 
 @Component({
   selector: 'sofie-json-import-button',
@@ -9,12 +10,12 @@ export class JsonImportButtonComponent<T> {
   @Input() public validator: (data: T) => boolean
   @Output() public onUpload: EventEmitter<T> = new EventEmitter()
 
-  constructor() {}
+  constructor(private readonly notificationService: NotificationService) {}
 
   public onFileSelected(inputElement: HTMLInputElement): void {
     const files: FileList | null = inputElement.files
     if (!files) {
-      // TODO: Notify when we get new notification changes
+      this.notificationService.createWarningNotification('Unable to import file. No file found!')
       return
     }
 
@@ -27,7 +28,7 @@ export class JsonImportButtonComponent<T> {
 
       const jsonObject: T = JSON.parse(new TextDecoder().decode(arrayBuffer))
       if (!!this.validator && !this.validator(jsonObject)) {
-        // TODO: Notify about invalid when we get the new notification changes.
+        this.notificationService.createErrorNotification('Unable to import file. Imported file does not parse validation!')
         return
       }
       this.onUpload.emit(jsonObject)

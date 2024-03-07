@@ -5,6 +5,7 @@ import { ConfigurationEventObserver } from '../../../../core/services/configurat
 import { DialogService } from '../../../../shared/services/dialog.service'
 import { ConfigurationParser } from '../../../../shared/abstractions/configuration-parser.service'
 import { TranslationActionTypePipe } from '../../../../shared/pipes/translation-known-values.pipe'
+import { NotificationService } from '../../../../shared/services/notification.service'
 
 describe('ShelfActionPanelSettingsPageComponent', () => {
   it('should create', () => {
@@ -13,7 +14,8 @@ describe('ShelfActionPanelSettingsPageComponent', () => {
       instance(mock(ConfigurationEventObserver)),
       instance(mock(ConfigurationParser)),
       instance(mock(DialogService)),
-      instance(mock(TranslationActionTypePipe))
+      instance(mock(TranslationActionTypePipe)),
+      instance(mock(NotificationService))
     )
     expect(testee).toBeTruthy()
   })

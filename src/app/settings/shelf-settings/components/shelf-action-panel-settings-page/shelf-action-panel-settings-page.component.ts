@@ -12,6 +12,7 @@ import { ConfigurationParser } from '../../../../shared/abstractions/configurati
 import { MultiSelectOption } from '../../../../shared/components/multi-select/multi-select.component'
 import { Tv2ActionContentType } from '../../../../shared/models/tv2-action'
 import { TranslationActionTypePipe } from '../../../../shared/pipes/translation-known-values.pipe'
+import { NotificationService } from '../../../../shared/services/notification.service'
 
 @Component({
   selector: 'sofie-action-panel',
@@ -60,7 +61,8 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     private readonly configurationEventObserver: ConfigurationEventObserver,
     private readonly configurationParser: ConfigurationParser,
     private readonly dialogService: DialogService,
-    private readonly translationActionTypePipe: TranslationActionTypePipe
+    private readonly translationActionTypePipe: TranslationActionTypePipe,
+    private readonly notificationService: NotificationService
   ) {}
 
   public ngOnInit(): void {
@@ -148,7 +150,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
       this.shelfConfiguration.actionPanelConfigurations.splice(index, 1)
       this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
 
-      // TODO: Make notification once we have the new notification changes
+      this.notificationService.createInfoNotification(`Successfully deleted Action Panel: ${actionPanel.name}`)
     })
   }
 
@@ -177,7 +179,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
         this.shelfConfiguration.actionPanelConfigurations.push(result)
         this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
 
-        // TODO: Make notification once we have the new notification changes
+        this.notificationService.createInfoNotification(`Successfully created Action Panel: ${result.name}`)
       }
     )
   }
@@ -196,7 +198,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
         this.shelfConfiguration.actionPanelConfigurations.splice(index, 1, result)
         this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
 
-        // TODO: Make notification once we have the new notification changes
+        this.notificationService.createInfoNotification(`Successfully edited Action Panel: ${result.name}`)
       },
       actionPanel
     )
@@ -219,6 +221,8 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
       this.shelfConfiguration.actionPanelConfigurations = this.shelfConfiguration.actionPanelConfigurations.filter(actionPanel => !this.selectedActionPanels.has(actionPanel))
       this.selectedActionPanels.clear()
       this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
+
+      this.notificationService.createInfoNotification('Selected Action Panels was deleted')
     })
   }
 

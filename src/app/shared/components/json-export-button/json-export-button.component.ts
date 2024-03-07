@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { FileDownloadService } from '../../abstractions/file-download.service'
+import { NotificationService } from '../../services/notification.service'
 
 @Component({
   selector: 'sofie-json-export-button',
@@ -9,16 +10,19 @@ export class JsonExportButtonComponent<T> {
   @Input() public exportData: T
   @Input() public exportedFileName: string
 
-  constructor(private readonly fileDownloadService: FileDownloadService) {}
+  constructor(
+    private readonly fileDownloadService: FileDownloadService,
+    private readonly notificationService: NotificationService
+  ) {}
 
   public exportFile(): void {
     if (!this.exportData) {
-      // TODO: Make notification when we have the new notification changes
+      this.notificationService.createWarningNotification("Can't export to file. No data provided")
       return
     }
 
     if (!this.exportedFileName) {
-      // TODO: Make notification when we have the new notification changes
+      this.notificationService.createWarningNotification("Can't export to file. No filename provided")
       return
     }
 
