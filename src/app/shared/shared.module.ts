@@ -170,6 +170,7 @@ import { JsonExportButtonComponent } from './components/json-export-button/json-
     MultiSelectComponent,
     JsonImportButtonComponent,
     JsonExportButtonComponent,
+    TextInputComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },

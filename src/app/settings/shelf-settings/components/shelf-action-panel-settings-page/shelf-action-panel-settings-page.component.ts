@@ -9,6 +9,9 @@ import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { DialogService } from '../../../../shared/services/dialog.service'
 import { EditShelfActionPanelConfigurationDialogComponent } from '../edit-shelf-action-panel-confinguration/edit-shelf-action-panel-configuration-dialog.component'
 import { ConfigurationParser } from '../../../../shared/abstractions/configuration-parser.service'
+import { MultiSelectOption } from '../../../../shared/components/multi-select/multi-select.component'
+import { Tv2ActionContentType } from '../../../../shared/models/tv2-action'
+import { TranslationActionTypePipe } from '../../../../shared/pipes/translation-known-values.pipe'
 
 @Component({
   selector: 'sofie-action-panel',
@@ -21,9 +24,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
 
   protected shelfConfigurationFileName: string = 'self-configuration'
 
-  public shelfConfiguration: ShelfConfiguration
-
-  public title: string = $localize`settings.shelf.action-panels.label`
+  public readonly selectedActionPanels: Set<ShelfActionPanelConfiguration> = new Set()
 
   public readonly headers: SofieTableHeader<ShelfActionPanelConfiguration>[] = [
     {
@@ -44,7 +45,13 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     },
   ]
 
-  public readonly selectedActionPanels: Set<ShelfActionPanelConfiguration> = new Set()
+  public shelfConfiguration: ShelfConfiguration
+  public title: string = $localize`settings.shelf.action-panels.label`
+
+  public actionPanelNameSearchQuery: string
+  public actionContentMultiSelectOptions: MultiSelectOption<Tv2ActionContentType>[] = []
+
+  private actionContentQuery: Tv2ActionContentType[] = []
 
   private shelfConfigurationEventSubscription: EventSubscription
 
@@ -52,7 +59,8 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     private readonly configurationService: ConfigurationService,
     private readonly configurationEventObserver: ConfigurationEventObserver,
     private readonly configurationParser: ConfigurationParser,
-    private readonly dialogService: DialogService
+    private readonly dialogService: DialogService,
+    private readonly translationActionTypePipe: TranslationActionTypePipe
   ) {}
 
   public ngOnInit(): void {
@@ -60,15 +68,13 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     this.shelfConfigurationEventSubscription = this.configurationEventObserver.subscribeToShelfUpdated((shelfConfigurationUpdateEvent: ShelfConfigurationUpdatedEvent) =>
       this.updateShelfConfiguration(shelfConfigurationUpdateEvent.shelfConfiguration)
     )
+
+    this.actionContentMultiSelectOptions = this.createActionContentMultiSelectOptions()
   }
 
   private updateShelfConfiguration(shelfConfiguration: ShelfConfiguration): void {
     this.shelfConfiguration = shelfConfiguration
     this.sortPanels()
-  }
-
-  public ngOnDestroy(): void {
-    this.shelfConfigurationEventSubscription.unsubscribe
   }
 
   public toggleTableHeaderForSorting(header: SofieTableHeader<ShelfActionPanelConfiguration>): void {
@@ -95,6 +101,15 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     if (header.sortDirection === SortDirection.ASC) {
       this.shelfConfiguration.actionPanelConfigurations.reverse()
     }
+  }
+
+  private createActionContentMultiSelectOptions(): MultiSelectOption<Tv2ActionContentType>[] {
+    return Object.values(Tv2ActionContentType).map(actionContent => {
+      return {
+        name: this.translationActionTypePipe.transform(actionContent),
+        value: actionContent,
+      }
+    })
   }
 
   public getSortIcon(header: SofieTableHeader<ShelfActionPanelConfiguration>): IconButton {
@@ -205,5 +220,33 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
       this.selectedActionPanels.clear()
       this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
     })
+  }
+
+  public updateActionContentQuery(actionContentQuery: Tv2ActionContentType[]): void {
+    this.actionContentQuery = actionContentQuery
+  }
+
+  public doesActionPanelMatchSearchFilter(actionPanel: ShelfActionPanelConfiguration): boolean {
+    const doesNameMatchSearchQuery: boolean = this.doesActionPanelMatchNameSearchQuery(actionPanel)
+    const doesActionContentMatchSearchQuery: boolean = this.doesActionPanelMatchActionContentSearchQuery(actionPanel)
+    return doesNameMatchSearchQuery && doesActionContentMatchSearchQuery
+  }
+
+  private doesActionPanelMatchNameSearchQuery(actionPanel: ShelfActionPanelConfiguration): boolean {
+    if (!this.actionPanelNameSearchQuery || this.actionPanelNameSearchQuery.length === 0) {
+      return true
+    }
+    return actionPanel.name.toLowerCase().includes(this.actionPanelNameSearchQuery.toLowerCase())
+  }
+
+  private doesActionPanelMatchActionContentSearchQuery(actionPanel: ShelfActionPanelConfiguration): boolean {
+    if (this.actionContentQuery.length === 0) {
+      return true
+    }
+    return actionPanel.actionFilter.some(filter => this.actionContentQuery.includes(filter))
+  }
+
+  public ngOnDestroy(): void {
+    this.shelfConfigurationEventSubscription.unsubscribe
   }
 }

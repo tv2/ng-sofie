@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { IconButton, IconButtonSize } from '../../enums/icon-button'
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 
@@ -32,6 +32,8 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
 
   @Input() public label: string
   @Input() public placeholder?: string
+
+  @Output() public onChange: EventEmitter<T[]> = new EventEmitter()
 
   public selectedOptions: SelectableOption<T>[] = []
 
@@ -80,6 +82,7 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
 
   private updateValuesFromSelectedOptions(): void {
     this.values = this.selectedOptions.map(option => option.value)
+    this.onChange.emit(this.values)
     if (!this.onChangeCallback) {
       return
     }

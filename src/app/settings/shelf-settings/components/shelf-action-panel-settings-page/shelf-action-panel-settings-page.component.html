@@ -1,9 +1,9 @@
 <sofie-settings-page [title]="title">
     <sofie-card *ngIf="shelfConfiguration; else loading">
         <ng-container cardHeader>
-            <div>
-                Insert search filter and multiselect here
-            </div>
+            <sofie-text-input class="me-2" [placeholder]="'Search'" [(value)]="actionPanelNameSearchQuery"></sofie-text-input>
+            <sofie-multi-select [placeholder]="'Filters'" [options]="actionContentMultiSelectOptions" (onChange)="updateActionContentQuery($event)"></sofie-multi-select>
+            <sofie-spacer></sofie-spacer>
             <sofie-button-group>
                 <sofie-button (click)="openCreateActionPanel()" i18n>global.create-new.label</sofie-button>
                 <sofie-json-export-button [exportData]="shelfConfiguration" [exportedFileName]="shelfConfigurationFileName"></sofie-json-export-button>
@@ -20,29 +20,31 @@
                 {{header.name}}
                  <sofie-icon-button [ngClass]="{ 'hidden': !header.isBeingUsedForSorting }"  [iconButton]="getSortIcon(header)" [iconButtonSize]="IconButtonSize.XS"></sofie-icon-button>
             </th>
-            <tr tableBody *ngFor="let actionPanel of shelfConfiguration.actionPanelConfigurations">
-                <td class="checkbox-column">
-                    <sofie-checkbox [isSelected]="isActionPanelSelected(actionPanel)" (onToggle)="toggleActionPanel($event, actionPanel)"></sofie-checkbox>
-                </td>
-                <td>
-                    {{actionPanel.name}}
-                </td>
-                <td>
-                    {{actionPanel.rank}}
-                </td>
-                <td>
-                    <sofie-rounded-box *ngFor="let filter of actionPanel.actionFilter" class="{{ filter | actionContentCssColor }} me-2">
-                        {{ filter | translationActionType }}
-                    </sofie-rounded-box>
-                </td>
-                <td>
-                    <sofie-button-group class="align-table-data-end pe-5">
-                        <sofie-icon-button [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Edit Action Panel'" (click)="openEditActionPanel(actionPanel)"></sofie-icon-button>
-                        <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateActionPanel(actionPanel)"></sofie-icon-button>
-                        <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Delete Action Panel'" (click)="deleteActionPanel(actionPanel)"></sofie-icon-button>
-                    </sofie-button-group>
-                </td>
-            </tr>
+            <ng-container tableBody *ngFor="let actionPanel of shelfConfiguration.actionPanelConfigurations">
+                <tr *ngIf="doesActionPanelMatchSearchFilter(actionPanel)">
+                    <td class="checkbox-column">
+                        <sofie-checkbox [isSelected]="isActionPanelSelected(actionPanel)" (onToggle)="toggleActionPanel($event, actionPanel)"></sofie-checkbox>
+                    </td>
+                    <td>
+                        {{actionPanel.name}}
+                    </td>
+                    <td>
+                        {{actionPanel.rank}}
+                    </td>
+                    <td>
+                        <sofie-rounded-box *ngFor="let filter of actionPanel.actionFilter" class="{{ filter | actionContentCssColor }} me-2">
+                            {{ filter | translationActionType }}
+                        </sofie-rounded-box>
+                    </td>
+                    <td>
+                        <sofie-button-group class="align-table-data-end pe-5">
+                            <sofie-icon-button [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Edit Action Panel'" (click)="openEditActionPanel(actionPanel)"></sofie-icon-button>
+                            <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateActionPanel(actionPanel)"></sofie-icon-button>
+                            <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Delete Action Panel'" (click)="deleteActionPanel(actionPanel)"></sofie-icon-button>
+                        </sofie-button-group>
+                    </td>
+                </tr>
+            </ng-container>
         </sofie-table>
         <hr>
         <sofie-action-panel-list [shelfConfiguration]="shelfConfiguration"></sofie-action-panel-list>

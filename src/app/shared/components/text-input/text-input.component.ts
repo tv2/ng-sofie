@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 
 @Component({
@@ -17,7 +17,8 @@ export class TextInputComponent implements ControlValueAccessor {
   @Input() public label: string
   @Input() public placeholder?: string
 
-  public value: string
+  @Input() public value: string
+  @Output() public valueChange: EventEmitter<string> = new EventEmitter()
 
   public isDisabled: boolean
   private isTouched: boolean = false
@@ -27,13 +28,17 @@ export class TextInputComponent implements ControlValueAccessor {
 
   constructor() {}
 
-  public onChange(): void {
+  public onChange(value: string): void {
+    this.value = value
     this.markAsTouched()
-    this.onChangeCallback(this.value)
+    this.valueChange.emit(this.value)
+    if (this.onChangeCallback) {
+      this.onChangeCallback(this.value)
+    }
   }
 
   private markAsTouched(): void {
-    if (this.isTouched) {
+    if (!this.onTouchedCallback || this.isTouched) {
       return
     }
     this.onTouchedCallback()

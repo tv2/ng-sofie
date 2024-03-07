@@ -8,6 +8,7 @@ label {
 }
 
 input {
+  min-width: 250px;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   border: 1px solid var(--gray-color);
