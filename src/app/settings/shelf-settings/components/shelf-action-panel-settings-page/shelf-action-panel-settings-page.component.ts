@@ -22,7 +22,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   protected readonly IconButton = IconButton
   protected readonly IconButtonSize = IconButtonSize
 
-  protected shelfConfigurationFileName: string = 'self-configuration'
+  protected shelfConfigurationFileName: string = 'shelf-configuration'
 
   public readonly selectedActionPanels: Set<ShelfActionPanelConfiguration> = new Set()
 
