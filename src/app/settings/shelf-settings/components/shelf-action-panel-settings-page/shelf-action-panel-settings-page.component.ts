@@ -44,7 +44,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     },
   ]
 
-  private readonly selectedActionPanels: Set<ShelfActionPanelConfiguration> = new Set()
+  public readonly selectedActionPanels: Set<ShelfActionPanelConfiguration> = new Set()
 
   private shelfConfigurationEventSubscription: EventSubscription
 
@@ -118,6 +118,9 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   }
 
   public isAllActionPanelsSelected(): boolean {
+    if (this.shelfConfiguration.actionPanelConfigurations.length === 0) {
+      return false
+    }
     return this.selectedActionPanels.size === this.shelfConfiguration.actionPanelConfigurations.length
   }
 
@@ -194,5 +197,13 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     } catch {
       return false
     }
+  }
+
+  public deleteSelectedActionPanels(): void {
+    this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`action-panel.delete.confirmation`, $localize`global.delete.label`, () => {
+      this.shelfConfiguration.actionPanelConfigurations = this.shelfConfiguration.actionPanelConfigurations.filter(actionPanel => !this.selectedActionPanels.has(actionPanel))
+      this.selectedActionPanels.clear()
+      this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
+    })
   }
 }
