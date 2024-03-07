@@ -4,7 +4,7 @@ import { SofieTableHeaderToBeDeleted, SofieTableHeaderSize, SortDirection } from
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
-import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
+import { FileDownloadService } from 'src/app/shared/abstractions/file-download.service'
 import { Tv2ActionContentType } from 'src/app/shared/models/tv2-action'
 import { TranslationActionTypePipe } from 'src/app/shared/pipes/translation-known-values.pipe'
 import { MultiSelectOptions } from '../../../../shared/components/multi-select-old/multi-select-component-old.component'

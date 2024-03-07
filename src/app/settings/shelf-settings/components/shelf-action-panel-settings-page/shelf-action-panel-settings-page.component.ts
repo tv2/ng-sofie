@@ -8,6 +8,7 @@ import { SofieTableHeader, SortDirection } from '../../../../shared/components/t
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { DialogService } from '../../../../shared/services/dialog.service'
 import { EditShelfActionPanelConfigurationDialogComponent } from '../edit-shelf-action-panel-confinguration/edit-shelf-action-panel-configuration-dialog.component'
+import { ConfigurationParser } from '../../../../shared/abstractions/configuration-parser.service'
 
 @Component({
   selector: 'sofie-action-panel',
@@ -25,12 +26,12 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   public readonly headers: SofieTableHeader<ShelfActionPanelConfiguration>[] = [
     {
       name: 'Panel name',
-      isBeingUsedForSorting: true,
       sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration): number => a.name.localeCompare(b.name),
       sortDirection: SortDirection.DESC,
     },
     {
       name: 'Rank',
+      isBeingUsedForSorting: true,
       sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration): number => a.rank - b.rank,
       sortDirection: SortDirection.DESC,
     },
@@ -48,6 +49,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   constructor(
     private readonly configurationService: ConfigurationService,
     private readonly configurationEventObserver: ConfigurationEventObserver,
+    private readonly configurationParser: ConfigurationParser,
     private readonly dialogService: DialogService
   ) {}
 
@@ -88,7 +90,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
       return
     }
     this.shelfConfiguration.actionPanelConfigurations.sort(header.sortCallback)
-    if (header.sortDirection === SortDirection.DESC) {
+    if (header.sortDirection === SortDirection.ASC) {
       this.shelfConfiguration.actionPanelConfigurations.reverse()
     }
   }
@@ -178,5 +180,17 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
       },
       actionPanel
     )
+  }
+
+  public shelfConfigurationUploaded(shelfConfiguration: ShelfConfiguration): void {
+    this.configurationService.updateShelfConfiguration(shelfConfiguration).subscribe()
+  }
+
+  public validateShelfConfiguration(shelfConfiguration: ShelfConfiguration): boolean {
+    try {
+      return !!this.configurationParser.parseShelfConfiguration(shelfConfiguration)
+    } catch {
+      return false
+    }
   }
 }

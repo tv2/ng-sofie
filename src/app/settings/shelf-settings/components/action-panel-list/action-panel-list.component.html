@@ -16,7 +16,6 @@
       <ng-container *ngIf="this.selectedActionPanelIds.size === 0; else multiSelectionActions">
         <sofie-button class="me-1" (click)="openCreateNewActionPanel()">{{createNewLabel}}</sofie-button>
         <sofie-button class="me-1" (click)="exportActionPanels()">{{exportLabel}}</sofie-button>
-        <sofie-action-panel-import [shelfConfiguration]="shelfConfiguration"></sofie-action-panel-import>
       </ng-container>
     </div>
     <ng-template #multiSelectionActions>

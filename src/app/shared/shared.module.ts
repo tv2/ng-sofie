@@ -75,6 +75,9 @@ import { NumberInputComponent } from './components/number-input/number-input.com
 import { ButtonGroupComponent } from './components/button-group/button-group.component'
 import { MultiSelectOldComponent } from './components/multi-select-old/multi-select-component-old.component'
 import { MultiSelectComponent } from './components/multi-select/multi-select.component'
+import { DomFileDownloadService } from './services/dom-file-download.service'
+import { FileDownloadService } from './abstractions/file-download.service';
+import { JsonImportButtonComponent } from './components/json-import-button/json-import-button.component'
 
 @NgModule({
   declarations: [
@@ -110,6 +113,7 @@ import { MultiSelectComponent } from './components/multi-select/multi-select.com
     NumberInputComponent,
     ButtonGroupComponent,
     MultiSelectComponent,
+    JsonImportButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -162,6 +166,7 @@ import { MultiSelectComponent } from './components/multi-select/multi-select.com
     ActionContentCssColorPipe,
     ButtonGroupComponent,
     MultiSelectComponent,
+    JsonImportButtonComponent,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
@@ -176,6 +181,7 @@ import { MultiSelectComponent } from './components/multi-select/multi-select.com
     { provide: ConfigurationService, useClass: HttpConfigurationService },
     { provide: MediaService, useClass: HttpMediaService },
     { provide: SystemInformationService, useClass: HttpSystemInformationService },
+    { provide: FileDownloadService, useClass: DomFileDownloadService },
     HttpErrorService,
     HttpClientModule,
     DialogService,

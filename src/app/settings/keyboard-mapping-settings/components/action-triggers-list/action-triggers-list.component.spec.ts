@@ -5,7 +5,7 @@ import { DialogService } from 'src/app/shared/services/dialog.service'
 import { TestEntityFactory } from 'src/app/test/factories/test-entity.factory'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
-import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
+import { FileDownloadService } from 'src/app/shared/abstractions/file-download.service'
 
 async function configureTestBed(): Promise<ActionTriggersListComponent> {
   const mockedActionTriggerService: ActionTriggerService = mock<ActionTriggerService>()

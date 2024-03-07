@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
-import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
+import { FileDownloadService } from 'src/app/shared/abstractions/file-download.service'
 
 @Component({
   selector: 'sofie-keyboard-mapping-page',

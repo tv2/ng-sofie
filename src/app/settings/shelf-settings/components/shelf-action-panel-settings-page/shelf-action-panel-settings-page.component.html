@@ -7,7 +7,7 @@
             <sofie-button-group>
                 <sofie-button (click)="openCreateActionPanel()" i18n>global.create-new.label</sofie-button>
                 <sofie-button i18n>global.export.label</sofie-button>
-                <sofie-button i18n>global.import.button</sofie-button>
+                <sofie-json-import-button (onUpload)="shelfConfigurationUploaded($event)" [validator]="validateShelfConfiguration.bind(this)"></sofie-json-import-button>
             </sofie-button-group>
         </ng-container>
 

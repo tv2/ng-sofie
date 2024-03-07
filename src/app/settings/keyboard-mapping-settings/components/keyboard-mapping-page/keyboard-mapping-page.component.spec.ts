@@ -7,7 +7,7 @@ import { TestLoggerFactory } from 'src/app/test/factories/test-logger.factory'
 import { Logger } from 'src/app/core/abstractions/logger.service'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
-import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
+import { FileDownloadService } from 'src/app/shared/abstractions/file-download.service'
 
 describe('KeyboardMappingPageComponent', () => {
   it('should create', async () => {

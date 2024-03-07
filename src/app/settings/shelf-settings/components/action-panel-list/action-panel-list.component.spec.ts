@@ -4,7 +4,7 @@ import { instance, mock } from '@typestrong/ts-mockito'
 import { ActionPanelListComponent } from './action-panel-list.component'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 import { DialogService } from 'src/app/shared/services/dialog.service'
-import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
+import { FileDownloadService } from 'src/app/shared/abstractions/file-download.service'
 import { TranslationActionTypePipe } from 'src/app/shared/pipes/translation-known-values.pipe'
 
 describe('ActionPanelListComponent', () => {

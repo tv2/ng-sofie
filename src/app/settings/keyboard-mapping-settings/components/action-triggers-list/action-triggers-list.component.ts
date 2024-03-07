@@ -6,7 +6,7 @@ import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 import { ActionTriggerSortKeys, KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 import { SortOrder } from 'src/app/shared/models/forms'
-import { FileDownloadService } from 'src/app/core/abstractions/file-download.service'
+import { FileDownloadService } from 'src/app/shared/abstractions/file-download.service'
 import { ActionsWithSelected } from 'src/app/shared/models/settings'
 import { Keys } from 'src/app/keyboard/value-objects/key-binding'
 
