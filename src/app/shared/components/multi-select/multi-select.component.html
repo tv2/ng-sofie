@@ -5,7 +5,7 @@
             <div class="display-text">
                 {{ selectedOptions.length > 0 ? getSelectedOptionsAsDisplay() : (placeholder ?? label) }}
             </div>
-            <sofie-icon-button *ngIf="selectedOptions.length > 0" [iconButton]="IconButton.X_MARK" class="" (click)="clearAllSelected()"></sofie-icon-button>
+            <sofie-icon-button *ngIf="selectedOptions.length > 0" [iconButton]="IconButton.X_MARK" (click)="clearAllSelected()" class="ms-1"></sofie-icon-button>
         </div>
 
         <div class="multi-select-dropdown" >
