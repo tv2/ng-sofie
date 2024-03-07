@@ -14,7 +14,7 @@
 </ng-template>
 
 <ng-template #rundowns>
-  <table *ngIf="!isLoading && basicRundowns.length > 0" mat-table [dataSource]="basicRundowns">
+  <table *ngIf="!isLoading && basicRundowns.length > 0" mat-table [dataSource]="basicRundowns" class="p-5">
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let basicRundown" >

@@ -52,7 +52,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { LoadingComponent } from './components/loading/loading.component'
 import { DropdownButtonComponent } from './components/dropdown-button/dropdown-button.component'
 import { MatMenuModule } from '@angular/material/menu'
-import { CheckboxComponent } from './components/icon-checkbox/checkbox.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ButtonComponent } from './components/button/button.component'
 import { FormatKeyboardKeysPipe } from './pipes/format-keyboard-keys.pipe'
@@ -79,6 +78,7 @@ import { DomFileDownloadService } from './services/dom-file-download.service'
 import { FileDownloadService } from './abstractions/file-download.service'
 import { JsonImportButtonComponent } from './components/json-import-button/json-import-button.component'
 import { JsonExportButtonComponent } from './components/json-export-button/json-export-button.component'
+import { CheckboxComponent } from './components/checkbox/checkbox.component'
 
 @NgModule({
   declarations: [
