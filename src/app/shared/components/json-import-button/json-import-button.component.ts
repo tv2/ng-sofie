@@ -15,7 +15,6 @@ export class JsonImportButtonComponent<T> {
     const files: FileList | null = inputElement.files
     if (!files) {
       // TODO: Notify when we get new notification changes
-      console.log('Failed to upload file...')
       return
     }
 
@@ -29,7 +28,6 @@ export class JsonImportButtonComponent<T> {
       const jsonObject: T = JSON.parse(new TextDecoder().decode(arrayBuffer))
       if (!!this.validator && !this.validator(jsonObject)) {
         // TODO: Notify about invalid when we get the new notification changes.
-        console.log('Uploaded file does not parse validation...')
         return
       }
       this.onUpload.emit(jsonObject)

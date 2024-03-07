@@ -14,13 +14,11 @@ export class JsonExportButtonComponent<T> {
   public exportFile(): void {
     if (!this.exportData) {
       // TODO: Make notification when we have the new notification changes
-      console.log('No data to export!')
       return
     }
 
     if (!this.exportedFileName) {
       // TODO: Make notification when we have the new notification changes
-      console.log('No filename provided!')
       return
     }
 
