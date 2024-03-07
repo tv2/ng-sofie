@@ -12,7 +12,7 @@
             </sofie-button-group>
         </ng-container>
 
-        <sofie-table>
+        <sofie-table *ngIf="shelfConfiguration.actionPanelConfigurations.length > 0; else emptyTable">
             <th tableHeader class="checkbox-column p-2">
                 <sofie-checkbox [isSelected]="isAllActionPanelsSelected()" (onToggle)="toggleAllActionPanels($event)"></sofie-checkbox>
             </th>
@@ -50,5 +50,9 @@
 
     <ng-template #loading>
         <sofie-loading></sofie-loading>
+    </ng-template>
+
+    <ng-template #emptyTable>
+        <sofie-empty-table [text]="'No Action Panels found'"></sofie-empty-table>
     </ng-template>
 </sofie-settings-page>

@@ -222,7 +222,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
       this.selectedActionPanels.clear()
       this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
 
-      this.notificationService.createInfoNotification('Selected Action Panels was deleted')
+      this.notificationService.createInfoNotification('Selected Action Panels were deleted')
     })
   }
 

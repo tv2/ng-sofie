@@ -76,7 +76,8 @@ import { DomFileDownloadService } from './services/dom-file-download.service'
 import { FileDownloadService } from './abstractions/file-download.service'
 import { JsonImportButtonComponent } from './components/json-import-button/json-import-button.component'
 import { JsonExportButtonComponent } from './components/json-export-button/json-export-button.component'
-import { CheckboxComponent } from './components/checkbox/checkbox.component'
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { EmptyTableComponent } from './components/empty-table/empty-table.component'
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component'
     MultiSelectComponent,
     JsonImportButtonComponent,
     JsonExportButtonComponent,
+    EmptyTableComponent,
   ],
   imports: [
     CommonModule,
@@ -168,6 +170,7 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component'
     TextInputComponent,
     NumberInputComponent,
     SidebarContainerComponent,
+    EmptyTableComponent,
   ],
   providers: [
     { provide: Logger, useClass: Tv2LoggerService },
