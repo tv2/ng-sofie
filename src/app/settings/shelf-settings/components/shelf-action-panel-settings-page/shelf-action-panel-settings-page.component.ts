@@ -25,7 +25,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   protected readonly title: string = $localize`settings.shelf.action-panels.label`
   protected readonly shelfConfigurationFileName: string = 'shelf-configuration'
 
-  public readonly selectedActionPanels: Set<ShelfActionPanelConfiguration> = new Set()
+  public selectedActionPanels: Set<ShelfActionPanelConfiguration> = new Set()
 
   public readonly headers: SofieTableHeader<ShelfActionPanelConfiguration>[] = [
     {
@@ -75,33 +75,6 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
 
   private updateShelfConfiguration(shelfConfiguration: ShelfConfiguration): void {
     this.shelfConfiguration = shelfConfiguration
-    this.sortPanels()
-  }
-
-  public toggleTableHeaderForSorting(header: SofieTableHeader<ShelfActionPanelConfiguration>): void {
-    header.isBeingUsedForSorting = true
-    header.sortDirection = header.sortDirection === SortDirection.DESC ? SortDirection.ASC : SortDirection.DESC
-
-    this.headers.forEach(h => {
-      if (h === header) {
-        return
-      }
-      h.isBeingUsedForSorting = false
-      h.sortDirection = SortDirection.DESC
-    })
-
-    this.sortPanels()
-  }
-
-  private sortPanels(): void {
-    const header: SofieTableHeader<ShelfActionPanelConfiguration> | undefined = this.headers.find(header => header.isBeingUsedForSorting)
-    if (!header) {
-      return
-    }
-    this.shelfConfiguration.actionPanelConfigurations.sort(header.sortCallback)
-    if (header.sortDirection === SortDirection.ASC) {
-      this.shelfConfiguration.actionPanelConfigurations.reverse()
-    }
   }
 
   private createActionContentMultiSelectOptions(): MultiSelectOption<Tv2ActionContentType>[] {
@@ -111,33 +84,6 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
         value: actionContent,
       }
     })
-  }
-
-  public getSortIcon(header: SofieTableHeader<ShelfActionPanelConfiguration>): IconButton {
-    return header.sortDirection === SortDirection.ASC ? IconButton.SORT_UP : IconButton.SORT_DOWN
-  }
-
-  public toggleAllActionPanels(isSelected: boolean): void {
-    this.shelfConfiguration.actionPanelConfigurations.forEach(actionPanel => this.toggleActionPanel(isSelected, actionPanel))
-  }
-
-  public toggleActionPanel(isSelected: boolean, actionPanel: ShelfActionPanelConfiguration): void {
-    if (isSelected) {
-      this.selectedActionPanels.add(actionPanel)
-      return
-    }
-    this.selectedActionPanels.delete(actionPanel)
-  }
-
-  public isActionPanelSelected(actionPanel: ShelfActionPanelConfiguration): boolean {
-    return this.selectedActionPanels.has(actionPanel)
-  }
-
-  public isAllActionPanelsSelected(): boolean {
-    if (this.shelfConfiguration.actionPanelConfigurations.length === 0) {
-      return false
-    }
-    return this.selectedActionPanels.size === this.shelfConfiguration.actionPanelConfigurations.length
   }
 
   public deleteActionPanel(actionPanel: ShelfActionPanelConfiguration): void {

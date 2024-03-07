@@ -1,8 +1,24 @@
-<table>
+<table *ngIf="entities.length > 0; else emptyTable">
     <thead>
-        <ng-content select="[tableHeader]"></ng-content>
+        <th *ngIf="showCheckboxes" class="checkbox-column">
+            <sofie-checkbox [isSelected]="isAllEntitiesSelected()" (onToggle)="toggleAllEntities($event)"></sofie-checkbox>
+        </th>
+        <th *ngFor="let header of headers" (click)="toggleTableHeaderForSorting(header)">
+            {{ header.name }}
+            <sofie-icon-button [ngClass]="{ 'hidden': !header.isBeingUsedForSorting }"  [iconButton]="getSortIcon(header)" [iconButtonSize]="IconButtonSize.XS"></sofie-icon-button>
+        </th>
     </thead>
     <tbody>
-        <ng-content select="[tableBody]"></ng-content>
+        <tr *ngFor="let entity of entities">
+            <td *ngIf="showCheckboxes" class="checkbox-column">
+                <sofie-checkbox [isSelected]="isEntitySelected(entity)" (onToggle)="toggleEntity($event, entity)"></sofie-checkbox>
+            </td>
+            <ng-container [ngTemplateOutlet]="rowTemplate" [ngTemplateOutletContext]="getRowTemplateContext(entity)">
+            </ng-container>
+        </tr>
     </tbody>
 </table>
+
+<ng-template #emptyTable>
+    <sofie-empty-table></sofie-empty-table>
+</ng-template>

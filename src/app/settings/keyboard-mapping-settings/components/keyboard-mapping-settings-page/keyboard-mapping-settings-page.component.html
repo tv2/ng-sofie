@@ -11,37 +11,31 @@
             </sofie-button-group>
         </ng-container>
 
-        <sofie-table *ngIf="actionTriggersWithAction.length > 0; else emptyTable">
-            <th tableHeader class="checkbox-column p-2">
-                <sofie-checkbox [isSelected]="isAllActionTriggersSelected()" (onToggle)="toggleAllActionTriggers($event)"></sofie-checkbox>
-            </th>
-            <th tableHeader *ngFor="let header of headers" (click)="toggleTableHeaderForSorting(header)">
-                {{header.name}}
-                <sofie-icon-button [ngClass]="{ 'hidden': !header.isBeingUsedForSorting }"  [iconButton]="getSortIcon(header)" [iconButtonSize]="IconButtonSize.XS"></sofie-icon-button>
-            </th>
-            <ng-container tableBody *ngFor="let actionTrigger of actionTriggersWithAction">
-                <tr *ngIf="doesActionTriggerMatchSearchQuery(actionTrigger)">
-                    <td class="checkbox-column">
-                        <sofie-checkbox [isSelected]="isActionTriggerSelected(actionTrigger)" (onToggle)="toggleActionTrigger($event, actionTrigger)"></sofie-checkbox>
-                    </td>
-                    <td>
-                        {{ actionTrigger.action.name }}
-                    </td>
-                    <td>
-                        <sofie-rounded-box>{{ getShortcutName(actionTrigger) }}</sofie-rounded-box>
-                    </td>
-                    <td>
-                        <sofie-rounded-box class="{{ actionTrigger.action.metadata.contentType | actionContentCssColor }}">{{ actionTrigger.action.name }}</sofie-rounded-box>
-                    </td>
-                    <td>
-                        <sofie-button-group class="align-table-data-end pe-5">
-                            <sofie-icon-button [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Edit Action Panel'" (click)="openEditActionTrigger(actionTrigger)"></sofie-icon-button>
-                            <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateActionTrigger(actionTrigger)"></sofie-icon-button>
-                            <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Delete Action Panel'" (click)="deleteActionTrigger(actionTrigger)"></sofie-icon-button>
-                        </sofie-button-group>
-                    </td>
-                </tr>
-            </ng-container>
+        <sofie-table
+            [entities]="actionTriggersWithAction"
+            [headers]="headers"
+            [rowTemplate]="tableRowTemplate"
+            [showCheckboxes]="true"
+            [(selectedEntities)]="selectedActionTriggers"
+        >
+            <ng-template #tableRowTemplate let-actionTrigger="tableRowData">
+                <td>
+                    {{ actionTrigger.action.name }}
+                </td>
+                <td>
+                    <sofie-rounded-box>{{ getShortcutName(actionTrigger) }}</sofie-rounded-box>
+                </td>
+                <td>
+                    <sofie-rounded-box class="{{ actionTrigger.action.metadata.contentType | actionContentCssColor }}">{{ actionTrigger.action.name }}</sofie-rounded-box>
+                </td>
+                <td>
+                    <sofie-button-group class="align-table-data-end">
+                        <sofie-icon-button [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Edit Action Panel'" (click)="openEditActionTrigger(actionTrigger)"></sofie-icon-button>
+                        <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateActionTrigger(actionTrigger)"></sofie-icon-button>
+                        <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Delete Action Panel'" (click)="deleteActionTrigger(actionTrigger)"></sofie-icon-button>
+                    </sofie-button-group>
+                </td>
+            </ng-template>
         </sofie-table>
 
         <hr>
@@ -59,9 +53,5 @@
 
     <ng-template #loading>
         <sofie-loading></sofie-loading>
-    </ng-template>
-
-    <ng-template #emptyTable>
-        <sofie-empty-table [text]="'No Action Triggers found'"></sofie-empty-table>
     </ng-template>
 </sofie-settings-page>

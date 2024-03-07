@@ -25,9 +25,10 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   protected readonly title: string = $localize`settings.keyboard-mappings.label`
   protected readonly actionTriggersFileName: string = 'action-triggers'
 
+  // TODO: This should be a "KeyboardMapping" that has an ActionTrigger and an Action. Not "ActionTriggerWithAction"...
   public actionTriggersWithAction: ActionTriggerWithAction<KeyboardTriggerData>[]
 
-  public readonly selectedActionTriggers: Set<ActionTriggerWithAction<KeyboardTriggerData>> = new Set()
+  public selectedActionTriggers: Set<ActionTriggerWithAction<KeyboardTriggerData>> = new Set()
 
   public readonly headers: SofieTableHeader<ActionTriggerWithAction<KeyboardTriggerData>>[] = [
     {
@@ -83,10 +84,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
     this.actionTriggerStateService
       .getActionTriggerObservable()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(actionTriggers => {
-        this.actionTriggersWithAction = this.mapActionTriggersWithActions(actionTriggers)
-        this.sortActionTriggers()
-      })
+      .subscribe(actionTriggers => (this.actionTriggersWithAction = this.mapActionTriggersWithActions(actionTriggers)))
   }
 
   private mapActionTriggersWithActions(actionTriggers: ActionTrigger[]): ActionTriggerWithAction<KeyboardTriggerData>[] {
@@ -96,59 +94,6 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
         action: this.actions.find(action => action.id === actionTrigger.actionId),
       } as ActionTriggerWithAction<KeyboardTriggerData>
     })
-  }
-
-  public toggleTableHeaderForSorting(header: SofieTableHeader<ActionTriggerWithAction<KeyboardTriggerData>>): void {
-    header.isBeingUsedForSorting = true
-    header.sortDirection = header.sortDirection === SortDirection.DESC ? SortDirection.ASC : SortDirection.DESC
-
-    this.headers.forEach(h => {
-      if (h === header) {
-        return
-      }
-      h.isBeingUsedForSorting = false
-      h.sortDirection = SortDirection.DESC
-    })
-
-    this.sortActionTriggers()
-  }
-
-  private sortActionTriggers(): void {
-    const header: SofieTableHeader<ActionTriggerWithAction<KeyboardTriggerData>> | undefined = this.headers.find(header => header.isBeingUsedForSorting)
-    if (!header) {
-      return
-    }
-    this.actionTriggersWithAction.sort(header.sortCallback)
-    if (header.sortDirection === SortDirection.ASC) {
-      this.actionTriggersWithAction.reverse()
-    }
-  }
-
-  public getSortIcon(header: SofieTableHeader<ActionTriggerWithAction<KeyboardTriggerData>>): IconButton {
-    return header.sortDirection === SortDirection.ASC ? IconButton.SORT_UP : IconButton.SORT_DOWN
-  }
-
-  public toggleAllActionTriggers(isSelected: boolean): void {
-    this.actionTriggersWithAction.forEach(actionTrigger => this.toggleActionTrigger(isSelected, actionTrigger))
-  }
-
-  public toggleActionTrigger(isSelected: boolean, actionTrigger: ActionTriggerWithAction<KeyboardTriggerData>): void {
-    if (isSelected) {
-      this.selectedActionTriggers.add(actionTrigger)
-      return
-    }
-    this.selectedActionTriggers.delete(actionTrigger)
-  }
-
-  public isActionTriggerSelected(actionTrigger: ActionTriggerWithAction<KeyboardTriggerData>): boolean {
-    return this.selectedActionTriggers.has(actionTrigger)
-  }
-
-  public isAllActionTriggersSelected(): boolean {
-    if (this.actionTriggersWithAction.length === 0) {
-      return false
-    }
-    return this.selectedActionTriggers.size === this.actionTriggersWithAction.length
   }
 
   public deleteActionTrigger(actionTrigger: ActionTriggerWithAction<KeyboardTriggerData>): void {
