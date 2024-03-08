@@ -16,6 +16,7 @@ describe(Tv2PieceGroupService.name, () => {
 
       expect(result).toEqual(expected)
     })
+
     it('does not alter piece given a single piece', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
@@ -32,6 +33,7 @@ describe(Tv2PieceGroupService.name, () => {
 
       expect(result).toEqual(expected)
     })
+
     it('returns single merged piece from two pieces with same start', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
@@ -56,6 +58,7 @@ describe(Tv2PieceGroupService.name, () => {
 
       expect(result).toEqual(expected)
     })
+
     it('does not merge pieces when there is no piece start match', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
@@ -75,6 +78,7 @@ describe(Tv2PieceGroupService.name, () => {
       expect(result).toEqual(pieces)
     })
   })
+
   describe(Tv2PieceGroupService.prototype.groupByOutputLayer.name, () => {
     it('returns no layers when no layers are given', () => {
       const pieces: Tv2Piece[] = []
