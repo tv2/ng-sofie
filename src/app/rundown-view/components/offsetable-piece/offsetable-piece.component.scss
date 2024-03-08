@@ -5,55 +5,70 @@
   background-color: var(--black-color);
 
   .piece {
-    background-color: var(--background-color);
+    --local-background: var(--tv2-unknown-color);
+
+    background: var(--local-background);
     overflow: visible;
+    border-left: 2px solid var(--background-color);
+
+    &.media-unavailable {
+      background: var(--transparent-and-red-stripes), var(--local-background);
+    }
+
+    &.overlay-graphics {
+      --local-background: var(--tv2-overlay-graphics-color);
+    }
+
+    &.jingle {
+      --local-background: var(--tv2-jingle-color);
+    }
 
     &.camera {
-      background-color: var(--tv2-camera-color);
+      --local-background: var(--tv2-camera-color);
     }
 
     &.lower-third {
-      background-color: var(--tv2-graphics-color);
+      --local-background: var(--tv2-graphics-color);
     }
 
     &.graphics {
-      background-color: var(--tv2-graphics-color);
+      --local-background: var(--tv2-graphics-color);
     }
 
     &.remote {
-      background-color: var(--tv2-remote-color);
+      --local-background: var(--tv2-remote-color);
     }
 
     &.local {
-      background-color: var(--tv2-replay-color);
+      --local-background: var(--tv2-replay-color);
     }
 
     &.manus {
       font-style: italic;
-      background-color: var(--tv2-manus-color);
+      --local-background: var(--tv2-manus-color);
     }
 
     &.split-screen {
-      background: linear-gradient(to bottom, var(--tv2-split-screen-upper) 0%, var(--tv2-split-screen-upper) 50%, var(--tv2-split-screen-lower) 50%, var(--tv2-split-screen-lower) 100%);
+      --local-background: var(--split-screen-gradient);
     }
 
     &.voice-over {
-      background-color: var(--tv2-camera-color);
+      --local-background: var(--tv2-camera-color);
     }
 
     &.replay {
-      background-color: var(--tv2-replay-color);
+      --local-background: var(--tv2-replay-color);
 
       &.voice-over {
-        background: linear-gradient(to bottom, var(--tv2-replay-color) 0%, var(--tv2-replay-color) 50%, var(--tv2-camera-color) 50%, var(--tv2-camera-color) 100%);
+        --local-background: var(--replay-voice-over-gradient);
       }
     }
 
     &.video-clip {
-      background-color: var(--tv2-video-clip-color);
+      --local-background: var(--tv2-video-clip-color);
 
       &.voice-over {
-        background: linear-gradient(to bottom, var(--tv2-video-clip-color) 0%, var(--tv2-video-clip-color) 50%, var(--tv2-camera-color) 50%, var(--tv2-camera-color) 100%);
+        --local-background: var(--video-clip-voice-over-gradient);
       }
     }
   }
@@ -68,21 +83,8 @@
     color: var(--text-color);
 
     font-weight: normal;
-    text-shadow: var(--gradient-black-rgba-with-08-opacity-color) 0 0 8px;
+    text-shadow: var(--black-color) 0 0 3px;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  &.media-unavailable {
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background: var(--transparent-and-red-stripes);
-      z-index: 10;
-    }
   }
 }

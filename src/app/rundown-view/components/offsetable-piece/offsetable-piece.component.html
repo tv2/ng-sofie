@@ -1,9 +1,12 @@
 <div
+  class="piece"
   [style.width.px]="widthInPixels"
   [ngClass]="pieceTypeModifierClass"
-  class="piece"
+  [class.media-unavailable]="isMediaUnavailable"
 >
-  <div class="label" [style.margin-left.px]="labelOffsetInPixels">
+  <div class="label" [style.margin-left.px]="labelOffsetInPixels"
+
+  >
     <span #labelTextElement>{{ piece.name }}</span>
 
     <sofie-piece-tooltip [piece]="piece" [durationInMs]="partDuration" [playedDurationForPartInMs]="playedDurationForPartInMs" [isMediaUnavailable]="isMediaUnavailable"> </sofie-piece-tooltip>
