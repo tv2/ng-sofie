@@ -78,14 +78,6 @@
         <source>action-triggers.no-shortcuts.label</source>
         <target state="new">No shortcuts found</target>
       </trans-unit>
-      <trans-unit id="948302468790980101" datatype="html">
-        <source>action-triggers.create-shortcut.button</source>
-        <target state="new">Create shortcut</target>
-      </trans-unit>
-      <trans-unit id="8903207483897140758" datatype="html">
-        <source>action-triggers.export-shortcuts.button</source>
-        <target state="new">Export shortcuts</target>
-      </trans-unit>
       <trans-unit id="5998298101573406065" datatype="html">
         <source>action-triggers.import-shortcuts.button</source>
         <target state="new">Import shortcuts</target>
@@ -124,11 +116,11 @@
       </trans-unit>
       <trans-unit id="5133358426840332221" datatype="html">
         <source>action-triggers.delete.confirmation</source>
-        <target state="new">Are you sure you want to delete this action trigger?</target>
+        <target state="new">Are you sure you want to delete this Keyboard Mapping?</target>
       </trans-unit>
-      <trans-unit id="1543520618037329297" datatype="html">
-        <source>action-triggers.delete-selected.confirmation</source>
-        <target state="new">Are you sure you want to delete all selected action triggers?</target>
+      <trans-unit id="386627600927064568" datatype="html">
+        <source>keyboard-mapping.delete-selected.confirmation</source>
+        <target state="new">Are you sure you want to delete all selected Keyboard Mappings?</target>
       </trans-unit>
       <trans-unit id="4054896224656862418" datatype="html">
         <source>global.select-all.label</source>
@@ -317,6 +309,10 @@
       <trans-unit id="4121868262213030663" datatype="html">
         <source>global.import.button</source>
         <target state="new">Import</target>
+      </trans-unit>
+      <trans-unit id="1489043303962671570" datatype="html">
+        <source>keyboard-mapping.delete.confirmation</source>
+        <target state="new">keyboard-mapping.delete.confirmation</target>
       </trans-unit>
     </body>
   </file>

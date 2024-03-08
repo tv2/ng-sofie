@@ -68,14 +68,8 @@
       <trans-unit id="7618983089240067205" datatype="html">
         <source>action-triggers.shortcut.label</source>
       </trans-unit>
-      <trans-unit id="8903207483897140758" datatype="html">
-        <source>action-triggers.export-shortcuts.button</source>
-      </trans-unit>
       <trans-unit id="946249916134408794" datatype="html">
         <source>action-triggers.no-actions.label</source>
-      </trans-unit>
-      <trans-unit id="948302468790980101" datatype="html">
-        <source>action-triggers.create-shortcut.button</source>
       </trans-unit>
       <trans-unit id="3296269694384339031" datatype="html">
         <source>action-triggers.create-shortcut.title</source>
@@ -92,8 +86,8 @@
       <trans-unit id="1532790028301204513" datatype="html">
         <source>global.delete.label</source>
       </trans-unit>
-      <trans-unit id="1543520618037329297" datatype="html">
-        <source>action-triggers.delete-selected.confirmation</source>
+      <trans-unit id="386627600927064568" datatype="html">
+        <source>keyboard-mapping.delete-selected.confirmation</source>
       </trans-unit>
       <trans-unit id="5133358426840332221" datatype="html">
         <source>action-triggers.delete.confirmation</source>
@@ -238,6 +232,9 @@
       </trans-unit>
       <trans-unit id="4121868262213030663" datatype="html">
         <source>global.import.button</source>
+      </trans-unit>
+      <trans-unit id="1489043303962671570" datatype="html">
+        <source>keyboard-mapping.delete.confirmation</source>
       </trans-unit>
     </body>
   </file>

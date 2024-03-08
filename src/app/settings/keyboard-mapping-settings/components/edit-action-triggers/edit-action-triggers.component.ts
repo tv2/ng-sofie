@@ -1,6 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core'
-import { AbstractControl, FormBuilder, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
-import { ActionTrigger, ActionTriggerWithAction } from 'src/app/shared/models/action-trigger'
+import {
+  AbstractControl,
+  FormBuilder,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms'
+import { ActionTrigger } from 'src/app/shared/models/action-trigger'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
@@ -8,15 +15,17 @@ import { SelectFieldOptions } from 'src/app/shared/models/forms'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 import { ActionArgumentSchemaType } from 'src/app/shared/models/action'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
+import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 
 @Component({
   selector: 'sofie-edit-action-triggers',
   templateUrl: './edit-action-triggers.component.html',
   styleUrls: ['./edit-action-triggers.component.scss'],
 })
+// TODO: Delete this component
 export class EditActionTriggersComponent implements OnChanges {
   @Output() public readonly onCancel: EventEmitter<void> = new EventEmitter<void>()
-  @Input() public selectedActionTrigger?: ActionTriggerWithAction<KeyboardTriggerData>
+  @Input() public selectedActionTrigger?: KeyboardMapping<KeyboardTriggerData>
   @Input() public actions: Tv2PartAction[]
   public isSubmitting: boolean = false
   public selectedAction: Tv2PartAction | undefined
@@ -67,7 +76,7 @@ export class EditActionTriggersComponent implements OnChanges {
     if (!actionTriggerChange) {
       return
     }
-    const action: ActionTriggerWithAction<KeyboardTriggerData> = actionTriggerChange.currentValue
+    const action: KeyboardMapping<KeyboardTriggerData> = actionTriggerChange.currentValue
     this.formKeysArray.clear()
     this.formMappedToKeysArray.clear()
     if (action) {

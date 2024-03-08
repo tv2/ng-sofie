@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
-import { ActionTrigger, ActionTriggerWithAction } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger } from 'src/app/shared/models/action-trigger'
 import { SofieDropdownOption } from 'src/app/shared/components/dropdown-button/dropdown-button.component'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
@@ -9,16 +9,18 @@ import { SortOrder } from 'src/app/shared/models/forms'
 import { FileDownloadService } from 'src/app/shared/abstractions/file-download.service'
 import { ActionsWithSelected } from 'src/app/shared/models/settings'
 import { Keys } from 'src/app/keyboard/value-objects/key-binding'
+import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 
 @Component({
   selector: 'sofie-action-triggers-list',
   templateUrl: './action-triggers-list.component.html',
   styleUrls: ['./action-triggers-list.component.scss'],
 })
+// TODO: Delete this component
 export class ActionTriggersListComponent implements OnChanges {
-  @Input() public actionTriggersWithAction: ActionTriggerWithAction<KeyboardTriggerData>[]
-  @Input() public selectedActionTrigger?: ActionTriggerWithAction<KeyboardTriggerData>
-  @Output() private readonly onActionTriggerOpen: EventEmitter<ActionTriggerWithAction<KeyboardTriggerData>> = new EventEmitter<ActionTriggerWithAction<KeyboardTriggerData>>()
+  @Input() public actionTriggersWithAction: KeyboardMapping<KeyboardTriggerData>[]
+  @Input() public selectedActionTrigger?: KeyboardMapping<KeyboardTriggerData>
+  @Output() private readonly onActionTriggerOpen: EventEmitter<KeyboardMapping<KeyboardTriggerData>> = new EventEmitter<KeyboardMapping<KeyboardTriggerData>>()
   public search: string = ''
   public sortQuery: string = `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`
   public readonly sortLabel: string = $localize`global.sort.label`
@@ -52,7 +54,7 @@ export class ActionTriggersListComponent implements OnChanges {
     }
   }
 
-  get filteredActionsTriggers(): ActionTriggerWithAction<KeyboardTriggerData>[] {
+  get filteredActionsTriggers(): KeyboardMapping<KeyboardTriggerData>[] {
     const lowercasedSearchQuery: string = this.search.toLocaleLowerCase()
     return this.actionTriggersWithAction.filter(
       actionTriggerWithAction =>
@@ -67,7 +69,7 @@ export class ActionTriggersListComponent implements OnChanges {
     return actionTrigger.data.mappedToKeys && actionTrigger.data.mappedToKeys.length > 0 ? actionTrigger.data.mappedToKeys : actionTrigger.data.keys
   }
 
-  public selectActionTrigger(actionTriggerWithAction?: ActionTriggerWithAction<KeyboardTriggerData>): void {
+  public selectActionTrigger(actionTriggerWithAction?: KeyboardMapping<KeyboardTriggerData>): void {
     if (this.selectMode) {
       return
     }
@@ -113,7 +115,7 @@ export class ActionTriggersListComponent implements OnChanges {
     this.unselectAllActionsTriggers()
   }
 
-  public cloneActionTrigger(actionTriggerWithAction: ActionTriggerWithAction<KeyboardTriggerData>): void {
+  public cloneActionTrigger(actionTriggerWithAction: KeyboardMapping<KeyboardTriggerData>): void {
     const clonedActionTrigger: ActionTrigger<KeyboardTriggerData> = {
       ...actionTriggerWithAction.actionTrigger,
       id: '',
@@ -145,7 +147,7 @@ export class ActionTriggersListComponent implements OnChanges {
   public applyUserActionToSelectedActionTriggers(userAction: string): void {
     switch (userAction) {
       case ActionsWithSelected.DELETE:
-        return this.dialogService.createConfirmDialog($localize`action-triggers.delete-selected.label`, $localize`action-triggers.delete-selected.confirmation`, 'Delete', () =>
+        return this.dialogService.createConfirmDialog($localize`action-triggers.delete-selected.label`, $localize`keyboard-mapping.delete-selected.confirmation`, 'Delete', () =>
           this.deleteSelectedActionTriggers()
         )
       case ActionsWithSelected.EXPORT:

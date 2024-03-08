@@ -1,6 +1,6 @@
 import { Logger } from 'src/app/core/abstractions/logger.service'
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActionTrigger, ActionTriggerWithAction } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger } from 'src/app/shared/models/action-trigger'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { Subject, takeUntil } from 'rxjs'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
@@ -14,6 +14,11 @@ import { NotificationService } from '../../../../shared/services/notification.se
 import { ActionTriggerParser } from '../../../../shared/abstractions/action-trigger-parser.service'
 import { FormatKeyboardKeysPipe } from '../../../../shared/pipes/format-keyboard-keys.pipe'
 
+export interface KeyboardMapping<T = unknown> {
+  actionTrigger: ActionTrigger<T>
+  action: Tv2PartAction
+}
+
 @Component({
   selector: 'sofie-keyboard-mapping-settings-page',
   templateUrl: './keyboard-mapping-settings-page.component.html',
@@ -23,34 +28,33 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   protected readonly IconButtonSize = IconButtonSize
   protected readonly IconButton = IconButton
   protected readonly title: string = $localize`settings.keyboard-mappings.label`
-  protected readonly actionTriggersFileName: string = 'action-triggers'
+  protected readonly keyboardMappingsFileName: string = 'keyboard-mappings'
 
-  // TODO: This should be a "KeyboardMapping" that has an ActionTrigger and an Action. Not "ActionTriggerWithAction"...
-  public actionTriggersWithAction: ActionTriggerWithAction<KeyboardTriggerData>[]
+  public keyboardMappings: KeyboardMapping<KeyboardTriggerData>[]
 
-  public selectedActionTriggers: Set<ActionTriggerWithAction<KeyboardTriggerData>> = new Set()
+  public selectedKeyboardMappings: Set<KeyboardMapping<KeyboardTriggerData>> = new Set()
 
-  public readonly headers: SofieTableHeader<ActionTriggerWithAction<KeyboardTriggerData>>[] = [
+  public readonly headers: SofieTableHeader<KeyboardMapping<KeyboardTriggerData>>[] = [
     {
       name: 'Label',
       isBeingUsedForSorting: true,
-      sortCallback: (a: ActionTriggerWithAction<KeyboardTriggerData>, b: ActionTriggerWithAction<KeyboardTriggerData>): number => a.actionTrigger.data.label.localeCompare(b.actionTrigger.data.label),
+      sortCallback: (a: KeyboardMapping<KeyboardTriggerData>, b: KeyboardMapping<KeyboardTriggerData>): number => a.actionTrigger.data.label.localeCompare(b.actionTrigger.data.label),
       sortDirection: SortDirection.DESC,
     },
     {
       name: 'Shortcut',
-      sortCallback: (a: ActionTriggerWithAction<KeyboardTriggerData>, b: ActionTriggerWithAction<KeyboardTriggerData>): number =>
+      sortCallback: (a: KeyboardMapping<KeyboardTriggerData>, b: KeyboardMapping<KeyboardTriggerData>): number =>
         a.actionTrigger.data.mappedToKeys?.toString().localeCompare(b.actionTrigger.data.mappedToKeys?.toString() ?? '') ?? 0,
       sortDirection: SortDirection.DESC,
     },
     {
       name: 'Action',
-      sortCallback: (a: ActionTriggerWithAction<KeyboardTriggerData>, b: ActionTriggerWithAction<KeyboardTriggerData>): number => a.action.name.localeCompare(b.action.name),
+      sortCallback: (a: KeyboardMapping<KeyboardTriggerData>, b: KeyboardMapping<KeyboardTriggerData>): number => a.action.name.localeCompare(b.action.name),
       sortDirection: SortDirection.DESC,
     },
   ]
 
-  public actionTriggerSearchQuery: string
+  public keyboardMappingSearchQuery: string
 
   // TODO: Possible to get rid of this?
   public actions: Tv2PartAction[]
@@ -58,7 +62,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$: Subject<null> = new Subject<null>()
 
   // TODO: Delete these
-  public toBeDeletedUsedAsSelectedActionTrigger?: ActionTriggerWithAction<KeyboardTriggerData>
+  public toBeDeletedUsedAsSelectedActionTrigger?: KeyboardMapping<KeyboardTriggerData>
   public toBeDeletedIsShowingCreateActionTriggerForm: boolean
 
   constructor(
@@ -84,65 +88,65 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
     this.actionTriggerStateService
       .getActionTriggerObservable()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(actionTriggers => (this.actionTriggersWithAction = this.mapActionTriggersWithActions(actionTriggers)))
+      .subscribe(actionTriggers => (this.keyboardMappings = this.mapActionTriggersToKeyboardMappings(actionTriggers)))
   }
 
-  private mapActionTriggersWithActions(actionTriggers: ActionTrigger[]): ActionTriggerWithAction<KeyboardTriggerData>[] {
+  private mapActionTriggersToKeyboardMappings(actionTriggers: ActionTrigger[]): KeyboardMapping<KeyboardTriggerData>[] {
     return actionTriggers.map(actionTrigger => {
       return {
         actionTrigger,
         action: this.actions.find(action => action.id === actionTrigger.actionId),
-      } as ActionTriggerWithAction<KeyboardTriggerData>
+      } as KeyboardMapping<KeyboardTriggerData>
     })
   }
 
-  public deleteActionTrigger(actionTrigger: ActionTriggerWithAction<KeyboardTriggerData>): void {
-    this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`action-triggers.delete.confirmation`, $localize`global.delete.label`, () => {
-      const index: number = this.actionTriggersWithAction.indexOf(actionTrigger)
+  public deleteKeyboardMapping(actionTrigger: KeyboardMapping<KeyboardTriggerData>): void {
+    this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`keyboard-mapping.delete.confirmation`, $localize`global.delete.label`, () => {
+      const index: number = this.keyboardMappings.indexOf(actionTrigger)
       if (index < 0) {
         return
       }
-      this.actionTriggersWithAction.splice(index, 1)
+      this.keyboardMappings.splice(index, 1)
 
       this.actionTriggerService.deleteActionTrigger(actionTrigger.actionTrigger.id).subscribe()
-      this.notificationService.createInfoNotification('Successfully deleted Action Trigger')
+      this.notificationService.createInfoNotification('Successfully deleted Keyboard Mapping')
     })
   }
 
-  public duplicateActionTrigger(actionTrigger: ActionTriggerWithAction<KeyboardTriggerData>): void {
-    const index: number = this.actionTriggersWithAction.indexOf(actionTrigger)
+  public duplicateKeyboardMapping(keyboardMapping: KeyboardMapping<KeyboardTriggerData>): void {
+    const index: number = this.keyboardMappings.indexOf(keyboardMapping)
     if (index < 0) {
       return
     }
-    const clonedActionTrigger: ActionTrigger<KeyboardTriggerData> = {
-      ...actionTrigger.actionTrigger,
+    const clonedActionTriggerFromKeyboardMapping: ActionTrigger<KeyboardTriggerData> = {
+      ...keyboardMapping.actionTrigger,
       id: '', // Will be set by the backend
     }
 
-    this.actionTriggerService.createActionTrigger(clonedActionTrigger).subscribe()
+    this.actionTriggerService.createActionTrigger(clonedActionTriggerFromKeyboardMapping).subscribe()
     this.notificationService.createInfoNotification('Successfully cloned Action Trigger')
   }
 
-  public openEditActionTrigger(actionTrigger: ActionTriggerWithAction<KeyboardTriggerData>): void {
+  public openEditKeyboardMapping(keyboardMapping: KeyboardMapping<KeyboardTriggerData>): void {
     // TODO: Implement
-    this.logger.info(actionTrigger.actionTrigger.id)
+    this.logger.info(keyboardMapping.actionTrigger.id)
   }
 
-  public getActionTriggersWithoutActions(): ActionTrigger<KeyboardTriggerData>[] {
-    return this.actionTriggersWithAction.map(actionTrigger => actionTrigger.actionTrigger)
+  public getActionTriggersFromKeyboardMappings(): ActionTrigger<KeyboardTriggerData>[] {
+    return this.keyboardMappings.map(keyboardMapping => keyboardMapping.actionTrigger)
   }
 
   public actionTriggersUploaded(actionTriggers: ActionTrigger<KeyboardTriggerData>[]): void {
     Promise.all(
       actionTriggers.map(actionTrigger => {
-        const actionTriggerAlreadyExist: boolean = this.actionTriggersWithAction.some(actionTriggerWithAction => actionTriggerWithAction.actionTrigger.id === actionTrigger.id)
+        const actionTriggerAlreadyExist: boolean = this.keyboardMappings.some(actionTriggerWithAction => actionTriggerWithAction.actionTrigger.id === actionTrigger.id)
         actionTriggerAlreadyExist ? this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe() : this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
       })
     )
-      .then(() => this.notificationService.createInfoNotification('Successfully imported Action Triggers'))
+      .then(() => this.notificationService.createInfoNotification('Successfully imported Keyboard Mappings'))
       .catch(error => {
         this.logger.error(error)
-        this.notificationService.createErrorNotification('Something went wrong uploading Action Triggers!')
+        this.notificationService.createErrorNotification('Something went wrong uploading Keyboard Mappings!')
       })
   }
 
@@ -154,39 +158,41 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  public deleteSelectedActionTriggers(): void {
-    this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`action-triggers.delete.confirmation`, $localize`global.delete.label`, () => {
-      const actionTriggerIdsToBeDeleted: string[] = this.actionTriggersWithAction
-        .filter(actionTrigger => this.selectedActionTriggers.has(actionTrigger))
-        .map(actionTrigger => actionTrigger.actionTrigger.id)
+  public deleteSelectedKeyboardMapping(): void {
+    this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`keyboard-mapping.delete-selected.confirmation`, $localize`global.delete.label`, () => {
+      const actionTriggerIdsToBeDeleted: string[] = this.keyboardMappings
+        .filter(keyboardMapping => this.selectedKeyboardMappings.has(keyboardMapping))
+        .map(keyboardMapping => keyboardMapping.actionTrigger.id)
 
-      this.selectedActionTriggers.clear()
+      this.selectedKeyboardMappings.clear()
 
       Promise.all(actionTriggerIdsToBeDeleted.map(id => this.actionTriggerService.deleteActionTrigger(id).subscribe()))
-        .then(() => this.notificationService.createInfoNotification('Successfully deleted all selected Action Triggers'))
+        .then(() => this.notificationService.createInfoNotification('Successfully deleted all selected Keyboard Mappings'))
         .catch(error => {
           this.logger.error(error)
-          this.notificationService.createErrorNotification('Something went wrong deleting all selected Action Triggers!')
+          this.notificationService.createErrorNotification('Something went wrong deleting all selected Keyboard Mappings!')
         })
     })
   }
 
-  public doesActionTriggerMatchSearchQuery(actionTrigger: ActionTriggerWithAction<KeyboardTriggerData>): boolean {
-    if (!this.actionTriggerSearchQuery || this.actionTriggerSearchQuery.length === 0) {
+  public doesKeyboardMappingMatchSearchQuery(keyboardMapping: KeyboardMapping<KeyboardTriggerData>): boolean {
+    if (!this.keyboardMappingSearchQuery || this.keyboardMappingSearchQuery.length === 0) {
       return true
     }
 
-    const lowerCasedQuery: string = this.actionTriggerSearchQuery.toLowerCase()
-    const doesLabelMatchQuery: boolean = actionTrigger.actionTrigger.data.label.toLowerCase().includes(lowerCasedQuery)
-    const doesShortCutMatchQuery: boolean = this.getShortcutName(actionTrigger).toLowerCase().includes(lowerCasedQuery)
-    const doesActionNameMatchQuery: boolean = actionTrigger.action.name.toLowerCase().includes(lowerCasedQuery)
+    const lowerCasedQuery: string = this.keyboardMappingSearchQuery.toLowerCase()
+    const doesLabelMatchQuery: boolean = keyboardMapping.actionTrigger.data.label.toLowerCase().includes(lowerCasedQuery)
+    const doesShortCutMatchQuery: boolean = this.getShortcutName(keyboardMapping).toLowerCase().includes(lowerCasedQuery)
+    const doesActionNameMatchQuery: boolean = keyboardMapping.action.name.toLowerCase().includes(lowerCasedQuery)
 
     return doesLabelMatchQuery || doesShortCutMatchQuery || doesActionNameMatchQuery
   }
 
-  public getShortcutName(actionTrigger: ActionTriggerWithAction<KeyboardTriggerData>): string {
+  public getShortcutName(keyboardMapping: KeyboardMapping<KeyboardTriggerData>): string {
     return this.formatKeysPipe.transform(
-      actionTrigger.actionTrigger.data.mappedToKeys && actionTrigger.actionTrigger.data.mappedToKeys.length > 0 ? actionTrigger.actionTrigger.data.mappedToKeys! : actionTrigger.actionTrigger.data.keys
+      keyboardMapping.actionTrigger.data.mappedToKeys && keyboardMapping.actionTrigger.data.mappedToKeys.length > 0
+        ? keyboardMapping.actionTrigger.data.mappedToKeys!
+        : keyboardMapping.actionTrigger.data.keys
     )
   }
 
@@ -195,7 +201,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   }
 
   // TODO: Delete
-  public selectActionTriggerForEditing(actionTrigger?: ActionTriggerWithAction<KeyboardTriggerData>): void {
+  public selectActionTriggerForEditing(actionTrigger?: KeyboardMapping<KeyboardTriggerData>): void {
     this.toBeDeletedUsedAsSelectedActionTrigger = actionTrigger
     this.toBeDeletedIsShowingCreateActionTriggerForm = false
   }

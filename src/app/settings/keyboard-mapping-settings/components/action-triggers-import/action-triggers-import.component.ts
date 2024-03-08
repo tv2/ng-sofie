@@ -1,18 +1,21 @@
 import { lastValueFrom } from 'rxjs'
 import { Component, Input } from '@angular/core'
-import { ActionTrigger, ActionTriggerWithAction } from 'src/app/shared/models/action-trigger'
+import { ActionTrigger } from 'src/app/shared/models/action-trigger'
 import { ActionTriggerParser } from 'src/app/shared/abstractions/action-trigger-parser.service'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
 import { NotificationService } from '../../../../shared/services/notification.service'
+import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 
 @Component({
   selector: 'sofie-action-triggers-import',
   templateUrl: './action-triggers-import.component.html',
   styleUrls: ['./action-triggers-import.component.scss'],
 })
+
+// TODO: Delete this component
 export class ActionTriggersImportComponent {
-  @Input() public actionTriggersWithAction: ActionTriggerWithAction<KeyboardTriggerData>[]
+  @Input() public actionTriggersWithAction: KeyboardMapping<KeyboardTriggerData>[]
   @Input() public isDisabled: boolean
 
   public readonly importShortcutLabel = $localize`action-triggers.import-shortcuts.button`
