@@ -5,6 +5,76 @@ import { Tv2Piece } from '../../core/models/tv2-piece'
 import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 
 describe(Tv2PieceGroupService.name, () => {
+  describe(Tv2PieceGroupService.prototype.mergePiecesByStartOffset.name, () => {
+    it('does not produce piece when no piece given', () => {
+      const pieces: Tv2Piece[] = []
+
+      const testee: Tv2PieceGroupService = createTestee()
+      const result: Tv2Piece[] = testee.mergePiecesByStartOffset(pieces)
+
+      const expected: Tv2Piece[] = []
+
+      expect(result).toEqual(expected)
+    })
+    it('does not alter piece given a single piece', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+
+      const pieceOne: Tv2Piece = testEntityFactory.createPiece({
+        name: 'pieceName',
+        start: 123,
+      }) as Tv2Piece
+      const pieces: Tv2Piece[] = [pieceOne]
+
+      const testee: Tv2PieceGroupService = createTestee()
+      const result: Tv2Piece[] = testee.mergePiecesByStartOffset(pieces)
+
+      const expected: Tv2Piece[] = [pieceOne]
+
+      expect(result).toEqual(expected)
+    })
+    it('returns single merged piece from two pieces with same start', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+
+      const pieceOne: Tv2Piece = testEntityFactory.createPiece({
+        name: 'pieceOneName',
+        start: 123,
+      }) as Tv2Piece
+      const pieceTwo: Tv2Piece = testEntityFactory.createPiece({
+        name: 'pieceTwoName',
+        start: 123,
+      }) as Tv2Piece
+      const pieces: Tv2Piece[] = [pieceOne, pieceTwo]
+
+      const testee: Tv2PieceGroupService = createTestee()
+      const result: Tv2Piece[] = testee.mergePiecesByStartOffset(pieces)
+
+      const expectedPiece: Tv2Piece = testEntityFactory.createPiece({
+        name: 'pieceOneName, pieceTwoName',
+        start: 123,
+      }) as Tv2Piece
+      const expected: Tv2Piece[] = [expectedPiece]
+
+      expect(result).toEqual(expected)
+    })
+    it('does not merge pieces when there is no piece start match', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+
+      const pieceOne: Tv2Piece = testEntityFactory.createPiece({
+        name: 'pieceOneName',
+        start: 123,
+      }) as Tv2Piece
+      const pieceTwo: Tv2Piece = testEntityFactory.createPiece({
+        name: 'pieceTwoName',
+        start: 234,
+      }) as Tv2Piece
+      const pieces: Tv2Piece[] = [pieceOne, pieceTwo]
+
+      const testee: Tv2PieceGroupService = createTestee()
+      const result: Tv2Piece[] = testee.mergePiecesByStartOffset(pieces)
+
+      expect(result).toEqual(pieces)
+    })
+  })
   describe(Tv2PieceGroupService.prototype.groupByOutputLayer.name, () => {
     it('returns no layers when no layers are given', () => {
       const pieces: Tv2Piece[] = []
