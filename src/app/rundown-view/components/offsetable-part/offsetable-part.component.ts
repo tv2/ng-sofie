@@ -77,21 +77,23 @@ export class OffsetablePartComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     const partChange: SimpleChange | undefined = changes['part']
-    if (!partChange || partChange.previousValue?.pieces === partChange.currentValue?.pieces) {
-      return
+    if (partChange) {
+      if (partChange.previousValue?.pieces === partChange.currentValue?.pieces) {
+        return
+      }
+      const visiblePieces: Piece[] = this.getVisiblePieces()
+      // TODO: How do we convert this correctly from Piece to Tv2Piece?
+      const piecesGroupedByOutputLayer: Record<Tv2OutputLayer, Tv2Piece[]> = this.pieceGroupService.groupByOutputLayer(visiblePieces as Tv2Piece[])
+
+      const outputLayerPieceEntries: [string, Tv2Piece[]][] = Object.entries(piecesGroupedByOutputLayer).reduce(
+        (reducedPieces, [outputLayer, pieces]) => {
+          return [...reducedPieces, [outputLayer, this.pieceGroupService.mergePiecesByStartOffset(pieces)]]
+        },
+        [] as [string, Tv2Piece[]][]
+      )
+
+      this.piecesGroupedByOutputLayer = Object.fromEntries(outputLayerPieceEntries) as Record<Tv2OutputLayer, Tv2Piece[]>
     }
-    const visiblePieces: Piece[] = this.getVisiblePieces()
-    // TODO: How do we convert this correctly from Piece to Tv2Piece?
-    const piecesGroupedByOutputLayer: Record<Tv2OutputLayer, Tv2Piece[]> = this.pieceGroupService.groupByOutputLayer(visiblePieces as Tv2Piece[])
-
-    const outputLayerPieceEntries: [string, Tv2Piece[]][] = Object.entries(piecesGroupedByOutputLayer).reduce(
-      (reducedPieces, [outputLayer, pieces]) => {
-        return [...reducedPieces, [outputLayer, this.pieceGroupService.mergePiecesByStartOffset(pieces)]]
-      },
-      [] as [string, Tv2Piece[]][]
-    )
-
-    this.piecesGroupedByOutputLayer = Object.fromEntries(outputLayerPieceEntries) as Record<Tv2OutputLayer, Tv2Piece[]>
   }
 
   private getVisiblePieces(): Piece[] {
