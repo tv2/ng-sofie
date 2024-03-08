@@ -3,5 +3,5 @@
         <label *ngIf="label">{{ label }}</label>
         <sofie-icon-button *ngIf="helpText" [tooltip]="helpText" [iconButton]="IconButton.CIRCLE_QUESTION" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button>
     </span>
-    <input [placeholder]="placeholder ?? label" type="text" [ngModel]="value" (ngModelChange)="onChange($event)" [disabled]="isDisabled"/>
+    <input (focus)="markFirstKey()" [readOnly]="true" (keydown)="registerKey($event)" [placeholder]="placeholder ?? label" [value]="value | formatKeyboardKeys">
 </div>

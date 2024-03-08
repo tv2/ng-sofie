@@ -1,12 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core'
-import {
-  AbstractControl,
-  FormBuilder,
-  UntypedFormArray,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators
-} from '@angular/forms'
+import { AbstractControl, FormBuilder, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { ActionTrigger } from 'src/app/shared/models/action-trigger'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionTriggerService } from 'src/app/shared/abstractions/action-trigger.service'
@@ -25,7 +18,7 @@ import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapp
 // TODO: Delete this component
 export class EditActionTriggersComponent implements OnChanges {
   @Output() public readonly onCancel: EventEmitter<void> = new EventEmitter<void>()
-  @Input() public selectedActionTrigger?: KeyboardMapping<KeyboardTriggerData>
+  @Input() public selectedActionTrigger?: KeyboardMapping
   @Input() public actions: Tv2PartAction[]
   public isSubmitting: boolean = false
   public selectedAction: Tv2PartAction | undefined
@@ -76,7 +69,7 @@ export class EditActionTriggersComponent implements OnChanges {
     if (!actionTriggerChange) {
       return
     }
-    const action: KeyboardMapping<KeyboardTriggerData> = actionTriggerChange.currentValue
+    const action: KeyboardMapping = actionTriggerChange.currentValue
     this.formKeysArray.clear()
     this.formMappedToKeysArray.clear()
     if (action) {

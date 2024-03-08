@@ -5,10 +5,12 @@ import { ActionTriggersListComponent } from './components/action-triggers-list/a
 import { EditActionTriggersComponent } from './components/edit-action-triggers/edit-action-triggers.component'
 import { SelectActionTriggerComponent } from './components/select-action-trigger/select-action-trigger.component'
 import { SingleActionTriggerBoxComponent } from './components/select-action-trigger/single-action-trigger-box/single-action-trigger-box.component'
-import { ActionTriggersImportComponent } from './components/action-triggers-import/action-triggers-import.component'
 import { KeyboardKeysFieldComponent } from './components/keyboard-keys-field/keyboard-keys-field.component'
 import { SettingsSharedModule } from '../settings-shared/settings-shared.module'
 import { KeyboardMappingSettingsPageComponent } from './components/keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
+import { ActionTriggerSelectorComponent } from './components/action-trigger-selector/action-trigger-selector.component'
+import { ProducerShelfModule } from '../../producer-shelf/producer-shelf.module'
+import { EditKeyboardMappingDialogComponent } from './components/edit-keyboard-mapping-dialog/edit-keyboard-mapping-dialog.component'
 
 const routes: Routes = [{ path: '', component: KeyboardMappingSettingsPageComponent }]
 
@@ -19,10 +21,11 @@ const routes: Routes = [{ path: '', component: KeyboardMappingSettingsPageCompon
     EditActionTriggersComponent,
     SelectActionTriggerComponent,
     SingleActionTriggerBoxComponent,
-    ActionTriggersImportComponent,
     KeyboardKeysFieldComponent,
+    EditKeyboardMappingDialogComponent,
+    ActionTriggerSelectorComponent,
   ],
-  imports: [SharedModule, RouterModule.forChild(routes), SettingsSharedModule],
+  imports: [SharedModule, RouterModule.forChild(routes), SettingsSharedModule, ProducerShelfModule],
   providers: [],
 })
 export class KeyboardMappingSettingsModule {}

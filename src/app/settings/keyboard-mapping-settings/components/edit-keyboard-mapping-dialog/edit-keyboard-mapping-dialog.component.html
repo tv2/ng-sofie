@@ -1,0 +1,37 @@
+<sofie-sidebar-container [title]="getTitle()">
+    <sofie-row class="mb-3">
+        <form [formGroup]="actionTriggerForm" class="left-container">
+            <form [formGroup]="actionTriggerDataForm">
+                <sofie-text-input [label]="labelLabel" [formControlName]="'label'"></sofie-text-input>
+                <sofie-keyboard-input [label]="shortcutLabel" [formControlName]="'keys'"></sofie-keyboard-input>
+                <sofie-keyboard-input [label]="physicalMappingLabel" [formControlName]="'mappedToKeys'" [helpText]="physicalMappingHelpText"></sofie-keyboard-input>
+                <sofie-select [label]="triggerOnLabel" [formControlName]="'triggerOn'" [options]="triggerOnOptions"></sofie-select>
+
+                <ng-container *ngIf="selectedAction" [ngTemplateOutlet]="actionArguments"></ng-container>
+
+                <ng-container *ngIf="doesSelectedActionHaveActionArguments()">
+                    <ng-container [ngSwitch]="getSelectedActionArgumentType()">
+                        <sofie-text-input *ngSwitchCase="ActionArgumentSchemaType.STRING" [label]="selectedAction?.argument?.name!" [formControlName]="'actionArguments'" [helpText]="selectedAction?.argument?.description!"></sofie-text-input>
+                        <sofie-number-input *ngSwitchCase="ActionArgumentSchemaType.NUMBER" [label]="selectedAction?.argument?.name!" [formControlName]="'actionArguments'" [helpText]="selectedAction?.argument?.description!"></sofie-number-input>
+                    </ng-container>
+                </ng-container>
+            </form>
+        </form>
+        <sofie-action-trigger-selector [selectedAction]="selectedAction" (actionSelected)="selectAction($event)" class="ps-5"></sofie-action-trigger-selector>
+    </sofie-row>
+    <sofie-button-group>
+        <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
+        <sofie-spacer></sofie-spacer>
+        <sofie-button (click)="save()" [type]="'PRIMARY'" [disabled]="!actionTriggerForm.valid">Save</sofie-button>
+    </sofie-button-group>
+</sofie-sidebar-container>
+
+<ng-template #actionArguments>
+    <label class="selected-action">Selected action</label>
+    <sofie-row>
+        <sofie-action-box [action]="selectedAction!"></sofie-action-box>
+        <div class="selected-action-description ps-1">
+            {{ selectedAction!.description }}
+        </div>
+    </sofie-row>
+</ng-template>

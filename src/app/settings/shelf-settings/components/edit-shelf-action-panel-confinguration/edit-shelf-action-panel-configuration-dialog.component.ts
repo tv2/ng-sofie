@@ -7,7 +7,7 @@ import { Tv2ActionContentType } from '../../../../shared/models/tv2-action'
 import { TranslationActionTypePipe } from '../../../../shared/pipes/translation-known-values.pipe'
 
 @Component({
-  selector: 'sofie-edit-shelf-action-panel-configuration-dialog',
+  // There is no selector because this component is only allowed to be called through the DialogService.
   templateUrl: './edit-shelf-action-panel-configuration-dialog.component.html',
 })
 export class EditShelfActionPanelConfigurationDialogComponent implements OnInit {
@@ -42,6 +42,10 @@ export class EditShelfActionPanelConfigurationDialogComponent implements OnInit 
         value: actionContent,
       }
     })
+  }
+
+  public getTitle(): string {
+    return this.actionPanel ? 'Edit Action Panel' : 'Create Action Panel'
   }
 
   public save(): void {

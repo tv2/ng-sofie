@@ -2,6 +2,7 @@ import { KeyAlias } from 'src/app/keyboard/value-objects/key-alias'
 import { Keys } from 'src/app/keyboard/value-objects/key-binding'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
 
+// TODO: Rename file to match interface name
 export interface KeyboardTriggerData {
   keys: Keys
   actionArguments?: string | number
@@ -10,11 +11,13 @@ export interface KeyboardTriggerData {
   mappedToKeys?: Keys
 }
 
+// TODO: Delete
 export enum ActionTriggerSortKeys {
   ACTION = 'ACTION',
   SHORTCUT = 'SHORTCUT',
 }
 
+// TODO: Delete
 export const SHORTCUT_KEYS_MAPPINGS: Record<string, string> = {
   Enter: KeyAlias.ANY_ENTER,
   NumpadEnter: KeyAlias.ANY_ENTER,

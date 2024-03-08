@@ -65,8 +65,7 @@ import { NotificationPopupComponent } from './components/notification-popup-comp
 import { TranslationActionTypePipe } from './pipes/translation-known-values.pipe'
 import { CardComponent } from './components/card/card.component'
 import { TableComponent } from './components/table/table.component'
-import { RoundedBoxComponent } from './components/badge/rounded-box.component'
-import { ActionContentCssColorPipe } from './pipes/action-content-css-color.pipe'
+import { ActionColorPipe } from './pipes/action-content-css-color.pipe'
 import { SidebarContainerComponent } from './components/sidebar-container/sidebar-container.component'
 import { TextInputComponent } from './components/text-input/text-input.component'
 import { NumberInputComponent } from './components/number-input/number-input.component'
@@ -78,6 +77,12 @@ import { JsonImportButtonComponent } from './components/json-import-button/json-
 import { JsonExportButtonComponent } from './components/json-export-button/json-export-button.component'
 import { CheckboxComponent } from './components/checkbox/checkbox.component'
 import { EmptyTableComponent } from './components/empty-table/empty-table.component'
+import { SelectComponent } from './components/select/select.component'
+import { KeyboardInputComponent } from './components/keyboard-input/keyboard-input.component'
+import { ActionBoxComponent } from './components/action-box/action-box.component'
+import { RoundedBoxComponent } from './components/rounded-box/rounded-box.component'
+import { RowComponent } from './components/row/row.component'
+import { ColumnComponent } from './components/column/column.component'
 
 @NgModule({
   declarations: [
@@ -107,7 +112,7 @@ import { EmptyTableComponent } from './components/empty-table/empty-table.compon
     CardComponent,
     TableComponent,
     RoundedBoxComponent,
-    ActionContentCssColorPipe,
+    ActionColorPipe,
     SidebarContainerComponent,
     TextInputComponent,
     NumberInputComponent,
@@ -116,6 +121,11 @@ import { EmptyTableComponent } from './components/empty-table/empty-table.compon
     JsonImportButtonComponent,
     JsonExportButtonComponent,
     EmptyTableComponent,
+    SelectComponent,
+    KeyboardInputComponent,
+    ActionBoxComponent,
+    RowComponent,
+    ColumnComponent,
   ],
   imports: [
     CommonModule,
@@ -162,7 +172,7 @@ import { EmptyTableComponent } from './components/empty-table/empty-table.compon
     CardComponent,
     TableComponent,
     RoundedBoxComponent,
-    ActionContentCssColorPipe,
+    ActionColorPipe,
     ButtonGroupComponent,
     MultiSelectComponent,
     JsonImportButtonComponent,
@@ -171,6 +181,10 @@ import { EmptyTableComponent } from './components/empty-table/empty-table.compon
     NumberInputComponent,
     SidebarContainerComponent,
     EmptyTableComponent,
+    SelectComponent,
+    KeyboardInputComponent,
+    ActionBoxComponent,
+    RowComponent,
   ],
   providers: [
     { provide: Logger, useClass: Tv2LoggerService },

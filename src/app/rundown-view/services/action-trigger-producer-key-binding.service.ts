@@ -118,7 +118,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   private createBinding(action: Tv2Action, actionTrigger: ActionTrigger<KeyboardTriggerData>, rundownId: string): StyledKeyBinding {
     return {
       keys: actionTrigger.data.keys,
-      label: actionTrigger.data.label,
+      label: this.getActionTriggerLabel(actionTrigger, action),
       onMatched: () => this.actionService.executeAction(action.id, rundownId, actionTrigger.data.actionArguments).subscribe(),
       shouldMatchOnKeyRelease: true,
       shouldPreventDefaultBehaviourOnKeyPress: true,
@@ -127,6 +127,13 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
       useOrderedMatching: false,
       background: this.getKeyBindingBackgroundColour(action),
     }
+  }
+
+  private getActionTriggerLabel(actionTrigger: ActionTrigger<KeyboardTriggerData>, action: Tv2Action): string {
+    if (actionTrigger.data.label && actionTrigger.data.label.length > 0) {
+      return actionTrigger.data.label
+    }
+    return action.name
   }
 
   private getKeyBindingBackgroundColour(action: Tv2Action): string {

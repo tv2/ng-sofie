@@ -18,9 +18,9 @@ import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapp
 })
 // TODO: Delete this component
 export class ActionTriggersListComponent implements OnChanges {
-  @Input() public actionTriggersWithAction: KeyboardMapping<KeyboardTriggerData>[]
-  @Input() public selectedActionTrigger?: KeyboardMapping<KeyboardTriggerData>
-  @Output() private readonly onActionTriggerOpen: EventEmitter<KeyboardMapping<KeyboardTriggerData>> = new EventEmitter<KeyboardMapping<KeyboardTriggerData>>()
+  @Input() public actionTriggersWithAction: KeyboardMapping[]
+  @Input() public selectedActionTrigger?: KeyboardMapping
+  @Output() private readonly onActionTriggerOpen: EventEmitter<KeyboardMapping> = new EventEmitter<KeyboardMapping>()
   public search: string = ''
   public sortQuery: string = `${ActionTriggerSortKeys.ACTION}_${SortOrder.ALPHABETICAL}`
   public readonly sortLabel: string = $localize`global.sort.label`
@@ -54,7 +54,7 @@ export class ActionTriggersListComponent implements OnChanges {
     }
   }
 
-  get filteredActionsTriggers(): KeyboardMapping<KeyboardTriggerData>[] {
+  get filteredActionsTriggers(): KeyboardMapping[] {
     const lowercasedSearchQuery: string = this.search.toLocaleLowerCase()
     return this.actionTriggersWithAction.filter(
       actionTriggerWithAction =>
@@ -69,7 +69,7 @@ export class ActionTriggersListComponent implements OnChanges {
     return actionTrigger.data.mappedToKeys && actionTrigger.data.mappedToKeys.length > 0 ? actionTrigger.data.mappedToKeys : actionTrigger.data.keys
   }
 
-  public selectActionTrigger(actionTriggerWithAction?: KeyboardMapping<KeyboardTriggerData>): void {
+  public selectActionTrigger(actionTriggerWithAction?: KeyboardMapping): void {
     if (this.selectMode) {
       return
     }
@@ -115,7 +115,7 @@ export class ActionTriggersListComponent implements OnChanges {
     this.unselectAllActionsTriggers()
   }
 
-  public cloneActionTrigger(actionTriggerWithAction: KeyboardMapping<KeyboardTriggerData>): void {
+  public cloneActionTrigger(actionTriggerWithAction: KeyboardMapping): void {
     const clonedActionTrigger: ActionTrigger<KeyboardTriggerData> = {
       ...actionTriggerWithAction.actionTrigger,
       id: '',

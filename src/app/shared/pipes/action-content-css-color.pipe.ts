@@ -2,9 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core'
 import { Tv2ActionContentType } from '../models/tv2-action'
 
 @Pipe({
-  name: 'actionContentCssColor',
+  name: 'actionColor',
 })
-export class ActionContentCssColorPipe implements PipeTransform {
+export class ActionColorPipe implements PipeTransform {
   public transform(value: Tv2ActionContentType): string {
     switch (value) {
       case Tv2ActionContentType.CAMERA: {

@@ -9,6 +9,6 @@ import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-
 @NgModule({
   declarations: [ProducerShelfComponent, Tv2ActionPanelComponent, Tv2ActionCardComponent],
   imports: [CommonModule, SharedModule, KeyboardModule],
-  exports: [ProducerShelfComponent],
+  exports: [ProducerShelfComponent, Tv2ActionCardComponent],
 })
 export class ProducerShelfModule {}

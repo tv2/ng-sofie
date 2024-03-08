@@ -1,4 +1,4 @@
-<sofie-sidebar-container [title]="'Edit Action Panel'">
+<sofie-sidebar-container [title]="getTitle()">
     <form [formGroup]="form" class="mb-3">
         <sofie-text-input [label]="nameLabel" [formControlName]="'name'"></sofie-text-input>
         <sofie-multi-select [label]="filterLabel" [formControlName]="'actionFilter'" [options]="actionContentOptions"></sofie-multi-select>

@@ -3,6 +3,11 @@ div {
   flex-direction: column;
 }
 
+span {
+  display: flex;
+  justify-content: space-between;
+}
+
 label {
   font-weight: lighter;
 }

@@ -128,7 +128,7 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
     this.onChangeCallback = changeCallback
   }
 
-  public registerOnTouched(touchCallback: () => void): void {
-    this.onTouchedCallback = touchCallback
+  public registerOnTouched(touchedCallback: () => void): void {
+    this.onTouchedCallback = touchedCallback
   }
 }

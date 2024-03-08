@@ -1,4 +1,7 @@
 <div class="pt-2 pb-2">
-    <label *ngIf="label">{{ label }}</label>
+    <span>
+        <label *ngIf="label">{{ label }}</label>
+        <sofie-icon-button *ngIf="helpText" [tooltip]="helpText" [iconButton]="IconButton.CIRCLE_QUESTION" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button>
+    </span>
     <input [placeholder]="placeholder ?? label" type="number" [(ngModel)]="value" (change)="onChange()" [disabled]="isDisabled"/>
 </div>

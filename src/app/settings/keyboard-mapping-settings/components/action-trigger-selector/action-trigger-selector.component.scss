@@ -1,0 +1,22 @@
+.actions-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: min-content min-content min-content min-content min-content;
+  width: 680px;
+  height: 650px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--gray-color);
+  }
+}
+
+sofie-action-box {
+  cursor: pointer;
+}
