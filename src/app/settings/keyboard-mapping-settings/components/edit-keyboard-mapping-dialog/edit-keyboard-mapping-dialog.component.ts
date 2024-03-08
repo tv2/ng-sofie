@@ -72,7 +72,7 @@ export class EditKeyboardMappingDialogComponent implements OnInit {
   }
 
   private addActionArgumentsFormControl(): void {
-    this.actionTriggerDataForm.setControl('actionArguments', this.formBuilder.nonNullable.control(null, Validators.required))
+    this.actionTriggerDataForm.setControl('actionArguments', this.formBuilder.nonNullable.control(this.keyboardMapping?.actionTrigger.data.actionArguments, Validators.required))
   }
 
   private removeActionArgumentsFormControl(): void {
