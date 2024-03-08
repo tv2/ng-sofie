@@ -4,7 +4,7 @@ import { ShelfActionPanelConfiguration } from '../../../../shared/models/shelf-c
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { MultiSelectOption } from '../../../../shared/components/multi-select/multi-select.component'
 import { Tv2ActionContentType } from '../../../../shared/models/tv2-action'
-import { TranslationActionTypePipe } from '../../../../shared/pipes/translation-known-values.pipe'
+import { TranslateActionTypePipe } from '../../../../shared/pipes/translate-action-type.pipe'
 
 @Component({
   // There is no selector because this component is only allowed to be called through the DialogService.
@@ -24,7 +24,7 @@ export class EditShelfActionPanelConfigurationDialogComponent implements OnInit 
     @Inject(MAT_DIALOG_DATA) actionPanel: ShelfActionPanelConfiguration,
     private readonly dialogRef: MatDialogRef<EditShelfActionPanelConfigurationDialogComponent>,
     private readonly formBuilder: FormBuilder,
-    private readonly translationActionTypePipe: TranslationActionTypePipe
+    private readonly translationActionTypePipe: TranslateActionTypePipe
   ) {
     this.actionPanel = actionPanel
   }

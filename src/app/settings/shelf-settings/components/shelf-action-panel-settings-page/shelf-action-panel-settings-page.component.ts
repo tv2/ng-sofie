@@ -11,7 +11,7 @@ import { EditShelfActionPanelConfigurationDialogComponent } from '../edit-shelf-
 import { ConfigurationParser } from '../../../../shared/abstractions/configuration-parser.service'
 import { MultiSelectOption } from '../../../../shared/components/multi-select/multi-select.component'
 import { Tv2ActionContentType } from '../../../../shared/models/tv2-action'
-import { TranslationActionTypePipe } from '../../../../shared/pipes/translation-known-values.pipe'
+import { TranslateActionTypePipe } from '../../../../shared/pipes/translate-action-type.pipe'
 import { NotificationService } from '../../../../shared/services/notification.service'
 
 @Component({
@@ -59,7 +59,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     private readonly configurationEventObserver: ConfigurationEventObserver,
     private readonly configurationParser: ConfigurationParser,
     private readonly dialogService: DialogService,
-    private readonly translationActionTypePipe: TranslationActionTypePipe,
+    private readonly translationActionTypePipe: TranslateActionTypePipe,
     private readonly notificationService: NotificationService
   ) {}
 

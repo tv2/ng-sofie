@@ -17,7 +17,7 @@
                 </ng-container>
             </form>
         </form>
-        <sofie-action-trigger-selector [selectedAction]="selectedAction" (actionSelected)="selectAction($event)" class="ps-5"></sofie-action-trigger-selector>
+        <sofie-action-selector [selectedAction]="selectedAction" (actionSelected)="selectAction($event)" class="ps-5"></sofie-action-selector>
     </sofie-row>
     <sofie-button-group>
         <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>

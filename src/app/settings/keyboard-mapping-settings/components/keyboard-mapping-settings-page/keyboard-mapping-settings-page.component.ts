@@ -5,7 +5,7 @@ import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-
 import { Subject, takeUntil } from 'rxjs'
 import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
-import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
+import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger-data'
 import { SofieTableHeader, SortDirection } from '../../../../shared/components/table/table.component'
 import { IconButton, IconButtonSize } from '../../../../shared/enums/icon-button'
 import { DialogService } from '../../../../shared/services/dialog.service'

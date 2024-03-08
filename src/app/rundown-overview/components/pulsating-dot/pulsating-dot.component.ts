@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core'
-import { Color } from '../../../shared/enums/color'
 
 @Component({
   selector: 'sofie-pulsating-dot',
@@ -10,8 +9,7 @@ export class PulsatingDotComponent {
   @Input()
   public animationDurationSeconds: number = 3
 
-  @Input()
-  public color: Color = Color.ON_AIR
+  public color: string = 'var(--on-air-color)'
 
   constructor() {}
 }

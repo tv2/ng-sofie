@@ -4,11 +4,11 @@ import { Logger } from '../../../../core/abstractions/logger.service'
 import { Tv2Action } from '../../../../shared/models/tv2-action'
 
 @Component({
-  selector: 'sofie-action-trigger-selector',
-  templateUrl: './action-trigger-selector.component.html',
-  styleUrls: ['./action-trigger-selector.component.scss'],
+  selector: 'sofie-action-selector',
+  templateUrl: './action-selector.component.html',
+  styleUrls: ['./action-selector.component.scss'],
 })
-export class ActionTriggerSelectorComponent implements OnInit {
+export class ActionSelectorComponent implements OnInit {
   @Input() public selectedAction?: Tv2Action
   @Output() public actionSelected: EventEmitter<Tv2Action> = new EventEmitter()
 

@@ -47,7 +47,6 @@ import { HttpMediaService } from './services/http/http-media.service'
 import { MediaStateService } from './services/media-state.service'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { LoadingComponent } from './components/loading/loading.component'
-import { DropdownButtonComponent } from './components/dropdown-button/dropdown-button.component'
 import { MatMenuModule } from '@angular/material/menu'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ButtonComponent } from './components/button/button.component'
@@ -62,10 +61,10 @@ import { NotificationCardComponent } from './components/notification-card/notifi
 import { NotificationPopupContainerComponent } from './components/notification-popup-container/notification-popup-container.component'
 import { NotificationIconComponent } from './components/notification-icon/notification-icon.component'
 import { NotificationPopupComponent } from './components/notification-popup-component/notification-popup.component'
-import { TranslationActionTypePipe } from './pipes/translation-known-values.pipe'
+import { TranslateActionTypePipe } from './pipes/translate-action-type.pipe'
 import { CardComponent } from './components/card/card.component'
 import { TableComponent } from './components/table/table.component'
-import { ActionColorPipe } from './pipes/action-content-css-color.pipe'
+import { ActionColorPipe } from './pipes/action-color.pipe'
 import { SidebarContainerComponent } from './components/sidebar-container/sidebar-container.component'
 import { TextInputComponent } from './components/text-input/text-input.component'
 import { NumberInputComponent } from './components/number-input/number-input.component'
@@ -90,7 +89,7 @@ import { ColumnComponent } from './components/column/column.component'
     ConfirmationDialogComponent,
     MinimumPipe,
     MaximumPipe,
-    TranslationActionTypePipe,
+    TranslateActionTypePipe,
     FormatKeyboardKeysPipe,
     SofieLogoComponent,
     SpacerComponent,
@@ -99,7 +98,6 @@ import { ColumnComponent } from './components/column/column.component'
     ContextMenuComponent,
     TimerPipe,
     LoadingComponent,
-    DropdownButtonComponent,
     CheckboxComponent,
     ButtonComponent,
     TooltipComponent,
@@ -150,7 +148,7 @@ import { ColumnComponent } from './components/column/column.component'
     CommonModule,
     HeaderComponent,
     MinimumPipe,
-    TranslationActionTypePipe,
+    TranslateActionTypePipe,
     MaximumPipe,
     FormatKeyboardKeysPipe,
     TimerPipe,
@@ -160,7 +158,6 @@ import { ColumnComponent } from './components/column/column.component'
     DraggableShelfComponent,
     ContextMenuComponent,
     LoadingComponent,
-    DropdownButtonComponent,
     CheckboxComponent,
     ReactiveFormsModule,
     FormsModule,
@@ -208,7 +205,7 @@ import { ColumnComponent } from './components/column/column.component'
     MediaStateService,
     RundownNavigationService,
     TimerPipe,
-    TranslationActionTypePipe,
+    TranslateActionTypePipe,
     FormatKeyboardKeysPipe,
   ],
 })
