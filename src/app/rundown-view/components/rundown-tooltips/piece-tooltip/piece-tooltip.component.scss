@@ -1,17 +1,21 @@
 .tooltip {
   display: flex;
   flex-direction: row;
-  border-radius: 10px;
+  border-radius: 5px;
   background: var(--rundown-scrollbar-color);
-  box-shadow: inset 0px -10px 10px 0px var(--gradient-black-rgba-with-08-opacity-color);
+  height: 110px;
 
   .header {
-    padding: 5px;
-    border-top-right-radius: 10px;
+    padding: 3px;
+    border-top-right-radius: 5px;
     border-bottom: solid 1px var(--black-color);
-    color: var(--white-color);
-    font-weight: bolder;
-    font-size: 14px;
+
+    .label {
+      margin-left: 5px;
+      color: var(--white-color);
+      font-weight: bolder;
+      font-size: 14px;
+    }
   }
 }
 

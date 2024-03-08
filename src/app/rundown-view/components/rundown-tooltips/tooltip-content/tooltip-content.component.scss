@@ -1,20 +1,23 @@
 :host {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: 10px;
+  padding: 5px;
 
-  .content {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-column-gap: 10px;
+  .field {
+    padding: 5px;
+    margin-top: 5px;
+    max-width: 350px;
 
-    .field {
-      padding: 5px;
-      margin-top: 5px;
+    font-size: 12px;
 
-      font-size: 12px;
-      color: var(--light-gray-color);
+    .label {
+      color: var(--white-color);
+    }
 
-      .data {
-        margin-left: 5px;
-      }
+    .data {
+      margin-left: 5px;
+      color: var(--gray-color);
     }
   }
 }

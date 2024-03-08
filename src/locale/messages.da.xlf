@@ -246,37 +246,85 @@
         <source>global.auto.label</source>
         <target state="new">AUTO</target>
       </trans-unit>
-      <trans-unit id="1461657427455059144" datatype="html">
-        <source>rundown-overview.hover-scrub.full-duration.label</source>
-        <target state="new">Full duration</target>
+      <trans-unit id="621872648794619093" datatype="html">
+        <source>piece.lifespan.within-part</source>
+        <target state="new">Indeni parten</target>
       </trans-unit>
-      <trans-unit id="2034200581680650159" datatype="html">
-        <source>rundown-overview.piece-lifespan.within-part.label</source>
-        <target state="new">Within part</target>
+      <trans-unit id="1624699664203091977" datatype="html">
+        <source>piece.lifespan.sticky-until-segment-change</source>
+        <target state="new">Bliver indtil ændret i segmentet</target>
       </trans-unit>
-      <trans-unit id="8644673226907563596" datatype="html">
-        <source>rundown-overview.piece-lifespan.spanning-until-rundown-end.label</source>
-        <target state="new">Spanning until rundown end</target>
+      <trans-unit id="8704971237918811774" datatype="html">
+        <source>piece.lifespan.sticky-until-segment-end</source>
+        <target state="new">Bliver indtil segment slutter</target>
       </trans-unit>
-      <trans-unit id="5403423725077749106" datatype="html">
-        <source>rundown-overview.piece-lifespan.spanning-until-segment-end.label</source>
-        <target state="new">Spanning until segment end</target>
+      <trans-unit id="1512530649495667717" datatype="html">
+        <source>piece.lifespan.sticky-until-rundown-change</source>
+        <target state="new">Bliver indtil ændret i rundown</target>
       </trans-unit>
-      <trans-unit id="926910340253948378" datatype="html">
-        <source>rundown-overview.piece-lifespan.start-spanning-segment-then-sticky-rundown.label</source>
-        <target state="new">Start spanning segment then sticky rundown</target>
+      <trans-unit id="7630473968632852036" datatype="html">
+        <source>piece.lifespan.spanning-until-rundown-end</source>
+        <target state="new">Spænder indtil rundown slutter</target>
       </trans-unit>
-      <trans-unit id="7856664369878580754" datatype="html">
-        <source>rundown-overview.piece-lifespan.sticky-until-rundown-change.label</source>
-        <target state="new">Sticky until rundown change</target>
+      <trans-unit id="558457345008559478" datatype="html">
+        <source>piece.lifespan.start-spanning-segment-then-sticky-rundown</source>
+        <target state="new">Spænder segmentet og bliver så på rundown</target>
       </trans-unit>
-      <trans-unit id="3756253066454906988" datatype="html">
-        <source>rundown-overview.piece-lifespan.sticky-until-segment-change.label</source>
-        <target state="new">Sticky until segment change</target>
+      <trans-unit id="1016737278364313295" datatype="html">
+        <source>piece.lifespan.unknown</source>
+        <target state="new">Ukendt</target>
       </trans-unit>
-      <trans-unit id="7106742347850471576" datatype="html">
-        <source>rundown-overview.hover-scrub.source-unavailable.label</source>
-        <target state="new">Source unavailable</target>
+      <trans-unit id="1146669822886669522" datatype="html">
+        <source>piece-tooltip-content.name.label</source>
+        <target state="new">Navn</target>
+      </trans-unit>
+      <trans-unit id="4345807184627930663" datatype="html">
+        <source>piece-tooltip-content.name-of-clip.label</source>
+        <target state="new">Klip navn</target>
+      </trans-unit>
+      <trans-unit id="6258196151878366535" datatype="html">
+        <source>piece-tooltip-content.name-of-pilot.label</source>
+        <target state="new">Navn på pilot</target>
+      </trans-unit>
+      <trans-unit id="247703202619960491" datatype="html">
+        <source>piece-tooltip-content.template-name.label</source>
+        <target state="new">Navn på skabelon</target>
+      </trans-unit>
+      <trans-unit id="2286645272575381009" datatype="html">
+        <source>piece-tooltip-content.content-of-all-fields.label</source>
+        <target state="new">Indhold af alle felter</target>
+      </trans-unit>
+      <trans-unit id="1962663410998124131" datatype="html">
+        <source>piece-tooltip-content.duration.label</source>
+        <target state="new">Varighed</target>
+      </trans-unit>
+      <trans-unit id="2911851896669162406" datatype="html">
+        <source>piece-tooltip-content.available-for-playout.label</source>
+        <target state="new">Kan afspilles</target>
+      </trans-unit>
+      <trans-unit id="1044477716904098041" datatype="html">
+        <source>piece-tooltip-content.time-code-in-part.label</source>
+        <target state="new">Tid afspillet i part</target>
+      </trans-unit>
+      <trans-unit id="3000985957863398667" datatype="html">
+        <source>piece-tooltip-content.out-type.label</source>
+        <target state="new">Udgangstype</target>
+      </trans-unit>
+      <trans-unit id="8147260465029418817" datatype="html">
+        <source>piece-tooltip-content.unknown.data</source>
+        <target state="new">Ukendt</target>
+      </trans-unit>
+      <trans-unit id="4174829375203668461" datatype="html">
+        <source>piece-tooltip-content.no-specific-time-code.data</source>
+        <target state="new">(Ingen specifik tidskode))</target>
+      </trans-unit>
+      <trans-unit id="717945474169849731" datatype="html">
+        <source>global.yes</source>
+        <target state="new">Ja</target>
+      </trans-unit>
+      <trans-unit id="8248235614614318568" datatype="html">
+        <source>global.no</source>
+        <target state="new">Nej</target>
       </trans-unit>
     </body>
   </file>

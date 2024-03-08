@@ -11,9 +11,9 @@
                                [isJingle]="tv2PieceType === Tv2PieceType.JINGLE">
       </sofie-video-hover-scrub>
 
-      <div>
+      <div class="body">
         <div class='header' [class]="getPieceType().toLocaleLowerCase() + '_color'">
-          {{piece.name}}
+          <span class="label">{{piece.name}}</span>
         </div>
           <ng-content></ng-content>
       </div>

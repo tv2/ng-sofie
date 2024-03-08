@@ -1,12 +1,25 @@
-import { Tv2Piece } from 'src/app/core/models/tv2-piece'
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
-import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
-import { MediaStateService } from '../../../shared/services/media-state.service'
-import { Media } from '../../../shared/services/media'
-import { Subscription } from 'rxjs'
-import { Piece } from 'src/app/core/models/piece'
-import { TooltipContentField } from '../../../shared/abstractions/tooltip-content-field'
-import { Tv2TooltipContentFieldService } from '../../services/tv2-tooltip-content-field.service'
+import {Tv2Piece} from 'src/app/core/models/tv2-piece'
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChange,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core'
+import {Tv2AudioMode} from '../../../core/enums/tv2-audio-mode'
+import {MediaStateService} from '../../../shared/services/media-state.service'
+import {Media} from '../../../shared/services/media'
+import {Subscription} from 'rxjs'
+import {Piece} from 'src/app/core/models/piece'
+import {TooltipContentField} from '../../../shared/abstractions/tooltip-content-field'
+import {Tv2PieceTooltipContentFieldService} from '../../services/tv2-piece-tooltip-content-field.service'
+import {Tv2PieceType} from '../../../core/enums/tv2-piece-type'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 
@@ -47,7 +60,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   constructor(
     private readonly mediaStateService: MediaStateService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly tv2TooltipContentFieldService: Tv2TooltipContentFieldService
+    private readonly tv2PieceTooltipContentFieldService: Tv2PieceTooltipContentFieldService
   ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -64,7 +77,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   }
 
   public updatePieceTooltipContent(): void {
-    this.tooltipContentFields = this.tv2TooltipContentFieldService.getTooltipContentForPiece(this.piece, this.media, this.partDuration)
+    this.tooltipContentFields = this.tv2PieceTooltipContentFieldService.getTooltipContentForPiece(this.piece, this.media, this.partDuration)
   }
 
   public updatePieceMedia(): void {
@@ -156,6 +169,12 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     }
     this.media = media
     this.changeDetectorRef.detectChanges()
+  }
+
+  public shouldShowTooltip(): boolean {
+    const tv2Piece: Tv2Piece = this.piece as Tv2Piece
+    const tooltipPieceTypes: Tv2PieceType[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.JINGLE, Tv2PieceType.GRAPHICS, Tv2PieceType.OVERLAY_GRAPHICS, Tv2PieceType.AUDIO, Tv2PieceType.VOICE_OVER]
+    return tooltipPieceTypes.includes(tv2Piece.metadata.type)
   }
 
   public ngOnDestroy(): void {

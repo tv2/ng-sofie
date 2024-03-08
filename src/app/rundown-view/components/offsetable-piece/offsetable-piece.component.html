@@ -1,7 +1,7 @@
 <div class="label" [style.margin-left.px]="labelOffsetInPixels">
   <span #labelTextElement>{{ piece.name }}</span>
 
-  <sofie-piece-tooltip [piece]="piece" [durationInMs]="partDuration" [playedDurationForPartInMs]="playedDurationForPartInMs" [isMediaUnavailable]="isMediaUnavailable">
+  <sofie-piece-tooltip *ngIf="shouldShowTooltip()" [piece]="piece" [durationInMs]="partDuration" [playedDurationForPartInMs]="playedDurationForPartInMs" [isMediaUnavailable]="isMediaUnavailable">
     <sofie-tooltip-content [tooltipContentFields]="tooltipContentFields"></sofie-tooltip-content>
   </sofie-piece-tooltip>
 </div>

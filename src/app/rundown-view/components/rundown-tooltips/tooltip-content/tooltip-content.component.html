@@ -1,8 +1,6 @@
-<div class="content">
-    <ng-container *ngFor="let field of tooltipContentFields">
-        <div class="field">
-            <span>{{field.label}}:</span>
-            <span class="data">{{field.data}}</span>
-        </div>
-    </ng-container>
-</div>
+<ng-container *ngFor="let field of tooltipContentFields">
+    <div class="field">
+        <span class="label">{{field.label}}:</span>
+        <span class="data">{{field.data}}</span>
+    </div>
+</ng-container>

@@ -8,5 +8,8 @@
   .c-sofie-tooltip-content {
     position: relative;
     display: inline-block;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 1px 1px 2px var(--black-color);
   }
 }
