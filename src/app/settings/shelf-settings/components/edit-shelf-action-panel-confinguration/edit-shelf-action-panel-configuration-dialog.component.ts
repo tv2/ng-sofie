@@ -9,7 +9,6 @@ import { TranslationActionTypePipe } from '../../../../shared/pipes/translation-
 @Component({
   selector: 'sofie-edit-shelf-action-panel-configuration-dialog',
   templateUrl: './edit-shelf-action-panel-configuration-dialog.component.html',
-  styleUrls: ['./edit-shelf-action-panel-configuration-dialog.component.scss'],
 })
 export class EditShelfActionPanelConfigurationDialogComponent implements OnInit {
   public nameLabel: string = $localize`action-panel.panel-name.label`
