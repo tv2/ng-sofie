@@ -40,6 +40,7 @@ export class NotificationService {
       id: id ?? generateUuid(),
       message,
       statusCode,
+      isPersistent: false,
     }
   }
 
