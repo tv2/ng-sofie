@@ -41,8 +41,8 @@ export class Tv2PieceGroupService {
 
   private combinePiecesByStartOffset(piecesGroupedByStartOffset: Record<number, Tv2Piece[]>): Tv2Piece[] {
     return Object.values(piecesGroupedByStartOffset).reduce((reducedPieces, pieces) => {
-      pieces.sort((pieceA, pieceB) => pieceB.start - pieceA.start)
-      const basePiece: Tv2Piece = pieces[0]
+      const sortedPieces: Tv2Piece[] = [...pieces].sort((pieceA, pieceB) => pieceB.start - pieceA.start)
+      const basePiece: Tv2Piece = sortedPieces[0]
       return [
         ...reducedPieces,
         {
