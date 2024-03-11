@@ -61,7 +61,7 @@ import { HttpSystemInformationService } from './services/http/http-system-inform
 import { TooltipComponent } from './components/tooltip/tooltip.component'
 import { ConfigurationParser } from './abstractions/configuration-parser.service'
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
-import { SofieLinkDirective } from './directives/sofie-link.directive'
+import { RouterModule } from '@angular/router'
 
 @NgModule({
   declarations: [
@@ -82,7 +82,6 @@ import { SofieLinkDirective } from './directives/sofie-link.directive'
     DropdownButtonComponent,
     CustomCheckboxComponent,
     ButtonComponent,
-    SofieLinkDirective,
     TooltipComponent,
   ],
   imports: [
@@ -104,6 +103,7 @@ import { SofieLinkDirective } from './directives/sofie-link.directive'
     MatSelectModule,
     MatProgressSpinnerModule,
     MatMenuModule,
+    RouterModule,
   ],
   exports: [
     CommonModule,
@@ -125,7 +125,6 @@ import { SofieLinkDirective } from './directives/sofie-link.directive'
     ReactiveFormsModule,
     FormsModule,
     ButtonComponent,
-    SofieLinkDirective,
     TooltipComponent,
   ],
   providers: [
