@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core'
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
@@ -62,6 +61,10 @@ import { TooltipComponent } from './components/tooltip/tooltip.component'
 import { ConfigurationParser } from './abstractions/configuration-parser.service'
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
 import { RouterModule } from '@angular/router'
+import { NotificationPanelComponent } from './components/notification-panel/notification-panel.component'
+import { NotificationCardComponent } from './components/notification-card/notification-card.component'
+import { NotificationPopupContainerComponent } from './components/notification-popup-container/notification-popup-container.component'
+import { NotificationIconComponent } from './components/notification-icon/notification-icon.component'
 
 @NgModule({
   declarations: [
@@ -83,11 +86,15 @@ import { RouterModule } from '@angular/router'
     CustomCheckboxComponent,
     ButtonComponent,
     TooltipComponent,
+    NotificationPopupContainerComponent,
+    NotificationCardComponent,
+    NotificationPanelComponent,
+    NotificationCardComponent,
+    NotificationIconComponent,
   ],
   imports: [
     CommonModule,
     HttpClientModule,
-    MatSnackBarModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -126,9 +133,11 @@ import { RouterModule } from '@angular/router'
     FormsModule,
     ButtonComponent,
     TooltipComponent,
+    NotificationPopupContainerComponent,
+    NotificationPanelComponent,
+    NotificationIconComponent,
   ],
   providers: [
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000, verticalPosition: 'top' } },
     { provide: Logger, useClass: Tv2LoggerService },
     { provide: ActionService, useClass: HttpActionService },
     { provide: ActionTriggerService, useClass: HttpActionTriggerService },

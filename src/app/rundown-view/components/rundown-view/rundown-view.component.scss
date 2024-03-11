@@ -23,6 +23,7 @@
     padding: 100px;
     color: var(--text-color);
   }
+
   .removed-rundown {
     text-align: center;
     background-color: var(--background-color);
@@ -31,4 +32,16 @@
     padding: 100px;
     color: var(--text-color);
   }
+
+  .rundown-viewport {
+    display: flex;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+
+    sofie-rundown {
+      flex: 1;
+    }
+  }
 }
+
