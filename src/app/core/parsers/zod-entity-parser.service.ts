@@ -20,10 +20,6 @@ import { StatusCode } from '../../shared/enums/status-code'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
-    SelectedGfxSetupName: zod.object({
-      value: zod.string(),
-      label: zod.string(),
-    }),
     GfxDefaults: zod
       .object({
         id: zod.optional(zod.string()),

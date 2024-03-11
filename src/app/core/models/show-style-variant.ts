@@ -1,8 +1,4 @@
 export interface ShowStyleVariantBlueprintConfiguration {
-  SelectedGfxSetupName: {
-    value: string
-    label: string
-  }
   GfxDefaults: {
     id?: string
     DefaultSetupName: {
