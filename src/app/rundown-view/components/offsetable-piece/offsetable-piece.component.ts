@@ -44,13 +44,17 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   public ngOnChanges(changes: SimpleChanges): void {
     const pieceChange: SimpleChange | undefined = changes['piece']
     if (pieceChange) {
-      const previousMediaSourceName: string | undefined = pieceChange.previousValue ? this.getPieceMediaSourceName(pieceChange.previousValue) : undefined
-      if (previousMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
-        return
-      }
-      this.mediaSubscription?.unsubscribe()
-      this.updatePieceMedia()
+      this.updatePiecesFromPartChange(pieceChange)
     }
+  }
+
+  private updatePiecesFromPartChange(pieceChange: SimpleChange): void {
+    const previousMediaSourceName: string | undefined = pieceChange.previousValue ? this.getPieceMediaSourceName(pieceChange.previousValue) : undefined
+    if (previousMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
+      return
+    }
+    this.mediaSubscription?.unsubscribe()
+    this.updatePieceMedia()
   }
 
   public updatePieceMedia(): void {
