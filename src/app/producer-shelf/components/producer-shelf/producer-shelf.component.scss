@@ -32,5 +32,10 @@
 
   &::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-thumb-color);
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
   }
 }
