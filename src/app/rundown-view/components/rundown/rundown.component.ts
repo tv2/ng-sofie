@@ -13,6 +13,7 @@ import { ActionStateService } from '../../../shared/services/action-state.servic
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { PartEvent } from '../../../core/models/rundown-event'
+import { RundownMode } from '../../../core/enums/rundown-mode'
 
 const SMOOTH_SCROLL_CONFIGURATION: ScrollIntoViewOptions = {
   behavior: 'smooth',
@@ -165,5 +166,9 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     this.rundownTimingContextSubscription?.unsubscribe()
     this.rundownEventSubscriptions.forEach(subscription => subscription.unsubscribe)
     this.rundownActionsSubscription?.unsubscribe()
+  }
+
+  public isRundownActive(): boolean {
+    return [RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(this.rundown.mode)
   }
 }

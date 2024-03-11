@@ -11,6 +11,7 @@ import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownTimingType } from '../../../core/enums/rundown-timing-type'
 import { BackwardRundownTiming } from '../../../core/models/rundown-timing'
+import { RundownMode } from '../../../core/enums/rundown-mode'
 
 @Component({
   selector: 'sofie-rundown-overview',
@@ -18,6 +19,11 @@ import { BackwardRundownTiming } from '../../../core/models/rundown-timing'
   styleUrls: ['./rundown-overview.component.scss'],
 })
 export class RundownOverviewComponent implements OnInit, OnDestroy {
+  protected readonly Color = Color
+  protected readonly IconButton = IconButton
+  protected readonly IconButtonSize = IconButtonSize
+  protected readonly RundownMode = RundownMode
+
   public basicRundowns: BasicRundown[] = []
   public isLoading: boolean = true
   private subscriptions: SubscriptionLike[] = []
@@ -100,8 +106,4 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe())
   }
-
-  public readonly Color = Color
-  protected readonly IconButton = IconButton
-  protected readonly IconButtonSize = IconButtonSize
 }
