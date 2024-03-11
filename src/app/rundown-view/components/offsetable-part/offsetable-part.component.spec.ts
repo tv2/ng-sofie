@@ -18,15 +18,6 @@ describe(OffsetablePartComponent.name, () => {
     fixture.detectChanges()
     expect(component).toBeTruthy()
   })
-  it('should create', async () => {
-    await configureTestBed()
-    const fixture = TestBed.createComponent(OffsetablePartComponent)
-    const component = fixture.componentInstance
-    const mockedPart = getMockedPart()
-    component.part = instance(mockedPart)
-    fixture.detectChanges()
-    expect(component).toBeTruthy()
-  })
 })
 
 function getMockedPart(): Part {
