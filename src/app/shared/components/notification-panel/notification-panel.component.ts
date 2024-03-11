@@ -27,6 +27,11 @@ import { EventSubscription } from '../../../event-system/abstractions/event-obse
       ),
       transition('true <=> false', animate('200ms ease-in-out')),
     ]),
+    trigger('notification', [
+      state('in', style({ transform: 'translateX(0)' })),
+      transition(':enter', [style({ transform: 'translateX(100%)', height: '0', paddingTop: '0', paddingBottom: '0' }), animate('200ms ease-in-out')]),
+      transition(':leave', [style({ opacity: 0 }), animate('200ms ease-in-out', style({ height: '0', paddingTop: '0', paddingBottom: '0' }))]),
+    ]),
   ],
 })
 export class NotificationPanelComponent implements OnInit, OnDestroy {

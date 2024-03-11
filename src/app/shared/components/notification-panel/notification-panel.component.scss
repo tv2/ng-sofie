@@ -10,6 +10,7 @@
     height: 100%;
     padding: 10px;
     border-left: 2px solid var(--background-color);
+    overflow-x: hidden;
     overflow-y: auto;
 
     &::-webkit-scrollbar {
