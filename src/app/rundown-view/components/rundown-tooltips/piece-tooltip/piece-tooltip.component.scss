@@ -17,5 +17,14 @@
       font-size: 14px;
     }
   }
+
+  .source-unavailable-banner {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    background-color: var(--orange-color);
+    font-weight: lighter;
+  }
 }
 

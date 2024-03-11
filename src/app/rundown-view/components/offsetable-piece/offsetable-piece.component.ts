@@ -1,25 +1,13 @@
-import {Tv2Piece} from 'src/app/core/models/tv2-piece'
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  Input,
-  OnChanges,
-  OnDestroy,
-  SimpleChange,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core'
-import {Tv2AudioMode} from '../../../core/enums/tv2-audio-mode'
-import {MediaStateService} from '../../../shared/services/media-state.service'
-import {Media} from '../../../shared/services/media'
-import {Subscription} from 'rxjs'
-import {Piece} from 'src/app/core/models/piece'
-import {TooltipContentField} from '../../../shared/abstractions/tooltip-content-field'
-import {Tv2PieceTooltipContentFieldService} from '../../services/tv2-piece-tooltip-content-field.service'
-import {Tv2PieceType} from '../../../core/enums/tv2-piece-type'
+import { Tv2Piece } from 'src/app/core/models/tv2-piece'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
+import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
+import { MediaStateService } from '../../../shared/services/media-state.service'
+import { Media } from '../../../shared/services/media'
+import { Subscription } from 'rxjs'
+import { Piece } from 'src/app/core/models/piece'
+import { TooltipContentField } from '../../../shared/abstractions/tooltip-content-field'
+import { Tv2PieceTooltipContentFieldService } from '../../services/tv2-piece-tooltip-content-field.service'
+import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 

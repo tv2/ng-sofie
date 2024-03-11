@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-
 import { OffsetablePieceComponent } from './offsetable-piece.component'
 import { instance, mock } from '@typestrong/ts-mockito'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { ChangeDetectorRef } from '@angular/core'
 import { TestEntityFactory } from 'src/app/test/factories/test-entity.factory'
+import { Tv2PieceTooltipContentFieldService } from '../../services/tv2-piece-tooltip-content-field.service'
 
 describe(OffsetablePieceComponent.name, () => {
   let component: OffsetablePieceComponent
@@ -13,11 +13,13 @@ describe(OffsetablePieceComponent.name, () => {
   beforeEach(async () => {
     const mockMediaStateService: MediaStateService = mock<MediaStateService>()
     const mockChangeDetectorRef: ChangeDetectorRef = mock<ChangeDetectorRef>()
+    const mockPieceTooltipContentFieldService: Tv2PieceTooltipContentFieldService = mock<Tv2PieceTooltipContentFieldService>()
     await TestBed.configureTestingModule({
       declarations: [OffsetablePieceComponent],
       providers: [
         { provide: MediaStateService, useValue: instance(mockMediaStateService) },
         { provide: ChangeDetectorRef, useValue: instance(mockChangeDetectorRef) },
+        { provide: Tv2PieceTooltipContentFieldService, useValue: instance(mockPieceTooltipContentFieldService) },
       ],
     }).compileComponents()
 

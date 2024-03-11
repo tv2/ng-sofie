@@ -3,6 +3,7 @@ import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 import { Piece } from 'src/app/core/models/piece'
 import { TooltipMousePosition } from 'src/app/core/models/tooltips'
 import { Tv2Piece } from 'src/app/core/models/tv2-piece'
+import { IconButton, IconButtonSize } from '../../../../shared/enums/icon-button'
 
 @Component({
   selector: 'sofie-piece-tooltip',
@@ -17,6 +18,10 @@ export class PieceTooltipComponent {
 
   public tooltipElementHoverMousePosition?: TooltipMousePosition
   public Tv2PieceType = Tv2PieceType
+
+  protected readonly IconButtonSize = IconButtonSize
+  protected readonly IconButton = IconButton
+  protected sourceUnavailableLabel: string = $localize`piece-tooltip.source-unavailable.label`
 
   private readonly timeoutDurationAfterMouseMoveInMs = 5
   private timeoutAfterMouseMove?: NodeJS.Timeout

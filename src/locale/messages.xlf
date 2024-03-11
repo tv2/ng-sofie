@@ -245,6 +245,9 @@
       <trans-unit id="8248235614614318568" datatype="html">
         <source>global.no</source>
       </trans-unit>
+      <trans-unit id="3623062952070884482" datatype="html">
+        <source>piece-tooltip.source-unavailable.label</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

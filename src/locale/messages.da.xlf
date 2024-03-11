@@ -326,6 +326,10 @@
         <source>global.no</source>
         <target state="new">Nej</target>
       </trans-unit>
+      <trans-unit id="3623062952070884482" datatype="html">
+        <source>piece-tooltip.source-unavailable.label</source>
+        <target state="new">Kilden er utilgængelig!</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

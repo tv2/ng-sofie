@@ -326,6 +326,10 @@
         <source>global.no</source>
         <target state="new">No</target>
       </trans-unit>
+      <trans-unit id="3623062952070884482" datatype="html">
+        <source>piece-tooltip.source-unavailable.label</source>
+        <target state="new">Source is unavailable!</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

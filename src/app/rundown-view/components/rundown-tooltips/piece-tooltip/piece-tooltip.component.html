@@ -15,7 +15,13 @@
         <div class='header' [class]="getPieceType().toLocaleLowerCase() + '_color'">
           <span class="label">{{piece.name}}</span>
         </div>
+        <div *ngIf="isMediaUnavailable" class="source-unavailable-banner">
+          <sofie-icon-button [iconButtonSize]="IconButtonSize.M" [iconButton]="IconButton.TRIANGLE_EXCLAMATION">
+          </sofie-icon-button>
+          {{sourceUnavailableLabel}}
+        </div>
           <ng-content></ng-content>
       </div>
     </div>
   </sofie-tooltip>
+
