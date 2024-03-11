@@ -11,7 +11,7 @@ export class PulsatingDotComponent {
   public animationDurationSeconds: number = 3
 
   @Input()
-  public color: Color = Color.RED
+  public color: Color = Color.ON_AIR
 
   constructor() {}
 }

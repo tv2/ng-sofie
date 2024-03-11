@@ -1,3 +1,15 @@
+:host {
+  display: block;
+  max-height: 100vh;
+  overflow: auto;
+
+  .rundown-overview-viewport {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
 .mat-table {
   padding: 0 3em;
   margin: 3em 0;
@@ -35,7 +47,7 @@
 
 .c-delete-rundown-icon {
   cursor: pointer;
-  color: darkgrey;
+  color: var(--dark-gray-color);
   user-select: none;
 
   &:hover {

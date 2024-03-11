@@ -1,39 +1,33 @@
 import { Injectable } from '@angular/core'
-import { MatSnackBar } from '@angular/material/snack-bar'
 import { HttpErrorResponse } from '@angular/common/http'
 import { EMPTY, Observable } from 'rxjs'
 import { Logger } from '../../../core/abstractions/logger.service'
+import { NotificationService } from '../notification.service'
 
 @Injectable()
 export class HttpErrorService {
   constructor(
-    private readonly snackBar: MatSnackBar,
+    private readonly notificationService: NotificationService,
     private readonly logger: Logger
   ) {}
 
-  public catchError(error: HttpErrorResponse): Observable<never> {
-    this.logger.data(error).error('Caught Error:')
-    this.openSnackBarIfError(error)
+  public catchError(httpErrorResponse: HttpErrorResponse): Observable<never> {
+    this.logger.data(httpErrorResponse).error('Caught Error:')
+    this.createNotificationIfError(httpErrorResponse)
     return EMPTY
   }
 
-  private openSnackBarIfError(error: HttpErrorResponse): void {
-    if (error.status >= 200 && error.status < 300) {
+  private createNotificationIfError(httpErrorResponse: HttpErrorResponse): void {
+    if (httpErrorResponse.status >= 500) {
+      this.notificationService.createErrorNotification(httpErrorResponse.error?.message ?? httpErrorResponse.message)
       return
     }
-    this.snackBar.open(error.error.message, $localize`global.dismiss.label`, {
-      panelClass: [this.getSnackBarCss(error.status)],
-    })
-  }
-
-  private getSnackBarCss(statusCode: number): string {
-    if (statusCode >= 500) {
-      return 'snackbar-danger'
+    if (httpErrorResponse.status >= 300) {
+      this.notificationService.createWarningNotification(httpErrorResponse.error?.message ?? httpErrorResponse.message)
+      return
     }
-    if (statusCode >= 300) {
-      return 'snackbar-warning'
+    if (httpErrorResponse.status >= 200 && httpErrorResponse.status < 300) {
+      return
     }
-    // Unknown status - using default CSS
-    return ''
   }
 }

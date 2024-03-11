@@ -6,8 +6,8 @@ import { MiniShelfNavigationService } from './mini-shelf-navigation.service'
 import { Rundown } from '../../core/models/rundown'
 import { ActionStateService } from '../../shared/services/action-state.service'
 import { Action } from '../../shared/models/action'
-import { MatSnackBar } from '@angular/material/snack-bar'
 import { Logger } from '../../core/abstractions/logger.service'
+import { NotificationService } from '../../shared/services/notification.service'
 
 @Injectable()
 export class MiniShelfCycleService {
@@ -17,7 +17,7 @@ export class MiniShelfCycleService {
     private readonly miniShelfNavigationService: MiniShelfNavigationService,
     private readonly actionStateService: ActionStateService,
     private readonly actionService: ActionService,
-    private readonly snackBar: MatSnackBar,
+    private readonly notificationService: NotificationService,
     logger: Logger
   ) {
     this.logger = logger.tag('MiniShelfCycleService')
@@ -30,7 +30,7 @@ export class MiniShelfCycleService {
       this.actionService.executeAction(nextMiniShelfAction.id, rundown.id).subscribe()
     } catch (error) {
       this.logger.data(error).error('Failed cycling forward in mini shelves.')
-      this.snackBar.open('Unable to cycle forward in mini shelves.', undefined, { panelClass: 'snackbar-danger', duration: 3000 })
+      this.notificationService.createErrorNotification('Unable to cycle forward in mini shelves.')
     }
   }
 
@@ -56,7 +56,7 @@ export class MiniShelfCycleService {
       this.actionService.executeAction(nextMiniShelfAction.id, rundown.id).subscribe()
     } catch (error) {
       this.logger.data(error).error('Failed cycling backward in mini shelves.')
-      this.snackBar.open('Unable to cycle backward in mini shelves.', undefined, { panelClass: 'snackbar-danger', duration: 3000 })
+      this.notificationService.createErrorNotification('Unable to cycle backward in mini shelves.')
     }
   }
 }

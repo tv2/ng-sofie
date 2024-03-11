@@ -4,7 +4,7 @@ import { instance, mock } from '@typestrong/ts-mockito'
 import { HttpClient } from '@angular/common/http'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { NotificationService } from '../../../shared/services/notification.service'
 
 describe('ClearCacheComponent', () => {
   it('should create', async () => {
@@ -20,7 +20,7 @@ async function configureTestBed(): Promise<ClearCacheComponent> {
       { provide: DialogService, useValue: instance(mock<DialogService>) },
       { provide: HttpClient, useValue: instance(mock<HttpClient>()) },
       { provide: ConfigurationService, useValue: instance(mock<ConfigurationService>()) },
-      { provide: MatSnackBar, useValue: instance(mock(MatSnackBar)) },
+      { provide: NotificationService, useValue: instance(mock(NotificationService)) },
     ],
   }).compileComponents()
   const fixture: ComponentFixture<ClearCacheComponent> = TestBed.createComponent(ClearCacheComponent)

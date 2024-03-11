@@ -15,6 +15,8 @@ import { PartActionType, PieceActionType } from '../../shared/models/action-type
 import { SystemInformation } from '../../shared/models/system-information'
 import { Tv2Part } from '../models/tv2-part'
 import { PieceLifespan } from '../models/piece-lifespan'
+import { StatusMessage } from '../../shared/models/status-message'
+import { StatusCode } from '../../shared/enums/status-code'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -167,6 +169,15 @@ export class ZodEntityParser implements EntityParser {
     name: zod.string(),
   })
 
+  private readonly statusMessageParser = zod.object({
+    id: zod.string(),
+    title: zod.string(),
+    message: zod.string(),
+    statusCode: zod.nativeEnum(StatusCode),
+  })
+
+  private readonly statusMessagesParser = this.statusMessageParser.array()
+
   public parsePiece(piece: unknown): Tv2Piece {
     return this.pieceParser.parse(piece)
   }
@@ -209,5 +220,13 @@ export class ZodEntityParser implements EntityParser {
 
   public parseSystemInformation(systemInformation: unknown): SystemInformation {
     return this.systemInformationParser.parse(systemInformation)
+  }
+
+  public parseStatusMessage(statusMessages: unknown): StatusMessage {
+    return this.statusMessageParser.parse(statusMessages)
+  }
+
+  public parseStatusMessages(statusMessages: unknown): StatusMessage[] {
+    return this.statusMessagesParser.parse(statusMessages)
   }
 }
