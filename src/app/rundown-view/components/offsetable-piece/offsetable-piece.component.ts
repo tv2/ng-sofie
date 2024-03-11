@@ -48,7 +48,6 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
       if (previousMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
         return
       }
-      this.piece = pieceChange.currentValue
       this.mediaSubscription?.unsubscribe()
       this.updatePieceMedia()
     }
