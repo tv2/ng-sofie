@@ -29,7 +29,11 @@ describe(Tv2PieceGroupService.name, () => {
       const testee: Tv2PieceGroupService = createTestee()
       const result: Tv2Piece[] = testee.mergePiecesByStartOffset(pieces)
 
-      const expected: Tv2Piece[] = [pieceOne]
+      const expectedPiece: Tv2Piece = testEntityFactory.createPiece({
+        name: 'pieceName',
+        start: 123,
+      }) as Tv2Piece
+      const expected: Tv2Piece[] = [expectedPiece]
 
       expect(result).toEqual(expected)
     })
