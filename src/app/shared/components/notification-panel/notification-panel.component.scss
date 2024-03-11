@@ -1,4 +1,5 @@
 :host {
+  --scrollbar-thumb-color: var(--rundown-header-scrollbar-thumb-color);
   background: var(--rundown-scrollbar-color);
   overflow: hidden;
 
@@ -12,20 +13,5 @@
     border-left: 2px solid var(--background-color);
     overflow-x: hidden;
     overflow-y: auto;
-
-    &::-webkit-scrollbar {
-      width: var(--scrollbar-size);
-      height: var(--scrollbar-size);
-      background-color: var(--scrollbar-color);
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--scrollbar-thumb-color);
-      cursor: grab;
-
-      &:active {
-        cursor: grabbing;
-      }
-    }
   }
 }
