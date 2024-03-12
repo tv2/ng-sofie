@@ -60,7 +60,6 @@ import { NotificationPanelComponent } from './components/notification-panel/noti
 import { NotificationCardComponent } from './components/notification-card/notification-card.component'
 import { NotificationPopupContainerComponent } from './components/notification-popup-container/notification-popup-container.component'
 import { NotificationIconComponent } from './components/notification-icon/notification-icon.component'
-import { NotificationPopupComponent } from './components/notification-popup-component/notification-popup.component'
 import { TranslateActionTypePipe } from './pipes/translate-action-type.pipe'
 import { CardComponent } from './components/card/card.component'
 import { TableComponent } from './components/table/table.component'
@@ -106,7 +105,6 @@ import { ColumnComponent } from './components/column/column.component'
     NotificationPanelComponent,
     NotificationCardComponent,
     NotificationIconComponent,
-    NotificationPopupComponent,
     CardComponent,
     TableComponent,
     RoundedBoxComponent,

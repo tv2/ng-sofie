@@ -1,11 +1,31 @@
 :host {
   background: var(--rundown-scrollbar-color);
-}
+  overflow: hidden;
 
-div {
-  width: 400px;
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 420px;
+    height: 100%;
+    padding: 10px;
+    border-left: 2px solid var(--background-color);
+    overflow-x: hidden;
+    overflow-y: auto;
 
-  sofie-notification-card {
-    margin: 5px;
+    &::-webkit-scrollbar {
+      width: var(--scrollbar-size);
+      height: var(--scrollbar-size);
+      background-color: var(--scrollbar-color);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar-thumb-color);
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
   }
 }

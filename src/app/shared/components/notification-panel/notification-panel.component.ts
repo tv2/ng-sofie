@@ -16,21 +16,27 @@ import { EventSubscription } from '../../../event-system/abstractions/event-obse
       state(
         'true',
         style({
-          width: '400px',
+          width: '420px',
         })
       ),
       state(
         'false',
         style({
-          width: '0px',
+          width: '0',
         })
       ),
-      transition('true <=> false', animate('300ms ease-in-out')),
+      transition('true <=> false', animate('200ms ease-in-out')),
+    ]),
+    trigger('notification', [
+      state('in', style({ transform: 'translateX(0)' })),
+      transition(':enter', [style({ transform: 'translateX(100%)', height: '0', paddingTop: '0', paddingBottom: '0' }), animate('200ms ease-in-out')]),
+      transition(':leave', [style({ opacity: 0 }), animate('200ms ease-in-out', style({ height: '0', paddingTop: '0', paddingBottom: '0' }))]),
     ]),
   ],
 })
 export class NotificationPanelComponent implements OnInit, OnDestroy {
-  public showPanel: boolean = false
+  @HostBinding('@showPanel')
+  public isPanelOpen: boolean = false
   public notifications: Notification[] = []
 
   private readonly timeoutMap: Map<string, NodeJS.Timeout> = new Map()
@@ -43,16 +49,12 @@ export class NotificationPanelComponent implements OnInit, OnDestroy {
     private readonly connectionStatusObserver: ConnectionStatusObserver
   ) {}
 
-  @HostBinding('@showPanel') get showPanelAnimation(): boolean {
-    return this.showPanel
-  }
-
   public ngOnInit(): void {
     this.notificationStateService
       .subscribeToNotificationPanelIsOpen()
       .pipe(takeUntil(this.destroySubject))
       .subscribe(isNotificationPanelOpen => {
-        this.showPanel = isNotificationPanelOpen
+        this.isPanelOpen = isNotificationPanelOpen
       })
 
     this.notificationStateService

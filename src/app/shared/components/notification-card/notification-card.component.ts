@@ -19,8 +19,10 @@ const BACKGROUND_COLOR: string = 'var(--white-color)'
 export class NotificationCardComponent implements OnInit {
   @Input()
   public notification: Notification
+
   @Input()
   public isRemovable: boolean
+
   @Input()
   public onRemoveCallback: (notification: Notification) => void
 

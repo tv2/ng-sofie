@@ -1,7 +1,7 @@
-<sofie-header #header></sofie-header>
-<sofie-notification-popup-container [topOffset]="header.elementRef.nativeElement.offsetHeight"></sofie-notification-popup-container>
+<sofie-header></sofie-header>
 
 <div class="container">
+  <sofie-notification-popup-container></sofie-notification-popup-container>
   <div class="side-menu"><sofie-settings-menu></sofie-settings-menu></div>
   <div class="body"><router-outlet></router-outlet></div>
 </div>

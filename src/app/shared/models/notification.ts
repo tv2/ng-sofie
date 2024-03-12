@@ -4,5 +4,5 @@ export interface Notification {
   id: string
   message: string
   statusCode: StatusCode
-  isPersistent?: boolean
+  isPersistent: boolean
 }

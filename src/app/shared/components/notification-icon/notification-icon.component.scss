@@ -6,6 +6,7 @@
 
   sofie-icon-button {
     color: var(--dark-gray-color);
+    transition: color .2s;
 
     &.error {
       color: var(--danger-color);
