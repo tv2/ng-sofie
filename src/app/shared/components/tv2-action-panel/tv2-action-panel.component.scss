@@ -24,21 +24,6 @@
     & > * {
       flex-shrink: 0;
     }
-
-    &::-webkit-scrollbar {
-      width: var(--scrollbar-size);
-      height: var(--scrollbar-size);
-      background-color: var(--scrollbar-color);
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--scrollbar-thumb-color);
-      cursor: grab;
-
-      &:active {
-        cursor: grabbing;
-      }
-    }
   }
 
   &.scrollable {

@@ -30,11 +30,17 @@ body {
   --tv2-manus-color: #370020;
   --tv2-video-missing-source-gradient-color: #9c2720;
 
+  --scrollbar-color: inherit;
+  --scrollbar-thumb-color: var(--gray-color);
+  --scrollbar-size: 15px;
+
   --rundown-keyboard-background-color: #111111;
   --rundown-scrollbar-color: #252627;
   --rundown-overtime-shadow-color: #d28e8e;
-  --rundown-scrollbar-active-color: #761912;
-  --rundown-scrollbar-thumb-active-color: #561612;
+  --rundown-header-background-color: #252627;
+  --rundown-header-scrollbar-thumb-color: #111111;
+  --rundown-header-background-active-color: #761912;
+  --rundown-header-scrollbar-thumb-active-color: #561612;
   --rundown-key-background-color: #333333;
   --rundown-draggable-shelf-color: #555555;
   --rundown-segment-header-background-color: #4b4b4b;
