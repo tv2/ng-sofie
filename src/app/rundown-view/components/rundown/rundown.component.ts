@@ -33,6 +33,8 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   public currentEpochTime: number = Date.now()
   public remainingDurationInMsForOnAirPart?: number
   public startOffsetsInMsFromPlayheadForSegments: Record<string, number> = {}
+  public isRundownActive: boolean
+
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
   private readonly rundownEventSubscriptions: EventSubscription[] = []
@@ -121,7 +123,13 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     if ('rundown' in changes) {
       this.updateMiniShelfSegments()
       this.updateMiniShelfSegmentActionMappings()
+      this.setIfRundownIsActive()
     }
+  }
+
+  private setIfRundownIsActive(): void {
+    // TODO in SOF-1568: "isRundownActive" is not a suitable name for also including REHEARSAL.
+    this.isRundownActive = [RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(this.rundown.mode)
   }
 
   private getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext: RundownTimingContext): Record<string, number> {
@@ -166,9 +174,5 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     this.rundownTimingContextSubscription?.unsubscribe()
     this.rundownEventSubscriptions.forEach(subscription => subscription.unsubscribe)
     this.rundownActionsSubscription?.unsubscribe()
-  }
-
-  public isRundownActive(): boolean {
-    return [RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(this.rundown.mode)
   }
 }
