@@ -61,6 +61,7 @@ export class BasicRundownStateService implements OnDestroy {
   private subscribeToRundownEvents(): EventSubscription[] {
     return [
       this.rundownEventObserver.subscribeToRundownActivation(this.activateBasicRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownRehearse(this.rehearsalBasicRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownDeactivation(this.deactivateBasicRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownCreation(this.createBasicRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownUpdates(this.updateBasicRundownFromEvent.bind(this)),
@@ -74,6 +75,16 @@ export class BasicRundownStateService implements OnDestroy {
         return basicRundown
       }
       return this.basicRundownEntityService.activate(basicRundown)
+    })
+    this.basicRundownsSubject.next(this.basicRundowns)
+  }
+
+  private rehearsalBasicRundownFromEvent(event: RundownEvent): void {
+    this.basicRundowns = this.basicRundowns.map(basicRundown => {
+      if (basicRundown.id !== event.rundownId) {
+        return basicRundown
+      }
+      return this.basicRundownEntityService.rehearsal(basicRundown)
     })
     this.basicRundownsSubject.next(this.basicRundowns)
   }

@@ -10,6 +10,7 @@ import { Segment } from '../../core/models/segment'
 import { TestLoggerFactory } from '../../test/factories/test-logger.factory'
 import { Tv2Action } from '../../shared/models/tv2-action'
 import { NotificationService } from '../../shared/services/notification.service'
+import { RundownMode } from 'src/app/core/enums/rundown-mode'
 
 describe(MiniShelfCycleService.name, () => {
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
@@ -64,7 +65,7 @@ describe(MiniShelfCycleService.name, () => {
 
     const rundown = testEntityFactory.createRundown({
       id: 'rundown-id',
-      isActive: true,
+      mode: RundownMode.ACTIVE,
       segments: [segment, firstMiniShelf, secondMiniShelf],
     })
 
@@ -125,7 +126,7 @@ describe(MiniShelfCycleService.name, () => {
 
     const rundown = testEntityFactory.createRundown({
       id: 'rundown-id',
-      isActive: true,
+      mode: RundownMode.ACTIVE,
       segments: [segment, firstMiniShelf, secondMiniShelf],
     })
 

@@ -1,3 +1,4 @@
+import { RundownMode } from '../../enums/rundown-mode'
 import { BasicRundown } from '../../models/basic-rundown'
 import { Injectable } from '@angular/core'
 
@@ -6,14 +7,21 @@ export class BasicRundownEntityService {
   public activate(basicRundown: BasicRundown): BasicRundown {
     return {
       ...basicRundown,
-      isActive: true,
+      mode: RundownMode.ACTIVE,
     }
   }
 
   public deactivate(basicRundown: BasicRundown): BasicRundown {
     return {
       ...basicRundown,
-      isActive: false,
+      mode: RundownMode.INACTIVE,
+    }
+  }
+
+  public rehearsal(basicRundown: BasicRundown): BasicRundown {
+    return {
+      ...basicRundown,
+      mode: RundownMode.REHEARSAL,
     }
   }
 }

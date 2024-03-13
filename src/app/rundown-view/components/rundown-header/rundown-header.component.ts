@@ -1,3 +1,4 @@
+import { RundownMode } from './../../../core/enums/rundown-mode'
 import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
 import { Rundown } from '../../../core/models/rundown'
 import { Piece } from '../../../core/models/piece'
@@ -31,8 +32,10 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public plannedStart?: number
   public plannedEnd: number = Date.now()
   public diff: number = 0
-  public readonly IconButton = IconButton
-  public readonly IconButtonSize = IconButtonSize
+
+  protected readonly IconButton = IconButton
+  protected readonly IconButtonSize = IconButtonSize
+  protected readonly RundownMode = RundownMode
 
   private showStyleVariantSubscription?: Subscription
   private rundownTimingContextSubscription?: Subscription
@@ -138,7 +141,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     this.currentLocalDate = rundownTimingContext.currentEpochTime
     this.plannedStart = rundownTimingContext.expectedStartEpochTimeForRundown
     this.plannedEnd = rundownTimingContext.expectedEndEpochTimeForRundown
-    if (this.rundown.isActive) {
+    if (this.rundown.mode === RundownMode.ACTIVE || this.rundown.mode === RundownMode.REHEARSAL) {
       this.diff = rundownTimingContext.currentEpochTime + rundownTimingContext.remainingDurationInMsForRundown - rundownTimingContext.expectedEndEpochTimeForRundown
     } else {
       this.diff = rundownTimingContext.currentEpochTime + rundownTimingContext.expectedDurationInMsForRundown - rundownTimingContext.expectedEndEpochTimeForRundown

@@ -6,7 +6,7 @@ import { ConnectionStatusObserver } from '../../core/services/connection-status-
 import { Logger } from '../../core/abstractions/logger.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { RundownEventObserver } from '../../core/services/rundown-event-observer.service'
-import { RundownActivatedEvent, RundownDeactivatedEvent } from '../../core/models/rundown-event'
+import { RundownActivatedEvent, RundownDeactivatedEvent, RundownRehearseEvent } from '../../core/models/rundown-event'
 
 const SYSTEM_ACTIONS_ID = 'SYSTEM_ACTIONS_ID'
 @Injectable()
@@ -25,6 +25,7 @@ export class ActionStateService {
     this.eventSubscriptions = [
       this.connectionStatusObserver.subscribeToReconnect(this.onReconnected.bind(this)),
       this.rundownEventObserver.subscribeToRundownActivation(this.onRundownActivated.bind(this)),
+      this.rundownEventObserver.subscribeToRundownRehearse(this.onRundownRehearse.bind(this)),
       this.rundownEventObserver.subscribeToRundownDeactivation(this.onRundownDeactivated.bind(this)),
     ]
   }
@@ -74,6 +75,10 @@ export class ActionStateService {
   }
 
   private onRundownActivated(event: RundownActivatedEvent): void {
+    this.resetActionsSubject(event.rundownId)
+  }
+
+  private onRundownRehearse(event: RundownRehearseEvent): void {
     this.resetActionsSubject(event.rundownId)
   }
 

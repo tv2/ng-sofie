@@ -10,6 +10,7 @@ import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownTimingType } from '../../../core/enums/rundown-timing-type'
 import { BackwardRundownTiming } from '../../../core/models/rundown-timing'
+import { RundownMode } from 'src/app/core/enums/rundown-mode'
 
 @Component({
   selector: 'sofie-rundown-overview',
@@ -23,6 +24,7 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   private readonly logger: Logger
 
   protected readonly Paths = Paths
+  protected readonly RundownMode = RundownMode
 
   constructor(
     private readonly basicRundownStateService: BasicRundownStateService,

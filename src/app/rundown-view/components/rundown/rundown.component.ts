@@ -13,6 +13,7 @@ import { ActionStateService } from '../../../shared/services/action-state.servic
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { PartEvent } from '../../../core/models/rundown-event'
+import { RundownMode } from 'src/app/core/enums/rundown-mode'
 
 const SMOOTH_SCROLL_CONFIGURATION: ScrollIntoViewOptions = {
   behavior: 'smooth',
@@ -159,6 +160,10 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     })
 
     return action ? { ...actionMap, [segment.id]: action } : actionMap
+  }
+
+  public get isActiveOrRehearsal(): boolean {
+    return (this.rundown && this.rundown.mode === RundownMode.ACTIVE) || this.rundown.mode === RundownMode.REHEARSAL
   }
 
   public ngOnDestroy(): void {

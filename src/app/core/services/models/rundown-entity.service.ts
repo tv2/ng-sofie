@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core'
 import { Piece } from '../../models/piece'
 import { Part } from '../../models/part'
 import { BasicRundown } from '../../models/basic-rundown'
+import { RundownMode } from '../../enums/rundown-mode'
 
 @Injectable()
 export class RundownEntityService {
@@ -15,7 +16,15 @@ export class RundownEntityService {
     const resetRundown: Rundown = this.reset(rundown)
     return {
       ...resetRundown,
-      isActive: true,
+      mode: RundownMode.ACTIVE,
+    }
+  }
+
+  public rehearsal(rundown: Rundown): Rundown {
+    const resetRundown: Rundown = this.reset(rundown)
+    return {
+      ...resetRundown,
+      mode: RundownMode.REHEARSAL,
     }
   }
 
@@ -29,7 +38,7 @@ export class RundownEntityService {
   public deactivate(rundown: Rundown, deactivatedAt: number): Rundown {
     return {
       ...rundown,
-      isActive: false,
+      mode: RundownMode.INACTIVE,
       segments: this.unmarkSegmentsSetAsNext(this.takeAllSegmentsOffAir(rundown, deactivatedAt)),
       infinitePieces: [],
     }
