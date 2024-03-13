@@ -1,33 +1,32 @@
-import { Component, Inject, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { ShelfActionPanelConfiguration } from '../../../../shared/models/shelf-configuration'
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { MultiSelectOption } from '../../../../shared/components/multi-select/multi-select.component'
 import { Tv2ActionContentType } from '../../../../shared/models/tv2-action'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { TranslateActionTypePipe } from '../../../../shared/pipes/translate-action-type.pipe'
 
 @Component({
-  // There is no selector because this component is only allowed to be called through the DialogService.
-  templateUrl: './edit-shelf-action-panel-configuration-dialog.component.html',
+  selector: 'sofie-edit-shelf-action-panel-configuration',
+  templateUrl: './edit-shelf-action-panel-configuration.component.html',
 })
-export class EditShelfActionPanelConfigurationDialogComponent implements OnInit {
+export class EditShelfActionPanelConfigurationComponent implements OnInit {
   public nameLabel: string = $localize`action-panel.panel-name.label`
   public filterLabel: string = $localize`global.filters.label`
   public rankLabel: string = $localize`action-panel.rank.label`
 
-  public actionPanel?: ShelfActionPanelConfiguration
+  @Input() public actionPanel?: ShelfActionPanelConfiguration
+
+  @Output() public onSave: EventEmitter<ShelfActionPanelConfiguration> = new EventEmitter()
+  @Output() public onCancel: EventEmitter<void> = new EventEmitter()
+
   public actionContentOptions: MultiSelectOption<Tv2ActionContentType>[] = []
 
   public form: FormGroup
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) actionPanel: ShelfActionPanelConfiguration,
-    private readonly dialogRef: MatDialogRef<EditShelfActionPanelConfigurationDialogComponent>,
     private readonly formBuilder: FormBuilder,
     private readonly translationActionTypePipe: TranslateActionTypePipe
-  ) {
-    this.actionPanel = actionPanel
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -44,20 +43,16 @@ export class EditShelfActionPanelConfigurationDialogComponent implements OnInit 
     })
   }
 
-  public getTitle(): string {
-    return this.actionPanel ? 'Edit Action Panel' : 'Create Action Panel'
-  }
-
   public save(): void {
     this.actionPanel = {
       ...this.actionPanel,
       ...this.form.value,
     }
 
-    this.dialogRef.close(this.actionPanel)
+    this.onSave.emit(this.actionPanel)
   }
 
   public cancel(): void {
-    this.dialogRef.close()
+    this.onCancel.emit()
   }
 }

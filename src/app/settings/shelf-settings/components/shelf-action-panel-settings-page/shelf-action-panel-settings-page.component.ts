@@ -7,12 +7,12 @@ import { EventSubscription } from '../../../../event-system/abstractions/event-o
 import { SofieTableHeader, SortDirection } from '../../../../shared/components/table/table.component'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
 import { DialogService } from '../../../../shared/services/dialog.service'
-import { EditShelfActionPanelConfigurationDialogComponent } from '../edit-shelf-action-panel-confinguration/edit-shelf-action-panel-configuration-dialog.component'
 import { ConfigurationParser } from '../../../../shared/abstractions/configuration-parser.service'
 import { MultiSelectOption } from '../../../../shared/components/multi-select/multi-select.component'
 import { Tv2ActionContentType } from '../../../../shared/models/tv2-action'
 import { TranslateActionTypePipe } from '../../../../shared/pipes/translate-action-type.pipe'
 import { NotificationService } from '../../../../shared/services/notification.service'
+import { EditShelfActionPanelConfigurationDialogComponent } from '../edit-shelf-action-panel-confinguration-dialog/edit-shelf-action-panel-configuration-dialog.component'
 
 @Component({
   selector: 'sofie-action-panel',
