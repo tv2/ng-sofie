@@ -56,6 +56,7 @@ import { HttpSystemInformationService } from './services/http/http-system-inform
 import { TooltipComponent } from './components/tooltip/tooltip.component'
 import { ConfigurationParser } from './abstractions/configuration-parser.service'
 import { ZodConfigurationParser } from './services/zod-configuration-parser.service'
+import { RouterModule } from '@angular/router'
 import { NotificationPanelComponent } from './components/notification-panel/notification-panel.component'
 import { NotificationCardComponent } from './components/notification-card/notification-card.component'
 import { NotificationPopupContainerComponent } from './components/notification-popup-container/notification-popup-container.component'
@@ -141,6 +142,7 @@ import { ColumnComponent } from './components/column/column.component'
     MatSelectModule,
     MatProgressSpinnerModule,
     MatMenuModule,
+    RouterModule,
   ],
   exports: [
     CommonModule,
