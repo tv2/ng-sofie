@@ -12,6 +12,7 @@ import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
 import { PartActionType } from '../../shared/models/action-type'
 import { MiniShelfCycleService } from '../services/mini-shelf-cycle.service'
+import { RundownMode } from '../../core/enums/rundown-mode'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -107,7 +108,7 @@ export class KeyBindingFactory {
   }
 
   public createRundownKeyBindings(rundown: Rundown): StyledKeyBinding[] {
-    if (rundown.isActive) {
+    if ([RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(rundown.mode)) {
       return [
         this.createRundownKeyBinding('Take', ['AnyEnter'], () => this.takeNext(rundown)),
         this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
@@ -127,7 +128,7 @@ export class KeyBindingFactory {
   }
 
   private takeNext(rundown: Rundown): void {
-    if (!rundown.isActive) {
+    if (rundown.mode === RundownMode.INACTIVE) {
       return
     }
     this.rundownService.takeNext(rundown.id).subscribe()
@@ -138,14 +139,14 @@ export class KeyBindingFactory {
   }
 
   private activateRundown(rundown: Rundown): void {
-    if (rundown.isActive) {
+    if (rundown.mode === RundownMode.ACTIVE) {
       return
     }
     this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.rundownService.activate(rundown.id).subscribe())
   }
 
   private deactivateRundown(rundown: Rundown): void {
-    if (!rundown.isActive) {
+    if (rundown.mode === RundownMode.INACTIVE) {
       return
     }
     this.dialogService.createConfirmDialog(
@@ -167,7 +168,7 @@ export class KeyBindingFactory {
   }
 
   private setSegmentBelowNextAsNext(rundown: Rundown): void {
-    if (!rundown.isActive) {
+    if (rundown.mode === RundownMode.INACTIVE) {
       return
     }
     try {
@@ -179,7 +180,7 @@ export class KeyBindingFactory {
   }
 
   private setEarlierPartAsNext(rundown: Rundown): void {
-    if (!rundown.isActive) {
+    if (rundown.mode === RundownMode.INACTIVE) {
       return
     }
     try {
@@ -191,7 +192,7 @@ export class KeyBindingFactory {
   }
 
   private setLaterPartAsNext(rundown: Rundown): void {
-    if (!rundown.isActive) {
+    if (rundown.mode == RundownMode.INACTIVE) {
       return
     }
     try {

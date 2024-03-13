@@ -7,6 +7,7 @@ import { RundownTimingType } from '../enums/rundown-timing-type'
 import { Part } from '../models/part'
 import { PartEntityService } from './models/part-entity.service'
 import { anyNumber, anything, instance, mock, when } from '@typestrong/ts-mockito'
+import { RundownMode } from '../enums/rundown-mode'
 
 describe(RundownTimingService.name, () => {
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()
@@ -658,7 +659,7 @@ describe(RundownTimingService.name, () => {
     describe('when rundown is inactive', () => {
       it('returns 0', () => {
         const segments: Segment[] = [testEntityFactory.createSegment({ id: 'segmentA' }), testEntityFactory.createSegment({ id: 'segmentB' })]
-        const rundown: Rundown = testEntityFactory.createRundown({ isActive: false, segments })
+        const rundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.INACTIVE, segments })
         const testee: RundownTimingService = createTestee()
 
         const result: number = testee.getRemainingDurationInMsForRundown(rundown, expectedDurationsInMsForSegments, 0)
@@ -673,7 +674,7 @@ describe(RundownTimingService.name, () => {
           const playedDurationInMsForOnAirSegment: number = 50
           const onAirAndNextSegment: Segment = testEntityFactory.createSegment({ id: 'segmentA', isOnAir: true, isNext: true })
           const segments: Segment[] = [onAirAndNextSegment, testEntityFactory.createSegment({ id: 'segmentB' })]
-          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
+          const rundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.ACTIVE, segments })
           const testee: RundownTimingService = createTestee()
           const expectedResult: number = expectedDurationsInMsForSegments['segmentB'] + expectedDurationsInMsForSegments['segmentA'] - playedDurationInMsForOnAirSegment
 
@@ -688,7 +689,7 @@ describe(RundownTimingService.name, () => {
           const playedDurationInMsForOnAirSegment: number = 50
           const onAirAndNextSegment: Segment = testEntityFactory.createSegment({ id: 'segmentA', isOnAir: true })
           const segments: Segment[] = [testEntityFactory.createSegment({ id: 'segmentC', isNext: true }), onAirAndNextSegment, testEntityFactory.createSegment({ id: 'segmentB' })]
-          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
+          const rundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.ACTIVE, segments })
           const testee: RundownTimingService = createTestee()
           const expectedResult: number =
             expectedDurationsInMsForSegments['segmentB'] + +expectedDurationsInMsForSegments['segmentC'] + expectedDurationsInMsForSegments['segmentA'] - playedDurationInMsForOnAirSegment
@@ -709,7 +710,7 @@ describe(RundownTimingService.name, () => {
             testEntityFactory.createSegment({ id: 'segmentC', isNext: true }),
             testEntityFactory.createSegment({ id: 'segmentD' }),
           ]
-          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
+          const rundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.ACTIVE, segments })
           const testee: RundownTimingService = createTestee()
           const expectedResult: number =
             expectedDurationsInMsForSegments['segmentC'] + +expectedDurationsInMsForSegments['segmentD'] + expectedDurationsInMsForSegments['segmentA'] - playedDurationInMsForOnAirSegment
@@ -730,7 +731,7 @@ describe(RundownTimingService.name, () => {
             testEntityFactory.createSegment({ id: 'segmentC', isNext: true }),
             testEntityFactory.createSegment({ id: 'segmentD' }),
           ]
-          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
+          const rundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.ACTIVE, segments })
           const testee: RundownTimingService = createTestee()
           const expectedResult: number = expectedDurationsInMsForSegments['segmentC'] + +expectedDurationsInMsForSegments['segmentD']
 
@@ -782,7 +783,7 @@ describe(RundownTimingService.name, () => {
             testEntityFactory.createSegment({ id: 'segmentD' }),
           ]
 
-          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
+          const rundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.ACTIVE, segments })
           const testee: RundownTimingService = createTestee()
 
           const result: Record<string, number> = testee.getStartOffsetsInMsFromNextCursorForSegments(rundown, expectedDurationsInMsForSegments)
@@ -804,7 +805,7 @@ describe(RundownTimingService.name, () => {
             testEntityFactory.createSegment({ id: 'segmentD' }),
           ]
 
-          const rundown: Rundown = testEntityFactory.createRundown({ isActive: true, segments })
+          const rundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.ACTIVE, segments })
           const testee: RundownTimingService = createTestee()
 
           const result: Record<string, number> = testee.getStartOffsetsInMsFromNextCursorForSegments(rundown, expectedDurationsInMsForSegments)

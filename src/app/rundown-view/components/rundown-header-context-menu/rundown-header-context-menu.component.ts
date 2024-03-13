@@ -4,6 +4,7 @@ import { Rundown } from '../../../core/models/rundown'
 import { DialogService } from '../../../shared/services/dialog.service'
 import { ContextMenuOption } from '../../../shared/models/context-menu-option'
 import { DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
+import { RundownMode } from '../../../core/enums/rundown-mode'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
@@ -48,7 +49,7 @@ export class RundownHeaderContextMenuComponent {
   ]
 
   public get contextMenuOptions(): ContextMenuOption[] {
-    return this.rundown.isActive ? this.contextMenuOptionsForActiveRundown : this.contextMenuOptionsForInactiveRundown
+    return this.rundown.mode === RundownMode.ACTIVE ? this.contextMenuOptionsForActiveRundown : this.contextMenuOptionsForInactiveRundown
   }
 
   constructor(
