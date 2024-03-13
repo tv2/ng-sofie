@@ -5,12 +5,13 @@ import { SettingsSharedModule } from '../settings-shared/settings-shared.module'
 import { KeyboardMappingSettingsPageComponent } from './components/keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 import { ProducerShelfModule } from '../../producer-shelf/producer-shelf.module'
 import { EditKeyboardMappingDialogComponent } from './components/edit-keyboard-mapping-dialog/edit-keyboard-mapping-dialog.component'
-import { ActionSelectorComponent } from './components/action-selector/action-selector.component'
+import { ActionSelectorComponent } from './components/action-selector/action-selector.component';
+import { EditKeyboardMappingComponent } from './components/edit-keyboard-mapping/edit-keyboard-mapping.component'
 
 const routes: Routes = [{ path: '', component: KeyboardMappingSettingsPageComponent }]
 
 @NgModule({
-  declarations: [KeyboardMappingSettingsPageComponent, EditKeyboardMappingDialogComponent, ActionSelectorComponent],
+  declarations: [KeyboardMappingSettingsPageComponent, EditKeyboardMappingDialogComponent, ActionSelectorComponent, EditKeyboardMappingComponent],
   imports: [SharedModule, RouterModule.forChild(routes), SettingsSharedModule, ProducerShelfModule],
   providers: [],
 })
