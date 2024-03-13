@@ -13,6 +13,7 @@ import { ActionStateService } from '../../../shared/services/action-state.servic
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { PartEvent } from '../../../core/models/rundown-event'
+import { RundownMode } from '../../../core/enums/rundown-mode'
 
 const SMOOTH_SCROLL_CONFIGURATION: ScrollIntoViewOptions = {
   behavior: 'smooth',
@@ -32,6 +33,8 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   public currentEpochTime: number = Date.now()
   public remainingDurationInMsForOnAirPart?: number
   public startOffsetsInMsFromPlayheadForSegments: Record<string, number> = {}
+  public isRundownActive: boolean
+
   private rundownTimingContextSubscription?: Subscription
   private readonly logger: Logger
   private readonly rundownEventSubscriptions: EventSubscription[] = []
@@ -120,7 +123,13 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     if ('rundown' in changes) {
       this.updateMiniShelfSegments()
       this.updateMiniShelfSegmentActionMappings()
+      this.setIfRundownIsActive()
     }
+  }
+
+  private setIfRundownIsActive(): void {
+    // TODO in SOF-1568: "isRundownActive" is not a suitable name for also including REHEARSAL.
+    this.isRundownActive = [RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(this.rundown.mode)
   }
 
   private getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext: RundownTimingContext): Record<string, number> {
