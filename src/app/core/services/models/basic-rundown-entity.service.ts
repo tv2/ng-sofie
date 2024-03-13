@@ -18,7 +18,7 @@ export class BasicRundownEntityService {
     }
   }
 
-  public rehearsal(basicRundown: BasicRundown): BasicRundown {
+  public rehearse(basicRundown: BasicRundown): BasicRundown {
     return {
       ...basicRundown,
       mode: RundownMode.REHEARSAL,

@@ -20,7 +20,7 @@ export class RundownEntityService {
     }
   }
 
-  public rehearsal(rundown: Rundown): Rundown {
+  public rehearse(rundown: Rundown): Rundown {
     const resetRundown: Rundown = this.reset(rundown)
     return {
       ...resetRundown,

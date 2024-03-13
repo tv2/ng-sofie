@@ -29,7 +29,7 @@ export class HttpRundownService implements RundownService {
     return this.http.put<void>(`${RUNDOWN_URL}/${rundownId}/activate`, null).pipe(catchError(error => this.httpErrorService.catchError(error)))
   }
 
-  public rehearsal(rundownId: string): Observable<void> {
+  public rehearse(rundownId: string): Observable<void> {
     return this.http.put<void>(`${RUNDOWN_URL}/${rundownId}/rehearse`, null).pipe(catchError(error => this.httpErrorService.catchError(error)))
   }
 

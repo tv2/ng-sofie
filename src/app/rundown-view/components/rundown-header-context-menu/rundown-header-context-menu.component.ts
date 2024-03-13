@@ -25,7 +25,7 @@ export class RundownHeaderContextMenuComponent {
     },
     {
       label: 'Rehearse',
-      contextAction: (): void => this.openRehearseRundownDialog(),
+      contextAction: (): void => this.openRehearsalRundownDialog(),
     },
     {
       label: 'Reingest data',
@@ -57,22 +57,7 @@ export class RundownHeaderContextMenuComponent {
       label: 'Activate (On Air)',
       contextAction: (): void => this.openActivateRundownDialog(),
     },
-    {
-      label: 'Deactivate',
-      contextAction: (): void => this.openDeactivateRundownDialog(),
-    },
-    {
-      label: 'Take',
-      contextAction: (): void => this.take(),
-    },
-    {
-      label: 'Reset Rundown',
-      contextAction: (): void => this.openResetRundownDialog(),
-    },
-    {
-      label: 'Reingest data',
-      contextAction: (): void => this.reingestData(),
-    },
+    ...this.contextMenuOptionsForActiveRundown,
   ]
 
   public get contextMenuOptions(): ContextMenuOption[] {
@@ -99,12 +84,12 @@ export class RundownHeaderContextMenuComponent {
     this.rundownService.activate(this.rundown.id).subscribe()
   }
 
-  public openRehearseRundownDialog(): void {
-    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to rehearsal the Rundown?', 'Rehearse', () => this.rehearsalRundown())
+  public openRehearsalRundownDialog(): void {
+    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to rehearse the Rundown?', 'Rehearse', () => this.rehearseRundown())
   }
 
-  public rehearsalRundown(): void {
-    this.rundownService.rehearsal(this.rundown.id).subscribe()
+  public rehearseRundown(): void {
+    this.rundownService.rehearse(this.rundown.id).subscribe()
   }
 
   public openDeactivateRundownDialog(): void {

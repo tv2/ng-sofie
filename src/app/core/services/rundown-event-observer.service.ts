@@ -44,7 +44,7 @@ export class RundownEventObserver {
     return this.eventObserver.subscribe(RundownEventType.ACTIVATED, this.createEventValidatingConsumer(onActivated, this.rundownEventParser.parseRundownActivatedEvent.bind(this.rundownEventParser)))
   }
 
-  public subscribeToRundownRehearse(onActivated: (event: RundownRehearseEvent) => void): EventSubscription {
+  public subscribeToRundownRehearsal(onActivated: (event: RundownRehearseEvent) => void): EventSubscription {
     return this.eventObserver.subscribe(RundownEventType.REHEARSE, this.createEventValidatingConsumer(onActivated, this.rundownEventParser.parseRundownRehearseEvent.bind(this.rundownEventParser)))
   }
 
