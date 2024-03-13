@@ -18,6 +18,8 @@ body {
   --on-air-color: #c40000;
   --next-color: #00ac17;
 
+  --tv2-unknown-color: #343434;
+  --tv2-jingle-color: var(--tv2-unknown-color);
   --tv2-camera-color: #005919;
   --tv2-replay-color: #8d1010;
   --tv2-remote-color: #ac29a5;
@@ -65,5 +67,19 @@ body {
                   var(--tv2-video-missing-source-gradient-color) 12px,
                   var(--tv2-video-missing-source-gradient-color) 18px
   );
-
+  --split-screen-gradient: linear-gradient(
+                  to bottom,
+                  var(--tv2-split-screen-upper) 50%,
+                  var(--tv2-split-screen-lower) 50%
+  );
+  --video-clip-voice-over-gradient: linear-gradient(
+                  to bottom,
+                  var(--tv2-video-clip-color) 50%,
+                  var(--tv2-camera-color) 50%
+  );
+  --replay-voice-over-gradient: linear-gradient(
+                  to bottom,
+                  var(--tv2-replay-color) 50%,
+                  var(--tv2-camera-color) 50%
+  );
 }
