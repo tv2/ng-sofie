@@ -39,6 +39,8 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   @ViewChild('labelTextElement')
   public labelTextElement: ElementRef<HTMLSpanElement>
 
+  public isTooltipCompatible: boolean
+
   public tooltipContentFields: TooltipContentField[]
 
   public media?: Media
@@ -54,11 +56,12 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   public ngOnChanges(changes: SimpleChanges): void {
     const pieceChange: SimpleChange | undefined = changes['piece']
     if (pieceChange) {
+      this.updatePieceTooltipContent()
+      this.setIsTooltipCompatible()
       const previousMediaSourceName: string | undefined = pieceChange.previousValue ? this.getPieceMediaSourceName(pieceChange.previousValue) : undefined
       if (previousMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
         return
       }
-      this.updatePieceTooltipContent()
       this.mediaSubscription?.unsubscribe()
       this.updatePieceMedia()
     }
@@ -82,6 +85,12 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   private doesPieceContainMedia(): boolean {
     const piece: Tv2Piece = this.piece as Tv2Piece
     return !!piece.metadata.sourceName
+  }
+
+  public setIsTooltipCompatible(): void {
+    const tv2Piece: Tv2Piece = this.piece as Tv2Piece
+    const tooltipPieceTypes: Tv2PieceType[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.JINGLE, Tv2PieceType.GRAPHICS, Tv2PieceType.OVERLAY_GRAPHICS, Tv2PieceType.AUDIO, Tv2PieceType.VOICE_OVER]
+    this.isTooltipCompatible = tooltipPieceTypes.includes(tv2Piece.metadata.type)
   }
 
   @HostBinding('style.left.px')
@@ -157,12 +166,6 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     }
     this.media = media
     this.changeDetectorRef.detectChanges()
-  }
-
-  public shouldShowTooltip(): boolean {
-    const tv2Piece: Tv2Piece = this.piece as Tv2Piece
-    const tooltipPieceTypes: Tv2PieceType[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.JINGLE, Tv2PieceType.GRAPHICS, Tv2PieceType.OVERLAY_GRAPHICS, Tv2PieceType.AUDIO, Tv2PieceType.VOICE_OVER]
-    return tooltipPieceTypes.includes(tv2Piece.metadata.type)
   }
 
   public ngOnDestroy(): void {

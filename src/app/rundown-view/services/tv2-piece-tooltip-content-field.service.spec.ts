@@ -19,6 +19,7 @@ describe(Tv2PieceTooltipContentFieldService.name, () => {
 
     expect(result).toEqual([])
   })
+
   it('should return content fields for Tv2Pieces with valid PieceTypes', () => {
     const testee: Tv2PieceTooltipContentFieldService = createTestee()
     const mediaForAllPieces: Media | undefined = undefined
@@ -33,6 +34,7 @@ describe(Tv2PieceTooltipContentFieldService.name, () => {
       expect(result.length).toBeGreaterThan(0)
     })
   })
+
   it('returns three content fields for a Tv2Piece of type VIDEO_CLIP', () => {
     const testee: Tv2PieceTooltipContentFieldService = createTestee()
     const mediaForAllPieces: Media | undefined = undefined

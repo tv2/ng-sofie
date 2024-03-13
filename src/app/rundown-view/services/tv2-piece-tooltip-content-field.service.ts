@@ -36,32 +36,32 @@ export class Tv2PieceTooltipContentFieldService {
     switch (tv2Piece.metadata.type) {
       case Tv2PieceType.VIDEO_CLIP:
         return [
-          { label: NAME_OF_CLIP_LABEL, data: tv2Piece.name },
-          { label: DURATION_LABEL, data: '' + this.timerPipe.transform(partDuration, TOOLTIP_TIME_FORMAT) ?? UNKNOWN_DATA },
-          { label: AVAILABLE_FOR_PLAYOUT_LABEL, data: media ? YES_LABEL : NO_LABEL },
+          { label: NAME_OF_CLIP_LABEL, value: tv2Piece.name },
+          { label: DURATION_LABEL, value: '' + this.timerPipe.transform(partDuration, TOOLTIP_TIME_FORMAT) ?? UNKNOWN_DATA },
+          { label: AVAILABLE_FOR_PLAYOUT_LABEL, value: media ? YES_LABEL : NO_LABEL },
         ]
       case Tv2PieceType.JINGLE:
         return [
-          { label: NAME_OF_CLIP_LABEL, data: tv2Piece.name },
-          { label: DURATION_LABEL, data: '' + this.timerPipe.transform(partDuration, TOOLTIP_TIME_FORMAT) ?? UNKNOWN_DATA },
-          { label: AVAILABLE_FOR_PLAYOUT_LABEL, data: media ? YES_LABEL : NO_LABEL },
+          { label: NAME_OF_CLIP_LABEL, value: tv2Piece.name },
+          { label: DURATION_LABEL, value: '' + this.timerPipe.transform(partDuration, TOOLTIP_TIME_FORMAT) ?? UNKNOWN_DATA },
+          { label: AVAILABLE_FOR_PLAYOUT_LABEL, value: media ? YES_LABEL : NO_LABEL },
         ]
       case Tv2PieceType.AUDIO:
         return [
-          { label: NAME_LABEL, data: tv2Piece.name },
-          { label: TIME_CODE_IN_PART_LABEL, data: tv2Piece.duration ? this.getTimeCodeStringForPiece(tv2Piece, TOOLTIP_TIME_FORMAT) : NO_SPECIFIC_TIME_CODE_DATA },
+          { label: NAME_LABEL, value: tv2Piece.name },
+          { label: TIME_CODE_IN_PART_LABEL, value: tv2Piece.duration ? this.getTimeCodeStringForPiece(tv2Piece, TOOLTIP_TIME_FORMAT) : NO_SPECIFIC_TIME_CODE_DATA },
         ]
       case Tv2PieceType.COMMAND:
         return [
-          { label: NAME_LABEL, data: tv2Piece.name },
-          { label: TIME_CODE_IN_PART_LABEL, data: tv2Piece.duration ? this.getTimeCodeStringForPiece(tv2Piece, TOOLTIP_TIME_FORMAT) : NO_SPECIFIC_TIME_CODE_DATA },
+          { label: NAME_LABEL, value: tv2Piece.name },
+          { label: TIME_CODE_IN_PART_LABEL, value: tv2Piece.duration ? this.getTimeCodeStringForPiece(tv2Piece, TOOLTIP_TIME_FORMAT) : NO_SPECIFIC_TIME_CODE_DATA },
         ]
       case Tv2PieceType.GRAPHICS:
         return this.getGraphicsTooltipContentFields(tv2Piece, media)
       case Tv2PieceType.OVERLAY_GRAPHICS:
         return [
-          { label: NAME_OF_PILOT_ELEMENT, data: tv2Piece.name },
-          { label: AVAILABLE_FOR_PLAYOUT_LABEL, data: media ? YES_LABEL : NO_LABEL },
+          { label: NAME_OF_PILOT_ELEMENT, value: tv2Piece.name },
+          { label: AVAILABLE_FOR_PLAYOUT_LABEL, value: media ? YES_LABEL : NO_LABEL },
         ]
       default:
         return []
@@ -69,32 +69,33 @@ export class Tv2PieceTooltipContentFieldService {
   }
 
   private getTimeCodeStringForPiece(piece: Tv2Piece, timeFormat: string): string {
-    const startTime: number = Math.round(piece.start / 1000) * 1000
-    const startTimeString: string = this.timerPipe.transform(startTime, 'HH?:mm:ss')
-    const endTime: number = piece.start + (piece.duration ?? 0)
-    const endTimeString: string = this.timerPipe.transform(endTime, timeFormat)
-    return `${startTimeString} - ${endTimeString}`
+    const startTimeInMs: number = Math.round(piece.start / 1000) * 1000
+    const formattedStartTime: string = this.timerPipe.transform(startTimeInMs, 'HH?:mm:ss')
+    const endTimeInMs: number = piece.start + (piece.duration ?? 0)
+    const formattedEndTime: string = this.timerPipe.transform(endTimeInMs, timeFormat)
+    return `${formattedStartTime} - ${formattedEndTime}`
   }
 
   private getGraphicsTooltipContentFields(tv2Piece: Tv2Piece, media: Media | undefined): TooltipContentField[] {
     if (tv2Piece.metadata.outputLayer === Tv2OutputLayer.PROGRAM) {
       return [
-        { label: NAME_OF_PILOT_ELEMENT, data: tv2Piece.name },
-        { label: AVAILABLE_FOR_PLAYOUT_LABEL, data: media ? YES_LABEL : NO_LABEL },
+        { label: NAME_OF_PILOT_ELEMENT, value: tv2Piece.name },
+        { label: AVAILABLE_FOR_PLAYOUT_LABEL, value: media ? YES_LABEL : NO_LABEL },
       ]
-    } else if (tv2Piece.metadata.outputLayer === Tv2OutputLayer.OVERLAY && this.hasAssociatedMedia(tv2Piece)) {
+    }
+    if (tv2Piece.metadata.outputLayer === Tv2OutputLayer.OVERLAY && this.hasAssociatedMedia(tv2Piece)) {
       return [
-        { label: NAME_OF_PILOT_ELEMENT, data: tv2Piece.name },
-        { label: TIME_CODE_IN_PART_LABEL, data: tv2Piece.duration ? this.getTimeCodeStringForPiece(tv2Piece, TOOLTIP_TIME_FORMAT) : NO_SPECIFIC_TIME_CODE_DATA },
-        { label: OUT_TYPE_LABEL, data: tv2Piece.lifespan.replace(/_/g, ' ') },
-        { label: AVAILABLE_FOR_PLAYOUT_LABEL, data: media ? YES_LABEL : NO_LABEL },
+        { label: NAME_OF_PILOT_ELEMENT, value: tv2Piece.name },
+        { label: TIME_CODE_IN_PART_LABEL, value: tv2Piece.duration ? this.getTimeCodeStringForPiece(tv2Piece, TOOLTIP_TIME_FORMAT) : NO_SPECIFIC_TIME_CODE_DATA },
+        { label: OUT_TYPE_LABEL, value: tv2Piece.lifespan.replace(/_/g, ' ') },
+        { label: AVAILABLE_FOR_PLAYOUT_LABEL, value: media ? YES_LABEL : NO_LABEL },
       ]
     }
     return [
-      { label: CONTENT_OF_ALL_FIELDS_LABEL, data: tv2Piece.name },
-      { label: TEMPLATE_NAME_LABEL, data: tv2Piece.metadata.graphicsTemplateName ?? UNKNOWN_DATA },
-      { label: TIME_CODE_IN_PART_LABEL, data: tv2Piece.duration ? this.getTimeCodeStringForPiece(tv2Piece, TOOLTIP_TIME_FORMAT) : NO_SPECIFIC_TIME_CODE_DATA },
-      { label: OUT_TYPE_LABEL, data: this.getPieceLifespanLabel(tv2Piece.lifespan) },
+      { label: CONTENT_OF_ALL_FIELDS_LABEL, value: tv2Piece.name },
+      { label: TEMPLATE_NAME_LABEL, value: tv2Piece.metadata.graphicsTemplateName ?? UNKNOWN_DATA },
+      { label: TIME_CODE_IN_PART_LABEL, value: tv2Piece.duration ? this.getTimeCodeStringForPiece(tv2Piece, TOOLTIP_TIME_FORMAT) : NO_SPECIFIC_TIME_CODE_DATA },
+      { label: OUT_TYPE_LABEL, value: this.getPieceLifespanLabel(tv2Piece.lifespan) },
     ]
   }
 

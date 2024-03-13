@@ -9,6 +9,4 @@ import { TooltipContentField } from '../../../../shared/abstractions/tooltip-con
 export class TooltipContentComponent {
   @Input()
   public tooltipContentFields: TooltipContentField[]
-
-  constructor() {}
 }

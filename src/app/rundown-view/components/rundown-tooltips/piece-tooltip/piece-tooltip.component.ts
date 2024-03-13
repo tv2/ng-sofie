@@ -21,7 +21,7 @@ export class PieceTooltipComponent {
 
   protected readonly IconButtonSize = IconButtonSize
   protected readonly IconButton = IconButton
-  protected sourceUnavailableLabel: string = $localize`piece-tooltip.source-unavailable.label`
+  protected readonly sourceUnavailableLabel: string = $localize`piece-tooltip.source-unavailable.label`
 
   private readonly timeoutDurationAfterMouseMoveInMs = 5
   private timeoutAfterMouseMove?: NodeJS.Timeout
