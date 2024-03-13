@@ -15,7 +15,7 @@ import { Logger } from '../../core/abstractions/logger.service'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
-import { RundownMode } from 'src/app/core/enums/rundown-mode'
+import { RundownMode } from '../../core/enums/rundown-mode'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'

@@ -12,7 +12,7 @@ import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
 import { PartActionType } from '../../shared/models/action-type'
 import { MiniShelfCycleService } from '../services/mini-shelf-cycle.service'
-import { RundownMode } from 'src/app/core/enums/rundown-mode'
+import { RundownMode } from '../../core/enums/rundown-mode'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -108,7 +108,7 @@ export class KeyBindingFactory {
   }
 
   public createRundownKeyBindings(rundown: Rundown): StyledKeyBinding[] {
-    if (rundown.mode === RundownMode.ACTIVE || rundown.mode === RundownMode.REHEARSAL) {
+    if ([RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(rundown.mode)) {
       return [
         this.createRundownKeyBinding('Take', ['AnyEnter'], () => this.takeNext(rundown)),
         this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
@@ -139,7 +139,7 @@ export class KeyBindingFactory {
   }
 
   private activateRundown(rundown: Rundown): void {
-    if (rundown.mode === RundownMode.ACTIVE || rundown.mode === RundownMode.REHEARSAL) {
+    if (rundown.mode === RundownMode.ACTIVE) {
       return
     }
     this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.rundownService.activate(rundown.id).subscribe())

@@ -7,7 +7,7 @@ import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockit
 import { Observable } from 'rxjs'
 import { ActionStateService } from '../../shared/services/action-state.service'
 import { Rundown } from '../../core/models/rundown'
-import { RundownMode } from 'src/app/core/enums/rundown-mode'
+import { RundownMode } from '../../core/enums/rundown-mode'
 
 function createTestee(): MiniShelfNavigationService {
   return new MiniShelfNavigationService()

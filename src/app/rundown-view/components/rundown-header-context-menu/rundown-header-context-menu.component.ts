@@ -4,7 +4,7 @@ import { Rundown } from '../../../core/models/rundown'
 import { DialogService } from '../../../shared/services/dialog.service'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
 import { DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
-import { RundownMode } from 'src/app/core/enums/rundown-mode'
+import { RundownMode } from '../../../core/enums/rundown-mode'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',

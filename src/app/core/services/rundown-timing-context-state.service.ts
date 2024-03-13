@@ -93,12 +93,12 @@ export class RundownTimingContextStateService {
 
   private rescheduleTimeTick(): void {
     clearTimeout(this.timeResolutionTimerId)
-    const timeTickDurationInMs: number = this.hasActiveOrRehearsalRundown() ? HIGH_RESOLUTION_INTERVAL_DURATION_IN_MS : LOW_RESOLUTION_INTERVAL_DURATION_IN_MS
+    const timeTickDurationInMs: number = this.isAllRundownsInactive() ? LOW_RESOLUTION_INTERVAL_DURATION_IN_MS : HIGH_RESOLUTION_INTERVAL_DURATION_IN_MS
     this.timeResolutionTimerId = setTimeout(this.onTimeTick.bind(this), timeTickDurationInMs)
   }
 
-  private hasActiveOrRehearsalRundown(): boolean {
-    return [...this.rundowns.values()].some(rundown => rundown.mode === RundownMode.ACTIVE || rundown.mode === RundownMode.REHEARSAL)
+  private isAllRundownsInactive(): boolean {
+    return [...this.rundowns.values()].every(rundown => rundown.mode === RundownMode.INACTIVE)
   }
 
   public async subscribeToRundownTimingContext(rundownId: string): Promise<Observable<RundownTimingContext>> {

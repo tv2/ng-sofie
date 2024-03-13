@@ -1,4 +1,3 @@
-import { RundownMode } from './../../../core/enums/rundown-mode'
 import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
 import { Rundown } from '../../../core/models/rundown'
 import { Piece } from '../../../core/models/piece'
@@ -9,6 +8,7 @@ import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
 import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
+import { RundownMode } from '../../../core/enums/rundown-mode'
 
 const DESIGN_TEMPLATE_IDENTIFIER: string = 'DESIGN_'
 const SKEMA_TEMPLATE_IDENTIFIER: string = 'SKEMA_'
@@ -141,7 +141,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
     this.currentLocalDate = rundownTimingContext.currentEpochTime
     this.plannedStart = rundownTimingContext.expectedStartEpochTimeForRundown
     this.plannedEnd = rundownTimingContext.expectedEndEpochTimeForRundown
-    if (this.rundown.mode === RundownMode.ACTIVE || this.rundown.mode === RundownMode.REHEARSAL) {
+    if ([RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(this.rundown.mode)) {
       this.diff = rundownTimingContext.currentEpochTime + rundownTimingContext.remainingDurationInMsForRundown - rundownTimingContext.expectedEndEpochTimeForRundown
     } else {
       this.diff = rundownTimingContext.currentEpochTime + rundownTimingContext.expectedDurationInMsForRundown - rundownTimingContext.expectedEndEpochTimeForRundown

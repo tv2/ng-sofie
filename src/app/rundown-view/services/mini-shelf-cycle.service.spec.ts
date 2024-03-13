@@ -10,7 +10,7 @@ import { Segment } from '../../core/models/segment'
 import { TestLoggerFactory } from '../../test/factories/test-logger.factory'
 import { Tv2Action } from '../../shared/models/tv2-action'
 import { NotificationService } from '../../shared/services/notification.service'
-import { RundownMode } from 'src/app/core/enums/rundown-mode'
+import { RundownMode } from '../../core/enums/rundown-mode'
 
 describe(MiniShelfCycleService.name, () => {
   const testEntityFactory: TestEntityFactory = new TestEntityFactory()

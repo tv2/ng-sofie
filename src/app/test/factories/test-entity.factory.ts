@@ -14,7 +14,7 @@ import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
 import { AutoNextStartedEvent, PartSetAsNextEvent, RundownResetEvent } from '../../core/models/rundown-event'
 import { RundownEventType } from '../../core/models/rundown-event-type'
 import { Tv2SegmentMetadata } from '../../core/models/tv2-segment-metadata'
-import { RundownMode } from 'src/app/core/enums/rundown-mode'
+import { RundownMode } from '../../core/enums/rundown-mode'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
