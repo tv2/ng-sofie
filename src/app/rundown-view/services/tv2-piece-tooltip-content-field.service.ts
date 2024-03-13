@@ -92,7 +92,7 @@ export class Tv2PieceTooltipContentFieldService {
     }
     return [
       { label: CONTENT_OF_ALL_FIELDS_LABEL, data: tv2Piece.name },
-      { label: TEMPLATE_NAME_LABEL, data: tv2Piece.metadata.graphicTemplateName ?? UNKNOWN_DATA },
+      { label: TEMPLATE_NAME_LABEL, data: tv2Piece.metadata.graphicsTemplateName ?? UNKNOWN_DATA },
       { label: TIME_CODE_IN_PART_LABEL, data: tv2Piece.duration ? this.getTimeCodeStringForPiece(tv2Piece, TOOLTIP_TIME_FORMAT) : NO_SPECIFIC_TIME_CODE_DATA },
       { label: OUT_TYPE_LABEL, data: this.getPieceLifespanLabel(tv2Piece.lifespan) },
     ]
