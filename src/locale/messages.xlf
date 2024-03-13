@@ -56,32 +56,8 @@
       <trans-unit id="4380077604653787346" datatype="html">
         <source>settings.clear-cache.label</source>
       </trans-unit>
-      <trans-unit id="363239608614074698" datatype="html">
-        <source>action-triggers.no-shortcuts.label</source>
-      </trans-unit>
-      <trans-unit id="5998298101573406065" datatype="html">
-        <source>action-triggers.import-shortcuts.button</source>
-      </trans-unit>
-      <trans-unit id="6191074751909534346" datatype="html">
-        <source>action-triggers.selected-action.label</source>
-      </trans-unit>
       <trans-unit id="7618983089240067205" datatype="html">
         <source>action-triggers.shortcut.label</source>
-      </trans-unit>
-      <trans-unit id="946249916134408794" datatype="html">
-        <source>action-triggers.no-actions.label</source>
-      </trans-unit>
-      <trans-unit id="3296269694384339031" datatype="html">
-        <source>action-triggers.create-shortcut.title</source>
-      </trans-unit>
-      <trans-unit id="5494360365717860632" datatype="html">
-        <source>action-triggers.update-shortcut.title</source>
-      </trans-unit>
-      <trans-unit id="8924063720972378650" datatype="html">
-        <source>global.sort.label</source>
-      </trans-unit>
-      <trans-unit id="7386626478307143738" datatype="html">
-        <source>action-triggers.delete-selected.label</source>
       </trans-unit>
       <trans-unit id="1532790028301204513" datatype="html">
         <source>global.delete.label</source>
@@ -89,44 +65,14 @@
       <trans-unit id="386627600927064568" datatype="html">
         <source>keyboard-mapping.delete-selected.confirmation</source>
       </trans-unit>
-      <trans-unit id="5133358426840332221" datatype="html">
-        <source>action-triggers.delete.confirmation</source>
-      </trans-unit>
-      <trans-unit id="4054896224656862418" datatype="html">
-        <source>global.select-all.label</source>
-      </trans-unit>
-      <trans-unit id="4978684078154973195" datatype="html">
-        <source>global.unselect-all.label</source>
-      </trans-unit>
-      <trans-unit id="4266204168495316140" datatype="html">
-        <source>global.create.button</source>
-      </trans-unit>
-      <trans-unit id="8392171193464081864" datatype="html">
-        <source>global.update.button</source>
-      </trans-unit>
-      <trans-unit id="7358643692179267021" datatype="html">
-        <source>action-triggers.select-action-box.label</source>
-      </trans-unit>
       <trans-unit id="6285874749005785753" datatype="html">
         <source>global.label</source>
       </trans-unit>
       <trans-unit id="9004520789605873710" datatype="html">
         <source>global.close.button</source>
       </trans-unit>
-      <trans-unit id="5115532688749023793" datatype="html">
-        <source>action-triggers.no-selected-action.label</source>
-      </trans-unit>
-      <trans-unit id="1706628321455061643" datatype="html">
-        <source>global.on-key-pressed.label</source>
-      </trans-unit>
-      <trans-unit id="3902333184421732258" datatype="html">
-        <source>global.on-key-released.label</source>
-      </trans-unit>
       <trans-unit id="5199708374936679830" datatype="html">
         <source>global.delete-selected.label</source>
-      </trans-unit>
-      <trans-unit id="5503109094537996892" datatype="html">
-        <source>global.export-selected.label</source>
       </trans-unit>
       <trans-unit id="9158000000301348817" datatype="html">
         <source>action-triggers.trigger-on.label</source>
@@ -148,18 +94,6 @@
       </trans-unit>
       <trans-unit id="7840343495376792564" datatype="html">
         <source>global.confirmation.label</source>
-      </trans-unit>
-      <trans-unit id="4872302410477784631" datatype="html">
-        <source>action-triggers-sort.shortcut-alphabetical.label</source>
-      </trans-unit>
-      <trans-unit id="5710407889877361049" datatype="html">
-        <source>action-triggers-sort.action-label-alphabetical.label</source>
-      </trans-unit>
-      <trans-unit id="698052297888320096" datatype="html">
-        <source>action-triggers-sort.action-label-reverse-alphabetical.label</source>
-      </trans-unit>
-      <trans-unit id="7555703455523755989" datatype="html">
-        <source>action-triggers-sort.shortcut-reverse-alphabetical.label</source>
       </trans-unit>
       <trans-unit id="6759876909141538174" datatype="html">
         <source>settings.keyboard-mappings.label</source>
@@ -190,9 +124,6 @@
       </trans-unit>
       <trans-unit id="3495993720885162413" datatype="html">
         <source>action-panel.rank.label</source>
-      </trans-unit>
-      <trans-unit id="6515199819488915752" datatype="html">
-        <source>global.submit-tooltip.error</source>
       </trans-unit>
       <trans-unit id="1842982718967386055" datatype="html">
         <source>global.audio.label</source>
@@ -235,6 +166,21 @@
       </trans-unit>
       <trans-unit id="1489043303962671570" datatype="html">
         <source>keyboard-mapping.delete.confirmation</source>
+      </trans-unit>
+      <trans-unit id="1426591653041922259" datatype="html">
+        <source>edit-keyboard-mapping.edit</source>
+      </trans-unit>
+      <trans-unit id="1469306793833284818" datatype="html">
+        <source>edit-keyboard-mapping.create</source>
+      </trans-unit>
+      <trans-unit id="3570927086139625658" datatype="html">
+        <source>edit-shelf-action-panel-configuration.edit</source>
+      </trans-unit>
+      <trans-unit id="7388536117729067" datatype="html">
+        <source>edit-shelf-action-panel-configuration.create</source>
+      </trans-unit>
+      <trans-unit id="8113227000238039449" datatype="html">
+        <source>empty.table</source>
       </trans-unit>
     </body>
   </file>

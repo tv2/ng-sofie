@@ -17,7 +17,7 @@ export class EditKeyboardMappingDialogComponent {
   }
 
   public getTitle(): string {
-    return this.keyboardMapping ? 'Edit Keyboard Mapping' : 'Create Keyboard Mapping'
+    return this.keyboardMapping ? $localize`edit-keyboard-mapping.edit` : $localize`edit-keyboard-mapping.create`
   }
 
   public closeDialog(keyboardMapping?: KeyboardMapping): void {

@@ -17,7 +17,7 @@ export class EditShelfActionPanelConfigurationDialogComponent {
   }
 
   public getTitle(): string {
-    return this.actionPanel ? 'Edit Action Panel' : 'Create Action Panel'
+    return this.actionPanel ? $localize`edit-shelf-action-panel-configuration.edit` : $localize`edit-shelf-action-panel-configuration.create`
   }
 
   public closeDialog(actionPanel?: ShelfActionPanelConfiguration): void {
