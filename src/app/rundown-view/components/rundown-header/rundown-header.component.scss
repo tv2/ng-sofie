@@ -1,5 +1,6 @@
 .c-rundown-header {
-  --scrollbar-color: var(--rundown-scrollbar-color);
+  --scrollbar-thumb-color: var(--rundown-header-scrollbar-thumb-color);
+
   display: flex;
   flex-direction: row;
 
@@ -12,9 +13,8 @@
   transition: background-color 0.3s;
 
   &--active {
-    --scrollbar-color: var(--rundown-scrollbar-active-color);
-    --scrollbar-thumb-color: var(--rundown-scrollbar-thumb-active-color);
-    background-color: var(--rundown-scrollbar-active-color);
+    --scrollbar-thumb-color: var(--rundown-header-scrollbar-thumb-active-color);
+    background-color: var(--rundown-header-background-active-color);
   }
 
   .exit-button {
@@ -42,18 +42,4 @@
     }
   }
 
-  &::-webkit-scrollbar {
-    width: var(--scrollbar-size);
-    height: var(--scrollbar-size);
-    background-color: var(--scrollbar-color);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb-color);
-    cursor: grab;
-
-    &:active {
-      cursor: grabbing;
-    }
-  }
 }

@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { Router } from '@angular/router'
 import { Paths } from '../../../app-routing.module'
 import { BasicRundown } from '../../../core/models/basic-rundown'
 import { DialogService } from '../../../shared/services/dialog.service'
@@ -29,8 +28,9 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   private subscriptions: SubscriptionLike[] = []
   private readonly logger: Logger
 
+  protected readonly Paths = Paths
+
   constructor(
-    private readonly router: Router,
     private readonly basicRundownStateService: BasicRundownStateService,
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService,
@@ -46,11 +46,6 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
     })
     const isLoadingSubscription: SubscriptionLike = this.basicRundownStateService.subscribeToLoading(isLoading => (this.isLoading = isLoading))
     this.subscriptions = [basicRundownSubscription, isLoadingSubscription]
-  }
-
-  public navigateToRundown(basicRundown: BasicRundown): void {
-    const segmentedPath: string[] = [Paths.RUNDOWNS, basicRundown.id]
-    this.router.navigate(segmentedPath).catch(error => this.logger.data(error).warn(`Failed navigating to /${segmentedPath.join('/')}.`))
   }
 
   public openDeletionDialog(basicRundown: BasicRundown): void {
