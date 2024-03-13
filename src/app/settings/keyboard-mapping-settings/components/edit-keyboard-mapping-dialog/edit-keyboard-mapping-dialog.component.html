@@ -1,7 +1,7 @@
 <sofie-sidebar-container [title]="getTitle()">
     <sofie-row class="mb-3">
         <form [formGroup]="actionTriggerForm" class="left-container">
-            <form [formGroup]="actionTriggerDataForm">
+            <div [formGroupName]="'data'">
                 <sofie-text-input [label]="labelLabel" [formControlName]="'label'"></sofie-text-input>
                 <sofie-keyboard-input [label]="shortcutLabel" [formControlName]="'keys'"></sofie-keyboard-input>
                 <sofie-keyboard-input [label]="physicalMappingLabel" [formControlName]="'mappedToKeys'" [helpText]="physicalMappingHelpText"></sofie-keyboard-input>
@@ -15,7 +15,7 @@
                         <sofie-number-input *ngSwitchCase="ActionArgumentSchemaType.NUMBER" [label]="selectedAction?.argument?.name!" [formControlName]="'actionArguments'" [helpText]="selectedAction?.argument?.description!"></sofie-number-input>
                     </ng-container>
                 </ng-container>
-            </form>
+            </div>
         </form>
         <sofie-action-selector [selectedAction]="selectedAction" (actionSelected)="selectAction($event)" class="ps-5"></sofie-action-selector>
     </sofie-row>

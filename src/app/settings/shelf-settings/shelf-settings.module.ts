@@ -6,7 +6,7 @@ import { ShelfActionPanelSettingsPageComponent } from './components/shelf-action
 import { EditShelfActionPanelConfigurationDialogComponent } from './components/edit-shelf-action-panel-confinguration/edit-shelf-action-panel-configuration-dialog.component'
 
 export enum ShelfSettingsPath {
-  ACTION_PANELS = 'ACTION_PANELS',
+  ACTION_PANELS = 'action_panels',
 }
 
 const routes: Routes = [

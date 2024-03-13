@@ -58,7 +58,9 @@ export class EditKeyboardMappingDialogComponent implements OnInit {
       }
     })
 
-    this.selectAction(this.keyboardMapping?.action!)
+    if (this.keyboardMapping) {
+      this.selectAction(this.keyboardMapping?.action!)
+    }
   }
 
   public selectAction(action: Tv2Action): void {
