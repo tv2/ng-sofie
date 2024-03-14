@@ -3,7 +3,7 @@
   <sofie-tooltip *ngIf="isTooltipCompatible" [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
     <div class="tooltip">
       <sofie-video-hover-scrub *ngIf="shouldShowHoverScrub && !isMediaUnavailable"
-                               [filename]="piece.name"
+                               [filename]="media?.sourceName ?? piece.name"
                                [playedDurationInMs]="playedDurationForPartInMs"
                                [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth"
                                [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition"
