@@ -3,7 +3,7 @@
   flex-direction: row;
   border-radius: 5px;
   background: var(--rundown-scrollbar-color);
-  height: 110px;
+  max-height: 150px;
 
   .header {
     padding: 3px;

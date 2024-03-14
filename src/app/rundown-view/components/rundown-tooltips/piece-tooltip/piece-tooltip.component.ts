@@ -82,7 +82,7 @@ export class PieceTooltipComponent implements OnChanges {
 
   public get shouldShowHoverScrub(): boolean {
     const tv2Piece: Tv2Piece = this.piece as Tv2Piece
-    return tv2Piece.metadata?.type === Tv2PieceType.VIDEO_CLIP || tv2Piece.metadata?.type === Tv2PieceType.JINGLE
+    return (tv2Piece.metadata?.type === Tv2PieceType.VIDEO_CLIP || tv2Piece.metadata?.type === Tv2PieceType.JINGLE) && tv2Piece.metadata.sourceName !== undefined
   }
 
   public getPieceType(): Tv2PieceType {
