@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { Router } from '@angular/router'
 import { Paths } from '../../../app-routing.module'
 import { BasicRundown } from '../../../core/models/basic-rundown'
 import { DialogService } from '../../../shared/services/dialog.service'
@@ -11,6 +10,7 @@ import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownTimingType } from '../../../core/enums/rundown-timing-type'
 import { BackwardRundownTiming } from '../../../core/models/rundown-timing'
+import { RundownMode } from '../../../core/enums/rundown-mode'
 
 @Component({
   selector: 'sofie-rundown-overview',
@@ -18,13 +18,19 @@ import { BackwardRundownTiming } from '../../../core/models/rundown-timing'
   styleUrls: ['./rundown-overview.component.scss'],
 })
 export class RundownOverviewComponent implements OnInit, OnDestroy {
+  protected readonly Color = Color
+  protected readonly IconButton = IconButton
+  protected readonly IconButtonSize = IconButtonSize
+  protected readonly RundownMode = RundownMode
+
   public basicRundowns: BasicRundown[] = []
   public isLoading: boolean = true
   private subscriptions: SubscriptionLike[] = []
   private readonly logger: Logger
 
+  protected readonly Paths = Paths
+
   constructor(
-    private readonly router: Router,
     private readonly basicRundownStateService: BasicRundownStateService,
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService,
@@ -40,11 +46,6 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
     })
     const isLoadingSubscription: SubscriptionLike = this.basicRundownStateService.subscribeToLoading(isLoading => (this.isLoading = isLoading))
     this.subscriptions = [basicRundownSubscription, isLoadingSubscription]
-  }
-
-  public navigateToRundown(basicRundown: BasicRundown): void {
-    const segmentedPath: string[] = [Paths.RUNDOWNS, basicRundown.id]
-    this.router.navigate(segmentedPath).catch(error => this.logger.data(error).warn(`Failed navigating to /${segmentedPath.join('/')}.`))
   }
 
   public openDeletionDialog(basicRundown: BasicRundown): void {
@@ -100,8 +101,4 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe())
   }
-
-  public readonly Color = Color
-  protected readonly IconButton = IconButton
-  protected readonly IconButtonSize = IconButtonSize
 }

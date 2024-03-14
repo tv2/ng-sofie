@@ -19,15 +19,17 @@
     <table *ngIf="!isLoading && basicRundowns.length > 0" mat-table [dataSource]="basicRundowns">
       <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let basicRundown" >
-          <sofie-pulsating-dot *ngIf="basicRundown.isActive" [color]="Color.ON_AIR" [animationDurationSeconds]="3"></sofie-pulsating-dot>
+        <mat-cell *matCellDef="let basicRundown">
+          <sofie-pulsating-dot *ngIf="basicRundown.mode === RundownMode.ACTIVE" [color]="Color.ON_AIR" [animationDurationSeconds]="3"></sofie-pulsating-dot>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef i18n>rundown-overview-component.rundown-label</mat-header-cell>
-        <mat-cell *matCellDef="let basicRundown" class="c-rundown-name" (click)="navigateToRundown(basicRundown)">
-          {{basicRundown.name}}
+        <mat-cell *matCellDef="let basicRundown" class="c-rundown-name">
+          <a [routerLink]="['/', Paths.RUNDOWNS, basicRundown.id]">
+            {{ basicRundown.name }}
+          </a>
         </mat-cell>
       </ng-container>
 
@@ -55,19 +57,23 @@
       <ng-container matColumnDef="modifiedAt">
         <mat-header-cell *matHeaderCellDef i18n>rundown-overview-component.last-updated.label</mat-header-cell>
         <mat-cell *matCellDef="let basicRundown">
-          {{basicRundown.modifiedAt | date: 'HH:mm – d LLL YYYY'}}
+          {{ basicRundown.modifiedAt | date: 'HH:mm – d LLL YYYY' }}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell class="c-delete-rundown-cell" *matCellDef="let basicRundown">
-          <sofie-icon-button class="material-icons c-delete-rundown-icon" [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.S" (click)="openDeletionDialog(basicRundown)"></sofie-icon-button>
+          <sofie-icon-button
+            class="material-icons c-delete-rundown-icon"
+            [iconButton]="IconButton.TRASH_CAN"
+            [iconButtonSize]="IconButtonSize.S"
+            (click)="openDeletionDialog(basicRundown)"></sofie-icon-button>
         </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="['status', 'name', 'plannedStart', 'duration', 'plannedEnd', 'modifiedAt', 'delete']"></mat-header-row>
-      <mat-row *matRowDef="let basicRundown; columns: ['status','name', 'plannedStart', 'duration', 'plannedEnd', 'modifiedAt', 'delete']"></mat-row>
+      <mat-row *matRowDef="let basicRundown; columns: ['status', 'name', 'plannedStart', 'duration', 'plannedEnd', 'modifiedAt', 'delete']"></mat-row>
     </table>
   </ng-template>
 </div>

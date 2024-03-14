@@ -1,8 +1,6 @@
 :host {
   --text-color: var(--gray-color);
-  --scrollbar-color: var(--rundown-key-background-color);
   --scrollbar-thumb-color: var(--rundown-scrollbar-color);
-  --scrollbar-size: 15px;
 
   display: flex;
   flex-direction: column;

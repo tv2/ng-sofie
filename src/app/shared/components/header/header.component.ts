@@ -1,7 +1,5 @@
 import { Component, ElementRef, OnInit } from '@angular/core'
 import { Paths } from '../../../app-routing.module'
-import { Router } from '@angular/router'
-import { Logger } from '../../../core/abstractions/logger.service'
 import { Title } from '@angular/platform-browser'
 
 @Component({
@@ -13,39 +11,16 @@ export class HeaderComponent implements OnInit {
   public title: string
   public elementRef: ElementRef
 
-  private readonly logger: Logger
+  public readonly Paths = Paths
 
   constructor(
     elementRef: ElementRef,
-    private readonly router: Router,
-    private readonly titleService: Title,
-    logger: Logger
+    private readonly titleService: Title
   ) {
-    this.logger = logger.tag('HeaderComponent')
     this.elementRef = elementRef
   }
 
   public ngOnInit(): void {
     this.title = this.titleService.getTitle()
-  }
-
-  public navigateHome(): void {
-    const segmentedPath: string[] = [Paths.HOME]
-    this.router.navigate(segmentedPath).catch(error => this.logger.data(error).warn(`Failed navigating to /${segmentedPath.join('/')}.`))
-  }
-
-  public navigateToRundown(): void {
-    const segmentedPath: string[] = [Paths.RUNDOWNS]
-    this.router.navigate(segmentedPath).catch(error => this.logger.data(error).warn(`Failed navigating to /${segmentedPath.join('/')}.`))
-  }
-
-  public navigateToStatus(): void {
-    const segmentedPath: string[] = [Paths.STATUS]
-    this.router.navigate(segmentedPath).catch(error => this.logger.data(error).warn(`Failed navigating to /${segmentedPath.join('/')}.`))
-  }
-
-  public navigateToSettings(): void {
-    const segmentedPath: string[] = [Paths.SETTINGS]
-    this.router.navigate(segmentedPath).catch(error => this.logger.data(error).warn(`Failed navigating to /${segmentedPath.join('/')}.`))
   }
 }
