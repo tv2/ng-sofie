@@ -3,6 +3,7 @@ import { instance, mock } from '@typestrong/ts-mockito'
 import { PieceTooltipComponent } from './piece-tooltip.component'
 import { TestEntityFactory } from 'src/app/test/factories/test-entity.factory'
 import { ChangeDetectorRef } from '@angular/core'
+import { Tv2PieceTooltipContentFieldService } from '../../../services/tv2-piece-tooltip-content-field.service'
 
 describe('PieceTooltipComponent', () => {
   let component: PieceTooltipComponent
@@ -10,9 +11,13 @@ describe('PieceTooltipComponent', () => {
 
   beforeEach(async () => {
     const mockChangeDetectorRef: ChangeDetectorRef = mock<ChangeDetectorRef>()
+    const mockPieceTooltipContentFieldService: Tv2PieceTooltipContentFieldService = mock<Tv2PieceTooltipContentFieldService>()
     await TestBed.configureTestingModule({
       declarations: [PieceTooltipComponent],
-      providers: [{ provide: ChangeDetectorRef, useValue: instance(mockChangeDetectorRef) }],
+      providers: [
+        { provide: ChangeDetectorRef, useValue: instance(mockChangeDetectorRef) },
+        { provide: Tv2PieceTooltipContentFieldService, useValue: instance(mockPieceTooltipContentFieldService) },
+      ],
     }).compileComponents()
 
     fixture = TestBed.createComponent(PieceTooltipComponent)
@@ -21,8 +26,7 @@ describe('PieceTooltipComponent', () => {
 
   it('should create', () => {
     const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-    const mockedPiece = testEntityFactory.createPiece()
-    component.piece = mockedPiece
+    component.piece = testEntityFactory.createPiece()
     expect(component).toBeTruthy()
   })
 })

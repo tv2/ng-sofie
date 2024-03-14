@@ -5,8 +5,6 @@ import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { Subscription } from 'rxjs'
 import { Piece } from 'src/app/core/models/piece'
-import { TooltipContentField } from '../../../shared/abstractions/tooltip-content-field'
-import { Tv2PieceTooltipContentFieldService } from '../../services/tv2-piece-tooltip-content-field.service'
 import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
@@ -41,22 +39,18 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
 
   public isTooltipCompatible: boolean
 
-  public tooltipContentFields: TooltipContentField[]
-
   public media?: Media
 
   private mediaSubscription?: Subscription
 
   constructor(
     private readonly mediaStateService: MediaStateService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly tv2PieceTooltipContentFieldService: Tv2PieceTooltipContentFieldService
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     const pieceChange: SimpleChange | undefined = changes['piece']
     if (pieceChange) {
-      this.updatePieceTooltipContent()
       this.setIsTooltipCompatible()
       const previousMediaSourceName: string | undefined = pieceChange.previousValue ? this.getPieceMediaSourceName(pieceChange.previousValue) : undefined
       if (previousMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
@@ -65,10 +59,6 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
       this.mediaSubscription?.unsubscribe()
       this.updatePieceMedia()
     }
-  }
-
-  public updatePieceTooltipContent(): void {
-    this.tooltipContentFields = this.tv2PieceTooltipContentFieldService.getTooltipContentForPiece(this.piece, this.media, this.partDuration)
   }
 
   public updatePieceMedia(): void {
