@@ -1,6 +1,6 @@
   <div #tooltipHoverElement class="c-tooltip-hover-element"></div>
 
-  <sofie-tooltip [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
+  <sofie-tooltip *ngIf="isTooltipCompatible" [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
     <div class="tooltip">
       <sofie-video-hover-scrub *ngIf="shouldShowHoverScrub && !isMediaUnavailable"
                                [filename]="piece.name"

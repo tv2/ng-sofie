@@ -5,7 +5,6 @@ import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { Subscription } from 'rxjs'
 import { Piece } from 'src/app/core/models/piece'
-import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 
@@ -37,8 +36,6 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   @ViewChild('labelTextElement')
   public labelTextElement: ElementRef<HTMLSpanElement>
 
-  public isTooltipCompatible: boolean
-
   public media?: Media
 
   private mediaSubscription?: Subscription
@@ -51,7 +48,6 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   public ngOnChanges(changes: SimpleChanges): void {
     const pieceChange: SimpleChange | undefined = changes['piece']
     if (pieceChange) {
-      this.setIsTooltipCompatible()
       const previousMediaSourceName: string | undefined = pieceChange.previousValue ? this.getPieceMediaSourceName(pieceChange.previousValue) : undefined
       if (previousMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
         return
@@ -75,12 +71,6 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   private doesPieceContainMedia(): boolean {
     const piece: Tv2Piece = this.piece as Tv2Piece
     return !!piece.metadata.sourceName
-  }
-
-  public setIsTooltipCompatible(): void {
-    const tv2Piece: Tv2Piece = this.piece as Tv2Piece
-    const tooltipPieceTypes: Tv2PieceType[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.JINGLE, Tv2PieceType.GRAPHICS, Tv2PieceType.OVERLAY_GRAPHICS, Tv2PieceType.AUDIO, Tv2PieceType.VOICE_OVER]
-    this.isTooltipCompatible = tooltipPieceTypes.includes(tv2Piece.metadata.type)
   }
 
   @HostBinding('style.left.px')

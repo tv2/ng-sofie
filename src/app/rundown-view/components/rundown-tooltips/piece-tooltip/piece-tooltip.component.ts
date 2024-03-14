@@ -23,6 +23,7 @@ export class PieceTooltipComponent implements OnChanges {
   public tooltipElementHoverMousePosition?: TooltipMousePosition
   public tooltipContentFields: TooltipContentField[]
   public Tv2PieceType = Tv2PieceType
+  public isTooltipCompatible: boolean
 
   protected readonly IconButtonSize = IconButtonSize
   protected readonly IconButton = IconButton
@@ -64,12 +65,19 @@ export class PieceTooltipComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     const pieceChange: SimpleChange | undefined = changes['piece']
     if (pieceChange) {
+      this.setIsTooltipCompatible()
       this.setPieceTooltipContent()
     }
   }
 
   public setPieceTooltipContent(): void {
     this.tooltipContentFields = this.tv2PieceTooltipContentFieldService.getTooltipContentForPiece(this.piece, this.media, this.durationInMs)
+  }
+
+  public setIsTooltipCompatible(): void {
+    const tv2Piece: Tv2Piece = this.piece as Tv2Piece
+    const tooltipPieceTypes: Tv2PieceType[] = [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.JINGLE, Tv2PieceType.GRAPHICS, Tv2PieceType.OVERLAY_GRAPHICS, Tv2PieceType.AUDIO, Tv2PieceType.VOICE_OVER]
+    this.isTooltipCompatible = tooltipPieceTypes.includes(tv2Piece.metadata.type)
   }
 
   public get shouldShowHoverScrub(): boolean {
