@@ -1,6 +1,6 @@
   <div #tooltipHoverElement class="tooltip-hover-element"></div>
 
-  <sofie-tooltip *ngIf="isTooltipCompatible" [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
+  <sofie-tooltip *ngIf="tooltipContentFields.length > 0" [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
     <div class="tooltip">
       <sofie-video-hover-scrub *ngIf="shouldShowHoverScrub && !isMediaUnavailable"
                                [filename]="media?.sourceName ?? piece.name"
@@ -13,9 +13,9 @@
 
       <div class="tooltip-body">
 
-        <div class='header' [class]="getPieceType().toLocaleLowerCase() + '_color'">
+        <header [class]="getPieceType().toLocaleLowerCase() + '_color'">
           <span class="label">{{piece.name}}</span>
-        </div>
+        </header>
 
         <div *ngIf="isMediaUnavailable" class="source-unavailable-banner">
           <sofie-icon-button [iconButtonSize]="IconButtonSize.M" [iconButton]="IconButton.TRIANGLE_EXCLAMATION">

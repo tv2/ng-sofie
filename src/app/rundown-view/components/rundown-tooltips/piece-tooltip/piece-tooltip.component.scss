@@ -5,10 +5,11 @@
   background: var(--rundown-scrollbar-color);
   max-height: 150px;
 
-  .header {
+  header {
     padding: 3px;
     border-top-right-radius: 5px;
     border-bottom: solid 1px var(--black-color);
+    background-color: var(--tv2-unknown-color);
 
     .label {
       margin-left: 5px;
@@ -18,23 +19,22 @@
   }
 
   .source-unavailable-banner {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-
-    background-color: var(--orange-color);
-    font-weight: lighter;
+    padding: 4px 10px;
+    background-color: var(--attention-color);
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-style: italic;
   }
 
   .content-fields {
     display: grid;
     grid-template-columns: auto auto;
-    padding: 5px;
+    grid-gap: 10px;
+    padding: 4px;
 
     .field {
-      padding: 5px;
-      margin-top: 5px;
-      max-width: 350px;
+      padding: 4px;
+      white-space: break-spaces;
 
       font-size: 0.75rem;
 
