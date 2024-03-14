@@ -37,7 +37,6 @@ import { MiniShelfTooltipComponent } from './components/rundown-tooltips/mini-sh
 import { PieceTooltipComponent } from './components/rundown-tooltips/piece-tooltip/piece-tooltip.component'
 import { MiniShelfCycleService } from './services/mini-shelf-cycle.service'
 import { MiniShelfNavigationService } from './services/mini-shelf-navigation.service'
-import { TooltipContentComponent } from './components/rundown-tooltips/tooltip-content/tooltip-content.component'
 import { Tv2PieceTooltipContentFieldService } from './services/tv2-piece-tooltip-content-field.service'
 
 @NgModule({
@@ -65,7 +64,6 @@ import { Tv2PieceTooltipContentFieldService } from './services/tv2-piece-tooltip
     VideoHoverScrubComponent,
     PieceTooltipComponent,
     MiniShelfTooltipComponent,
-    TooltipContentComponent,
   ],
   exports: [SegmentComponent],
   providers: [

@@ -13,7 +13,6 @@
     .label {
       margin-left: 5px;
       color: var(--white-color);
-      font-weight: bolder;
       font-size: 14px;
     }
   }
@@ -25,6 +24,29 @@
 
     background-color: var(--orange-color);
     font-weight: lighter;
+  }
+
+  .content-fields {
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 5px;
+
+    .field {
+      padding: 5px;
+      margin-top: 5px;
+      max-width: 350px;
+
+      font-size: 0.75rem;
+
+      .label {
+        color: var(--white-color);
+      }
+
+      .value {
+        margin-left: 5px;
+        color: var(--gray-color);
+      }
+    }
   }
 }
 
