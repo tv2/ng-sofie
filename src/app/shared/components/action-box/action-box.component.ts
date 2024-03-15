@@ -8,7 +8,7 @@ import { Tv2Action } from '../../models/tv2-action'
 })
 export class ActionBoxComponent {
   @Input() public action: Tv2Action
-  @Input() public highLight: boolean
+  @Input() public highlight: boolean
 
   constructor() {}
 }

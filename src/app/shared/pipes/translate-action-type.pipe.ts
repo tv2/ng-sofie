@@ -5,7 +5,7 @@ import { Tv2ActionContentType } from '../models/tv2-action'
   name: 'translateActionType',
 })
 export class TranslateActionTypePipe implements PipeTransform {
-  public transform(value: string): string {
+  public transform(value: Tv2ActionContentType): string {
     switch (value) {
       case Tv2ActionContentType.AUDIO:
         return $localize`global.audio.label`

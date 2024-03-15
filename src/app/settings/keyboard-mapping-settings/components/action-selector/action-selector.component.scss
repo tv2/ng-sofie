@@ -6,15 +6,6 @@
   height: 650px;
   overflow-y: auto;
   overflow-x: hidden;
-
-  &::-webkit-scrollbar {
-    width: var(--scrollbar-size);
-    height: var(--scrollbar-size);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--gray-color);
-  }
 }
 
 sofie-action-box {

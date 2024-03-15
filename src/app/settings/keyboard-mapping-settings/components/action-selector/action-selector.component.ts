@@ -38,7 +38,7 @@ export class ActionSelectorComponent implements OnInit {
   }
 
   public doesActionMatchSearchQuery(action: Tv2Action): boolean {
-    if (!this.actionSearchQuery || this.actionSearchQuery.length === 0) {
+    if (!this.actionSearchQuery) {
       return true
     }
     const lowerCasedSearchQuery: string = this.actionSearchQuery.toLowerCase()

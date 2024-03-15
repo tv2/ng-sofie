@@ -212,7 +212,7 @@
       </trans-unit>
       <trans-unit id="125592769491380843" datatype="html">
         <source>action-panel.delete.confirmation</source>
-        <target state="new">Are you sure you want to delete this action panel?</target>
+        <target state="new">Er du sikker på at du vil slette dette panel?</target>
       </trans-unit>
       <trans-unit id="4121868262213030663" datatype="html">
         <source>global.import.button</source>
@@ -220,7 +220,7 @@
       </trans-unit>
       <trans-unit id="1489043303962671570" datatype="html">
         <source>keyboard-mapping.delete.confirmation</source>
-        <target state="new">keyboard-mapping.delete.confirmation</target>
+        <target state="new">Er du sikker på at du vil slette denne genvej?</target>
       </trans-unit>
       <trans-unit id="1426591653041922259" datatype="html">
         <source>edit-keyboard-mapping.edit</source>

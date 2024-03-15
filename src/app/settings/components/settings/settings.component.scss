@@ -3,12 +3,12 @@
   height: 100%;
   display: flex;
 
-  .body {
+  main {
     flex-grow: 1;
     background-color: var(--light-gray-color);
   }
 
-  .side-menu {
+  .settings-menu {
     flex: 0 0 14rem;
   }
 }

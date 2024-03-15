@@ -220,7 +220,7 @@
       </trans-unit>
       <trans-unit id="1489043303962671570" datatype="html">
         <source>keyboard-mapping.delete.confirmation</source>
-        <target state="new">keyboard-mapping.delete.confirmation</target>
+        <target state="new">Are you sure you want to delete this Keyboard Mapping?</target>
       </trans-unit>
       <trans-unit id="1426591653041922259" datatype="html">
         <source>edit-keyboard-mapping.edit</source>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { FileDownloadService } from '../abstractions/file-download.service'
 
-const JSON_EXTENSION: string = '.json'
+const JSON_EXTENSION: string = 'json'
 
 @Injectable()
 export class DomFileDownloadService implements FileDownloadService {
@@ -15,7 +15,7 @@ export class DomFileDownloadService implements FileDownloadService {
   public downloadJson(data: unknown, filename: string): void {
     const text: string = JSON.stringify(data)
     if (!filename.includes(JSON_EXTENSION)) {
-      filename = `${filename}${JSON_EXTENSION}`
+      filename = `${filename}.${JSON_EXTENSION}`
     }
     this.downloadText(text, filename)
   }
