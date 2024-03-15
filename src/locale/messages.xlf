@@ -185,29 +185,68 @@
       <trans-unit id="9012317992372082365" datatype="html">
         <source>global.next.label</source>
       </trans-unit>
-      <trans-unit id="1461657427455059144" datatype="html">
-        <source>rundown-overview.hover-scrub.full-duration.label</source>
+      <trans-unit id="1016737278364313295" datatype="html">
+        <source>piece.lifespan.unknown</source>
       </trans-unit>
-      <trans-unit id="2034200581680650159" datatype="html">
-        <source>rundown-overview.piece-lifespan.within-part.label</source>
+      <trans-unit id="1512530649495667717" datatype="html">
+        <source>piece.lifespan.sticky-until-rundown-change</source>
       </trans-unit>
-      <trans-unit id="3756253066454906988" datatype="html">
-        <source>rundown-overview.piece-lifespan.sticky-until-segment-change.label</source>
+      <trans-unit id="1624699664203091977" datatype="html">
+        <source>piece.lifespan.sticky-until-segment-change</source>
       </trans-unit>
-      <trans-unit id="5403423725077749106" datatype="html">
-        <source>rundown-overview.piece-lifespan.spanning-until-segment-end.label</source>
+      <trans-unit id="558457345008559478" datatype="html">
+        <source>piece.lifespan.start-spanning-segment-then-sticky-rundown</source>
       </trans-unit>
-      <trans-unit id="7856664369878580754" datatype="html">
-        <source>rundown-overview.piece-lifespan.sticky-until-rundown-change.label</source>
+      <trans-unit id="621872648794619093" datatype="html">
+        <source>piece.lifespan.within-part</source>
       </trans-unit>
-      <trans-unit id="8644673226907563596" datatype="html">
-        <source>rundown-overview.piece-lifespan.spanning-until-rundown-end.label</source>
+      <trans-unit id="7630473968632852036" datatype="html">
+        <source>piece.lifespan.spanning-until-rundown-end</source>
       </trans-unit>
-      <trans-unit id="926910340253948378" datatype="html">
-        <source>rundown-overview.piece-lifespan.start-spanning-segment-then-sticky-rundown.label</source>
+      <trans-unit id="8704971237918811774" datatype="html">
+        <source>piece.lifespan.sticky-until-segment-end</source>
       </trans-unit>
-      <trans-unit id="7106742347850471576" datatype="html">
-        <source>rundown-overview.hover-scrub.source-unavailable.label</source>
+      <trans-unit id="1044477716904098041" datatype="html">
+        <source>piece-tooltip-content.time-code-in-part.label</source>
+      </trans-unit>
+      <trans-unit id="1146669822886669522" datatype="html">
+        <source>piece-tooltip-content.name.label</source>
+      </trans-unit>
+      <trans-unit id="1962663410998124131" datatype="html">
+        <source>piece-tooltip-content.duration.label</source>
+      </trans-unit>
+      <trans-unit id="2286645272575381009" datatype="html">
+        <source>piece-tooltip-content.content-of-all-fields.label</source>
+      </trans-unit>
+      <trans-unit id="247703202619960491" datatype="html">
+        <source>piece-tooltip-content.template-name.label</source>
+      </trans-unit>
+      <trans-unit id="2911851896669162406" datatype="html">
+        <source>piece-tooltip-content.available-for-playout.label</source>
+      </trans-unit>
+      <trans-unit id="3000985957863398667" datatype="html">
+        <source>piece-tooltip-content.out-type.label</source>
+      </trans-unit>
+      <trans-unit id="4174829375203668461" datatype="html">
+        <source>piece-tooltip-content.no-specific-time-code.data</source>
+      </trans-unit>
+      <trans-unit id="4345807184627930663" datatype="html">
+        <source>piece-tooltip-content.name-of-clip.label</source>
+      </trans-unit>
+      <trans-unit id="6258196151878366535" datatype="html">
+        <source>piece-tooltip-content.name-of-pilot.label</source>
+      </trans-unit>
+      <trans-unit id="717945474169849731" datatype="html">
+        <source>global.yes</source>
+      </trans-unit>
+      <trans-unit id="8147260465029418817" datatype="html">
+        <source>piece-tooltip-content.unknown.data</source>
+      </trans-unit>
+      <trans-unit id="8248235614614318568" datatype="html">
+        <source>global.no</source>
+      </trans-unit>
+      <trans-unit id="3623062952070884482" datatype="html">
+        <source>piece-tooltip.source-unavailable.label</source>
       </trans-unit>
     </body>
   </file>

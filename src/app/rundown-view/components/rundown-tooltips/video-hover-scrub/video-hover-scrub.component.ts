@@ -26,7 +26,7 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   public videoElementRef: ElementRef<HTMLVideoElement>
 
   private studioConfiguration: StudioConfiguration
-  private readonly unsubscribe$: Subject<void> = new Subject<void>()
+  private readonly unsubscribe$: Subject<void> = new Subject()
 
   protected readonly IconButton = IconButton
   protected readonly IconButtonSize = IconButtonSize
