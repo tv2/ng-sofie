@@ -1,10 +1,14 @@
 <sofie-row class="mb-3">
     <form [formGroup]="actionTriggerForm" class="left-container">
         <div [formGroupName]="'data'">
-            <sofie-text-input [label]="labelLabel" [formControlName]="'label'"></sofie-text-input>
-            <sofie-keyboard-input [label]="shortcutLabel" [formControlName]="'keys'"></sofie-keyboard-input>
-            <sofie-keyboard-input [label]="physicalMappingLabel" [formControlName]="'mappedToKeys'" [helpText]="physicalMappingHelpText"></sofie-keyboard-input>
-            <sofie-select [label]="triggerOnLabel" [formControlName]="'triggerOn'" [options]="triggerOnOptions"></sofie-select>
+            <sofie-text-input i18n-label label="global.label" [formControlName]="'label'"></sofie-text-input>
+            <sofie-keyboard-input i18n-label label="action-triggers.shortcut.label" [formControlName]="'keys'"></sofie-keyboard-input>
+            <sofie-keyboard-input
+                    i18n-label label="action-triggers.physical-mapping.label"
+                    [formControlName]="'mappedToKeys'"
+                    i18n-helpText helpText="action-triggers.physical-mapping-help.tooltip"
+            ></sofie-keyboard-input>
+            <sofie-select i18n-label label="action-triggers.trigger-on.label" [formControlName]="'triggerOn'" [options]="triggerOnOptions"></sofie-select>
 
             <ng-container *ngIf="selectedAction" [ngTemplateOutlet]="actionArguments"></ng-container>
 

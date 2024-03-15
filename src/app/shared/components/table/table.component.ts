@@ -73,7 +73,7 @@ export class TableComponent<T> implements OnChanges {
   }
 
   public getSortIcon(header: SofieTableHeader<T>): IconButton {
-    return header.sortDirection === SortDirection.ASC ? IconButton.SORT_UP : IconButton.SORT_DOWN
+    return header.sortDirection === SortDirection.ASC ? IconButton.UPWARD_TRIANGLE : IconButton.DOWNWARD_TRIANGLE
   }
 
   public toggleAllEntities(isSelected: boolean): void {

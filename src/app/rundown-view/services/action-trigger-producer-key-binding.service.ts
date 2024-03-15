@@ -131,7 +131,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   }
 
   private getActionTriggerLabel(actionTrigger: ActionTrigger<KeyboardTriggerData>, action: Tv2Action): string {
-    if (actionTrigger.data.label && actionTrigger.data.label.length > 0) {
+    if (actionTrigger.data.label) {
       return actionTrigger.data.label
     }
     return action.name

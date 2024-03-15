@@ -14,12 +14,6 @@ import { MultiSelectOption } from '../../../../shared/components/multi-select/mu
 export class EditKeyboardMappingComponent implements OnInit {
   protected readonly ActionArgumentSchemaType = ActionArgumentSchemaType
 
-  protected readonly labelLabel: string = $localize`global.label`
-  protected readonly shortcutLabel: string = $localize`action-triggers.shortcut.label`
-  protected readonly physicalMappingLabel: string = $localize`action-triggers.physical-mapping.label`
-  protected readonly physicalMappingHelpText: string = $localize`action-triggers.physical-mapping-help.tooltip`
-  protected readonly triggerOnLabel: string = $localize`action-triggers.trigger-on.label`
-
   @Input() public keyboardMapping?: KeyboardMapping
 
   @Output() public onSave: EventEmitter<KeyboardMapping> = new EventEmitter()

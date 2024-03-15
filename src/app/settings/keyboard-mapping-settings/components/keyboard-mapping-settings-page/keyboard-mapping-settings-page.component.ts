@@ -27,7 +27,6 @@ export interface KeyboardMapping {
 export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   protected readonly IconButtonSize = IconButtonSize
   protected readonly IconButton = IconButton
-  protected readonly title: string = $localize`settings.keyboard-mappings.label`
   protected readonly keyboardMappingsFileName: string = 'keyboard-mappings'
 
   public keyboardMappings: KeyboardMapping[]

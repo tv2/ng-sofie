@@ -52,9 +52,9 @@ export class FortAwesomeIconService implements IconService {
         return faPen
       case IconButton.CIRCLE_QUESTION:
         return faCircleQuestion
-      case IconButton.SORT_DOWN:
+      case IconButton.DOWNWARD_TRIANGLE:
         return faSortDown
-      case IconButton.SORT_UP:
+      case IconButton.UPWARD_TRIANGLE:
         return faSortUp
       case IconButton.TRIANGLE_EXCLAMATION:
         return faTriangleExclamation

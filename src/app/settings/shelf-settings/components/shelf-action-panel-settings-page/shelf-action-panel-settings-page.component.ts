@@ -21,7 +21,6 @@ import { EditShelfActionPanelConfigurationDialogComponent } from '../edit-shelf-
 export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy {
   protected readonly IconButton = IconButton
   protected readonly IconButtonSize = IconButtonSize
-  protected readonly title: string = $localize`settings.shelf.action-panels.label`
   protected readonly shelfConfigurationFileName: string = 'shelf-configuration'
 
   public selectedActionPanels: Set<ShelfActionPanelConfiguration> = new Set()

@@ -10,10 +10,6 @@ import { TranslateActionTypePipe } from '../../../../shared/pipes/translate-acti
   templateUrl: './edit-shelf-action-panel-configuration.component.html',
 })
 export class EditShelfActionPanelConfigurationComponent implements OnInit {
-  public nameLabel: string = $localize`action-panel.panel-name.label`
-  public filterLabel: string = $localize`global.filters.label`
-  public rankLabel: string = $localize`action-panel.rank.label`
-
   @Input() public actionPanel?: ShelfActionPanelConfiguration
 
   @Output() public onSave: EventEmitter<ShelfActionPanelConfiguration> = new EventEmitter()

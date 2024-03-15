@@ -9,9 +9,6 @@ import { NotificationService } from '../../../shared/services/notification.servi
   styleUrls: ['./clear-cache.component.scss'],
 })
 export class ClearCacheComponent {
-  public readonly title: string = $localize`clear-cache.title`
-  public readonly clearCacheLabel: string = $localize`clear-cache.button.label`
-
   constructor(
     private readonly configurationService: ConfigurationService,
     private readonly dialogService: DialogService,

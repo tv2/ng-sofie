@@ -1,4 +1,4 @@
-<sofie-settings-page [title]="title">
+<sofie-settings-page i18n-title title="settings.shelf.action-panels.label">
     <sofie-card *ngIf="shelfConfiguration; else loading">
         <ng-container cardHeader>
             <sofie-text-input class="me-2" [placeholder]="'Search'" [(value)]="actionPanelNameSearchQuery"></sofie-text-input>

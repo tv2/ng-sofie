@@ -1,7 +1,7 @@
 <form [formGroup]="form" class="mb-3">
-    <sofie-text-input [label]="nameLabel" [formControlName]="'name'"></sofie-text-input>
-    <sofie-multi-select [label]="filterLabel" [formControlName]="'actionFilter'" [options]="actionContentOptions"></sofie-multi-select>
-    <sofie-number-input [label]="rankLabel" [formControlName]="'rank'"></sofie-number-input>
+    <sofie-text-input i18n-label label="action-panel.panel-name.label" [formControlName]="'name'"></sofie-text-input>
+    <sofie-multi-select i18n-label label="global.filters.label" [formControlName]="'actionFilter'" [options]="actionContentOptions"></sofie-multi-select>
+    <sofie-number-input i18n-label label="action-panel.rank.label" [formControlName]="'rank'"></sofie-number-input>
 </form>
 
 <sofie-button-group>

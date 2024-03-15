@@ -5,9 +5,9 @@ import { ClearCacheComponent } from './components/clear-cache/clear-cache.compon
 
 export enum SettingsPath {
   SETTINGS = '',
-  KEYBOARD_MAPPINGS = 'keyboard_mapping',
+  KEYBOARD_MAPPINGS = 'keyboard-mapping',
   SHELF = 'shelf',
-  CLEAR_CACHE = 'clear_cache',
+  CLEAR_CACHE = 'clear-cache',
 }
 
 const routes: Routes = [
