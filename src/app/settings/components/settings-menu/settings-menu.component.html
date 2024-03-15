@@ -1,14 +1,10 @@
-<div class="side-menu">
-  <div class="menu-item">
-    <a routerLinkActive="active-tab" [routerLink]="[SettingsPath.KEYBOARD_MAPPINGS]" i18n>settings.keyboard-mappings.label</a>
-  </div>
-  <div class="menu-item">
-    <a routerLinkActive="active-tab" [routerLink]="[SettingsPath.SHELF]" i18n>settings.shelf.label</a>
-  </div>
-  <div class="menu-sub-item" *ngIf="isShelfRouteActive">
-    <a routerLinkActive="active-tab" [routerLink]="[SettingsPath.SHELF, ShelfPath.ACTION_PANELS]" i18n>settings.shelf.action-panels.label</a>
-  </div>
-  <div class="menu-item">
-    <a routerLinkActive="active-tab" [routerLink]="[SettingsPath.CLEAR_CACHE]" i18n>settings.clear-cache.label</a>
-  </div>
-</div>
+<ul class="p-0">
+    <li *ngFor="let menuItem of menuItems">
+        <a class="p-3" routerLinkActive="active-tab" [routerLink]="menuItem.routerLink">{{menuItem.name}}</a>
+        <ul *ngIf="menuItem.shouldShowSubItems && menuItem.shouldShowSubItems()" class="p-0">
+            <li *ngFor="let subMenuItem of menuItem.subItems">
+                <a class="p-3 ps-5" routerLinkActive="active-tab" [routerLink]="subMenuItem.routerLink">{{subMenuItem.name}}</a>
+            </li>
+        </ul>
+    </li>
+</ul>
