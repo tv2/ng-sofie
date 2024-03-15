@@ -23,6 +23,7 @@ export class PieceTooltipComponent implements OnChanges {
   public tooltipElementHoverMousePosition?: TooltipMousePosition
   public tooltipContentFields: TooltipContentField[]
   public Tv2PieceType = Tv2PieceType
+  public shouldShowHoverScrub: boolean
 
   protected readonly IconButtonSize = IconButtonSize
   protected readonly IconButton = IconButton
@@ -66,6 +67,7 @@ export class PieceTooltipComponent implements OnChanges {
     const mediaChange: SimpleChange | undefined = changes['media']
     if (pieceChange || mediaChange) {
       this.updateTooltipContent()
+      this.updateShouldShowHoverScrub()
     }
   }
 
@@ -73,9 +75,9 @@ export class PieceTooltipComponent implements OnChanges {
     this.tooltipContentFields = this.tv2PieceTooltipContentFieldService.getTooltipContentForPiece(this.piece, this.media, this.durationInMs)
   }
 
-  public get shouldShowHoverScrub(): boolean {
+  public updateShouldShowHoverScrub(): void {
     const tv2Piece: Tv2Piece = this.piece as Tv2Piece
-    return (tv2Piece.metadata?.type === Tv2PieceType.VIDEO_CLIP || tv2Piece.metadata?.type === Tv2PieceType.JINGLE) && tv2Piece.metadata.sourceName !== undefined
+    this.shouldShowHoverScrub = (tv2Piece.metadata?.type === Tv2PieceType.VIDEO_CLIP || tv2Piece.metadata?.type === Tv2PieceType.JINGLE) && tv2Piece.metadata.sourceName !== undefined
   }
 
   public getPieceType(): Tv2PieceType {

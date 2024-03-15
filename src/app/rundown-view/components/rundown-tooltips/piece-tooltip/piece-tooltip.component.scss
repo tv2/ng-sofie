@@ -3,7 +3,6 @@
   flex-direction: row;
   border-radius: 5px;
   background: var(--rundown-scrollbar-color);
-  max-height: 150px;
 
   header {
     padding: 3px;
@@ -24,6 +23,10 @@
     font-size: 0.85rem;
     font-weight: 500;
     font-style: italic;
+
+    sofie-icon-button {
+      color: var(--black-color);
+    }
   }
 
   .content-fields {
