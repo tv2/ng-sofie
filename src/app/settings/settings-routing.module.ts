@@ -5,7 +5,7 @@ import { ClearCacheComponent } from './components/clear-cache/clear-cache.compon
 
 export enum SettingsPath {
   SETTINGS = '',
-  KEYBOARD_MAPPINGS = 'keyboard-mapping',
+  KEYBOARD_MAPPINGS = 'keyboard-mappings',
   SHELF = 'shelf',
   CLEAR_CACHE = 'clear-cache',
 }

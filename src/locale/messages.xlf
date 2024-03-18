@@ -222,13 +222,16 @@
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail</source>
       </trans-unit>
       <trans-unit id="976917377731196434" datatype="html">
-        <source>shelf-action-panel-settings-page.create-action-panel.success <x id="PH" equiv-text="result.name"/></source>
+        <source>shelf-action-panel-settings-page.create-action-panel.success <x id="PH" equiv-text="createdActionPanel.name"/></source>
       </trans-unit>
       <trans-unit id="4084730079945397668" datatype="html">
-        <source>shelf-action-panel-settings.page.update-action-panel.success <x id="PH" equiv-text="result.name"/></source>
+        <source>shelf-action-panel-settings.page.update-action-panel.success <x id="PH" equiv-text="updatedActionPanel.name"/></source>
       </trans-unit>
       <trans-unit id="2441219618501183432" datatype="html">
         <source>shelf-action-panel-settings-page.selected-action-panels.deleted</source>
+      </trans-unit>
+      <trans-unit id="5114970090218136617" datatype="html">
+        <source>common.save</source>
       </trans-unit>
     </body>
   </file>

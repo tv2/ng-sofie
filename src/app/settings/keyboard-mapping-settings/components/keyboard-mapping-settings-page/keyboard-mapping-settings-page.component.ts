@@ -188,10 +188,10 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
 
     const lowerCasedQuery: string = this.searchQuery.toLowerCase()
     const doesLabelMatchQuery: boolean = keyboardMapping.actionTrigger.data.label.toLowerCase().includes(lowerCasedQuery)
-    const doesShortCutMatchQuery: boolean = this.getShortcutName(keyboardMapping).toLowerCase().includes(lowerCasedQuery)
+    const doesShortcutMatchQuery: boolean = this.getShortcutName(keyboardMapping).toLowerCase().includes(lowerCasedQuery)
     const doesActionNameMatchQuery: boolean = keyboardMapping.action.name.toLowerCase().includes(lowerCasedQuery)
 
-    return doesLabelMatchQuery || doesShortCutMatchQuery || doesActionNameMatchQuery
+    return doesLabelMatchQuery || doesShortcutMatchQuery || doesActionNameMatchQuery
   }
 
   public getKeyboardMappingName(keyboardMapping: KeyboardMapping): string {

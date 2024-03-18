@@ -295,16 +295,20 @@
         <target state="new">Something went wrong deleting Keyboard Mappings</target>
       </trans-unit>
       <trans-unit id="976917377731196434" datatype="html">
-        <source>shelf-action-panel-settings-page.create-action-panel.success <x id="PH" equiv-text="result.name"/></source>
+        <source>shelf-action-panel-settings-page.create-action-panel.success <x id="PH" equiv-text="createdActionPanel.name"/></source>
         <target state="new">Successfully created Action Panel: <x id="PH" equiv-text="result.name"/></target>
       </trans-unit>
       <trans-unit id="4084730079945397668" datatype="html">
-        <source>shelf-action-panel-settings.page.update-action-panel.success <x id="PH" equiv-text="result.name"/></source>
+        <source>shelf-action-panel-settings.page.update-action-panel.success <x id="PH" equiv-text="updatedActionPanel.name"/></source>
         <target state="new">Successfully updated Action Panel: <x id="PH" equiv-text="result.name"/></target>
       </trans-unit>
       <trans-unit id="2441219618501183432" datatype="html">
         <source>shelf-action-panel-settings-page.selected-action-panels.deleted</source>
         <target state="new">Selected Action Panels were deleted</target>
+      </trans-unit>
+      <trans-unit id="5114970090218136617" datatype="html">
+        <source>common.save</source>
+        <target state="new">Save</target>
       </trans-unit>
     </body>
   </file>

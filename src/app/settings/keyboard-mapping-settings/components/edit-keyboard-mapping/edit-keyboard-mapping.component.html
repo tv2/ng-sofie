@@ -25,7 +25,7 @@
 <sofie-button-group>
     <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
     <sofie-spacer></sofie-spacer>
-    <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!actionTriggerForm.valid">Save</sofie-button>
+    <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!actionTriggerForm.valid" i18n>common.save</sofie-button>
 </sofie-button-group>
 
 <ng-template #actionArguments>
