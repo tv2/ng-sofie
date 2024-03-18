@@ -1,12 +1,4 @@
-.button-group {
+:host {
   display: flex;
-
-  > sofie-button, > sofie-icon-button, > sofie-json-import-button, > sofie-json-export-button {
-    margin-right: 6px;
-
-    &:last-child {
-      margin-right: 0;
-    }
-  }
+  gap: 6px;
 }
-
