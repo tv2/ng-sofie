@@ -115,6 +115,7 @@
       </trans-unit>
       <trans-unit id="3495993720885162413" datatype="html">
         <source>action-panel.rank.label</source>
+      </trans-unit>
       <trans-unit id="1016737278364313295" datatype="html">
         <source>piece.lifespan.unknown</source>
       </trans-unit>
@@ -129,31 +130,37 @@
       </trans-unit>
       <trans-unit id="1842982718967386055" datatype="html">
         <source>global.audio.label</source>
+      </trans-unit>
       <trans-unit id="621872648794619093" datatype="html">
         <source>piece.lifespan.within-part</source>
       </trans-unit>
       <trans-unit id="1887044897982242749" datatype="html">
         <source>global.robot.label</source>
+      </trans-unit>
       <trans-unit id="7630473968632852036" datatype="html">
         <source>piece.lifespan.spanning-until-rundown-end</source>
       </trans-unit>
       <trans-unit id="2951845926043442554" datatype="html">
         <source>global.graphics.label</source>
+      </trans-unit>
       <trans-unit id="8704971237918811774" datatype="html">
         <source>piece.lifespan.sticky-until-segment-end</source>
       </trans-unit>
       <trans-unit id="3522238577113202288" datatype="html">
         <source>global.video-clip.label</source>
+      </trans-unit>
       <trans-unit id="1044477716904098041" datatype="html">
         <source>piece-tooltip-content.time-code-in-part.label</source>
       </trans-unit>
       <trans-unit id="389262478828731921" datatype="html">
         <source>global.remote.label</source>
+      </trans-unit>
       <trans-unit id="1146669822886669522" datatype="html">
         <source>piece-tooltip-content.name.label</source>
       </trans-unit>
       <trans-unit id="6046979654633268329" datatype="html">
         <source>global.camera.label</source>
+      </trans-unit>
       <trans-unit id="1962663410998124131" datatype="html">
         <source>piece-tooltip-content.duration.label</source>
       </trans-unit>
@@ -255,6 +262,7 @@
       </trans-unit>
       <trans-unit id="5114970090218136617" datatype="html">
         <source>common.save</source>
+      </trans-unit>
       <trans-unit id="2286645272575381009" datatype="html">
         <source>piece-tooltip-content.content-of-all-fields.label</source>
       </trans-unit>

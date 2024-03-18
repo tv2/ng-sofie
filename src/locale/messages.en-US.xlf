@@ -145,6 +145,7 @@
       <trans-unit id="6050389772118678864" datatype="html">
         <source>global.export.label</source>
         <target state="new">Export</target>
+      </trans-unit>
       <trans-unit id="621872648794619093" datatype="html">
         <source>piece.lifespan.within-part</source>
         <target state="new">Within part</target>
@@ -176,6 +177,7 @@
       <trans-unit id="249423270498322985" datatype="html">
         <source>action-panel.panel-name.label</source>
         <target state="new">Panel name</target>
+      </trans-unit>
       <trans-unit id="1146669822886669522" datatype="html">
         <source>piece-tooltip-content.name.label</source>
         <target state="new">Name</target>
@@ -211,6 +213,7 @@
       <trans-unit id="3495993720885162413" datatype="html">
         <source>action-panel.rank.label</source>
         <target state="new">Rank</target>
+      </trans-unit>
       <trans-unit id="3000985957863398667" datatype="html">
         <source>piece-tooltip-content.out-type.label</source>
         <target state="new">Out type</target>
@@ -218,6 +221,7 @@
       <trans-unit id="1842982718967386055" datatype="html">
         <source>global.audio.label</source>
         <target state="new">Audio</target>
+      </trans-unit>
       <trans-unit id="8147260465029418817" datatype="html">
         <source>piece-tooltip-content.unknown.data</source>
         <target state="new">Unknown</target>
@@ -225,6 +229,7 @@
       <trans-unit id="389262478828731921" datatype="html">
         <source>global.remote.label</source>
         <target state="new">Remote</target>
+      </trans-unit>
       <trans-unit id="4174829375203668461" datatype="html">
         <source>piece-tooltip-content.no-specific-time-code.data</source>
         <target state="new">(No specific time code)</target>
@@ -232,6 +237,7 @@
       <trans-unit id="6046979654633268329" datatype="html">
         <source>global.camera.label</source>
         <target state="new">Camera</target>
+      </trans-unit>
       <trans-unit id="717945474169849731" datatype="html">
         <source>global.yes</source>
         <target state="new">Yes</target>
@@ -239,6 +245,7 @@
       <trans-unit id="2951845926043442554" datatype="html">
         <source>global.graphics.label</source>
         <target state="new">Graphics</target>
+      </trans-unit>
       <trans-unit id="8248235614614318568" datatype="html">
         <source>global.no</source>
         <target state="new">No</target>
@@ -382,6 +389,7 @@
       <trans-unit id="5114970090218136617" datatype="html">
         <source>common.save</source>
         <target state="new">Save</target>
+      </trans-unit>
       <trans-unit id="3623062952070884482" datatype="html">
         <source>piece-tooltip.source-unavailable.label</source>
         <target state="new">Source is unavailable!</target>

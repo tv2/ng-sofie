@@ -145,6 +145,7 @@
       <trans-unit id="6050389772118678864" datatype="html">
         <source>global.export.label</source>
         <target state="new">Export</target>
+      </trans-unit>
       <trans-unit id="621872648794619093" datatype="html">
         <source>piece.lifespan.within-part</source>
         <target state="new">Indeni parten</target>
@@ -164,6 +165,7 @@
       <trans-unit id="249423270498322985" datatype="html">
         <source>action-panel.panel-name.label</source>
         <target state="new">Panel name</target>
+      </trans-unit>
       <trans-unit id="7630473968632852036" datatype="html">
         <source>piece.lifespan.spanning-until-rundown-end</source>
         <target state="new">Spænder indtil rundown slutter</target>
@@ -171,6 +173,7 @@
       <trans-unit id="3495993720885162413" datatype="html">
         <source>action-panel.rank.label</source>
         <target state="new">Rank</target>
+      </trans-unit>
       <trans-unit id="558457345008559478" datatype="html">
         <source>piece.lifespan.start-spanning-segment-then-sticky-rundown</source>
         <target state="new">Spænder segmentet og bliver så på rundown</target>
@@ -178,6 +181,7 @@
       <trans-unit id="1842982718967386055" datatype="html">
         <source>global.audio.label</source>
         <target state="new">Audio</target>
+      </trans-unit>
       <trans-unit id="1016737278364313295" datatype="html">
         <source>piece.lifespan.unknown</source>
         <target state="new">Ukendt</target>
@@ -185,6 +189,7 @@
       <trans-unit id="389262478828731921" datatype="html">
         <source>global.remote.label</source>
         <target state="new">Remote</target>
+      </trans-unit>
       <trans-unit id="1146669822886669522" datatype="html">
         <source>piece-tooltip-content.name.label</source>
         <target state="new">Navn</target>
@@ -192,6 +197,7 @@
       <trans-unit id="6046979654633268329" datatype="html">
         <source>global.camera.label</source>
         <target state="new">Camera</target>
+      </trans-unit>
       <trans-unit id="4345807184627930663" datatype="html">
         <source>piece-tooltip-content.name-of-clip.label</source>
         <target state="new">Klip navn</target>
@@ -199,6 +205,7 @@
       <trans-unit id="2951845926043442554" datatype="html">
         <source>global.graphics.label</source>
         <target state="new">Graphics</target>
+      </trans-unit>
       <trans-unit id="6258196151878366535" datatype="html">
         <source>piece-tooltip-content.name-of-pilot.label</source>
         <target state="new">Navn på pilot</target>
@@ -342,6 +349,7 @@
       <trans-unit id="5114970090218136617" datatype="html">
         <source>common.save</source>
         <target state="new">Gem</target>
+      </trans-unit>
       <trans-unit id="247703202619960491" datatype="html">
         <source>piece-tooltip-content.template-name.label</source>
         <target state="new">Navn på skabelon</target>
