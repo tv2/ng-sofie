@@ -171,10 +171,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public get isActiveOrRehearsal(): boolean {
-    if (!this.rundown) {
-      return false
-    }
-    return (this.rundown && this.rundown.mode === RundownMode.ACTIVE) || this.rundown.mode === RundownMode.REHEARSAL
+    return [RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(this.rundown.mode)
   }
 
   public ngOnDestroy(): void {
