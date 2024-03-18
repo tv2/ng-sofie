@@ -24,7 +24,7 @@ export class TableComponent<T> implements OnChanges {
 
   @Input() public headers: SofieTableHeader<T>[] = []
 
-  @Input() public entities: T[]
+  @Input() public entities: T[] = []
   @Input() public rowTemplate: TemplateRef<T>
   @Input() public shouldShowRowCallback: (entity: T) => boolean = (): boolean => true
 

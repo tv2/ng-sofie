@@ -9,6 +9,7 @@ import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
 import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
 import { RundownMode } from '../../../core/enums/rundown-mode'
+import { Paths } from '../../../app-routing.module'
 
 const DESIGN_TEMPLATE_IDENTIFIER: string = 'DESIGN_'
 const SKEMA_TEMPLATE_IDENTIFIER: string = 'SKEMA_'
@@ -19,6 +20,7 @@ const SKEMA_TEMPLATE_IDENTIFIER: string = 'SKEMA_'
   styleUrls: ['./rundown-header.component.scss'],
 })
 export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
+  protected readonly Paths = Paths
   protected readonly RundownMode = RundownMode
 
   @Input()
