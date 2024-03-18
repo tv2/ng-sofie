@@ -200,9 +200,6 @@
       <trans-unit id="8250191741920581081" datatype="html">
         <source>action-selector.select-action</source>
       </trans-unit>
-      <trans-unit id="1533017861684578744" datatype="html">
-        <source>keyboard-mapping-settings-page.import-keyboard-mappings.fail</source>
-      </trans-unit>
       <trans-unit id="3545744709165250098" datatype="html">
         <source>keyboard-mapping-settings-page.duplicate-keyboard-mapping.success</source>
       </trans-unit>
@@ -223,6 +220,15 @@
       </trans-unit>
       <trans-unit id="2265780212602106942" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail</source>
+      </trans-unit>
+      <trans-unit id="976917377731196434" datatype="html">
+        <source>shelf-action-panel-settings-page.create-action-panel.success <x id="PH" equiv-text="result.name"/></source>
+      </trans-unit>
+      <trans-unit id="4084730079945397668" datatype="html">
+        <source>shelf-action-panel-settings.page.update-action-panel.success <x id="PH" equiv-text="result.name"/></source>
+      </trans-unit>
+      <trans-unit id="2441219618501183432" datatype="html">
+        <source>shelf-action-panel-settings-page.selected-action-panels.deleted</source>
       </trans-unit>
     </body>
   </file>

@@ -286,10 +286,6 @@
         <source>keyboard-mapping-settings-page.import-keyboard-mappings.success</source>
         <target state="new">Genvejene blev importeret</target>
       </trans-unit>
-      <trans-unit id="1533017861684578744" datatype="html">
-        <source>keyboard-mapping-settings-page.import-keyboard-mappings.fail</source>
-        <target state="new">Noget gik under importering af genvejene</target>
-      </trans-unit>
       <trans-unit id="6377346699736517553" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success</source>
         <target state="new">Genvejene blev slettet</target>
@@ -297,6 +293,18 @@
       <trans-unit id="2265780212602106942" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail</source>
         <target state="new">Noget gik galt under sletning af genvejene</target>
+      </trans-unit>
+      <trans-unit id="976917377731196434" datatype="html">
+        <source>shelf-action-panel-settings-page.create-action-panel.success <x id="PH" equiv-text="result.name"/></source>
+        <target state="new">Action panelet: <x id="PH" equiv-text="result.name"/> blev oprettet</target>
+      </trans-unit>
+      <trans-unit id="4084730079945397668" datatype="html">
+        <source>shelf-action-panel-settings.page.update-action-panel.success <x id="PH" equiv-text="result.name"/></source>
+        <target state="new">Action panelet: <x id="PH" equiv-text="result.name"/> blev opdateret</target>
+      </trans-unit>
+      <trans-unit id="2441219618501183432" datatype="html">
+        <source>shelf-action-panel-settings-page.selected-action-panels.deleted</source>
+        <target state="new">De valgte Action paneler blev slettet</target>
       </trans-unit>
     </body>
   </file>

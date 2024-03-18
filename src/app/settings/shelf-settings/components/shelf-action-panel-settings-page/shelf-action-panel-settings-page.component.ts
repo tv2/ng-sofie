@@ -115,14 +115,14 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   public openCreateActionPanel(): void {
     this.dialogService.openSidebarDialog<EditShelfActionPanelConfigurationDialogComponent, ShelfActionPanelConfiguration>(
       EditShelfActionPanelConfigurationDialogComponent,
-      (result?: ShelfActionPanelConfiguration) => {
-        if (!result) {
+      (createdActionPanel?: ShelfActionPanelConfiguration) => {
+        if (!createdActionPanel) {
           return
         }
-        this.shelfConfiguration.actionPanelConfigurations.push(result)
+        this.shelfConfiguration.actionPanelConfigurations.push(createdActionPanel)
         this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
 
-        this.notificationService.createInfoNotification(`Successfully created Action Panel: ${result.name}`)
+        this.notificationService.createInfoNotification($localize`shelf-action-panel-settings-page.create-action-panel.success ${createdActionPanel.name}`)
       }
     )
   }
@@ -130,18 +130,18 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   public openEditActionPanel(actionPanel: ShelfActionPanelConfiguration): void {
     this.dialogService.openSidebarDialog<EditShelfActionPanelConfigurationDialogComponent, ShelfActionPanelConfiguration>(
       EditShelfActionPanelConfigurationDialogComponent,
-      (result?: ShelfActionPanelConfiguration) => {
-        if (!result) {
+      (updatedActionPanel?: ShelfActionPanelConfiguration) => {
+        if (!updatedActionPanel) {
           return
         }
-        const index: number = this.shelfConfiguration.actionPanelConfigurations.findIndex(panel => panel.id === result.id)
+        const index: number = this.shelfConfiguration.actionPanelConfigurations.findIndex(panel => panel.id === updatedActionPanel.id)
         if (index < 0) {
           return
         }
-        this.shelfConfiguration.actionPanelConfigurations.splice(index, 1, result)
+        this.shelfConfiguration.actionPanelConfigurations.splice(index, 1, updatedActionPanel)
         this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
 
-        this.notificationService.createInfoNotification(`Successfully edited Action Panel: ${result.name}`)
+        this.notificationService.createInfoNotification($localize`shelf-action-panel-settings.page.update-action-panel.success ${updatedActionPanel.name}`)
       },
       actionPanel
     )
@@ -165,7 +165,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
       this.selectedActionPanels.clear()
       this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
 
-      this.notificationService.createInfoNotification('Selected Action Panels were deleted')
+      this.notificationService.createInfoNotification($localize`shelf-action-panel-settings-page.selected-action-panels.deleted`)
     })
   }
 
@@ -194,6 +194,6 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   }
 
   public ngOnDestroy(): void {
-    this.shelfConfigurationEventSubscription.unsubscribe
+    this.shelfConfigurationEventSubscription.unsubscribe()
   }
 }
