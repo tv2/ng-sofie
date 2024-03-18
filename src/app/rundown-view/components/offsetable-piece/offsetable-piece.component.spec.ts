@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-
 import { OffsetablePieceComponent } from './offsetable-piece.component'
 import { instance, mock } from '@typestrong/ts-mockito'
 import { MediaStateService } from '../../../shared/services/media-state.service'

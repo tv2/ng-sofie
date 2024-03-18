@@ -66,6 +66,7 @@ export class ZodEntityParser implements EntityParser {
       outputLayer: zod.nativeEnum(Tv2OutputLayer).optional(),
       audioMode: zod.nativeEnum(Tv2AudioMode).optional(),
       sourceName: zod.string().optional(),
+      graphicTemplateName: zod.string().optional(),
     }),
   })
 

@@ -20,4 +20,36 @@ export class Tv2PieceGroupService {
       {} as Record<Tv2OutputLayer, Tv2Piece[]>
     )
   }
+
+  public mergePiecesByStartOffset(pieces: Tv2Piece[]): Tv2Piece[] {
+    const piecesGroupedByStartOffset: Record<number, Tv2Piece[]> = this.groupPiecesByStartOffset(pieces)
+    return this.combinePiecesByStartOffset(piecesGroupedByStartOffset)
+  }
+
+  private groupPiecesByStartOffset(pieces: Tv2Piece[]): Record<number, Tv2Piece[]> {
+    return pieces.reduce(
+      (startTimes, piece) => {
+        const piecesAtStartTime: Tv2Piece[] = startTimes[piece.start] ?? []
+        return {
+          ...startTimes,
+          [piece.start]: [...piecesAtStartTime, piece],
+        }
+      },
+      {} as Record<number, Tv2Piece[]>
+    )
+  }
+
+  private combinePiecesByStartOffset(piecesGroupedByStartOffset: Record<number, Tv2Piece[]>): Tv2Piece[] {
+    return Object.values(piecesGroupedByStartOffset).reduce((reducedPieces, pieces) => {
+      const sortedPieces: Tv2Piece[] = [...pieces].sort((pieceA, pieceB) => pieceB.start - pieceA.start)
+      const basePiece: Tv2Piece = sortedPieces[0]
+      return [
+        ...reducedPieces,
+        {
+          ...basePiece,
+          name: pieces.map(piece => piece.name).join(', '),
+        },
+      ]
+    }, [])
+  }
 }
