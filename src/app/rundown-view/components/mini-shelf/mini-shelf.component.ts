@@ -39,8 +39,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnInit(): void {
     this.configurationServiceSubscription = this.configurationService.getStudioConfiguration().subscribe((studioConfiguration: StudioConfiguration) => {
       this.studioConfiguration = studioConfiguration
+      this.updateMediaAndCalculate()
     })
-    this.updateMediaAndCalculate()
 
     this.rundownStateService.subscribeToOnAirPart(this.segment.rundownId).subscribe(onAirPart => {
       const onAirTv2Part: Tv2Part | undefined = onAirPart as Tv2Part | undefined
