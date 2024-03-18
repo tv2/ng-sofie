@@ -7,5 +7,5 @@
 <sofie-button-group>
     <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
     <sofie-spacer></sofie-spacer>
-    <sofie-button (click)="save()" [type]="'PRIMARY'" [disabled]="!form.valid">Save</sofie-button>
+    <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!form.valid">Save</sofie-button>
 </sofie-button-group>

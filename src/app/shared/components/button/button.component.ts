@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
-  @Input() public disabled: boolean = false
+  @Input() public isDisabled: boolean = false
   @Input() public type: 'STANDARD' | 'PRIMARY' | 'WARNING' | 'DANGER' = 'STANDARD'
 
   constructor() {}
