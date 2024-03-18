@@ -44,9 +44,9 @@ export class ActionSelectorComponent implements OnInit {
     const lowerCasedSearchQuery: string = this.actionSearchQuery.toLowerCase()
     const doesNameMatch: boolean = action.name.toLowerCase().includes(lowerCasedSearchQuery)
     const doesTypeMatch: boolean = action.metadata.contentType.toLowerCase().includes(lowerCasedSearchQuery)
-    const isActionCurrentlySelected: boolean = !!this.selectedAction && action.id === this.selectedAction.id
+    const isActionSelected: boolean = !!this.selectedAction && action.id === this.selectedAction.id
 
-    return doesNameMatch || doesTypeMatch || isActionCurrentlySelected
+    return doesNameMatch || doesTypeMatch || isActionSelected
   }
 
   public isSelectedAction(action: Tv2Action): boolean {

@@ -182,6 +182,48 @@
       <trans-unit id="5719401361944025947" datatype="html">
         <source>rundown-overview-component.planned-end</source>
       </trans-unit>
+      <trans-unit id="265486137243693578" datatype="html">
+        <source>common-search</source>
+      </trans-unit>
+      <trans-unit id="4970317883878168308" datatype="html">
+        <source>keyboard-mapping-settings-page.copy-action-panel</source>
+      </trans-unit>
+      <trans-unit id="6885589310720431669" datatype="html">
+        <source>keyboard-mapping-settings-page.delete-action-panel</source>
+      </trans-unit>
+      <trans-unit id="7507229359295852513" datatype="html">
+        <source>keyboard-mapping-settings-page.edit-action-panel</source>
+      </trans-unit>
+      <trans-unit id="1039010698457393444" datatype="html">
+        <source>action-selector.search-action</source>
+      </trans-unit>
+      <trans-unit id="8250191741920581081" datatype="html">
+        <source>action-selector.select-action</source>
+      </trans-unit>
+      <trans-unit id="1533017861684578744" datatype="html">
+        <source>keyboard-mapping-settings-page.import-keyboard-mappings.fail</source>
+      </trans-unit>
+      <trans-unit id="3545744709165250098" datatype="html">
+        <source>keyboard-mapping-settings-page.duplicate-keyboard-mapping.success</source>
+      </trans-unit>
+      <trans-unit id="4004671805035160284" datatype="html">
+        <source>keyboard-mapping-settings-page.update-keyboard-mapping.success</source>
+      </trans-unit>
+      <trans-unit id="6377346699736517553" datatype="html">
+        <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success</source>
+      </trans-unit>
+      <trans-unit id="6679898506590591687" datatype="html">
+        <source>keyboard-mapping-settings-page.import-keyboard-mappings.success</source>
+      </trans-unit>
+      <trans-unit id="7491316453773946580" datatype="html">
+        <source>keyboard-mapping-settings-page.create-keyboard-mapping.success</source>
+      </trans-unit>
+      <trans-unit id="985670024801490264" datatype="html">
+        <source>keyboard-mapping-settings-page.delete-keyboard-mapping.success</source>
+      </trans-unit>
+      <trans-unit id="2265780212602106942" datatype="html">
+        <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

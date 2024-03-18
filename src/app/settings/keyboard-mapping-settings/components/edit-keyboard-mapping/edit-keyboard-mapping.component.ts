@@ -49,7 +49,7 @@ export class EditKeyboardMappingComponent implements OnInit {
     })
 
     if (this.keyboardMapping) {
-      this.selectAction(this.keyboardMapping?.action!)
+      this.selectAction(this.keyboardMapping.action!)
     }
   }
 
@@ -72,11 +72,14 @@ export class EditKeyboardMappingComponent implements OnInit {
   }
 
   public doesSelectedActionHaveActionArguments(): boolean {
-    return !!this.selectedAction && !!this.selectedAction.argument
+    return !!this.selectedAction?.argument
   }
 
-  public getSelectedActionArgumentType(): ActionArgumentSchemaType {
-    return this.selectedAction!.argument!.type
+  public getSelectedActionArgumentType(): ActionArgumentSchemaType | undefined {
+    if (!this.selectedAction?.argument) {
+      return
+    }
+    return this.selectedAction.argument.type
   }
 
   public save(): void {

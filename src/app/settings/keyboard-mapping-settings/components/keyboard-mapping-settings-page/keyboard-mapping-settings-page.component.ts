@@ -52,7 +52,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
     },
   ]
 
-  public keyboardMappingSearchQuery: string
+  public searchQuery: string
 
   public actions: Tv2PartAction[]
 
@@ -102,7 +102,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
       this.keyboardMappings.splice(index, 1)
 
       this.actionTriggerService.deleteActionTrigger(actionTrigger.actionTrigger.id).subscribe()
-      this.notificationService.createInfoNotification('Successfully deleted Keyboard Mapping')
+      this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.delete-keyboard-mapping.success`)
     })
   }
 
@@ -117,7 +117,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
     }
 
     this.actionTriggerService.createActionTrigger(clonedActionTriggerFromKeyboardMapping).subscribe()
-    this.notificationService.createInfoNotification('Successfully cloned Action Trigger')
+    this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.duplicate-keyboard-mapping.success`)
   }
 
   public openCreateKeyboardMapping(): void {
@@ -126,7 +126,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
         return
       }
       this.actionTriggerService.createActionTrigger(result.actionTrigger).subscribe()
-      this.notificationService.createInfoNotification('Successfully created Keyboard Mapping')
+      this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.create-keyboard-mapping.success`)
     })
   }
 
@@ -138,7 +138,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
           return
         }
         this.actionTriggerService.updateActionTrigger(result.actionTrigger).subscribe()
-        this.notificationService.createInfoNotification('Successfully updated Keyboard Mapping')
+        this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.update-keyboard-mapping.success`)
       },
       keyboardMapping
     )
@@ -155,10 +155,10 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
         actionTriggerAlreadyExist ? this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe() : this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
       })
     )
-      .then(() => this.notificationService.createInfoNotification('Successfully imported Keyboard Mappings'))
+      .then(() => this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.success`))
       .catch(error => {
         this.logger.error(error)
-        this.notificationService.createErrorNotification('Something went wrong uploading Keyboard Mappings!')
+        this.notificationService.createErrorNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.fail`)
       })
   }
 
@@ -179,20 +179,20 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
       this.selectedKeyboardMappings.clear()
 
       Promise.all(actionTriggerIdsToBeDeleted.map(id => this.actionTriggerService.deleteActionTrigger(id).subscribe()))
-        .then(() => this.notificationService.createInfoNotification('Successfully deleted all selected Keyboard Mappings'))
+        .then(() => this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.delete-all-keyboard-mappings.success`))
         .catch(error => {
           this.logger.error(error)
-          this.notificationService.createErrorNotification('Something went wrong deleting all selected Keyboard Mappings!')
+          this.notificationService.createErrorNotification($localize`keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail`)
         })
     })
   }
 
   public doesKeyboardMappingMatchSearchQuery(keyboardMapping: KeyboardMapping): boolean {
-    if (!this.keyboardMappingSearchQuery || this.keyboardMappingSearchQuery.length === 0) {
+    if (!this.searchQuery || this.searchQuery.length === 0) {
       return true
     }
 
-    const lowerCasedQuery: string = this.keyboardMappingSearchQuery.toLowerCase()
+    const lowerCasedQuery: string = this.searchQuery.toLowerCase()
     const doesLabelMatchQuery: boolean = keyboardMapping.actionTrigger.data.label.toLowerCase().includes(lowerCasedQuery)
     const doesShortCutMatchQuery: boolean = this.getShortcutName(keyboardMapping).toLowerCase().includes(lowerCasedQuery)
     const doesActionNameMatchQuery: boolean = keyboardMapping.action.name.toLowerCase().includes(lowerCasedQuery)

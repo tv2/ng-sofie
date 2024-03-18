@@ -1,7 +1,7 @@
 <sofie-page i18n-title title="settings.keyboard-mappings.label">
     <sofie-card *ngIf="keyboardMappings; else loading">
         <ng-container cardHeader>
-            <sofie-text-input [placeholder]="'Search'" [(value)]="keyboardMappingSearchQuery"></sofie-text-input>
+            <sofie-text-input i18n-placeholder placeholder="common-search" [(value)]="searchQuery"></sofie-text-input>
             <sofie-spacer></sofie-spacer>
             <sofie-button-group>
                 <sofie-button i18n (click)="openCreateKeyboardMapping()">global.create.label</sofie-button>
@@ -31,9 +31,9 @@
                 </td>
                 <td>
                     <sofie-button-group class="align-table-data-end">
-                        <sofie-icon-button [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Edit Action Panel'" (click)="openEditKeyboardMapping(keyboardMapping)"></sofie-icon-button>
-                        <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateKeyboardMapping(keyboardMapping)"></sofie-icon-button>
-                        <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" [tooltip]="'Delete Action Panel'" (click)="deleteKeyboardMapping(keyboardMapping)"></sofie-icon-button>
+                        <sofie-icon-button [iconButton]="IconButton.PEN" [iconButtonSize]="IconButtonSize.L" i18n-tooltip tooltip="keyboard-mapping-settings-page.edit-action-panel" (click)="openEditKeyboardMapping(keyboardMapping)"></sofie-icon-button>
+                        <sofie-icon-button [iconButton]="IconButton.TWO_SHEETS_COPY" [iconButtonSize]="IconButtonSize.L" i18n-tooltip tooltip="keyboard-mapping-settings-page.copy-action-panel" (click)="duplicateKeyboardMapping(keyboardMapping)"></sofie-icon-button>
+                        <sofie-icon-button [iconButton]="IconButton.TRASH_CAN" [iconButtonSize]="IconButtonSize.L" i18n-tooltip tooltip="keyboard-mapping-settings-page.delete-action-panel" (click)="deleteKeyboardMapping(keyboardMapping)"></sofie-icon-button>
                     </sofie-button-group>
                 </td>
             </ng-template>
