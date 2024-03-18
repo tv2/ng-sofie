@@ -1,4 +1,4 @@
-export enum IconButton {
+export enum Icon {
   X_MARK = 'X_MARK',
   PEN = 'PEN',
   TRASH_CAN = 'TRASH_CAN',
@@ -18,7 +18,7 @@ export enum IconButton {
   CIRCLE_EXCLAMATION = 'CIRCLE_EXCLAMATION',
 }
 
-export enum IconButtonSize {
+export enum IconSize {
   XS = 'xs',
   S = 'sm',
   M = '1x',

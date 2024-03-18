@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { IconButton, IconButtonSize } from '../../enums/icon-button'
+import { Icon, IconSize } from '../../enums/icon'
 
 @Component({
   selector: 'sofie-checkbox',
@@ -7,7 +7,7 @@ import { IconButton, IconButtonSize } from '../../enums/icon-button'
   styleUrls: ['./checkbox.component.scss'],
 })
 export class CheckboxComponent {
-  protected readonly IconButtonSize = IconButtonSize
+  protected readonly IconSize = IconSize
 
   @Input() public isSelected: boolean = false
   @Output() public isSelectedChange: EventEmitter<boolean> = new EventEmitter()
@@ -22,7 +22,7 @@ export class CheckboxComponent {
     this.onToggle.emit(this.isSelected)
   }
 
-  public getIcon(): IconButton {
-    return this.isSelected ? IconButton.SQUARE_CHECK : IconButton.SQUARE
+  public getIcon(): Icon {
+    return this.isSelected ? Icon.SQUARE_CHECK : Icon.SQUARE
   }
 }

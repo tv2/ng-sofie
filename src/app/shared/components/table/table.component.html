@@ -5,7 +5,7 @@
         </th>
         <th *ngFor="let header of headers" (click)="toggleTableHeaderForSorting(header)">
             {{ header.name }}
-            <sofie-icon-button [ngClass]="{ 'hidden': !header.isBeingUsedForSorting }"  [iconButton]="getSortIcon(header)" [iconButtonSize]="IconButtonSize.XS"></sofie-icon-button>
+            <sofie-icon-button [ngClass]="{ 'hidden': !header.isBeingUsedForSorting }"  [icon]="getSortIcon(header)" [iconSize]="IconSize.XS"></sofie-icon-button>
         </th>
     </thead>
     <tbody>

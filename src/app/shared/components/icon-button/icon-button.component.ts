@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core'
-import { IconButton, IconButtonSize } from '../../enums/icon-button'
+import { Icon, IconSize } from '../../enums/icon'
 import { IconService } from 'src/app/core/abstractions/icon.service'
 
 @Component({
@@ -10,10 +10,10 @@ import { IconService } from 'src/app/core/abstractions/icon.service'
 })
 export class IconButtonComponent implements OnInit, OnChanges {
   @Input()
-  public iconButton: IconButton
+  public icon: Icon
 
   @Input()
-  public iconButtonSize: IconButtonSize
+  public iconSize: IconSize
 
   @Input()
   public tooltip: string = ''
@@ -22,8 +22,8 @@ export class IconButtonComponent implements OnInit, OnChanges {
   @HostBinding('attr.disabled')
   public disabled: boolean = false
 
-  public iconButtonProp: IconProp
-  public iconButtonSizeProp: SizeProp
+  public iconProp: IconProp
+  public iconSizeProp: SizeProp
 
   constructor(private readonly iconService: IconService) {}
 
@@ -32,8 +32,8 @@ export class IconButtonComponent implements OnInit, OnChanges {
   }
 
   private updateIcon(): void {
-    this.iconButtonProp = this.iconService.getIconProperty(this.iconButton)
-    this.iconButtonSizeProp = this.iconButtonSize ? this.iconButtonSize : IconButtonSize.M
+    this.iconProp = this.iconService.getIconProperty(this.icon)
+    this.iconSizeProp = this.iconSize ? this.iconSize : IconSize.M
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

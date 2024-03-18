@@ -5,7 +5,7 @@ import { DialogService } from '../../../shared/services/dialog.service'
 import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
 import { SubscriptionLike } from 'rxjs'
 import { RundownService } from '../../../core/abstractions/rundown.service'
-import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
+import { Icon, IconSize } from '../../../shared/enums/icon'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownTimingType } from '../../../core/enums/rundown-timing-type'
 import { BackwardRundownTiming } from '../../../core/models/rundown-timing'
@@ -17,8 +17,8 @@ import { SofieTableHeader, SortDirection } from '../../../shared/components/tabl
   templateUrl: './rundown-overview.component.html',
 })
 export class RundownOverviewComponent implements OnInit, OnDestroy {
-  protected readonly IconButton = IconButton
-  protected readonly IconButtonSize = IconButtonSize
+  protected readonly Icon = Icon
+  protected readonly IconSize = IconSize
   protected readonly RundownMode = RundownMode
 
   public readonly headers: SofieTableHeader<BasicRundown>[] = [

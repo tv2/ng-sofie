@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core'
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { Keys } from '../../../keyboard/value-objects/key-binding'
 import { KeyAlias } from '../../../keyboard/value-objects/key-alias'
-import { IconButton, IconButtonSize } from '../../enums/icon-button'
+import { Icon, IconSize } from '../../enums/icon'
 
 const SHORTCUT_KEYS_MAPPINGS: Record<string, string> = {
   Enter: KeyAlias.ANY_ENTER,
@@ -26,8 +26,8 @@ const SHORTCUT_KEYS_MAPPINGS: Record<string, string> = {
   ],
 })
 export class KeyboardInputComponent implements ControlValueAccessor {
-  protected readonly IconButton = IconButton
-  protected readonly IconButtonSize = IconButtonSize
+  protected readonly Icon = Icon
+  protected readonly IconSize = IconSize
 
   @Input() public label: string
   @Input() public placeholder?: string

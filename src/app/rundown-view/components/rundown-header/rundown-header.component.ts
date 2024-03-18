@@ -4,7 +4,7 @@ import { Piece } from '../../../core/models/piece'
 import { ShowStyleVariantStateService } from '../../../core/services/show-style-variant-state.service'
 import { ShowStyleVariant } from '../../../core/models/show-style-variant'
 import { Subscription } from 'rxjs'
-import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
+import { Icon, IconSize } from '../../../shared/enums/icon'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
 import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
@@ -36,8 +36,8 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public plannedStart?: number
   public plannedEnd: number = Date.now()
   public diff: number = 0
-  public readonly IconButton = IconButton
-  public readonly IconButtonSize = IconButtonSize
+  public readonly Icon = Icon
+  public readonly IconSize = IconSize
 
   private showStyleVariantSubscription?: Subscription
   private rundownTimingContextSubscription?: Subscription

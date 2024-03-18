@@ -5,13 +5,13 @@
             <div class="display-text">
                 {{ selectedOptions.length > 0 ? getSelectedOptionsAsDisplay() : (placeholder ?? label) }}
             </div>
-            <sofie-icon-button *ngIf="selectedOptions.length > 0" [iconButton]="IconButton.X_MARK" (click)="clearAllSelected()" class="ms-1"></sofie-icon-button>
+            <sofie-icon-button *ngIf="selectedOptions.length > 0" [icon]="Icon.X_MARK" (click)="clearAllSelected()" class="ms-1"></sofie-icon-button>
         </div>
 
         <div class="multi-select-dropdown" >
             <div *ngFor="let option of selectableOptions" class="multi-select-dropdown-item p-3" (click)="toggleOption(option)">
                 {{ option.name }}
-                <sofie-icon-button *ngIf="option.isSelected" [iconButton]="IconButton.CHECK" [iconButtonSize]="IconButtonSize.M"></sofie-icon-button>
+                <sofie-icon-button *ngIf="option.isSelected" [icon]="Icon.CHECK" [iconSize]="IconSize.M"></sofie-icon-button>
             </div>
         </div>
     </div>

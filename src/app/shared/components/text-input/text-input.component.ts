@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
-import { IconButton, IconButtonSize } from '../../enums/icon-button'
+import { Icon, IconSize } from '../../enums/icon'
 
 @Component({
   selector: 'sofie-text-input',
@@ -15,8 +15,8 @@ import { IconButton, IconButtonSize } from '../../enums/icon-button'
   ],
 })
 export class TextInputComponent implements ControlValueAccessor {
-  protected readonly IconButton = IconButton
-  protected readonly IconButtonSize = IconButtonSize
+  protected readonly Icon = Icon
+  protected readonly IconSize = IconSize
 
   @Input() public label: string
   @Input() public placeholder?: string

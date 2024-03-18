@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChang
 import { Subject, takeUntil } from 'rxjs'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 import { StudioConfiguration } from 'src/app/shared/models/studio-configuration'
-import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
+import { Icon, IconSize } from 'src/app/shared/enums/icon'
 import { TooltipMousePosition } from 'src/app/core/models/tooltips'
 
 @Component({
@@ -28,8 +28,8 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   private studioConfiguration: StudioConfiguration
   private readonly unsubscribe$: Subject<void> = new Subject<void>()
 
-  protected readonly IconButton = IconButton
-  protected readonly IconButtonSize = IconButtonSize
+  protected readonly Icon = Icon
+  protected readonly IconSize = IconSize
 
   constructor(private readonly configurationService: ConfigurationService) {}
 

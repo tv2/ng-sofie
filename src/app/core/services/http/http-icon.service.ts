@@ -19,46 +19,46 @@ import {
   faTriangleExclamation,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons'
-import { IconButton } from 'src/app/shared/enums/icon-button'
+import { Icon } from 'src/app/shared/enums/icon'
 import { IconService } from '../../abstractions/icon.service'
 
 @Injectable()
 export class FortAwesomeIconService implements IconService {
-  public getIconProperty(iconButton: IconButton): IconProp {
+  public getIconProperty(iconButton: Icon): IconProp {
     switch (iconButton) {
-      case IconButton.X_MARK:
+      case Icon.X_MARK:
         return faXmark
-      case IconButton.TRASH_CAN:
+      case Icon.TRASH_CAN:
         return faTrashCan
-      case IconButton.BARS:
+      case Icon.BARS:
         return faBars
-      case IconButton.PLUS:
+      case Icon.PLUS:
         return faPlus
-      case IconButton.MINUS:
+      case Icon.MINUS:
         return faMinus
-      case IconButton.HORIZONTAL_ARROWS:
+      case Icon.HORIZONTAL_ARROWS:
         return faArrowsH
-      case IconButton.TWO_SHEETS_COPY:
+      case Icon.TWO_SHEETS_COPY:
         return faCopy
-      case IconButton.VERTICAL_OPPOSING_TRIANGLES:
+      case Icon.VERTICAL_OPPOSING_TRIANGLES:
         return faSort
-      case IconButton.SQUARE:
+      case Icon.SQUARE:
         return faSquare
-      case IconButton.SQUARE_CHECK:
+      case Icon.SQUARE_CHECK:
         return faSquareCheck
-      case IconButton.CHECK:
+      case Icon.CHECK:
         return faCheck
-      case IconButton.PEN:
+      case Icon.PEN:
         return faPen
-      case IconButton.CIRCLE_QUESTION:
+      case Icon.CIRCLE_QUESTION:
         return faCircleQuestion
-      case IconButton.DOWNWARD_TRIANGLE:
+      case Icon.DOWNWARD_TRIANGLE:
         return faSortDown
-      case IconButton.UPWARD_TRIANGLE:
+      case Icon.UPWARD_TRIANGLE:
         return faSortUp
-      case IconButton.TRIANGLE_EXCLAMATION:
+      case Icon.TRIANGLE_EXCLAMATION:
         return faTriangleExclamation
-      case IconButton.CIRCLE_EXCLAMATION:
+      case Icon.CIRCLE_EXCLAMATION:
         return faCircleExclamation
       default:
         return faXmark

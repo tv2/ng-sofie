@@ -7,7 +7,7 @@ import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger-data'
 import { SofieTableHeader, SortDirection } from '../../../../shared/components/table/table.component'
-import { IconButton, IconButtonSize } from '../../../../shared/enums/icon-button'
+import { Icon, IconSize } from '../../../../shared/enums/icon'
 import { DialogService } from '../../../../shared/services/dialog.service'
 import { ActionTriggerService } from '../../../../shared/abstractions/action-trigger.service'
 import { NotificationService } from '../../../../shared/services/notification.service'
@@ -25,8 +25,8 @@ export interface KeyboardMapping {
   templateUrl: './keyboard-mapping-settings-page.component.html',
 })
 export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
-  protected readonly IconButtonSize = IconButtonSize
-  protected readonly IconButton = IconButton
+  protected readonly IconSize = IconSize
+  protected readonly Icon = Icon
   protected readonly keyboardMappingsFileName: string = 'keyboard-mappings'
 
   public keyboardMappings: KeyboardMapping[]

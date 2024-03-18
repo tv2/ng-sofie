@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef, ViewEncapsulation } from '@angular/core'
-import { IconButton, IconButtonSize } from '../../enums/icon-button'
+import { Icon, IconSize } from '../../enums/icon'
 
 export enum SortDirection {
   DESC = 'DESC',
@@ -20,7 +20,7 @@ export interface SofieTableHeader<T> {
   encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent<T> implements OnChanges {
-  protected readonly IconButtonSize = IconButtonSize
+  protected readonly IconSize = IconSize
 
   @Input() public headers: SofieTableHeader<T>[] = []
 
@@ -72,8 +72,8 @@ export class TableComponent<T> implements OnChanges {
     }
   }
 
-  public getSortIcon(header: SofieTableHeader<T>): IconButton {
-    return header.sortDirection === SortDirection.ASC ? IconButton.UPWARD_TRIANGLE : IconButton.DOWNWARD_TRIANGLE
+  public getSortIcon(header: SofieTableHeader<T>): Icon {
+    return header.sortDirection === SortDirection.ASC ? Icon.UPWARD_TRIANGLE : Icon.DOWNWARD_TRIANGLE
   }
 
   public toggleAllEntities(isSelected: boolean): void {

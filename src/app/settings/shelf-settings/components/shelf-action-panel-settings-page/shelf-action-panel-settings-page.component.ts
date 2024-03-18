@@ -5,7 +5,7 @@ import { ConfigurationEventObserver } from '../../../../core/services/configurat
 import { ShelfConfigurationUpdatedEvent } from '../../../../core/models/configuration-event'
 import { EventSubscription } from '../../../../event-system/abstractions/event-observer.service'
 import { SofieTableHeader, SortDirection } from '../../../../shared/components/table/table.component'
-import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
+import { Icon, IconSize } from 'src/app/shared/enums/icon'
 import { DialogService } from '../../../../shared/services/dialog.service'
 import { ConfigurationParser } from '../../../../shared/abstractions/configuration-parser.service'
 import { MultiSelectOption } from '../../../../shared/components/multi-select/multi-select.component'
@@ -19,8 +19,8 @@ import { EditShelfActionPanelConfigurationDialogComponent } from '../edit-shelf-
   templateUrl: './shelf-action-panel-settings-page.component.html',
 })
 export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy {
-  protected readonly IconButton = IconButton
-  protected readonly IconButtonSize = IconButtonSize
+  protected readonly Icon = Icon
+  protected readonly IconSize = IconSize
   protected readonly shelfConfigurationFileName: string = 'shelf-configuration'
 
   public selectedActionPanels: Set<ShelfActionPanelConfiguration> = new Set()

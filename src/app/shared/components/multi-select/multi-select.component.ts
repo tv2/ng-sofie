@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { IconButton, IconButtonSize } from '../../enums/icon-button'
+import { Icon, IconSize } from '../../enums/icon'
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 
 export interface MultiSelectOption<T> {
@@ -24,8 +24,8 @@ interface SelectableOption<T> extends MultiSelectOption<T> {
   ],
 })
 export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
-  protected IconButton = IconButton
-  protected IconButtonSize = IconButtonSize
+  protected Icon = Icon
+  protected IconSize = IconSize
 
   @Input() public options: MultiSelectOption<T>[] = []
   public selectableOptions: SelectableOption<T>[] = []
