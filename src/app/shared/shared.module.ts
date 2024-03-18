@@ -82,6 +82,7 @@ import { ActionBoxComponent } from './components/action-box/action-box.component
 import { RoundedBoxComponent } from './components/rounded-box/rounded-box.component'
 import { RowComponent } from './components/row/row.component'
 import { ColumnComponent } from './components/column/column.component'
+import { PageComponent } from './components/page/page.component'
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { ColumnComponent } from './components/column/column.component'
     ActionBoxComponent,
     RowComponent,
     ColumnComponent,
+    PageComponent,
   ],
   imports: [
     CommonModule,
@@ -182,6 +184,7 @@ import { ColumnComponent } from './components/column/column.component'
     KeyboardInputComponent,
     ActionBoxComponent,
     RowComponent,
+    PageComponent,
   ],
   providers: [
     { provide: Logger, useClass: Tv2LoggerService },

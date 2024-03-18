@@ -7,10 +7,9 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatListModule } from '@angular/material/list'
 import { ClearCacheComponent } from './components/clear-cache/clear-cache.component'
-import { SettingsSharedModule } from './settings-shared/settings-shared.module'
 
 @NgModule({
   declarations: [SettingsComponent, SettingsMenuComponent, ClearCacheComponent],
-  imports: [SettingsRoutingModule, SharedModule, MatSidenavModule, MatToolbarModule, MatListModule, SettingsSharedModule],
+  imports: [SettingsRoutingModule, SharedModule, MatSidenavModule, MatToolbarModule, MatListModule],
 })
 export class SettingsModule {}

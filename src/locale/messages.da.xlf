@@ -6,14 +6,6 @@
         <source>rundown-overview.rundown-overview.title</source>
         <target>Rundowns</target>
       </trans-unit>
-      <trans-unit id="4244324227350096273" datatype="html">
-        <source>rundown-overview-component.no-rundowns-available.message</source>
-        <target>Der er i øjeblikket ingen Rundowns tilgængelige.</target>
-      </trans-unit>
-      <trans-unit id="3521974238403661262" datatype="html">
-        <source>rundown-overview-component.check-connection-configure-ingest-gateway.message</source>
-        <target>Tjek din forbindelse og om du har konfigureret Ingest Gateway.</target>
-      </trans-unit>
       <trans-unit id="172210689759305381" datatype="html">
         <source>rundown-overview-component.rundown-label</source>
         <target>Rundown</target>
@@ -57,10 +49,6 @@
       <trans-unit id="6373029241912635510" datatype="html">
         <source>rundown-overview-component.deletion-dialog-title</source>
         <target>Slet rundown?</target>
-      </trans-unit>
-      <trans-unit id="221700254079718655" datatype="html">
-        <source>rundown-overview-component.rundown-overview.loading-rundowns.message</source>
-        <target>Indlæser rundowns...</target>
       </trans-unit>
       <trans-unit id="9014307158606167673" datatype="html">
         <source>header-component.status.label</source>
@@ -241,6 +229,18 @@
       <trans-unit id="8113227000238039449" datatype="html">
         <source>empty.table</source>
         <target state="new">Ingen data fundet</target>
+      </trans-unit>
+      <trans-unit id="377801051239310294" datatype="html">
+        <source>rundown-overview-component.planned-start</source>
+        <target state="new">Planlagt start</target>
+      </trans-unit>
+      <trans-unit id="1759269174172455303" datatype="html">
+        <source>rundown-overview-component.duration</source>
+        <target state="new">Varighed</target>
+      </trans-unit>
+      <trans-unit id="5719401361944025947" datatype="html">
+        <source>rundown-overview-component.planned-end</source>
+        <target state="new">Planlagt slut</target>
       </trans-unit>
     </body>
   </file>

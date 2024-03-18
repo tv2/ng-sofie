@@ -6,14 +6,6 @@
         <source>rundown-overview.rundown-overview.title</source>
         <target>Rundowns</target>
       </trans-unit>
-      <trans-unit id="4244324227350096273" datatype="html">
-        <source>rundown-overview-component.no-rundowns-available.message</source>
-        <target>There are no rundowns available</target>
-      </trans-unit>
-      <trans-unit id="3521974238403661262" datatype="html">
-        <source>rundown-overview-component.check-connection-configure-ingest-gateway.message</source>
-        <target>Check your connection if you have configured Ingest Gateway. </target>
-      </trans-unit>
       <trans-unit id="4359206169774515973" datatype="html">
         <source>rundown-overview-component.last-updated.label</source>
         <target>Last updated:</target>
@@ -57,10 +49,6 @@
       <trans-unit id="6373029241912635510" datatype="html">
         <source>rundown-overview-component.deletion-dialog-title</source>
         <target>Delete rundown?</target>
-      </trans-unit>
-      <trans-unit id="221700254079718655" datatype="html">
-        <source>rundown-overview-component.rundown-overview.loading-rundowns.message</source>
-        <target>Loading rundowns...</target>
       </trans-unit>
       <trans-unit id="9014307158606167673" datatype="html">
         <source>header-component.status.label</source>
@@ -241,6 +229,18 @@
       <trans-unit id="8113227000238039449" datatype="html">
         <source>empty.table</source>
         <target state="new">No entries found</target>
+      </trans-unit>
+      <trans-unit id="377801051239310294" datatype="html">
+        <source>rundown-overview-component.planned-start</source>
+        <target state="new">Planned start</target>
+      </trans-unit>
+      <trans-unit id="1759269174172455303" datatype="html">
+        <source>rundown-overview-component.duration</source>
+        <target state="new">Duration</target>
+      </trans-unit>
+      <trans-unit id="5719401361944025947" datatype="html">
+        <source>rundown-overview-component.planned-end</source>
+        <target state="new">Planned end</target>
       </trans-unit>
     </body>
   </file>
