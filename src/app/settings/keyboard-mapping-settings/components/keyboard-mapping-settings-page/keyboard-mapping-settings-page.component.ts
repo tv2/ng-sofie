@@ -149,17 +149,11 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   }
 
   public actionTriggersUploaded(actionTriggers: ActionTrigger<KeyboardTriggerData>[]): void {
-    Promise.all(
-      actionTriggers.map(actionTrigger => {
-        const actionTriggerAlreadyExist: boolean = this.keyboardMappings.some(actionTriggerWithAction => actionTriggerWithAction.actionTrigger.id === actionTrigger.id)
-        actionTriggerAlreadyExist ? this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe() : this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
-      })
-    )
-      .then(() => this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.success`))
-      .catch(error => {
-        this.logger.error(error)
-        this.notificationService.createErrorNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.fail`)
-      })
+    actionTriggers.map(actionTrigger => {
+      const actionTriggerAlreadyExist: boolean = this.keyboardMappings.some(actionTriggerWithAction => actionTriggerWithAction.actionTrigger.id === actionTrigger.id)
+      actionTriggerAlreadyExist ? this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe() : this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
+    })
+    this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.success`)
   }
 
   public validateActionTriggers(actionTriggers: ActionTrigger<KeyboardTriggerData>[]): boolean {
@@ -181,14 +175,14 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
       Promise.all(actionTriggerIdsToBeDeleted.map(id => this.actionTriggerService.deleteActionTrigger(id).subscribe()))
         .then(() => this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.delete-all-keyboard-mappings.success`))
         .catch(error => {
-          this.logger.error(error)
+          this.logger.data(error).error('Failed deleting one or more of teh selected keyboard mappings.')
           this.notificationService.createErrorNotification($localize`keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail`)
         })
     })
   }
 
   public doesKeyboardMappingMatchSearchQuery(keyboardMapping: KeyboardMapping): boolean {
-    if (!this.searchQuery || this.searchQuery.length === 0) {
+    if (!this.searchQuery) {
       return true
     }
 
@@ -201,7 +195,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   }
 
   public getKeyboardMappingName(keyboardMapping: KeyboardMapping): string {
-    if (keyboardMapping.actionTrigger.data.label && keyboardMapping.actionTrigger.data.label.length > 0) {
+    if (keyboardMapping.actionTrigger.data.label) {
       return keyboardMapping.actionTrigger.data.label
     }
     return keyboardMapping.action.name
@@ -210,7 +204,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   public getShortcutName(keyboardMapping: KeyboardMapping): string {
     return this.formatKeysPipe.transform(
       keyboardMapping.actionTrigger.data.mappedToKeys && keyboardMapping.actionTrigger.data.mappedToKeys.length > 0
-        ? keyboardMapping.actionTrigger.data.mappedToKeys!
+        ? keyboardMapping.actionTrigger.data.mappedToKeys
         : keyboardMapping.actionTrigger.data.keys
     )
   }
