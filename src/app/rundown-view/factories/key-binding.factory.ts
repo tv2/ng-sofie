@@ -13,6 +13,8 @@ import { Logger } from '../../core/abstractions/logger.service'
 import { PartActionType } from '../../shared/models/action-type'
 import { MiniShelfCycleService } from '../services/mini-shelf-cycle.service'
 import { RundownMode } from '../../core/enums/rundown-mode'
+import { BasicRundown } from '../../core/models/basic-rundown'
+import { BasicRundownStateService } from '../../core/services/basic-rundown-state.service'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -27,6 +29,7 @@ export class KeyBindingFactory {
   constructor(
     private readonly actionService: ActionService,
     private readonly rundownService: RundownService,
+    private readonly basicRundownStateService: BasicRundownStateService,
     private readonly dialogService: DialogService,
     private readonly rundownNavigationService: RundownNavigationService,
     private readonly miniShelfCycleService: MiniShelfCycleService,
@@ -142,7 +145,17 @@ export class KeyBindingFactory {
     if (rundown.mode === RundownMode.ACTIVE) {
       return
     }
-    this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.rundownService.activate(rundown.id).subscribe())
+    const currentlyNonIdleBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdlingRundown()
+    if (currentlyNonIdleBasicRundown) {
+      this.dialogService.createConfirmDialog(
+        rundown.name,
+        `Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown "${currentlyNonIdleBasicRundown.name}"`,
+        'Activate',
+        () => this.rundownService.deactivate(currentlyNonIdleBasicRundown.id).subscribe(() => this.rundownService.activate(rundown.id).subscribe())
+      )
+    } else {
+      this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.rundownService.activate(rundown.id).subscribe())
+    }
   }
 
   private deactivateRundown(rundown: Rundown): void {

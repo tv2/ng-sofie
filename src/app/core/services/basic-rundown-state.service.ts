@@ -132,6 +132,6 @@ export class BasicRundownStateService implements OnDestroy {
   }
 
   public getNonIdlingRundown(): BasicRundown | undefined {
-    return this.basicRundowns.find(rundown => rundown.mode !== RundownMode.INACTIVE)
+    return this.basicRundowns.find(rundown => [RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(rundown.mode))
   }
 }
