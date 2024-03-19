@@ -22,13 +22,12 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   protected readonly IconButton = IconButton
   protected readonly IconButtonSize = IconButtonSize
   protected readonly RundownMode = RundownMode
+  protected readonly Paths = Paths
 
   public basicRundowns: BasicRundown[] = []
   public isLoading: boolean = true
   private subscriptions: SubscriptionLike[] = []
   private readonly logger: Logger
-
-  protected readonly Paths = Paths
 
   constructor(
     private readonly basicRundownStateService: BasicRundownStateService,
