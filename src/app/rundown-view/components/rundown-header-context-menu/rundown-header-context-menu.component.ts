@@ -81,13 +81,13 @@ export class RundownHeaderContextMenuComponent {
   ) {}
 
   public openActivateRundownDialog(): void {
-    const currentlyActiveBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getActiveRundown()
-    if (currentlyActiveBasicRundown) {
+    const currentlyNonIdleBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdlingRundown()
+    if (currentlyNonIdleBasicRundown) {
       this.dialogService.createConfirmDialog(
         this.rundown.name,
-        `Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown "${currentlyActiveBasicRundown.name}"`,
+        `Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown "${currentlyNonIdleBasicRundown.name}"`,
         'Activate',
-        () => this.deactivateRundownById(currentlyActiveBasicRundown.id).subscribe(() => this.activateRundown())
+        () => this.deactivateRundownById(currentlyNonIdleBasicRundown.id).subscribe(() => this.activateRundown())
       )
     } else {
       this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.activateRundown())
@@ -99,7 +99,17 @@ export class RundownHeaderContextMenuComponent {
   }
 
   public openRehearsalRundownDialog(): void {
-    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to rehearse the Rundown?', 'Rehearse', () => this.rehearseRundown())
+    const currentlyNonIdleBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdlingRundown()
+    if (currentlyNonIdleBasicRundown) {
+      this.dialogService.createConfirmDialog(
+        this.rundown.name,
+        `Are you sure you want to rehearse the Rundown?\n\nThis will deactivate the Rundown "${currentlyNonIdleBasicRundown.name}"`,
+        'Rehearse',
+        () => this.deactivateRundownById(currentlyNonIdleBasicRundown.id).subscribe(() => this.rehearseRundown())
+      )
+    } else {
+      this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to rehearse the Rundown?', 'Rehearse', () => this.rehearseRundown())
+    }
   }
 
   public rehearseRundown(): void {
