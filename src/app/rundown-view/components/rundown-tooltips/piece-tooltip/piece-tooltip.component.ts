@@ -1,12 +1,12 @@
-import { ChangeDetectorRef, Component, HostListener, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core'
+import { Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core'
 import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 import { Piece } from 'src/app/core/models/piece'
-import { TooltipMousePosition } from 'src/app/core/models/tooltips'
 import { Tv2Piece } from 'src/app/core/models/tv2-piece'
 import { IconButton, IconButtonSize } from '../../../../shared/enums/icon-button'
 import { TooltipContentField } from '../../../../shared/abstractions/tooltip-content-field'
 import { Tv2PieceTooltipContentFieldService } from '../../../services/tv2-piece-tooltip-content-field.service'
 import { Media } from '../../../../shared/services/media'
+import { TooltipMetadata } from '../../../../shared/directives/tooltip.directive'
 
 @Component({
   selector: 'sofie-piece-tooltip',
@@ -19,8 +19,8 @@ export class PieceTooltipComponent implements OnChanges {
   @Input() public piece: Piece
   @Input() public durationInMs: number
   @Input() public media: Media | undefined
+  @Input() public tooltipMetadata: TooltipMetadata
 
-  public tooltipElementHoverMousePosition?: TooltipMousePosition
   public tooltipContentFields: TooltipContentField[]
   public Tv2PieceType = Tv2PieceType
   public shouldShowHoverScrub: boolean
@@ -29,38 +29,7 @@ export class PieceTooltipComponent implements OnChanges {
   protected readonly IconButton = IconButton
   protected readonly sourceUnavailableLabel: string = $localize`piece-tooltip.source-unavailable.label`
 
-  private readonly timeoutDurationAfterMouseMoveInMs = 5
-  private timeoutAfterMouseMove?: NodeJS.Timeout
-
-  @HostListener('mouseenter', ['$event'])
-  @HostListener('mousemove', ['$event'])
-  @HostListener('mouseleave', [])
-  public emitNewHoverMouseEvent(event?: MouseEvent): void {
-    if (this.timeoutAfterMouseMove) {
-      clearTimeout(this.timeoutAfterMouseMove)
-    }
-    this.timeoutAfterMouseMove = setTimeout(() => {
-      this.tooltipElementHoverMousePosition = event
-        ? {
-            mousePositionX: event.clientX,
-            mousePositionY: event.clientY,
-            parrentElementOffsetY: event.offsetY,
-            parrentElementOffsetX: event.offsetX,
-          }
-        : undefined
-      this.changeDetectorRef.detectChanges()
-    }, this.timeoutDurationAfterMouseMoveInMs)
-  }
-
-  public get tv2PieceType(): Tv2PieceType {
-    const piece: Tv2Piece = this.piece as Tv2Piece
-    return piece.metadata.type
-  }
-
-  constructor(
-    private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly tv2PieceTooltipContentFieldService: Tv2PieceTooltipContentFieldService
-  ) {}
+  constructor(private readonly tv2PieceTooltipContentFieldService: Tv2PieceTooltipContentFieldService) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     const pieceChange: SimpleChange | undefined = changes['piece']
@@ -69,6 +38,11 @@ export class PieceTooltipComponent implements OnChanges {
       this.updateTooltipContent()
       this.updateShouldShowHoverScrub()
     }
+  }
+
+  public get tv2PieceType(): Tv2PieceType {
+    const piece: Tv2Piece = this.piece as Tv2Piece
+    return piece.metadata.type
   }
 
   public updateTooltipContent(): void {

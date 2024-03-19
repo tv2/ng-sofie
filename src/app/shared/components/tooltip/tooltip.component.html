@@ -1,5 +1,3 @@
-<div class="c-sofie-tooltip-wrapper hidden" #tooltipElementWrapper>
-  <div class="c-sofie-tooltip-content" #tooltipElementContent>
-    <ng-content></ng-content>
-  </div>
+<div #tooltipContainer class="tooltip" [ngStyle]="{ 'top': topPosition, 'left': leftPosition }">
+    <ng-container [ngTemplateOutlet]="templateRef"></ng-container>
 </div>

@@ -5,6 +5,7 @@ import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { Subscription } from 'rxjs'
 import { Piece } from 'src/app/core/models/piece'
+import { TooltipMetadata } from '../../../shared/directives/tooltip.directive'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 
@@ -37,6 +38,8 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
 
   public media?: Media
 
+  public tooltipMetadata: TooltipMetadata
+
   private mediaSubscription?: Subscription
 
   constructor(private readonly mediaStateService: MediaStateService) {}
@@ -45,6 +48,13 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     const pieceChange: SimpleChange | undefined = changes['piece']
     if (pieceChange) {
       this.updatePiecesFromPartChange(pieceChange)
+    }
+  }
+
+  public setTooltipMetadata(tooltipMetadata: TooltipMetadata): void {
+    this.tooltipMetadata = {
+      xPosition: tooltipMetadata.xPosition,
+      width: this.widthInPixels, // We need to set the width here because we need the width of the Piece displayed in the Timeline.
     }
   }
 

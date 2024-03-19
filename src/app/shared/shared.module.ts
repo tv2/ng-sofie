@@ -65,6 +65,8 @@ import { NotificationPanelComponent } from './components/notification-panel/noti
 import { NotificationCardComponent } from './components/notification-card/notification-card.component'
 import { NotificationPopupContainerComponent } from './components/notification-popup-container/notification-popup-container.component'
 import { NotificationIconComponent } from './components/notification-icon/notification-icon.component'
+import { TooltipDirective } from './directives/tooltip.directive'
+import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.component'
 
 @NgModule({
   declarations: [
@@ -91,6 +93,8 @@ import { NotificationIconComponent } from './components/notification-icon/notifi
     NotificationPanelComponent,
     NotificationCardComponent,
     NotificationIconComponent,
+    TooltipDirective,
+    TextTooltipComponent,
   ],
   imports: [
     CommonModule,
@@ -136,6 +140,8 @@ import { NotificationIconComponent } from './components/notification-icon/notifi
     NotificationPopupContainerComponent,
     NotificationPanelComponent,
     NotificationIconComponent,
+    TooltipDirective,
+    TextTooltipComponent,
   ],
   providers: [
     { provide: Logger, useClass: Tv2LoggerService },

@@ -1,4 +1,4 @@
-<video #videoElementRef [src]="wasVideoVisible ? hoverScrubVideoSource : ''"></video>
+<video #videoElementRef [src]="isVideoVisible ? getVideoPreviewUrl() : ''"></video>
 <div class="time-code">
   <span *ngIf="currentVideoTimeInMs > 0">{{ currentVideoTimeInMs | timer: 'HH?:mm:ss' }}</span>
 </div>

@@ -1,9 +1,8 @@
-import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core'
 import { Subject, takeUntil } from 'rxjs'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 import { StudioConfiguration } from 'src/app/shared/models/studio-configuration'
 import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
-import { TooltipMousePosition } from 'src/app/core/models/tooltips'
 
 @Component({
   selector: 'sofie-video-hover-scrub',
@@ -12,15 +11,14 @@ import { TooltipMousePosition } from 'src/app/core/models/tooltips'
 })
 export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public filename: string
-  @Input() public tooltipHoverElementWidth: number
-  @Input() public tooltipElementHoverMousePosition?: TooltipMousePosition
+  @Input() public videoLengthInPixels: number
+  @Input() public positionInVideoInPixels: number
   @Input() public playedDurationInMs?: number
   @Input() public durationInMs: number
   @Input() public isJingle?: boolean
 
   public currentVideoTimeInMs: number
-  public hoverScrubVideoSource: string
-  public wasVideoVisible: boolean
+  public isVideoVisible: boolean
 
   @ViewChild('videoElementRef')
   public videoElementRef: ElementRef<HTMLVideoElement>
@@ -39,49 +37,45 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((studioConfiguration: StudioConfiguration) => {
         this.studioConfiguration = studioConfiguration
-        this.hoverScrubVideoSource = this.createVideoSource()
       })
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const tooltipElementHoverMousePositionChange: SimpleChange | undefined = changes['tooltipElementHoverMousePosition']
-    if (!tooltipElementHoverMousePositionChange) {
+    if (!changes['positionInVideoInPixels']) {
       return
     }
-
-    this.setNewTimeForVideoElement(this.tooltipElementHoverMousePosition)
+    this.setNewTimeForVideoElement()
   }
 
-  private setNewTimeForVideoElement(mousePosition?: TooltipMousePosition): void {
+  private setNewTimeForVideoElement(): void {
     if (!this.videoElementRef?.nativeElement) {
       return
     }
-    if (!mousePosition) {
+    if (this.positionInVideoInPixels === 0) {
       return
     }
 
-    this.wasVideoVisible = true
-    this.currentVideoTimeInMs = this.getCurrentTimeBasedOnCursor(
-      this.durationInMs,
-      this.getCursorLocationInPercent(this.tooltipHoverElementWidth, mousePosition.parrentElementOffsetX),
-      this.playedDurationInMs ? this.playedDurationInMs : 0
-    )
+    this.isVideoVisible = true
+    this.currentVideoTimeInMs = this.getCurrentTimeInVideo()
     this.videoElementRef.nativeElement.currentTime = this.currentVideoTimeInMs / 1000
   }
 
-  private createVideoSource(): string {
-    return this.isJingle
-      ? `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/${this.studioConfiguration.blueprintConfiguration.JingleFolder}/${this.filename}`
-      : `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/${this.filename}`
+  private getCurrentTimeInVideo(): number {
+    const playedDurationInMs: number = this.playedDurationInMs ? this.playedDurationInMs : 0
+    const videoDurationWithoutPlayedDuration: number = this.durationInMs - playedDurationInMs
+    return videoDurationWithoutPlayedDuration > 0 ? Math.round(playedDurationInMs + (videoDurationWithoutPlayedDuration / 100) * this.getPositionInVideoInPercent()) : playedDurationInMs
   }
 
-  private getCursorLocationInPercent(timelineWidth: number, relativeParentPostion: number): number {
-    return Math.round((relativeParentPostion / timelineWidth) * 100)
+  private getPositionInVideoInPercent(): number {
+    return Math.round((this.positionInVideoInPixels / this.videoLengthInPixels) * 100)
   }
 
-  private getCurrentTimeBasedOnCursor(videoDurationInMs: number, userCursorInPercent: number, playedDurationInMs: number): number {
-    const videoDurationWithoutPlayedDuration = videoDurationInMs - playedDurationInMs
-    return videoDurationWithoutPlayedDuration > 0 ? Math.round(playedDurationInMs + (videoDurationWithoutPlayedDuration / 100) * userCursorInPercent) : playedDurationInMs
+  public getVideoPreviewUrl(): string {
+    if (!this.isVideoVisible || !this.studioConfiguration) {
+      return ''
+    }
+    const baseMediaUrl: string = `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/`
+    return this.isJingle ? `${baseMediaUrl}${this.studioConfiguration.blueprintConfiguration.JingleFolder}/${this.filename}` : `${baseMediaUrl}${this.filename}`
   }
 
   public ngOnDestroy(): void {

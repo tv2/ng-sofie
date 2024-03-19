@@ -173,9 +173,6 @@
       <trans-unit id="6759876909141538174" datatype="html">
         <source>settings.keyboard-mappings.label</source>
       </trans-unit>
-      <trans-unit id="7160101351914247309" datatype="html">
-        <source>global.dismiss.label</source>
-      </trans-unit>
       <trans-unit id="4177582797246824978" datatype="html">
         <source>action-triggers.physical-mapping-help.tooltip</source>
       </trans-unit>
@@ -247,6 +244,9 @@
       </trans-unit>
       <trans-unit id="3623062952070884482" datatype="html">
         <source>piece-tooltip.source-unavailable.label</source>
+      </trans-unit>
+      <trans-unit id="8291594485469554782" datatype="html">
+        <source>notification-icon.toggle-panel.tooltip</source>
       </trans-unit>
     </body>
   </file>

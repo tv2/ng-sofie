@@ -230,10 +230,6 @@
         <source>settings.keyboard-mappings.label</source>
         <target state="new">Keyboard mappings</target>
       </trans-unit>
-      <trans-unit id="7160101351914247309" datatype="html">
-        <source>global.dismiss.label</source>
-        <target state="new">DISMISS</target>
-      </trans-unit>
       <trans-unit id="4177582797246824978" datatype="html">
         <source>action-triggers.physical-mapping-help.tooltip</source>
         <target state="new">The physical key combination that should be shown on the virtual keyboard in the rundown view. The field should only be used if the key combination is altered by a key mapping software like AutoHotKey.</target>
@@ -329,6 +325,10 @@
       <trans-unit id="3623062952070884482" datatype="html">
         <source>piece-tooltip.source-unavailable.label</source>
         <target state="new">Source is unavailable!</target>
+      </trans-unit>
+      <trans-unit id="8291594485469554782" datatype="html">
+        <source>notification-icon.toggle-panel.tooltip</source>
+        <target state="new">Click to toggle notification panel</target>
       </trans-unit>
     </body>
   </file>

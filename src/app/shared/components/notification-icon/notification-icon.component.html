@@ -1,1 +1,5 @@
-<sofie-icon-button [ngClass]="{ error: hasNotification() }" [iconButton]="IconButton.CIRCLE_EXCLAMATION" [iconButtonSize]="IconButtonSize.XL" (click)="toggleNotificationPanel()"></sofie-icon-button>
+<sofie-icon-button [sofieTooltip]="tooltip" [ngClass]="{ error: hasNotification() }" [iconButton]="IconButton.CIRCLE_EXCLAMATION" [iconButtonSize]="IconButtonSize.XL" (click)="toggleNotificationPanel()"></sofie-icon-button>
+
+<ng-template #tooltip>
+    <sofie-text-tooltip i18n-text text="notification-icon.toggle-panel.tooltip"></sofie-text-tooltip>
+</ng-template>

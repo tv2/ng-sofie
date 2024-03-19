@@ -3,6 +3,8 @@
   [ngClass]="{ 'on-air': shouldShowOnAirBorder(), 'next': shouldShowNextBorder() }"
   [title]=segment.name
   (click)="executeAction()"
+  [sofieTooltip]="miniShelfTooltip"
+  (tooltipMetadata)="setTooltipMetadata($event)"
 >
     <!--  TODO: add ThumbnailComponent and use it here-->
     <div
@@ -19,6 +21,14 @@
             <span class="c-mini-shelf__title">{{ getSanitizedTitle() | uppercase }}</span>
             <span class="c-mini-shelf__duration">{{ mediaDurationInMsWithoutPostroll | timer : 'HH?:mm:ss' }}</span>
         </div>
-        <sofie-mini-shelf-tooltip [durationInMs]="mediaDurationInMsWithoutPostroll" [filename]="mediaFilename"></sofie-mini-shelf-tooltip>
     </div>
 </div>
+
+<ng-template #miniShelfTooltip>
+    <sofie-video-hover-scrub
+            [filename]="mediaFilename"
+            [videoLengthInPixels]="tooltipMetadata ? tooltipMetadata.width ?? 0 : 0"
+            [durationInMs]="mediaDurationInMsWithoutPostroll"
+            [positionInVideoInPixels]="tooltipMetadata ? tooltipMetadata.xPosition : 0">
+    </sofie-video-hover-scrub>
+</ng-template>

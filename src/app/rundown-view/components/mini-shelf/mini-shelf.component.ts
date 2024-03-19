@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
 import { StudioConfiguration } from '../../../shared/models/studio-configuration'
@@ -9,6 +9,7 @@ import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { Tv2Part } from '../../../core/models/tv2-part'
+import { TooltipMetadata } from '../../../shared/directives/tooltip.directive'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -18,6 +19,8 @@ import { Tv2Part } from '../../../core/models/tv2-part'
 export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction?: Tv2VideoClipAction
+
+  public tooltipMetadata: TooltipMetadata
 
   private actionIdForOnAirPart?: string
   private actionIdForNextPart?: string
@@ -33,7 +36,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
     private readonly mediaStateService: MediaStateService,
-    private readonly rundownStateService: RundownStateService
+    private readonly rundownStateService: RundownStateService,
+    private readonly elementRef: ElementRef
   ) {}
 
   public ngOnInit(): void {
@@ -139,5 +143,12 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   public get mediaFilename(): string {
     return this.segment.metadata?.miniShelfVideoClipFile ?? ''
+  }
+
+  public setTooltipMetadata(tooltipMetadata: TooltipMetadata): void {
+    this.tooltipMetadata = {
+      xPosition: tooltipMetadata.xPosition,
+      width: this.elementRef.nativeElement.offsetWidth, // We need to set the width here because we need the width of the Piece displayed in the Timeline.
+    }
   }
 }
