@@ -5,6 +5,8 @@ import { instance, mock, when } from '@typestrong/ts-mockito'
 import { RouterModule } from '@angular/router'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { DialogService } from '../../../shared/services/dialog.service'
+import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
+import { RundownStateService } from '../../../core/services/rundown-state.service'
 
 describe(RundownHeaderContextMenuComponent.name, () => {
   it('should create', async () => {
@@ -15,12 +17,20 @@ describe(RundownHeaderContextMenuComponent.name, () => {
   })
 })
 
-async function configureTestBed(params: { mockedRundownService?: RundownService; mockedDialogService?: DialogService } = {}): Promise<RundownHeaderContextMenuComponent> {
+async function configureTestBed(
+  params: {
+    mockedRundownStateService?: RundownStateService
+    mockedRundownService?: RundownService
+    mockedDialogService?: DialogService
+  } = {}
+): Promise<RundownHeaderContextMenuComponent> {
+  const mockedRundownStateService: RundownStateService = params.mockedRundownStateService ?? mock<RundownStateService>()
   const mockedRundownService = params.mockedRundownService ?? mock<RundownService>()
   const mockedDialogService = params.mockedDialogService ?? mock<DialogService>()
   await TestBed.configureTestingModule({
     imports: [RouterModule.forRoot([])],
     providers: [
+      { provide: BasicRundownStateService, useValue: instance(mockedRundownStateService) },
       { provide: RundownService, useValue: instance(mockedRundownService) },
       { provide: DialogService, useValue: instance(mockedDialogService) },
     ],

@@ -5,6 +5,9 @@ import { DialogService } from '../../../shared/services/dialog.service'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
 import { DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
 import { RundownMode } from '../../../core/enums/rundown-mode'
+import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
+import { BasicRundown } from '../../../core/models/basic-rundown'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
@@ -53,12 +56,23 @@ export class RundownHeaderContextMenuComponent {
   }
 
   constructor(
+    private readonly basicRundownStateService: BasicRundownStateService,
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService
   ) {}
 
   public openActivateRundownDialog(): void {
-    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.activateRundown())
+    const currentlyActiveBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getActiveRundown()
+    if (currentlyActiveBasicRundown) {
+      this.dialogService.createConfirmDialog(
+        this.rundown.name,
+        `Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown "${currentlyActiveBasicRundown.name}"`,
+        'Activate',
+        () => this.deactivateRundownById(currentlyActiveBasicRundown.id).subscribe(() => this.activateRundown())
+      )
+    } else {
+      this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.activateRundown())
+    }
   }
 
   public activateRundown(): void {
@@ -75,8 +89,12 @@ export class RundownHeaderContextMenuComponent {
     )
   }
 
+  private deactivateRundownById(id: string): Observable<void> {
+    return this.rundownService.deactivate(id)
+  }
+
   private deactivateRundown(): void {
-    this.rundownService.deactivate(this.rundown.id).subscribe()
+    this.deactivateRundownById(this.rundown.id).subscribe()
   }
 
   private take(): void {
