@@ -8,6 +8,4 @@ import { Component, Input } from '@angular/core'
 export class RoundedBoxComponent {
   @Input() public textColor: string
   @Input() public backgroundColor: string
-
-  constructor() {}
 }

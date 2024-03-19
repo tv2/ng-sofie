@@ -5,6 +5,4 @@ import { Component } from '@angular/core'
   templateUrl: './row.component.html',
   styleUrls: ['./row.component.scss'],
 })
-export class RowComponent {
-  constructor() {}
-}
+export class RowComponent {}

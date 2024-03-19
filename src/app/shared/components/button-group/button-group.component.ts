@@ -5,6 +5,4 @@ import { Component } from '@angular/core'
   templateUrl: './button-group.component.html',
   styleUrls: ['./button-group.component.scss'],
 })
-export class ButtonGroupComponent {
-  constructor() {}
-}
+export class ButtonGroupComponent {}

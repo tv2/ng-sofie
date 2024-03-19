@@ -32,8 +32,6 @@ export class TableComponent<T> implements OnChanges {
   @Input() public selectedEntities: Set<T> = new Set()
   @Output() public selectedEntitiesChange: EventEmitter<Set<T>> = new EventEmitter()
 
-  constructor() {}
-
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['entities']) {
       this.sortEntities()
