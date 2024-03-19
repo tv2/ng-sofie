@@ -23,7 +23,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   public segment: Segment
 
   @Input()
-  public isRundownActive: boolean
+  public isRundownActiveOrRehearsal: boolean
 
   @Input()
   public isAutoNextStarted: boolean

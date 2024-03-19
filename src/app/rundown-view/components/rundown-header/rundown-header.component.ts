@@ -19,8 +19,6 @@ const SKEMA_TEMPLATE_IDENTIFIER: string = 'SKEMA_'
   styleUrls: ['./rundown-header.component.scss'],
 })
 export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
-  protected readonly RundownMode = RundownMode
-
   @Input()
   public rundown: Rundown
 
@@ -34,8 +32,10 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public plannedStart?: number
   public plannedEnd: number = Date.now()
   public diff: number = 0
-  public readonly IconButton = IconButton
-  public readonly IconButtonSize = IconButtonSize
+
+  protected readonly IconButton = IconButton
+  protected readonly IconButtonSize = IconButtonSize
+  protected readonly RundownMode = RundownMode
 
   private showStyleVariantSubscription?: Subscription
   private rundownTimingContextSubscription?: Subscription

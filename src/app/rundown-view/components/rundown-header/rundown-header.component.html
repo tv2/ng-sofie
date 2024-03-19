@@ -1,4 +1,8 @@
-<div [cdkContextMenuTriggerFor]="contextMenu" class="c-rundown-header" [class.c-rundown-header--active]="rundown.mode === RundownMode.ACTIVE">
+<div
+  [cdkContextMenuTriggerFor]="contextMenu"
+  class="c-rundown-header"
+  [class.c-rundown-header--active]="rundown.mode === RundownMode.ACTIVE"
+  [class.c-rundown-header--rehearsal]="rundown.mode === RundownMode.REHEARSAL">
     <ng-template #contextMenu>
         <sofie-rundown-header-context-menu class="c-context-access-surface" [rundown]="rundown" [shortenedRundownName]="rundownName"> </sofie-rundown-header-context-menu>
     </ng-template>
