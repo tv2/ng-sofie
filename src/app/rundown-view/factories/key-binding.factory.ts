@@ -13,7 +13,6 @@ import { Logger } from '../../core/abstractions/logger.service'
 import { PartActionType } from '../../shared/models/action-type'
 import { MiniShelfCycleService } from '../services/mini-shelf-cycle.service'
 import { RundownMode } from '../../core/enums/rundown-mode'
-import { BasicRundownStateService } from '../../core/services/basic-rundown-state.service'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -28,7 +27,6 @@ export class KeyBindingFactory {
   constructor(
     private readonly actionService: ActionService,
     private readonly rundownService: RundownService,
-    private readonly basicRundownStateService: BasicRundownStateService,
     private readonly dialogService: DialogService,
     private readonly rundownNavigationService: RundownNavigationService,
     private readonly miniShelfCycleService: MiniShelfCycleService,
