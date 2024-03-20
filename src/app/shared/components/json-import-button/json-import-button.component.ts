@@ -14,7 +14,7 @@ export class JsonImportButtonComponent<T> {
 
   public onFileSelected(inputElement: HTMLInputElement): void {
     const files: FileList | null = inputElement.files
-    if (!files) {
+    if (!files || files.length <= 0) {
       this.notificationService.createWarningNotification('Unable to import file. No file found!')
       return
     }
@@ -26,12 +26,12 @@ export class JsonImportButtonComponent<T> {
         return
       }
 
-      const jsonObject: T = JSON.parse(new TextDecoder().decode(arrayBuffer))
-      if (!!this.validator && !this.validator(jsonObject)) {
+      const jsonData: T = JSON.parse(new TextDecoder().decode(arrayBuffer))
+      if (!!this.validator && !this.validator(jsonData)) {
         this.notificationService.createErrorNotification('Unable to import file. Imported file does not parse validation!')
         return
       }
-      this.onUpload.emit(jsonObject)
+      this.onUpload.emit(jsonData)
     }
     fileReader.readAsArrayBuffer(files[0])
     inputElement.value = ''

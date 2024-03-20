@@ -6,7 +6,7 @@
             <sofie-spacer></sofie-spacer>
             <sofie-button-group>
                 <sofie-button (click)="openCreateActionPanel()" i18n>global.create.label</sofie-button>
-                <sofie-json-export-button [exportData]="shelfConfiguration" [exportedFileName]="shelfConfigurationFileName"></sofie-json-export-button>
+                <sofie-json-export-button [data]="shelfConfiguration" [fileName]="shelfConfigurationFileName"></sofie-json-export-button>
                 <sofie-json-import-button (onUpload)="shelfConfigurationUploaded($event)" [validator]="validateShelfConfiguration.bind(this)"></sofie-json-import-button>
                 <sofie-button *ngIf="selectedActionPanels.size > 0" [type]="'DANGER'" (click)="deleteSelectedActionPanels()" i18n>global.delete-selected.label</sofie-button>
             </sofie-button-group>

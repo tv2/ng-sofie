@@ -5,7 +5,7 @@
             <sofie-spacer></sofie-spacer>
             <sofie-button-group>
                 <sofie-button i18n (click)="openCreateKeyboardMapping()">global.create.label</sofie-button>
-                <sofie-json-export-button [exportData]="getActionTriggersFromKeyboardMappings()" [exportedFileName]="keyboardMappingsFileName"></sofie-json-export-button>
+                <sofie-json-export-button [data]="getActionTriggersFromKeyboardMappings()" [fileName]="keyboardMappingsFileName"></sofie-json-export-button>
                 <sofie-json-import-button (onUpload)="actionTriggersUploaded($event)" [validator]="validateActionTriggers.bind(this)"></sofie-json-import-button>
                 <sofie-button *ngIf="selectedKeyboardMappings.size > 0" [type]="'DANGER'" (click)="deleteSelectedKeyboardMapping()" i18n>global.delete-selected.label</sofie-button>
             </sofie-button-group>

@@ -6,9 +6,9 @@ import { NotificationService } from '../../services/notification.service'
   selector: 'sofie-json-export-button',
   templateUrl: './json-export-button.component.html',
 })
-export class JsonExportButtonComponent<T> {
-  @Input() public exportData: T
-  @Input() public exportedFileName: string
+export class JsonExportButtonComponent {
+  @Input() public data: unknown
+  @Input() public fileName: string
 
   constructor(
     private readonly fileDownloadService: FileDownloadService,
@@ -16,16 +16,16 @@ export class JsonExportButtonComponent<T> {
   ) {}
 
   public exportFile(): void {
-    if (!this.exportData) {
+    if (!this.data) {
       this.notificationService.createWarningNotification("Can't export to file. No data provided")
       return
     }
 
-    if (!this.exportedFileName) {
+    if (!this.fileName) {
       this.notificationService.createWarningNotification("Can't export to file. No filename provided")
       return
     }
 
-    this.fileDownloadService.downloadJson(this.exportData, this.exportedFileName)
+    this.fileDownloadService.downloadJson(this.data, this.fileName)
   }
 }

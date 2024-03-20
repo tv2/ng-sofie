@@ -11,7 +11,7 @@ export class FormatKeyboardKeysPipe implements PipeTransform {
     return keys.map(key => this.formatKey(key)).join(' + ')
   }
 
-  public formatKey(key: string): string {
+  private formatKey(key: string): string {
     if (/Key/g.test(key)) {
       return key.replace(/Key/g, '')
     } else if (/Digit/g.test(key)) {
