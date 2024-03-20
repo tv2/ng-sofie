@@ -7,7 +7,6 @@ import { DialogSeverity } from '../../../shared/components/confirmation-dialog/c
 import { RundownMode } from '../../../core/enums/rundown-mode'
 import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
 import { BasicRundown } from '../../../core/models/basic-rundown'
-import { Observable } from 'rxjs'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
@@ -84,11 +83,7 @@ export class RundownHeaderContextMenuComponent {
     const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
     if (nonIdleRundown) {
       this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown "${nonIdleRundown.name}"`, 'Activate', () => {
-        if (nonIdleRundown.mode === RundownMode.REHEARSAL && nonIdleRundown.id === this.rundown.id) {
-          this.activateRundown()
-        } else {
-          this.deactivateRundownById(nonIdleRundown.id).subscribe(() => this.activateRundown())
-        }
+        this.rundownService.activateWithNonIdleRundown(nonIdleRundown, this.rundown)
       })
     } else {
       this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.activateRundown())
@@ -103,7 +98,7 @@ export class RundownHeaderContextMenuComponent {
     const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
     if (nonIdleRundown) {
       this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to rehearse the Rundown?\n\nThis will deactivate the Rundown "${nonIdleRundown.name}"`, 'Rehearse', () =>
-        this.deactivateRundownById(nonIdleRundown.id).subscribe(() => this.rehearseRundown())
+        this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rehearseRundown())
       )
     } else {
       this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to rehearse the Rundown?', 'Rehearse', () => this.rehearseRundown())
@@ -124,12 +119,8 @@ export class RundownHeaderContextMenuComponent {
     )
   }
 
-  private deactivateRundownById(id: string): Observable<void> {
-    return this.rundownService.deactivate(id)
-  }
-
   private deactivateRundown(): void {
-    this.deactivateRundownById(this.rundown.id).subscribe()
+    this.rundownService.deactivate(this.rundown.id).subscribe()
   }
 
   private take(): void {
