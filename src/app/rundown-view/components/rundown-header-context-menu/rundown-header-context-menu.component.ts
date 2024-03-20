@@ -22,11 +22,11 @@ export class RundownHeaderContextMenuComponent {
   private readonly contextMenuOptionsForInactiveRundown: ContextMenuOption[] = [
     {
       label: 'Activate (On Air)',
-      contextAction: (): void => this.dialogService.switchActivateRundownDialog(this.rundown, this.basicRundownStateService, this.rundownService),
+      contextAction: (): void => this.dialogService.switchActivateRundownDialog(this.rundown),
     },
     {
       label: 'Rehearse',
-      contextAction: (): void => this.dialogService.switchRehearsalRundownDialog(this.rundown, this.basicRundownStateService, this.rundownService),
+      contextAction: (): void => this.dialogService.switchRehearsalRundownDialog(this.rundown),
     },
     {
       label: 'Reingest data',
@@ -56,7 +56,7 @@ export class RundownHeaderContextMenuComponent {
   private readonly contextMenuOptionsForRehearseRundown: ContextMenuOption[] = [
     {
       label: 'Activate (On Air)',
-      contextAction: (): void => this.dialogService.switchActivateRundownDialog(this.rundown, this.basicRundownStateService, this.rundownService),
+      contextAction: (): void => this.dialogService.switchActivateRundownDialog(this.rundown),
     },
     ...this.contextMenuOptionsForActiveRundown,
   ]
