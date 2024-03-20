@@ -84,10 +84,10 @@ export class RundownHeaderContextMenuComponent {
     const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
     if (nonIdleRundown) {
       this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown "${nonIdleRundown.name}"`, 'Activate', () => {
-        if (nonIdleRundown.mode === RundownMode.ACTIVE && nonIdleRundown.id !== this.rundown.id) {
-          this.deactivateRundownById(nonIdleRundown.id).subscribe(() => this.activateRundown())
-        } else {
+        if (nonIdleRundown.mode === RundownMode.REHEARSAL && nonIdleRundown.id === this.rundown.id) {
           this.activateRundown()
+        } else {
+          this.deactivateRundownById(nonIdleRundown.id).subscribe(() => this.activateRundown())
         }
       })
     } else {

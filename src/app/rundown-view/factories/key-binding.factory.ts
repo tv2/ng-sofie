@@ -148,10 +148,10 @@ export class KeyBindingFactory {
     const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
     if (nonIdleRundown) {
       this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown "${nonIdleRundown.name}"`, 'Activate', () => {
-        if (nonIdleRundown.mode === RundownMode.ACTIVE && nonIdleRundown.id !== rundown.id) {
-          this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.activate(rundown.id).subscribe())
-        } else {
+        if (nonIdleRundown.mode === RundownMode.REHEARSAL && nonIdleRundown.id === rundown.id) {
           this.rundownService.activate(rundown.id).subscribe()
+        } else {
+          this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.activate(rundown.id).subscribe())
         }
       })
     } else {
