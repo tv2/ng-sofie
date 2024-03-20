@@ -5,7 +5,6 @@ import { DialogService } from '../../../shared/services/dialog.service'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
 import { DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
 import { RundownMode } from '../../../core/enums/rundown-mode'
-import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
@@ -73,7 +72,6 @@ export class RundownHeaderContextMenuComponent {
   }
 
   constructor(
-    private readonly basicRundownStateService: BasicRundownStateService,
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService
   ) {}
