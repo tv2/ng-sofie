@@ -72,24 +72,8 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private subscribeToEventObserver(): void {
-    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownAutoNext(this.setAutoNextStartedToTrue.bind(this)))
-    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownReset(this.setAutoNextStartedToFalse.bind(this)))
-    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownDeactivation(this.setAutoNextStartedToFalse.bind(this)))
-    this.rundownEventSubscriptions.push(
-      this.rundownEventObserver.subscribeToRundownTake(event => {
-        this.setAutoNextStartedToFalse()
-        this.scrollViewToSegment(event)
-      })
-    )
-    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(this.scrollViewToSegment.bind(this)))
-  }
-
-  private setAutoNextStartedToTrue(): void {
-    this.isAutoNextStarted = true
-  }
-
-  private setAutoNextStartedToFalse(): void {
-    this.isAutoNextStarted = false
+    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownTake(event => this.scrollViewToSegment(event)))
+    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(event => this.scrollViewToSegment(event)))
   }
 
   public scrollViewToSegment(event: PartEvent): void {
@@ -124,12 +108,18 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
       this.updateMiniShelfSegments()
       this.updateMiniShelfSegmentActionMappings()
       this.setIfRundownIsActive()
+      this.updateIsAutoNextStarted()
     }
   }
 
   private setIfRundownIsActive(): void {
     // TODO in SOF-1568: "isRundownActive" is not a suitable name for also including REHEARSAL.
     this.isRundownActive = [RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(this.rundown.mode)
+  }
+
+  private updateIsAutoNextStarted(): void {
+    const onAirPart: Part | undefined = this.rundown.segments.find(segment => segment.isOnAir)?.parts.find(part => part.isOnAir)
+    this.isAutoNextStarted = !!onAirPart?.autoNext
   }
 
   private getStartOffsetsInMsFromPlayheadForSegments(rundownTimingContext: RundownTimingContext): Record<string, number> {
