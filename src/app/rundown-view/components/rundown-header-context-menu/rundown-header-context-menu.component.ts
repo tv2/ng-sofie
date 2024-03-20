@@ -81,11 +81,11 @@ export class RundownHeaderContextMenuComponent {
   ) {}
 
   public openActivateRundownDialog(): void {
-    const nonIdleBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
-    if (nonIdleBasicRundown) {
-      this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown "${nonIdleBasicRundown.name}"`, 'Activate', () => {
-        if (nonIdleBasicRundown.mode === RundownMode.ACTIVE && nonIdleBasicRundown.id !== this.rundown.id) {
-          this.deactivateRundownById(nonIdleBasicRundown.id).subscribe(() => this.activateRundown())
+    const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
+    if (nonIdleRundown) {
+      this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown "${nonIdleRundown.name}"`, 'Activate', () => {
+        if (nonIdleRundown.mode === RundownMode.ACTIVE && nonIdleRundown.id !== this.rundown.id) {
+          this.deactivateRundownById(nonIdleRundown.id).subscribe(() => this.activateRundown())
         } else {
           this.activateRundown()
         }
@@ -100,10 +100,10 @@ export class RundownHeaderContextMenuComponent {
   }
 
   public openRehearsalRundownDialog(): void {
-    const nonIdleBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
-    if (nonIdleBasicRundown) {
-      this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to rehearse the Rundown?\n\nThis will deactivate the Rundown "${nonIdleBasicRundown.name}"`, 'Rehearse', () =>
-        this.deactivateRundownById(nonIdleBasicRundown.id).subscribe(() => this.rehearseRundown())
+    const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
+    if (nonIdleRundown) {
+      this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to rehearse the Rundown?\n\nThis will deactivate the Rundown "${nonIdleRundown.name}"`, 'Rehearse', () =>
+        this.deactivateRundownById(nonIdleRundown.id).subscribe(() => this.rehearseRundown())
       )
     } else {
       this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to rehearse the Rundown?', 'Rehearse', () => this.rehearseRundown())
