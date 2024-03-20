@@ -131,7 +131,7 @@ export class BasicRundownStateService implements OnDestroy {
     this.eventSubscriptions.forEach(eventSubscription => eventSubscription.unsubscribe())
   }
 
-  public getNonInactiveRundown(): BasicRundown | undefined {
+  public getNonIdleRundown(): BasicRundown | undefined {
     return this.basicRundowns.find(rundown => [RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(rundown.mode))
   }
 }

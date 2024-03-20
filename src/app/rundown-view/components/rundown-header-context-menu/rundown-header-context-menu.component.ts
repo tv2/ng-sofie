@@ -81,7 +81,7 @@ export class RundownHeaderContextMenuComponent {
   ) {}
 
   public openActivateRundownDialog(): void {
-    const currentlyNonIdleBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getNonInactiveRundown()
+    const currentlyNonIdleBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
     if (currentlyNonIdleBasicRundown) {
       this.dialogService.createConfirmDialog(
         this.rundown.name,
@@ -99,7 +99,7 @@ export class RundownHeaderContextMenuComponent {
   }
 
   public openRehearsalRundownDialog(): void {
-    const currentlyNonIdleBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getNonInactiveRundown()
+    const currentlyNonIdleBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
     if (currentlyNonIdleBasicRundown) {
       this.dialogService.createConfirmDialog(
         this.rundown.name,

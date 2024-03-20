@@ -145,7 +145,7 @@ export class KeyBindingFactory {
     if (rundown.mode === RundownMode.ACTIVE) {
       return
     }
-    const currentlyNonIdleBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getNonInactiveRundown()
+    const currentlyNonIdleBasicRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
     if (currentlyNonIdleBasicRundown) {
       this.dialogService.createConfirmDialog(
         rundown.name,
