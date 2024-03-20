@@ -7,8 +7,6 @@ import { Rundown } from '../../models/rundown'
 import { EntityParser } from '../../abstractions/entity-parser.service'
 import { environment } from '../../../../environments/environment'
 import { HttpResponse } from '../../../shared/services/http/http-response'
-import { BasicRundown } from '../../models/basic-rundown'
-import { RundownMode } from '../../enums/rundown-mode'
 
 const RUNDOWN_URL: string = `${environment.apiBaseUrl}/rundowns`
 
@@ -57,13 +55,5 @@ export class HttpRundownService implements RundownService {
 
   public reingest(rundownId: string): Observable<void> {
     return this.http.post<void>(`${RUNDOWN_URL}/${rundownId}/reingest`, null).pipe(catchError(error => this.httpErrorService.catchError(error)))
-  }
-
-  public activateWithNonIdleRundown(nonIdleRundown: BasicRundown, rundown: Rundown): void {
-    if (nonIdleRundown.mode === RundownMode.REHEARSAL && nonIdleRundown.id === rundown.id) {
-      this.activate(rundown.id).subscribe()
-    } else {
-      this.deactivate(nonIdleRundown.id).subscribe(() => this.activate(rundown.id).subscribe())
-    }
   }
 }

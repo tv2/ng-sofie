@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs'
 import { Rundown } from '../models/rundown'
-import { BasicRundown } from '../models/basic-rundown'
 
 export abstract class RundownService {
   public abstract fetchRundown(rundownId: string): Observable<Rundown>
@@ -12,5 +11,4 @@ export abstract class RundownService {
   public abstract setNext(rundownId: string, segmentId: string, partId: string): Observable<void>
   public abstract reingest(rundownId: string): Observable<void>
   public abstract delete(rundownId: string): Observable<void>
-  public abstract activateWithNonIdleRundown(nonIdleRundown: BasicRundown, rundown: Rundown): void
 }

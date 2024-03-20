@@ -5,8 +5,7 @@ import { DialogService } from '../../../shared/services/dialog.service'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
 import { DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
 import { RundownMode } from '../../../core/enums/rundown-mode'
-import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
-import { BasicRundown } from '../../../core/models/basic-rundown'
+import { RundownStateService } from '../../../core/services/rundown-state.service'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
@@ -23,11 +22,11 @@ export class RundownHeaderContextMenuComponent {
   private readonly contextMenuOptionsForInactiveRundown: ContextMenuOption[] = [
     {
       label: 'Activate (On Air)',
-      contextAction: (): void => this.switchActivateRundownDialog(),
+      contextAction: (): void => this.rundownStateService.switchActivateRundownDialog(this.rundown),
     },
     {
       label: 'Rehearse',
-      contextAction: (): void => this.switchRehearsalRundownDialog(),
+      contextAction: (): void => this.rundownStateService.switchRehearsalRundownDialog(this.rundown),
     },
     {
       label: 'Reingest data',
@@ -57,7 +56,7 @@ export class RundownHeaderContextMenuComponent {
   private readonly contextMenuOptionsForRehearseRundown: ContextMenuOption[] = [
     {
       label: 'Activate (On Air)',
-      contextAction: (): void => this.switchActivateRundownDialog(),
+      contextAction: (): void => this.rundownStateService.switchActivateRundownDialog(this.rundown),
     },
     ...this.contextMenuOptionsForActiveRundown,
   ]
@@ -74,39 +73,10 @@ export class RundownHeaderContextMenuComponent {
   }
 
   constructor(
-    private readonly basicRundownStateService: BasicRundownStateService,
+    private readonly rundownStateService: RundownStateService,
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService
   ) {}
-
-  public switchActivateRundownDialog(): void {
-    const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
-    if (!nonIdleRundown) {
-      this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.activateRundown())
-      return
-    }
-    switch (true) {
-      case nonIdleRundown.mode === RundownMode.REHEARSAL && nonIdleRundown.id === this.rundown.id:
-        this.rundownService.activate(nonIdleRundown.id).subscribe()
-        return
-      case nonIdleRundown.mode === RundownMode.ACTIVE && nonIdleRundown.id !== this.rundown.id:
-        this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown "${nonIdleRundown.name}"`, 'Activate', () =>
-          this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.activateRundown())
-        )
-        return
-      case nonIdleRundown.mode === RundownMode.REHEARSAL && nonIdleRundown.id !== this.rundown.id:
-        this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.activateRundown())
-        return
-    }
-  }
-
-  public activateRundown(): void {
-    this.rundownService.activate(this.rundown.id).subscribe()
-  }
-
-  public rehearseRundown(): void {
-    this.rundownService.rehearse(this.rundown.id).subscribe()
-  }
 
   public openDeactivateRundownDialog(): void {
     this.dialogService.createConfirmDialog(
@@ -136,26 +106,5 @@ export class RundownHeaderContextMenuComponent {
 
   public reingestData(): void {
     this.rundownService.reingest(this.rundown.id).subscribe()
-  }
-
-  private switchRehearsalRundownDialog(): void {
-    const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
-    if (!nonIdleRundown) {
-      this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to rehearse the Rundown?', 'Rehearse', () => this.rehearseRundown())
-      return
-    }
-    switch (true) {
-      case nonIdleRundown.mode === RundownMode.ACTIVE && nonIdleRundown.id === this.rundown.id:
-        this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to rehearse the active Rundown?`, 'Rehearse', () => this.rehearseRundown())
-        return
-      case nonIdleRundown.mode === RundownMode.REHEARSAL && nonIdleRundown.id !== this.rundown.id:
-        this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rehearseRundown())
-        return
-      case nonIdleRundown.mode === RundownMode.ACTIVE && nonIdleRundown.id !== this.rundown.id:
-        this.dialogService.createConfirmDialog(this.rundown.name, `Are you sure you want to rehearse the Rundown?\n\nThis will deactivate the Rundown "${nonIdleRundown.name}"`, 'Rehearse', () =>
-          this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rehearseRundown())
-        )
-        return
-    }
   }
 }

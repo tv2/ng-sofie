@@ -13,8 +13,7 @@ import { Logger } from '../../core/abstractions/logger.service'
 import { PartActionType } from '../../shared/models/action-type'
 import { MiniShelfCycleService } from '../services/mini-shelf-cycle.service'
 import { RundownMode } from '../../core/enums/rundown-mode'
-import { BasicRundown } from '../../core/models/basic-rundown'
-import { BasicRundownStateService } from '../../core/services/basic-rundown-state.service'
+import { RundownStateService } from '../../core/services/rundown-state.service'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -29,7 +28,7 @@ export class KeyBindingFactory {
   constructor(
     private readonly actionService: ActionService,
     private readonly rundownService: RundownService,
-    private readonly basicRundownStateService: BasicRundownStateService,
+    private readonly rundownStateService: RundownStateService,
     private readonly dialogService: DialogService,
     private readonly rundownNavigationService: RundownNavigationService,
     private readonly miniShelfCycleService: MiniShelfCycleService,
@@ -125,7 +124,8 @@ export class KeyBindingFactory {
       ]
     }
     return [
-      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.activateRundown(rundown)),
+      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.rundownStateService.switchActivateRundownDialog(rundown)),
+      this.createRundownKeyBinding('Rehearse Rundown', ['Shift', 'Backquote'], () => this.rundownStateService.switchRehearsalRundownDialog(rundown)),
       this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
     ]
   }
@@ -139,20 +139,6 @@ export class KeyBindingFactory {
 
   private resetRundown(rundown: Rundown): void {
     this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to reset the Rundown?', 'Reset', () => this.rundownService.reset(rundown.id).subscribe())
-  }
-
-  private activateRundown(rundown: Rundown): void {
-    if (rundown.mode === RundownMode.ACTIVE) {
-      return
-    }
-    const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
-    if (nonIdleRundown) {
-      this.dialogService.createConfirmDialog(rundown.name, `Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown "${nonIdleRundown.name}"`, 'Activate', () =>
-        this.rundownService.activateWithNonIdleRundown(nonIdleRundown, rundown)
-      )
-    } else {
-      this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.rundownService.activate(rundown.id).subscribe())
-    }
   }
 
   private deactivateRundown(rundown: Rundown): void {

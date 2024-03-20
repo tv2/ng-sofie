@@ -5,7 +5,6 @@ import { instance, mock, when } from '@typestrong/ts-mockito'
 import { RouterModule } from '@angular/router'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { DialogService } from '../../../shared/services/dialog.service'
-import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 
 describe(RundownHeaderContextMenuComponent.name, () => {
@@ -30,7 +29,7 @@ async function configureTestBed(
   await TestBed.configureTestingModule({
     imports: [RouterModule.forRoot([])],
     providers: [
-      { provide: BasicRundownStateService, useValue: instance(mockedRundownStateService) },
+      { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
       { provide: RundownService, useValue: instance(mockedRundownService) },
       { provide: DialogService, useValue: instance(mockedDialogService) },
     ],
