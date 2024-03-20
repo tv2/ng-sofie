@@ -5,7 +5,7 @@ import { DialogService } from '../../../shared/services/dialog.service'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
 import { DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
 import { RundownMode } from '../../../core/enums/rundown-mode'
-import { RundownStateService } from '../../../core/services/rundown-state.service'
+import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
@@ -22,11 +22,11 @@ export class RundownHeaderContextMenuComponent {
   private readonly contextMenuOptionsForInactiveRundown: ContextMenuOption[] = [
     {
       label: 'Activate (On Air)',
-      contextAction: (): void => this.rundownStateService.switchActivateRundownDialog(this.rundown),
+      contextAction: (): void => this.dialogService.switchActivateRundownDialog(this.rundown, this.basicRundownStateService, this.rundownService),
     },
     {
       label: 'Rehearse',
-      contextAction: (): void => this.rundownStateService.switchRehearsalRundownDialog(this.rundown),
+      contextAction: (): void => this.dialogService.switchRehearsalRundownDialog(this.rundown, this.basicRundownStateService, this.rundownService),
     },
     {
       label: 'Reingest data',
@@ -56,7 +56,7 @@ export class RundownHeaderContextMenuComponent {
   private readonly contextMenuOptionsForRehearseRundown: ContextMenuOption[] = [
     {
       label: 'Activate (On Air)',
-      contextAction: (): void => this.rundownStateService.switchActivateRundownDialog(this.rundown),
+      contextAction: (): void => this.dialogService.switchActivateRundownDialog(this.rundown, this.basicRundownStateService, this.rundownService),
     },
     ...this.contextMenuOptionsForActiveRundown,
   ]
@@ -73,7 +73,7 @@ export class RundownHeaderContextMenuComponent {
   }
 
   constructor(
-    private readonly rundownStateService: RundownStateService,
+    private readonly basicRundownStateService: BasicRundownStateService,
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService
   ) {}
