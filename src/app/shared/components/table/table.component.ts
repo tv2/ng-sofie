@@ -8,9 +8,8 @@ export enum SortDirection {
 
 export interface SofieTableHeader<T> {
   name: string
-  isBeingUsedForSorting?: boolean
   sortCallback: (a: T, b: T) => number
-  sortDirection: SortDirection
+  sortDirection?: SortDirection
 }
 
 @Component({
@@ -38,29 +37,8 @@ export class TableComponent<T> implements OnChanges {
     }
   }
 
-  public getRowTemplateContext(entity: T): { tableRowData: T } {
-    return {
-      tableRowData: entity,
-    }
-  }
-
-  public toggleTableHeaderForSorting(header: SofieTableHeader<T>): void {
-    header.isBeingUsedForSorting = true
-    header.sortDirection = header.sortDirection === SortDirection.DESC ? SortDirection.ASC : SortDirection.DESC
-
-    this.headers.forEach(h => {
-      if (h === header) {
-        return
-      }
-      h.isBeingUsedForSorting = false
-      h.sortDirection = SortDirection.DESC
-    })
-
-    this.sortEntities()
-  }
-
   private sortEntities(): void {
-    const header: SofieTableHeader<T> | undefined = this.headers.find(header => header.isBeingUsedForSorting)
+    const header: SofieTableHeader<T> | undefined = this.headers.find(header => header.sortDirection)
     if (!header) {
       return
     }
@@ -68,6 +46,25 @@ export class TableComponent<T> implements OnChanges {
     if (header.sortDirection === SortDirection.ASC) {
       this.entities.reverse()
     }
+  }
+
+  public getRowTemplateContext(entity: T): { tableRowData: T } {
+    return {
+      tableRowData: entity,
+    }
+  }
+
+  public toggleTableHeaderForSorting(header: SofieTableHeader<T>): void {
+    header.sortDirection = header.sortDirection === SortDirection.DESC ? SortDirection.ASC : SortDirection.DESC
+
+    this.headers.forEach(h => {
+      if (h === header) {
+        return
+      }
+      h.sortDirection = undefined
+    })
+
+    this.sortEntities()
   }
 
   public getSortIcon(header: SofieTableHeader<T>): Icon {
@@ -79,7 +76,7 @@ export class TableComponent<T> implements OnChanges {
   }
 
   public isAllEntitiesSelected(): boolean {
-    if (!this.entities || this.entities.length === 0) {
+    if (this.entities.length === 0) {
       return false
     }
     return this.selectedEntities.size === this.entities.length

@@ -36,19 +36,16 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   public readonly headers: SofieTableHeader<KeyboardMapping>[] = [
     {
       name: 'Label',
-      isBeingUsedForSorting: true,
       sortCallback: (a: KeyboardMapping, b: KeyboardMapping): number => a.actionTrigger.data.label.localeCompare(b.actionTrigger.data.label),
       sortDirection: SortDirection.DESC,
     },
     {
       name: 'Shortcut',
       sortCallback: (a: KeyboardMapping, b: KeyboardMapping): number => a.actionTrigger.data.mappedToKeys?.toString().localeCompare(b.actionTrigger.data.mappedToKeys?.toString() ?? '') ?? 0,
-      sortDirection: SortDirection.DESC,
     },
     {
       name: 'Action',
       sortCallback: (a: KeyboardMapping, b: KeyboardMapping): number => a.action.name.localeCompare(b.action.name),
-      sortDirection: SortDirection.DESC,
     },
   ]
 
@@ -56,7 +53,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
 
   public actions: Tv2PartAction[]
 
-  private readonly unsubscribe$: Subject<null> = new Subject<null>()
+  private readonly unsubscribeSubject: Subject<void> = new Subject()
 
   constructor(
     private readonly actionTriggerStateService: ActionTriggerStateService,
@@ -72,7 +69,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.actionStateService
       .subscribeToSystemActions()
-      .then(observable => observable.subscribe(actions => (this.actions = actions as Tv2PartAction[])))
+      .then(observable => observable.subscribe(actions => (this.actions = actions as Tv2PartAction[])).unsubscribe())
       .then(() => this.subscribeForActionTriggerObservable())
       .catch(error => this.logger.data(error).error('Error while listening to Action events'))
   }
@@ -80,7 +77,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   private subscribeForActionTriggerObservable(): void {
     this.actionTriggerStateService
       .getActionTriggerObservable()
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(takeUntil(this.unsubscribeSubject))
       .subscribe(actionTriggers => (this.keyboardMappings = this.mapActionTriggersToKeyboardMappings(actionTriggers)))
   }
 
@@ -111,12 +108,12 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
     if (index < 0) {
       return
     }
-    const clonedActionTriggerFromKeyboardMapping: ActionTrigger<KeyboardTriggerData> = {
+    const duplicatedActionTriggerFromKeyboardMapping: ActionTrigger<KeyboardTriggerData> = {
       ...keyboardMapping.actionTrigger,
       id: '', // Will be set by the backend
     }
 
-    this.actionTriggerService.createActionTrigger(clonedActionTriggerFromKeyboardMapping).subscribe()
+    this.actionTriggerService.createActionTrigger(duplicatedActionTriggerFromKeyboardMapping).subscribe()
     this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.duplicate-keyboard-mapping.success`)
   }
 
@@ -210,6 +207,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.unsubscribe$.unsubscribe()
+    this.unsubscribeSubject.next()
+    this.unsubscribeSubject.unsubscribe()
   }
 }

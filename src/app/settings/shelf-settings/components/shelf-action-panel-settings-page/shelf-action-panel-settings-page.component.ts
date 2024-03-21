@@ -29,18 +29,15 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     {
       name: $localize`action-panel.panel-name.label`,
       sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration): number => a.name.localeCompare(b.name),
-      sortDirection: SortDirection.DESC,
     },
     {
       name: $localize`action-panel.rank.label`,
-      isBeingUsedForSorting: true,
       sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration): number => a.rank - b.rank,
       sortDirection: SortDirection.DESC,
     },
     {
       name: $localize`global.filters.label`,
       sortCallback: (a: ShelfActionPanelConfiguration, b: ShelfActionPanelConfiguration): number => a.actionFilter.toString().localeCompare(b.actionFilter.toString()),
-      sortDirection: SortDirection.DESC,
     },
   ]
 
@@ -49,7 +46,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   public actionPanelNameSearchQuery: string
   public actionContentMultiSelectOptions: MultiSelectOption<Tv2ActionContentType>[] = []
 
-  private actionContentQuery: Tv2ActionContentType[] = []
+  private actionContentSearchQuery: Tv2ActionContentType[] = []
 
   private shelfConfigurationEventSubscription: EventSubscription
 
@@ -170,7 +167,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   }
 
   public updateActionContentQuery(actionContentQuery: Tv2ActionContentType[]): void {
-    this.actionContentQuery = actionContentQuery
+    this.actionContentSearchQuery = actionContentQuery
   }
 
   public doesActionPanelMatchSearchFilter(actionPanel: ShelfActionPanelConfiguration): boolean {
@@ -180,17 +177,17 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   }
 
   private doesActionPanelMatchNameSearchQuery(actionPanel: ShelfActionPanelConfiguration): boolean {
-    if (!this.actionPanelNameSearchQuery || this.actionPanelNameSearchQuery.length === 0) {
+    if (!this.actionPanelNameSearchQuery) {
       return true
     }
     return actionPanel.name.toLowerCase().includes(this.actionPanelNameSearchQuery.toLowerCase())
   }
 
   private doesActionPanelMatchActionContentSearchQuery(actionPanel: ShelfActionPanelConfiguration): boolean {
-    if (this.actionContentQuery.length === 0) {
+    if (this.actionContentSearchQuery.length === 0) {
       return true
     }
-    return actionPanel.actionFilter.some(filter => this.actionContentQuery.includes(filter))
+    return actionPanel.actionFilter.some(filter => this.actionContentSearchQuery.includes(filter))
   }
 
   public ngOnDestroy(): void {

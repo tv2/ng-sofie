@@ -16,7 +16,6 @@ import { Icon, IconSize } from '../../../../shared/enums/icon'
 export class PieceTooltipComponent implements OnChanges {
   protected readonly Icon = Icon
   protected readonly IconSize = IconSize
-  protected readonly sourceUnavailableLabel: string = $localize`piece-tooltip.source-unavailable.label`
 
   @Input() public playedDurationForPartInMs?: number
   @Input() public isMediaUnavailable?: boolean

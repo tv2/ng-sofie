@@ -37,7 +37,7 @@ export class IconButtonComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if ('iconButton' in changes || 'iconButtonSize' in changes) {
+    if ('icon' in changes || 'iconSize' in changes) {
       this.updateIcon()
     }
   }

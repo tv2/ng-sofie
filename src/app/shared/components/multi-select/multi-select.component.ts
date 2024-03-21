@@ -90,11 +90,7 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   }
 
   public getSelectedOptionsAsDisplay(): string {
-    return this.selectedOptions
-      .map(option => option.name)
-      .reduce((a, b) => {
-        return `${a}, ${b}`
-      })
+    return this.selectedOptions.map(option => option.name).join(', ')
   }
 
   public clearAllSelected(): void {
@@ -114,14 +110,12 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
 
   private updateSelectedOptionsFromValues(): void {
     this.clearSelectedOptions()
-    this.values.forEach(value => {
-      const option: SelectableOption<T> | undefined = this.selectableOptions.find(option => option.value === value)
-      if (!option) {
-        return
-      }
-      option.isSelected = true
-      this.selectedOptions.push(option)
-    })
+    this.selectedOptions = this.selectableOptions
+      .filter(option => this.values.includes(option.value))
+      .map(option => {
+        option.isSelected = true
+        return option
+      })
   }
 
   public registerOnChange(changeCallback: (value: T[]) => void): void {
