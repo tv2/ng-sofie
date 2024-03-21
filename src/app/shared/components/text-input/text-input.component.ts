@@ -38,9 +38,7 @@ export class TextInputComponent implements ControlValueAccessor {
     this.value = value
     this.markAsTouched()
     this.valueChange.emit(this.value)
-    if (this.onChangeCallback) {
-      this.onChangeCallback(this.value)
-    }
+    this.onChangeCallback?.(this.value)
   }
 
   private markAsTouched(): void {

@@ -59,12 +59,7 @@ export class KeyboardInputComponent implements ControlValueAccessor {
     if (this.isFirstKeyAfterFocus) {
       this.isFirstKeyAfterFocus = false
     }
-
-    if (!this.onChangeCallback) {
-      return
-    }
-
-    this.onChangeCallback(this.value)
+    this.onChangeCallback?.(this.value)
   }
 
   private markAsTouched(): void {
@@ -81,11 +76,7 @@ export class KeyboardInputComponent implements ControlValueAccessor {
 
   public clearValue(): void {
     this.value = undefined
-    if (!this.onChangeCallback) {
-      return
-    }
-
-    this.onChangeCallback(undefined)
+    this.onChangeCallback?.(undefined)
   }
 
   public writeValue(value: Keys): void {

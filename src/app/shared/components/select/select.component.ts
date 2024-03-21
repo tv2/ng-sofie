@@ -38,10 +38,7 @@ export class SelectComponent<T> implements ControlValueAccessor {
     this.selectedOption = option
     this.value = option.value
     this.onChange.emit(this.value)
-    if (!this.onChangeCallback) {
-      return
-    }
-    this.onChangeCallback(this.value)
+    this.onChangeCallback?.(this.value)
   }
 
   private markAsTouched(): void {

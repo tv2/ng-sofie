@@ -83,10 +83,7 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   private updateValuesFromSelectedOptions(): void {
     this.values = this.selectedOptions.map(option => option.value)
     this.onChange.emit(this.values)
-    if (!this.onChangeCallback) {
-      return
-    }
-    this.onChangeCallback(this.values)
+    this.onChangeCallback?.(this.values)
   }
 
   public getSelectedOptionsAsDisplay(): string {
