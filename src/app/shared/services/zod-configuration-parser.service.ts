@@ -20,6 +20,7 @@ export class ZodConfigurationParser extends ConfigurationParser {
   }
 
   private readonly shelfActionPanelConfigurationParser = zod.object({
+    id: zod.string(),
     name: zod.string(),
     rank: zod.number(),
     actionFilter: zod.nativeEnum(Tv2ActionContentType).array(),

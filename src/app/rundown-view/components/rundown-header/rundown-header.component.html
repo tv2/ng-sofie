@@ -18,5 +18,7 @@
     <sofie-rundown-header-panel label="Design">{{design}}</sofie-rundown-header-panel>
     <sofie-rundown-header-panel label="Local Time">{{currentLocalDate | date: 'HH:mm:ss'}}</sofie-rundown-header-panel>
 
-    <sofie-icon-button class="exit-button" [iconButton]="IconButton.XMARK" [iconButtonSize]="IconButtonSize.XL" routerLink="/rundowns"></sofie-icon-button>
+    <a class="exit-button" [routerLink]="['/', Paths.RUNDOWNS]">
+        <sofie-icon-button [icon]="Icon.X_MARK" [iconSize]="IconSize.XL"></sofie-icon-button>
+    </a>
 </div>

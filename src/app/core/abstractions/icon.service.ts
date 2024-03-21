@@ -1,6 +1,6 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { IconButton } from 'src/app/shared/enums/icon-button'
+import { Icon } from 'src/app/shared/enums/icon'
 
 export abstract class IconService {
-  public abstract getIconProperty(iconButton: IconButton): IconProp
+  public abstract getIconProperty(icon: Icon): IconProp
 }

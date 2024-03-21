@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { NotificationService } from '../../services/notification.service'
 import { Subject, takeUntil } from 'rxjs'
-import { IconButton, IconButtonSize } from '../../enums/icon-button'
+import { Icon, IconSize } from '../../enums/icon'
 import { Notification } from '../../models/notification'
 
 @Component({
@@ -14,8 +14,8 @@ export class NotificationIconComponent implements OnInit, OnDestroy {
 
   private readonly notifications: Notification[] = []
 
-  public readonly IconButton = IconButton
-  public readonly IconButtonSize = IconButtonSize
+  public readonly Icon = Icon
+  public readonly IconSize = IconSize
 
   private readonly destroySubject: Subject<void> = new Subject()
 

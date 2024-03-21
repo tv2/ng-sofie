@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  h2 {
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--gray-color);
+  }
+}

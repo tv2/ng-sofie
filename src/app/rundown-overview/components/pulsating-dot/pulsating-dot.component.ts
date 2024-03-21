@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core'
-import { Color } from '../../../shared/enums/color'
 
 @Component({
   selector: 'sofie-pulsating-dot',
@@ -11,7 +10,16 @@ export class PulsatingDotComponent {
   public animationDurationSeconds: number = 3
 
   @Input()
-  public color: Color = Color.ON_AIR
+  public color: 'ON_AIR' | 'REHEARSAL' = 'ON_AIR'
 
-  constructor() {}
+  public getColor(): string {
+    switch (this.color) {
+      case 'ON_AIR': {
+        return 'var(--on-air-color)'
+      }
+      case 'REHEARSAL': {
+        return 'var(--rehearsal-color)'
+      }
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import { ActionTrigger } from '../models/action-trigger'
-import { KeyboardTriggerData } from '../models/keyboard-trigger'
+import { KeyboardTriggerData } from '../models/keyboard-trigger-data'
 
 export abstract class ActionTriggerParser {
   public abstract parseActionTriggerData(data: unknown): KeyboardTriggerData

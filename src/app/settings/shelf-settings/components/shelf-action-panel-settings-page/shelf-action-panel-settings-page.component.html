@@ -1,0 +1,49 @@
+<sofie-page i18n-title title="settings.shelf.action-panels.label">
+    <sofie-card *ngIf="shelfConfiguration; else loading">
+        <ng-container cardHeader>
+            <sofie-text-input class="me-2" [placeholder]="'Search'" [(value)]="actionPanelNameSearchQuery"></sofie-text-input>
+            <sofie-multi-select [placeholder]="'Filters'" [options]="actionContentMultiSelectOptions" (onChange)="updateActionContentQuery($event)"></sofie-multi-select>
+            <sofie-spacer></sofie-spacer>
+            <sofie-button-group>
+                <sofie-button (click)="openCreateActionPanel()" i18n>global.create.label</sofie-button>
+                <sofie-json-export-button [data]="shelfConfiguration" [fileName]="shelfConfigurationFileName"></sofie-json-export-button>
+                <sofie-json-import-button (onUpload)="shelfConfigurationUploaded($event)" [validator]="validateShelfConfiguration.bind(this)"></sofie-json-import-button>
+                <sofie-button *ngIf="selectedActionPanels.size > 0" [type]="'DANGER'" (click)="deleteSelectedActionPanels()" i18n>global.delete-selected.label</sofie-button>
+            </sofie-button-group>
+        </ng-container>
+
+        <sofie-table
+                [entities]="shelfConfiguration.actionPanelConfigurations"
+                [headers]="headers"
+                [rowTemplate]="tableRowTemplate"
+                [shouldShowRowCallback]="doesActionPanelMatchSearchFilter.bind(this)"
+                [showCheckboxes]="true"
+                [(selectedEntities)]="selectedActionPanels"
+        >
+            <ng-template #tableRowTemplate let-actionPanel="tableRowData">
+                <td>
+                    {{ actionPanel.name }}
+                </td>
+                <td>
+                    {{ actionPanel.rank }}
+                </td>
+                <td>
+                    <sofie-rounded-box *ngFor="let filter of actionPanel.actionFilter" class="{{ filter | actionColorClass }} me-2">
+                        {{ filter | translateActionType }}
+                    </sofie-rounded-box>
+                </td>
+                <td>
+                    <sofie-button-group class="align-table-data-end">
+                        <sofie-icon-button [icon]="Icon.PEN" [iconSize]="IconSize.L" [tooltip]="'Edit Action Panel'" (click)="openEditActionPanel(actionPanel)"></sofie-icon-button>
+                        <sofie-icon-button [icon]="Icon.TWO_SHEETS_COPY" [iconSize]="IconSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateActionPanel(actionPanel)"></sofie-icon-button>
+                        <sofie-icon-button [icon]="Icon.TRASH_CAN" [iconSize]="IconSize.L" [tooltip]="'Delete Action Panel'" (click)="deleteActionPanel(actionPanel)"></sofie-icon-button>
+                    </sofie-button-group>
+                </td>
+            </ng-template>
+        </sofie-table>
+    </sofie-card>
+
+    <ng-template #loading>
+        <sofie-loading></sofie-loading>
+    </ng-template>
+</sofie-page>
