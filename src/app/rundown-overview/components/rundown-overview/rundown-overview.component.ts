@@ -10,11 +10,12 @@ import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownTimingType } from '../../../core/enums/rundown-timing-type'
 import { BackwardRundownTiming } from '../../../core/models/rundown-timing'
 import { RundownMode } from '../../../core/enums/rundown-mode'
-import { SofieTableHeader, SortDirection } from '../../../shared/components/table/table.component'
+import { SofieTableHeader } from '../../../shared/components/table/table.component'
 
 @Component({
   selector: 'sofie-rundown-overview',
   templateUrl: './rundown-overview.component.html',
+  styleUrls: ['rundown-overview.component.scss'],
 })
 export class RundownOverviewComponent implements OnInit, OnDestroy {
   protected readonly Icon = Icon
@@ -23,34 +24,28 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
 
   public readonly headers: SofieTableHeader<BasicRundown>[] = [
     {
-      name: '',
+      name: '', // This is to leave a column for the OnAir "dot".
       sortCallback: (): number => 0,
-      sortDirection: SortDirection.DESC,
     },
     {
       name: $localize`rundown-overview-component.rundown-label`,
       sortCallback: (a: BasicRundown, b: BasicRundown): number => a.name.localeCompare(b.name),
-      sortDirection: SortDirection.DESC,
     },
     {
       name: $localize`rundown-overview-component.planned-start`,
       sortCallback: (a: BasicRundown, b: BasicRundown): number => (this.getPlannedStart(a) ?? 0) - (this.getPlannedStart(b) ?? 0),
-      sortDirection: SortDirection.DESC,
     },
     {
       name: $localize`rundown-overview-component.duration`,
       sortCallback: (a: BasicRundown, b: BasicRundown): number => (this.getDurationInMs(a) ?? 0) - (this.getDurationInMs(b) ?? 0),
-      sortDirection: SortDirection.DESC,
     },
     {
       name: $localize`rundown-overview-component.planned-end`,
       sortCallback: (a: BasicRundown, b: BasicRundown): number => (this.getPlannedEnd(a) ?? 0) - (this.getPlannedEnd(b) ?? 0),
-      sortDirection: SortDirection.DESC,
     },
     {
       name: $localize`rundown-overview-component.last-updated.label`,
       sortCallback: (a: BasicRundown, b: BasicRundown): number => a.modifiedAt - b.modifiedAt,
-      sortDirection: SortDirection.DESC,
     },
   ]
 
