@@ -18,14 +18,15 @@ describe(DialogService.name, () => {
   describe(DialogService.prototype.createConfirmDialog.name, () => {
     it('should call dialog once per invocation', () => {
       const mockedMatDialog = mock<MatDialog>()
-      const open = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
-      when(mockedMatDialog.open).thenReturn(open)
+
+      const openSpy = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
+      when(mockedMatDialog.open).thenReturn(openSpy)
 
       const testee: DialogService = createTestee({ mockedMatDialog: mockedMatDialog })
 
       testee.createConfirmDialog('title', 'message', 'ok', () => {}, undefined)
 
-      expect(open).toHaveBeenCalledOnceWith(jasmine.any(Function), jasmine.any(Object))
+      expect(openSpy).toHaveBeenCalledOnceWith(jasmine.any(Function), jasmine.any(Object))
     })
   })
 
@@ -38,9 +39,7 @@ describe(DialogService.name, () => {
       const mockedSubscription: Observable<void> = mock<Observable<void>>()
       when(mockedRunownService.rehearse(anyString())).thenReturn(instance(mockedSubscription))
 
-      const mockedMatDialog = mock<MatDialog>()
-      const open = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
-      when(mockedMatDialog.open).thenReturn(open)
+      const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const testee: DialogService = createTestee({ mockedRundownService: mockedRunownService, mockedMatDialog: mockedMatDialog })
       testee.switchRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'another' }))
@@ -56,9 +55,7 @@ describe(DialogService.name, () => {
       const mockedSubscription: Observable<void> = mock<Observable<void>>()
       when(mockedRunownService.rehearse(anyString())).thenReturn(instance(mockedSubscription))
 
-      const mockedMatDialog = mock<MatDialog>()
-      const open = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
-      when(mockedMatDialog.open).thenReturn(open)
+      const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
       when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(undefined)
@@ -80,9 +77,7 @@ describe(DialogService.name, () => {
       const mockedDeactivateSubscription: Observable<void> = mock<Observable<void>>()
       when(mockedRunownService.deactivate(anyString())).thenReturn(instance(mockedDeactivateSubscription))
 
-      const mockedMatDialog = mock<MatDialog>()
-      const open = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
-      when(mockedMatDialog.open).thenReturn(open)
+      const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
       when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ mode: RundownMode.ACTIVE }))
@@ -102,9 +97,7 @@ describe(DialogService.name, () => {
       const mockedSubscription: Observable<void> = mock<Observable<void>>()
       when(mockedRunownService.rehearse(rundown.id)).thenReturn(instance(mockedSubscription))
 
-      const mockedMatDialog = mock<MatDialog>()
-      const open = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
-      when(mockedMatDialog.open).thenReturn(open)
+      const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
       when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(rundown)
@@ -126,9 +119,7 @@ describe(DialogService.name, () => {
       const mockedDeactivateSubscription: Observable<void> = mock<Observable<void>>()
       when(mockedRunownService.deactivate(anyString())).thenReturn(instance(mockedDeactivateSubscription))
 
-      const mockedMatDialog = mock<MatDialog>()
-      const open = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
-      when(mockedMatDialog.open).thenReturn(open)
+      const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
       when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ mode: RundownMode.REHEARSAL }))
@@ -148,9 +139,7 @@ describe(DialogService.name, () => {
       const mockedSubscription: Observable<void> = mock<Observable<void>>()
       when(mockedRunownService.rehearse(rundown.id)).thenReturn(instance(mockedSubscription))
 
-      const mockedMatDialog = mock<MatDialog>()
-      const open = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
-      when(mockedMatDialog.open).thenReturn(open)
+      const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
       when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(rundown)
@@ -171,9 +160,7 @@ describe(DialogService.name, () => {
       const mockedSubscription: Observable<void> = mock<Observable<void>>()
       when(mockedRunownService.activate(anyString())).thenReturn(instance(mockedSubscription))
 
-      const mockedMatDialog = mock<MatDialog>()
-      const open = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
-      when(mockedMatDialog.open).thenReturn(open)
+      const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const testee: DialogService = createTestee({ mockedRundownService: mockedRunownService, mockedMatDialog: mockedMatDialog })
       testee.switchActivateRundownDialog(testEntityFactory.createRundown({ id: 'another' }))
@@ -190,9 +177,7 @@ describe(DialogService.name, () => {
       const mockedSubscription: Observable<void> = mock<Observable<void>>()
       when(mockedRunownService.activate(anyString())).thenReturn(instance(mockedSubscription))
 
-      const mockedMatDialog = mock<MatDialog>()
-      const open = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
-      when(mockedMatDialog.open).thenReturn(open)
+      const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
       when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(rundown)
@@ -214,9 +199,7 @@ describe(DialogService.name, () => {
       const mockedDeactivateSubscription: Observable<void> = mock<Observable<void>>()
       when(mockedRunownService.deactivate(anyString())).thenReturn(instance(mockedDeactivateSubscription))
 
-      const mockedMatDialog = mock<MatDialog>()
-      const open = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
-      when(mockedMatDialog.open).thenReturn(open)
+      const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
       when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ mode: RundownMode.ACTIVE }))
@@ -233,9 +216,7 @@ describe(DialogService.name, () => {
 
       const mockedRunownService = mock<RundownService>()
 
-      const mockedMatDialog = mock<MatDialog>()
-      const open = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
-      when(mockedMatDialog.open).thenReturn(open)
+      const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
       when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(rundown)
@@ -257,9 +238,7 @@ describe(DialogService.name, () => {
       const mockedDeactivateSubscription: Observable<void> = mock<Observable<void>>()
       when(mockedRunownService.deactivate(anyString())).thenReturn(instance(mockedDeactivateSubscription))
 
-      const mockedMatDialog = mock<MatDialog>()
-      const open = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
-      when(mockedMatDialog.open).thenReturn(open)
+      const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
       when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ mode: RundownMode.REHEARSAL }))
@@ -273,9 +252,18 @@ describe(DialogService.name, () => {
 })
 
 function createTestee(params?: { mockedMatDialog?: MatDialog; mockedBasicRundownStateService?: BasicRundownStateService; mockedRundownService?: RundownService }): DialogService {
-  const mockedMatDialog: MatDialog = params?.mockedMatDialog ?? mock<MatDialog>()
+  const mockedMatDialog: MatDialog = params?.mockedMatDialog ?? createMatDialogMock()
   const mockedBasicRundownStateService: BasicRundownStateService = params?.mockedBasicRundownStateService ?? mock<BasicRundownStateService>()
   const mockedRundownService: RundownService = params?.mockedRundownService ?? mock<RundownService>()
 
   return new DialogService(instance(mockedMatDialog), instance(mockedBasicRundownStateService), instance(mockedRundownService))
+}
+
+function createMatDialogMock(): MatDialog {
+  const mockedMatDialog = mock<MatDialog>()
+
+  const openSpy = jasmine.createSpy().and.returnValue({ afterClosed: () => of(true) })
+  when(mockedMatDialog.open).thenReturn(openSpy)
+
+  return mockedMatDialog
 }
