@@ -8,11 +8,11 @@ import { SofieTableHeader, SortDirection } from '../../../../shared/components/t
 import { Icon, IconSize } from 'src/app/shared/enums/icon'
 import { DialogService } from '../../../../shared/services/dialog.service'
 import { ConfigurationParser } from '../../../../shared/abstractions/configuration-parser.service'
-import { MultiSelectOption } from '../../../../shared/components/multi-select/multi-select.component'
 import { Tv2ActionContentType } from '../../../../shared/models/tv2-action'
 import { TranslateActionTypePipe } from '../../../../shared/pipes/translate-action-type.pipe'
 import { NotificationService } from '../../../../shared/services/notification.service'
 import { EditShelfActionPanelConfigurationDialogComponent } from '../edit-shelf-action-panel-confinguration-dialog/edit-shelf-action-panel-configuration-dialog.component'
+import { SelectOption } from '../../../../shared/models/select-option'
 
 @Component({
   selector: 'sofie-action-panel',
@@ -44,7 +44,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   public shelfConfiguration: ShelfConfiguration
 
   public actionPanelNameSearchQuery: string
-  public actionContentMultiSelectOptions: MultiSelectOption<Tv2ActionContentType>[] = []
+  public actionContentMultiSelectOptions: SelectOption<Tv2ActionContentType>[] = []
 
   private actionContentSearchQuery: Tv2ActionContentType[] = []
 
@@ -72,7 +72,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     this.shelfConfiguration = shelfConfiguration
   }
 
-  private createActionContentMultiSelectOptions(): MultiSelectOption<Tv2ActionContentType>[] {
+  private createActionContentMultiSelectOptions(): SelectOption<Tv2ActionContentType>[] {
     return Object.values(Tv2ActionContentType).map(actionContent => {
       return {
         name: this.translationActionTypePipe.transform(actionContent),

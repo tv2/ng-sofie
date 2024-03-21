@@ -146,11 +146,17 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   }
 
   public actionTriggersUploaded(actionTriggers: ActionTrigger<KeyboardTriggerData>[]): void {
-    actionTriggers.map(actionTrigger => {
-      const actionTriggerAlreadyExist: boolean = this.keyboardMappings.some(actionTriggerWithAction => actionTriggerWithAction.actionTrigger.id === actionTrigger.id)
-      actionTriggerAlreadyExist ? this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe() : this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
-    })
-    this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.success`)
+    Promise.all(
+      actionTriggers.map(actionTrigger => {
+        const actionTriggerAlreadyExist: boolean = this.keyboardMappings.some(actionTriggerWithAction => actionTriggerWithAction.actionTrigger.id === actionTrigger.id)
+        return actionTriggerAlreadyExist ? this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe() : this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
+      })
+    )
+      .then(() => this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.success`))
+      .catch(error => {
+        this.logger.data(error).error('Failed importing one or more keyboard mappings.')
+        this.notificationService.createErrorNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.failure`)
+      })
   }
 
   public validateActionTriggers(actionTriggers: ActionTrigger<KeyboardTriggerData>[]): boolean {

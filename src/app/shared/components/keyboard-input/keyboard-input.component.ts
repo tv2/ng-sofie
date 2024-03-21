@@ -56,9 +56,8 @@ export class KeyboardInputComponent implements ControlValueAccessor {
     }
 
     this.value = this.isFirstKeyAfterFocus ? [keyCode] : [...this.value!, keyCode]
-    if (this.isFirstKeyAfterFocus) {
-      this.isFirstKeyAfterFocus = false
-    }
+    this.isFirstKeyAfterFocus = false
+
     this.onChangeCallback?.(this.value)
   }
 

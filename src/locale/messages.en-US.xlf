@@ -394,6 +394,10 @@
         <source>piece-tooltip.source-unavailable.label</source>
         <target state="new">Source is unavailable!</target>
       </trans-unit>
+      <trans-unit id="8873287033928471003" datatype="html">
+        <source>keyboard-mapping-settings-page.import-keyboard-mappings.failure</source>
+        <target state="new">Something went wrong importing the keyboard shortcuts</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -394,6 +394,10 @@
         <source>piece-tooltip.source-unavailable.label</source>
         <target state="new">Kilden er utilgængelig!</target>
       </trans-unit>
+      <trans-unit id="8873287033928471003" datatype="html">
+        <source>keyboard-mapping-settings-page.import-keyboard-mappings.failure</source>
+        <target state="new">Noget gik galt under importeringen af genveje</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

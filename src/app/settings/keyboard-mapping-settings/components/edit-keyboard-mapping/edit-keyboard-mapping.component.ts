@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { KeyEventType } from '../../../../keyboard/value-objects/key-event-type'
 import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 import { Tv2Action, Tv2PartAction } from '../../../../shared/models/tv2-action'
-import { MultiSelectOption } from '../../../../shared/components/multi-select/multi-select.component'
+import { SelectOption } from '../../../../shared/models/select-option'
 
 @Component({
   selector: 'sofie-edit-keyboard-mapping',
@@ -22,7 +22,7 @@ export class EditKeyboardMappingComponent implements OnInit {
   public actionTriggerForm: FormGroup
   public actionTriggerDataForm: FormGroup
 
-  public triggerOnOptions: MultiSelectOption<KeyEventType>[] = []
+  public triggerOnOptions: SelectOption<KeyEventType>[] = []
 
   public selectedAction?: Tv2Action
 

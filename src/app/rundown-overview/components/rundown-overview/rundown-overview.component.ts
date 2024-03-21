@@ -12,6 +12,8 @@ import { BackwardRundownTiming } from '../../../core/models/rundown-timing'
 import { RundownMode } from '../../../core/enums/rundown-mode'
 import { SofieTableHeader } from '../../../shared/components/table/table.component'
 
+const ACTIVATION_INDICATOR_COLUMN_NAME: string = ''
+
 @Component({
   selector: 'sofie-rundown-overview',
   templateUrl: './rundown-overview.component.html',
@@ -25,7 +27,7 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
 
   public readonly headers: SofieTableHeader<BasicRundown>[] = [
     {
-      name: '', // This is to leave a column for the OnAir "dot".
+      name: ACTIVATION_INDICATOR_COLUMN_NAME,
       sortCallback: (): number => 0,
     },
     {

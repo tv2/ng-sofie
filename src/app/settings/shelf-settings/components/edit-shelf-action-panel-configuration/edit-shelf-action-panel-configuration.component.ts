@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { ShelfActionPanelConfiguration } from '../../../../shared/models/shelf-configuration'
-import { MultiSelectOption } from '../../../../shared/components/multi-select/multi-select.component'
 import { Tv2ActionContentType } from '../../../../shared/models/tv2-action'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { TranslateActionTypePipe } from '../../../../shared/pipes/translate-action-type.pipe'
+import { SelectOption } from '../../../../shared/models/select-option'
 
 @Component({
   selector: 'sofie-edit-shelf-action-panel-configuration',
@@ -15,7 +15,7 @@ export class EditShelfActionPanelConfigurationComponent implements OnInit {
   @Output() public onSave: EventEmitter<ShelfActionPanelConfiguration> = new EventEmitter()
   @Output() public onCancel: EventEmitter<void> = new EventEmitter()
 
-  public actionContentOptions: MultiSelectOption<Tv2ActionContentType>[] = []
+  public actionContentOptions: SelectOption<Tv2ActionContentType>[] = []
 
   public form: FormGroup
 
