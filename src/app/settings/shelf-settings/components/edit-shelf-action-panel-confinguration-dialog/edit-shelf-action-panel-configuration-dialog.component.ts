@@ -10,7 +10,7 @@ export class EditShelfActionPanelConfigurationDialogComponent {
   public actionPanel?: ShelfActionPanelConfiguration
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) actionPanel: ShelfActionPanelConfiguration,
+    @Inject(MAT_DIALOG_DATA) actionPanel: ShelfActionPanelConfiguration | undefined,
     private readonly dialogRef: MatDialogRef<EditShelfActionPanelConfigurationDialogComponent>
   ) {
     this.actionPanel = actionPanel

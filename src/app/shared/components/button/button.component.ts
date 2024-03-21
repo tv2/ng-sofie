@@ -9,42 +9,4 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 export class ButtonComponent {
   @Input() public isDisabled: boolean = false
   @Input() public type: 'STANDARD' | 'PRIMARY' | 'WARNING' | 'DANGER' = 'STANDARD'
-
-  constructor() {}
-
-  public getBackgroundColor(): string {
-    switch (this.type) {
-      case 'WARNING': {
-        return 'var(--yellow-color)'
-      }
-      case 'DANGER': {
-        return 'var(--danger-color)'
-      }
-      case 'PRIMARY': {
-        return 'var(--blue-color)'
-      }
-      case 'STANDARD':
-      default: {
-        return 'var(--white-color)'
-      }
-    }
-  }
-
-  public getTextColor(): string {
-    switch (this.type) {
-      case 'WARNING': {
-        return 'var(--white-color)'
-      }
-      case 'DANGER': {
-        return 'var(--white-color)'
-      }
-      case 'PRIMARY': {
-        return 'var(--white-color)'
-      }
-      case 'STANDARD':
-      default: {
-        return 'var(--black-color)'
-      }
-    }
-  }
 }
