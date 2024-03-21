@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Rundown } from '../../../core/models/rundown'
 import { DialogService } from '../../../shared/services/dialog.service'
-import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
+import { ContextMenuOption } from '../../../shared/models/context-menu-option'
 import { DialogTheme, DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
 import { RundownMode } from '../../../core/enums/rundown-mode'
 

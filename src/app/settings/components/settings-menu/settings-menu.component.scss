@@ -1,0 +1,12 @@
+li {
+  font-weight: lighter;
+  a {
+    font-size: medium;
+    display: block;
+    text-decoration: none;
+    color: var(--black-color);
+    &.active-tab {
+      background-color: var(--light-gray-color);
+    }
+  }
+}

@@ -1,12 +1,36 @@
-.custom-dropdown-button {
-  &__label {
-    display: inline;
-    margin-left: 0.5rem;
-  }
-}
+.button {
+  cursor: pointer;
 
-.custom-dropdown_menu {
-  &__selected {
-    font-weight: 700;
+  font-size: 1rem;
+
+  border-radius: 4px;
+  border: 1px solid var(--gray-color);
+
+  color: var(--black-color);
+  background-color: var(--white-color);
+
+  &:hover {
+    filter: brightness(95%);
+  }
+
+  &:disabled,
+  &[disabled] {
+    cursor: auto;
+    filter: brightness(70%);
+  }
+
+  &.danger {
+    background-color: var(--danger-color);
+    color: var(--white-color);
+  }
+
+  &.warning {
+    background-color: var(--attention-color);
+    color: var(--white-color);
+  }
+
+  &.primary {
+    background-color: var(--blue-color);
+    color: var(--white-color);
   }
 }

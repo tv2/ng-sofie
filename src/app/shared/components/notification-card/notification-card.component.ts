@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core'
-import { IconButton, IconButtonSize } from '../../enums/icon-button'
+import { Icon, IconSize } from '../../enums/icon'
 import { Notification } from '../../models/notification'
 import { StatusCode } from '../../enums/status-code'
 
@@ -26,8 +26,8 @@ export class NotificationCardComponent implements OnInit {
   @Input()
   public onRemoveCallback: (notification: Notification) => void
 
-  public readonly IconButton = IconButton
-  public readonly IconButtonSize = IconButtonSize
+  public readonly Icon = Icon
+  public readonly IconSize = IconSize
 
   constructor(private readonly elementRef: ElementRef) {}
 

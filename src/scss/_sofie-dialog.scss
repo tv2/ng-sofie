@@ -1,0 +1,14 @@
+.sidebar-dialog {
+  .mat-dialog-container {
+    padding: 0 !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    overflow-y: hidden !important;
+    min-width: 500px !important;
+  }
+}
+
+.cdk-global-scrollblock {
+  overflow-y: hidden !important;
+}

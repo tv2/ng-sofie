@@ -18,9 +18,8 @@
         </header>
 
         <div *ngIf="isMediaUnavailable" class="source-unavailable-banner">
-          <sofie-icon-button [iconButtonSize]="IconButtonSize.M" [iconButton]="IconButton.TRIANGLE_EXCLAMATION">
-          </sofie-icon-button>
-          {{sourceUnavailableLabel}}
+          <sofie-icon-button [icon]="Icon.TRIANGLE_EXCLAMATION" [iconSize]="IconSize.M"></sofie-icon-button>
+        <span i18n>piece-tooltip.source-unavailable.label</span>
         </div>
 
         <div class="content-fields">
