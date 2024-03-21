@@ -123,7 +123,6 @@ export class KeyBindingFactory {
     }
     return [
       this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogService.switchActivateRundownDialog(rundown)),
-      this.createRundownKeyBinding('Rehearse Rundown', ['Shift', 'Backquote'], () => this.dialogService.switchRehearsalRundownDialog(rundown)),
       this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
     ]
   }
