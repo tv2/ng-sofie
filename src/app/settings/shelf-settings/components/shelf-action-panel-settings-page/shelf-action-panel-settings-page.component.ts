@@ -110,22 +110,19 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   }
 
   public openCreateActionPanel(): void {
-    this.dialogService.openSidebarDialog<EditShelfActionPanelConfigurationDialogComponent, ShelfActionPanelConfiguration>(
-      EditShelfActionPanelConfigurationDialogComponent,
-      (createdActionPanel?: ShelfActionPanelConfiguration) => {
-        if (!createdActionPanel) {
-          return
-        }
-        this.shelfConfiguration.actionPanelConfigurations.push(createdActionPanel)
-        this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
-
-        this.notificationService.createInfoNotification($localize`shelf-action-panel-settings-page.create-action-panel.success ${createdActionPanel.name}`)
+    this.dialogService.openSidebarDialog(EditShelfActionPanelConfigurationDialogComponent, (createdActionPanel?: ShelfActionPanelConfiguration) => {
+      if (!createdActionPanel) {
+        return
       }
-    )
+      this.shelfConfiguration.actionPanelConfigurations.push(createdActionPanel)
+      this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
+
+      this.notificationService.createInfoNotification($localize`shelf-action-panel-settings-page.create-action-panel.success ${createdActionPanel.name}`)
+    })
   }
 
   public openEditActionPanel(actionPanel: ShelfActionPanelConfiguration): void {
-    this.dialogService.openSidebarDialog<EditShelfActionPanelConfigurationDialogComponent, ShelfActionPanelConfiguration>(
+    this.dialogService.openSidebarDialog(
       EditShelfActionPanelConfigurationDialogComponent,
       (updatedActionPanel?: ShelfActionPanelConfiguration) => {
         if (!updatedActionPanel) {

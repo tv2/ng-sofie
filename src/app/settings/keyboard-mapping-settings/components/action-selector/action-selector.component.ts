@@ -14,7 +14,7 @@ export class ActionSelectorComponent implements OnInit {
 
   public actions: Tv2Action[] = []
 
-  public actionSearchQuery: string
+  public actionSearchQuery: string = ''
 
   private readonly logger: Logger
 

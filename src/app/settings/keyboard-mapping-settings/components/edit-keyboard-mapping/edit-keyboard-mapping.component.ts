@@ -83,7 +83,7 @@ export class EditKeyboardMappingComponent implements OnInit {
   }
 
   public save(): void {
-    this.keyboardMapping = {
+    const keyboardMapping: KeyboardMapping = {
       action: {} as Tv2PartAction,
       actionTrigger: {
         ...this.keyboardMapping?.actionTrigger,
@@ -91,7 +91,7 @@ export class EditKeyboardMappingComponent implements OnInit {
       },
     }
 
-    this.onSave.emit(this.keyboardMapping)
+    this.onSave.emit(keyboardMapping)
   }
 
   public cancel(): void {

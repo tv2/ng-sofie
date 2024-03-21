@@ -12,7 +12,7 @@ export class ButtonComponent {
 
   constructor() {}
 
-  get getBackgroundColor(): string {
+  public getBackgroundColor(): string {
     switch (this.type) {
       case 'WARNING': {
         return 'var(--yellow-color)'
@@ -30,7 +30,7 @@ export class ButtonComponent {
     }
   }
 
-  get getTextColor(): string {
+  public getTextColor(): string {
     switch (this.type) {
       case 'WARNING': {
         return 'var(--white-color)'

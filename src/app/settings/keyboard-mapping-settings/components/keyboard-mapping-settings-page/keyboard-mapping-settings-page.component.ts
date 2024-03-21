@@ -118,7 +118,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   }
 
   public openCreateKeyboardMapping(): void {
-    this.dialogService.openSidebarDialog<EditKeyboardMappingDialogComponent, KeyboardMapping>(EditKeyboardMappingDialogComponent, (createdKeyboardMapping?: KeyboardMapping) => {
+    this.dialogService.openSidebarDialog(EditKeyboardMappingDialogComponent, (createdKeyboardMapping?: KeyboardMapping) => {
       if (!createdKeyboardMapping) {
         return
       }
@@ -128,7 +128,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   }
 
   public openEditKeyboardMapping(keyboardMapping: KeyboardMapping): void {
-    this.dialogService.openSidebarDialog<EditKeyboardMappingDialogComponent, KeyboardMapping>(
+    this.dialogService.openSidebarDialog(
       EditKeyboardMappingDialogComponent,
       (updatedKeyboardMapping?: KeyboardMapping) => {
         if (!updatedKeyboardMapping) {

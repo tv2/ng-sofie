@@ -36,7 +36,8 @@ export class DialogService {
       })
   }
 
-  public openSidebarDialog<T, R>(component: ComponentType<T>, onClose: (result: R) => void, data?: R): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public openSidebarDialog<T extends { new (arg: R, ...args: any): object }, R>(component: T, onClose: (result?: R) => void, data?: R): void {
     this.dialog
       .open(component, {
         data,
