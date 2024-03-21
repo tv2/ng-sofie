@@ -14,7 +14,7 @@ export class DomFileDownloadService implements FileDownloadService {
 
   public downloadJson(data: unknown, filename: string): void {
     const text: string = JSON.stringify(data)
-    if (!filename.includes(JSON_EXTENSION)) {
+    if (!filename.endsWith(`.${JSON_EXTENSION}`)) {
       filename = `${filename}.${JSON_EXTENSION}`
     }
     this.downloadText(text, filename)

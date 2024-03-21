@@ -64,7 +64,7 @@ import { NotificationIconComponent } from './components/notification-icon/notifi
 import { TranslateActionTypePipe } from './pipes/translate-action-type.pipe'
 import { CardComponent } from './components/card/card.component'
 import { TableComponent } from './components/table/table.component'
-import { ActionColorPipe } from './pipes/action-color.pipe'
+import { ActionColorClassPipe } from './pipes/action-color.pipe'
 import { SidebarContainerComponent } from './components/sidebar-container/sidebar-container.component'
 import { TextInputComponent } from './components/text-input/text-input.component'
 import { NumberInputComponent } from './components/number-input/number-input.component'
@@ -110,7 +110,7 @@ import { PageComponent } from './components/page/page.component'
     CardComponent,
     TableComponent,
     RoundedBoxComponent,
-    ActionColorPipe,
+    ActionColorClassPipe,
     SidebarContainerComponent,
     TextInputComponent,
     NumberInputComponent,
@@ -171,7 +171,7 @@ import { PageComponent } from './components/page/page.component'
     CardComponent,
     TableComponent,
     RoundedBoxComponent,
-    ActionColorPipe,
+    ActionColorClassPipe,
     ButtonGroupComponent,
     MultiSelectComponent,
     JsonImportButtonComponent,
