@@ -1,4 +1,4 @@
-import { ApplicationRef, ComponentRef, createComponent, Directive, EventEmitter, HostListener, Input, Output, TemplateRef } from '@angular/core'
+import { ApplicationRef, ComponentRef, createComponent, Directive, EventEmitter, HostListener, Input, OnDestroy, Output, TemplateRef } from '@angular/core'
 import { TooltipComponent } from '../components/tooltip/tooltip.component'
 
 export interface TooltipMetadata {
@@ -9,7 +9,7 @@ export interface TooltipMetadata {
 @Directive({
   selector: '[sofieTooltip]',
 })
-export class TooltipDirective {
+export class TooltipDirective implements OnDestroy {
   @Input() public sofieTooltip: TemplateRef<unknown>
   @Input() public shouldFollowCursor: boolean = false
 
@@ -53,7 +53,11 @@ export class TooltipDirective {
   }
 
   @HostListener('mouseleave', [])
-  public removeTooltip(): void {
+  public ngOnDestroy(): void {
+    if (!this.tooltipComponentRef) {
+      return
+    }
+    this.tooltipComponentRef.destroy()
     this.tooltipComponentRef.location.nativeElement.remove()
   }
 }

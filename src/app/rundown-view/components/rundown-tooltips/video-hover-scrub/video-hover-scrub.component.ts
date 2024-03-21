@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core'
+import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core'
 import { Subject, takeUntil } from 'rxjs'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 import { StudioConfiguration } from 'src/app/shared/models/studio-configuration'
@@ -18,7 +18,6 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public isJingle?: boolean
 
   public currentVideoTimeInMs: number
-  public isVideoVisible: boolean
 
   @ViewChild('videoElementRef')
   public videoElementRef: ElementRef<HTMLVideoElement>
@@ -29,7 +28,12 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   protected readonly IconButton = IconButton
   protected readonly IconButtonSize = IconButtonSize
 
-  constructor(private readonly configurationService: ConfigurationService) {}
+  public previewUrl: string = ''
+
+  constructor(
+    private readonly configurationService: ConfigurationService,
+    private readonly changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   public ngOnInit(): void {
     this.configurationService
@@ -37,6 +41,7 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((studioConfiguration: StudioConfiguration) => {
         this.studioConfiguration = studioConfiguration
+        this.setVideoPreviewUrl()
       })
   }
 
@@ -55,7 +60,6 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
       return
     }
 
-    this.isVideoVisible = true
     this.currentVideoTimeInMs = this.getCurrentTimeInVideo()
     this.videoElementRef.nativeElement.currentTime = this.currentVideoTimeInMs / 1000
   }
@@ -70,12 +74,13 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
     return Math.round((this.positionInVideoInPixels / this.videoLengthInPixels) * 100)
   }
 
-  public getVideoPreviewUrl(): string {
-    if (!this.isVideoVisible || !this.studioConfiguration) {
-      return ''
+  public setVideoPreviewUrl(): void {
+    if (!this.studioConfiguration) {
+      return
     }
     const baseMediaUrl: string = `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/`
-    return this.isJingle ? `${baseMediaUrl}${this.studioConfiguration.blueprintConfiguration.JingleFolder}/${this.filename}` : `${baseMediaUrl}${this.filename}`
+    this.previewUrl = this.isJingle ? `${baseMediaUrl}${this.studioConfiguration.blueprintConfiguration.JingleFolder}/${this.filename}` : `${baseMediaUrl}${this.filename}`
+    this.changeDetectorRef.detectChanges()
   }
 
   public ngOnDestroy(): void {
