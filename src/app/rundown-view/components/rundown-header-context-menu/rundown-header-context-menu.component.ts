@@ -3,7 +3,7 @@ import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Rundown } from '../../../core/models/rundown'
 import { DialogService } from '../../../shared/services/dialog.service'
 import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
-import { DialogColorTheme, DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
+import { DialogTheme, DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
 import { RundownMode } from '../../../core/enums/rundown-mode'
 
 @Component({
@@ -77,7 +77,7 @@ export class RundownHeaderContextMenuComponent {
   ) {}
 
   public openActivateRundownDialog(): void {
-    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.activateRundown(), DialogColorTheme.DARK)
+    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.activateRundown(), DialogTheme.DARK)
   }
 
   public activateRundown(): void {
@@ -85,7 +85,7 @@ export class RundownHeaderContextMenuComponent {
   }
 
   public openRehearsalRundownDialog(): void {
-    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to rehearse the Rundown?', 'Rehearse', () => this.rehearseRundown(), DialogColorTheme.DARK)
+    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to rehearse the Rundown?', 'Rehearse', () => this.rehearseRundown(), DialogTheme.DARK)
   }
 
   public rehearseRundown(): void {
@@ -98,7 +98,7 @@ export class RundownHeaderContextMenuComponent {
       'Are you sure you want to deactivate the Rundown?\n\nThis will clear the outputs.',
       'Deactivate',
       () => this.deactivateRundown(),
-      DialogColorTheme.DARK,
+      DialogTheme.DARK,
       DialogSeverity.DANGER
     )
   }
@@ -112,7 +112,7 @@ export class RundownHeaderContextMenuComponent {
   }
 
   public openResetRundownDialog(): void {
-    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to reset the Rundown?', 'Reset', () => this.resetRundown(), DialogColorTheme.DARK)
+    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to reset the Rundown?', 'Reset', () => this.resetRundown(), DialogTheme.DARK)
   }
 
   private resetRundown(): void {
