@@ -6,7 +6,7 @@
         <span [mat-dialog-close]="false" class="material-icons c-close-dialog-icon">close</span>
     </div>
 </div>
-<div class="c-dialog-body" [class.dark]="theme === DialogTheme.DARK">
+<div class="c-dialog-body" [ngClass]="theme.toLowerCase()">
     <mat-dialog-content>{{message}}</mat-dialog-content>
     <mat-dialog-actions class="u-row">
         <div class="u-row__col--fill">

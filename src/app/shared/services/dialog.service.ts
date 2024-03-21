@@ -1,7 +1,7 @@
 import { ComponentType } from '@angular/cdk/overlay'
 import { Injectable } from '@angular/core'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
-import { ConfirmationDialogComponent, DialogTheme, DialogSeverity } from '../components/confirmation-dialog/confirmation-dialog.component'
+import { ConfirmationDialogComponent, DialogColorScheme, DialogSeverity } from '../components/confirmation-dialog/confirmation-dialog.component'
 import { StronglyTypedDialog } from '../directives/strongly-typed-dialog.directive'
 
 @Injectable()
@@ -15,7 +15,7 @@ export class DialogService {
     return this.dialog.open(component, config)
   }
 
-  public createConfirmDialog(title: string, message: string, okButtonText: string, onOk: () => void, theme?: DialogTheme, severity?: DialogSeverity): void {
+  public createConfirmDialog(title: string, message: string, okButtonText: string, onOk: () => void, theme?: DialogColorScheme, severity?: DialogSeverity): void {
     this.open(ConfirmationDialogComponent, {
       data: {
         title: title,
