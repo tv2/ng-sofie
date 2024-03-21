@@ -1,0 +1,11 @@
+:host {
+  display: block;
+  background-color: var(--white-color);
+  border-radius: 4px;
+  box-shadow: 0 0 15px 1px var(--gray-color);
+
+  & > header {
+    display: flex;
+    justify-content: space-between;
+  }
+}

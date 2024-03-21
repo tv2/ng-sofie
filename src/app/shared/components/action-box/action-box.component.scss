@@ -1,0 +1,16 @@
+div {
+  display: flex;
+  height: 100px;
+  width: 100px;
+  padding: 8px;
+  text-overflow: ellipsis;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  background: var(--background-color);
+  color: var(--white-color);
+
+  &.highlight {
+    padding: 4px;
+    border: 4px solid var(--danger-color);
+  }
+}

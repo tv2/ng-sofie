@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
+import { ContextMenuOption } from '../../../shared/models/context-menu-option'
 import { Part } from '../../../core/models/part'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Segment } from '../../../core/models/segment'

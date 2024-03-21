@@ -4,14 +4,15 @@ import { Piece } from '../../../core/models/piece'
 import { ShowStyleVariantStateService } from '../../../core/services/show-style-variant-state.service'
 import { ShowStyleVariant } from '../../../core/models/show-style-variant'
 import { Subscription } from 'rxjs'
-import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
+import { Icon, IconSize } from '../../../shared/enums/icon'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { RundownTimingContextStateService } from '../../../core/services/rundown-timing-context-state.service'
 import { RundownTimingContext } from '../../../core/models/rundown-timing-context'
 import { RundownMode } from '../../../core/enums/rundown-mode'
+import { Paths } from '../../../app-routing.module'
 
 const DESIGN_TEMPLATE_IDENTIFIER: string = 'DESIGN_'
-const SKEMA_TEMPLATE_IDENTIFIER: string = 'SKEMA_'
+const SCHEMA_TEMPLATE_IDENTIFIER: string = 'SKEMA_'
 
 @Component({
   selector: 'sofie-rundown-header',
@@ -19,6 +20,11 @@ const SKEMA_TEMPLATE_IDENTIFIER: string = 'SKEMA_'
   styleUrls: ['./rundown-header.component.scss'],
 })
 export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
+  protected readonly Icon = Icon
+  protected readonly IconSize = IconSize
+  protected readonly Paths = Paths
+  protected readonly RundownMode = RundownMode
+
   @Input()
   public rundown: Rundown
 
@@ -32,10 +38,6 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   public plannedStart?: number
   public plannedEnd: number = Date.now()
   public diff: number = 0
-
-  protected readonly IconButton = IconButton
-  protected readonly IconButtonSize = IconButtonSize
-  protected readonly RundownMode = RundownMode
 
   private showStyleVariantSubscription?: Subscription
   private rundownTimingContextSubscription?: Subscription
@@ -128,7 +130,7 @@ export class RundownHeaderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private isSkemaInfinitePiece(piece: Piece): boolean {
-    return piece.name.startsWith(SKEMA_TEMPLATE_IDENTIFIER)
+    return piece.name.startsWith(SCHEMA_TEMPLATE_IDENTIFIER)
   }
 
   private getGfxNameFromTemplate(template: string): string {

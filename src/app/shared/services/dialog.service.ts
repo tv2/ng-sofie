@@ -100,4 +100,19 @@ export class DialogService {
         return
     }
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public openSidebarDialog<T extends { new (arg: R, ...args: any): object }, R>(component: T, onClose: (result?: R) => void, data?: R): void {
+    this.dialog
+      .open(component, {
+        data,
+        position: { top: '0', right: '0' },
+        height: '100%',
+        enterAnimationDuration: '0ms',
+        exitAnimationDuration: '0ms',
+        panelClass: 'sidebar-dialog',
+      })
+      .afterClosed()
+      .subscribe(result => onClose(result))
+  }
 }

@@ -1,0 +1,9 @@
+<sofie-text-input i18n-label label="action-selector.select-action" i18n-placeholder placeholder="action-selector.search-action" [(value)]="actionSearchQuery"></sofie-text-input>
+<div class="actions-container">
+    <ng-container *ngFor="let action of actions">
+        <sofie-action-box *ngIf="doesActionMatchSearchQuery(action)" [action]="action" class="m-1" [highlight]="isSelectedAction(action)" (click)="selectAction(action)">
+            {{ action.name }}
+        </sofie-action-box>
+    </ng-container>
+</div>
+
