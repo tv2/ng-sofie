@@ -17,6 +17,11 @@
     background-color: var(--rundown-header-background-active-color);
   }
 
+  &--rehearsal {
+    --scrollbar-thumb-color: var(--rundown-header-rehearsal-scrollbar-thumb-active-color);
+    background-color: var(--rehearsal-color);
+  }
+
   .exit-button {
     align-self: center;
 
@@ -41,5 +46,4 @@
       text-shadow: 0 0 8px var(--rundown-overtime-shadow-color);
     }
   }
-
 }

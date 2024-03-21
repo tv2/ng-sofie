@@ -4,7 +4,8 @@
     <sofie-table [entities]="basicRundowns" [headers]="headers" [rowTemplate]="tableRowTemplate">
         <ng-template #tableRowTemplate let-basicRundown="tableRowData">
             <td>
-                <sofie-pulsating-dot *ngIf="basicRundown.mode === RundownMode.ACTIVE" [animationDurationSeconds]="3"></sofie-pulsating-dot>
+                <sofie-pulsating-dot *ngIf="basicRundown.mode === RundownMode.ACTIVE" [color]="'ON_AIR'" [animationDurationSeconds]="3"></sofie-pulsating-dot>
+                <sofie-pulsating-dot *ngIf="basicRundown.mode === RundownMode.REHEARSAL" [color]="'REHEARSAL'" [animationDurationSeconds]="3"></sofie-pulsating-dot>
             </td>
             <td>
                 <a [routerLink]="['/', Paths.RUNDOWNS, basicRundown.id]">

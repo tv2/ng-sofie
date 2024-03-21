@@ -21,6 +21,7 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   protected readonly Icon = Icon
   protected readonly IconSize = IconSize
   protected readonly RundownMode = RundownMode
+  protected readonly Paths = Paths
 
   public readonly headers: SofieTableHeader<BasicRundown>[] = [
     {
@@ -53,8 +54,6 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
   public isLoading: boolean = true
   private subscriptions: SubscriptionLike[] = []
   private readonly logger: Logger
-
-  protected readonly Paths = Paths
 
   constructor(
     private readonly basicRundownStateService: BasicRundownStateService,

@@ -4,7 +4,7 @@
                 id="{{segment.id}}"
                 *ngIf="!segment.isHidden"
                 [segment]="segment"
-                [isRundownActive]="isRundownActive"
+                [isRundownActiveOrRehearsal]="isActiveOrRehearsal"
                 [isAutoNextStarted]="isAutoNextStarted"
                 [durationInMsUntilSegmentIsPutOnAir]="startOffsetsInMsFromPlayheadForSegments[segment.id]"
                 [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"

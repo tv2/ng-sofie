@@ -42,7 +42,7 @@
     class="c-segment__timeline"
     [segment]="segment"
     [outputLayers]="outputLayers"
-    [isRundownActive]="isRundownActive"
+    [isRundownActiveOrRehearsal]="isRundownActiveOrRehearsal"
     [isAutoNextStarted]="isAutoNextStarted"
     [pixelsPerSecond]="pixelsPerSecond"
   ></sofie-scrollable-timeline>
@@ -53,7 +53,7 @@
       [time]="timeReference"
       [segment]="segment"
       [outputLayers]="outputLayers"
-      [isRundownActive]="isRundownActive"
+      [isRundownActiveOrRehearsal]="isRundownActiveOrRehearsal"
       [isAutoNextStarted]="isAutoNextStarted"
       [pixelsPerSecond]="pixelsPerSecond"
       [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
@@ -62,5 +62,5 @@
 </div>
 
 <ng-template #contextMenu>
-  <sofie-segment-context-menu *ngIf="isRundownActive" [segment]="this.segment"></sofie-segment-context-menu>
+  <sofie-segment-context-menu *ngIf="isRundownActiveOrRehearsal" [segment]="this.segment"></sofie-segment-context-menu>
 </ng-template>

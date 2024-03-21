@@ -170,6 +170,10 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     return action ? { ...actionMap, [segment.id]: action } : actionMap
   }
 
+  public get isActiveOrRehearsal(): boolean {
+    return [RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(this.rundown.mode)
+  }
+
   public ngOnDestroy(): void {
     this.rundownTimingContextSubscription?.unsubscribe()
     this.rundownEventSubscriptions.forEach(subscription => subscription.unsubscribe)
