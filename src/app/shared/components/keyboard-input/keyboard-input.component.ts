@@ -36,10 +36,10 @@ export class KeyboardInputComponent implements ControlValueAccessor {
 
   private isFirstKeyAfterFocus: boolean
 
-  private onChangeCallback: (value: Keys) => void
+  private onChangeCallback: (value?: Keys) => void
   private onTouchedCallback: () => void
 
-  public value: Keys
+  public value?: Keys
 
   private isTouched: boolean = false
 
@@ -50,12 +50,12 @@ export class KeyboardInputComponent implements ControlValueAccessor {
     this.markAsTouched()
     const keyCode: string = SHORTCUT_KEYS_MAPPINGS[event.code] ?? event.code
 
-    const isKeyAlreadyRegistered: boolean = !this.isFirstKeyAfterFocus && this.value.some(key => key === keyCode)
+    const isKeyAlreadyRegistered: boolean = !!this.value && !this.isFirstKeyAfterFocus && this.value.some(key => key === keyCode)
     if (isKeyAlreadyRegistered) {
       return
     }
 
-    this.value = this.isFirstKeyAfterFocus ? [keyCode] : [...this.value, keyCode]
+    this.value = this.isFirstKeyAfterFocus ? [keyCode] : [...this.value!, keyCode]
     if (this.isFirstKeyAfterFocus) {
       this.isFirstKeyAfterFocus = false
     }
@@ -79,13 +79,20 @@ export class KeyboardInputComponent implements ControlValueAccessor {
     this.isFirstKeyAfterFocus = true
   }
 
-  public clear(): void {}
+  public clearValue(): void {
+    this.value = undefined
+    if (!this.onChangeCallback) {
+      return
+    }
+
+    this.onChangeCallback(undefined)
+  }
 
   public writeValue(value: Keys): void {
     this.value = value
   }
 
-  public registerOnChange(changeCallback: (value: Keys) => void): void {
+  public registerOnChange(changeCallback: (value?: Keys) => void): void {
     this.onChangeCallback = changeCallback
   }
 

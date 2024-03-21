@@ -33,7 +33,7 @@ export class EditKeyboardMappingComponent implements OnInit {
       label: [this.keyboardMapping?.actionTrigger.data.label ?? ''],
       keys: [this.keyboardMapping?.actionTrigger.data.keys, [Validators.required]],
       triggerOn: [KeyEventType.RELEASED, [Validators.required]],
-      mappedToKeys: [[]],
+      mappedToKeys: [],
     })
 
     this.actionTriggerForm = this.formBuilder.group({
