@@ -80,7 +80,7 @@ export class DialogService {
 
     const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
     if (!nonIdleRundown) {
-      this.createConfirmDialog(rundown.name, 'Are you sure you want to rehearse the Rundown?', 'Rehearse', () => this.rundownService.rehearse(rundown.id).subscribe())
+      this.rundownService.rehearse(rundown.id).subscribe()
       return
     }
 
