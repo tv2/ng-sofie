@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { DialogService } from 'src/app/shared/services/dialog.service'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
 import { NotificationService } from '../../../shared/services/notification.service'
+import { DialogColorScheme, DialogSeverity } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component'
 
 @Component({
   selector: 'sofie-clear-cache',
@@ -16,7 +17,14 @@ export class ClearCacheComponent {
   ) {}
 
   public showClearCacheConfirmModal(): void {
-    this.dialogService.createConfirmDialog($localize`global.confirmation.label`, $localize`clear-cache.clear.confirmation`, $localize`global.clear.label`, () => this.clearConfigurationCache())
+    this.dialogService.createConfirmDialog(
+      $localize`global.confirmation.label`,
+      $localize`clear-cache.clear.confirmation`,
+      $localize`global.clear.label`,
+      () => this.clearConfigurationCache(),
+      DialogColorScheme.LIGHT,
+      DialogSeverity.INFO
+    )
   }
 
   public clearConfigurationCache(): void {

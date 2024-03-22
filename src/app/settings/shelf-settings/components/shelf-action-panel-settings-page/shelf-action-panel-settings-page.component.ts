@@ -13,6 +13,7 @@ import { TranslateActionTypePipe } from '../../../../shared/pipes/translate-acti
 import { NotificationService } from '../../../../shared/services/notification.service'
 import { EditShelfActionPanelConfigurationDialogComponent } from '../edit-shelf-action-panel-confinguration-dialog/edit-shelf-action-panel-configuration-dialog.component'
 import { SelectOption } from '../../../../shared/models/select-option'
+import { DialogColorScheme, DialogSeverity } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component'
 
 @Component({
   selector: 'sofie-action-panel',
@@ -82,16 +83,23 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   }
 
   public deleteActionPanel(actionPanel: ShelfActionPanelConfiguration): void {
-    this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`action-panel.delete.confirmation`, $localize`global.delete.label`, () => {
-      const index: number = this.shelfConfiguration.actionPanelConfigurations.indexOf(actionPanel)
-      if (index < 0) {
-        return
-      }
-      this.shelfConfiguration.actionPanelConfigurations.splice(index, 1)
-      this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
+    this.dialogService.createConfirmDialog(
+      $localize`global.delete.label`,
+      $localize`action-panel.delete.confirmation`,
+      $localize`global.delete.label`,
+      () => {
+        const index: number = this.shelfConfiguration.actionPanelConfigurations.indexOf(actionPanel)
+        if (index < 0) {
+          return
+        }
+        this.shelfConfiguration.actionPanelConfigurations.splice(index, 1)
+        this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
 
-      this.notificationService.createInfoNotification(`Successfully deleted Action Panel: ${actionPanel.name}`)
-    })
+        this.notificationService.createInfoNotification(`Successfully deleted Action Panel: ${actionPanel.name}`)
+      },
+      DialogColorScheme.LIGHT,
+      DialogSeverity.INFO
+    )
   }
 
   public duplicateActionPanel(actionPanel: ShelfActionPanelConfiguration): void {
@@ -154,13 +162,20 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   }
 
   public deleteSelectedActionPanels(): void {
-    this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`action-panel.delete.confirmation`, $localize`global.delete.label`, () => {
-      this.shelfConfiguration.actionPanelConfigurations = this.shelfConfiguration.actionPanelConfigurations.filter(actionPanel => !this.selectedActionPanels.has(actionPanel))
-      this.selectedActionPanels.clear()
-      this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
+    this.dialogService.createConfirmDialog(
+      $localize`global.delete.label`,
+      $localize`action-panel.delete.confirmation`,
+      $localize`global.delete.label`,
+      () => {
+        this.shelfConfiguration.actionPanelConfigurations = this.shelfConfiguration.actionPanelConfigurations.filter(actionPanel => !this.selectedActionPanels.has(actionPanel))
+        this.selectedActionPanels.clear()
+        this.configurationService.updateShelfConfiguration(this.shelfConfiguration).subscribe()
 
-      this.notificationService.createInfoNotification($localize`shelf-action-panel-settings-page.selected-action-panels.deleted`)
-    })
+        this.notificationService.createInfoNotification($localize`shelf-action-panel-settings-page.selected-action-panels.deleted`)
+      },
+      DialogColorScheme.LIGHT,
+      DialogSeverity.INFO
+    )
   }
 
   public updateActionContentQuery(actionContentQuery: Tv2ActionContentType[]): void {

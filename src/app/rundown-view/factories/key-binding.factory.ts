@@ -6,7 +6,7 @@ import { Tv2CameraAction, Tv2RemoteAction, Tv2TransitionAction } from '../../sha
 import { RundownService } from '../../core/abstractions/rundown.service'
 import { Rundown } from '../../core/models/rundown'
 import { DialogService } from '../../shared/services/dialog.service'
-import { DialogSeverity } from '../../shared/components/confirmation-dialog/confirmation-dialog.component'
+import { DialogColorScheme, DialogSeverity } from '../../shared/components/confirmation-dialog/confirmation-dialog.component'
 import { RundownNavigationService } from '../../shared/services/rundown-navigation.service'
 import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
@@ -135,14 +135,28 @@ export class KeyBindingFactory {
   }
 
   private resetRundown(rundown: Rundown): void {
-    this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to reset the Rundown?', 'Reset', () => this.rundownService.reset(rundown.id).subscribe())
+    this.dialogService.createConfirmDialog(
+      rundown.name,
+      'Are you sure you want to reset the Rundown?',
+      'Reset',
+      () => this.rundownService.reset(rundown.id).subscribe(),
+      DialogColorScheme.DARK,
+      DialogSeverity.INFO
+    )
   }
 
   private activateRundown(rundown: Rundown): void {
     if (rundown.mode === RundownMode.ACTIVE) {
       return
     }
-    this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.rundownService.activate(rundown.id).subscribe())
+    this.dialogService.createConfirmDialog(
+      rundown.name,
+      'Are you sure you want to activate the Rundown?',
+      'Activate',
+      () => this.rundownService.activate(rundown.id).subscribe(),
+      DialogColorScheme.DARK,
+      DialogSeverity.INFO
+    )
   }
 
   private deactivateRundown(rundown: Rundown): void {
@@ -154,6 +168,7 @@ export class KeyBindingFactory {
       'Are you sure you want to deactivate the Rundown?\n\nThis will clear the outputs.',
       'Deactivate',
       () => this.rundownService.deactivate(rundown.id).subscribe(),
+      DialogColorScheme.DARK,
       DialogSeverity.DANGER
     )
   }
