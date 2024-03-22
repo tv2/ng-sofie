@@ -108,8 +108,13 @@ export class KeyBindingFactory {
   }
 
   public createRundownKeyBindings(rundown: Rundown): StyledKeyBinding[] {
+    let keybindings: StyledKeyBinding[] = [
+      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogService.switchActivateRundownDialog(rundown)),
+      this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
+    ]
+
     if ([RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(rundown.mode)) {
-      return [
+      keybindings = [
         this.createRundownKeyBinding('Take', ['AnyEnter'], () => this.takeNext(rundown)),
         this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
         this.createRundownKeyBinding('Deactivate Rundown', ['Control', 'Shift', 'Backquote'], () => this.deactivateRundown(rundown)),
@@ -121,10 +126,12 @@ export class KeyBindingFactory {
         this.createRundownKeyBinding('Cycle MiniShelf', ['Shift', 'Tab'], () => this.miniShelfCycleService.cycleMiniShelfBackward(rundown)),
       ]
     }
-    return [
-      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogService.switchActivateRundownDialog(rundown)),
-      this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
-    ]
+
+    if (RundownMode.REHEARSAL === rundown.mode) {
+      keybindings.push(this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogService.switchActivateRundownDialog(rundown)))
+    }
+
+    return keybindings
   }
 
   private takeNext(rundown: Rundown): void {
