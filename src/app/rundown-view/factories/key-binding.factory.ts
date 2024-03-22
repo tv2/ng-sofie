@@ -135,7 +135,14 @@ export class KeyBindingFactory {
   }
 
   private resetRundown(rundown: Rundown): void {
-    this.dialogService.createConfirmDialog(rundown.name, 'Are you sure you want to reset the Rundown?', 'Reset', () => this.rundownService.reset(rundown.id).subscribe(), DialogColorScheme.DARK)
+    this.dialogService.createConfirmDialog(
+      rundown.name,
+      'Are you sure you want to reset the Rundown?',
+      'Reset',
+      () => this.rundownService.reset(rundown.id).subscribe(),
+      DialogColorScheme.DARK,
+      DialogSeverity.INFO
+    )
   }
 
   private activateRundown(rundown: Rundown): void {
@@ -147,7 +154,8 @@ export class KeyBindingFactory {
       'Are you sure you want to activate the Rundown?',
       'Activate',
       () => this.rundownService.activate(rundown.id).subscribe(),
-      DialogColorScheme.DARK
+      DialogColorScheme.DARK,
+      DialogSeverity.INFO
     )
   }
 

@@ -15,7 +15,7 @@ export class DialogService {
     return this.dialog.open(component, config)
   }
 
-  public createConfirmDialog(title: string, message: string, okButtonText: string, onOk: () => void, theme?: DialogColorScheme, severity?: DialogSeverity): void {
+  public createConfirmDialog(title: string, message: string, okButtonText: string, onOk: () => void, theme: DialogColorScheme, severity: DialogSeverity): void {
     this.open(ConfirmationDialogComponent, {
       data: {
         title: title,
