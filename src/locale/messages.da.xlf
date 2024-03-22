@@ -406,10 +406,6 @@
         <source>Activate</source>
         <target state="new">Activate</target>
       </trans-unit>
-      <trans-unit id="6966149463632370315" datatype="html">
-        <source>Are you sure you want to rehearse the active Rundown?</source>
-        <target state="new">Are you sure you want to rehearse the active Rundown?</target>
-      </trans-unit>
       <trans-unit id="7719481586544095649" datatype="html">
         <source>Rehearse</source>
         <target state="new">Rehearse</target>

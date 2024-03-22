@@ -31,23 +31,7 @@ describe(DialogService.name, () => {
   })
 
   describe(DialogService.prototype.switchRehearsalRundownDialog.name, () => {
-    it('should not show dialog when there are no rundowns at all when going for rehearsal', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-
-      const mockedRunownService = mock<RundownService>()
-
-      const mockedSubscription: Observable<void> = mock<Observable<void>>()
-      when(mockedRunownService.rehearse(anyString())).thenReturn(instance(mockedSubscription))
-
-      const mockedMatDialog: MatDialog = createMatDialogMock()
-
-      const testee: DialogService = createTestee({ mockedRundownService: mockedRunownService, mockedMatDialog: mockedMatDialog })
-      testee.switchRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'another' }))
-
-      verify(mockedMatDialog.open).never()
-    })
-
-    it('should not show dialog when all rundowns are idle when going for rehearsal', () => {
+    it('should show dialog when all rundowns are idle when going for rehearsal', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
       const mockedRunownService = mock<RundownService>()
@@ -61,9 +45,9 @@ describe(DialogService.name, () => {
       when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(undefined)
 
       const testee: DialogService = createTestee({ mockedBasicRundownStateService: mockedBasicRundoStateService, mockedRundownService: mockedRunownService, mockedMatDialog: mockedMatDialog })
-      testee.switchRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'another' }))
+      testee.switchRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE }))
 
-      verify(mockedMatDialog.open).never()
+      verify(mockedMatDialog.open).once()
     })
 
     it('should show dialog when another rundown is already in active mode when going for rehearsal', () => {
@@ -83,51 +67,31 @@ describe(DialogService.name, () => {
       when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ mode: RundownMode.ACTIVE }))
 
       const testee: DialogService = createTestee({ mockedBasicRundownStateService: mockedBasicRundoStateService, mockedRundownService: mockedRunownService, mockedMatDialog: mockedMatDialog })
-      testee.switchRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'another' }))
+      testee.switchRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'this' }))
 
       verify(mockedMatDialog.open).once()
     })
 
-    it('should show dialog when same rundown is already in active mode when going for rehearsal', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const rundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.ACTIVE })
-
-      const mockedRunownService = mock<RundownService>()
-
-      const mockedSubscription: Observable<void> = mock<Observable<void>>()
-      when(mockedRunownService.rehearse(rundown.id)).thenReturn(instance(mockedSubscription))
-
-      const mockedMatDialog: MatDialog = createMatDialogMock()
-
-      const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(rundown)
-
-      const testee: DialogService = createTestee({ mockedBasicRundownStateService: mockedBasicRundoStateService, mockedRundownService: mockedRunownService, mockedMatDialog: mockedMatDialog })
-      testee.switchRehearsalRundownDialog(rundown)
-
-      verify(mockedMatDialog.open).once()
-    })
-
-    it('should not show dialog when another rundown is already in rehearsal mode when going for rehearsal', () => {
+    it('should show dialog when another rundown is already in rehearsal mode when going for rehearsal', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
       const mockedRunownService = mock<RundownService>()
 
       const mockedRehearseSubscription: Observable<void> = mock<Observable<void>>()
-      when(mockedRunownService.rehearse(anyString())).thenReturn(instance(mockedRehearseSubscription))
+      when(mockedRunownService.rehearse('this')).thenReturn(instance(mockedRehearseSubscription))
 
       const mockedDeactivateSubscription: Observable<void> = mock<Observable<void>>()
-      when(mockedRunownService.deactivate(anyString())).thenReturn(instance(mockedDeactivateSubscription))
+      when(mockedRunownService.deactivate('another')).thenReturn(instance(mockedDeactivateSubscription))
 
       const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ mode: RundownMode.REHEARSAL }))
+      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ id: 'another', mode: RundownMode.REHEARSAL }))
 
       const testee: DialogService = createTestee({ mockedBasicRundownStateService: mockedBasicRundoStateService, mockedRundownService: mockedRunownService, mockedMatDialog: mockedMatDialog })
-      testee.switchRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'another' }))
+      testee.switchRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE }))
 
-      verify(mockedMatDialog.open).never()
+      verify(mockedMatDialog.open).once()
     })
 
     it('should not show dialog when same rundown is already in rehearsal mode when going for rehearsal', () => {
@@ -135,9 +99,6 @@ describe(DialogService.name, () => {
       const rundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.REHEARSAL })
 
       const mockedRunownService = mock<RundownService>()
-
-      const mockedSubscription: Observable<void> = mock<Observable<void>>()
-      when(mockedRunownService.rehearse(rundown.id)).thenReturn(instance(mockedSubscription))
 
       const mockedMatDialog: MatDialog = createMatDialogMock()
 
@@ -152,40 +113,24 @@ describe(DialogService.name, () => {
   })
 
   describe(DialogService.prototype.switchActivateRundownDialog.name, () => {
-    it('should not show dialog when there are no rundowns at all when going for on-air', () => {
+    it('should show dialog when all rundowns are idle when going for on-air', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const rundown: Rundown = testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE })
 
       const mockedRunownService = mock<RundownService>()
 
       const mockedSubscription: Observable<void> = mock<Observable<void>>()
-      when(mockedRunownService.activate(anyString())).thenReturn(instance(mockedSubscription))
-
-      const mockedMatDialog: MatDialog = createMatDialogMock()
-
-      const testee: DialogService = createTestee({ mockedRundownService: mockedRunownService, mockedMatDialog: mockedMatDialog })
-      testee.switchActivateRundownDialog(testEntityFactory.createRundown({ id: 'another' }))
-
-      verify(mockedMatDialog.open).never()
-    })
-
-    it('should not show dialog when all rundowns are idle when going for on-air', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const rundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.INACTIVE })
-
-      const mockedRunownService = mock<RundownService>()
-
-      const mockedSubscription: Observable<void> = mock<Observable<void>>()
-      when(mockedRunownService.activate(anyString())).thenReturn(instance(mockedSubscription))
+      when(mockedRunownService.activate(rundown.id)).thenReturn(instance(mockedSubscription))
 
       const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(rundown)
+      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(undefined)
 
       const testee: DialogService = createTestee({ mockedBasicRundownStateService: mockedBasicRundoStateService, mockedRundownService: mockedRunownService, mockedMatDialog: mockedMatDialog })
-      testee.switchActivateRundownDialog(testEntityFactory.createRundown({ id: 'another' }))
+      testee.switchActivateRundownDialog(rundown)
 
-      verify(mockedMatDialog.open).never()
+      verify(mockedMatDialog.open).once()
     })
 
     it('should show dialog when another rundown is already in active mode when going for on-air', () => {
@@ -194,18 +139,18 @@ describe(DialogService.name, () => {
       const mockedRunownService = mock<RundownService>()
 
       const mockedActivateSubscription: Observable<void> = mock<Observable<void>>()
-      when(mockedRunownService.activate(anyString())).thenReturn(instance(mockedActivateSubscription))
+      when(mockedRunownService.activate('this')).thenReturn(instance(mockedActivateSubscription))
 
       const mockedDeactivateSubscription: Observable<void> = mock<Observable<void>>()
-      when(mockedRunownService.deactivate(anyString())).thenReturn(instance(mockedDeactivateSubscription))
+      when(mockedRunownService.deactivate('another')).thenReturn(instance(mockedDeactivateSubscription))
 
       const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ mode: RundownMode.ACTIVE }))
+      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ id: 'another', mode: RundownMode.ACTIVE }))
 
       const testee: DialogService = createTestee({ mockedBasicRundownStateService: mockedBasicRundoStateService, mockedRundownService: mockedRunownService, mockedMatDialog: mockedMatDialog })
-      testee.switchActivateRundownDialog(testEntityFactory.createRundown({ id: 'another' }))
+      testee.switchActivateRundownDialog(testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE }))
 
       verify(mockedMatDialog.open).once()
     })
@@ -227,26 +172,26 @@ describe(DialogService.name, () => {
       verify(mockedMatDialog.open).never()
     })
 
-    it('should not show dialog when another rundown is already in rehearsal mode when going for on-air', () => {
+    it('should show dialog when another rundown is already in rehearsal mode when going for on-air', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
       const mockedRunownService = mock<RundownService>()
 
       const mockedActivateSubscription: Observable<void> = mock<Observable<void>>()
-      when(mockedRunownService.activate(anyString())).thenReturn(instance(mockedActivateSubscription))
+      when(mockedRunownService.activate('this')).thenReturn(instance(mockedActivateSubscription))
 
       const mockedDeactivateSubscription: Observable<void> = mock<Observable<void>>()
-      when(mockedRunownService.deactivate(anyString())).thenReturn(instance(mockedDeactivateSubscription))
+      when(mockedRunownService.deactivate('another')).thenReturn(instance(mockedDeactivateSubscription))
 
       const mockedMatDialog: MatDialog = createMatDialogMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ mode: RundownMode.REHEARSAL }))
+      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ id: 'another', mode: RundownMode.REHEARSAL }))
 
       const testee: DialogService = createTestee({ mockedBasicRundownStateService: mockedBasicRundoStateService, mockedRundownService: mockedRunownService, mockedMatDialog: mockedMatDialog })
-      testee.switchActivateRundownDialog(testEntityFactory.createRundown({ id: 'another' }))
+      testee.switchActivateRundownDialog(testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE }))
 
-      verify(mockedMatDialog.open).never()
+      verify(mockedMatDialog.open).once()
     })
   })
 })
