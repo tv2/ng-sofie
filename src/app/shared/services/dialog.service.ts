@@ -11,11 +11,14 @@ import { RundownService } from '../../core/abstractions/rundown.service'
 
 @Injectable()
 export class DialogService {
-  private readonly activateOtherActiveMessage: string = $localize`Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown`
   private readonly activateOkButtonText: string = $localize`Activate`
-  private readonly rehearseSameActiveMessage: string = $localize`Are you sure you want to rehearse the active Rundown?`
+  private readonly activateMessage: string = $localize`Are you sure you want to activate the Rundown?`
+  private readonly activateOtherActiveMessage: string = $localize`Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown`
+
   private readonly rehearseOkButtonText: string = $localize`Rehearse`
-  private readonly rehearseOtherActiveMessage: string = $localize`Are you sure you want to rehearse the Rundown?\n\nThis will deactivate the Rundown`
+  private readonly rehearseMessage: string = $localize`Are you sure you want to rehearse the Rundown?`
+  private readonly rehearseSameActiveMessage: string = $localize`Are you sure you want to rehearse the active Rundown?`
+  private readonly rehearseOtherMessage: string = $localize`Are you sure you want to rehearse the Rundown?\n\nThis will deactivate the Rundown`
 
   constructor(
     public dialog: MatDialog,
@@ -58,14 +61,15 @@ export class DialogService {
 
     const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
     if (!nonIdleRundown) {
-      this.rundownService.activate(rundown.id).subscribe()
+      this.createConfirmDialog(rundown.name, this.activateMessage, this.activateOkButtonText, () => this.rundownService.activate(rundown.id).subscribe())
       return
     }
 
     switch (true) {
       case nonIdleRundown.mode === RundownMode.REHEARSAL && nonIdleRundown.id === rundown.id:
-        this.rundownService.activate(nonIdleRundown.id).subscribe()
+        this.createConfirmDialog(rundown.name, this.activateOkButtonText, this.activateOkButtonText, () => this.rundownService.activate(nonIdleRundown.id).subscribe())
         return
+
       case nonIdleRundown.mode === RundownMode.ACTIVE && nonIdleRundown.id !== rundown.id:
         this.createConfirmDialog(rundown.name, `${this.activateOtherActiveMessage} "${nonIdleRundown.name}"`, `${this.activateOkButtonText}`, () =>
           this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.activate(rundown.id).subscribe())
@@ -85,21 +89,27 @@ export class DialogService {
 
     const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
     if (!nonIdleRundown) {
-      this.rundownService.rehearse(rundown.id).subscribe()
+      this.createConfirmDialog(rundown.name, this.rehearseMessage, this.rehearseOkButtonText, () => this.rundownService.rehearse(rundown.id).subscribe())
       return
     }
 
     switch (true) {
+      case nonIdleRundown.mode === RundownMode.REHEARSAL && nonIdleRundown.id === rundown.id:
+        this.createConfirmDialog(rundown.name, this.rehearseMessage, this.rehearseOkButtonText, () => this.rundownService.rehearse(rundown.id).subscribe())
+        return
+
       case nonIdleRundown.mode === RundownMode.ACTIVE && nonIdleRundown.id === rundown.id:
         this.createConfirmDialog(rundown.name, this.rehearseSameActiveMessage, this.rehearseOkButtonText, () => this.rundownService.rehearse(rundown.id).subscribe())
         return
 
       case nonIdleRundown.mode === RundownMode.REHEARSAL && nonIdleRundown.id !== rundown.id:
-        this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.rehearse(rundown.id).subscribe())
+        this.createConfirmDialog(rundown.name, `${this.rehearseOtherMessage} "${nonIdleRundown.name}"`, this.rehearseOkButtonText, () =>
+          this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.rehearse(rundown.id).subscribe())
+        )
         return
 
       case nonIdleRundown.mode === RundownMode.ACTIVE && nonIdleRundown.id !== rundown.id:
-        this.createConfirmDialog(rundown.name, `${this.rehearseOtherActiveMessage} "${nonIdleRundown.name}"`, this.rehearseOkButtonText, () =>
+        this.createConfirmDialog(rundown.name, `${this.rehearseOtherMessage} "${nonIdleRundown.name}"`, this.rehearseOkButtonText, () =>
           this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.rehearse(rundown.id).subscribe())
         )
         return

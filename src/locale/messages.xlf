@@ -314,6 +314,12 @@
       <trans-unit id="672684067026346719" datatype="html">
         <source>dialog.cancel-button:Cancel</source>
       </trans-unit>
+      <trans-unit id="4640631323333751497" datatype="html">
+        <source>Are you sure you want to rehearse the Rundown?</source>
+      </trans-unit>
+      <trans-unit id="6755480681760618341" datatype="html">
+        <source>Are you sure you want to activate the Rundown?</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

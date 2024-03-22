@@ -418,6 +418,14 @@
         <source>Are you sure you want to rehearse the Rundown? This will deactivate the Rundown</source>
         <target state="new">Are you sure you want to rehearse the Rundown? This will deactivate the Rundown</target>
       </trans-unit>
+      <trans-unit id="6755480681760618341" datatype="html">
+        <source>Are you sure you want to activate the Rundown?</source>
+        <target state="new">Are you sure you want to activate the Rundown?</target>
+      </trans-unit>
+      <trans-unit id="4640631323333751497" datatype="html">
+        <source>Are you sure you want to rehearse the Rundown?</source>
+        <target state="new">Are you sure you want to rehearse the Rundown?</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
