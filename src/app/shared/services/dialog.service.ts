@@ -15,7 +15,7 @@ export class DialogService {
   private readonly activateOkButtonText: string = $localize`Activate`
   private readonly rehearseSameActiveMessage: string = $localize`Are you sure you want to rehearse the active Rundown?`
   private readonly rehearseOkButtonText: string = $localize`Rehearse`
-  private readonly rehearsetherActiveMessage: string = $localize`Are you sure you want to rehearse the Rundown?\n\nThis will deactivate the Rundown`
+  private readonly rehearseOtherActiveMessage: string = $localize`Are you sure you want to rehearse the Rundown?\n\nThis will deactivate the Rundown`
 
   constructor(
     public dialog: MatDialog,
@@ -99,7 +99,7 @@ export class DialogService {
         return
 
       case nonIdleRundown.mode === RundownMode.ACTIVE && nonIdleRundown.id !== rundown.id:
-        this.createConfirmDialog(rundown.name, `${this.rehearsetherActiveMessage} "${nonIdleRundown.name}"`, this.rehearseOkButtonText, () =>
+        this.createConfirmDialog(rundown.name, `${this.rehearseOtherActiveMessage} "${nonIdleRundown.name}"`, this.rehearseOkButtonText, () =>
           this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.rehearse(rundown.id).subscribe())
         )
         return
