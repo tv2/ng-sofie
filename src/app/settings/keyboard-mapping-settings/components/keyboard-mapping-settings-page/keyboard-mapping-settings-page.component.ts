@@ -14,6 +14,7 @@ import { NotificationService } from '../../../../shared/services/notification.se
 import { ActionTriggerParser } from '../../../../shared/abstractions/action-trigger-parser.service'
 import { FormatKeyboardKeysPipe } from '../../../../shared/pipes/format-keyboard-keys.pipe'
 import { EditKeyboardMappingDialogComponent } from '../edit-keyboard-mapping-dialog/edit-keyboard-mapping-dialog.component'
+import { DialogColorScheme, DialogSeverity } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component'
 
 export interface KeyboardMapping {
   actionTrigger: ActionTrigger<KeyboardTriggerData>
@@ -91,16 +92,23 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   }
 
   public deleteKeyboardMapping(actionTrigger: KeyboardMapping): void {
-    this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`keyboard-mapping.delete.confirmation`, $localize`global.delete.label`, () => {
-      const index: number = this.keyboardMappings.indexOf(actionTrigger)
-      if (index < 0) {
-        return
-      }
-      this.keyboardMappings.splice(index, 1)
+    this.dialogService.createConfirmDialog(
+      $localize`global.delete.label`,
+      $localize`keyboard-mapping.delete.confirmation`,
+      $localize`global.delete.label`,
+      () => {
+        const index: number = this.keyboardMappings.indexOf(actionTrigger)
+        if (index < 0) {
+          return
+        }
+        this.keyboardMappings.splice(index, 1)
 
-      this.actionTriggerService.deleteActionTrigger(actionTrigger.actionTrigger.id).subscribe()
-      this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.delete-keyboard-mapping.success`)
-    })
+        this.actionTriggerService.deleteActionTrigger(actionTrigger.actionTrigger.id).subscribe()
+        this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.delete-keyboard-mapping.success`)
+      },
+      DialogColorScheme.LIGHT,
+      DialogSeverity.INFO
+    )
   }
 
   public duplicateKeyboardMapping(keyboardMapping: KeyboardMapping): void {
@@ -168,20 +176,27 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   }
 
   public deleteSelectedKeyboardMapping(): void {
-    this.dialogService.createConfirmDialog($localize`global.delete.label`, $localize`keyboard-mapping.delete-selected.confirmation`, $localize`global.delete.label`, () => {
-      const actionTriggerIdsToBeDeleted: string[] = this.keyboardMappings
-        .filter(keyboardMapping => this.selectedKeyboardMappings.has(keyboardMapping))
-        .map(keyboardMapping => keyboardMapping.actionTrigger.id)
+    this.dialogService.createConfirmDialog(
+      $localize`global.delete.label`,
+      $localize`keyboard-mapping.delete-selected.confirmation`,
+      $localize`global.delete.label`,
+      () => {
+        const actionTriggerIdsToBeDeleted: string[] = this.keyboardMappings
+          .filter(keyboardMapping => this.selectedKeyboardMappings.has(keyboardMapping))
+          .map(keyboardMapping => keyboardMapping.actionTrigger.id)
 
-      this.selectedKeyboardMappings.clear()
+        this.selectedKeyboardMappings.clear()
 
-      Promise.all(actionTriggerIdsToBeDeleted.map(id => this.actionTriggerService.deleteActionTrigger(id).subscribe()))
-        .then(() => this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.delete-all-keyboard-mappings.success`))
-        .catch(error => {
-          this.logger.data(error).error('Failed deleting one or more of teh selected keyboard mappings.')
-          this.notificationService.createErrorNotification($localize`keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail`)
-        })
-    })
+        Promise.all(actionTriggerIdsToBeDeleted.map(id => this.actionTriggerService.deleteActionTrigger(id).subscribe()))
+          .then(() => this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.delete-all-keyboard-mappings.success`))
+          .catch(error => {
+            this.logger.data(error).error('Failed deleting one or more of teh selected keyboard mappings.')
+            this.notificationService.createErrorNotification($localize`keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail`)
+          })
+      },
+      DialogColorScheme.LIGHT,
+      DialogSeverity.INFO
+    )
   }
 
   public doesKeyboardMappingMatchSearchQuery(keyboardMapping: KeyboardMapping): boolean {

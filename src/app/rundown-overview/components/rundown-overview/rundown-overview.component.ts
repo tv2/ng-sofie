@@ -11,6 +11,7 @@ import { RundownTimingType } from '../../../core/enums/rundown-timing-type'
 import { BackwardRundownTiming } from '../../../core/models/rundown-timing'
 import { RundownMode } from '../../../core/enums/rundown-mode'
 import { SofieTableHeader } from '../../../shared/components/table/table.component'
+import { DialogColorScheme, DialogSeverity } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component'
 
 const ACTIVATION_INDICATOR_COLUMN_NAME: string = ''
 
@@ -80,7 +81,9 @@ export class RundownOverviewComponent implements OnInit, OnDestroy {
       $localize`rundown-overview-component.deletion-dialog-title`,
       $localize`rundown-overview-component.deletion-dialog-question "${basicRundown.name}"`,
       $localize`rundown-overview-component.deletion-dialog.delete-button`,
-      () => this.deleteRundown(basicRundown.id)
+      () => this.deleteRundown(basicRundown.id),
+      DialogColorScheme.LIGHT,
+      DialogSeverity.INFO
     )
   }
 
