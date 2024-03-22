@@ -13,10 +13,18 @@ export class RundownEntityService {
   constructor(private readonly segmentEntityService: SegmentEntityService) {}
 
   public activate(rundown: Rundown): Rundown {
+    const rundownState: Rundown = rundown.mode === RundownMode.REHEARSAL ? rundown : this.reset(rundown)
+    return {
+      ...rundownState,
+      mode: RundownMode.ACTIVE,
+    }
+  }
+
+  public rehearse(rundown: Rundown): Rundown {
     const resetRundown: Rundown = this.reset(rundown)
     return {
       ...resetRundown,
-      mode: RundownMode.ACTIVE,
+      mode: RundownMode.REHEARSAL,
     }
   }
 

@@ -1,79 +1,37 @@
 <sofie-header></sofie-header>
-<div class="rundown-overview-viewport">
-  <sofie-notification-popup-container></sofie-notification-popup-container>
-
-  <h1 class="c-rundown-overview__title" i18n>rundown-overview.rundown-overview.title</h1>
-
-  <div *ngIf="isLoading; else doneLoading" class="c-rundown-overview__loading-rundowns">
-    <mat-card-title i18n>rundown-overview-component.rundown-overview.loading-rundowns.message</mat-card-title>
-  </div>
-
-  <ng-template #doneLoading>
-    <div *ngIf="basicRundowns.length === 0; else rundowns" class="c-rundown-overview__no-rundowns">
-      <h2 i18n>rundown-overview-component.no-rundowns-available.message</h2>
-      <p i18n>rundown-overview-component.check-connection-configure-ingest-gateway.message</p>
-    </div>
-  </ng-template>
-
-  <ng-template #rundowns>
-    <table *ngIf="!isLoading && basicRundowns.length > 0" mat-table [dataSource]="basicRundowns">
-      <ng-container matColumnDef="status">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let basicRundown">
-          <sofie-pulsating-dot *ngIf="basicRundown.mode === RundownMode.ACTIVE" [color]="Color.ON_AIR" [animationDurationSeconds]="3"></sofie-pulsating-dot>
-        </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef i18n>rundown-overview-component.rundown-label</mat-header-cell>
-        <mat-cell *matCellDef="let basicRundown" class="c-rundown-name">
-          <a [routerLink]="['/', Paths.RUNDOWNS, basicRundown.id]">
-            {{ basicRundown.name }}
-          </a>
-        </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="plannedStart">
-        <mat-header-cell *matHeaderCellDef>Planned start</mat-header-cell>
-        <mat-cell *matCellDef="let basicRundown">
-          {{ getPlannedStart(basicRundown) ? (getPlannedStart(basicRundown) | date: 'HH:mm:ss') : 'Not set' }}
-        </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="duration">
-        <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
-        <mat-cell *matCellDef="let basicRundown">
-          {{ getDurationInMs(basicRundown) ? (getDurationInMs(basicRundown)! | timer: 'HH:mm:ss') : 'Not set' }}
-        </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="plannedEnd">
-        <mat-header-cell *matHeaderCellDef>Planned end</mat-header-cell>
-        <mat-cell *matCellDef="let basicRundown">
-          {{ getPlannedEnd(basicRundown) ? (getPlannedEnd(basicRundown) | date: 'HH:mm:ss') : 'Not set' }}
-        </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="modifiedAt">
-        <mat-header-cell *matHeaderCellDef i18n>rundown-overview-component.last-updated.label</mat-header-cell>
-        <mat-cell *matCellDef="let basicRundown">
-          {{ basicRundown.modifiedAt | date: 'HH:mm – d LLL YYYY' }}
-        </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="delete">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell class="c-delete-rundown-cell" *matCellDef="let basicRundown">
-          <sofie-icon-button
-            class="material-icons c-delete-rundown-icon"
-            [iconButton]="IconButton.TRASH_CAN"
-            [iconButtonSize]="IconButtonSize.S"
-            (click)="openDeletionDialog(basicRundown)"></sofie-icon-button>
-        </mat-cell>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="['status', 'name', 'plannedStart', 'duration', 'plannedEnd', 'modifiedAt', 'delete']"></mat-header-row>
-      <mat-row *matRowDef="let basicRundown; columns: ['status', 'name', 'plannedStart', 'duration', 'plannedEnd', 'modifiedAt', 'delete']"></mat-row>
-    </table>
-  </ng-template>
-</div>
+<sofie-page i18n-title title="rundown-overview.rundown-overview.title">
+    <sofie-notification-popup-container></sofie-notification-popup-container>
+    <sofie-table [entities]="basicRundowns" [headers]="headers" [rowTemplate]="tableRowTemplate">
+        <ng-template #tableRowTemplate let-basicRundown="tableRowData">
+            <td>
+                <sofie-pulsating-dot *ngIf="basicRundown.mode === RundownMode.ACTIVE" [color]="'ON_AIR'" [animationDurationSeconds]="3"></sofie-pulsating-dot>
+                <sofie-pulsating-dot *ngIf="basicRundown.mode === RundownMode.REHEARSAL" [color]="'REHEARSAL'" [animationDurationSeconds]="3"></sofie-pulsating-dot>
+            </td>
+            <td>
+                <a [routerLink]="['/', Paths.RUNDOWNS, basicRundown.id]">
+                    {{ basicRundown.name }}
+                </a>
+            </td>
+            <td>
+                {{ getPlannedStart(basicRundown) ? (getPlannedStart(basicRundown) | date: 'HH:mm:ss') : 'Not set' }}
+            </td>
+            <td>
+                {{ getDurationInMs(basicRundown) ? (getDurationInMs(basicRundown)! | timer: 'HH:mm:ss') : 'Not set' }}
+            </td>
+            <td>
+                {{ getPlannedEnd(basicRundown) ? (getPlannedEnd(basicRundown) | date: 'HH:mm:ss') : 'Not set' }}
+            </td>
+            <td>
+                {{ basicRundown.modifiedAt | date: 'HH:mm – d LLL YYYY' }}
+            </td>
+            <td>
+                <sofie-icon-button
+                        [icon]="Icon.TRASH_CAN"
+                        [iconSize]="IconSize.L"
+                        (click)="openDeletionDialog(basicRundown)"
+                >
+                </sofie-icon-button>
+            </td>
+        </ng-template>
+    </sofie-table>
+</sofie-page>

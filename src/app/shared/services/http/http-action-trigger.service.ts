@@ -7,7 +7,7 @@ import { environment } from '../../../../environments/environment'
 import { ActionTriggerParser } from '../../abstractions/action-trigger-parser.service'
 import { HttpErrorService } from './http-error.service'
 import { HttpResponse } from './http-response'
-import { KeyboardTriggerData } from '../../models/keyboard-trigger'
+import { KeyboardTriggerData } from '../../models/keyboard-trigger-data'
 
 const ACTION_TRIGGER_URL: string = `${environment.apiBaseUrl}/actionTriggers`
 

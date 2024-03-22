@@ -1,6 +1,0 @@
-export enum ActionsWithSelected {
-  DISABLE_SELECTION = 'DISABLE_SELECTION',
-  TOGGLE_SELECT = 'TOGGLE_SELECT',
-  EXPORT = 'EXPORT',
-  DELETE = 'DELETE',
-}

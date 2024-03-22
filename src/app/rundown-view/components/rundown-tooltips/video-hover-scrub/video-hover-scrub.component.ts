@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnDestroy, 
 import { Subject, takeUntil } from 'rxjs'
 import { ConfigurationService } from 'src/app/shared/services/configuration.service'
 import { StudioConfiguration } from 'src/app/shared/models/studio-configuration'
-import { IconButton, IconButtonSize } from 'src/app/shared/enums/icon-button'
+import { Icon, IconSize } from 'src/app/shared/enums/icon'
 
 @Component({
   selector: 'sofie-video-hover-scrub',
@@ -25,8 +25,8 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   private studioConfiguration: StudioConfiguration
   private readonly unsubscribe$: Subject<void> = new Subject()
 
-  protected readonly IconButton = IconButton
-  protected readonly IconButtonSize = IconButtonSize
+  protected readonly Icon = Icon
+  protected readonly IconSize = IconSize
 
   public previewUrl: string = ''
 

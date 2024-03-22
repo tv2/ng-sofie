@@ -1,8 +1,3 @@
-<div class="c-settings-page">
-  <div class="c-settings-page__header">
-    <h2 i18n>clear-cache.title</h2>
-  </div>
-  <div>
-    <button type="button" class="c-sofie-button c-sofie-button-primary" (click)="showClearCacheConfirmModal()" i18n>clear-cache.button.label</button>
-  </div>
-</div>
+<sofie-page i18n-title title="clear-cache.title">
+    <sofie-button (click)="showClearCacheConfirmModal()" i18n>clear-cache.button.label</sofie-button>
+</sofie-page>

@@ -192,7 +192,7 @@ export class KeyBindingFactory {
   }
 
   private setLaterPartAsNext(rundown: Rundown): void {
-    if (rundown.mode == RundownMode.INACTIVE) {
+    if (rundown.mode === RundownMode.INACTIVE) {
       return
     }
     try {

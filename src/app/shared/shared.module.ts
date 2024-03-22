@@ -30,8 +30,6 @@ import { ZodActionParser } from './services/zod-action-parser.service'
 import { Tv2ActionParser } from './abstractions/tv2-action-parser.service'
 import { ZodTv2ActionParser } from './services/zod-tv2-action-parser.service'
 import { RundownNavigationService } from './services/rundown-navigation.service'
-import { Tv2ActionPanelComponent } from './components/tv2-action-panel/tv2-action-panel.component'
-import { Tv2ActionCardComponent } from './components/tv2-action-card/tv2-action-card.component'
 import { TimerPipe } from './pipes/timer/timer.pipe'
 import { MatSelectModule } from '@angular/material/select'
 import { ActionTriggerService } from './abstractions/action-trigger.service'
@@ -49,9 +47,7 @@ import { HttpMediaService } from './services/http/http-media.service'
 import { MediaStateService } from './services/media-state.service'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { LoadingComponent } from './components/loading/loading.component'
-import { DropdownButtonComponent } from './components/dropdown-button/dropdown-button.component'
 import { MatMenuModule } from '@angular/material/menu'
-import { CustomCheckboxComponent } from './components/icon-checkbox/custom-checkbox.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ButtonComponent } from './components/button/button.component'
 import { FormatKeyboardKeysPipe } from './pipes/format-keyboard-keys.pipe'
@@ -65,6 +61,28 @@ import { NotificationPanelComponent } from './components/notification-panel/noti
 import { NotificationCardComponent } from './components/notification-card/notification-card.component'
 import { NotificationPopupContainerComponent } from './components/notification-popup-container/notification-popup-container.component'
 import { NotificationIconComponent } from './components/notification-icon/notification-icon.component'
+import { TranslateActionTypePipe } from './pipes/translate-action-type.pipe'
+import { CardComponent } from './components/card/card.component'
+import { TableComponent } from './components/table/table.component'
+import { ActionColorClassPipe } from './pipes/action-color.pipe'
+import { SidebarContainerComponent } from './components/sidebar-container/sidebar-container.component'
+import { TextInputComponent } from './components/text-input/text-input.component'
+import { NumberInputComponent } from './components/number-input/number-input.component'
+import { ButtonGroupComponent } from './components/button-group/button-group.component'
+import { MultiSelectComponent } from './components/multi-select/multi-select.component'
+import { DomFileDownloadService } from './services/dom-file-download.service'
+import { FileDownloadService } from './abstractions/file-download.service'
+import { JsonImportButtonComponent } from './components/json-import-button/json-import-button.component'
+import { JsonExportButtonComponent } from './components/json-export-button/json-export-button.component'
+import { CheckboxComponent } from './components/checkbox/checkbox.component'
+import { EmptyTableComponent } from './components/empty-table/empty-table.component'
+import { SelectComponent } from './components/select/select.component'
+import { KeyboardInputComponent } from './components/keyboard-input/keyboard-input.component'
+import { ActionBoxComponent } from './components/action-box/action-box.component'
+import { RoundedBoxComponent } from './components/rounded-box/rounded-box.component'
+import { RowComponent } from './components/row/row.component'
+import { ColumnComponent } from './components/column/column.component'
+import { PageComponent } from './components/page/page.component'
 import { TooltipDirective } from './directives/tooltip.directive'
 import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.component'
 
@@ -74,18 +92,16 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     ConfirmationDialogComponent,
     MinimumPipe,
     MaximumPipe,
+    TranslateActionTypePipe,
     FormatKeyboardKeysPipe,
     SofieLogoComponent,
     SpacerComponent,
     IconButtonComponent,
     DraggableShelfComponent,
     ContextMenuComponent,
-    Tv2ActionPanelComponent,
-    Tv2ActionCardComponent,
     TimerPipe,
     LoadingComponent,
-    DropdownButtonComponent,
-    CustomCheckboxComponent,
+    CheckboxComponent,
     ButtonComponent,
     TooltipComponent,
     NotificationPopupContainerComponent,
@@ -93,6 +109,24 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     NotificationPanelComponent,
     NotificationCardComponent,
     NotificationIconComponent,
+    CardComponent,
+    TableComponent,
+    RoundedBoxComponent,
+    ActionColorClassPipe,
+    SidebarContainerComponent,
+    TextInputComponent,
+    NumberInputComponent,
+    ButtonGroupComponent,
+    MultiSelectComponent,
+    JsonImportButtonComponent,
+    JsonExportButtonComponent,
+    EmptyTableComponent,
+    SelectComponent,
+    KeyboardInputComponent,
+    ActionBoxComponent,
+    RowComponent,
+    ColumnComponent,
+    PageComponent,
     TooltipDirective,
     TextTooltipComponent,
   ],
@@ -120,6 +154,7 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     CommonModule,
     HeaderComponent,
     MinimumPipe,
+    TranslateActionTypePipe,
     MaximumPipe,
     FormatKeyboardKeysPipe,
     TimerPipe,
@@ -128,11 +163,8 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     IconButtonComponent,
     DraggableShelfComponent,
     ContextMenuComponent,
-    Tv2ActionPanelComponent,
-    Tv2ActionCardComponent,
     LoadingComponent,
-    DropdownButtonComponent,
-    CustomCheckboxComponent,
+    CheckboxComponent,
     ReactiveFormsModule,
     FormsModule,
     ButtonComponent,
@@ -140,6 +172,23 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     NotificationPopupContainerComponent,
     NotificationPanelComponent,
     NotificationIconComponent,
+    CardComponent,
+    TableComponent,
+    RoundedBoxComponent,
+    ActionColorClassPipe,
+    ButtonGroupComponent,
+    MultiSelectComponent,
+    JsonImportButtonComponent,
+    JsonExportButtonComponent,
+    TextInputComponent,
+    NumberInputComponent,
+    SidebarContainerComponent,
+    EmptyTableComponent,
+    SelectComponent,
+    KeyboardInputComponent,
+    ActionBoxComponent,
+    RowComponent,
+    PageComponent,
     TooltipDirective,
     TextTooltipComponent,
   ],
@@ -155,6 +204,7 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     { provide: ConfigurationService, useClass: HttpConfigurationService },
     { provide: MediaService, useClass: HttpMediaService },
     { provide: SystemInformationService, useClass: HttpSystemInformationService },
+    { provide: FileDownloadService, useClass: DomFileDownloadService },
     HttpErrorService,
     HttpClientModule,
     DialogService,
@@ -164,6 +214,8 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     MediaStateService,
     RundownNavigationService,
     TimerPipe,
+    TranslateActionTypePipe,
+    FormatKeyboardKeysPipe,
   ],
 })
 export class SharedModule {}

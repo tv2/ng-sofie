@@ -3,9 +3,10 @@ import { RouterModule, Routes } from '@angular/router'
 import { SettingsComponent } from './components/settings/settings.component'
 import { ClearCacheComponent } from './components/clear-cache/clear-cache.component'
 
-export enum SettingsPaths {
+export enum SettingsPath {
   SETTINGS = '',
   KEYBOARD_MAPPINGS = 'keyboard-mappings',
+  SHELF = 'shelf',
   CLEAR_CACHE = 'clear-cache',
 }
 
@@ -14,9 +15,10 @@ const routes: Routes = [
     path: '',
     component: SettingsComponent,
     children: [
-      { path: SettingsPaths.SETTINGS, redirectTo: SettingsPaths.KEYBOARD_MAPPINGS, pathMatch: 'full' },
-      { path: SettingsPaths.KEYBOARD_MAPPINGS, loadChildren: () => import('./action-triggers/action-triggers.module').then(module => module.ActionTriggersModule) },
-      { path: SettingsPaths.CLEAR_CACHE, component: ClearCacheComponent },
+      { path: SettingsPath.SETTINGS, redirectTo: SettingsPath.KEYBOARD_MAPPINGS, pathMatch: 'full' },
+      { path: SettingsPath.KEYBOARD_MAPPINGS, loadChildren: () => import('./keyboard-mapping-settings/keyboard-mapping-settings.module').then(module => module.KeyboardMappingSettingsModule) },
+      { path: SettingsPath.SHELF, loadChildren: () => import('./shelf-settings/shelf-settings.module').then(module => module.ShelfSettingsModule) },
+      { path: SettingsPath.CLEAR_CACHE, component: ClearCacheComponent },
     ],
   },
 ]

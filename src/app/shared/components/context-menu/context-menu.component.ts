@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { ContextMenuOption } from '../../abstractions/context-menu-option'
+import { ContextMenuOption } from '../../models/context-menu-option'
 
 @Component({
   selector: 'sofie-context-menu',

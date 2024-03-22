@@ -2,10 +2,10 @@ import { Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angul
 import { Tv2PieceType } from 'src/app/core/enums/tv2-piece-type'
 import { Piece } from 'src/app/core/models/piece'
 import { Tv2Piece } from 'src/app/core/models/tv2-piece'
-import { IconButton, IconButtonSize } from '../../../../shared/enums/icon-button'
 import { TooltipContentField } from '../../../../shared/abstractions/tooltip-content-field'
 import { Tv2PieceTooltipContentFieldService } from '../../../services/tv2-piece-tooltip-content-field.service'
 import { Media } from '../../../../shared/services/media'
+import { Icon, IconSize } from '../../../../shared/enums/icon'
 import { TooltipMetadata } from '../../../../shared/directives/tooltip.directive'
 
 @Component({
@@ -14,6 +14,9 @@ import { TooltipMetadata } from '../../../../shared/directives/tooltip.directive
   styleUrls: ['./piece-tooltip.component.scss'],
 })
 export class PieceTooltipComponent implements OnChanges {
+  protected readonly Icon = Icon
+  protected readonly IconSize = IconSize
+
   @Input() public playedDurationForPartInMs?: number
   @Input() public isMediaUnavailable?: boolean
   @Input() public piece: Piece
@@ -24,10 +27,6 @@ export class PieceTooltipComponent implements OnChanges {
   public tooltipContentFields: TooltipContentField[]
   public Tv2PieceType = Tv2PieceType
   public shouldShowHoverScrub: boolean
-
-  protected readonly IconButtonSize = IconButtonSize
-  protected readonly IconButton = IconButton
-  protected readonly sourceUnavailableLabel: string = $localize`piece-tooltip.source-unavailable.label`
 
   constructor(private readonly tv2PieceTooltipContentFieldService: Tv2PieceTooltipContentFieldService) {}
 

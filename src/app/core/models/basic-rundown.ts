@@ -1,5 +1,5 @@
-import { RundownTiming } from './rundown-timing'
 import { RundownMode } from '../enums/rundown-mode'
+import { RundownTiming } from './rundown-timing'
 
 export interface BasicRundown {
   readonly id: string

@@ -14,5 +14,5 @@
 <sofie-timeline-flag [label]="part.isNext ? (isAutoNextStarted ? autoLabel : nextLabel) : undefined" [turnedOn]="part.isNext"></sofie-timeline-flag>
 
 <ng-template #contextMenu>
-  <sofie-part-context-menu *ngIf="isRundownActive" [part]="part" [rundownId]="rundownId"></sofie-part-context-menu>
+  <sofie-part-context-menu *ngIf="isRundownActiveOrRehearsal" [part]="part" [rundownId]="rundownId"></sofie-part-context-menu>
 </ng-template>

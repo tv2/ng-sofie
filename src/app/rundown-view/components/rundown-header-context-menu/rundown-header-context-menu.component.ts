@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { Rundown } from '../../../core/models/rundown'
 import { DialogService } from '../../../shared/services/dialog.service'
-import { ContextMenuOption } from '../../../shared/abstractions/context-menu-option'
+import { ContextMenuOption } from '../../../shared/models/context-menu-option'
 import { DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
 import { RundownMode } from '../../../core/enums/rundown-mode'
 
@@ -22,6 +22,10 @@ export class RundownHeaderContextMenuComponent {
     {
       label: 'Activate (On Air)',
       contextAction: (): void => this.openActivateRundownDialog(),
+    },
+    {
+      label: 'Rehearse',
+      contextAction: (): void => this.openRehearsalRundownDialog(),
     },
     {
       label: 'Reingest data',
@@ -48,8 +52,23 @@ export class RundownHeaderContextMenuComponent {
     },
   ]
 
+  private readonly contextMenuOptionsForRehearseRundown: ContextMenuOption[] = [
+    {
+      label: 'Activate (On Air)',
+      contextAction: (): void => this.openActivateRundownDialog(),
+    },
+    ...this.contextMenuOptionsForActiveRundown,
+  ]
+
   public get contextMenuOptions(): ContextMenuOption[] {
-    return this.rundown.mode === RundownMode.ACTIVE ? this.contextMenuOptionsForActiveRundown : this.contextMenuOptionsForInactiveRundown
+    switch (this.rundown.mode) {
+      case RundownMode.ACTIVE:
+        return this.contextMenuOptionsForActiveRundown
+      case RundownMode.REHEARSAL:
+        return this.contextMenuOptionsForRehearseRundown
+      default:
+        return this.contextMenuOptionsForInactiveRundown
+    }
   }
 
   constructor(
@@ -63,6 +82,14 @@ export class RundownHeaderContextMenuComponent {
 
   public activateRundown(): void {
     this.rundownService.activate(this.rundown.id).subscribe()
+  }
+
+  public openRehearsalRundownDialog(): void {
+    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to rehearse the Rundown?', 'Rehearse', () => this.rehearseRundown())
+  }
+
+  public rehearseRundown(): void {
+    this.rundownService.rehearse(this.rundown.id).subscribe()
   }
 
   public openDeactivateRundownDialog(): void {
