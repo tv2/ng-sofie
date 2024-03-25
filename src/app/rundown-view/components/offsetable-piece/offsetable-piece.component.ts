@@ -38,7 +38,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
 
   public media?: Media
 
-  public positionInVideoInMs: number
+  public positionInVideoInMs: number = 0
 
   private mediaSubscription?: Subscription
 
@@ -52,12 +52,9 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   }
 
   public updatePositionInVideo(tooltipMetadata: TooltipMetadata): void {
-    const videoLengthInPixels: number = this.widthInPixels
-    const positionInVideoInPercent: number = Math.round((tooltipMetadata.horizontalOffsetInPixels / videoLengthInPixels) * 100)
-
+    const positionInVideoInPercent: number = tooltipMetadata.horizontalOffsetInPixels / this.widthInPixels
     const videoDurationWithoutPlayedDurationInMs: number = Math.max(this.partDuration - this.playedDurationForPartInMs, 0)
-
-    this.positionInVideoInMs = Math.round(this.playedDurationForPartInMs + (videoDurationWithoutPlayedDurationInMs * positionInVideoInPercent) / 100)
+    this.positionInVideoInMs = Math.round(this.playedDurationForPartInMs + videoDurationWithoutPlayedDurationInMs * positionInVideoInPercent)
   }
 
   private updatePiecesFromPartChange(pieceChange: SimpleChange): void {

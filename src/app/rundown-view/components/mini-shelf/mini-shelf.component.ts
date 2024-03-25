@@ -149,7 +149,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   public updatePositionInVideo(tooltipMetadata: TooltipMetadata): void {
     const videoLengthInPixels: number = this.thumbnailRef.nativeElement.offsetWidth
-    const positionInVideoInPercent: number = Math.round((tooltipMetadata.horizontalOffsetInPixels / videoLengthInPixels) * 100)
-    this.positionInVideoInMs = Math.round((this.mediaDurationInMsWithoutPostroll / 100) * positionInVideoInPercent)
+    const positionInVideoInPercent: number = tooltipMetadata.horizontalOffsetInPixels / videoLengthInPixels
+    this.positionInVideoInMs = Math.round(this.mediaDurationInMsWithoutPostroll * positionInVideoInPercent)
   }
 }
