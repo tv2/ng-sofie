@@ -118,12 +118,12 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public scrollViewToSegment(segmentId: string): void {
-    const segmentsElement: HTMLElement | null = document.getElementById(segmentId)
-    if (!segmentsElement || this.isInsideViewport(segmentsElement)) {
+    const segmentElement: HTMLElement | null = document.getElementById(segmentId)
+    if (!segmentElement || this.isInsideViewport(segmentElement)) {
       return
     }
 
-    segmentsElement.scrollIntoView(SMOOTH_SCROLL_CONFIGURATION)
+    segmentElement.scrollIntoView(SMOOTH_SCROLL_CONFIGURATION)
   }
 
   public isInsideViewport(element: HTMLElement): boolean {
