@@ -1,16 +1,4 @@
-import {
-  ApplicationRef,
-  ComponentRef,
-  createComponent,
-  Directive,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnDestroy,
-  Output,
-  TemplateRef
-} from '@angular/core'
+import { ApplicationRef, ComponentRef, createComponent, Directive, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, TemplateRef } from '@angular/core'
 import { TooltipComponent } from '../components/tooltip/tooltip.component'
 
 const MINIMUM_HORIZONTAL_OFFSET_IN_PIXELS: number = 0
@@ -31,7 +19,7 @@ export class TooltipDirective implements OnDestroy {
 
   constructor(
     private readonly applicationRef: ApplicationRef,
-    private readonly triggerElement: ElementRef
+    private readonly triggerElementRef: ElementRef
   ) {}
 
   @HostListener('mouseenter', ['$event'])
@@ -57,7 +45,7 @@ export class TooltipDirective implements OnDestroy {
       return
     }
 
-    const verticalPositionInPixels: number = this.triggerElement.nativeElement.getBoundingClientRect().top ?? 0
+    const verticalPositionInPixels: number = this.triggerElementRef.nativeElement.getBoundingClientRect().top ?? 0
     const tooltipWidthInPixels: number = this.tooltipComponentRef.instance.getWidthInPixels()
 
     const horizontalOffsetInPixels: number = Math.max(event.clientX - Math.ceil(tooltipWidthInPixels / 2), MINIMUM_HORIZONTAL_OFFSET_IN_PIXELS)
