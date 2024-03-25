@@ -299,6 +299,9 @@
       <trans-unit id="8873287033928471003" datatype="html">
         <source>keyboard-mapping-settings-page.import-keyboard-mappings.failure</source>
       </trans-unit>
+      <trans-unit id="8291594485469554782" datatype="html">
+        <source>notification-icon.toggle-panel.tooltip</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

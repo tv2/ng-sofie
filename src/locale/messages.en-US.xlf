@@ -398,6 +398,10 @@
         <source>keyboard-mapping-settings-page.import-keyboard-mappings.failure</source>
         <target state="new">Something went wrong importing the keyboard shortcuts</target>
       </trans-unit>
+      <trans-unit id="8291594485469554782" datatype="html">
+        <source>notification-icon.toggle-panel.tooltip</source>
+        <target state="new">Click to toggle notification panel</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

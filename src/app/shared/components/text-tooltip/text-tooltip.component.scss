@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  background: var(--rundown-scrollbar-color);
+  color: var(--light-gray-color);
+  padding: 4px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  box-shadow: 0 0 1px var(--dark-gray-color);
+  white-space: nowrap;
+}

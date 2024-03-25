@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
 import { StudioConfiguration } from '../../../shared/models/studio-configuration'
@@ -9,6 +9,7 @@ import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { RundownStateService } from '../../../core/services/rundown-state.service'
 import { Tv2Part } from '../../../core/models/tv2-part'
+import { TooltipMetadata } from '../../../shared/directives/tooltip.directive'
 
 @Component({
   selector: 'sofie-mini-shelf',
@@ -18,6 +19,11 @@ import { Tv2Part } from '../../../core/models/tv2-part'
 export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction?: Tv2VideoClipAction
+
+  @ViewChild('thumbnail')
+  public thumbnailRef: ElementRef
+
+  public positionInVideoInMs: number = 0
 
   private actionIdForOnAirPart?: string
   private actionIdForNextPart?: string
@@ -139,5 +145,11 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   public get mediaFilename(): string {
     return this.segment.metadata?.miniShelfVideoClipFile ?? ''
+  }
+
+  public updatePositionInVideo(tooltipMetadata: TooltipMetadata): void {
+    const videoLengthInPixels: number = this.thumbnailRef.nativeElement.offsetWidth
+    const positionInVideoInPercent: number = tooltipMetadata.horizontalOffsetInPixels / videoLengthInPixels
+    this.positionInVideoInMs = Math.round(this.mediaDurationInMsWithoutPostroll * positionInVideoInPercent)
   }
 }

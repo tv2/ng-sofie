@@ -398,6 +398,10 @@
         <source>keyboard-mapping-settings-page.import-keyboard-mappings.failure</source>
         <target state="new">Noget gik galt under importeringen af genveje</target>
       </trans-unit>
+      <trans-unit id="8291594485469554782" datatype="html">
+        <source>notification-icon.toggle-panel.tooltip</source>
+        <target state="new">Klik for at vise/skjule notifikationspanelet</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
