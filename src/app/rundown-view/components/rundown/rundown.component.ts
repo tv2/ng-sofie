@@ -16,13 +16,12 @@ import { PartEvent } from '../../../core/models/rundown-event'
 import { RundownMode } from '../../../core/enums/rundown-mode'
 import { RundownEventType } from '../../../core/models/rundown-event-type'
 
+const DEBOUNCE_EVENT_THRESHOLD_IN_MS: number = 100
 const SMOOTH_SCROLL_CONFIGURATION: ScrollIntoViewOptions = {
   behavior: 'smooth',
   block: 'nearest',
   inline: 'nearest',
 }
-
-const DEBOUNCE_EVENT_THRESHOLD_IN_MS: number = 100
 
 @Component({
   selector: 'sofie-rundown',
@@ -45,6 +44,8 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private miniShelfSegments: Segment[] = []
   protected miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
   private rundownActionsSubscription: Subscription
+  private debounceTimer?: NodeJS.Timeout
+  private highestPriorityEvent?: PartEvent
 
   @ViewChild('segmentList')
   public segmentListElement: ElementRef<HTMLCanvasElement>
@@ -78,9 +79,6 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownTake(event => this.prioritizedDebounce(event))) // this.scrollViewToSegment(event.segmentId)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(event => this.prioritizedDebounce(event)))
   }
-
-  private debounceTimer?: NodeJS.Timeout
-  private highestPriorityEvent?: PartEvent
 
   private prioritizedDebounce(event: PartEvent): void {
     this.startDebounceTimer()

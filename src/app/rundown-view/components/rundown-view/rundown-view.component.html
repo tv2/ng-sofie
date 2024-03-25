@@ -10,7 +10,7 @@
         <sofie-on-air-details-panel [rundown]="rundown"></sofie-on-air-details-panel>
         <div class="rundown-viewport">
            <sofie-notification-popup-container *ngIf="shouldShowPopupNotifications"></sofie-notification-popup-container>
-           <sofie-rundown id="{{rundown.id}}" [rundown]="rundown"></sofie-rundown>
+           <sofie-rundown [rundown]="rundown"></sofie-rundown>
            <sofie-notification-panel></sofie-notification-panel>
         </div>
         <sofie-draggable-shelf localStorageKey="producer-shelf">
