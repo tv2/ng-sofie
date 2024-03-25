@@ -1,25 +1,23 @@
 <div
-  class="c-mini-shelf"
+  class="mini-shelf"
   [ngClass]="{ 'on-air': shouldShowOnAirBorder(), 'next': shouldShowNextBorder() }"
   [title]=segment.name
   (click)="executeAction()"
   sofieTooltip
   [sofieTooltipTemplate]="miniShelfTooltip"
-  (tooltipMetadataChange)="setTooltipMetadata($event)"
+  (tooltipMetadataChange)="updatePositionInVideo($event)"
 >
-    <div
-      class="c-mini-shelf__media-container"
-      [ngClass]="{'media-unavailable': isMediaUnavailable}"
-    >
+    <div [ngClass]="{'media-unavailable': isMediaUnavailable}">
         <img
-            class="c-mini-shelf__thumbnail"
+            #thumbnail
+            class="thumbnail"
             [src]=mediaPreviewUrl
             [alt]="segment.name? segment.name : 'Title is not available.'"
             (error)=handleMissingImage($event)
         />
-        <div class="c-mini-shelf__note">
-            <span class="c-mini-shelf__title">{{ getSanitizedTitle() | uppercase }}</span>
-            <span class="c-mini-shelf__duration">{{ mediaDurationInMsWithoutPostroll | timer : 'HH?:mm:ss' }}</span>
+        <div class="note">
+            <span class="title">{{ getSanitizedTitle() | uppercase }}</span>
+            <span class="duration">{{ mediaDurationInMsWithoutPostroll | timer : 'HH?:mm:ss' }}</span>
         </div>
     </div>
 </div>
@@ -27,8 +25,7 @@
 <ng-template #miniShelfTooltip>
     <sofie-video-hover-scrub
             [filename]="mediaFilename"
-            [videoLengthInPixels]="tooltipMetadata?.hostElementWidth ?? 0 "
-            [durationInMs]="mediaDurationInMsWithoutPostroll"
-            [positionInVideoInPixels]="tooltipMetadata?.horizontalOffsetInPixels ?? 0">
+            [positionInVideoInMs]="positionInVideoInMs"
+    >
     </sofie-video-hover-scrub>
 </ng-template>

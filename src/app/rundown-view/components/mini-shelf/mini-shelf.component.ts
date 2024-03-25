@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core'
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { ConfigurationService } from '../../../shared/services/configuration.service'
 import { StudioConfiguration } from '../../../shared/models/studio-configuration'
@@ -20,7 +20,10 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction?: Tv2VideoClipAction
 
-  public tooltipMetadata?: TooltipMetadata
+  @ViewChild('thumbnail')
+  public thumbnailRef: ElementRef
+
+  public positionInVideoInMs: number = 0
 
   private actionIdForOnAirPart?: string
   private actionIdForNextPart?: string
@@ -36,8 +39,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     private readonly actionService: ActionService,
     private readonly configurationService: ConfigurationService,
     private readonly mediaStateService: MediaStateService,
-    private readonly rundownStateService: RundownStateService,
-    private readonly elementRef: ElementRef
+    private readonly rundownStateService: RundownStateService
   ) {}
 
   public ngOnInit(): void {
@@ -145,10 +147,9 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
     return this.segment.metadata?.miniShelfVideoClipFile ?? ''
   }
 
-  public setTooltipMetadata(tooltipMetadata: TooltipMetadata): void {
-    this.tooltipMetadata = {
-      horizontalOffsetInPixels: tooltipMetadata.horizontalOffsetInPixels,
-      hostElementWidth: this.elementRef.nativeElement.offsetWidth, // We need to set the width here because we need the width of the Piece displayed in the Timeline.
-    }
+  public updatePositionInVideo(tooltipMetadata: TooltipMetadata): void {
+    const videoLengthInPixels: number = this.thumbnailRef.nativeElement.offsetWidth
+    const positionInVideoInPercent: number = Math.round((tooltipMetadata.horizontalOffsetInPixels / videoLengthInPixels) * 100)
+    this.positionInVideoInMs = Math.round((this.mediaDurationInMsWithoutPostroll / 100) * positionInVideoInPercent)
   }
 }

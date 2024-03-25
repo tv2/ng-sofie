@@ -1,10 +1,7 @@
 <div class="tooltip" *ngIf="tooltipContentFields.length > 0">
   <sofie-video-hover-scrub *ngIf="shouldShowHoverScrub && !isMediaUnavailable"
                            [filename]="media?.sourceName ?? piece.name"
-                           [playedDurationInMs]="playedDurationForPartInMs"
-                           [videoLengthInPixels]="tooltipMetadata?.hostElementWidth ?? 0"
-                           [positionInVideoInPixels]="tooltipMetadata?.horizontalOffsetInPixels ?? 0"
-                           [durationInMs]="durationInMs"
+                           [positionInVideoInMs]="positionInVideoInMs"
                            [isJingle]="tv2PieceType === Tv2PieceType.JINGLE">
   </sofie-video-hover-scrub>
 

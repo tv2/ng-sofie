@@ -25,7 +25,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   public partDuration: number
 
   @Input()
-  public playedDurationForPartInMs: number
+  public playedDurationForPartInMs: number = 0
 
   @Input()
   public prePlayheadDurationInMs: number
@@ -38,7 +38,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
 
   public media?: Media
 
-  public tooltipMetadata: TooltipMetadata
+  public positionInVideoInMs: number
 
   private mediaSubscription?: Subscription
 
@@ -51,11 +51,13 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     }
   }
 
-  public setTooltipMetadata(tooltipMetadata: TooltipMetadata): void {
-    this.tooltipMetadata = {
-      horizontalOffsetInPixels: tooltipMetadata.horizontalOffsetInPixels,
-      hostElementWidth: this.widthInPixels, // We need to set the width here because we need the width of the Piece displayed in the Timeline.
-    }
+  public updatePositionInVideo(tooltipMetadata: TooltipMetadata): void {
+    const videoLengthInPixels: number = this.widthInPixels
+    const positionInVideoInPercent: number = Math.round((tooltipMetadata.horizontalOffsetInPixels / videoLengthInPixels) * 100)
+
+    const videoDurationWithoutPlayedDurationInMs: number = Math.max(this.partDuration - this.playedDurationForPartInMs, 0)
+
+    this.positionInVideoInMs = Math.round(this.playedDurationForPartInMs + (videoDurationWithoutPlayedDurationInMs * positionInVideoInPercent) / 100)
   }
 
   private updatePiecesFromPartChange(pieceChange: SimpleChange): void {

@@ -6,7 +6,6 @@ import { TooltipContentField } from '../../../../shared/abstractions/tooltip-con
 import { Tv2PieceTooltipContentFieldService } from '../../../services/tv2-piece-tooltip-content-field.service'
 import { Media } from '../../../../shared/services/media'
 import { Icon, IconSize } from '../../../../shared/enums/icon'
-import { TooltipMetadata } from '../../../../shared/directives/tooltip.directive'
 
 @Component({
   selector: 'sofie-piece-tooltip',
@@ -17,12 +16,11 @@ export class PieceTooltipComponent implements OnChanges {
   protected readonly Icon = Icon
   protected readonly IconSize = IconSize
 
-  @Input() public playedDurationForPartInMs?: number
   @Input() public isMediaUnavailable?: boolean
   @Input() public piece: Piece
   @Input() public durationInMs: number
   @Input() public media?: Media
-  @Input() public tooltipMetadata?: TooltipMetadata
+  @Input() public positionInVideoInMs: number = 0
 
   public tooltipContentFields: TooltipContentField[]
   public Tv2PieceType = Tv2PieceType

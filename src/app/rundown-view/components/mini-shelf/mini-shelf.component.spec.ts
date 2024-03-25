@@ -34,7 +34,7 @@ describe('MiniShelfComponent', () => {
 
     fixture.detectChanges()
 
-    const titleElement: HTMLElement = fixture.nativeElement.querySelector('span.c-mini-shelf__title')
+    const titleElement: HTMLElement = fixture.nativeElement.querySelector('span.title')
 
     const expectedTitle: string = segmentName.toUpperCase()
 
@@ -57,7 +57,7 @@ describe('MiniShelfComponent', () => {
 
     fixture.detectChanges()
 
-    const durationElement: HTMLElement = fixture.nativeElement.querySelector('span.c-mini-shelf__duration')
+    const durationElement: HTMLElement = fixture.nativeElement.querySelector('span.duration')
 
     expect(durationElement?.textContent).toEqual('01:23:45')
   })
@@ -78,7 +78,7 @@ describe('MiniShelfComponent', () => {
 
     fixture.detectChanges()
 
-    const durationElement: HTMLElement = fixture.nativeElement.querySelector('span.c-mini-shelf__duration')
+    const durationElement: HTMLElement = fixture.nativeElement.querySelector('span.duration')
 
     expect(durationElement?.textContent).toEqual('00:01')
   })
@@ -99,7 +99,7 @@ describe('MiniShelfComponent', () => {
 
     fixture.detectChanges()
 
-    const durationElement: HTMLElement = fixture.nativeElement.querySelector('span.c-mini-shelf__duration')
+    const durationElement: HTMLElement = fixture.nativeElement.querySelector('span.duration')
 
     expect(durationElement?.textContent).toEqual('00:00')
   })
@@ -120,7 +120,7 @@ describe('MiniShelfComponent', () => {
 
     fixture.detectChanges()
 
-    const thumbnailElement: HTMLElement = fixture.nativeElement.querySelector('img.c-mini-shelf__thumbnail')
+    const thumbnailElement: HTMLElement = fixture.nativeElement.querySelector('img.thumbnail')
 
     expect(thumbnailElement?.getAttribute('src')).toEqual('http://media.preview.url/media/thumbnail/video')
   })
@@ -143,7 +143,7 @@ describe('MiniShelfComponent', () => {
 
     fixture.detectChanges()
 
-    const componentElement: HTMLElement = fixture.nativeElement.querySelector('div.c-mini-shelf')
+    const componentElement: HTMLElement = fixture.nativeElement.querySelector('div.mini-shelf')
 
     expect(componentElement).toBeTruthy()
 
@@ -180,7 +180,7 @@ describe('MiniShelfComponent', () => {
 
     fixture.detectChanges()
 
-    const thumbnailElement: HTMLImageElement = fixture.nativeElement.querySelector('div.c-mini-shelf__media-container')
+    const thumbnailElement: HTMLImageElement = fixture.nativeElement.querySelector('div.media-unavailable')
 
     expect(thumbnailElement.classList.contains('media-unavailable')).toBe(true)
   })

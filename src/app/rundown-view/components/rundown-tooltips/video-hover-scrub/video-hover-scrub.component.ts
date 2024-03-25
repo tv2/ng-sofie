@@ -11,11 +11,8 @@ import { Icon, IconSize } from 'src/app/shared/enums/icon'
 })
 export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public filename: string
-  @Input() public videoLengthInPixels: number
-  @Input() public positionInVideoInPixels: number
-  @Input() public playedDurationInMs?: number
-  @Input() public durationInMs: number
   @Input() public isJingle?: boolean
+  @Input() public positionInVideoInMs: number
 
   public currentVideoTimeInMs: number
 
@@ -48,29 +45,13 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (!changes['positionInVideoInPixels']) {
+    if (!changes['positionInVideoInMs']) {
       return
     }
-    this.setNewTimeForVideoElement()
-  }
-
-  private setNewTimeForVideoElement(): void {
     if (!this.videoElementRef?.nativeElement) {
       return
     }
-
-    this.currentVideoTimeInMs = this.getCurrentTimeInVideo()
-    this.videoElementRef.nativeElement.currentTime = this.currentVideoTimeInMs / 1000
-  }
-
-  private getCurrentTimeInVideo(): number {
-    const playedDurationInMs: number = this.playedDurationInMs ?? 0
-    const videoDurationWithoutPlayedDuration: number = this.durationInMs - playedDurationInMs
-    return videoDurationWithoutPlayedDuration > 0 ? Math.round(playedDurationInMs + (videoDurationWithoutPlayedDuration / 100) * this.getPositionInVideoInPercent()) : playedDurationInMs
-  }
-
-  private getPositionInVideoInPercent(): number {
-    return Math.round((this.positionInVideoInPixels / this.videoLengthInPixels) * 100)
+    this.videoElementRef.nativeElement.currentTime = this.positionInVideoInMs / 1000
   }
 
   public ngOnDestroy(): void {

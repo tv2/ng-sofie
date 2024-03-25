@@ -5,7 +5,6 @@ const MINIMUM_HORIZONTAL_OFFSET_IN_PIXELS: number = 0
 
 export interface TooltipMetadata {
   horizontalOffsetInPixels: number
-  hostElementWidth?: number
 }
 
 @Directive({
@@ -50,8 +49,8 @@ export class TooltipDirective implements OnDestroy {
     const maxHorizontalOffsetInPixes: number = window.innerWidth - tooltipWidthInPixels
     const leftPositionInPixels: number = Math.min(horizontalOffsetInPixels, maxHorizontalOffsetInPixes)
 
-    this.tooltipComponentRef.instance.topPosition = verticalPositionInPixels
-    this.tooltipComponentRef.instance.leftPosition = leftPositionInPixels
+    this.tooltipComponentRef.instance.topPositionInPixels = verticalPositionInPixels
+    this.tooltipComponentRef.instance.leftPositionInPixels = leftPositionInPixels
     this.tooltipComponentRef.changeDetectorRef.detectChanges()
 
     this.tooltipMetadataChange.emit({
