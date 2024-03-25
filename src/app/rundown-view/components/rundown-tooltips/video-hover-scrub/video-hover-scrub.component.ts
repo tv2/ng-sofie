@@ -22,7 +22,6 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('videoElementRef')
   public videoElementRef: ElementRef<HTMLVideoElement>
 
-  private studioConfiguration: StudioConfiguration
   private readonly unsubscribe$: Subject<void> = new Subject()
 
   protected readonly Icon = Icon
@@ -39,10 +38,13 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
     this.configurationService
       .getStudioConfiguration()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((studioConfiguration: StudioConfiguration) => {
-        this.studioConfiguration = studioConfiguration
-        this.setVideoPreviewUrl()
-      })
+      .subscribe((studioConfiguration: StudioConfiguration) => this.setVideoPreviewUrl(studioConfiguration))
+  }
+
+  private setVideoPreviewUrl(studioConfiguration: StudioConfiguration): void {
+    const baseMediaUrl: string = `${studioConfiguration.settings.mediaPreviewUrl}/media/preview/`
+    this.previewUrl = this.isJingle ? `${baseMediaUrl}${studioConfiguration.blueprintConfiguration.JingleFolder}/${this.filename}` : `${baseMediaUrl}${this.filename}`
+    this.changeDetectorRef.detectChanges()
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -56,31 +58,19 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.videoElementRef?.nativeElement) {
       return
     }
-    if (this.positionInVideoInPixels === 0) {
-      return
-    }
 
     this.currentVideoTimeInMs = this.getCurrentTimeInVideo()
     this.videoElementRef.nativeElement.currentTime = this.currentVideoTimeInMs / 1000
   }
 
   private getCurrentTimeInVideo(): number {
-    const playedDurationInMs: number = this.playedDurationInMs ? this.playedDurationInMs : 0
+    const playedDurationInMs: number = this.playedDurationInMs ?? 0
     const videoDurationWithoutPlayedDuration: number = this.durationInMs - playedDurationInMs
     return videoDurationWithoutPlayedDuration > 0 ? Math.round(playedDurationInMs + (videoDurationWithoutPlayedDuration / 100) * this.getPositionInVideoInPercent()) : playedDurationInMs
   }
 
   private getPositionInVideoInPercent(): number {
     return Math.round((this.positionInVideoInPixels / this.videoLengthInPixels) * 100)
-  }
-
-  public setVideoPreviewUrl(): void {
-    if (!this.studioConfiguration) {
-      return
-    }
-    const baseMediaUrl: string = `${this.studioConfiguration.settings.mediaPreviewUrl}/media/preview/`
-    this.previewUrl = this.isJingle ? `${baseMediaUrl}${this.studioConfiguration.blueprintConfiguration.JingleFolder}/${this.filename}` : `${baseMediaUrl}${this.filename}`
-    this.changeDetectorRef.detectChanges()
   }
 
   public ngOnDestroy(): void {

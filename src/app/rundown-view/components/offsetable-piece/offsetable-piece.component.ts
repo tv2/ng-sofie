@@ -53,8 +53,8 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
 
   public setTooltipMetadata(tooltipMetadata: TooltipMetadata): void {
     this.tooltipMetadata = {
-      xPosition: tooltipMetadata.xPosition,
-      width: this.widthInPixels, // We need to set the width here because we need the width of the Piece displayed in the Timeline.
+      horizontalOffsetInPixels: tooltipMetadata.horizontalOffsetInPixels,
+      hostElementWidth: this.widthInPixels, // We need to set the width here because we need the width of the Piece displayed in the Timeline.
     }
   }
 

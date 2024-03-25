@@ -2,8 +2,8 @@ import { ApplicationRef, ComponentRef, createComponent, Directive, EventEmitter,
 import { TooltipComponent } from '../components/tooltip/tooltip.component'
 
 export interface TooltipMetadata {
-  xPosition: number
-  width?: number
+  horizontalOffsetInPixels: number
+  hostElementWidth?: number
 }
 
 @Directive({
@@ -11,7 +11,6 @@ export interface TooltipMetadata {
 })
 export class TooltipDirective implements OnDestroy {
   @Input() public sofieTooltip: TemplateRef<unknown>
-  @Input() public shouldFollowCursor: boolean = false
 
   @Output() public tooltipMetadata: EventEmitter<TooltipMetadata> = new EventEmitter()
 
@@ -48,7 +47,7 @@ export class TooltipDirective implements OnDestroy {
     this.tooltipComponentRef.instance.updatePosition(top, left)
 
     this.tooltipMetadata.emit({
-      xPosition: event.offsetX,
+      horizontalOffsetInPixels: event.offsetX,
     })
   }
 

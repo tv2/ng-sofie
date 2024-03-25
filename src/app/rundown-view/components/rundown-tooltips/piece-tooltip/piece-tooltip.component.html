@@ -2,8 +2,8 @@
   <sofie-video-hover-scrub *ngIf="shouldShowHoverScrub && !isMediaUnavailable"
                            [filename]="media?.sourceName ?? piece.name"
                            [playedDurationInMs]="playedDurationForPartInMs"
-                           [videoLengthInPixels]="tooltipMetadata ? tooltipMetadata.width ?? 0 : 0"
-                           [positionInVideoInPixels]="tooltipMetadata ? tooltipMetadata.xPosition : 0"
+                           [videoLengthInPixels]="tooltipMetadata?.hostElementWidth ?? 0"
+                           [positionInVideoInPixels]="tooltipMetadata?.horizontalOffsetInPixels ?? 0"
                            [durationInMs]="durationInMs"
                            [isJingle]="tv2PieceType === Tv2PieceType.JINGLE">
   </sofie-video-hover-scrub>

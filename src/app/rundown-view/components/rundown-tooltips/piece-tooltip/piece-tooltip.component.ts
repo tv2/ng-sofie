@@ -21,8 +21,8 @@ export class PieceTooltipComponent implements OnChanges {
   @Input() public isMediaUnavailable?: boolean
   @Input() public piece: Piece
   @Input() public durationInMs: number
-  @Input() public media: Media | undefined
-  @Input() public tooltipMetadata: TooltipMetadata
+  @Input() public media?: Media
+  @Input() public tooltipMetadata?: TooltipMetadata
 
   public tooltipContentFields: TooltipContentField[]
   public Tv2PieceType = Tv2PieceType

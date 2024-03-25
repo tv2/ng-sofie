@@ -20,7 +20,7 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public segment: Segment
   @Input() public videoClipAction?: Tv2VideoClipAction
 
-  public tooltipMetadata: TooltipMetadata
+  public tooltipMetadata?: TooltipMetadata
 
   private actionIdForOnAirPart?: string
   private actionIdForNextPart?: string
@@ -147,8 +147,8 @@ export class MiniShelfComponent implements OnInit, OnDestroy, OnChanges {
 
   public setTooltipMetadata(tooltipMetadata: TooltipMetadata): void {
     this.tooltipMetadata = {
-      xPosition: tooltipMetadata.xPosition,
-      width: this.elementRef.nativeElement.offsetWidth, // We need to set the width here because we need the width of the Piece displayed in the Timeline.
+      horizontalOffsetInPixels: tooltipMetadata.horizontalOffsetInPixels,
+      hostElementWidth: this.elementRef.nativeElement.offsetWidth, // We need to set the width here because we need the width of the Piece displayed in the Timeline.
     }
   }
 }

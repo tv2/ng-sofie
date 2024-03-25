@@ -26,8 +26,8 @@
 <ng-template #miniShelfTooltip>
     <sofie-video-hover-scrub
             [filename]="mediaFilename"
-            [videoLengthInPixels]="tooltipMetadata ? tooltipMetadata.width ?? 0 : 0"
+            [videoLengthInPixels]="tooltipMetadata?.hostElementWidth ?? 0 "
             [durationInMs]="mediaDurationInMsWithoutPostroll"
-            [positionInVideoInPixels]="tooltipMetadata ? tooltipMetadata.xPosition : 0">
+            [positionInVideoInPixels]="tooltipMetadata?.horizontalOffsetInPixels ?? 0">
     </sofie-video-hover-scrub>
 </ng-template>
