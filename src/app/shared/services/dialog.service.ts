@@ -11,13 +11,13 @@ import { RundownService } from '../../core/abstractions/rundown.service'
 
 @Injectable()
 export class DialogService {
-  private readonly activationOkButtonText: string = $localize`Activate`
-  private readonly activationMessage: string = $localize`Are you sure you want to activate the Rundown?`
-  private readonly activationWarningMessage: string = $localize`Are you sure you want to activate the Rundown?\n\nThis will deactivate the Rundown`
+  private readonly activationOkButtonText: string = $localize`dialog.button.activate`
+  private readonly activationMessage: string = $localize`dialog.message.activation`
+  private readonly activationWarningMessage: string = $localize`dialog.message.activation.warning`
 
-  private readonly rehearseOkButtonText: string = $localize`Rehearse`
-  private readonly rehearseMessage: string = $localize`Are you sure you want to rehearse the Rundown?`
-  private readonly rehearseWarningMessage: string = $localize`Are you sure you want to rehearse the Rundown?\n\nThis will deactivate the Rundown`
+  private readonly rehearseOkButtonText: string = $localize`dialog.button.rehearse`
+  private readonly rehearseMessage: string = $localize`dialog.message.rehearse`
+  private readonly rehearseWarningMessage: string = $localize`dialog.message.rehearse.warning`
 
   constructor(
     public dialog: MatDialog,

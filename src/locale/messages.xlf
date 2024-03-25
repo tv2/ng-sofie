@@ -299,26 +299,26 @@
       <trans-unit id="1079134994533846284" datatype="html">
         <source>Lost connection to backend. Attempting to reconnect...</source>
       </trans-unit>
-      <trans-unit id="9065474081840372723" datatype="html">
-        <source>Are you sure you want to activate the Rundown? This will deactivate the Rundown</source>
-      </trans-unit>
-      <trans-unit id="4640631323333751497" datatype="html">
-        <source>Are you sure you want to rehearse the Rundown?</source>
-      </trans-unit>
-      <trans-unit id="4759723562137600498" datatype="html">
-        <source>Activate</source>
-      </trans-unit>
       <trans-unit id="672684067026346719" datatype="html">
         <source>dialog.cancel-button:Cancel</source>
       </trans-unit>
-      <trans-unit id="6755480681760618341" datatype="html">
-        <source>Are you sure you want to activate the Rundown?</source>
+      <trans-unit id="6184838723314474094" datatype="html">
+        <source>dialog.button.rehearse</source>
       </trans-unit>
-      <trans-unit id="7719481586544095649" datatype="html">
-        <source>Rehearse</source>
+      <trans-unit id="4104115551404451182" datatype="html">
+        <source>dialog.button.activate</source>
       </trans-unit>
-      <trans-unit id="1294577662379256744" datatype="html">
-        <source>Are you sure you want to rehearse the Rundown? This will deactivate the Rundown</source>
+      <trans-unit id="2994423491366084246" datatype="html">
+        <source>dialog.message.rehearse.warning</source>
+      </trans-unit>
+      <trans-unit id="3626510894964414637" datatype="html">
+        <source>dialog.message.activation.warning</source>
+      </trans-unit>
+      <trans-unit id="5333590585565329092" datatype="html">
+        <source>dialog.message.activation</source>
+      </trans-unit>
+      <trans-unit id="6370990329720066506" datatype="html">
+        <source>dialog.message.rehearse</source>
       </trans-unit>
     </body>
   </file>
