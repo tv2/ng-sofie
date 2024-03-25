@@ -12,7 +12,7 @@ export interface TooltipMetadata {
   selector: '[sofieTooltip]',
 })
 export class TooltipDirective implements OnDestroy {
-  @Input() public sofieTooltip: TemplateRef<unknown>
+  @Input() public sofieTooltipTemplate: TemplateRef<unknown>
 
   @Output() public tooltipMetadataChange: EventEmitter<TooltipMetadata> = new EventEmitter()
 
@@ -31,7 +31,7 @@ export class TooltipDirective implements OnDestroy {
       environmentInjector: this.applicationRef.injector,
     })
 
-    this.tooltipComponentRef.instance.templateRef = this.sofieTooltip
+    this.tooltipComponentRef.instance.templateRef = this.sofieTooltipTemplate
     this.tooltipComponentRef.changeDetectorRef.detectChanges()
 
     document.body.append(this.tooltipComponentRef.location.nativeElement)
@@ -43,14 +43,14 @@ export class TooltipDirective implements OnDestroy {
       return
     }
 
-    const topPositionInPixels: number = event.clientY - event.offsetY
+    const verticalPositionInPixels: number = event.clientY - event.offsetY
     const tooltipWidthInPixels: number = this.tooltipComponentRef.instance.getWidthInPixels()
 
     const horizontalOffsetInPixels: number = Math.max(event.clientX - Math.ceil(tooltipWidthInPixels / 2), MINIMUM_HORIZONTAL_OFFSET_IN_PIXELS)
     const maxHorizontalOffsetInPixes: number = window.innerWidth - tooltipWidthInPixels
     const leftPositionInPixels: number = Math.min(horizontalOffsetInPixels, maxHorizontalOffsetInPixes)
 
-    this.tooltipComponentRef.instance.topPosition = topPositionInPixels
+    this.tooltipComponentRef.instance.topPosition = verticalPositionInPixels
     this.tooltipComponentRef.instance.leftPosition = leftPositionInPixels
     this.tooltipComponentRef.changeDetectorRef.detectChanges()
 

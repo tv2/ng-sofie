@@ -3,7 +3,8 @@
   [ngClass]="{ 'on-air': shouldShowOnAirBorder(), 'next': shouldShowNextBorder() }"
   [title]=segment.name
   (click)="executeAction()"
-  [sofieTooltip]="miniShelfTooltip"
+  sofieTooltip
+  [sofieTooltipTemplate]="miniShelfTooltip"
   (tooltipMetadataChange)="setTooltipMetadata($event)"
 >
     <div

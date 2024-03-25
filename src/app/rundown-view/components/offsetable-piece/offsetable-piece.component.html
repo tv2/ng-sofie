@@ -3,7 +3,8 @@
   [style.width.px]="widthInPixels"
   [ngClass]="pieceTypeModifierClass"
   [class.media-unavailable]="isMediaUnavailable"
-  [sofieTooltip]="pieceTooltip"
+  sofieTooltip
+  [sofieTooltipTemplate]="pieceTooltip"
   (tooltipMetadataChange)="setTooltipMetadata($event)"
 >
   <div class="label" [style.margin-left.px]="labelOffsetInPixels">
