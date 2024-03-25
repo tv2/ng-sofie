@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core'
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Part } from '../../../core/models/part'
 import { Tv2PieceGroupService } from '../../services/tv2-piece-group.service'
@@ -40,7 +40,7 @@ export class OffsetablePartComponent implements OnChanges {
   public rundownId: string
 
   @Input()
-  public isRundownActive: boolean
+  public isRundownActiveOrRehearsal: boolean
 
   public piecesGroupedByOutputLayer: Record<Tv2OutputLayer, Piece[]> = {} as Record<Tv2OutputLayer, Piece[]>
   public readonly autoLabel: string = $localize`global.auto.label`
@@ -75,10 +75,25 @@ export class OffsetablePartComponent implements OnChanges {
     return this.partEntityService.getDuration(this.part, Date.now())
   }
 
-  public ngOnChanges(): void {
-    const visiblePieces: Piece[] = this.getVisiblePieces()
-    // TODO: How do we convert this correctly from Piece to Tv2Piece?
-    this.piecesGroupedByOutputLayer = this.pieceGroupService.groupByOutputLayer(visiblePieces as Tv2Piece[])
+  public ngOnChanges(changes: SimpleChanges): void {
+    const partChange: SimpleChange | undefined = changes['part']
+    if (partChange) {
+      if (partChange.previousValue?.pieces === partChange.currentValue?.pieces) {
+        return
+      }
+      const visiblePieces: Piece[] = this.getVisiblePieces()
+      // TODO: How do we convert this correctly from Piece to Tv2Piece?
+      const piecesGroupedByOutputLayer: Record<Tv2OutputLayer, Tv2Piece[]> = this.pieceGroupService.groupByOutputLayer(visiblePieces as Tv2Piece[])
+
+      const outputLayerPieceEntries: [string, Tv2Piece[]][] = Object.entries(piecesGroupedByOutputLayer).reduce(
+        (reducedPieces, [outputLayer, pieces]) => {
+          return [...reducedPieces, [outputLayer, this.pieceGroupService.mergePiecesByStartOffset(pieces)]]
+        },
+        [] as [string, Tv2Piece[]][]
+      )
+
+      this.piecesGroupedByOutputLayer = Object.fromEntries(outputLayerPieceEntries) as Record<Tv2OutputLayer, Tv2Piece[]>
+    }
   }
 
   private getVisiblePieces(): Piece[] {

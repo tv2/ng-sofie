@@ -1,0 +1,11 @@
+<form [formGroup]="form" class="mb-3">
+    <sofie-text-input i18n-label label="action-panel.panel-name.label" [formControlName]="'name'"></sofie-text-input>
+    <sofie-multi-select i18n-label label="global.filters.label" [formControlName]="'actionFilter'" [options]="actionContentOptions"></sofie-multi-select>
+    <sofie-number-input i18n-label label="action-panel.rank.label" [formControlName]="'rank'"></sofie-number-input>
+</form>
+
+<sofie-button-group>
+    <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
+    <sofie-spacer></sofie-spacer>
+    <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!form.valid" i18n>common.save</sofie-button>
+</sofie-button-group>

@@ -21,6 +21,7 @@ import {
   SegmentUnsyncedEvent,
   PartUnsyncedEvent,
   AutoNextStartedEvent,
+  RundownRehearseEvent,
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
@@ -31,6 +32,12 @@ import { RundownEventParser } from '../abstractions/rundown-event.parser'
 export class ZodRundownEventParser implements RundownEventParser {
   private readonly rundownActivatedEventParser = zod.object({
     type: zod.literal(RundownEventType.ACTIVATED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+  })
+
+  private readonly rundownRehearseEventParser = zod.object({
+    type: zod.literal(RundownEventType.REHEARSE),
     timestamp: zod.number(),
     rundownId: zod.string().min(1),
   })
@@ -219,6 +226,11 @@ export class ZodRundownEventParser implements RundownEventParser {
   public parseRundownActivatedEvent(event: unknown): RundownActivatedEvent {
     return this.rundownActivatedEventParser.parse(event)
   }
+
+  public parseRundownRehearseEvent(event: unknown): RundownRehearseEvent {
+    return this.rundownRehearseEventParser.parse(event)
+  }
+
   public parseRundownDeactivatedEvent(event: unknown): RundownDeactivatedEvent {
     return this.rundownDeactivatedEventParser.parse(event)
   }

@@ -33,10 +33,10 @@ import { CountdownLabelComponent } from './components/countdown-label/countdown-
 import { ActionTriggerProducerKeyBindingService } from './services/action-trigger-producer-key-binding.service'
 import { MiniShelfComponent } from './components/mini-shelf/mini-shelf.component'
 import { VideoHoverScrubComponent } from './components/rundown-tooltips/video-hover-scrub/video-hover-scrub.component'
-import { MiniShelfTooltipComponent } from './components/rundown-tooltips/mini-shelf-tooltip/mini-shelf-tooltip.component'
 import { PieceTooltipComponent } from './components/rundown-tooltips/piece-tooltip/piece-tooltip.component'
 import { MiniShelfCycleService } from './services/mini-shelf-cycle.service'
 import { MiniShelfNavigationService } from './services/mini-shelf-navigation.service'
+import { Tv2PieceTooltipContentFieldService } from './services/tv2-piece-tooltip-content-field.service'
 
 @NgModule({
   declarations: [
@@ -62,13 +62,13 @@ import { MiniShelfNavigationService } from './services/mini-shelf-navigation.ser
     MiniShelfComponent,
     VideoHoverScrubComponent,
     PieceTooltipComponent,
-    MiniShelfTooltipComponent,
   ],
   exports: [SegmentComponent],
   providers: [
     Tv2PieceGroupService,
     { provide: KeyBindingService, useClass: ActionTriggerProducerKeyBindingService },
     Tv2ActionGroupService,
+    Tv2PieceTooltipContentFieldService,
     { provide: KeyboardConfigurationService, useClass: ProducerKeyboardConfigurationService },
     MiniShelfCycleService,
     MiniShelfNavigationService,

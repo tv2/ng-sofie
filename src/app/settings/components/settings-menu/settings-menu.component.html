@@ -1,0 +1,10 @@
+<ul class="p-0">
+    <li *ngFor="let menuItem of menuItems">
+        <a class="p-3" routerLinkActive="active-tab" [routerLink]="menuItem.routerLink">{{menuItem.name}}</a>
+        <ul *ngIf="menuItem.shouldShowSubItems && menuItem.shouldShowSubItems()" class="p-0">
+            <li *ngFor="let subMenuItem of menuItem.subItems">
+                <a class="p-3 ps-5" routerLinkActive="active-tab" [routerLink]="subMenuItem.routerLink">{{subMenuItem.name}}</a>
+            </li>
+        </ul>
+    </li>
+</ul>

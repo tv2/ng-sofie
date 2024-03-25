@@ -1,7 +1,6 @@
-<div class="c-video-hover-scrub-tooltip">
-  <div class="c-video-hover-scrub-tooltip__video">
-    <video #videoElementRef [src]="wasVideoVisible ? hoverScrubVideoSource : ''"></video>
-    <span *ngIf="currentVideoTimeInMs" class="c-video-hover-scrub-tooltip__video--cursor-time">{{ currentVideoTimeInMs | timer: 'HH?:mm:ss' }}</span>
-    <span class="c-video-hover-scrub-tooltip__video--background-mask"></span>
-  </div>
-</div>
+<ng-container *ngIf="previewUrl.length > 0">
+    <video #videoElementRef [src]="previewUrl"></video>
+    <div class="time-code">
+        <span *ngIf="currentVideoTimeInMs > 0">{{ currentVideoTimeInMs | timer: 'HH?:mm:ss' }}</span>
+    </div>
+</ng-container>

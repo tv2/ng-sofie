@@ -1,14 +1,26 @@
-<ng-container *ngIf="shouldShowHoverScrub && !isMediaUnavailable">
-  <div #tooltipHoverElement class="c-hover-scrub-hover-element"></div>
+<div class="tooltip" *ngIf="tooltipContentFields.length > 0">
+  <sofie-video-hover-scrub *ngIf="shouldShowHoverScrub && !isMediaUnavailable"
+                           [filename]="media?.sourceName ?? piece.name"
+                           [positionInVideoInMs]="positionInVideoInMs"
+                           [isJingle]="tv2PieceType === Tv2PieceType.JINGLE">
+  </sofie-video-hover-scrub>
 
-  <sofie-tooltip [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
-    <sofie-video-hover-scrub
-      [filename]="piece.name"
-      [playedDurationInMs]="playedDurationForPartInMs"
-      [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth"
-      [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition"
-      [durationInMs]="durationInMs"
-      [isJingle]="tv2PieceType === Tv2PieceType.JINGLE">
-    </sofie-video-hover-scrub>
-  </sofie-tooltip>
-</ng-container>
+  <div class="tooltip-body">
+      <header [class]="getPieceColorClass()">
+          <span class="label">{{piece.name}}</span>
+      </header>
+
+      <div *ngIf="isMediaUnavailable" class="source-unavailable-banner">
+          <sofie-icon-button [icon]="Icon.TRIANGLE_EXCLAMATION" [iconSize]="IconSize.M"></sofie-icon-button>
+        <span i18n>piece-tooltip.source-unavailable.label</span>
+      </div>
+
+      <div class="content-fields">
+          <div *ngFor="let field of tooltipContentFields" class="field">
+              <span class="label">{{field.label}}:</span>
+              <span class="value">{{field.value}}</span>
+          </div>
+      </div>
+  </div>
+</div>
+

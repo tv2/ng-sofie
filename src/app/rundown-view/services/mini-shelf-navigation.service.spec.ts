@@ -7,6 +7,7 @@ import { anyString, anything, instance, mock, when } from '@typestrong/ts-mockit
 import { Observable } from 'rxjs'
 import { ActionStateService } from '../../shared/services/action-state.service'
 import { Rundown } from '../../core/models/rundown'
+import { RundownMode } from '../../core/enums/rundown-mode'
 
 function createTestee(): MiniShelfNavigationService {
   return new MiniShelfNavigationService()
@@ -59,7 +60,7 @@ describe(MiniShelfNavigationService.name, () => {
 
     const rundown: Rundown = testEntityFactory.createRundown({
       id: 'rundown-id',
-      isActive: true,
+      mode: RundownMode.ACTIVE,
       segments: [segment, firstMiniShelf, secondMiniShelf],
     })
 
@@ -114,7 +115,7 @@ describe(MiniShelfNavigationService.name, () => {
 
     const rundown: Rundown = testEntityFactory.createRundown({
       id: 'rundown-id',
-      isActive: true,
+      mode: RundownMode.ACTIVE,
       segments: [segment, firstMiniShelf, secondMiniShelf],
     })
 

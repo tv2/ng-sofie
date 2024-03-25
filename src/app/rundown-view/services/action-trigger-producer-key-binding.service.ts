@@ -14,7 +14,8 @@ import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Logger } from '../../core/abstractions/logger.service'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
-import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
+import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger-data'
+import { RundownMode } from '../../core/enums/rundown-mode'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -105,7 +106,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
 
     const keyBindings: StyledKeyBinding[] = this.keyBindingFactory.createRundownKeyBindings(this.rundown)
 
-    if (!this.rundown.isActive) {
+    if (this.rundown.mode === RundownMode.INACTIVE) {
       return keyBindings
     }
 
@@ -118,7 +119,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   private createBinding(action: Tv2Action, actionTrigger: ActionTrigger<KeyboardTriggerData>, rundownId: string): StyledKeyBinding {
     return {
       keys: actionTrigger.data.keys,
-      label: actionTrigger.data.label,
+      label: this.getActionTriggerLabel(actionTrigger, action),
       onMatched: () => this.actionService.executeAction(action.id, rundownId, actionTrigger.data.actionArguments).subscribe(),
       shouldMatchOnKeyRelease: true,
       shouldPreventDefaultBehaviourOnKeyPress: true,
@@ -127,6 +128,13 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
       useOrderedMatching: false,
       background: this.getKeyBindingBackgroundColour(action),
     }
+  }
+
+  private getActionTriggerLabel(actionTrigger: ActionTrigger<KeyboardTriggerData>, action: Tv2Action): string {
+    if (actionTrigger.data.label) {
+      return actionTrigger.data.label
+    }
+    return action.name
   }
 
   private getKeyBindingBackgroundColour(action: Tv2Action): string {

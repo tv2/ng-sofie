@@ -7,17 +7,23 @@ body {
   --dark-gray-color: #777777;
   --black-color: #000000;
   --black-color-with-alpha: #000000aa;
+  --hover-scrub-overlay-color-rgb: 0, 0, 0;
   --dark-color: #3a3a3a;
   --background-color: #343434;
   --green-color: green;
   --yellow-color: #ffea00;
   --blue-color: #0f5be9;
+  --attention-color: #ffba00;
   --orangered-color: orangered;
   --transparent-color: #00000000;
 
   --on-air-color: #c40000;
+  --rehearsal-color: #016492;
+  --rundown-header-rehearsal-scrollbar-thumb-active-color: #003c58;
   --next-color: #00ac17;
 
+  --tv2-unknown-color: #343434;
+  --tv2-jingle-color: var(--tv2-unknown-color);
   --tv2-camera-color: #005919;
   --tv2-replay-color: #8d1010;
   --tv2-remote-color: #ac29a5;
@@ -30,11 +36,17 @@ body {
   --tv2-manus-color: #370020;
   --tv2-video-missing-source-gradient-color: #9c2720;
 
+  --scrollbar-color: inherit;
+  --scrollbar-thumb-color: var(--gray-color);
+  --scrollbar-size: 15px;
+
   --rundown-keyboard-background-color: #111111;
   --rundown-scrollbar-color: #252627;
   --rundown-overtime-shadow-color: #d28e8e;
-  --rundown-scrollbar-active-color: #761912;
-  --rundown-scrollbar-thumb-active-color: #561612;
+  --rundown-header-background-color: #252627;
+  --rundown-header-scrollbar-thumb-color: #111111;
+  --rundown-header-background-active-color: #761912;
+  --rundown-header-scrollbar-thumb-active-color: #561612;
   --rundown-key-background-color: #333333;
   --rundown-draggable-shelf-color: #555555;
   --rundown-segment-header-background-color: #4b4b4b;
@@ -59,5 +71,19 @@ body {
                   var(--tv2-video-missing-source-gradient-color) 12px,
                   var(--tv2-video-missing-source-gradient-color) 18px
   );
-
+  --split-screen-gradient: linear-gradient(
+                  to bottom,
+                  var(--tv2-split-screen-upper) 50%,
+                  var(--tv2-split-screen-lower) 50%
+  );
+  --video-clip-voice-over-gradient: linear-gradient(
+                  to bottom,
+                  var(--tv2-video-clip-color) 50%,
+                  var(--tv2-camera-color) 50%
+  );
+  --replay-voice-over-gradient: linear-gradient(
+                  to bottom,
+                  var(--tv2-replay-color) 50%,
+                  var(--tv2-camera-color) 50%
+  );
 }

@@ -1,5 +1,24 @@
-<div class="label" [style.margin-left.px]="labelOffsetInPixels">
-  <span #labelTextElement>{{ piece.name }}</span>
-
-  <sofie-piece-tooltip [piece]="piece" [durationInMs]="partDuration" [playedDurationForPartInMs]="playedDurationForPartInMs" [isMediaUnavailable]="isMediaUnavailable"> </sofie-piece-tooltip>
+<div
+  class="piece"
+  [style.width.px]="widthInPixels"
+  [ngClass]="pieceTypeModifierClass"
+  [class.media-unavailable]="isMediaUnavailable"
+  sofieTooltip
+  [sofieTooltipTemplate]="pieceTooltip"
+  (tooltipMetadataChange)="updatePositionInVideo($event)"
+>
+  <div class="label" [style.margin-left.px]="labelOffsetInPixels">
+    <span #labelTextElement>{{ piece.name }}</span>
+  </div>
 </div>
+
+<ng-template #pieceTooltip>
+    <sofie-piece-tooltip
+            [piece]="piece"
+            [durationInMs]="partDuration"
+            [isMediaUnavailable]="isMediaUnavailable"
+            [media]="media"
+            [positionInVideoInMs]="positionInVideoInMs"
+    >
+    </sofie-piece-tooltip>
+</ng-template>

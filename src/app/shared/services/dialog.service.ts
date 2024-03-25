@@ -1,7 +1,7 @@
 import { ComponentType } from '@angular/cdk/overlay'
 import { Injectable } from '@angular/core'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
-import { ConfirmationDialogComponent, DialogSeverity } from '../components/confirmation-dialog/confirmation-dialog.component'
+import { ConfirmationDialogComponent, DialogColorScheme, DialogSeverity } from '../components/confirmation-dialog/confirmation-dialog.component'
 import { StronglyTypedDialog } from '../directives/strongly-typed-dialog.directive'
 
 @Injectable()
@@ -15,7 +15,7 @@ export class DialogService {
     return this.dialog.open(component, config)
   }
 
-  public createConfirmDialog(title: string, message: string, okButtonText: string, onOk: () => void, severity?: DialogSeverity): void {
+  public createConfirmDialog(title: string, message: string, okButtonText: string, onOk: () => void, theme: DialogColorScheme, severity: DialogSeverity): void {
     this.open(ConfirmationDialogComponent, {
       data: {
         title: title,
@@ -24,6 +24,7 @@ export class DialogService {
           ok: okButtonText,
           cancel: $localize`dialog.cancel-button:Cancel`,
         },
+        theme,
         severity,
       },
     })
@@ -34,5 +35,20 @@ export class DialogService {
         }
         onOk()
       })
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public openSidebarDialog<T extends { new (arg: R, ...args: any): object }, R>(component: T, onClose: (result?: R) => void, data?: R): void {
+    this.dialog
+      .open(component, {
+        data,
+        position: { top: '0', right: '0' },
+        height: '100%',
+        enterAnimationDuration: '0ms',
+        exitAnimationDuration: '0ms',
+        panelClass: 'sidebar-dialog',
+      })
+      .afterClosed()
+      .subscribe(result => onClose(result))
   }
 }

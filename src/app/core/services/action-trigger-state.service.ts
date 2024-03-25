@@ -50,7 +50,6 @@ export class ActionTriggerStateService {
     }
     actionTriggers[index] = actionTriggerUpdatedEvent.actionTrigger
     this.actionTriggersSubject.next(actionTriggers)
-    this.notificationService.createInfoNotification('Successfully updated shortcut')
   }
 
   private removeActionTriggerFromEvent(actionTriggerDeletedEvent: ActionTriggerDeletedEvent): void {
@@ -62,13 +61,11 @@ export class ActionTriggerStateService {
     }
     actionTriggers.splice(index, 1)
     this.actionTriggersSubject.next(actionTriggers)
-    this.notificationService.createInfoNotification('Successfully deleted shortcut')
   }
 
   private createActionTriggerFromEvent(actionTriggerCreatedEvent: ActionTriggerCreatedEvent): void {
     const updatedActionTriggers: ActionTrigger[] = [...this.actionTriggersSubject.value, actionTriggerCreatedEvent.actionTrigger]
     this.actionTriggersSubject.next(updatedActionTriggers)
-    this.notificationService.createInfoNotification('Successfully created shortcut.')
   }
 
   public getActionTriggerObservable(): Observable<ActionTrigger[]> {

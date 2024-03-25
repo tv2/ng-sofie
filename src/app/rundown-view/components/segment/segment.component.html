@@ -25,9 +25,9 @@
   </div>
   <div class="c-segment__controls">
     <div class="c-segment__controls-toolbar">
-      <sofie-icon-button [iconButton]="IconButton.MINUS" [iconButtonSize]="IconButtonSize.S" (click)="zoomIn()" [disabled]="isAtMinimumZoomLevel" title="Zoom out"></sofie-icon-button>
-      <sofie-icon-button [iconButton]="IconButton.HORIZONTAL_ARROWS" [iconButtonSize]="IconButtonSize.S" (click)="resetZoom()" title="Reset zoom"></sofie-icon-button>
-      <sofie-icon-button [iconButton]="IconButton.PLUS"  [iconButtonSize]="IconButtonSize.S" (click)="zoomOut()" title="Zoom in"></sofie-icon-button>
+      <sofie-icon-button [icon]="Icon.MINUS" [iconSize]="IconSize.S" (click)="zoomIn()" [disabled]="isAtMinimumZoomLevel" title="Zoom out"></sofie-icon-button>
+      <sofie-icon-button [icon]="Icon.HORIZONTAL_ARROWS" [iconSize]="IconSize.S" (click)="resetZoom()" title="Reset zoom"></sofie-icon-button>
+      <sofie-icon-button [icon]="Icon.PLUS" [iconSize]="IconSize.S" (click)="zoomOut()" title="Zoom in"></sofie-icon-button>
     </div>
     <div class="c-segment__piece-layers">
       <div *ngFor="let outputLayer of outputLayers" class="c-segment__piece-layer">
@@ -42,7 +42,7 @@
     class="c-segment__timeline"
     [segment]="segment"
     [outputLayers]="outputLayers"
-    [isRundownActive]="isRundownActive"
+    [isRundownActiveOrRehearsal]="isRundownActiveOrRehearsal"
     [isAutoNextStarted]="isAutoNextStarted"
     [pixelsPerSecond]="pixelsPerSecond"
   ></sofie-scrollable-timeline>
@@ -53,7 +53,7 @@
       [time]="timeReference"
       [segment]="segment"
       [outputLayers]="outputLayers"
-      [isRundownActive]="isRundownActive"
+      [isRundownActiveOrRehearsal]="isRundownActiveOrRehearsal"
       [isAutoNextStarted]="isAutoNextStarted"
       [pixelsPerSecond]="pixelsPerSecond"
       [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
@@ -62,5 +62,5 @@
 </div>
 
 <ng-template #contextMenu>
-  <sofie-segment-context-menu *ngIf="isRundownActive" [segment]="this.segment"></sofie-segment-context-menu>
+  <sofie-segment-context-menu *ngIf="isRundownActiveOrRehearsal" [segment]="this.segment"></sofie-segment-context-menu>
 </ng-template>

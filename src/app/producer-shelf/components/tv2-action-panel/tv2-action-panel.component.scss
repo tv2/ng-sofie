@@ -1,0 +1,60 @@
+:host {
+  --scrollbar-color: var(--rundown-scrollbar-color);
+  --scrollbar-thumb-color: var(--rundown-keyboard-background-color);
+  position: relative;
+  display: block;
+  border-radius: 8px;
+  background-color: var(--scrollbar-color);
+  overflow: hidden;
+
+  .title {
+    color: var(--text-color);
+    font-weight: bold;
+    padding: 10px 20px;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
+    gap: 12px;
+
+    padding: 0 20px 20px 20px;
+
+    & > * {
+      flex-shrink: 0;
+    }
+  }
+
+  &.scrollable {
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: var(--scrollbar-size);
+      width: 20px;
+      background: var(--action-panel-scrollable-before-linear-gradient);
+      pointer-events: none;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: var(--scrollbar-size);
+      width: 20px;
+      background: var(--action-panel-scrollable-after-linear-gradient);
+      pointer-events: none;
+    }
+
+    .actions {
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      padding-bottom: 10px;
+    }
+  }
+}

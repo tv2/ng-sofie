@@ -8,6 +8,11 @@ export enum DialogSeverity {
   DANGER = 'DANGER',
 }
 
+export enum DialogColorScheme {
+  LIGHT = 'LIGHT',
+  DARK = 'DARK',
+}
+
 export interface ConfirmationDialogData {
   title?: string
   message?: string
@@ -16,6 +21,7 @@ export interface ConfirmationDialogData {
     cancel?: string
   }
   severity?: DialogSeverity
+  theme?: DialogColorScheme
 }
 
 @Component({
@@ -28,7 +34,10 @@ export class ConfirmationDialogComponent extends StronglyTypedDialog<Confirmatio
   public message: string = ''
   public okButtonText: string = $localize`confirmation-dialog.yes.button`
   public cancelButtonText: string = $localize`confirmation-dialog.cancel.button`
+  public theme: DialogColorScheme
   public severity: DialogSeverity
+
+  protected readonly DialogColorScheme = DialogColorScheme
 
   @HostBinding('class')
   public get severityClass(): string {
@@ -54,5 +63,6 @@ export class ConfirmationDialogComponent extends StronglyTypedDialog<Confirmatio
     this.okButtonText = data.buttonText?.ok ?? this.okButtonText
     this.cancelButtonText = data.buttonText?.cancel ?? this.cancelButtonText
     this.severity = data.severity ?? DialogSeverity.INFO
+    this.theme = data.theme ?? DialogColorScheme.LIGHT
   }
 }
