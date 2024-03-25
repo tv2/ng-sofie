@@ -44,13 +44,15 @@ export class TooltipDirective implements OnDestroy {
     }
 
     const topPositionInPixels: number = event.clientY - event.offsetY
-    const tooltipWidthInPixels = this.tooltipComponentRef.instance.tooltipContainer.nativeElement.offsetWidth
+    const tooltipWidthInPixels: number = this.tooltipComponentRef.instance.getWidthInPixels()
 
     const horizontalOffsetInPixels: number = Math.max(event.clientX - Math.ceil(tooltipWidthInPixels / 2), MINIMUM_HORIZONTAL_OFFSET_IN_PIXELS)
     const maxHorizontalOffsetInPixes: number = window.innerWidth - tooltipWidthInPixels
     const leftPositionInPixels: number = Math.min(horizontalOffsetInPixels, maxHorizontalOffsetInPixes)
 
-    this.tooltipComponentRef.instance.updatePosition(topPositionInPixels, leftPositionInPixels)
+    this.tooltipComponentRef.instance.topPosition = topPositionInPixels
+    this.tooltipComponentRef.instance.leftPosition = leftPositionInPixels
+    this.tooltipComponentRef.changeDetectorRef.detectChanges()
 
     this.tooltipMetadataChange.emit({
       horizontalOffsetInPixels: event.offsetX,

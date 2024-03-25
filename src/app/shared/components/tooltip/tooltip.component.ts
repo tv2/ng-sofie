@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, TemplateRef, ViewChild } from '@angular/core'
+import { Component, ElementRef, HostBinding, TemplateRef } from '@angular/core'
 
 @Component({
   selector: 'sofie-tooltip',
@@ -6,18 +6,17 @@ import { ChangeDetectorRef, Component, ElementRef, TemplateRef, ViewChild } from
   styleUrls: ['./tooltip.component.scss'],
 })
 export class TooltipComponent {
-  public topPosition: string = '0px'
-  public leftPosition: string = '0px'
+  @HostBinding('style.top.px')
+  public topPosition: number = 0
+
+  @HostBinding('style.left.px')
+  public leftPosition: number = 0
 
   public templateRef: TemplateRef<unknown>
 
-  @ViewChild('tooltipContainer') public tooltipContainer: ElementRef
+  constructor(private readonly elementRef: ElementRef) {}
 
-  constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
-
-  public updatePosition(top: number, left: number): void {
-    this.topPosition = top + 'px'
-    this.leftPosition = left + 'px'
-    this.changeDetectorRef.detectChanges()
+  public getWidthInPixels(): number {
+    return this.elementRef.nativeElement.offsetWidth
   }
 }
