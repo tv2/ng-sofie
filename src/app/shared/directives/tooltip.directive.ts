@@ -1,6 +1,8 @@
 import { ApplicationRef, ComponentRef, createComponent, Directive, EventEmitter, HostListener, Input, OnDestroy, Output, TemplateRef } from '@angular/core'
 import { TooltipComponent } from '../components/tooltip/tooltip.component'
 
+const MINIMUM_HORIZONTAL_OFFSET_IN_PIXELS: number = 0
+
 export interface TooltipMetadata {
   horizontalOffsetInPixels: number
   hostElementWidth?: number
@@ -12,7 +14,7 @@ export interface TooltipMetadata {
 export class TooltipDirective implements OnDestroy {
   @Input() public sofieTooltip: TemplateRef<unknown>
 
-  @Output() public tooltipMetadata: EventEmitter<TooltipMetadata> = new EventEmitter()
+  @Output() public tooltipMetadataChange: EventEmitter<TooltipMetadata> = new EventEmitter()
 
   private tooltipComponentRef: ComponentRef<TooltipComponent>
 
@@ -41,17 +43,21 @@ export class TooltipDirective implements OnDestroy {
       return
     }
 
-    const top: number = event.clientY - event.offsetY
-    const tooltipWidth = this.tooltipComponentRef.instance.tooltipContainer.nativeElement.offsetWidth
-    const left: number = Math.min(Math.max(event.clientX - Math.ceil(tooltipWidth / 2), 0), window.innerWidth - tooltipWidth)
-    this.tooltipComponentRef.instance.updatePosition(top, left)
+    const topPositionInPixels: number = event.clientY - event.offsetY
+    const tooltipWidthInPixels = this.tooltipComponentRef.instance.tooltipContainer.nativeElement.offsetWidth
 
-    this.tooltipMetadata.emit({
+    const horizontalOffsetInPixels: number = Math.max(event.clientX - Math.ceil(tooltipWidthInPixels / 2), MINIMUM_HORIZONTAL_OFFSET_IN_PIXELS)
+    const maxHorizontalOffsetInPixes: number = window.innerWidth - tooltipWidthInPixels
+    const leftPositionInPixels: number = Math.min(horizontalOffsetInPixels, maxHorizontalOffsetInPixes)
+
+    this.tooltipComponentRef.instance.updatePosition(topPositionInPixels, leftPositionInPixels)
+
+    this.tooltipMetadataChange.emit({
       horizontalOffsetInPixels: event.offsetX,
     })
   }
 
-  @HostListener('mouseleave', [])
+  @HostListener('mouseleave')
   public ngOnDestroy(): void {
     if (!this.tooltipComponentRef) {
       return

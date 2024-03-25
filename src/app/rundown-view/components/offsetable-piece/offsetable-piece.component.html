@@ -4,7 +4,7 @@
   [ngClass]="pieceTypeModifierClass"
   [class.media-unavailable]="isMediaUnavailable"
   [sofieTooltip]="pieceTooltip"
-  (tooltipMetadata)="setTooltipMetadata($event)"
+  (tooltipMetadataChange)="setTooltipMetadata($event)"
 >
   <div class="label" [style.margin-left.px]="labelOffsetInPixels">
     <span #labelTextElement>{{ piece.name }}</span>
