@@ -51,8 +51,8 @@ export class PieceTooltipComponent implements OnChanges {
     this.shouldShowHoverScrub = (tv2Piece.metadata?.type === Tv2PieceType.VIDEO_CLIP || tv2Piece.metadata?.type === Tv2PieceType.JINGLE) && tv2Piece.metadata.sourceName !== undefined
   }
 
-  public getPieceType(): Tv2PieceType {
+  public getPieceColorClass(): string {
     const tv2Piece: Tv2Piece = this.piece as Tv2Piece
-    return tv2Piece.metadata.type
+    return tv2Piece.metadata.type.toLocaleLowerCase().replace('_', '-') + '-color'
   }
 }
