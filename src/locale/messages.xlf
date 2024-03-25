@@ -263,6 +263,9 @@
       <trans-unit id="4121868262213030663" datatype="html">
         <source>global.import.button</source>
       </trans-unit>
+      <trans-unit id="8291594485469554782" datatype="html">
+        <source>notification-icon.toggle-panel.tooltip</source>
+      </trans-unit>
       <trans-unit id="1842982718967386055" datatype="html">
         <source>global.audio.label</source>
       </trans-unit>
@@ -299,26 +302,23 @@
       <trans-unit id="9065474081840372723" datatype="html">
         <source>Are you sure you want to activate the Rundown? This will deactivate the Rundown</source>
       </trans-unit>
+      <trans-unit id="4640631323333751497" datatype="html">
+        <source>Are you sure you want to rehearse the Rundown?</source>
+      </trans-unit>
       <trans-unit id="4759723562137600498" datatype="html">
         <source>Activate</source>
+      </trans-unit>
+      <trans-unit id="672684067026346719" datatype="html">
+        <source>dialog.cancel-button:Cancel</source>
+      </trans-unit>
+      <trans-unit id="6755480681760618341" datatype="html">
+        <source>Are you sure you want to activate the Rundown?</source>
       </trans-unit>
       <trans-unit id="7719481586544095649" datatype="html">
         <source>Rehearse</source>
       </trans-unit>
       <trans-unit id="1294577662379256744" datatype="html">
         <source>Are you sure you want to rehearse the Rundown? This will deactivate the Rundown</source>
-      </trans-unit>
-      <trans-unit id="672684067026346719" datatype="html">
-        <source>dialog.cancel-button:Cancel</source>
-      </trans-unit>
-      <trans-unit id="4640631323333751497" datatype="html">
-        <source>Are you sure you want to rehearse the Rundown?</source>
-      </trans-unit>
-      <trans-unit id="6755480681760618341" datatype="html">
-        <source>Are you sure you want to activate the Rundown?</source>
-      </trans-unit>
-      <trans-unit id="8291594485469554782" datatype="html">
-        <source>notification-icon.toggle-panel.tooltip</source>
       </trans-unit>
     </body>
   </file>

@@ -398,32 +398,33 @@
         <source>keyboard-mapping-settings-page.import-keyboard-mappings.failure</source>
         <target state="new">Something went wrong importing the keyboard shortcuts</target>
       </trans-unit>
-      <trans-unit id="9065474081840372723" datatype="html">
-        <source>Are you sure you want to activate the Rundown? This will deactivate the Rundown</source>
-        <target state="new">Are you sure you want to activate the Rundown? This will deactivate the Rundown</target>
+      <trans-unit id="8291594485469554782" datatype="html">
+        <source>notification-icon.toggle-panel.tooltip</source>
+        <target state="new">Click to toggle notification panel</target>
       </trans-unit>
       <trans-unit id="4759723562137600498" datatype="html">
         <source>Activate</source>
         <target state="new">Activate</target>
       </trans-unit>
-      <trans-unit id="7719481586544095649" datatype="html">
-        <source>Rehearse</source>
-        <target state="new">Rehearse</target>
-      </trans-unit>
-      <trans-unit id="1294577662379256744" datatype="html">
-        <source>Are you sure you want to rehearse the Rundown? This will deactivate the Rundown</source>
-        <target state="new">Are you sure you want to rehearse the Rundown? This will deactivate the Rundown</target>
-      </trans-unit>
       <trans-unit id="6755480681760618341" datatype="html">
         <source>Are you sure you want to activate the Rundown?</source>
         <target state="new">Are you sure you want to activate the Rundown?</target>
       </trans-unit>
+      <trans-unit id="9065474081840372723" datatype="html">
+        <source>Are you sure you want to activate the Rundown? This will deactivate the Rundown</source>
+        <target state="new">Are you sure you want to activate the Rundown? This will deactivate the Rundown</target>
+      </trans-unit>
+      <trans-unit id="7719481586544095649" datatype="html">
+        <source>Rehearse</source>
+        <target state="new">Rehearse</target>
+      </trans-unit>
       <trans-unit id="4640631323333751497" datatype="html">
         <source>Are you sure you want to rehearse the Rundown?</source>
         <target state="new">Are you sure you want to rehearse the Rundown?</target>
-      <trans-unit id="8291594485469554782" datatype="html">
-        <source>notification-icon.toggle-panel.tooltip</source>
-        <target state="new">Click to toggle notification panel</target>
+      </trans-unit>
+      <trans-unit id="1294577662379256744" datatype="html">
+        <source>Are you sure you want to rehearse the Rundown? This will deactivate the Rundown</source>
+        <target state="new">Are you sure you want to rehearse the Rundown? This will deactivate the Rundown</target>
       </trans-unit>
     </body>
   </file>
