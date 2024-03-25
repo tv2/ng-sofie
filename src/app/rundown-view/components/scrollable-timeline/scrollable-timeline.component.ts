@@ -19,7 +19,7 @@ export class ScrollableTimelineComponent {
   public outputLayers: Tv2OutputLayer[]
 
   @Input()
-  public isRundownActive: boolean
+  public isRundownActiveOrRehearsal: boolean
 
   @Input()
   public isAutoNextStarted: boolean

@@ -1,11 +1,17 @@
 :host {
+  --scrollbar-thumb-color: var(--rundown-header-scrollbar-thumb-color);
   background: var(--rundown-scrollbar-color);
-}
+  overflow: hidden;
 
-div {
-  width: 400px;
-
-  sofie-notification-card {
-    margin: 5px;
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 420px;
+    height: 100%;
+    padding: 10px;
+    border-left: 2px solid var(--background-color);
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 }

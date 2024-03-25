@@ -21,6 +21,7 @@ import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 import { RundownTimingType } from '../enums/rundown-timing-type'
 import { BasicRundown } from '../models/basic-rundown'
 import { PieceLifespan } from '../models/piece-lifespan'
+import { RundownMode } from '../enums/rundown-mode'
 
 describe(ZodRundownEventParser.name, () => {
   describe(ZodRundownEventParser.prototype.parseRundownActivatedEvent.name, () => {
@@ -345,7 +346,7 @@ describe(ZodRundownEventParser.name, () => {
       const basicRundown: BasicRundown = {
         id: 'rundownId',
         name: 'RundownName',
-        isActive: false,
+        mode: RundownMode.INACTIVE,
         modifiedAt: Date.now(),
         timing: {
           type: RundownTimingType.UNSCHEDULED,
@@ -391,7 +392,7 @@ describe(ZodRundownEventParser.name, () => {
         basicRundown: {
           id: 'rundownId',
           name: 'RundownName',
-          isActive: false,
+          mode: RundownMode.INACTIVE,
           modifiedAt: Date.now(),
           timing: {
             type: RundownTimingType.UNSCHEDULED,

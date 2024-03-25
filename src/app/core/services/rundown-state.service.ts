@@ -20,6 +20,7 @@ import {
   PartUnsyncedEvent,
   RundownCreatedEvent,
   RundownDeletedEvent,
+  RundownRehearseEvent,
 } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs'
 import { Rundown } from '../models/rundown'
@@ -80,6 +81,7 @@ export class RundownStateService implements OnDestroy {
   private subscribeToRundownEvents(): EventSubscription[] {
     return [
       this.rundownEventObserver.subscribeToRundownActivation(this.activateRundownFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownRehearsal(this.rehearseRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownDeactivation(this.deactivateRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownCreation(this.createRundownFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownDeletion(this.deleteRundownFromEvent.bind(this)),
@@ -108,6 +110,15 @@ export class RundownStateService implements OnDestroy {
       return
     }
     const activeRundown: Rundown = this.rundownEntityService.activate(rundownSubject.value)
+    rundownSubject.next(activeRundown)
+  }
+
+  private rehearseRundownFromEvent(event: RundownRehearseEvent): void {
+    const rundownSubject = this.getRundownSubject(event.rundownId)
+    if (!rundownSubject || !rundownSubject.value) {
+      return
+    }
+    const activeRundown: Rundown = this.rundownEntityService.rehearse(rundownSubject.value)
     rundownSubject.next(activeRundown)
   }
 

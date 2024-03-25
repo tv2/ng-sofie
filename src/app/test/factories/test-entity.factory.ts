@@ -7,20 +7,21 @@ import { ActionTrigger } from 'src/app/shared/models/action-trigger'
 import { Tv2ActionContentType, Tv2PartAction, Tv2VideoClipAction } from 'src/app/shared/models/tv2-action'
 import { PartActionType } from 'src/app/shared/models/action-type'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
-import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger'
+import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger-data'
 import { StudioConfiguration } from '../../shared/models/studio-configuration'
 import { Media } from '../../shared/services/media'
 import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
 import { AutoNextStartedEvent, PartSetAsNextEvent, RundownResetEvent } from '../../core/models/rundown-event'
 import { RundownEventType } from '../../core/models/rundown-event-type'
 import { Tv2SegmentMetadata } from '../../core/models/tv2-segment-metadata'
+import { RundownMode } from '../../core/enums/rundown-mode'
 
 export class TestEntityFactory {
   public createRundown(rundown: Partial<Rundown> = {}): Rundown {
     return {
       id: 'rundown-id',
       name: 'Rundown',
-      isActive: false,
+      mode: RundownMode.INACTIVE,
       segments: [],
       infinitePieces: [],
       modifiedAt: 0,

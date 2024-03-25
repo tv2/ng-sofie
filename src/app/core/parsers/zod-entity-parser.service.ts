@@ -17,6 +17,7 @@ import { Tv2Part } from '../models/tv2-part'
 import { PieceLifespan } from '../models/piece-lifespan'
 import { StatusMessage } from '../../shared/models/status-message'
 import { StatusCode } from '../../shared/enums/status-code'
+import { RundownMode } from '../enums/rundown-mode'
 
 export class ZodEntityParser implements EntityParser {
   private readonly blueprintConfigurationParser = zod.object({
@@ -61,6 +62,7 @@ export class ZodEntityParser implements EntityParser {
       outputLayer: zod.nativeEnum(Tv2OutputLayer).optional(),
       audioMode: zod.nativeEnum(Tv2AudioMode).optional(),
       sourceName: zod.string().optional(),
+      graphicTemplateName: zod.string().optional(),
     }),
   })
 
@@ -111,7 +113,7 @@ export class ZodEntityParser implements EntityParser {
   private readonly basicRundownParser = zod.object({
     id: zod.string().min(1),
     name: zod.string().min(1),
-    isActive: zod.boolean(),
+    mode: zod.nativeEnum(RundownMode),
     modifiedAt: zod.number(),
     timing: zod
       .object({

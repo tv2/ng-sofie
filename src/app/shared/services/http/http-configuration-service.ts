@@ -33,6 +33,10 @@ export class HttpConfigurationService implements ConfigurationService {
     )
   }
 
+  public updateShelfConfiguration(shelfConfiguration: ShelfConfiguration): Observable<void> {
+    return this.http.put<void>(`${environment.apiBaseUrl}/configurations/shelfConfigurations`, shelfConfiguration).pipe(catchError(error => this.httpErrorService.catchError(error)))
+  }
+
   public clearConfigurationCache(): Observable<void> {
     return this.http.post<void>(`${CONFIGURATION_URL}/cache/clear`, null).pipe(catchError(error => this.httpErrorService.catchError(error)))
   }

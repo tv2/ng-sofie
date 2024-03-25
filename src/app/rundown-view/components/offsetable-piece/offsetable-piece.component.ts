@@ -1,10 +1,11 @@
 import { Tv2Piece } from 'src/app/core/models/tv2-piece'
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
+import { Component, ElementRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
 import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { Subscription } from 'rxjs'
 import { Piece } from 'src/app/core/models/piece'
+import { TooltipMetadata } from '../../../shared/directives/tooltip.directive'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 
@@ -12,7 +13,6 @@ const LABEL_TEXT_INSET_IN_PIXELS: number = 14
   selector: 'sofie-offsetable-piece',
   templateUrl: './offsetable-piece.component.html',
   styleUrls: ['./offsetable-piece.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   @Input()
@@ -25,7 +25,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   public partDuration: number
 
   @Input()
-  public playedDurationForPartInMs: number
+  public playedDurationForPartInMs: number = 0
 
   @Input()
   public prePlayheadDurationInMs: number
@@ -38,23 +38,32 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
 
   public media?: Media
 
+  public positionInVideoInMs: number = 0
+
   private mediaSubscription?: Subscription
 
-  constructor(
-    private readonly mediaStateService: MediaStateService,
-    private readonly changeDetectorRef: ChangeDetectorRef
-  ) {}
+  constructor(private readonly mediaStateService: MediaStateService) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     const pieceChange: SimpleChange | undefined = changes['piece']
     if (pieceChange) {
-      const previousMediaSourceName: string | undefined = pieceChange.previousValue ? this.getPieceMediaSourceName(pieceChange.previousValue) : undefined
-      if (previousMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
-        return
-      }
-      this.mediaSubscription?.unsubscribe()
-      this.updatePieceMedia()
+      this.updatePiecesFromPartChange(pieceChange)
     }
+  }
+
+  public updatePositionInVideo(tooltipMetadata: TooltipMetadata): void {
+    const positionInVideoInPercent: number = tooltipMetadata.horizontalOffsetInPixels / this.widthInPixels
+    const videoDurationWithoutPlayedDurationInMs: number = Math.max(this.partDuration - this.playedDurationForPartInMs, 0)
+    this.positionInVideoInMs = Math.round(this.playedDurationForPartInMs + videoDurationWithoutPlayedDurationInMs * positionInVideoInPercent)
+  }
+
+  private updatePiecesFromPartChange(pieceChange: SimpleChange): void {
+    const previousMediaSourceName: string | undefined = pieceChange.previousValue ? this.getPieceMediaSourceName(pieceChange.previousValue) : undefined
+    if (previousMediaSourceName === this.getPieceMediaSourceName(pieceChange.currentValue)) {
+      return
+    }
+    this.mediaSubscription?.unsubscribe()
+    this.updatePieceMedia()
   }
 
   public updatePieceMedia(): void {
@@ -80,7 +89,6 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     return (displayOffsetInMs * this.pixelsPerSecond) / 1000
   }
 
-  @HostBinding('style.width.px')
   public get widthInPixels(): number {
     const displayDurationInMs: number = this.getDisplayDurationInMs()
     return Math.floor((this.pixelsPerSecond * displayDurationInMs) / 1000)
@@ -123,13 +131,11 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     return Math.max(0, playedDurationForPieceInMs + labelTextDurationInMs - this.piece.duration)
   }
 
-  @HostBinding('class')
-  public get getPieceTypeModifierClass(): string {
+  public get pieceTypeModifierClass(): string {
     const piece: Tv2Piece = this.piece as Tv2Piece
     return [piece.metadata.type.toLowerCase().replace(/_/g, '-'), (piece.metadata.audioMode ?? Tv2AudioMode.FULL).toLowerCase().replace('_', '-')].join(' ')
   }
 
-  @HostBinding('class.media-unavailable')
   public get isMediaUnavailable(): boolean {
     return !!this.mediaSubscription && !this.media
   }
@@ -145,7 +151,6 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
       return
     }
     this.media = media
-    this.changeDetectorRef.detectChanges()
   }
 
   public ngOnDestroy(): void {

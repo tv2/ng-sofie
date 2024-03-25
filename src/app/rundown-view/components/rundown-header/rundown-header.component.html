@@ -1,4 +1,8 @@
-<div [cdkContextMenuTriggerFor]="contextMenu" class="c-rundown-header" [class.c-rundown-header--active]="rundown.isActive">
+<div
+  [cdkContextMenuTriggerFor]="contextMenu"
+  class="c-rundown-header"
+  [class.c-rundown-header--active]="rundown.mode === RundownMode.ACTIVE"
+  [class.c-rundown-header--rehearsal]="rundown.mode === RundownMode.REHEARSAL">
     <ng-template #contextMenu>
         <sofie-rundown-header-context-menu class="c-context-access-surface" [rundown]="rundown" [shortenedRundownName]="rundownName"> </sofie-rundown-header-context-menu>
     </ng-template>
@@ -14,5 +18,7 @@
     <sofie-rundown-header-panel label="Design">{{design}}</sofie-rundown-header-panel>
     <sofie-rundown-header-panel label="Local Time">{{currentLocalDate | date: 'HH:mm:ss'}}</sofie-rundown-header-panel>
 
-    <sofie-icon-button class="exit-button" [iconButton]="IconButton.XMARK" [iconButtonSize]="IconButtonSize.XL" routerLink="/rundowns"></sofie-icon-button>
+    <a class="exit-button" [routerLink]="['/', Paths.RUNDOWNS]">
+        <sofie-icon-button [icon]="Icon.X_MARK" [iconSize]="IconSize.XL"></sofie-icon-button>
+    </a>
 </div>

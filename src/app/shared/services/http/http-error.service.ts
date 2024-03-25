@@ -11,22 +11,22 @@ export class HttpErrorService {
     private readonly logger: Logger
   ) {}
 
-  public catchError(error: HttpErrorResponse): Observable<never> {
-    this.logger.data(error).error('Caught Error:')
-    this.createNotificationIfError(error)
+  public catchError(httpErrorResponse: HttpErrorResponse): Observable<never> {
+    this.logger.data(httpErrorResponse).error('Caught Error:')
+    this.createNotificationIfError(httpErrorResponse)
     return EMPTY
   }
 
-  private createNotificationIfError(error: HttpErrorResponse): void {
-    if (error.status >= 500) {
-      this.notificationService.createErrorNotification(error.message)
+  private createNotificationIfError(httpErrorResponse: HttpErrorResponse): void {
+    if (httpErrorResponse.status >= 500) {
+      this.notificationService.createErrorNotification(httpErrorResponse.error?.message ?? httpErrorResponse.message)
       return
     }
-    if (error.status >= 300) {
-      this.notificationService.createWarningNotification(error.message)
+    if (httpErrorResponse.status >= 300) {
+      this.notificationService.createWarningNotification(httpErrorResponse.error?.message ?? httpErrorResponse.message)
       return
     }
-    if (error.status >= 200 && error.status < 300) {
+    if (httpErrorResponse.status >= 200 && httpErrorResponse.status < 300) {
       return
     }
   }

@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostBinding, HostListener, Input, OnInit, ViewChild } from '@angular/core'
-import { IconButton, IconButtonSize } from '../../enums/icon-button'
+import { Icon, IconSize } from '../../enums/icon'
 
 interface PositionData {
   heightInPixels: number
@@ -16,8 +16,8 @@ export class DraggableShelfComponent implements OnInit {
   public heightInPixels: number = 0
   public verticalDragPositionFromDragHandleBottomInPixels?: number
 
-  protected readonly IconButton = IconButton
-  protected readonly IconButtonSize = IconButtonSize
+  protected readonly Icon = Icon
+  protected readonly IconSize = IconSize
 
   @ViewChild('dragHandle')
   private readonly dragHandleElement: ElementRef<HTMLDivElement>

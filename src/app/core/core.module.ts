@@ -27,10 +27,8 @@ import { ActionTriggerStateService } from './services/action-trigger-state.servi
 import { ActionTriggerEventObserver } from './services/action-trigger-event-observer.service'
 import { ActionTriggerEventParser } from './abstractions/action-trigger-event-parser'
 import { ZodActionTriggerEventParser } from './parsers/zod-action-trigger-event-parser.service'
-import { DomFileDownloadService } from './services/dom-file-download.service'
 import { FortAwesomeIconService } from './services/http/http-icon.service'
 import { IconService } from './abstractions/icon.service'
-import { FileDownloadService } from './abstractions/file-download.service'
 import { ZodMediaEventParserService } from './parsers/zod-media-event-parser.service'
 import { MediaEventParser } from './abstractions/media-event-parser'
 import { MediaEventObserver } from './services/media-event-observer.service'
@@ -56,7 +54,6 @@ import { StatusMessageEventObserver } from './services/status-message-event-obse
     { provide: BasicRundownService, useClass: HttpBasicRundownService },
     { provide: EntityParser, useClass: ZodEntityParser },
     { provide: IconService, useClass: FortAwesomeIconService },
-    { provide: FileDownloadService, useClass: DomFileDownloadService },
     RundownEntityService,
     BasicRundownEntityService,
     SegmentEntityService,

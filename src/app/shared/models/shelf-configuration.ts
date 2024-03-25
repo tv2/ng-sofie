@@ -6,6 +6,7 @@ export interface ShelfConfiguration {
 }
 
 export interface ShelfActionPanelConfiguration {
+  id: string
   name: string
   rank: number
   actionFilter: Tv2ActionContentType[]

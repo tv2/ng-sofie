@@ -1,0 +1,7 @@
+<sofie-notification-card
+  *ngFor="let notificationContext of notificationContexts"
+  @notification
+  [notification]="notificationContext.notification"
+  [isRemovable]="true"
+  [onRemoveCallback]="removeNotification"
+></sofie-notification-card>

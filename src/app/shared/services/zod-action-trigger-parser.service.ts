@@ -4,7 +4,7 @@ import { ActionTrigger } from '../models/action-trigger'
 import * as zod from 'zod'
 import { Keys } from 'src/app/keyboard/value-objects/key-binding'
 import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
-import { KeyboardTriggerData } from '../models/keyboard-trigger'
+import { KeyboardTriggerData } from '../models/keyboard-trigger-data'
 
 @Injectable()
 export class ZodActionTriggerParser extends ActionTriggerParser {

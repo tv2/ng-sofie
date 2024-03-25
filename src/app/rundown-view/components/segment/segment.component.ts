@@ -7,7 +7,7 @@ import { Logger } from '../../../core/abstractions/logger.service'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 import { Tv2Piece } from '../../../core/models/tv2-piece'
 import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
-import { IconButton, IconButtonSize } from '../../../shared/enums/icon-button'
+import { Icon, IconSize } from '../../../shared/enums/icon'
 
 const MINIMUM_PIXELS_PER_SECOND: number = 20
 const PIXELS_PER_SECOND_STEP_FACTOR: number = 1.5
@@ -19,11 +19,14 @@ const INITIAL_PIXELS_PER_SECOND: number = MINIMUM_PIXELS_PER_SECOND * Math.pow(P
   styleUrls: ['./segment.component.scss'],
 })
 export class SegmentComponent implements OnChanges, OnDestroy {
+  protected readonly Icon = Icon
+  protected readonly IconSize = IconSize
+
   @Input()
   public segment: Segment
 
   @Input()
-  public isRundownActive: boolean
+  public isRundownActiveOrRehearsal: boolean
 
   @Input()
   public isAutoNextStarted: boolean
@@ -152,7 +155,4 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   public ngOnDestroy(): void {
     this.stopAnimation()
   }
-
-  public IconButton = IconButton
-  public IconButtonSize = IconButtonSize
 }
