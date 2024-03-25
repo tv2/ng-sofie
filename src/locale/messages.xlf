@@ -317,6 +317,9 @@
       <trans-unit id="6755480681760618341" datatype="html">
         <source>Are you sure you want to activate the Rundown?</source>
       </trans-unit>
+      <trans-unit id="8291594485469554782" datatype="html">
+        <source>notification-icon.toggle-panel.tooltip</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

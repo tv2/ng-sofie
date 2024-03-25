@@ -421,6 +421,9 @@
       <trans-unit id="4640631323333751497" datatype="html">
         <source>Are you sure you want to rehearse the Rundown?</source>
         <target state="new">Are you sure you want to rehearse the Rundown?</target>
+      <trans-unit id="8291594485469554782" datatype="html">
+        <source>notification-icon.toggle-panel.tooltip</source>
+        <target state="new">Click to toggle notification panel</target>
       </trans-unit>
     </body>
   </file>

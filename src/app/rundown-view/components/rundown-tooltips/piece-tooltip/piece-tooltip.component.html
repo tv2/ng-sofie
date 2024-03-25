@@ -1,35 +1,26 @@
-  <div #tooltipHoverElement class="tooltip-hover-element"></div>
+<div class="tooltip" *ngIf="tooltipContentFields.length > 0">
+  <sofie-video-hover-scrub *ngIf="shouldShowHoverScrub && !isMediaUnavailable"
+                           [filename]="media?.sourceName ?? piece.name"
+                           [positionInVideoInMs]="positionInVideoInMs"
+                           [isJingle]="tv2PieceType === Tv2PieceType.JINGLE">
+  </sofie-video-hover-scrub>
 
-  <sofie-tooltip *ngIf="tooltipContentFields.length > 0" [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition">
-    <div class="tooltip">
-      <sofie-video-hover-scrub *ngIf="shouldShowHoverScrub && !isMediaUnavailable"
-                               [filename]="media?.sourceName ?? piece.name"
-                               [playedDurationInMs]="playedDurationForPartInMs"
-                               [tooltipHoverElementWidth]="tooltipHoverElement.clientWidth"
-                               [tooltipElementHoverMousePosition]="tooltipElementHoverMousePosition"
-                               [durationInMs]="durationInMs"
-                               [isJingle]="tv2PieceType === Tv2PieceType.JINGLE">
-      </sofie-video-hover-scrub>
-
-      <div class="tooltip-body">
-
-        <header [class]="getPieceType().toLocaleLowerCase() + '_color'">
+  <div class="tooltip-body">
+      <header [class]="getPieceColorClass()">
           <span class="label">{{piece.name}}</span>
-        </header>
+      </header>
 
-        <div *ngIf="isMediaUnavailable" class="source-unavailable-banner">
+      <div *ngIf="isMediaUnavailable" class="source-unavailable-banner">
           <sofie-icon-button [icon]="Icon.TRIANGLE_EXCLAMATION" [iconSize]="IconSize.M"></sofie-icon-button>
         <span i18n>piece-tooltip.source-unavailable.label</span>
-        </div>
-
-        <div class="content-fields">
-          <div *ngFor="let field of tooltipContentFields" class="field">
-            <span class="label">{{field.label}}:</span>
-            <span class="value">{{field.value}}</span>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </sofie-tooltip>
+
+      <div class="content-fields">
+          <div *ngFor="let field of tooltipContentFields" class="field">
+              <span class="label">{{field.label}}:</span>
+              <span class="value">{{field.value}}</span>
+          </div>
+      </div>
+  </div>
+</div>
 

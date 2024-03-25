@@ -5,6 +5,7 @@ import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Media } from '../../../shared/services/media'
 import { Subscription } from 'rxjs'
 import { Piece } from 'src/app/core/models/piece'
+import { TooltipMetadata } from '../../../shared/directives/tooltip.directive'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 
@@ -24,7 +25,7 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   public partDuration: number
 
   @Input()
-  public playedDurationForPartInMs: number
+  public playedDurationForPartInMs: number = 0
 
   @Input()
   public prePlayheadDurationInMs: number
@@ -37,6 +38,8 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
 
   public media?: Media
 
+  public positionInVideoInMs: number = 0
+
   private mediaSubscription?: Subscription
 
   constructor(private readonly mediaStateService: MediaStateService) {}
@@ -46,6 +49,12 @@ export class OffsetablePieceComponent implements OnChanges, OnDestroy {
     if (pieceChange) {
       this.updatePiecesFromPartChange(pieceChange)
     }
+  }
+
+  public updatePositionInVideo(tooltipMetadata: TooltipMetadata): void {
+    const positionInVideoInPercent: number = tooltipMetadata.horizontalOffsetInPixels / this.widthInPixels
+    const videoDurationWithoutPlayedDurationInMs: number = Math.max(this.partDuration - this.playedDurationForPartInMs, 0)
+    this.positionInVideoInMs = Math.round(this.playedDurationForPartInMs + videoDurationWithoutPlayedDurationInMs * positionInVideoInPercent)
   }
 
   private updatePiecesFromPartChange(pieceChange: SimpleChange): void {
