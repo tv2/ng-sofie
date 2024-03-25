@@ -76,7 +76,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private subscribeToEventObserver(): void {
-    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownTake(event => this.prioritizedDebounce(event))) // this.scrollViewToSegment(event.segmentId)))
+    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownTake(event => this.prioritizedDebounce(event)))
     this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(event => this.prioritizedDebounce(event)))
   }
 
