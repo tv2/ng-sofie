@@ -8,12 +8,13 @@ a {
 }
 
 td {
-  padding-left: 10px;
   height: 55px;
   border-bottom: solid 1px var(--gray-color);
   background-color: var(--light-gray-color);
 }
 
 .pulsating-dot-column {
+  text-align: center;
+  padding-right: 0;
   width: 40px;
 }
