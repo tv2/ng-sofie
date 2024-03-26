@@ -1,9 +1,9 @@
 <sofie-header></sofie-header>
-<sofie-page i18n-title title="rundown-overview.rundown-overview.title">
+<sofie-page class="xxx" i18n-title title="rundown-overview.rundown-overview.title">
     <sofie-notification-popup-container></sofie-notification-popup-container>
     <sofie-table [entities]="basicRundowns" [headers]="headers" [rowTemplate]="tableRowTemplate">
         <ng-template #tableRowTemplate let-basicRundown="tableRowData">
-            <td>
+            <td class="pulsating-dot-column">
                 <sofie-pulsating-dot *ngIf="basicRundown.mode === RundownMode.ACTIVE" [color]="'ON_AIR'" [animationDurationSeconds]="3"></sofie-pulsating-dot>
                 <sofie-pulsating-dot *ngIf="basicRundown.mode === RundownMode.REHEARSAL" [color]="'REHEARSAL'" [animationDurationSeconds]="3"></sofie-pulsating-dot>
             </td>
