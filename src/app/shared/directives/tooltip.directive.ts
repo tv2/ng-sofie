@@ -19,7 +19,7 @@ export class TooltipDirective implements OnDestroy {
 
   constructor(
     private readonly applicationRef: ApplicationRef,
-    private readonly triggerElementRef: ElementRef
+    private readonly elementRef: ElementRef
   ) {}
 
   @HostListener('mouseenter', ['$event'])
@@ -45,7 +45,7 @@ export class TooltipDirective implements OnDestroy {
       return
     }
 
-    const verticalPositionInPixels: number = this.triggerElementRef.nativeElement.getBoundingClientRect().top
+    const verticalPositionInPixels: number = this.elementRef.nativeElement.getBoundingClientRect().top
     const tooltipWidthInPixels: number = this.tooltipComponentRef.instance.getWidthInPixels()
 
     const horizontalOffsetInPixels: number = Math.max(event.clientX - Math.ceil(tooltipWidthInPixels / 2), MINIMUM_HORIZONTAL_OFFSET_IN_PIXELS)
