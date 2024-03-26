@@ -12,6 +12,9 @@ export interface SofieTableHeader<T> {
   sortDirection?: SortDirection
 }
 
+const UPWARD_TRIANGLE_ICON_TOP_POSITION_PX: number = 3
+const DOWNWARD_TRIANGLE_ICON_TOP_POSITION_PX: number = -2
+
 @Component({
   selector: 'sofie-table',
   templateUrl: './table.component.html',
@@ -72,7 +75,7 @@ export class TableComponent<T> implements OnChanges {
   }
 
   public getSortIconTopPostion(header: SofieTableHeader<T>): number {
-    return header.sortDirection === SortDirection.ASC ? 3 : -3
+    return header.sortDirection === SortDirection.ASC ? UPWARD_TRIANGLE_ICON_TOP_POSITION_PX : DOWNWARD_TRIANGLE_ICON_TOP_POSITION_PX
   }
 
   public toggleAllEntities(isSelected: boolean): void {
