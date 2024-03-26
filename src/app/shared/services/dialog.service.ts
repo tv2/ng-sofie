@@ -3,16 +3,10 @@ import { Injectable } from '@angular/core'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
 import { ConfirmationDialogComponent, DialogColorScheme, DialogSeverity } from '../components/confirmation-dialog/confirmation-dialog.component'
 import { StronglyTypedDialog } from '../directives/strongly-typed-dialog.directive'
-import { BasicRundownStateService } from '../../core/services/basic-rundown-state.service'
-import { RundownService } from '../../core/abstractions/rundown.service'
 
 @Injectable()
 export class DialogService {
-  constructor(
-    public dialog: MatDialog,
-    private readonly basicRundownStateService: BasicRundownStateService,
-    private readonly rundownService: RundownService
-  ) {}
+  constructor(public dialog: MatDialog) {}
 
   private open<DialogData, DialogResult>(
     component: ComponentType<StronglyTypedDialog<DialogData, DialogResult>>,

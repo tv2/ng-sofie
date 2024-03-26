@@ -30,10 +30,8 @@ describe(DialogService.name, () => {
 
 function createTestee(params?: { mockedMatDialog?: MatDialog; mockedBasicRundownStateService?: BasicRundownStateService; mockedRundownService?: RundownService }): DialogService {
   const mockedMatDialog: MatDialog = params?.mockedMatDialog ?? createMatDialogMock()
-  const mockedBasicRundownStateService: BasicRundownStateService = params?.mockedBasicRundownStateService ?? mock<BasicRundownStateService>()
-  const mockedRundownService: RundownService = params?.mockedRundownService ?? mock<RundownService>()
 
-  return new DialogService(instance(mockedMatDialog), instance(mockedBasicRundownStateService), instance(mockedRundownService))
+  return new DialogService(instance(mockedMatDialog))
 }
 
 function createMatDialogMock(): MatDialog {
