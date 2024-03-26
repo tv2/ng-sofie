@@ -108,9 +108,9 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
 
   private getEventPriority(event: TypedEvent): number {
     switch (event.type) {
-      case RundownEventType.TAKEN:
-        return 5
       case RundownEventType.SET_NEXT:
+        return 5
+      case RundownEventType.TAKEN:
         return 4
       default:
         return 0
@@ -118,7 +118,7 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public scrollViewToSegment(segmentId: string): void {
-    const segmentElement: HTMLElement | null = document.getElementById(segmentId)
+    const segmentElement: HTMLElement | null = document.querySelector(`sofie-segment[data-segment-id="${segmentId}"]`)
     if (!segmentElement || this.isInsideViewport(segmentElement)) {
       return
     }
