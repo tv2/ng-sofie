@@ -57,7 +57,7 @@ export class TooltipDirective implements OnDestroy {
     this.tooltipComponentRef.changeDetectorRef.detectChanges()
 
     this.tooltipMetadataChange.emit({
-      horizontalOffsetInPixels: event.offsetX,
+      horizontalOffsetInPixels: Math.max(event.offsetX, 0),
     })
   }
 
