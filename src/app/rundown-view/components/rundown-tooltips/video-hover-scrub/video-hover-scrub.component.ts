@@ -10,8 +10,7 @@ import { Icon, IconSize } from 'src/app/shared/enums/icon'
   styleUrls: ['./video-hover-scrub.component.scss'],
 })
 export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() public filename: string
-  @Input() public isJingle?: boolean
+  @Input() public filename: string = ''
   @Input() public positionInVideoInMs: number
 
   @ViewChild('videoElementRef')
@@ -38,7 +37,7 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
 
   private setVideoPreviewUrl(studioConfiguration: StudioConfiguration): void {
     const baseMediaUrl: string = `${studioConfiguration.settings.mediaPreviewUrl}/media/preview/`
-    this.previewUrl = this.isJingle ? `${baseMediaUrl}${studioConfiguration.blueprintConfiguration.JingleFolder}/${this.filename}` : `${baseMediaUrl}${this.filename}`
+    this.previewUrl = `${baseMediaUrl}${this.filename}`
     this.changeDetectorRef.detectChanges()
   }
 
