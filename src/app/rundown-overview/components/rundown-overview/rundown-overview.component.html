@@ -24,13 +24,15 @@
             <td>
                 {{ basicRundown.modifiedAt | date: 'HH:mm – d LLL YYYY' }}
             </td>
-            <td>
+            <td class="text-right">
+              <sofie-button-group class="ms-2 me-2">
                 <sofie-icon-button
-                        [icon]="Icon.TRASH_CAN"
-                        [iconSize]="IconSize.L"
-                        (click)="openDeletionDialog(basicRundown)"
+                  [icon]="Icon.TRASH_CAN"
+                  [iconSize]="IconSize.L"
+                  (click)="openDeletionDialog(basicRundown)"
                 >
                 </sofie-icon-button>
+              </sofie-button-group>
             </td>
         </ng-template>
     </sofie-table>
