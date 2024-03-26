@@ -25,6 +25,13 @@
 
 .c-dialog-body {
     padding: 24px;
+    &.dark {
+        background-color: var(--dark-color);
+        color: var(--light-gray-color);
+        & .dialog-cancel-button {
+          border-color: var(--light-gray-color);
+        }
+    }
 }
 
 .mat-dialog-title {

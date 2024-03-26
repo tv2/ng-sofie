@@ -83,6 +83,8 @@ import { RoundedBoxComponent } from './components/rounded-box/rounded-box.compon
 import { RowComponent } from './components/row/row.component'
 import { ColumnComponent } from './components/column/column.component'
 import { PageComponent } from './components/page/page.component'
+import { TooltipDirective } from './directives/tooltip.directive'
+import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.component'
 
 @NgModule({
   declarations: [
@@ -125,6 +127,8 @@ import { PageComponent } from './components/page/page.component'
     RowComponent,
     ColumnComponent,
     PageComponent,
+    TooltipDirective,
+    TextTooltipComponent,
   ],
   imports: [
     CommonModule,
@@ -185,6 +189,8 @@ import { PageComponent } from './components/page/page.component'
     ActionBoxComponent,
     RowComponent,
     PageComponent,
+    TooltipDirective,
+    TextTooltipComponent,
   ],
   providers: [
     { provide: Logger, useClass: Tv2LoggerService },
