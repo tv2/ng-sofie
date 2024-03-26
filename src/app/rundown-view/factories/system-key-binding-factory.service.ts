@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Keys } from '../../keyboard/value-objects/key-binding'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
-import { ActionService } from '../../shared/abstractions/action.service'
 import { RundownService } from '../../core/abstractions/rundown.service'
 import { Rundown } from '../../core/models/rundown'
 import { DialogService } from '../../shared/services/dialog.service'
@@ -17,7 +16,6 @@ export class SystemKeyBindingFactory {
   private readonly logger: Logger
 
   constructor(
-    private readonly actionService: ActionService,
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService,
     private readonly rundownNavigationService: RundownNavigationService,
