@@ -5,8 +5,7 @@ import { instance, mock, when } from '@typestrong/ts-mockito'
 import { RouterModule } from '@angular/router'
 import { RundownService } from '../../../core/abstractions/rundown.service'
 import { DialogService } from '../../../shared/services/dialog.service'
-import { RundownStateService } from '../../../core/services/rundown-state.service'
-import { BasicRundownStateService } from '../../../core/services/basic-rundown-state.service'
+import { DialogConfirmationService } from '../../../shared/services/dialog-confirmation.service'
 
 describe(RundownHeaderContextMenuComponent.name, () => {
   it('should create', async () => {
@@ -19,23 +18,19 @@ describe(RundownHeaderContextMenuComponent.name, () => {
 
 async function configureTestBed(
   params: {
-    mockedBasicRundownStateService?: BasicRundownStateService
-    mockedRundownStateService?: RundownStateService
     mockedRundownService?: RundownService
     mockedDialogService?: DialogService
+    mockedDialogConfirmationService?: DialogConfirmationService
   } = {}
 ): Promise<RundownHeaderContextMenuComponent> {
-  const mockedBasicRundownStateService: BasicRundownStateService = params.mockedBasicRundownStateService ?? mock<BasicRundownStateService>()
-  const mockedRundownStateService: RundownStateService = params.mockedRundownStateService ?? mock<RundownStateService>()
   const mockedRundownService = params.mockedRundownService ?? mock<RundownService>()
   const mockedDialogService = params.mockedDialogService ?? mock<DialogService>()
   await TestBed.configureTestingModule({
     imports: [RouterModule.forRoot([])],
     providers: [
-      { provide: BasicRundownStateService, useValue: instance(mockedBasicRundownStateService) },
-      { provide: RundownStateService, useValue: instance(mockedRundownStateService) },
       { provide: RundownService, useValue: instance(mockedRundownService) },
       { provide: DialogService, useValue: instance(mockedDialogService) },
+      { provide: DialogConfirmationService, useValue: instance(mock<DialogConfirmationService>()) },
     ],
     declarations: [RundownHeaderContextMenuComponent],
   }).compileComponents()

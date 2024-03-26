@@ -3,22 +3,11 @@ import { Injectable } from '@angular/core'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
 import { ConfirmationDialogComponent, DialogColorScheme, DialogSeverity } from '../components/confirmation-dialog/confirmation-dialog.component'
 import { StronglyTypedDialog } from '../directives/strongly-typed-dialog.directive'
-import { Rundown } from '../../core/models/rundown'
-import { RundownMode } from '../../core/enums/rundown-mode'
-import { BasicRundown } from '../../core/models/basic-rundown'
 import { BasicRundownStateService } from '../../core/services/basic-rundown-state.service'
 import { RundownService } from '../../core/abstractions/rundown.service'
 
 @Injectable()
 export class DialogService {
-  private readonly activationOkButtonText: string = $localize`dialog.button.activate`
-  private readonly activationMessage: string = $localize`dialog.message.activation`
-  private readonly activationWarningMessage: string = $localize`dialog.message.activation.warning`
-
-  private readonly rehearseOkButtonText: string = $localize`dialog.button.rehearse`
-  private readonly rehearseMessage: string = $localize`dialog.message.rehearse`
-  private readonly rehearseWarningMessage: string = $localize`dialog.message.rehearse.warning`
-
   constructor(
     public dialog: MatDialog,
     private readonly basicRundownStateService: BasicRundownStateService,
@@ -58,43 +47,6 @@ export class DialogService {
           onOk()
         }
       })
-  }
-
-  public switchActivateRundownDialog(rundown: Rundown): void {
-    if (rundown.mode === RundownMode.ACTIVE) {
-      return
-    }
-
-    const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
-    if (!nonIdleRundown) {
-      this.createConfirmDialog(rundown.name, this.activationMessage, this.activationOkButtonText, () => this.rundownService.activate(rundown.id).subscribe())
-      return
-    }
-
-    if (nonIdleRundown.mode === RundownMode.REHEARSAL && nonIdleRundown.id === rundown.id) {
-      this.createConfirmDialog(rundown.name, this.activationMessage, this.activationOkButtonText, () => this.rundownService.activate(nonIdleRundown.id).subscribe())
-      return
-    }
-
-    this.createConfirmDialog(rundown.name, `${this.activationWarningMessage} "${nonIdleRundown.name}"`, `${this.activationOkButtonText}`, () =>
-      this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.activate(rundown.id).subscribe())
-    )
-  }
-
-  public switchRehearsalRundownDialog(rundown: Rundown): void {
-    if (rundown.mode === RundownMode.REHEARSAL) {
-      return
-    }
-
-    const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
-    if (!nonIdleRundown) {
-      this.createConfirmDialog(rundown.name, this.rehearseMessage, this.rehearseOkButtonText, () => this.rundownService.rehearse(rundown.id).subscribe())
-      return
-    }
-
-    this.createConfirmDialog(rundown.name, `${this.rehearseWarningMessage} "${nonIdleRundown.name}"`, this.rehearseOkButtonText, () =>
-      this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.rehearse(rundown.id).subscribe())
-    )
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

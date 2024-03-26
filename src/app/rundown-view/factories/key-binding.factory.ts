@@ -13,6 +13,7 @@ import { Logger } from '../../core/abstractions/logger.service'
 import { PartActionType } from '../../shared/models/action-type'
 import { MiniShelfCycleService } from '../services/mini-shelf-cycle.service'
 import { RundownMode } from '../../core/enums/rundown-mode'
+import { DialogConfirmationService } from '../../shared/services/dialog-confirmation.service'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -28,6 +29,7 @@ export class KeyBindingFactory {
     private readonly actionService: ActionService,
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService,
+    private readonly dialogConfirmationService: DialogConfirmationService,
     private readonly rundownNavigationService: RundownNavigationService,
     private readonly miniShelfCycleService: MiniShelfCycleService,
     logger: Logger
@@ -109,7 +111,7 @@ export class KeyBindingFactory {
 
   public createRundownKeyBindings(rundown: Rundown): StyledKeyBinding[] {
     let keybindings: StyledKeyBinding[] = [
-      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogService.switchActivateRundownDialog(rundown)),
+      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogConfirmationService.switchActivateRundownDialog(rundown)),
       this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
     ]
 
@@ -128,7 +130,7 @@ export class KeyBindingFactory {
     }
 
     if (RundownMode.REHEARSAL === rundown.mode) {
-      keybindings.push(this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogService.switchActivateRundownDialog(rundown)))
+      keybindings.push(this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogConfirmationService.switchActivateRundownDialog(rundown)))
     }
 
     return keybindings
