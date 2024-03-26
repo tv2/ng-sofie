@@ -14,8 +14,6 @@ export class VideoHoverScrubComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public isJingle?: boolean
   @Input() public positionInVideoInMs: number
 
-  public currentVideoTimeInMs: number
-
   @ViewChild('videoElementRef')
   public videoElementRef: ElementRef<HTMLVideoElement>
 
