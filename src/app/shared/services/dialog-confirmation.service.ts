@@ -5,6 +5,7 @@ import { RundownService } from '../../core/abstractions/rundown.service'
 import { BasicRundownStateService } from '../../core/services/basic-rundown-state.service'
 import { DialogService } from './dialog.service'
 import { Injectable } from '@angular/core'
+import { DialogColorScheme, DialogSeverity } from '../components/confirmation-dialog/confirmation-dialog.component'
 
 @Injectable()
 export class DialogConfirmationService {
@@ -38,8 +39,13 @@ export class DialogConfirmationService {
       return
     }
 
-    this.dialogService.createConfirmDialog(rundown.name, `${this.activationWarningMessage} "${nonIdleRundown.name}"`, `${this.activationOkButtonText}`, () =>
-      this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.activate(rundown.id).subscribe())
+    this.dialogService.createConfirmDialog(
+      rundown.name,
+      `${this.activationWarningMessage} "${nonIdleRundown.name}"`,
+      `${this.activationOkButtonText}`,
+      () => this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.activate(rundown.id).subscribe()),
+      DialogColorScheme.DARK,
+      DialogSeverity.DANGER
     )
   }
 
@@ -54,8 +60,13 @@ export class DialogConfirmationService {
       return
     }
 
-    this.dialogService.createConfirmDialog(rundown.name, `${this.rehearseWarningMessage} "${nonIdleRundown.name}"`, this.rehearseOkButtonText, () =>
-      this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.rehearse(rundown.id).subscribe())
+    this.dialogService.createConfirmDialog(
+      rundown.name,
+      `${this.rehearseWarningMessage} "${nonIdleRundown.name}"`,
+      this.rehearseOkButtonText,
+      () => this.rundownService.deactivate(nonIdleRundown.id).subscribe(() => this.rundownService.rehearse(rundown.id).subscribe()),
+      DialogColorScheme.DARK,
+      DialogSeverity.DANGER
     )
   }
 }
