@@ -111,7 +111,7 @@ export class KeyBindingFactory {
 
   public createRundownKeyBindings(rundown: Rundown): StyledKeyBinding[] {
     let keybindings: StyledKeyBinding[] = [
-      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogConfirmationService.switchActivateRundownDialog(rundown)),
+      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogConfirmationService.openActivateRundownDialog(rundown)),
       this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
     ]
 
@@ -130,7 +130,7 @@ export class KeyBindingFactory {
     }
 
     if (RundownMode.REHEARSAL === rundown.mode) {
-      keybindings.push(this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogConfirmationService.switchActivateRundownDialog(rundown)))
+      keybindings.push(this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogConfirmationService.openActivateRundownDialog(rundown)))
     }
 
     return keybindings

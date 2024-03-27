@@ -15,7 +15,7 @@ describe(DialogConfirmationService.name, () => {
     expect(testee).toBeTruthy()
   })
 
-  describe(DialogConfirmationService.prototype.switchRehearsalRundownDialog.name, () => {
+  describe(DialogConfirmationService.prototype.openRehearsalRundownDialog.name, () => {
     it('should show dialog when all rundowns are idle when going for rehearsal', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
@@ -34,7 +34,7 @@ describe(DialogConfirmationService.name, () => {
         mockedRundownService: mockedRunownService,
         mockedDialogService: mockedDialogService,
       })
-      testee.switchRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE }))
+      testee.openRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE }))
 
       verify(mockedDialogService.createConfirmDialog).once()
     })
@@ -60,7 +60,7 @@ describe(DialogConfirmationService.name, () => {
         mockedRundownService: mockedRunownService,
         mockedDialogService: mockedDialogService,
       })
-      testee.switchRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'this' }))
+      testee.openRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'this' }))
 
       verify(mockedDialogService.createConfirmDialog).once()
     })
@@ -86,7 +86,7 @@ describe(DialogConfirmationService.name, () => {
         mockedRundownService: mockedRunownService,
         mockedDialogService: mockedDialogService,
       })
-      testee.switchRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE }))
+      testee.openRehearsalRundownDialog(testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE }))
 
       verify(mockedDialogService.createConfirmDialog).once()
     })
@@ -107,13 +107,13 @@ describe(DialogConfirmationService.name, () => {
         mockedRundownService: mockedRunownService,
         mockedDialogService: mockedDialogService,
       })
-      testee.switchRehearsalRundownDialog(rundown)
+      testee.openRehearsalRundownDialog(rundown)
 
       verify(mockedDialogService.createConfirmDialog).never()
     })
   })
 
-  describe(DialogConfirmationService.prototype.switchActivateRundownDialog.name, () => {
+  describe(DialogConfirmationService.prototype.openActivateRundownDialog.name, () => {
     it('should show dialog when all rundowns are idle when going for on-air', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const rundown: Rundown = testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE })
@@ -133,7 +133,7 @@ describe(DialogConfirmationService.name, () => {
         mockedRundownService: mockedRunownService,
         mockedDialogService: mockedDialogService,
       })
-      testee.switchActivateRundownDialog(rundown)
+      testee.openActivateRundownDialog(rundown)
 
       verify(mockedDialogService.createConfirmDialog).once()
     })
@@ -159,7 +159,7 @@ describe(DialogConfirmationService.name, () => {
         mockedRundownService: mockedRunownService,
         mockedDialogService: mockedDialogService,
       })
-      testee.switchActivateRundownDialog(testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE }))
+      testee.openActivateRundownDialog(testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE }))
 
       verify(mockedDialogService.createConfirmDialog).once()
     })
@@ -180,7 +180,7 @@ describe(DialogConfirmationService.name, () => {
         mockedRundownService: mockedRunownService,
         mockedDialogService: mockedDialogService,
       })
-      testee.switchActivateRundownDialog(rundown)
+      testee.openActivateRundownDialog(rundown)
 
       verify(mockedDialogService.createConfirmDialog).never()
     })
@@ -206,7 +206,7 @@ describe(DialogConfirmationService.name, () => {
         mockedRundownService: mockedRunownService,
         mockedDialogService: mockedDialogService,
       })
-      testee.switchActivateRundownDialog(testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE }))
+      testee.openActivateRundownDialog(testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE }))
 
       verify(mockedDialogService.createConfirmDialog).once()
     })
