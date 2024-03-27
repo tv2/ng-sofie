@@ -8,13 +8,15 @@ import { RundownTimingContext } from '../../../core/models/rundown-timing-contex
 import { Subscription } from 'rxjs'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { RundownEventObserver } from 'src/app/core/services/rundown-event-observer.service'
-import { EventSubscription } from 'src/app/event-system/abstractions/event-observer.service'
+import { EventSubscription, TypedEvent } from 'src/app/event-system/abstractions/event-observer.service'
 import { ActionStateService } from '../../../shared/services/action-state.service'
 import { Action } from '../../../shared/models/action'
 import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../shared/models/tv2-action'
 import { PartEvent } from '../../../core/models/rundown-event'
 import { RundownMode } from '../../../core/enums/rundown-mode'
+import { RundownEventType } from '../../../core/models/rundown-event-type'
 
+const DEBOUNCE_EVENT_THRESHOLD_IN_MS: number = 100
 const SMOOTH_SCROLL_CONFIGURATION: ScrollIntoViewOptions = {
   behavior: 'smooth',
   block: 'nearest',
@@ -42,6 +44,8 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   private miniShelfSegments: Segment[] = []
   protected miniShelfSegmentActionMappings: Record<string, Tv2VideoClipAction> = {}
   private rundownActionsSubscription: Subscription
+  private debounceTimer?: NodeJS.Timeout
+  private highestPriorityEvent?: PartEvent
 
   @ViewChild('segmentList')
   public segmentListElement: ElementRef<HTMLCanvasElement>
@@ -72,17 +76,54 @@ export class RundownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private subscribeToEventObserver(): void {
-    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownTake(event => this.scrollViewToSegment(event)))
-    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(event => this.scrollViewToSegment(event)))
+    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownTake(event => this.prioritizedDebounce(event)))
+    this.rundownEventSubscriptions.push(this.rundownEventObserver.subscribeToRundownSetNext(event => this.prioritizedDebounce(event)))
   }
 
-  public scrollViewToSegment(event: PartEvent): void {
-    const element: HTMLElement | null = document.getElementById(event.segmentId)
-    if (!element || this.isInsideViewport(element)) {
+  private prioritizedDebounce(event: PartEvent): void {
+    this.startDebounceTimer()
+    const currentPriority: number = this.highestPriorityEvent ? this.getEventPriority(this.highestPriorityEvent) : 0
+    const eventPriority: number = this.getEventPriority(event)
+    if (eventPriority >= currentPriority) {
+      this.highestPriorityEvent = event
+    }
+  }
+
+  private startDebounceTimer(): void {
+    this.clearDebounceTimer()
+    this.debounceTimer = setTimeout(() => {
+      this.clearDebounceTimer()
+      if (!this.highestPriorityEvent) {
+        return
+      }
+      this.scrollViewToSegment(this.highestPriorityEvent.segmentId)
+      this.highestPriorityEvent = undefined
+    }, DEBOUNCE_EVENT_THRESHOLD_IN_MS)
+  }
+
+  private clearDebounceTimer(): void {
+    clearTimeout(this.debounceTimer)
+    this.debounceTimer = undefined
+  }
+
+  private getEventPriority(event: TypedEvent): number {
+    switch (event.type) {
+      case RundownEventType.SET_NEXT:
+        return 5
+      case RundownEventType.TAKEN:
+        return 4
+      default:
+        return 0
+    }
+  }
+
+  public scrollViewToSegment(segmentId: string): void {
+    const segmentElement: HTMLElement | null = document.querySelector(`sofie-segment[data-segment-id="${segmentId}"]`)
+    if (!segmentElement || this.isInsideViewport(segmentElement)) {
       return
     }
 
-    element.scrollIntoView(SMOOTH_SCROLL_CONFIGURATION)
+    segmentElement.scrollIntoView(SMOOTH_SCROLL_CONFIGURATION)
   }
 
   public isInsideViewport(element: HTMLElement): boolean {
