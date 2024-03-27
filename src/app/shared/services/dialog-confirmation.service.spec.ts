@@ -2,7 +2,7 @@ import { DialogService } from './dialog.service'
 import { anyString, instance, mock, verify, when } from '@typestrong/ts-mockito'
 import { RundownService } from '../../core/abstractions/rundown.service'
 import { BasicRundownStateService } from '../../core/services/basic-rundown-state.service'
-import { Observable, of } from 'rxjs'
+import { EMPTY, Observable, of } from 'rxjs'
 import { TestEntityFactory } from '../../test/factories/test-entity.factory'
 import { RundownMode } from '../../core/enums/rundown-mode'
 import { Rundown } from '../../core/models/rundown'
@@ -44,7 +44,7 @@ describe(DialogConfirmationService.name, () => {
 
       const mockedRunownService = mock<RundownService>()
 
-      const mockedRehearseSubscription: Observable<void> = mock<Observable<void>>()
+      const mockedRehearseSubscription: Observable<void> = EMPTY
       when(mockedRunownService.rehearse(anyString())).thenReturn(instance(mockedRehearseSubscription))
 
       const mockedDeactivateSubscription: Observable<void> = mock<Observable<void>>()
@@ -70,10 +70,10 @@ describe(DialogConfirmationService.name, () => {
 
       const mockedRunownService = mock<RundownService>()
 
-      const mockedRehearseSubscription: Observable<void> = mock<Observable<void>>()
+      const mockedRehearseSubscription: Observable<void> = EMPTY
       when(mockedRunownService.rehearse('this')).thenReturn(instance(mockedRehearseSubscription))
 
-      const mockedDeactivateSubscription: Observable<void> = mock<Observable<void>>()
+      const mockedDeactivateSubscription: Observable<void> = EMPTY
       when(mockedRunownService.deactivate('another')).thenReturn(instance(mockedDeactivateSubscription))
 
       const mockedDialogService: DialogService = createDialogServiceMock()
@@ -120,7 +120,7 @@ describe(DialogConfirmationService.name, () => {
 
       const mockedRunownService = mock<RundownService>()
 
-      const mockedSubscription: Observable<void> = mock<Observable<void>>()
+      const mockedSubscription: Observable<void> = EMPTY
       when(mockedRunownService.activate(rundown.id)).thenReturn(instance(mockedSubscription))
 
       const mockedDialogService: DialogService = createDialogServiceMock()
@@ -143,10 +143,10 @@ describe(DialogConfirmationService.name, () => {
 
       const mockedRunownService = mock<RundownService>()
 
-      const mockedActivateSubscription: Observable<void> = mock<Observable<void>>()
+      const mockedActivateSubscription: Observable<void> = EMPTY
       when(mockedRunownService.activate('this')).thenReturn(instance(mockedActivateSubscription))
 
-      const mockedDeactivateSubscription: Observable<void> = mock<Observable<void>>()
+      const mockedDeactivateSubscription: Observable<void> = EMPTY
       when(mockedRunownService.deactivate('another')).thenReturn(instance(mockedDeactivateSubscription))
 
       const mockedDialogService: DialogService = createDialogServiceMock()
@@ -190,10 +190,10 @@ describe(DialogConfirmationService.name, () => {
 
       const mockedRunownService = mock<RundownService>()
 
-      const mockedActivateSubscription: Observable<void> = mock<Observable<void>>()
+      const mockedActivateSubscription: Observable<void> = EMPTY
       when(mockedRunownService.activate('this')).thenReturn(instance(mockedActivateSubscription))
 
-      const mockedDeactivateSubscription: Observable<void> = mock<Observable<void>>()
+      const mockedDeactivateSubscription: Observable<void> = EMPTY
       when(mockedRunownService.deactivate('another')).thenReturn(instance(mockedDeactivateSubscription))
 
       const mockedDialogService: DialogService = createDialogServiceMock()
