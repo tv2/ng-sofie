@@ -2,7 +2,7 @@
   class="piece"
   [style.width.px]="widthInPixels"
   [ngClass]="pieceTypeModifierClass"
-  [class.media-unavailable]="isMediaUnavailable"
+  [class.media-unavailable]="isMediaUnavailable()"
   sofieTooltip
   [sofieTooltipTemplate]="pieceTooltip"
   (tooltipMetadataChange)="updatePositionInVideo($event)"
@@ -16,7 +16,6 @@
     <sofie-piece-tooltip
             [piece]="piece"
             [durationInMs]="partDuration"
-            [isMediaUnavailable]="isMediaUnavailable"
             [media]="media"
             [positionInVideoInMs]="positionInVideoInMs"
     >

@@ -155,7 +155,6 @@ export class TestEntityFactory {
         mediaPreviewUrl: 'http://media.preview.url',
       },
       blueprintConfiguration: {
-        JingleFolder: 'jingle-folder',
         ServerPostrollDuration: 4200,
       },
       ...studioConfiguration,
