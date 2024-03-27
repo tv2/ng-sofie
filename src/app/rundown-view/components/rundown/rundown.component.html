@@ -1,7 +1,8 @@
 <div class="segments">
     <ng-container #segmentList *ngFor="let segment of rundown?.segments; trackBy: trackSegment">
         <sofie-segment
-                id="{{segment.id}}"
+                class="segment"
+                [attr.data-segment-id]="segment.id"
                 *ngIf="!segment.isHidden"
                 [segment]="segment"
                 [isRundownActiveOrRehearsal]="isActiveOrRehearsal"
