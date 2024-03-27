@@ -27,7 +27,7 @@ describe(DialogConfirmationService.name, () => {
       const mockedDialogService: DialogService = createDialogServiceMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(undefined)
+      when(mockedBasicRundoStateService.getBasicRundowns()).thenReturn([])
 
       const testee: DialogConfirmationService = createTestee({
         mockedBasicRundownStateService: mockedBasicRundoStateService,
@@ -53,7 +53,7 @@ describe(DialogConfirmationService.name, () => {
       const mockedDialogService: DialogService = createDialogServiceMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ mode: RundownMode.ACTIVE }))
+      when(mockedBasicRundoStateService.getBasicRundowns()).thenReturn([testEntityFactory.createRundown({ mode: RundownMode.ACTIVE })])
 
       const testee: DialogConfirmationService = createTestee({
         mockedBasicRundownStateService: mockedBasicRundoStateService,
@@ -79,7 +79,7 @@ describe(DialogConfirmationService.name, () => {
       const mockedDialogService: DialogService = createDialogServiceMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ id: 'another', mode: RundownMode.REHEARSAL }))
+      when(mockedBasicRundoStateService.getBasicRundowns()).thenReturn([testEntityFactory.createRundown({ id: 'another', mode: RundownMode.REHEARSAL })])
 
       const testee: DialogConfirmationService = createTestee({
         mockedBasicRundownStateService: mockedBasicRundoStateService,
@@ -100,7 +100,7 @@ describe(DialogConfirmationService.name, () => {
       const mockedDialogService: DialogService = createDialogServiceMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(rundown)
+      when(mockedBasicRundoStateService.getBasicRundowns()).thenReturn([rundown])
 
       const testee: DialogConfirmationService = createTestee({
         mockedBasicRundownStateService: mockedBasicRundoStateService,
@@ -126,7 +126,7 @@ describe(DialogConfirmationService.name, () => {
       const mockedDialogService: DialogService = createDialogServiceMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(undefined)
+      when(mockedBasicRundoStateService.getBasicRundowns()).thenReturn([])
 
       const testee: DialogConfirmationService = createTestee({
         mockedBasicRundownStateService: mockedBasicRundoStateService,
@@ -152,7 +152,7 @@ describe(DialogConfirmationService.name, () => {
       const mockedDialogService: DialogService = createDialogServiceMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ id: 'another', mode: RundownMode.ACTIVE }))
+      when(mockedBasicRundoStateService.getBasicRundowns()).thenReturn([testEntityFactory.createRundown({ id: 'another', mode: RundownMode.ACTIVE })])
 
       const testee: DialogConfirmationService = createTestee({
         mockedBasicRundownStateService: mockedBasicRundoStateService,
@@ -173,7 +173,7 @@ describe(DialogConfirmationService.name, () => {
       const mockedDialogService: DialogService = createDialogServiceMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(rundown)
+      when(mockedBasicRundoStateService.getBasicRundowns()).thenReturn([rundown])
 
       const testee: DialogConfirmationService = createTestee({
         mockedBasicRundownStateService: mockedBasicRundoStateService,
@@ -199,7 +199,7 @@ describe(DialogConfirmationService.name, () => {
       const mockedDialogService: DialogService = createDialogServiceMock()
 
       const mockedBasicRundoStateService = mock<BasicRundownStateService>()
-      when(mockedBasicRundoStateService.getNonIdleRundown()).thenReturn(testEntityFactory.createRundown({ id: 'another', mode: RundownMode.REHEARSAL }))
+      when(mockedBasicRundoStateService.getBasicRundowns()).thenReturn([testEntityFactory.createRundown({ id: 'another', mode: RundownMode.REHEARSAL })])
 
       const testee: DialogConfirmationService = createTestee({
         mockedBasicRundownStateService: mockedBasicRundoStateService,

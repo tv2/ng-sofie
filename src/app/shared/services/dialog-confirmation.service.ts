@@ -28,7 +28,7 @@ export class DialogConfirmationService {
       return
     }
 
-    const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
+    const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getBasicRundowns().find(rundown => [RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(rundown.mode))
     if (!nonIdleRundown) {
       this.dialogService.createConfirmDialog(rundown.name, this.activationMessage, this.activationOkButtonText, () => this.rundownService.activate(rundown.id).subscribe())
       return
@@ -54,7 +54,7 @@ export class DialogConfirmationService {
       return
     }
 
-    const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getNonIdleRundown()
+    const nonIdleRundown: BasicRundown | undefined = this.basicRundownStateService.getBasicRundowns().find(rundown => [RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(rundown.mode))
     if (!nonIdleRundown) {
       this.dialogService.createConfirmDialog(rundown.name, this.rehearseMessage, this.rehearseOkButtonText, () => this.rundownService.rehearse(rundown.id).subscribe())
       return

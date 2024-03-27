@@ -8,7 +8,6 @@ import { BasicRundownService } from '../abstractions/basic-rundown.service'
 import { RundownCreatedEvent, RundownEvent, RundownUpdatedEvent } from '../models/rundown-event'
 import { BasicRundownEntityService } from './models/basic-rundown-entity.service'
 import { Logger } from '../abstractions/logger.service'
-import { RundownMode } from '../enums/rundown-mode'
 
 @Injectable()
 export class BasicRundownStateService implements OnDestroy {
@@ -131,7 +130,7 @@ export class BasicRundownStateService implements OnDestroy {
     this.eventSubscriptions.forEach(eventSubscription => eventSubscription.unsubscribe())
   }
 
-  public getNonIdleRundown(): BasicRundown | undefined {
-    return this.basicRundowns.find(rundown => [RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(rundown.mode))
+  public getBasicRundowns(): BasicRundown[] {
+    return this.basicRundowns
   }
 }
