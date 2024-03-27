@@ -132,63 +132,71 @@ export class RundownEntityService {
   public insertSegmentInRundown(rundown: Rundown, segment: Segment): Rundown {
     return {
       ...rundown,
-      segments: [...rundown.segments, segment].sort((a, b) => a.rank - b.rank)
+      segments: [...rundown.segments, segment].sort((a, b) => a.rank - b.rank),
     }
   }
 
   public updateSegmentInRundown(rundown: Rundown, updatedSegment: Segment): Rundown {
     return {
       ...rundown,
-      segments: rundown.segments
-        .map(segment => segment.id !== updatedSegment.id ? segment : updatedSegment)
-        .sort((a, b) => a.rank - b.rank)
+      segments: rundown.segments.map(segment => (segment.id !== updatedSegment.id ? segment : updatedSegment)).sort((a, b) => a.rank - b.rank),
     }
   }
 
   public removeSegmentFromRundown(rundown: Rundown, segmentId: string): Rundown {
     return {
       ...rundown,
-      segments: rundown.segments.filter(segment => segment.id !== segmentId)
+      segments: rundown.segments.filter(segment => segment.id !== segmentId),
     }
   }
 
-  public unsyncSegmentInRundown(rundown: Rundown, unsyncedSegment: Segment, originalSegmentId: string): Rundown {
-    return this.insertSegmentInRundown(this.removeSegmentFromRundown(rundown, originalSegmentId), unsyncedSegment)
+  public unsyncSegmentInRundown(rundown: Rundown, unsyncdSegment: Segment, originalSegmentId: string): Rundown {
+    return this.insertSegmentInRundown(this.removeSegmentFromRundown(rundown, originalSegmentId), unsyncdSegment)
   }
 
   public insertPartInSegment(rundown: Rundown, part: Part): Rundown {
     return {
       ...rundown,
-      segments: rundown.segments.map(segment => segment.id !== part.segmentId ? segment : ({
-        ...segment,
-        parts: [...segment.parts, part].sort((a,b) => a.rank - b.rank)
-      }))
+      segments: rundown.segments.map(segment =>
+        segment.id !== part.segmentId
+          ? segment
+          : {
+              ...segment,
+              parts: [...segment.parts, part].sort((a, b) => a.rank - b.rank),
+            }
+      ),
     }
   }
 
-  public updatePartInSegment(rundown: Rundown, partToUpdate: Part): Rundown {
+  public updatePartInSegment(rundown: Rundown, updatedPart: Part): Rundown {
     return {
       ...rundown,
-      segments: rundown.segments.map(segment => segment.id !== partToUpdate.segmentId ? segment : ({
-        ...segment,
-        parts: segment.parts
-          .map(part => part.id !== partToUpdate.id ? part : partToUpdate)
-          .sort((a,b) => a.rank - b.rank)
-      }))
+      segments: rundown.segments.map(segment =>
+        segment.id !== updatedPart.segmentId
+          ? segment
+          : {
+              ...segment,
+              parts: segment.parts.map(part => (part.id !== updatedPart.id ? part : updatedPart)).sort((a, b) => a.rank - b.rank),
+            }
+      ),
     }
   }
 
   public removePartFromSegment(rundown: Rundown, segmentId: string, partId: string): Rundown {
     return {
       ...rundown,
-      segments: rundown.segments.map(segment => segment.id !== segmentId ? segment : ({
-        ...segment,
-        parts: segment.parts.filter(part => part.id !== partId),
-      }))
+      segments: rundown.segments.map(segment =>
+        segment.id !== segmentId
+          ? segment
+          : {
+              ...segment,
+              parts: segment.parts.filter(part => part.id !== partId),
+            }
+      ),
     }
   }
 
-  public unSyncPartInSegment(rundown: Rundown, partToUnSynchronize: Part): Rundown {
-    return this.updatePartInSegment(rundown, partToUnSynchronize)
+  public unsyncPartInSegment(rundown: Rundown, unsyncdPart: Part): Rundown {
+    return this.updatePartInSegment(rundown, unsyncdPart)
   }
 }

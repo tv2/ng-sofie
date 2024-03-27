@@ -247,7 +247,7 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject || !rundownSubject.value) {
       return
     }
-    const updatedRundown: Rundown = this.rundownEntityService.unSyncPartInSegment(rundownSubject.value, event.part)
+    const updatedRundown: Rundown = this.rundownEntityService.unsyncPartInSegment(rundownSubject.value, event.part)
     rundownSubject.next(updatedRundown)
   }
 
