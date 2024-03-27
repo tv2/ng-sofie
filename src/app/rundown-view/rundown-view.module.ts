@@ -27,7 +27,7 @@ import { SegmentContextMenuComponent } from './components/segment-context-menu/s
 import { PartContextMenuComponent } from './components/part-context-menu/part-context-menu.component'
 import { KeyboardConfigurationService } from './abstractions/keyboard-configuration.service'
 import { ProducerKeyboardConfigurationService } from './services/producer-keyboard-configuration.service'
-import { KeyBindingFactory } from './factories/key-binding.factory'
+import { SystemKeyBindingFactory } from './factories/system-key-binding-factory.service'
 import { OnAirDetailsPanelComponent } from './components/on-air-details-panel/on-air-details-panel.component'
 import { CountdownLabelComponent } from './components/countdown-label/countdown-label.component'
 import { ActionTriggerProducerKeyBindingService } from './services/action-trigger-producer-key-binding.service'
@@ -72,7 +72,7 @@ import { Tv2PieceTooltipContentFieldService } from './services/tv2-piece-tooltip
     { provide: KeyboardConfigurationService, useClass: ProducerKeyboardConfigurationService },
     MiniShelfCycleService,
     MiniShelfNavigationService,
-    KeyBindingFactory,
+    SystemKeyBindingFactory,
   ],
   imports: [SharedModule, RundownViewRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule],
 })
