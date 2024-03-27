@@ -27,13 +27,15 @@
                 <td>
                     {{ actionPanel.rank }}
                 </td>
-                <td>
-                    <sofie-rounded-box *ngFor="let filter of actionPanel.actionFilter" class="{{ filter | actionColorClass }} me-2">
+                <td >
+                  <div class="flex" style="flex-wrap: wrap; gap: 8px;">
+                    <sofie-rounded-box *ngFor="let filter of actionPanel.actionFilter" [class]="filter | actionColorClass">
                         {{ filter | translateActionType }}
                     </sofie-rounded-box>
+                  </div>
                 </td>
-                <td>
-                    <sofie-button-group class="align-table-data-end">
+                <td class="text-right">
+                    <sofie-button-group>
                         <sofie-icon-button [icon]="Icon.PEN" [iconSize]="IconSize.L" [tooltip]="'Edit Action Panel'" (click)="openEditActionPanel(actionPanel)"></sofie-icon-button>
                         <sofie-icon-button [icon]="Icon.TWO_SHEETS_COPY" [iconSize]="IconSize.L" [tooltip]="'Copy Action Panel'" (click)="duplicateActionPanel(actionPanel)"></sofie-icon-button>
                         <sofie-icon-button [icon]="Icon.TRASH_CAN" [iconSize]="IconSize.L" [tooltip]="'Delete Action Panel'" (click)="deleteActionPanel(actionPanel)"></sofie-icon-button>

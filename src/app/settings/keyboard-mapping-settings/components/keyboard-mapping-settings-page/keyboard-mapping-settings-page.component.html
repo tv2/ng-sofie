@@ -29,8 +29,8 @@
                 <td>
                     <sofie-rounded-box class="{{ keyboardMapping.action.metadata.contentType | actionColorClass }}">{{ keyboardMapping.action.name }}</sofie-rounded-box>
                 </td>
-                <td>
-                    <sofie-button-group class="align-table-data-end">
+                <td class="text-right">
+                    <sofie-button-group>
                         <sofie-icon-button [icon]="Icon.PEN" [iconSize]="IconSize.L" i18n-tooltip tooltip="keyboard-mapping-settings-page.edit-action-panel" (click)="openEditKeyboardMapping(keyboardMapping)"></sofie-icon-button>
                         <sofie-icon-button [icon]="Icon.TWO_SHEETS_COPY" [iconSize]="IconSize.L" i18n-tooltip tooltip="keyboard-mapping-settings-page.copy-action-panel" (click)="duplicateKeyboardMapping(keyboardMapping)"></sofie-icon-button>
                         <sofie-icon-button [icon]="Icon.TRASH_CAN" [iconSize]="IconSize.L" i18n-tooltip tooltip="keyboard-mapping-settings-page.delete-action-panel" (click)="deleteKeyboardMapping(keyboardMapping)"></sofie-icon-button>

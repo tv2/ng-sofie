@@ -4,10 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core'
   name: 'formatKeyboardKeys',
 })
 export class FormatKeyboardKeysPipe implements PipeTransform {
-  public transform(keys?: string[]): string {
-    if (!keys) {
-      return ''
-    }
+  public transform(keys: string[]): string {
     return keys.map(key => this.formatKey(key)).join(' + ')
   }
 
