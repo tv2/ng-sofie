@@ -97,11 +97,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   }
 
   private updateActionTriggerKeybindings(): void {
-    const keyBindings: KeyBinding[] = []
-    this.actionTriggersWithAction.forEach((action: Tv2Action, actionTrigger: ActionTrigger<KeyboardTriggerData>) => {
-      keyBindings.push(this.createBinding(action, actionTrigger, this.rundown!.id))
-    })
-    this.actionTriggerKeyBindings = keyBindings
+    this.actionTriggerKeyBindings = Array.from(this.actionTriggersWithAction, ([actionTrigger, action]) => this.createBinding(action, actionTrigger, this.rundown!.id))
   }
 
   private emitKeybindings(): void {
@@ -183,20 +179,25 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   }
 
   private updateSystemKeyBindings(): void {
+    this.systemKeyBindings = this.createSystemKeyBindings()
+  }
+
+  private createSystemKeyBindings(): KeyBinding[] {
     if (!this.rundown) {
-      this.systemKeyBindings = []
-      return
+      return []
     }
 
-    if (this.rundown.mode === RundownMode.INACTIVE) {
-      this.systemKeyBindings = this.systemKeyBindingFactory.createInactiveRundownKeyBindings(this.rundown)
-      return
+    switch (this.rundown.mode) {
+      case RundownMode.ACTIVE: {
+        return this.systemKeyBindingFactory.createActiveRundownKeyBindings(this.rundown)
+      }
+      case RundownMode.REHEARSAL: {
+        return this.systemKeyBindingFactory.createRehearsalRundownKeyBindings(this.rundown)
+      }
+      case RundownMode.INACTIVE: {
+        return this.systemKeyBindingFactory.createInactiveRundownKeyBindings(this.rundown)
+      }
     }
-
-    this.systemKeyBindings =
-      this.rundown.mode === RundownMode.ACTIVE
-        ? this.systemKeyBindingFactory.createActiveRundownKeyBindings(this.rundown)
-        : this.systemKeyBindingFactory.createRehearsalRundownKeyBindings(this.rundown)
   }
 
   public subscribeToKeyBindings(): Observable<KeyBinding[]> {
