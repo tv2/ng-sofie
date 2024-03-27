@@ -85,6 +85,7 @@ import { ColumnComponent } from './components/column/column.component'
 import { PageComponent } from './components/page/page.component'
 import { TooltipDirective } from './directives/tooltip.directive'
 import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.component'
+import { DialogConfirmationService } from './services/dialog-confirmation.service'
 
 @NgModule({
   declarations: [
@@ -208,6 +209,7 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     HttpErrorService,
     HttpClientModule,
     DialogService,
+    DialogConfirmationService,
     ConnectionErrorService,
     Tv2OutputLayerService,
     ActionStateService,

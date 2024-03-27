@@ -129,4 +129,8 @@ export class BasicRundownStateService implements OnDestroy {
   public ngOnDestroy(): void {
     this.eventSubscriptions.forEach(eventSubscription => eventSubscription.unsubscribe())
   }
+
+  public getBasicRundowns(): BasicRundown[] {
+    return this.basicRundowns
+  }
 }

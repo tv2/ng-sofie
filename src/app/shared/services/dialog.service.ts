@@ -15,7 +15,14 @@ export class DialogService {
     return this.dialog.open(component, config)
   }
 
-  public createConfirmDialog(title: string, message: string, okButtonText: string, onOk: () => void, theme: DialogColorScheme, severity: DialogSeverity): void {
+  public createConfirmDialog(
+    title: string,
+    message: string,
+    okButtonText: string,
+    onOk: () => void,
+    theme: DialogColorScheme = DialogColorScheme.DARK,
+    severity: DialogSeverity = DialogSeverity.INFO
+  ): void {
     this.open(ConfirmationDialogComponent, {
       data: {
         title: title,
@@ -30,10 +37,9 @@ export class DialogService {
     })
       .afterClosed()
       .subscribe(result => {
-        if (!result) {
-          return
+        if (result) {
+          onOk()
         }
-        onOk()
       })
   }
 

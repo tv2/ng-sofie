@@ -402,6 +402,32 @@
         <source>notification-icon.toggle-panel.tooltip</source>
         <target state="new">Klik for at vise/skjule notifikationspanelet</target>
       </trans-unit>
+      <trans-unit id="4104115551404451182" datatype="html">
+        <source>dialog.button.activate</source>
+        <target state="new">Aktiver</target>
+      </trans-unit>
+      <trans-unit id="6184838723314474094" datatype="html">
+        <source>dialog.button.rehearse</source>
+        <target state="new">Afprøv</target>
+      </trans-unit>
+      <trans-unit id="5333590585565329092" datatype="html">
+        <source>dialog.message.activation</source>
+        <target state="new">Er du sikker på at du vil aktivere denne Rundown?</target>
+      </trans-unit>
+      <trans-unit id="3626510894964414637" datatype="html">
+        <source>dialog.message.activation.warning</source>
+        <target state="new">Er du sikker på du vil aktivere denne Rundown?
+        Det vil deaktivere Rundown</target>
+      </trans-unit>
+      <trans-unit id="6370990329720066506" datatype="html">
+        <source>dialog.message.rehearse</source>
+        <target state="new">Er du sikker på at du vil afprøve denne Rundown?</target>
+      </trans-unit>
+      <trans-unit id="2994423491366084246" datatype="html">
+        <source>dialog.message.rehearse.warning</source>
+        <target state="new">Er du sikker på at du vil afprøve denne Rundown?
+        Det vil deaktivere Rundown</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

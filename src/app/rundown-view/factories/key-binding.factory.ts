@@ -13,6 +13,7 @@ import { Logger } from '../../core/abstractions/logger.service'
 import { PartActionType } from '../../shared/models/action-type'
 import { MiniShelfCycleService } from '../services/mini-shelf-cycle.service'
 import { RundownMode } from '../../core/enums/rundown-mode'
+import { DialogConfirmationService } from '../../shared/services/dialog-confirmation.service'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -28,6 +29,7 @@ export class KeyBindingFactory {
     private readonly actionService: ActionService,
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService,
+    private readonly dialogConfirmationService: DialogConfirmationService,
     private readonly rundownNavigationService: RundownNavigationService,
     private readonly miniShelfCycleService: MiniShelfCycleService,
     logger: Logger
@@ -108,8 +110,13 @@ export class KeyBindingFactory {
   }
 
   public createRundownKeyBindings(rundown: Rundown): StyledKeyBinding[] {
+    let keybindings: StyledKeyBinding[] = [
+      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogConfirmationService.openActivateRundownDialog(rundown)),
+      this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
+    ]
+
     if ([RundownMode.ACTIVE, RundownMode.REHEARSAL].includes(rundown.mode)) {
-      return [
+      keybindings = [
         this.createRundownKeyBinding('Take', ['AnyEnter'], () => this.takeNext(rundown)),
         this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
         this.createRundownKeyBinding('Deactivate Rundown', ['Control', 'Shift', 'Backquote'], () => this.deactivateRundown(rundown)),
@@ -121,10 +128,12 @@ export class KeyBindingFactory {
         this.createRundownKeyBinding('Cycle MiniShelf', ['Shift', 'Tab'], () => this.miniShelfCycleService.cycleMiniShelfBackward(rundown)),
       ]
     }
-    return [
-      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.activateRundown(rundown)),
-      this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
-    ]
+
+    if (RundownMode.REHEARSAL === rundown.mode) {
+      keybindings.push(this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogConfirmationService.openActivateRundownDialog(rundown)))
+    }
+
+    return keybindings
   }
 
   private takeNext(rundown: Rundown): void {
@@ -140,20 +149,6 @@ export class KeyBindingFactory {
       'Are you sure you want to reset the Rundown?',
       'Reset',
       () => this.rundownService.reset(rundown.id).subscribe(),
-      DialogColorScheme.DARK,
-      DialogSeverity.INFO
-    )
-  }
-
-  private activateRundown(rundown: Rundown): void {
-    if (rundown.mode === RundownMode.ACTIVE) {
-      return
-    }
-    this.dialogService.createConfirmDialog(
-      rundown.name,
-      'Are you sure you want to activate the Rundown?',
-      'Activate',
-      () => this.rundownService.activate(rundown.id).subscribe(),
       DialogColorScheme.DARK,
       DialogSeverity.INFO
     )

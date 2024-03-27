@@ -5,6 +5,7 @@ import { DialogService } from '../../../shared/services/dialog.service'
 import { ContextMenuOption } from '../../../shared/models/context-menu-option'
 import { DialogColorScheme, DialogSeverity } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component'
 import { RundownMode } from '../../../core/enums/rundown-mode'
+import { DialogConfirmationService } from '../../../shared/services/dialog-confirmation.service'
 
 @Component({
   selector: 'sofie-rundown-header-context-menu',
@@ -21,11 +22,11 @@ export class RundownHeaderContextMenuComponent {
   private readonly contextMenuOptionsForInactiveRundown: ContextMenuOption[] = [
     {
       label: 'Activate (On Air)',
-      contextAction: (): void => this.openActivateRundownDialog(),
+      contextAction: (): void => this.dialogConfirmationService.openActivateRundownDialog(this.rundown),
     },
     {
       label: 'Rehearse',
-      contextAction: (): void => this.openRehearsalRundownDialog(),
+      contextAction: (): void => this.dialogConfirmationService.openRehearsalRundownDialog(this.rundown),
     },
     {
       label: 'Reingest data',
@@ -55,7 +56,7 @@ export class RundownHeaderContextMenuComponent {
   private readonly contextMenuOptionsForRehearseRundown: ContextMenuOption[] = [
     {
       label: 'Activate (On Air)',
-      contextAction: (): void => this.openActivateRundownDialog(),
+      contextAction: (): void => this.dialogConfirmationService.openActivateRundownDialog(this.rundown),
     },
     ...this.contextMenuOptionsForActiveRundown,
   ]
@@ -73,24 +74,9 @@ export class RundownHeaderContextMenuComponent {
 
   constructor(
     private readonly rundownService: RundownService,
-    private readonly dialogService: DialogService
+    private readonly dialogService: DialogService,
+    private readonly dialogConfirmationService: DialogConfirmationService
   ) {}
-
-  public openActivateRundownDialog(): void {
-    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to activate the Rundown?', 'Activate', () => this.activateRundown(), DialogColorScheme.DARK, DialogSeverity.INFO)
-  }
-
-  public activateRundown(): void {
-    this.rundownService.activate(this.rundown.id).subscribe()
-  }
-
-  public openRehearsalRundownDialog(): void {
-    this.dialogService.createConfirmDialog(this.rundown.name, 'Are you sure you want to rehearse the Rundown?', 'Rehearse', () => this.rehearseRundown(), DialogColorScheme.DARK, DialogSeverity.INFO)
-  }
-
-  public rehearseRundown(): void {
-    this.rundownService.rehearse(this.rundown.id).subscribe()
-  }
 
   public openDeactivateRundownDialog(): void {
     this.dialogService.createConfirmDialog(
