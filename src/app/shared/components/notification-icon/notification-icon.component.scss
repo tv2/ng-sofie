@@ -23,11 +23,11 @@
       margin-top: -15px;
       background-color: var(--black-color);
       border: 2px solid var(--status-code-color);
-      color: var(--status-code-color);
+      color: var(--white-color);
       font-size: 0.7rem;
       font-weight: bold;
       text-align: center;
-      transition: color .2s, border-color .2s;
+      transition: border-color .2s;
       pointer-events: none;
     }
 
