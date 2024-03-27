@@ -51,23 +51,24 @@ export class NotificationIconComponent implements OnInit, OnDestroy {
   }
 
   protected getHighestStatusCode(): StatusCode {
-    return this.notifications.reduce(
-      (highestStatusCode: StatusCode, notification: Notification) => {
-        if (this.getStatusCodePriority(notification.statusCode) == this.getStatusCodePriority(highestStatusCode)) {
-          return highestStatusCode
-        }
-        return notification.statusCode
-      },
-      StatusCode.UNKNOWN
-    )
+    return this.notifications.reduce((highestStatusCode: StatusCode, notification: Notification) => {
+      if (this.getStatusCodePriority(notification.statusCode) == this.getStatusCodePriority(highestStatusCode)) {
+        return highestStatusCode
+      }
+      return notification.statusCode
+    }, StatusCode.UNKNOWN)
   }
 
   protected getStatusCodePriority(statusCode: StatusCode): number {
     switch (statusCode) {
-      case StatusCode.BAD: return 3
-      case StatusCode.WARNING: return 2
-      case StatusCode.GOOD: return 1
-      case StatusCode.UNKNOWN: return 0
+      case StatusCode.BAD:
+        return 3
+      case StatusCode.WARNING:
+        return 2
+      case StatusCode.GOOD:
+        return 1
+      case StatusCode.UNKNOWN:
+        return 0
     }
   }
 

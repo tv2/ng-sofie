@@ -28,7 +28,6 @@
       font-weight: bold;
       text-align: center;
       transition: border-color .2s;
-      pointer-events: none;
     }
 
     &.bad {
@@ -40,7 +39,7 @@
     }
 
     &.good {
-      --status-code-color: var(--blue-color);
+      --status-code-color: var(--info-color);
     }
 
     &:hover {
