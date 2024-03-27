@@ -1,11 +1,16 @@
-<sofie-icon-button
-        sofieTooltip
-        [sofieTooltipTemplate]="tooltip"
-        [class.error]="hasNotification()"
-        [icon]="Icon.CIRCLE_EXCLAMATION"
-        [iconSize]="IconSize.XL"
-        (click)="toggleNotificationPanel()">
-</sofie-icon-button>
+<div
+  sofieTooltip
+  [sofieTooltipTemplate]="tooltip"
+  [class]="highestStatusCode.toLowerCase()"
+  (click)="toggleNotificationPanel()"
+>
+  <sofie-icon-button
+    [icon]="Icon.CIRCLE_EXCLAMATION"
+    [iconSize]="IconSize.XL"
+  >
+  </sofie-icon-button>
+  <span *ngIf="notifications.length > 0" class="notification-count">{{ notifications.length }}</span>
+</div>
 
 <ng-template #tooltip>
     <sofie-text-tooltip i18n-text text="notification-icon.toggle-panel.tooltip"></sofie-text-tooltip>
