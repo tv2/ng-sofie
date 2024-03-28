@@ -33,6 +33,9 @@ export class KeyboardInputComponent implements ControlValueAccessor {
   @Input() public placeholder?: string
 
   @Input() public helpText: string
+  @Input() public errorMessage?: string
+  @Input() public isRequired?: boolean
+  @Input() public hasError?: boolean
 
   private isFirstKeyAfterFocus: boolean
 

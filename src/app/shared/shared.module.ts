@@ -85,6 +85,8 @@ import { ColumnComponent } from './components/column/column.component'
 import { PageComponent } from './components/page/page.component'
 import { TooltipDirective } from './directives/tooltip.directive'
 import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.component'
+import { FormErrorMessageComponent } from './components/form-error-message/form-error-message.component'
+import { FormRequiredMarkComponent } from './components/form-required-mark/form-required-mark.component'
 
 @NgModule({
   declarations: [
@@ -129,6 +131,8 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     PageComponent,
     TooltipDirective,
     TextTooltipComponent,
+    FormErrorMessageComponent,
+    FormRequiredMarkComponent,
   ],
   imports: [
     CommonModule,
@@ -191,6 +195,8 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     PageComponent,
     TooltipDirective,
     TextTooltipComponent,
+    FormErrorMessageComponent,
+    FormRequiredMarkComponent,
   ],
   providers: [
     { provide: Logger, useClass: Tv2LoggerService },

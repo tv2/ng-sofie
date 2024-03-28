@@ -29,6 +29,10 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   @Input() public label: string
   @Input() public placeholder?: string
 
+  @Input() public hasError?: boolean
+  @Input() public isRequired?: boolean
+  @Input() public errorMessage?: string
+
   @Output() public onChange: EventEmitter<T[]> = new EventEmitter()
 
   public selectedOptions: SelectableOption<T>[] = []

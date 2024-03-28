@@ -1,11 +1,36 @@
 <form [formGroup]="form" class="mb-3">
-    <sofie-text-input i18n-label label="action-panel.panel-name.label" [formControlName]="'name'"></sofie-text-input>
-    <sofie-multi-select i18n-label label="global.filters.label" [formControlName]="'actionFilter'" [options]="actionContentOptions"></sofie-multi-select>
-    <sofie-number-input i18n-label label="action-panel.rank.label" [formControlName]="'rank'"></sofie-number-input>
+  <sofie-text-input
+    i18n-label
+    label="action-panel.panel-name.label"
+    [formControlName]="'name'"
+    [isRequired]="true"
+    [hasError]="checkControlForErrors('name')"
+    i18n-errorMessage
+    errorMessage="action-panel.name.error">
+  </sofie-text-input>
+  <sofie-multi-select
+    i18n-label
+    label="global.filters.label"
+    [formControlName]="'actionFilter'"
+    [options]="actionContentOptions"
+    [isRequired]="true"
+    [hasError]="checkControlForErrors('actionFilter')"
+    i18n-errorMessage
+    errorMessage="action-panel.action-filter.error">
+  </sofie-multi-select>
+  <sofie-number-input
+    i18n-label
+    label="action-panel.rank.label"
+    [formControlName]="'rank'"
+    [isRequired]="true"
+    [hasError]="checkControlForErrors('rank')"
+    i18n-errorMessage
+    errorMessage="action-panel.rank.error">
+  </sofie-number-input>
 </form>
 
 <sofie-button-group>
-    <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
-    <sofie-spacer></sofie-spacer>
-    <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!form.valid" i18n>common.save</sofie-button>
+  <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
+  <sofie-spacer></sofie-spacer>
+  <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!form.valid" i18n [tooltip]="formValidationTooltip">common.save</sofie-button>
 </sofie-button-group>

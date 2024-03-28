@@ -22,6 +22,9 @@ export class NumberInputComponent implements ControlValueAccessor {
   @Input() public placeholder?: string
 
   @Input() public helpText: string
+  @Input() public isRequired?: boolean
+  @Input() public hasError: boolean
+  @Input() public errorMessage: string
 
   public value: number
 
@@ -38,7 +41,7 @@ export class NumberInputComponent implements ControlValueAccessor {
     this.onChangeCallback(this.value)
   }
 
-  private markAsTouched(): void {
+  public markAsTouched(): void {
     if (this.isTouched) {
       return
     }
