@@ -1,9 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { ShelfActionPanelConfiguration } from '../../../../shared/models/shelf-configuration'
 import { Tv2ActionContentType } from '../../../../shared/models/tv2-action'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { TranslateActionTypePipe } from '../../../../shared/pipes/translate-action-type.pipe'
 import { SelectOption } from '../../../../shared/models/select-option'
+
+const FORM_NAME_CONTROL_LABEL: string = 'name'
+const FORM_ACTION_FILTER_CONTROL_LABEL: string = 'actionFilter'
+const FORM_RANK_CONTROL_LABEL: string = 'rank'
 
 @Component({
   selector: 'sofie-edit-shelf-action-panel-configuration',
@@ -50,5 +54,47 @@ export class EditShelfActionPanelConfigurationComponent implements OnInit {
 
   public cancel(): void {
     this.onCancel.emit()
+  }
+
+  public get formValidationTooltip(): string | undefined {
+    const invalidControls = this.findInvalidControls()
+    return invalidControls.length > 0 ? $localize`common.form-required-field.button-tooltip` + `: ${invalidControls.join(', ')}` : undefined
+  }
+
+  private findInvalidControls(): string[] {
+    const invalidControlLabels = []
+    const controls = this.form.controls
+    for (const name in this.form.controls) {
+      if (controls[name].valid) {
+        continue
+      }
+      const translateControl = this.translateControl(name)
+      if (translateControl) {
+        invalidControlLabels.push(translateControl)
+      }
+    }
+    return invalidControlLabels
+  }
+
+  private translateControl(controlName: string): string | undefined {
+    switch (controlName) {
+      case FORM_NAME_CONTROL_LABEL:
+        return $localize`action-panel.panel-name.label`
+      case FORM_ACTION_FILTER_CONTROL_LABEL:
+        return $localize`global.filters.label`
+      case FORM_RANK_CONTROL_LABEL:
+        return $localize`action-panel.rank.label`
+      default:
+        return undefined
+    }
+  }
+
+  public checkControlForErrors(name: string): boolean {
+    const control = this.getFormControl(name)
+    return control ? control.invalid && control.touched : false
+  }
+
+  private getFormControl(name: string): AbstractControl | undefined | null {
+    return this.form.controls[name]
   }
 }

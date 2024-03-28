@@ -20,6 +20,10 @@ export class SelectComponent<T> implements ControlValueAccessor {
   @Input() public label: string
   @Input() public placeholder?: string
 
+  @Input() public errorMessage?: string
+  @Input() public isRequired?: boolean
+  @Input() public hasError?: boolean
+
   @Output() public onChange: EventEmitter<T> = new EventEmitter()
 
   public selectedOption: SelectOption<T>

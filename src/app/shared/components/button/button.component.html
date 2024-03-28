@@ -1,5 +1,7 @@
-<button class="button p-2 pe-3 ps-3"
-        [ngClass]="type.toLowerCase()"
-        [disabled]="isDisabled">
+<button class="button p-2 pe-3 ps-3" sofieTooltip [sofieTooltipTemplate]="tooltipRef" [ngClass]="type.toLowerCase()" [disabled]="isDisabled">
   <ng-content></ng-content>
 </button>
+
+<ng-template #tooltipRef>
+  <sofie-text-tooltip *ngIf="tooltip" [text]="tooltip"></sofie-text-tooltip>
+</ng-template>

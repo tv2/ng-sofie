@@ -302,6 +302,33 @@
       <trans-unit id="8291594485469554782" datatype="html">
         <source>notification-icon.toggle-panel.tooltip</source>
       </trans-unit>
+      <trans-unit id="3299373246271290710" datatype="html">
+        <source>action-triggers.action.label</source>
+      </trans-unit>
+      <trans-unit id="719177318571875364" datatype="html">
+        <source>common.form-required-field.button-tooltip</source>
+      </trans-unit>
+      <trans-unit id="5742386463554387927" datatype="html">
+        <source>action-triggers.shortcut.error</source>
+      </trans-unit>
+      <trans-unit id="6359779760013296434" datatype="html">
+        <source>action-triggers.trigger-on.error</source>
+      </trans-unit>
+      <trans-unit id="6127544094154745108" datatype="html">
+        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> action-triggers.action-arguments.error</source>
+      </trans-unit>
+      <trans-unit id="5360405756916221317" datatype="html">
+        <source>action-triggers.action.error</source>
+      </trans-unit>
+      <trans-unit id="5202318571157878044" datatype="html">
+        <source>action-panel.action-filter.error</source>
+      </trans-unit>
+      <trans-unit id="770599904666863258" datatype="html">
+        <source>action-panel.rank.error</source>
+      </trans-unit>
+      <trans-unit id="979335411678822239" datatype="html">
+        <source>action-panel.name.error</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

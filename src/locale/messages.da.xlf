@@ -402,6 +402,42 @@
         <source>notification-icon.toggle-panel.tooltip</source>
         <target state="new">Klik for at vise/skjule notifikationspanelet</target>
       </trans-unit>
+      <trans-unit id="3299373246271290710" datatype="html">
+        <source>action-triggers.action.label</source>
+        <target state="new">Action</target>
+      </trans-unit>
+      <trans-unit id="719177318571875364" datatype="html">
+        <source>common.form-required-field.button-tooltip</source>
+        <target state="new">You have not filled in a required field</target>
+      </trans-unit>
+      <trans-unit id="5742386463554387927" datatype="html">
+        <source>action-triggers.shortcut.error</source>
+        <target state="new">Shortcut is required field</target>
+      </trans-unit>
+      <trans-unit id="6359779760013296434" datatype="html">
+        <source>action-triggers.trigger-on.error</source>
+        <target state="new">Trigger on is required field</target>
+      </trans-unit>
+      <trans-unit id="6127544094154745108" datatype="html">
+        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> action-triggers.action-arguments.error</source>
+        <target state="new"><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> is required field</target>
+      </trans-unit>
+      <trans-unit id="5360405756916221317" datatype="html">
+        <source>action-triggers.action.error</source>
+        <target state="new">Please select an action</target>
+      </trans-unit>
+      <trans-unit id="979335411678822239" datatype="html">
+        <source>action-panel.name.error</source>
+        <target state="new">Name is required field</target>
+      </trans-unit>
+      <trans-unit id="5202318571157878044" datatype="html">
+        <source>action-panel.action-filter.error</source>
+        <target state="new">Action filter is required field</target>
+      </trans-unit>
+      <trans-unit id="770599904666863258" datatype="html">
+        <source>action-panel.rank.error</source>
+        <target state="new">Rank is required field</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
