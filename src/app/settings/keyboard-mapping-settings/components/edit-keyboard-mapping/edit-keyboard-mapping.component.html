@@ -8,7 +8,7 @@
                     [formControlName]="'mappedToKeys'"
                     i18n-helpText helpText="action-triggers.physical-mapping-help.tooltip"
             ></sofie-keyboard-input>
-            <sofie-select i18n-label label="action-triggers.trigger-on.label" [formControlName]="'triggerOn'" [options]="triggerOnOptions"></sofie-select>
+            <sofie-select className="triggerOn" i18n-label label="action-triggers.trigger-on.label" [formControlName]="'triggerOn'" [options]="triggerOnOptions"></sofie-select>
 
             <ng-container *ngIf="selectedAction" [ngTemplateOutlet]="actionArguments"></ng-container>
 
