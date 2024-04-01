@@ -56,7 +56,10 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   }
 
   private onDocumentClick(clickEvent: MouseEvent): void {
-    if (!this.isMultiSelectElementClicked(clickEvent) && this.isShown) {
+    if (!this.isShown) {
+      return
+    }
+    if (!this.isMultiSelectElementClicked(clickEvent)) {
       this.isShown = false
     }
   }
