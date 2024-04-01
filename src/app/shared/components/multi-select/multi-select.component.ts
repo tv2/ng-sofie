@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
 import { Icon, IconSize } from '../../enums/icon'
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { SelectOption } from '../../models/select-option'
 import { ClickService } from '../../services/click.service'
+import { Subject, takeUntil } from 'rxjs'
 
 interface SelectableOption<T> extends SelectOption<T> {
   isSelected: boolean
@@ -20,7 +21,7 @@ interface SelectableOption<T> extends SelectOption<T> {
     },
   ],
 })
-export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
+export class MultiSelectComponent<T> implements OnInit, OnDestroy, ControlValueAccessor {
   protected Icon = Icon
   protected IconSize = IconSize
 
@@ -39,6 +40,8 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   private onChangeCallback: (value: T[]) => void
   private onTouchedCallback: () => void
 
+  private readonly destroySubject: Subject<void> = new Subject()
+
   private values: T[] = []
 
   private isTouched: boolean = false
@@ -52,7 +55,7 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
         isSelected: false,
       }
     })
-    this.clickService.clickObservable.subscribe(click => this.onDocumentClick(click))
+    this.clickService.clickObservable.pipe(takeUntil(this.destroySubject)).subscribe(click => this.onDocumentClick(click))
   }
 
   private onDocumentClick(clickEvent: MouseEvent): void {
@@ -151,5 +154,10 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
 
   public registerOnTouched(touchedCallback: () => void): void {
     this.onTouchedCallback = touchedCallback
+  }
+
+  public ngOnDestroy(): void {
+    this.destroySubject.next()
+    this.destroySubject.complete()
   }
 }
