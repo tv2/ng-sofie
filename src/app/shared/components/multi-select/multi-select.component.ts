@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { Icon, IconSize } from '../../enums/icon'
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { SelectOption } from '../../models/select-option'
+import { ClickService } from '../../services/click.service'
 
 interface SelectableOption<T> extends SelectOption<T> {
   isSelected: boolean
@@ -26,12 +27,14 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   @Input() public options: SelectOption<T>[] = []
   public selectableOptions: SelectableOption<T>[] = []
 
+  @Input() public className: string
   @Input() public label: string
   @Input() public placeholder?: string
 
   @Output() public onChange: EventEmitter<T[]> = new EventEmitter()
 
   public selectedOptions: SelectableOption<T>[] = []
+  public isShown: boolean = false
 
   private onChangeCallback: (value: T[]) => void
   private onTouchedCallback: () => void
@@ -40,7 +43,7 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
 
   private isTouched: boolean = false
 
-  constructor() {}
+  constructor(private readonly clickService: ClickService) {}
 
   public ngOnInit(): void {
     this.selectableOptions = this.options.map(option => {
@@ -49,6 +52,26 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
         isSelected: false,
       }
     })
+    this.clickService.clickObservable.subscribe(click => this.onDocumentClick(click))
+  }
+
+  private onDocumentClick(clickEvent: MouseEvent): void {
+    if (!this.isMultiSelectElementClicked(clickEvent) && this.isShown) {
+      this.isShown = false
+    }
+  }
+
+  private isMultiSelectElementClicked(clickEvent: MouseEvent): boolean {
+    const allClassNames = []
+    let clickTarget: Element = clickEvent.target as Element
+    while (clickTarget) {
+      allClassNames.push(...clickTarget.classList.value.split(' '))
+      if (!clickTarget.parentElement) {
+        break
+      }
+      clickTarget = clickTarget.parentElement
+    }
+    return !!allClassNames.find(className => className === this.className)
   }
 
   public toggleOption(option: SelectableOption<T>): void {
@@ -91,6 +114,10 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
     this.updateValuesFromSelectedOptions()
   }
 
+  public stopPropagation(event: MouseEvent): void {
+    event.stopPropagation()
+  }
+
   private clearSelectedOptions(): void {
     this.selectableOptions.map(option => (option.isSelected = false))
     this.selectedOptions = []
@@ -109,6 +136,10 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
         option.isSelected = true
         return option
       })
+  }
+
+  public toggleMultiSelectShown(): void {
+    this.isShown = !this.isShown
   }
 
   public registerOnChange(changeCallback: (value: T[]) => void): void {

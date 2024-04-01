@@ -17,10 +17,6 @@ label {
   border: 1px solid var(--gray-color);
 }
 
-.multi-select:hover .multi-select-dropdown {
-  display: block;
-}
-
 .multi-select-dropdown {
   display: none;
   position: absolute;
@@ -30,7 +26,6 @@ label {
   box-shadow: 0 0 15px 1px var(--gray-color);
   background: var(--white-color);
   z-index: 1;
-
 }
 
 .multi-select-dropdown-item {

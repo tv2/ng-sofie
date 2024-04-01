@@ -2,7 +2,7 @@
     <sofie-card *ngIf="shelfConfiguration; else loading">
         <ng-container cardHeader>
             <sofie-text-input class="me-2" [placeholder]="'Search'" [(value)]="actionPanelNameSearchQuery"></sofie-text-input>
-            <sofie-multi-select [placeholder]="'Filters'" [options]="actionContentMultiSelectOptions" (onChange)="updateActionContentQuery($event)"></sofie-multi-select>
+            <sofie-multi-select className="shelfsFilters" [placeholder]="'Filters'" [options]="actionContentMultiSelectOptions" (onChange)="updateActionContentQuery($event)"></sofie-multi-select>
             <sofie-spacer></sofie-spacer>
             <sofie-button-group>
                 <sofie-button (click)="openCreateActionPanel()" i18n>global.create.label</sofie-button>
