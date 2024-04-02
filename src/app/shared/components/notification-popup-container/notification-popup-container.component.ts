@@ -5,6 +5,7 @@ import { Notification } from '../../models/notification'
 import { animate, state, style, transition, trigger } from '@angular/animations'
 
 const NOTIFICATION_DURATION_MS: number = 7000
+const NOTIFICATION_STARTUP_REGISTRATION_DURATION_IN_MS: number = 200
 
 @Component({
   selector: 'sofie-notification-popup-container',
@@ -30,10 +31,16 @@ export class NotificationPopupContainerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    const initEpochTime: number = Date.now()
     this.notificationService
       .subscribeToNewNotifications()
       .pipe(takeUntil(this.destroySubject))
-      .subscribe((notification: Notification) => this.registerNotification(notification))
+      .subscribe((notification: Notification) => {
+        if (Date.now() <= initEpochTime + NOTIFICATION_STARTUP_REGISTRATION_DURATION_IN_MS) {
+          return
+        }
+        this.registerNotification(notification)
+      })
   }
 
   private registerNotification(notification: Notification): void {

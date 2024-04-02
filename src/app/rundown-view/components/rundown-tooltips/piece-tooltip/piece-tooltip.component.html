@@ -1,8 +1,9 @@
 <div class="tooltip" *ngIf="tooltipContentFields.length > 0">
-  <sofie-video-hover-scrub *ngIf="shouldShowHoverScrub && !isMediaUnavailable"
-                           [filename]="media?.sourceName ?? piece.name"
-                           [positionInVideoInMs]="positionInVideoInMs"
-                           [isJingle]="tv2PieceType === Tv2PieceType.JINGLE">
+  <sofie-video-hover-scrub
+    *ngIf="shouldShowHoverScrub && media"
+    [filename]="media.sourceName"
+    [positionInVideoInMs]="positionInVideoInMs"
+  >
   </sofie-video-hover-scrub>
 
   <div class="tooltip-body">
@@ -10,9 +11,9 @@
           <span class="label">{{piece.name}}</span>
       </header>
 
-      <div *ngIf="isMediaUnavailable" class="source-unavailable-banner">
-          <sofie-icon-button [icon]="Icon.TRIANGLE_EXCLAMATION" [iconSize]="IconSize.M"></sofie-icon-button>
-        <span i18n>piece-tooltip.source-unavailable.label</span>
+      <div *ngIf="hasPieceMedia() && !media" class="source-unavailable-banner">
+        <sofie-icon-button [icon]="Icon.TRIANGLE_EXCLAMATION" [iconSize]="IconSize.M"></sofie-icon-button>
+        <span class="ms-1" i18n>piece-tooltip.source-unavailable.label</span>
       </div>
 
       <div class="content-fields">
