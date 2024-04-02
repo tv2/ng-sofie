@@ -9,7 +9,7 @@ export interface Segment {
   readonly isNext: boolean
   readonly isUntimed: boolean
   readonly isUnsynced: boolean
-  readonly parts: Part[]
+  readonly parts: Readonly<Part[]>
   readonly rank: number
   readonly isHidden: boolean
   readonly expectedDurationInMs?: number
