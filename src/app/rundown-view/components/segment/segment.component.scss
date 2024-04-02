@@ -1,3 +1,14 @@
+:host {
+  display: block;
+
+  &.on-air {
+    position: sticky;
+    top: 0;
+    bottom: 0;
+    background-color: var(--background-color);
+    z-index: 250;
+  }
+}
 .c-segment {
   display: flex;
   margin: 4px 20px;

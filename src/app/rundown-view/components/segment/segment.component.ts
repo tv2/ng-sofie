@@ -25,6 +25,11 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   @Input()
   public segment: Segment
 
+  @HostBinding('class.on-air')
+  protected get isOnAir(): boolean {
+    return this.segment.isOnAir
+  }
+
   @Input()
   public isRundownActiveOrRehearsal: boolean
 
