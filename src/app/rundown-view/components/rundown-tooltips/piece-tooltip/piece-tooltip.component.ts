@@ -16,15 +16,13 @@ export class PieceTooltipComponent implements OnChanges {
   protected readonly Icon = Icon
   protected readonly IconSize = IconSize
 
-  @Input() public isMediaUnavailable?: boolean
   @Input() public piece: Piece
-  @Input() public durationInMs: number
   @Input() public media?: Media
+  @Input() public durationInMs: number
   @Input() public positionInVideoInMs: number = 0
 
   public tooltipContentFields: TooltipContentField[]
-  public Tv2PieceType = Tv2PieceType
-  public shouldShowHoverScrub: boolean
+  public shouldShowHoverScrub: boolean = false
 
   constructor(private readonly tv2PieceTooltipContentFieldService: Tv2PieceTooltipContentFieldService) {}
 
@@ -37,18 +35,18 @@ export class PieceTooltipComponent implements OnChanges {
     }
   }
 
-  public get tv2PieceType(): Tv2PieceType {
-    const piece: Tv2Piece = this.piece as Tv2Piece
-    return piece.metadata.type
-  }
-
   public updateTooltipContent(): void {
     this.tooltipContentFields = this.tv2PieceTooltipContentFieldService.getTooltipContentForPiece(this.piece, this.media, this.durationInMs)
   }
 
   public updateShouldShowHoverScrub(): void {
     const tv2Piece: Tv2Piece = this.piece as Tv2Piece
-    this.shouldShowHoverScrub = (tv2Piece.metadata?.type === Tv2PieceType.VIDEO_CLIP || tv2Piece.metadata?.type === Tv2PieceType.JINGLE) && tv2Piece.metadata.sourceName !== undefined
+    this.shouldShowHoverScrub = this.hasPieceMedia() && [Tv2PieceType.VIDEO_CLIP, Tv2PieceType.JINGLE].includes(tv2Piece.metadata.type)
+  }
+
+  public hasPieceMedia(): boolean {
+    const tv2Piece: Tv2Piece = this.piece as Tv2Piece
+    return tv2Piece.metadata.sourceName !== undefined
   }
 
   public getPieceColorClass(): string {
