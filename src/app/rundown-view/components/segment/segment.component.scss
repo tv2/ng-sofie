@@ -1,17 +1,23 @@
 :host {
   display: block;
+  padding: 4px 20px;
 
   &.on-air {
     position: sticky;
-    top: 0;
-    bottom: 0;
-    background-color: var(--background-color);
+    top: -1px;
+    bottom: -1px;
     z-index: 250;
+    background-color: var(--background-color);
+    transition: background-color .2s, padding .2s;
+
+    &.stuck {
+      padding: 20px;
+      box-shadow: 0 0 10px var(--black-color);
+    }
   }
 }
 .c-segment {
   display: flex;
-  margin: 4px 20px;
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 2px 2px 2px var(--gradient-black-rgba-with-02-opacity-color);

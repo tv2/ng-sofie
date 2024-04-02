@@ -1,4 +1,13 @@
-import { Component, HostBinding, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges } from '@angular/core'
+import {
+  AfterViewInit,
+  Component, ElementRef,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChange,
+  SimpleChanges
+} from '@angular/core'
 import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
 import { Tv2OutputLayerService } from '../../../shared/services/tv2-output-layer.service'
@@ -18,7 +27,7 @@ const INITIAL_PIXELS_PER_SECOND: number = MINIMUM_PIXELS_PER_SECOND * Math.pow(P
   templateUrl: './segment.component.html',
   styleUrls: ['./segment.component.scss'],
 })
-export class SegmentComponent implements OnChanges, OnDestroy {
+export class SegmentComponent implements OnChanges, OnDestroy, AfterViewInit {
   protected readonly Icon = Icon
   protected readonly IconSize = IconSize
 
@@ -59,18 +68,28 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   }
 
   private animationFrameId?: number
+  private readonly intersectionObserver: IntersectionObserver
   private readonly logger: Logger
 
   constructor(
     private readonly outputLayerService: Tv2OutputLayerService,
     private readonly partEntityService: PartEntityService,
+    private readonly hostElement: ElementRef,
     logger: Logger
   ) {
     this.logger = logger.tag('SegmentComponent')
+    this.intersectionObserver = new IntersectionObserver(
+      ([event]) => event.target.classList.toggle('stuck', event.intersectionRatio < 1), {
+        threshold: [1]
+      })
   }
 
   @HostBinding('style.background-color')
   public background: string
+
+  public ngAfterViewInit() {
+    this.intersectionObserver.observe(this.hostElement.nativeElement)
+  }
 
   private getUsedOutputLayersInOrder(): Tv2OutputLayer[] {
     const outputLayersInOrder: Tv2OutputLayer[] = this.outputLayerService.getOutputLayersInOrder()
@@ -159,5 +178,6 @@ export class SegmentComponent implements OnChanges, OnDestroy {
 
   public ngOnDestroy(): void {
     this.stopAnimation()
+    this.intersectionObserver.disconnect()
   }
 }
