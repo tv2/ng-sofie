@@ -5,6 +5,6 @@
     </sofie-row>
     <div class="input">
         <input (focus)="markFirstKey()" [readOnly]="true" (keydown)="registerKey($event)" [placeholder]="placeholder ?? label" [value]="value ?? [] | formatKeyboardKeys">
-        <sofie-icon-button *ngIf="!!value" [icon]="Icon.X_MARK" (click)="clearValue()"></sofie-icon-button>
+        <sofie-icon-button *ngIf="!!value && value.length > 0" [icon]="Icon.X_MARK" (click)="clearValue()"></sofie-icon-button>
     </div>
 </div>
