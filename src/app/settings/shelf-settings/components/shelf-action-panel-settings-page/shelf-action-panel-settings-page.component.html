@@ -28,7 +28,7 @@
                     {{ actionPanel.rank }}
                 </td>
                 <td >
-                  <div class="flex" style="flex-wrap: wrap; gap: 8px;">
+                  <div class="action-filters">
                     <sofie-rounded-box *ngFor="let filter of actionPanel.actionFilter" [class]="filter | actionColorClass">
                         {{ filter | translateActionType }}
                     </sofie-rounded-box>

@@ -18,6 +18,7 @@ import { DialogColorScheme, DialogSeverity } from 'src/app/shared/components/con
 @Component({
   selector: 'sofie-action-panel',
   templateUrl: './shelf-action-panel-settings-page.component.html',
+  styleUrls: ['./shelf-action-panel-settings-page.component.scss'],
 })
 export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy {
   protected readonly Icon = Icon
