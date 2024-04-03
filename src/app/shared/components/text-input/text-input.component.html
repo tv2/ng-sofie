@@ -4,7 +4,7 @@
     <sofie-icon-button *ngIf="helpText" [tooltip]="helpText" [icon]="Icon.CIRCLE_QUESTION" [iconSize]="IconSize.M"></sofie-icon-button>
   </span>
   <input
-    [ngClass]="{ 'border-danger': hasError }"
+    [class.border-danger]="hasError"
     [placeholder]="placeholder ?? label"
     type="text"
     [ngModel]="value"

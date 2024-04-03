@@ -6,7 +6,7 @@
   <div class="input">
     <input
       (focus)="markFirstKey()"
-      [ngClass]="{ 'border-danger': hasError }"
+      [class.border-danger]="hasError"
       [readOnly]="true"
       (keydown)="registerKey($event)"
       [placeholder]="placeholder ?? label"

@@ -1,6 +1,6 @@
 <div class="container pb-2 pt-2">
     <label class="flex" *ngIf="label">{{ label }}<sofie-form-required-mark *ngIf="isRequired"></sofie-form-required-mark></label>
-    <div class="select" [ngClass]="{ 'border-danger': hasError }">
+    <div class="select" [class.border-danger]="hasError">
         <div class="display-area">
             <div class="display-text">
                 {{ !!selectedOption ? selectedOption.name : (placeholder ?? label) }}
