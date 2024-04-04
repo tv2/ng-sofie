@@ -52,7 +52,7 @@ export class NotificationIconComponent implements OnInit, OnDestroy {
 
   protected getHighestStatusCode(): StatusCode {
     return this.notifications.reduce((highestStatusCode: StatusCode, notification: Notification) => {
-      if (this.getStatusCodePriority(notification.statusCode) == this.getStatusCodePriority(highestStatusCode)) {
+      if (this.getStatusCodePriority(notification.statusCode) <= this.getStatusCodePriority(highestStatusCode)) {
         return highestStatusCode
       }
       return notification.statusCode
