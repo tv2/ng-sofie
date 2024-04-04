@@ -114,8 +114,8 @@
         <source>global.clear.label</source>
         <target state="new">Clear</target>
       </trans-unit>
-      <trans-unit id="6759876909141538174" datatype="html">
-        <source>settings.keyboard-mappings.label</source>
+      <trans-unit id="9191550720479888548" datatype="html">
+        <source>settings.keyboard-mappings.title</source>
         <target state="new">Keyboard mappings</target>
       </trans-unit>
       <trans-unit id="4177582797246824978" datatype="html">
@@ -134,8 +134,8 @@
         <source>settings.shelf.label</source>
         <target state="new">Shelf</target>
       </trans-unit>
-      <trans-unit id="8566219553884482008" datatype="html">
-        <source>settings.shelf.action-panels.label</source>
+      <trans-unit id="4302180445374821108" datatype="html">
+        <source>settings.shelf.action-panels.title</source>
         <target state="new">Shelf Action panels</target>
       </trans-unit>
       <trans-unit id="2803021013738697812" datatype="html">
