@@ -1,3 +1,3 @@
 export interface Tv2SegmentMetadata {
-  miniShelfVideoClipFile?: string
+  readonly miniShelfVideoClipFile?: string
 }

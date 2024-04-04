@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core'
 })
 export class PageComponent {
   @Input()
-  public title: string
+  public pageTitle: string
 }

@@ -113,14 +113,14 @@
       <trans-unit id="1544567860044151272" datatype="html">
         <source>global.clear.label</source>
       </trans-unit>
-      <trans-unit id="6759876909141538174" datatype="html">
-        <source>settings.keyboard-mappings.label</source>
+      <trans-unit id="9191550720479888548" datatype="html">
+        <source>settings.keyboard-mappings.title</source>
       </trans-unit>
       <trans-unit id="4384831734174772961" datatype="html">
         <source>settings.shelf.label</source>
       </trans-unit>
-      <trans-unit id="8566219553884482008" datatype="html">
-        <source>settings.shelf.action-panels.label</source>
+      <trans-unit id="4302180445374821108" datatype="html">
+        <source>settings.shelf.action-panels.title</source>
       </trans-unit>
       <trans-unit id="4380077604653787346" datatype="html">
         <source>settings.clear-cache.label</source>

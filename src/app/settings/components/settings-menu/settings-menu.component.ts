@@ -19,7 +19,7 @@ interface MenuItem {
 export class SettingsMenuComponent implements OnInit, OnDestroy {
   public menuItems: MenuItem[] = [
     {
-      name: $localize`settings.keyboard-mappings.label`,
+      name: $localize`settings.keyboard-mappings.title`,
       routerLink: [SettingsPath.KEYBOARD_MAPPINGS],
     },
     {
@@ -28,7 +28,7 @@ export class SettingsMenuComponent implements OnInit, OnDestroy {
       shouldShowSubItems: (): boolean => this.isShelfRouteActive,
       subItems: [
         {
-          name: $localize`settings.shelf.action-panels.label`,
+          name: $localize`settings.shelf.action-panels.title`,
           routerLink: [SettingsPath.SHELF, ShelfSettingsPath.ACTION_PANELS],
         },
       ],
