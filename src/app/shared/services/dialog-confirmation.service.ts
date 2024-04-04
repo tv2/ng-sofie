@@ -34,6 +34,11 @@ export class DialogConfirmationService {
       return
     }
 
+    if (nonIdleRundown.id === rundown.id) {
+      this.dialogService.createConfirmDialog(rundown.name, this.activationMessage, this.activationOkButtonText, () => this.rundownService.activate(rundown.id).subscribe())
+      return
+    }
+
     this.dialogService.createConfirmDialog(
       rundown.name,
       `${this.activationWarningMessage} "${nonIdleRundown.name}"`,

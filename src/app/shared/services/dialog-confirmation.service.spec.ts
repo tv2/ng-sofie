@@ -227,6 +227,27 @@ describe(DialogConfirmationService.name, () => {
 
       verify(mockedDialogService.createConfirmDialog).once()
     })
+
+    it('should show dialog when same rundown is already in rehearsal mode when going for on-air', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const rehearsalRundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.REHEARSAL })
+
+      const mockedRundownService: RundownService = mock<RundownService>()
+
+      const mockedDialogService: DialogService = createDialogServiceMock()
+
+      const mockedBasicRundownStateService: BasicRundownStateService = mock<BasicRundownStateService>()
+      when(mockedBasicRundownStateService.getBasicRundowns()).thenReturn([rehearsalRundown])
+
+      const testee: DialogConfirmationService = createTestee({
+        mockedBasicRundownStateService: mockedBasicRundownStateService,
+        mockedRundownService: mockedRundownService,
+        mockedDialogService: mockedDialogService,
+      })
+      testee.openActivateRundownDialog(rehearsalRundown)
+
+      verify(mockedDialogService.createConfirmDialog).once()
+    })
   })
 })
 
