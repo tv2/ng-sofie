@@ -27,7 +27,6 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   @Input() public options: SelectOption<T>[] = []
   public selectableOptions: SelectableOption<T>[] = []
 
-  @Input() public className: string
   @Input() public label: string
   @Input() public placeholder?: string
 
@@ -96,10 +95,6 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   public clearAllSelected(): void {
     this.clearSelectedOptions()
     this.updateValuesFromSelectedOptions()
-  }
-
-  public stopPropagation(event: MouseEvent): void {
-    event.stopPropagation()
   }
 
   private clearSelectedOptions(): void {

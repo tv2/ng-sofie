@@ -1,11 +1,11 @@
 <div class="container pb-2 pt-2">
     <label *ngIf="label" class="mb-1">{{ label }}</label>
-    <div [ngClass]="className" class="multi-select">
+    <div class="multi-select">
         <div class="display-area" (click)="toggleIsShowingOptions()">
             <div class="display-text">
                 {{ selectedOptions.length > 0 ? getSelectedOptionsAsDisplay() : (placeholder ?? label) }}
             </div>
-            <sofie-icon-button *ngIf="selectedOptions.length > 0" [icon]="Icon.X_MARK" (click)="clearAllSelected(); stopPropagation($event)" class="ms-1"></sofie-icon-button>
+            <sofie-icon-button *ngIf="selectedOptions.length > 0" [icon]="Icon.X_MARK" (click)="clearAllSelected(); $event.stopPropagation()" class="ms-1"></sofie-icon-button>
         </div>
 
         <div [ngClass]="{ block: isShowingOptions }" class="multi-select-dropdown" >
