@@ -1,13 +1,13 @@
 <div class="container pb-2 pt-2">
     <label *ngIf="label">{{ label }}</label>
     <div class="select">
-        <div class="display-area">
+        <div class="display-area" (click)="toggleIsShowingOptions()">
             <div class="display-text">
                 {{ !!selectedOption ? selectedOption.name : (placeholder ?? label) }}
             </div>
         </div>
 
-        <div class="select-dropdown" >
+        <div class="select-dropdown" [class.block]="isShowingOptions">
             <div *ngFor="let option of options" class="select-dropdown-item p-3" (click)="selectOption(option)">
                 {{ option.name }}
             </div>
