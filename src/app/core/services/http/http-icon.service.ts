@@ -15,6 +15,7 @@ import {
   faSortUp,
   faSquare,
   faSquareCheck,
+  faSquareMinus,
   faTrashCan,
   faTriangleExclamation,
   faXmark,
@@ -46,6 +47,8 @@ export class FortAwesomeIconService implements IconService {
         return faSquare
       case Icon.SQUARE_CHECK:
         return faSquareCheck
+      case Icon.SQUARE_MINUS:
+        return faSquareMinus
       case Icon.CHECK:
         return faCheck
       case Icon.PEN:

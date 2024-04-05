@@ -1,3 +1,19 @@
 a {
   color: var(--blue-color);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+td {
+  height: 55px;
+  border-bottom: solid 1px var(--gray-color);
+}
+
+.pulsating-dot-column {
+  text-align: center;
+  padding-right: 0;
+  width: 40px;
 }

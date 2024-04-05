@@ -4,7 +4,7 @@
         <sofie-icon-button *ngIf="helpText" [tooltip]="helpText" [icon]="Icon.CIRCLE_QUESTION" [iconSize]="IconSize.M"></sofie-icon-button>
     </sofie-row>
     <div class="input">
-        <input (focus)="markFirstKey()" [readOnly]="true" (keydown)="registerKey($event)" [placeholder]="placeholder ?? label" [value]="value | formatKeyboardKeys">
+        <input (focus)="markFirstKey()" [readOnly]="true" (keydown)="registerKey($event)" [placeholder]="placeholder ?? label" [value]="value ?? [] | formatKeyboardKeys">
         <sofie-icon-button *ngIf="!!value && value.length > 0" [icon]="Icon.X_MARK" (click)="clearValue()"></sofie-icon-button>
     </div>
 </div>

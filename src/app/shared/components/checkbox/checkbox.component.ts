@@ -12,7 +12,8 @@ export class CheckboxComponent {
   @Input() public isSelected: boolean = false
   @Output() public isSelectedChange: EventEmitter<boolean> = new EventEmitter()
 
-  @Input() public isDisabled: boolean
+  @Input() public isDisabled: boolean = false
+  @Input() public usePartialIcon: boolean = false
 
   @Output() private readonly onToggle: EventEmitter<boolean> = new EventEmitter()
 
@@ -23,6 +24,9 @@ export class CheckboxComponent {
   }
 
   public getIcon(): Icon {
-    return this.isSelected ? Icon.SQUARE_CHECK : Icon.SQUARE
+    if (!this.isSelected) {
+      return Icon.SQUARE
+    }
+    return this.usePartialIcon ? Icon.SQUARE_MINUS : Icon.SQUARE_CHECK
   }
 }
