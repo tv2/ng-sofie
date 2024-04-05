@@ -1,19 +1,49 @@
 :host {
-  display: flex;
-  padding: 10px;
-  height: 100%;
-  align-items: center;
+  div {
+    --status-code-color: var(--dark-gray-color);
+    display: flex;
+    padding: 10px;
+    height: 100%;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2rem;
 
-  sofie-icon-button {
-    color: var(--dark-gray-color);
-    transition: color .2s;
+    sofie-icon-button {
+      color: var(--status-code-color);
+      transition: color .2s;
+    }
 
-    &.error {
-      color: var(--danger-color);
+    .notification-count {
+      display: inline-block;
+      min-width: 20px;
+      height: 20px;
+      padding: 2px;
+      border-radius: 10px;
+      margin-left: -10px;
+      margin-top: -15px;
+      background-color: var(--black-color);
+      border: 2px solid var(--status-code-color);
+      color: var(--white-color);
+      font-size: 0.7rem;
+      font-weight: bold;
+      text-align: center;
+      transition: border-color .2s;
+    }
+
+    &.bad {
+      --status-code-color: var(--danger-color);
+    }
+
+    &.warning {
+      --status-code-color: var(--attention-color);
+    }
+
+    &.good {
+      --status-code-color: var(--info-color);
     }
 
     &:hover {
-      color: var(--white-color);
+      --status-code-color: var(--white-color);
     }
   }
 }

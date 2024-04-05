@@ -3,8 +3,8 @@ import { Icon, IconSize } from '../../enums/icon'
 import { Notification } from '../../models/notification'
 import { StatusCode } from '../../enums/status-code'
 
-const INFO_COLOR: string = 'var(--blue-color)'
-const WARNING_COLOR: string = 'var(--yellow-color)'
+const INFO_COLOR: string = 'var(--info-color)'
+const WARNING_COLOR: string = 'var(--attention-color)'
 const ERROR_COLOR: string = 'var(--danger-color)'
 
 const GRADIENT_DEGREE: string = 'var(--gradient-degree)'
@@ -46,15 +46,13 @@ export class NotificationCardComponent implements OnInit {
 
   private getStatusColor(): string {
     switch (this.notification.statusCode) {
-      case StatusCode.WARNING: {
-        return WARNING_COLOR
-      }
-      case StatusCode.GOOD: {
-        return INFO_COLOR
-      }
-      default: {
+      case StatusCode.BAD:
         return ERROR_COLOR
-      }
+      case StatusCode.WARNING:
+        return WARNING_COLOR
+      case StatusCode.GOOD:
+      case StatusCode.UNKNOWN:
+        return INFO_COLOR
     }
   }
 }
