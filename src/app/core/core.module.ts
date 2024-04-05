@@ -38,7 +38,6 @@ import { ConfigurationEventObserver } from './services/configuration-event-obser
 import { StatusMessageEventParser } from './abstractions/status-message-event-parser'
 import { ZodStatusMessageEventParser } from './parsers/zod-status-message-event-parser'
 import { StatusMessageEventObserver } from './services/status-message-event-observer'
-import { ClickService } from '../shared/services/click.service'
 
 @NgModule({
   declarations: [],
@@ -56,7 +55,6 @@ import { ClickService } from '../shared/services/click.service'
     { provide: EntityParser, useClass: ZodEntityParser },
     { provide: IconService, useClass: FortAwesomeIconService },
     RundownEntityService,
-    ClickService,
     BasicRundownEntityService,
     SegmentEntityService,
     PartEntityService,

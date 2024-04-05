@@ -1,9 +1,7 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { Icon, IconSize } from '../../enums/icon'
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { SelectOption } from '../../models/select-option'
-import { ClickService } from '../../services/click.service'
-import { Subject, takeUntil } from 'rxjs'
 
 interface SelectableOption<T> extends SelectOption<T> {
   isSelected: boolean
@@ -21,9 +19,10 @@ interface SelectableOption<T> extends SelectOption<T> {
     },
   ],
 })
-export class MultiSelectComponent<T> implements OnInit, OnDestroy, ControlValueAccessor {
+export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   protected Icon = Icon
   protected IconSize = IconSize
+  protected isShowingOptions: boolean = false
 
   @Input() public options: SelectOption<T>[] = []
   public selectableOptions: SelectableOption<T>[] = []
@@ -35,18 +34,20 @@ export class MultiSelectComponent<T> implements OnInit, OnDestroy, ControlValueA
   @Output() public onChange: EventEmitter<T[]> = new EventEmitter()
 
   public selectedOptions: SelectableOption<T>[] = []
-  public isShown: boolean = false
 
   private onChangeCallback: (value: T[]) => void
   private onTouchedCallback: () => void
-
-  private readonly destroySubject: Subject<void> = new Subject()
 
   private values: T[] = []
 
   private isTouched: boolean = false
 
-  constructor(private readonly clickService: ClickService) {}
+  @HostListener('click', ['$event'])
+  protected stopEventPropagation(event: MouseEvent): void {
+    event.stopPropagation()
+  }
+
+  constructor() {}
 
   public ngOnInit(): void {
     this.selectableOptions = this.options.map(option => {
@@ -55,29 +56,6 @@ export class MultiSelectComponent<T> implements OnInit, OnDestroy, ControlValueA
         isSelected: false,
       }
     })
-    this.clickService.clickObservable.pipe(takeUntil(this.destroySubject)).subscribe(click => this.onDocumentClick(click))
-  }
-
-  private onDocumentClick(clickEvent: MouseEvent): void {
-    if (!this.isShown) {
-      return
-    }
-    if (!this.isMultiSelectElementClicked(clickEvent)) {
-      this.isShown = false
-    }
-  }
-
-  private isMultiSelectElementClicked(clickEvent: MouseEvent): boolean {
-    const allClassNames = []
-    let clickTarget: Element = clickEvent.target as Element
-    while (clickTarget) {
-      allClassNames.push(...clickTarget.classList.value.split(' '))
-      if (!clickTarget.parentElement) {
-        break
-      }
-      clickTarget = clickTarget.parentElement
-    }
-    return !!allClassNames.find(className => className === this.className)
   }
 
   public toggleOption(option: SelectableOption<T>): void {
@@ -144,8 +122,11 @@ export class MultiSelectComponent<T> implements OnInit, OnDestroy, ControlValueA
       })
   }
 
-  public toggleMultiSelectShown(): void {
-    this.isShown = !this.isShown
+  protected toggleIsShowingOptions(): void {
+    this.isShowingOptions = !this.isShowingOptions
+    if (this.isShowingOptions) {
+      document.addEventListener('click', () => (this.isShowingOptions = false), { once: true })
+    }
   }
 
   public registerOnChange(changeCallback: (value: T[]) => void): void {
@@ -154,10 +135,5 @@ export class MultiSelectComponent<T> implements OnInit, OnDestroy, ControlValueA
 
   public registerOnTouched(touchedCallback: () => void): void {
     this.onTouchedCallback = touchedCallback
-  }
-
-  public ngOnDestroy(): void {
-    this.destroySubject.next()
-    this.destroySubject.complete()
   }
 }

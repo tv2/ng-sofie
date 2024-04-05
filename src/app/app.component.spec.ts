@@ -4,7 +4,6 @@ import { AppComponent } from './app.component'
 import { ConnectionErrorService } from './shared/services/connection-error.service'
 import { instance, mock } from '@typestrong/ts-mockito'
 import { SystemInformationService } from './shared/services/system-information.service'
-import { ClickService } from './shared/services/click.service'
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -25,13 +24,9 @@ describe('AppComponent', () => {
 
 async function configureTestBed(): Promise<void> {
   const mockedConnectionErrorService: ConnectionErrorService = mock<ConnectionErrorService>()
-  const mockedClickService: ClickService = mock<ClickService>()
   await TestBed.configureTestingModule({
     imports: [RouterTestingModule],
     declarations: [AppComponent],
-    providers: [
-      { provide: ConnectionErrorService, useValue: instance(mockedConnectionErrorService) },
-      { provide: ClickService, useValue: instance(mockedClickService) },
-    ],
+    providers: [{ provide: ConnectionErrorService, useValue: instance(mockedConnectionErrorService) }],
   }).compileComponents()
 }
