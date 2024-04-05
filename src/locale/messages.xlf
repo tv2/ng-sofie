@@ -317,9 +317,6 @@
       <trans-unit id="6127544094154745108" datatype="html">
         <source><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> action-triggers.action-arguments.error</source>
       </trans-unit>
-      <trans-unit id="5360405756916221317" datatype="html">
-        <source>action-triggers.action.error</source>
-      </trans-unit>
       <trans-unit id="5202318571157878044" datatype="html">
         <source>action-panel.action-filter.error</source>
       </trans-unit>
@@ -328,6 +325,9 @@
       </trans-unit>
       <trans-unit id="979335411678822239" datatype="html">
         <source>action-panel.name.error</source>
+      </trans-unit>
+      <trans-unit id="6191074751909534346" datatype="html">
+        <source>action-triggers.selected-action.label</source>
       </trans-unit>
     </body>
   </file>

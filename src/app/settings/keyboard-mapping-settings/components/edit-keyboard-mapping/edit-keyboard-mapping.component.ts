@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { ActionArgumentSchemaType } from '../../../../shared/models/action'
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { KeyEventType } from '../../../../keyboard/value-objects/key-event-type'
 import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 import { Tv2Action, Tv2PartAction } from '../../../../shared/models/tv2-action'
@@ -103,19 +103,19 @@ export class EditKeyboardMappingComponent implements OnInit {
     this.onCancel.emit()
   }
 
-  public get formValidationTooltip(): string | undefined {
-    const invalidControls = this.findInvalidControls()
-    return invalidControls.length > 0 ? $localize`common.form-required-field.button-tooltip` + `: ${invalidControls.join(', ')}` : undefined
+  public get saveButtonErrorsTooltip(): string | undefined {
+    const invalidControlsLabels: string[] = this.findInvalidControlsLabels()
+    return invalidControlsLabels.length > 0 ? $localize`common.form-required-field.button-tooltip` + `: ${invalidControlsLabels.join(', ')}` : undefined
   }
 
-  private findInvalidControls(): string[] {
-    const invalidControlLabels = []
+  private findInvalidControlsLabels(): string[] {
+    const invalidControlLabels: string[] = []
     const controls = { ...this.actionTriggerForm.controls, ...this.actionTriggerDataForm.controls }
     for (const name in controls) {
       if (controls[name].valid) {
         continue
       }
-      const translateControl = this.translateControl(name)
+      const translateControl: string | undefined = this.translateControl(name)
       if (translateControl) {
         invalidControlLabels.push(translateControl)
       }
@@ -135,23 +135,6 @@ export class EditKeyboardMappingComponent implements OnInit {
         return this.selectedAction?.argument?.name
       default:
         return undefined
-    }
-  }
-
-  public checkControlForErrors(name: string, groupName?: string): boolean {
-    const control = this.getFormControl(name, groupName)
-    if (!!groupName) {
-      return control ? control.invalid && control.touched : false
-    } else {
-      return control ? control.invalid && control.touched : false
-    }
-  }
-
-  private getFormControl(name: string, groupName?: string): AbstractControl | undefined | null {
-    if (!!groupName) {
-      return this.actionTriggerForm.get(groupName)?.get(name)
-    } else {
-      return this.actionTriggerForm.controls[name]
     }
   }
 

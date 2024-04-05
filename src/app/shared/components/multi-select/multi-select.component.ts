@@ -29,7 +29,6 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   @Input() public label: string
   @Input() public placeholder?: string
 
-  @Input() public hasError?: boolean
   @Input() public isRequired?: boolean
   @Input() public errorMessage?: string
 

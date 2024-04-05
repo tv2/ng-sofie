@@ -11,8 +11,6 @@ import { Tv2Action } from '../../../../shared/models/tv2-action'
 export class ActionSelectorComponent implements OnInit {
   @Input() public selectedAction?: Tv2Action
   @Output() public actionSelected: EventEmitter<Tv2Action> = new EventEmitter()
-  @Input() public hasError?: boolean
-  @Input() public errorMessage?: string
 
   public actions: Tv2Action[] = []
 

@@ -422,10 +422,6 @@
         <source><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> action-triggers.action-arguments.error</source>
         <target state="new"><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> is required field</target>
       </trans-unit>
-      <trans-unit id="5360405756916221317" datatype="html">
-        <source>action-triggers.action.error</source>
-        <target state="new">Please select an action</target>
-      </trans-unit>
       <trans-unit id="979335411678822239" datatype="html">
         <source>action-panel.name.error</source>
         <target state="new">Name is required field</target>
@@ -437,6 +433,10 @@
       <trans-unit id="770599904666863258" datatype="html">
         <source>action-panel.rank.error</source>
         <target state="new">Rank is required field</target>
+      </trans-unit>
+      <trans-unit id="6191074751909534346" datatype="html">
+        <source>action-triggers.selected-action.label</source>
+        <target state="new">Selected action</target>
       </trans-unit>
     </body>
   </file>

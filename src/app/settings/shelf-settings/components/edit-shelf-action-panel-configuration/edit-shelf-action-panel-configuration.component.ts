@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { ShelfActionPanelConfiguration } from '../../../../shared/models/shelf-configuration'
 import { Tv2ActionContentType } from '../../../../shared/models/tv2-action'
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { TranslateActionTypePipe } from '../../../../shared/pipes/translate-action-type.pipe'
 import { SelectOption } from '../../../../shared/models/select-option'
 
@@ -56,19 +56,19 @@ export class EditShelfActionPanelConfigurationComponent implements OnInit {
     this.onCancel.emit()
   }
 
-  public get formValidationTooltip(): string | undefined {
-    const invalidControls = this.findInvalidControls()
-    return invalidControls.length > 0 ? $localize`common.form-required-field.button-tooltip` + `: ${invalidControls.join(', ')}` : undefined
+  public get saveButtonErrorsTooltip(): string | undefined {
+    const invalidControlsLabels: string[] = this.findInvalidControlsLabels()
+    return invalidControlsLabels.length > 0 ? $localize`common.form-required-field.button-tooltip` + `: ${invalidControlsLabels.join(', ')}` : undefined
   }
 
-  private findInvalidControls(): string[] {
-    const invalidControlLabels = []
+  private findInvalidControlsLabels(): string[] {
+    const invalidControlLabels: string[] = []
     const controls = this.form.controls
     for (const name in this.form.controls) {
       if (controls[name].valid) {
         continue
       }
-      const translateControl = this.translateControl(name)
+      const translateControl: string | undefined = this.translateControl(name)
       if (translateControl) {
         invalidControlLabels.push(translateControl)
       }
@@ -87,14 +87,5 @@ export class EditShelfActionPanelConfigurationComponent implements OnInit {
       default:
         return undefined
     }
-  }
-
-  public checkControlForErrors(name: string): boolean {
-    const control = this.getFormControl(name)
-    return control ? control.invalid && control.touched : false
-  }
-
-  private getFormControl(name: string): AbstractControl | undefined | null {
-    return this.form.controls[name]
   }
 }

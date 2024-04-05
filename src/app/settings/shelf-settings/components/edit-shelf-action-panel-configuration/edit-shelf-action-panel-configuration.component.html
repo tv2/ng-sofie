@@ -4,7 +4,6 @@
     label="action-panel.panel-name.label"
     [formControlName]="'name'"
     [isRequired]="true"
-    [hasError]="checkControlForErrors('name')"
     i18n-errorMessage
     errorMessage="action-panel.name.error">
   </sofie-text-input>
@@ -14,7 +13,6 @@
     [formControlName]="'actionFilter'"
     [options]="actionContentOptions"
     [isRequired]="true"
-    [hasError]="checkControlForErrors('actionFilter')"
     i18n-errorMessage
     errorMessage="action-panel.action-filter.error">
   </sofie-multi-select>
@@ -23,7 +21,6 @@
     label="action-panel.rank.label"
     [formControlName]="'rank'"
     [isRequired]="true"
-    [hasError]="checkControlForErrors('rank')"
     i18n-errorMessage
     errorMessage="action-panel.rank.error">
   </sofie-number-input>
@@ -32,5 +29,5 @@
 <sofie-button-group>
   <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
   <sofie-spacer></sofie-spacer>
-  <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!form.valid" i18n [tooltip]="formValidationTooltip">common.save</sofie-button>
+  <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!form.valid" i18n [tooltip]="saveButtonErrorsTooltip">common.save</sofie-button>
 </sofie-button-group>

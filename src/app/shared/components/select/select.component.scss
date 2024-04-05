@@ -1,3 +1,18 @@
+sofie-form-error-message {
+  display: none;
+}
+
+:host.ng-invalid {
+  &.ng-touched {
+    input {
+      border-color: var(--danger-color);
+    }
+    sofie-form-error-message {
+      display: block;
+    }
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;

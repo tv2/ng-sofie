@@ -22,7 +22,6 @@ export class SelectComponent<T> implements ControlValueAccessor {
 
   @Input() public errorMessage?: string
   @Input() public isRequired?: boolean
-  @Input() public hasError?: boolean
 
   @Output() public onChange: EventEmitter<T> = new EventEmitter()
 

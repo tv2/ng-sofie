@@ -4,12 +4,11 @@
     <sofie-icon-button *ngIf="helpText" [tooltip]="helpText" [icon]="Icon.CIRCLE_QUESTION" [iconSize]="IconSize.M"></sofie-icon-button>
   </span>
   <input
-    [class.border-danger]="hasError"
     [placeholder]="placeholder ?? label"
     type="text"
     [ngModel]="value"
     (ngModelChange)="onChange($event)"
     (focusout)="markAsTouched()"
     [disabled]="isDisabled" />
-  <sofie-form-error-message *ngIf="hasError && errorMessage">{{ errorMessage }}</sofie-form-error-message>
+  <sofie-form-error-message *ngIf="errorMessage">{{ errorMessage }}</sofie-form-error-message>
 </div>

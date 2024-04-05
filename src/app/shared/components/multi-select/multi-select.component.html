@@ -1,6 +1,6 @@
 <div class="container pb-2 pt-2">
     <label *ngIf="label" class="mb-1">{{ label }}<sofie-form-required-mark *ngIf="isRequired"></sofie-form-required-mark></label>
-    <div class="multi-select" [class.border-danger]="hasError">
+    <div class="multi-select">
         <div class="display-area">
             <div class="display-text">
                 {{ selectedOptions.length > 0 ? getSelectedOptionsAsDisplay() : (placeholder ?? label) }}
@@ -15,5 +15,5 @@
             </div>
         </div>
     </div>
-    <sofie-form-error-message *ngIf="hasError && errorMessage">{{ errorMessage }}</sofie-form-error-message>
+    <sofie-form-error-message *ngIf="errorMessage">{{ errorMessage }}</sofie-form-error-message>
 </div>

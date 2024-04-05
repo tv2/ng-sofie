@@ -7,7 +7,6 @@
         i18n-label
         label="action-triggers.shortcut.label"
         [formControlName]="'keys'"
-        [hasError]="checkControlForErrors('keys', 'data')"
         i18n-errorMessage
         errorMessage="action-triggers.shortcut.error">
       </sofie-keyboard-input>
@@ -19,7 +18,6 @@
         [formControlName]="'triggerOn'"
         [options]="triggerOnOptions"
         [isRequired]="true"
-        [hasError]="checkControlForErrors('triggerOn', 'data')"
         i18n-errorMessage
         errorMessage="action-triggers.trigger-on.error">
       </sofie-select>
@@ -34,7 +32,6 @@
             [formControlName]="'actionArguments'"
             [helpText]="selectedAction?.argument?.description!"
             [isRequired]="true"
-            [hasError]="checkControlForErrors('actionArguments', 'data')"
             [errorMessage]="actionArgumentErrorMessage">
           </sofie-text-input>
           <sofie-number-input
@@ -43,30 +40,22 @@
             [formControlName]="'actionArguments'"
             [helpText]="selectedAction?.argument?.description!"
             [isRequired]="true"
-            [hasError]="checkControlForErrors('actionArguments', 'data')"
             [errorMessage]="actionArgumentErrorMessage">
           </sofie-number-input>
         </ng-container>
       </ng-container>
     </div>
   </form>
-  <sofie-action-selector
-    [selectedAction]="selectedAction"
-    (actionSelected)="selectAction($event)"
-    class="ps-5"
-    [hasError]="checkControlForErrors('actionId')"
-    i18n-errorMessage
-    errorMessage="action-triggers.action.error">
-  </sofie-action-selector>
+  <sofie-action-selector [selectedAction]="selectedAction" (actionSelected)="selectAction($event)" class="ps-5"> </sofie-action-selector>
 </sofie-row>
 <sofie-button-group>
   <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
   <sofie-spacer></sofie-spacer>
-  <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!actionTriggerForm.valid" [tooltip]="formValidationTooltip" i18n>common.save</sofie-button>
+  <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!actionTriggerForm.valid" [tooltip]="saveButtonErrorsTooltip" i18n>common.save</sofie-button>
 </sofie-button-group>
 
 <ng-template #actionArguments>
-  <div class="selected-action mb-1">Selected action</div>
+  <div class="selected-action mb-1"><ng-container i18n>action-triggers.selected-action.label</ng-container> <sofie-form-required-mark></sofie-form-required-mark></div>
   <sofie-row>
     <sofie-action-box [action]="selectedAction!"></sofie-action-box>
     <div class="selected-action-description ps-1">

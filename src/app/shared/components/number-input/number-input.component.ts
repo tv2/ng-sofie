@@ -23,7 +23,6 @@ export class NumberInputComponent implements ControlValueAccessor {
 
   @Input() public helpText: string
   @Input() public isRequired?: boolean
-  @Input() public hasError?: boolean
   @Input() public errorMessage?: string
 
   public value: number

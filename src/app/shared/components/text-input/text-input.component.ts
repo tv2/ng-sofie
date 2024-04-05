@@ -23,7 +23,6 @@ export class TextInputComponent implements ControlValueAccessor {
 
   @Input() public helpText: string
   @Input() public isRequired: boolean
-  @Input() public hasError?: boolean
   @Input() public errorMessage?: string
 
   @Input() public value: string
