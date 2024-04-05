@@ -6,6 +6,7 @@
   <div class="input">
     <input
       (focus)="markFirstKey()"
+      (focusout)="markAsTouched()"
       [readOnly]="true"
       (keydown)="registerKey($event)"
       [placeholder]="placeholder ?? label"
