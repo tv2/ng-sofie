@@ -5,9 +5,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { TranslateActionTypePipe } from '../../../../shared/pipes/translate-action-type.pipe'
 import { SelectOption } from '../../../../shared/models/select-option'
 
-const FORM_NAME_CONTROL_LABEL: string = 'name'
-const FORM_ACTION_FILTER_CONTROL_LABEL: string = 'actionFilter'
-const FORM_RANK_CONTROL_LABEL: string = 'rank'
+const PANEL_NAME_CONTROL_ID: string = 'name'
+const PANEL_ACTION_FILTER_CONTROL_ID: string = 'actionFilter'
+const PANEL_RANK_CONTROL_ID: string = 'rank'
 
 @Component({
   selector: 'sofie-edit-shelf-action-panel-configuration',
@@ -58,34 +58,29 @@ export class EditShelfActionPanelConfigurationComponent implements OnInit {
 
   public get saveButtonErrorsTooltip(): string | undefined {
     const invalidControlsLabels: string[] = this.findInvalidControlsLabels()
-    return invalidControlsLabels.length > 0 ? $localize`common.form-required-field.button-tooltip` + `: ${invalidControlsLabels.join(', ')}` : undefined
+    if (invalidControlsLabels.length > 0) {
+      return $localize`common.form-required-field.button-tooltip` + `: ${invalidControlsLabels.join(', ')}`
+    } else {
+      return undefined
+    }
   }
 
   private findInvalidControlsLabels(): string[] {
-    const invalidControlLabels: string[] = []
-    const controls = this.form.controls
-    for (const name in this.form.controls) {
-      if (controls[name].valid) {
-        continue
-      }
-      const translateControl: string | undefined = this.translateControl(name)
-      if (translateControl) {
-        invalidControlLabels.push(translateControl)
-      }
-    }
-    return invalidControlLabels
+    return Object.entries({ ...this.form.controls })
+      .filter(([name, control]) => !control.valid && name)
+      .map(([name]) => this.translateControl(name))
   }
 
-  private translateControl(controlName: string): string | undefined {
+  private translateControl(controlName: string): string {
     switch (controlName) {
-      case FORM_NAME_CONTROL_LABEL:
+      case PANEL_NAME_CONTROL_ID:
         return $localize`action-panel.panel-name.label`
-      case FORM_ACTION_FILTER_CONTROL_LABEL:
+      case PANEL_ACTION_FILTER_CONTROL_ID:
         return $localize`global.filters.label`
-      case FORM_RANK_CONTROL_LABEL:
+      case PANEL_RANK_CONTROL_ID:
         return $localize`action-panel.rank.label`
       default:
-        return undefined
+        return controlName
     }
   }
 }

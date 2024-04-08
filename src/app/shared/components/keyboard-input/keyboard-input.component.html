@@ -1,6 +1,6 @@
 <div class="pt-2 pb-2">
   <sofie-row class="mb-1">
-    <label class="flex" *ngIf="label">{{ label }}<sofie-form-required-mark *ngIf="isRequired"></sofie-form-required-mark></label>
+    <label *ngIf="label">{{ label }}<sofie-required-mark *ngIf="isRequired"></sofie-required-mark></label>
     <sofie-icon-button *ngIf="helpText" [tooltip]="helpText" [icon]="Icon.CIRCLE_QUESTION" [iconSize]="IconSize.M"></sofie-icon-button>
   </sofie-row>
   <div class="input">
@@ -13,5 +13,5 @@
       [value]="value | formatKeyboardKeys" />
     <sofie-icon-button *ngIf="!!value" [icon]="Icon.X_MARK" (click)="clearValue()"></sofie-icon-button>
   </div>
-  <sofie-form-error-message *ngIf="errorMessage">{{ errorMessage }}</sofie-form-error-message>
+  <sofie-error-message *ngIf="errorMessage">{{ errorMessage }}</sofie-error-message>
 </div>

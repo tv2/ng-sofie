@@ -1,4 +1,4 @@
-sofie-form-error-message {
+sofie-error-message {
   display: none;
 }
 
@@ -7,7 +7,7 @@ sofie-form-error-message {
     input {
       border-color: var(--danger-color);
     }
-    sofie-form-error-message {
+    sofie-error-message {
       display: block;
     }
   }

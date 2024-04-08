@@ -40,7 +40,7 @@ export class NumberInputComponent implements ControlValueAccessor {
     this.onChangeCallback(this.value)
   }
 
-  public markAsTouched(): void {
+  protected markAsTouched(): void {
     if (this.isTouched) {
       return
     }

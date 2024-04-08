@@ -63,7 +63,7 @@ export class KeyboardInputComponent implements ControlValueAccessor {
     this.onChangeCallback?.(this.value)
   }
 
-  public markAsTouched(): void {
+  protected markAsTouched(): void {
     if (this.isTouched || !this.onTouchedCallback) {
       return
     }

@@ -71,7 +71,7 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
     this.updateValuesFromSelectedOptions()
   }
 
-  private markAsTouched(): void {
+  protected markAsTouched(): void {
     if (this.isTouched || !this.onTouchedCallback) {
       return
     }

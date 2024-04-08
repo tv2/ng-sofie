@@ -1,8 +1,8 @@
 <div class="pt-2 pb-2">
   <span class="mb-1">
-    <label *ngIf="label" class="flex">{{ label }}<sofie-form-required-mark *ngIf="isRequired"></sofie-form-required-mark></label>
+    <label *ngIf="label" class="flex">{{ label }}<sofie-required-mark *ngIf="isRequired"></sofie-required-mark></label>
     <sofie-icon-button *ngIf="helpText" [tooltip]="helpText" [icon]="Icon.CIRCLE_QUESTION" [iconSize]="IconSize.M"></sofie-icon-button>
   </span>
   <input [placeholder]="placeholder ?? label" type="number" [(ngModel)]="value" (change)="onChange()" [disabled]="isDisabled" (focusout)="markAsTouched()" />
-  <sofie-form-error-message *ngIf="errorMessage">{{ errorMessage }}</sofie-form-error-message>
+  <sofie-error-message *ngIf="errorMessage">{{ errorMessage }}</sofie-error-message>
 </div>

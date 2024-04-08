@@ -2,13 +2,7 @@
   <form [formGroup]="actionTriggerForm" class="left-container">
     <div [formGroupName]="'data'">
       <sofie-text-input i18n-label label="global.label" [formControlName]="'label'"></sofie-text-input>
-      <sofie-keyboard-input
-        [isRequired]="true"
-        i18n-label
-        label="action-triggers.shortcut.label"
-        [formControlName]="'keys'"
-        i18n-errorMessage
-        errorMessage="action-triggers.shortcut.error">
+      <sofie-keyboard-input [isRequired]="true" i18n-label label="action-triggers.shortcut.label" [formControlName]="'keys'" i18n-errorMessage errorMessage="action-triggers.shortcut.error">
       </sofie-keyboard-input>
       <sofie-keyboard-input i18n-label label="action-triggers.physical-mapping.label" [formControlName]="'mappedToKeys'" i18n-helpText helpText="action-triggers.physical-mapping-help.tooltip">
       </sofie-keyboard-input>
@@ -21,8 +15,11 @@
         i18n-errorMessage
         errorMessage="action-triggers.trigger-on.error">
       </sofie-select>
-
-      <ng-container *ngIf="selectedAction" [ngTemplateOutlet]="actionArguments"></ng-container>
+      <div class="selected-action mb-1">
+        <ng-container i18n>action-triggers.selected-action.label</ng-container>
+        <sofie-required-mark></sofie-required-mark>
+      </div>
+      <ng-container *ngIf="selectedAction; else noSelectedAction" [ngTemplateOutlet]="actionArguments"></ng-container>
 
       <ng-container *ngIf="doesSelectedActionHaveActionArguments()">
         <ng-container [ngSwitch]="getSelectedActionArgumentType()">
@@ -32,7 +29,7 @@
             [formControlName]="'actionArguments'"
             [helpText]="selectedAction?.argument?.description!"
             [isRequired]="true"
-            [errorMessage]="actionArgumentErrorMessage">
+            [errorMessage]="selectedActionErrorMessage">
           </sofie-text-input>
           <sofie-number-input
             *ngSwitchCase="ActionArgumentSchemaType.NUMBER"
@@ -40,7 +37,7 @@
             [formControlName]="'actionArguments'"
             [helpText]="selectedAction?.argument?.description!"
             [isRequired]="true"
-            [errorMessage]="actionArgumentErrorMessage">
+            [errorMessage]="selectedActionErrorMessage">
           </sofie-number-input>
         </ng-container>
       </ng-container>
@@ -55,11 +52,16 @@
 </sofie-button-group>
 
 <ng-template #actionArguments>
-  <div class="selected-action mb-1"><ng-container i18n>action-triggers.selected-action.label</ng-container> <sofie-form-required-mark></sofie-form-required-mark></div>
   <sofie-row>
     <sofie-action-box [action]="selectedAction!"></sofie-action-box>
     <div class="selected-action-description ps-1">
       {{ selectedAction!.description }}
     </div>
+  </sofie-row>
+</ng-template>
+
+<ng-template #noSelectedAction>
+  <sofie-row>
+    <p i18n>action-triggers.no-selected-action.label</p>
   </sofie-row>
 </ng-template>
