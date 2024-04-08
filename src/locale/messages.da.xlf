@@ -440,7 +440,7 @@
       </trans-unit>
       <trans-unit id="5115532688749023793" datatype="html">
         <source>action-triggers.no-selected-action.label</source>
-        <target state="new">action-triggers.no-selected-action.label</target>
+        <target state="new">No selected action</target>
       </trans-unit>
     </body>
   </file>
