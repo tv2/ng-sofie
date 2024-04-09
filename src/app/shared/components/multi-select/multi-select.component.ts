@@ -23,6 +23,7 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   protected Icon = Icon
   protected IconSize = IconSize
   protected isShowingOptions: boolean = false
+  protected isStopOptionsClosing: boolean = false
 
   @Input() public options: SelectOption<T>[] = []
   public selectableOptions: SelectableOption<T>[] = []
@@ -41,12 +42,15 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
 
   private isTouched: boolean = false
 
-  @HostListener('click', ['$event'])
-  protected stopEventPropagation(event: MouseEvent): void {
-    event.stopPropagation()
-  }
-
   constructor() {}
+
+  @HostListener('click', ['$event'])
+  protected stopEventPropagation(): void {
+    this.isStopOptionsClosing = true
+    setTimeout(() => {
+      this.isStopOptionsClosing = false
+    })
+  }
 
   public ngOnInit(): void {
     this.selectableOptions = this.options.map(option => {
@@ -120,8 +124,12 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   protected toggleIsShowingOptions(): void {
     this.isShowingOptions = !this.isShowingOptions
     if (this.isShowingOptions) {
-      document.addEventListener('click', () => (this.isShowingOptions = false), { once: true })
+      this.addClickListenerForDropdownClose()
     }
+  }
+
+  private addClickListenerForDropdownClose(): void {
+    document.addEventListener('click', () => (this.isStopOptionsClosing ? this.addClickListenerForDropdownClose() : (this.isShowingOptions = false)), { once: true })
   }
 
   public registerOnChange(changeCallback: (value: T[]) => void): void {
