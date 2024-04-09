@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { SelectOption } from '../../models/select-option'
 
@@ -32,11 +32,6 @@ export class SelectComponent<T> implements ControlValueAccessor {
   private isTouched: boolean = false
 
   protected isShowingOptions: boolean = false
-
-  @HostListener('click', ['$event'])
-  protected stopEventPropagation(event: MouseEvent): void {
-    event.stopPropagation()
-  }
 
   constructor() {}
 
@@ -81,7 +76,9 @@ export class SelectComponent<T> implements ControlValueAccessor {
   protected toggleIsShowingOptions(): void {
     this.isShowingOptions = !this.isShowingOptions
     if (this.isShowingOptions) {
-      document.addEventListener('click', () => (this.isShowingOptions = false), { once: true })
+      setTimeout(() => {
+        document.addEventListener('click', () => (this.isShowingOptions = false), { once: true })
+      })
     }
   }
 }

@@ -7,7 +7,7 @@
             </div>
         </div>
 
-        <div class="select-dropdown" [class.block]="isShowingOptions">
+        <div class="select-dropdown" *ngIf="isShowingOptions">
             <div *ngFor="let option of options" class="select-dropdown-item p-3" (click)="selectOption(option)">
                 {{ option.name }}
             </div>
