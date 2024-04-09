@@ -1,24 +1,30 @@
 :host {
   --gradient-degree: 90deg;
   --status-color-width: 5%;
+  --status-code-color: var(--info-color);
   padding: 10px;
   border-radius: 8px;
+  border-left: 20px solid var(--status-code-color);
   box-sizing: border-box;
   box-shadow: 1px 1px 2px var(--black-color-with-alpha);
   display: flex;
-  color: var(--black-color);
-}
-
-.notification-card {
-  display: flex;
   width: 100%;
   justify-content: space-between;
+  color: var(--black-color);
+  background-color: var(--white-color);
+
+  &.bad {
+    --status-code-color: var(--danger-color);
+  }
+
+  &.warning {
+    --status-code-color: var(--attention-color);
+  }
 }
 
 .text {
-  padding-left: var(--status-color-width);
   overflow-wrap: break-word;
-  width: calc(100% - var(--status-color-width))
+  width: 100%;
 }
 
 sofie-icon-button {
