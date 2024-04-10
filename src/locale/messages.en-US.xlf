@@ -408,7 +408,7 @@
       </trans-unit>
       <trans-unit id="719177318571875364" datatype="html">
         <source>common.form-required-field.button-tooltip</source>
-        <target state="new">You have not filled in a required field</target>
+        <target state="new">Please fill out the required field(s).</target>
       </trans-unit>
       <trans-unit id="5742386463554387927" datatype="html">
         <source>action-triggers.shortcut.error</source>

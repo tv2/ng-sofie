@@ -56,10 +56,10 @@ export class EditShelfActionPanelConfigurationComponent implements OnInit {
     this.onCancel.emit()
   }
 
-  public get saveButtonErrorsTooltip(): string | undefined {
+  public get invalidControlsErrorMessage(): string | undefined {
     const invalidControlsLabels: string[] = this.findInvalidControlsLabels()
     if (invalidControlsLabels.length > 0) {
-      return $localize`common.form-required-field.button-tooltip` + `: ${invalidControlsLabels.join(', ')}`
+      return $localize`common.form-required-field.button-tooltip` + ` ${invalidControlsLabels.join(', ')}`
     } else {
       return undefined
     }
