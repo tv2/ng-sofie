@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, Input } from '@angular/core'
+import { Component, HostBinding, Input } from '@angular/core'
 import { Icon, IconSize } from '../../enums/icon'
 import { Notification } from '../../models/notification'
 
@@ -20,7 +20,7 @@ export class NotificationCardComponent {
   public readonly Icon = Icon
   public readonly IconSize = IconSize
 
-  constructor(private readonly elementRef: ElementRef) {}
+  constructor() {}
 
   @HostBinding('class')
   protected get statusCodeClassName(): string {
