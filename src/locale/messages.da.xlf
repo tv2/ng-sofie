@@ -114,8 +114,8 @@
         <source>global.clear.label</source>
         <target state="new">Clear</target>
       </trans-unit>
-      <trans-unit id="6759876909141538174" datatype="html">
-        <source>settings.keyboard-mappings.label</source>
+      <trans-unit id="9191550720479888548" datatype="html">
+        <source>settings.keyboard-mappings.title</source>
         <target state="new">Keyboard mappings</target>
       </trans-unit>
       <trans-unit id="4177582797246824978" datatype="html">
@@ -134,8 +134,8 @@
         <source>settings.shelf.label</source>
         <target state="new">Shelf</target>
       </trans-unit>
-      <trans-unit id="8566219553884482008" datatype="html">
-        <source>settings.shelf.action-panels.label</source>
+      <trans-unit id="4302180445374821108" datatype="html">
+        <source>settings.shelf.action-panels.title</source>
         <target state="new">Shelf Action panels</target>
       </trans-unit>
       <trans-unit id="2803021013738697812" datatype="html">
@@ -441,6 +441,31 @@
       <trans-unit id="5115532688749023793" datatype="html">
         <source>action-triggers.no-selected-action.label</source>
         <target state="new">No selected action</target>
+      <trans-unit id="4104115551404451182" datatype="html">
+        <source>dialog.button.activate</source>
+        <target state="new">Aktiver</target>
+      </trans-unit>
+      <trans-unit id="6184838723314474094" datatype="html">
+        <source>dialog.button.rehearse</source>
+        <target state="new">Afprøv</target>
+      </trans-unit>
+      <trans-unit id="5333590585565329092" datatype="html">
+        <source>dialog.message.activation</source>
+        <target state="new">Er du sikker på at du vil aktivere denne Rundown?</target>
+      </trans-unit>
+      <trans-unit id="3626510894964414637" datatype="html">
+        <source>dialog.message.activation.warning</source>
+        <target state="new">Er du sikker på du vil aktivere denne Rundown?
+        Det vil deaktivere Rundown</target>
+      </trans-unit>
+      <trans-unit id="6370990329720066506" datatype="html">
+        <source>dialog.message.rehearse</source>
+        <target state="new">Er du sikker på at du vil afprøve denne Rundown?</target>
+      </trans-unit>
+      <trans-unit id="2994423491366084246" datatype="html">
+        <source>dialog.message.rehearse.warning</source>
+        <target state="new">Er du sikker på at du vil afprøve denne Rundown?
+        Det vil deaktivere Rundown</target>
       </trans-unit>
     </body>
   </file>

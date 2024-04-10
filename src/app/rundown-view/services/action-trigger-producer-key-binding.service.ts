@@ -9,7 +9,7 @@ import { Action } from '../../shared/models/action'
 import { RundownStateService } from '../../core/services/rundown-state.service'
 import { Rundown } from '../../core/models/rundown'
 import { Tv2ActionParser } from '../../shared/abstractions/tv2-action-parser.service'
-import { KeyBindingFactory } from '../factories/key-binding.factory'
+import { SystemKeyBindingFactory } from '../factories/system-key-binding-factory.service'
 import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
 import { Logger } from '../../core/abstractions/logger.service'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
@@ -28,7 +28,8 @@ const GRAPHICS_COLOR: string = 'var(--tv2-graphics-color)'
 export class ActionTriggerProducerKeyBindingService implements KeyBindingService {
   private actions: Tv2Action[] = []
   private rundown?: Rundown
-  private keyBindings: KeyBinding[] = []
+  private systemKeyBindings: KeyBinding[] = []
+  private actionTriggerKeyBindings: KeyBinding[] = []
   private readonly keyBindingsSubject: Subject<KeyBinding[]>
 
   private actionTriggers: ActionTrigger<KeyboardTriggerData>[] = []
@@ -45,12 +46,12 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     private readonly actionStateService: ActionStateService,
     private readonly rundownStateService: RundownStateService,
     private readonly actionParser: Tv2ActionParser,
-    private readonly keyBindingFactory: KeyBindingFactory,
+    private readonly systemKeyBindingFactory: SystemKeyBindingFactory,
     private readonly actionService: ActionService,
     logger: Logger
   ) {
     this.logger = logger.tag('ActionTriggerProducerKeyBindingService')
-    this.keyBindingsSubject = new BehaviorSubject(this.keyBindings)
+    this.keyBindingsSubject = new BehaviorSubject(this.systemKeyBindings)
   }
 
   public init(rundownId: string): void {
@@ -72,7 +73,8 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   private onActionTriggersChanged(actionTriggers: ActionTrigger[]): void {
     this.setValidKeyboardActionTriggers(actionTriggers)
     this.mapActionTriggersToActions()
-    this.emitNewKeybindings()
+    this.updateActionTriggerKeybindings()
+    this.emitKeybindings()
   }
 
   private setValidKeyboardActionTriggers(actionTriggers: ActionTrigger[]): void {
@@ -94,26 +96,12 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     })
   }
 
-  private emitNewKeybindings(): void {
-    this.keyBindings = this.createKeyBindings()
-    this.keyBindingsSubject.next(this.keyBindings)
+  private updateActionTriggerKeybindings(): void {
+    this.actionTriggerKeyBindings = Array.from(this.actionTriggersWithAction, ([actionTrigger, action]) => this.createBinding(action, actionTrigger, this.rundown!.id))
   }
 
-  private createKeyBindings(): KeyBinding[] {
-    if (!this.rundown) {
-      return []
-    }
-
-    const keyBindings: StyledKeyBinding[] = this.keyBindingFactory.createRundownKeyBindings(this.rundown)
-
-    if (this.rundown.mode === RundownMode.INACTIVE) {
-      return keyBindings
-    }
-
-    this.actionTriggersWithAction.forEach((action: Tv2Action, actionTrigger: ActionTrigger<KeyboardTriggerData>) => {
-      keyBindings.push(this.createBinding(action, actionTrigger, this.rundown!.id))
-    })
-    return keyBindings
+  private emitKeybindings(): void {
+    this.keyBindingsSubject.next([...this.systemKeyBindings, ...this.actionTriggerKeyBindings])
   }
 
   private createBinding(action: Tv2Action, actionTrigger: ActionTrigger<KeyboardTriggerData>, rundownId: string): StyledKeyBinding {
@@ -166,7 +154,8 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   private onActionsChanged(actions: Action[]): void {
     this.setValidActions(actions)
     this.mapActionTriggersToActions()
-    this.emitNewKeybindings()
+    this.updateActionTriggerKeybindings()
+    this.emitKeybindings()
   }
 
   private setValidActions(actions: Action[]): void {
@@ -185,7 +174,30 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
       return
     }
     this.rundown = rundown
-    this.emitNewKeybindings()
+    this.updateSystemKeyBindings()
+    this.emitKeybindings()
+  }
+
+  private updateSystemKeyBindings(): void {
+    this.systemKeyBindings = this.createSystemKeyBindings()
+  }
+
+  private createSystemKeyBindings(): KeyBinding[] {
+    if (!this.rundown) {
+      return []
+    }
+
+    switch (this.rundown.mode) {
+      case RundownMode.ACTIVE: {
+        return this.systemKeyBindingFactory.createActiveRundownKeyBindings(this.rundown)
+      }
+      case RundownMode.REHEARSAL: {
+        return this.systemKeyBindingFactory.createRehearsalRundownKeyBindings(this.rundown)
+      }
+      case RundownMode.INACTIVE: {
+        return this.systemKeyBindingFactory.createInactiveRundownKeyBindings(this.rundown)
+      }
+    }
   }
 
   public subscribeToKeyBindings(): Observable<KeyBinding[]> {
