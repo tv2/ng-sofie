@@ -1,5 +1,5 @@
 <div class="container pb-2 pt-2">
-    <label *ngIf="label">{{ label }}</label>
+    <label *ngIf="label">{{ label }}<sofie-required-mark *ngIf="isRequired"></sofie-required-mark></label>
     <div class="select">
         <div class="display-area" (click)="toggleIsShowingOptions()">
             <div class="display-text">
@@ -13,4 +13,5 @@
             </div>
         </div>
     </div>
+    <sofie-error-message *ngIf="errorMessage">{{ errorMessage }}</sofie-error-message>
 </div>

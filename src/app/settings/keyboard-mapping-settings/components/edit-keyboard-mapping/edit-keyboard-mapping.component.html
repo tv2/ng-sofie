@@ -1,39 +1,67 @@
 <sofie-row class="mb-3">
-    <form [formGroup]="actionTriggerForm" class="left-container">
-        <div [formGroupName]="'data'">
-            <sofie-text-input i18n-label label="global.label" [formControlName]="'label'"></sofie-text-input>
-            <sofie-keyboard-input i18n-label label="action-triggers.shortcut.label" [formControlName]="'keys'"></sofie-keyboard-input>
-            <sofie-keyboard-input
-                    i18n-label label="action-triggers.physical-mapping.label"
-                    [formControlName]="'mappedToKeys'"
-                    i18n-helpText helpText="action-triggers.physical-mapping-help.tooltip"
-            ></sofie-keyboard-input>
-            <sofie-select i18n-label label="action-triggers.trigger-on.label" [formControlName]="'triggerOn'" [options]="triggerOnOptions"></sofie-select>
+  <form [formGroup]="actionTriggerForm" class="left-container">
+    <div [formGroupName]="'data'">
+      <sofie-text-input i18n-label label="global.label" [formControlName]="'label'"></sofie-text-input>
+      <sofie-keyboard-input [isRequired]="true" i18n-label label="action-triggers.shortcut.label" [formControlName]="'keys'" i18n-errorMessage errorMessage="action-triggers.shortcut.error">
+      </sofie-keyboard-input>
+      <sofie-keyboard-input i18n-label label="action-triggers.physical-mapping.label" [formControlName]="'mappedToKeys'" i18n-helpText helpText="action-triggers.physical-mapping-help.tooltip">
+      </sofie-keyboard-input>
+      <sofie-select
+        i18n-label
+        label="action-triggers.trigger-on.label"
+        [formControlName]="'triggerOn'"
+        [options]="triggerOnOptions"
+        [isRequired]="true"
+        i18n-errorMessage
+        errorMessage="action-triggers.trigger-on.error">
+      </sofie-select>
+      <div class="selected-action mb-1">
+        <ng-container i18n>action-triggers.selected-action.label</ng-container>
+        <sofie-required-mark></sofie-required-mark>
+      </div>
+      <ng-container *ngIf="selectedAction; else noSelectedAction" [ngTemplateOutlet]="actionArguments"></ng-container>
 
-            <ng-container *ngIf="selectedAction" [ngTemplateOutlet]="actionArguments"></ng-container>
-
-            <ng-container *ngIf="doesSelectedActionHaveActionArguments()">
-                <ng-container [ngSwitch]="getSelectedActionArgumentType()">
-                    <sofie-text-input *ngSwitchCase="ActionArgumentSchemaType.STRING" [label]="selectedAction?.argument?.name!" [formControlName]="'actionArguments'" [helpText]="selectedAction?.argument?.description!"></sofie-text-input>
-                    <sofie-number-input *ngSwitchCase="ActionArgumentSchemaType.NUMBER" [label]="selectedAction?.argument?.name!" [formControlName]="'actionArguments'" [helpText]="selectedAction?.argument?.description!"></sofie-number-input>
-                </ng-container>
-            </ng-container>
-        </div>
-    </form>
-    <sofie-action-selector [selectedAction]="selectedAction" (actionSelected)="selectAction($event)" class="ps-5"></sofie-action-selector>
+      <ng-container *ngIf="doesSelectedActionHaveActionArguments()">
+        <ng-container [ngSwitch]="getSelectedActionArgumentType()">
+          <sofie-text-input
+            *ngSwitchCase="ActionArgumentSchemaType.STRING"
+            [label]="selectedAction?.argument?.name!"
+            [formControlName]="'actionArguments'"
+            [helpText]="selectedAction?.argument?.description!"
+            [isRequired]="true"
+            [errorMessage]="selectedActionErrorMessage">
+          </sofie-text-input>
+          <sofie-number-input
+            *ngSwitchCase="ActionArgumentSchemaType.NUMBER"
+            [label]="selectedAction?.argument?.name!"
+            [formControlName]="'actionArguments'"
+            [helpText]="selectedAction?.argument?.description!"
+            [isRequired]="true"
+            [errorMessage]="selectedActionErrorMessage">
+          </sofie-number-input>
+        </ng-container>
+      </ng-container>
+    </div>
+  </form>
+  <sofie-action-selector [selectedAction]="selectedAction" (actionSelected)="selectAction($event)" class="ps-5"> </sofie-action-selector>
 </sofie-row>
 <sofie-button-group>
-    <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
-    <sofie-spacer></sofie-spacer>
-    <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!actionTriggerForm.valid" i18n>common.save</sofie-button>
+  <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
+  <sofie-spacer></sofie-spacer>
+  <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!actionTriggerForm.valid" [tooltip]="saveButtonErrorsTooltip" i18n>common.save</sofie-button>
 </sofie-button-group>
 
 <ng-template #actionArguments>
-    <div class="selected-action mb-1">Selected action</div>
-    <sofie-row>
-        <sofie-action-box [action]="selectedAction!"></sofie-action-box>
-        <div class="selected-action-description ps-1">
-            {{ selectedAction!.description }}
-        </div>
-    </sofie-row>
+  <sofie-row>
+    <sofie-action-box [action]="selectedAction!"></sofie-action-box>
+    <div class="selected-action-description ps-1">
+      {{ selectedAction!.description }}
+    </div>
+  </sofie-row>
+</ng-template>
+
+<ng-template #noSelectedAction>
+  <sofie-row>
+    <span i18n>action-triggers.no-selected-action.label</span>
+  </sofie-row>
 </ng-template>

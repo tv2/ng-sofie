@@ -402,6 +402,46 @@
         <source>notification-icon.toggle-panel.tooltip</source>
         <target state="new">Click to toggle notification panel</target>
       </trans-unit>
+      <trans-unit id="3299373246271290710" datatype="html">
+        <source>action-triggers.action.label</source>
+        <target state="new">Action</target>
+      </trans-unit>
+      <trans-unit id="719177318571875364" datatype="html">
+        <source>common.form-required-field.button-tooltip</source>
+        <target state="new">You have not filled in a required field</target>
+      </trans-unit>
+      <trans-unit id="5742386463554387927" datatype="html">
+        <source>action-triggers.shortcut.error</source>
+        <target state="new">A shortcut is required.</target>
+      </trans-unit>
+      <trans-unit id="6359779760013296434" datatype="html">
+        <source>action-triggers.trigger-on.error</source>
+        <target state="new">Please select how the shortcut should trigger.</target>
+      </trans-unit>
+      <trans-unit id="6127544094154745108" datatype="html">
+        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> action-triggers.action-arguments.error</source>
+        <target state="new"><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> is required.</target>
+      </trans-unit>
+      <trans-unit id="979335411678822239" datatype="html">
+        <source>action-panel.name.error</source>
+        <target state="new">Please fill out a name.</target>
+      </trans-unit>
+      <trans-unit id="5202318571157878044" datatype="html">
+        <source>action-panel.action-filter.error</source>
+        <target state="new">Select at least one filter.</target>
+      </trans-unit>
+      <trans-unit id="770599904666863258" datatype="html">
+        <source>action-panel.rank.error</source>
+        <target state="new">The panel must have a rank provided.</target>
+      </trans-unit>
+      <trans-unit id="6191074751909534346" datatype="html">
+        <source>action-triggers.selected-action.label</source>
+        <target state="new">Selected action</target>
+      </trans-unit>
+      <trans-unit id="5115532688749023793" datatype="html">
+        <source>action-triggers.no-selected-action.label</source>
+        <target state="new">No selected action</target>
+      </trans-unit>
       <trans-unit id="4104115551404451182" datatype="html">
         <source>dialog.button.activate</source>
         <target state="new">Activate</target>

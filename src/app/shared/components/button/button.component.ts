@@ -8,5 +8,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 })
 export class ButtonComponent {
   @Input() public isDisabled: boolean = false
+  @Input() public tooltip?: string
   @Input() public type: 'STANDARD' | 'PRIMARY' | 'WARNING' | 'DANGER' = 'STANDARD'
 }

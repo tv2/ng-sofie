@@ -22,6 +22,8 @@ export class TextInputComponent implements ControlValueAccessor {
   @Input() public placeholder?: string
 
   @Input() public helpText: string
+  @Input() public isRequired: boolean
+  @Input() public errorMessage?: string
 
   @Input() public value: string
   @Output() public valueChange: EventEmitter<string> = new EventEmitter()
@@ -41,7 +43,7 @@ export class TextInputComponent implements ControlValueAccessor {
     this.onChangeCallback?.(this.value)
   }
 
-  private markAsTouched(): void {
+  protected markAsTouched(): void {
     if (!this.onTouchedCallback || this.isTouched) {
       return
     }

@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core'
   styleUrls: ['./text-tooltip.component.scss'],
 })
 export class TextTooltipComponent {
-  @Input() public text: string
+  @Input() public text?: string
 }

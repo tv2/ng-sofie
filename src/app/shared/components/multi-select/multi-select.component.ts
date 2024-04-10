@@ -29,6 +29,9 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   @Input() public label: string
   @Input() public placeholder?: string
 
+  @Input() public isRequired?: boolean
+  @Input() public errorMessage?: string
+
   @Output() public onChange: EventEmitter<T[]> = new EventEmitter()
 
   public selectedOptions: SelectableOption<T>[] = []
@@ -68,7 +71,7 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
     this.updateValuesFromSelectedOptions()
   }
 
-  private markAsTouched(): void {
+  protected markAsTouched(): void {
     if (this.isTouched || !this.onTouchedCallback) {
       return
     }

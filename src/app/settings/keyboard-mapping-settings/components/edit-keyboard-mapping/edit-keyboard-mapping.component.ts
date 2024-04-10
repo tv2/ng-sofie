@@ -6,6 +6,12 @@ import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapp
 import { Tv2Action, Tv2PartAction } from '../../../../shared/models/tv2-action'
 import { SelectOption } from '../../../../shared/models/select-option'
 
+const KEYBOARD_ACTION_CONTROL_ID: string = 'actionId'
+const KEYBOARD_KEYS_CONTROL_ID: string = 'keys'
+const KEYBOARD_TRIGGER_ON_CONTROL_ID: string = 'triggerOn'
+const KEYBOARD_ACTION_ARGUMENTS_CONTROL_ID: string = 'actionArguments'
+const KEYBOARD_DATA_CONTROL_ID: string = 'data'
+
 @Component({
   selector: 'sofie-edit-keyboard-mapping',
   templateUrl: './edit-keyboard-mapping.component.html',
@@ -64,11 +70,11 @@ export class EditKeyboardMappingComponent implements OnInit {
   }
 
   private addActionArgumentsFormControl(): void {
-    this.actionTriggerDataForm.setControl('actionArguments', this.formBuilder.nonNullable.control(this.keyboardMapping?.actionTrigger.data.actionArguments, Validators.required))
+    this.actionTriggerDataForm.setControl(KEYBOARD_ACTION_ARGUMENTS_CONTROL_ID, this.formBuilder.nonNullable.control(this.keyboardMapping?.actionTrigger.data.actionArguments, Validators.required))
   }
 
   private removeActionArgumentsFormControl(): void {
-    this.actionTriggerDataForm.removeControl('actionArguments')
+    this.actionTriggerDataForm.removeControl(KEYBOARD_ACTION_ARGUMENTS_CONTROL_ID)
   }
 
   public doesSelectedActionHaveActionArguments(): boolean {
@@ -96,5 +102,39 @@ export class EditKeyboardMappingComponent implements OnInit {
 
   public cancel(): void {
     this.onCancel.emit()
+  }
+
+  public get saveButtonErrorsTooltip(): string | undefined {
+    const invalidControlsLabels: string[] = this.findInvalidControlsLabels()
+    if (invalidControlsLabels.length > 0) {
+      return $localize`common.form-required-field.button-tooltip` + `: ${invalidControlsLabels.join(', ')}`
+    } else {
+      return undefined
+    }
+  }
+
+  private findInvalidControlsLabels(): string[] {
+    return Object.entries({ ...this.actionTriggerForm.controls, ...this.actionTriggerDataForm.controls })
+      .filter(([name, control]) => !control.valid && name !== KEYBOARD_DATA_CONTROL_ID)
+      .map(([name]) => this.translateControl(name))
+  }
+
+  private translateControl(controlName: string): string {
+    switch (controlName) {
+      case KEYBOARD_TRIGGER_ON_CONTROL_ID:
+        return $localize`action-triggers.trigger-on.label`
+      case KEYBOARD_KEYS_CONTROL_ID:
+        return $localize`action-triggers.shortcut.label`
+      case KEYBOARD_ACTION_CONTROL_ID:
+        return $localize`action-triggers.action.label`
+      case KEYBOARD_ACTION_ARGUMENTS_CONTROL_ID:
+        return this.selectedAction?.argument?.name!
+      default:
+        return controlName
+    }
+  }
+
+  public get selectedActionErrorMessage(): string {
+    return $localize`${this.selectedAction?.argument?.name} action-triggers.action-arguments.error`
   }
 }
