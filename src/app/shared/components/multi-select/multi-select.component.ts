@@ -23,7 +23,7 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   protected Icon = Icon
   protected IconSize = IconSize
   protected isShowingOptions: boolean = false
-  protected isStopOptionsClosing: boolean = false
+  protected registerClick: boolean = true
 
   @Input() public options: SelectOption<T>[] = []
   public selectableOptions: SelectableOption<T>[] = []
@@ -46,9 +46,9 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
 
   @HostListener('click', ['$event'])
   protected stopEventPropagation(): void {
-    this.isStopOptionsClosing = true
+    this.registerClick = false
     setTimeout(() => {
-      this.isStopOptionsClosing = false
+      this.registerClick = true
     })
   }
 
@@ -129,7 +129,7 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   }
 
   private addClickListenerForDropdownClose(): void {
-    document.addEventListener('click', () => (this.isStopOptionsClosing ? this.addClickListenerForDropdownClose() : (this.isShowingOptions = false)), { once: true })
+    document.addEventListener('click', () => (this.registerClick ? (this.isShowingOptions = false) : this.addClickListenerForDropdownClose()), { once: true })
   }
 
   public registerOnChange(changeCallback: (value: T[]) => void): void {
