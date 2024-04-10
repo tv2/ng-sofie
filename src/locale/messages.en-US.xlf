@@ -441,6 +441,7 @@
       <trans-unit id="5115532688749023793" datatype="html">
         <source>action-triggers.no-selected-action.label</source>
         <target state="new">No selected action</target>
+      </trans-unit>
       <trans-unit id="4104115551404451182" datatype="html">
         <source>dialog.button.activate</source>
         <target state="new">Activate</target>
