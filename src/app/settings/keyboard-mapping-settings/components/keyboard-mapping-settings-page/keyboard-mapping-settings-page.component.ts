@@ -19,6 +19,7 @@ import { DialogColorScheme, DialogSeverity } from 'src/app/shared/components/con
 export interface KeyboardMapping {
   actionTrigger: ActionTrigger<KeyboardTriggerData>
   action: Tv2PartAction
+  isSaveAndCreateNew?: boolean
 }
 
 @Component({
@@ -132,6 +133,9 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
       }
       this.actionTriggerService.createActionTrigger(createdKeyboardMapping.actionTrigger).subscribe()
       this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.create-keyboard-mapping.success`)
+      if (createdKeyboardMapping.isSaveAndCreateNew) {
+        this.openCreateKeyboardMapping()
+      }
     })
   }
 

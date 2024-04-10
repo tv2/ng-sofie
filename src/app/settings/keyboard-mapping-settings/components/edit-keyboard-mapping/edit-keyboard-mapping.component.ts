@@ -88,13 +88,14 @@ export class EditKeyboardMappingComponent implements OnInit {
     return this.selectedAction.argument.type
   }
 
-  public save(): void {
+  public save(isSaveAndCreateNew?: boolean): void {
     const keyboardMapping: KeyboardMapping = {
       action: {} as Tv2PartAction,
       actionTrigger: {
         ...this.keyboardMapping?.actionTrigger,
         ...this.actionTriggerForm.value,
       },
+      isSaveAndCreateNew,
     }
 
     this.onSave.emit(keyboardMapping)
