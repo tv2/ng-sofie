@@ -20,8 +20,6 @@ export class NotificationCardComponent {
   public readonly Icon = Icon
   public readonly IconSize = IconSize
 
-  constructor() {}
-
   @HostBinding('class')
   protected get statusCodeClassName(): string {
     return this.notification.statusCode.toLocaleLowerCase()
