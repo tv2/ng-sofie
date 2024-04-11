@@ -1,14 +1,16 @@
-sofie-error-message {
-  display: none;
-}
-
-:host.ng-invalid {
-  &.ng-touched {
-    input {
-      border-color: var(--danger-color);
+:host {
+  &.ng-invalid {
+    &.ng-touched {
+      .multi-select {
+        border-color: var(--danger-color);
+      }
     }
+  }
+
+  &.ng-valid,
+  &.ng-untouched {
     sofie-error-message {
-      display: block;
+      display: none;
     }
   }
 }

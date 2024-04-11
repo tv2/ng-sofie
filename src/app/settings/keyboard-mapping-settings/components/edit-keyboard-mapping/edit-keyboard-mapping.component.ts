@@ -104,10 +104,10 @@ export class EditKeyboardMappingComponent implements OnInit {
     this.onCancel.emit()
   }
 
-  public get saveButtonErrorsTooltip(): string | undefined {
+  public get invalidControlsErrorMessage(): string | undefined {
     const invalidControlsLabels: string[] = this.findInvalidControlsLabels()
     if (invalidControlsLabels.length > 0) {
-      return $localize`common.form-required-field.button-tooltip` + `: ${invalidControlsLabels.join(', ')}`
+      return $localize`common.form-required-field.button-tooltip` + ` ${invalidControlsLabels.join(', ')}`
     } else {
       return undefined
     }
@@ -115,12 +115,12 @@ export class EditKeyboardMappingComponent implements OnInit {
 
   private findInvalidControlsLabels(): string[] {
     return Object.entries({ ...this.actionTriggerForm.controls, ...this.actionTriggerDataForm.controls })
-      .filter(([name, control]) => !control.valid && name !== KEYBOARD_DATA_CONTROL_ID)
-      .map(([name]) => this.translateControl(name))
+      .filter(([controlId, control]) => !control.valid && controlId !== KEYBOARD_DATA_CONTROL_ID)
+      .map(([controlId]) => this.translateControl(controlId))
   }
 
-  private translateControl(controlName: string): string {
-    switch (controlName) {
+  private translateControl(controlId: string): string {
+    switch (controlId) {
       case KEYBOARD_TRIGGER_ON_CONTROL_ID:
         return $localize`action-triggers.trigger-on.label`
       case KEYBOARD_KEYS_CONTROL_ID:
@@ -130,7 +130,7 @@ export class EditKeyboardMappingComponent implements OnInit {
       case KEYBOARD_ACTION_ARGUMENTS_CONTROL_ID:
         return this.selectedAction?.argument?.name!
       default:
-        return controlName
+        return controlId
     }
   }
 
