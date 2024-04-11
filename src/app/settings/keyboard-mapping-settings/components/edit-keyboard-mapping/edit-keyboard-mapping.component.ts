@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { ActionArgumentSchemaType } from '../../../../shared/models/action'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { KeyEventType } from '../../../../keyboard/value-objects/key-event-type'
-import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
+import { EditKeyboardMapping, KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 import { Tv2Action, Tv2PartAction } from '../../../../shared/models/tv2-action'
 import { SelectOption } from '../../../../shared/models/select-option'
 
@@ -22,7 +22,7 @@ export class EditKeyboardMappingComponent implements OnInit {
 
   @Input() public keyboardMapping?: KeyboardMapping
 
-  @Output() public onSave: EventEmitter<KeyboardMapping> = new EventEmitter()
+  @Output() public onSave: EventEmitter<EditKeyboardMapping> = new EventEmitter()
   @Output() public onCancel: EventEmitter<void> = new EventEmitter()
 
   public actionTriggerForm: FormGroup
@@ -88,17 +88,19 @@ export class EditKeyboardMappingComponent implements OnInit {
     return this.selectedAction.argument.type
   }
 
-  public save(isSaveAndCreateNew?: boolean): void {
-    const keyboardMapping: KeyboardMapping = {
-      action: {} as Tv2PartAction,
-      actionTrigger: {
-        ...this.keyboardMapping?.actionTrigger,
-        ...this.actionTriggerForm.value,
+  public save(shouldSaveAndCreateNew?: boolean): void {
+    const editkeyboardMapping: EditKeyboardMapping = {
+      keyboardMapping: {
+        action: {} as Tv2PartAction,
+        actionTrigger: {
+          ...this.keyboardMapping?.actionTrigger,
+          ...this.actionTriggerForm.value,
+        },
       },
-      isSaveAndCreateNew,
+      shouldSaveAndCreateNew,
     }
 
-    this.onSave.emit(keyboardMapping)
+    this.onSave.emit(editkeyboardMapping)
   }
 
   public cancel(): void {

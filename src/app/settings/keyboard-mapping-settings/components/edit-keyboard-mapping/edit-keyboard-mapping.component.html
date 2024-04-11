@@ -48,7 +48,7 @@
 <sofie-button-group>
   <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
   <sofie-spacer></sofie-spacer>
-  <sofie-button *ngIf="!keyboardMapping" (click)="save(true)" [type]="'STANDARD'" [isDisabled]="!actionTriggerForm.valid" [tooltip]="saveButtonErrorsTooltip" i18n>common.save-and-create-new</sofie-button>
+  <sofie-button *ngIf="!keyboardMapping" (click)="save(true)" type="STANDARD" [isDisabled]="!actionTriggerForm.valid" [tooltip]="saveButtonErrorsTooltip" i18n>common.save-and-create-new</sofie-button>
   <sofie-button (click)="save()" [type]="'PRIMARY'" [isDisabled]="!actionTriggerForm.valid" [tooltip]="saveButtonErrorsTooltip" i18n>common.save</sofie-button>
 </sofie-button-group>
 

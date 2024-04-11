@@ -1,3 +1,3 @@
 <sofie-sidebar-container [title]="getTitle()">
-    <sofie-edit-keyboard-mapping [keyboardMapping]="keyboardMapping" (onSave)="closeDialog($event)" (onCancel)="closeDialog()"></sofie-edit-keyboard-mapping>
+    <sofie-edit-keyboard-mapping [keyboardMapping]="editKeyboardMapping?.keyboardMapping" (onSave)="closeDialog($event)" (onCancel)="closeDialog()"></sofie-edit-keyboard-mapping>
 </sofie-sidebar-container>

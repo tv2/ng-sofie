@@ -16,10 +16,14 @@ import { FormatKeyboardKeysPipe } from '../../../../shared/pipes/format-keyboard
 import { EditKeyboardMappingDialogComponent } from '../edit-keyboard-mapping-dialog/edit-keyboard-mapping-dialog.component'
 import { DialogColorScheme, DialogSeverity } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component'
 
+export interface EditKeyboardMapping {
+  keyboardMapping: KeyboardMapping
+  shouldSaveAndCreateNew?: boolean
+}
+
 export interface KeyboardMapping {
   actionTrigger: ActionTrigger<KeyboardTriggerData>
   action: Tv2PartAction
-  isSaveAndCreateNew?: boolean
 }
 
 @Component({
@@ -127,29 +131,29 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   }
 
   public openCreateKeyboardMapping(): void {
-    this.dialogService.openSidebarDialog(EditKeyboardMappingDialogComponent, (createdKeyboardMapping?: KeyboardMapping) => {
-      if (!createdKeyboardMapping) {
+    this.dialogService.openSidebarDialog(EditKeyboardMappingDialogComponent, (createKeyboardMapping?: EditKeyboardMapping) => {
+      if (!createKeyboardMapping || !createKeyboardMapping.keyboardMapping) {
         return
       }
-      this.actionTriggerService.createActionTrigger(createdKeyboardMapping.actionTrigger).subscribe()
+      this.actionTriggerService.createActionTrigger(createKeyboardMapping.keyboardMapping.actionTrigger).subscribe()
       this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.create-keyboard-mapping.success`)
-      if (createdKeyboardMapping.isSaveAndCreateNew) {
+      if (createKeyboardMapping.shouldSaveAndCreateNew) {
         this.openCreateKeyboardMapping()
       }
     })
   }
 
-  public openEditKeyboardMapping(keyboardMapping: KeyboardMapping): void {
+  public openEditKeyboardMapping(editKeyboardMapping: EditKeyboardMapping): void {
     this.dialogService.openSidebarDialog(
       EditKeyboardMappingDialogComponent,
-      (updatedKeyboardMapping?: KeyboardMapping) => {
-        if (!updatedKeyboardMapping) {
+      (updatedKeyboardMapping?: EditKeyboardMapping) => {
+        if (!updatedKeyboardMapping || !updatedKeyboardMapping.keyboardMapping) {
           return
         }
-        this.actionTriggerService.updateActionTrigger(updatedKeyboardMapping.actionTrigger).subscribe()
+        this.actionTriggerService.updateActionTrigger(updatedKeyboardMapping.keyboardMapping.actionTrigger).subscribe()
         this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.update-keyboard-mapping.success`)
       },
-      keyboardMapping
+      editKeyboardMapping
     )
   }
 
