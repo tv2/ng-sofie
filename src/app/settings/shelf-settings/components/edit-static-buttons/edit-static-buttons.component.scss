@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+
+  .edit-static-buttons-menu {
+    margin: 30px;
+
+    .selected-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: min-content min-content min-content min-content;
+      height: 650px;
+
+      background-color: var(--light-gray-color);
+      border: solid 3px var(--gray-color);
+
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .button-group {
+      width: 100%;
+      margin-top: 25px;
+    }
+  }
+}
+
+

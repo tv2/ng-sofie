@@ -320,6 +320,15 @@
       <trans-unit id="6370990329720066506" datatype="html">
         <source>dialog.message.rehearse</source>
       </trans-unit>
+      <trans-unit id="3407985762844707521" datatype="html">
+        <source>static-buttons-configuration.card-header</source>
+      </trans-unit>
+      <trans-unit id="6692919644654752745" datatype="html">
+        <source>edit-static-buttons-dialog.header</source>
+      </trans-unit>
+      <trans-unit id="5375689081015240470" datatype="html">
+        <source>static-buttons-configuration.edit-configuration.success</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

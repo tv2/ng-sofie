@@ -29,6 +29,7 @@ export class ZodConfigurationParser extends ConfigurationParser {
   private readonly shelfConfigurationParser = zod.object({
     id: zod.string(),
     actionPanelConfigurations: zod.array(this.shelfActionPanelConfigurationParser),
+    staticActionIds: zod.string().array(),
   })
 
   public parseShelfConfiguration(shelfConfiguration: unknown): ShelfConfiguration {

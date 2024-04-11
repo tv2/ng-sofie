@@ -1,0 +1,13 @@
+<div class="edit-static-buttons-menu">
+    <div class="selected-actions">
+        <ng-container *ngFor="let action of updatedSelectedStaticActions">
+            <sofie-action-box class="p-2" [action]="action" (click)="removeAction(action)"></sofie-action-box>
+        </ng-container>
+    </div>
+    <sofie-button-group class="button-group">
+        <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
+        <sofie-spacer></sofie-spacer>
+        <sofie-button (click)="save()" [type]="'PRIMARY'" i18n>common.save</sofie-button>
+    </sofie-button-group>
+</div>
+<sofie-action-selector (actionSelected)="addSelectedAction($event)" class="ps-5"></sofie-action-selector>

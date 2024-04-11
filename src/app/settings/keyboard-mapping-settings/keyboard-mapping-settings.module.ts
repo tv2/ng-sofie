@@ -13,5 +13,6 @@ const routes: Routes = [{ path: '', component: KeyboardMappingSettingsPageCompon
   declarations: [KeyboardMappingSettingsPageComponent, EditKeyboardMappingDialogComponent, ActionSelectorComponent, EditKeyboardMappingComponent],
   imports: [SharedModule, RouterModule.forChild(routes), ProducerShelfModule],
   providers: [],
+  exports: [ActionSelectorComponent],
 })
 export class KeyboardMappingSettingsModule {}

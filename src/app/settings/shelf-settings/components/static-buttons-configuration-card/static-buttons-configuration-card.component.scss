@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+
+  .card-header {
+    font-size: 1.5em;
+  }
+
+  .static-buttons {
+    max-height: 450px;
+    display: grid inline;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: min-content min-content min-content;
+    grid-gap: 10px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}

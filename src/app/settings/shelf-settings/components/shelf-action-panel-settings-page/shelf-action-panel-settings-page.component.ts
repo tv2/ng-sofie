@@ -44,14 +44,12 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
   ]
 
   public shelfConfiguration: ShelfConfiguration
-
   public actionPanelNameSearchQuery: string
   public actionContentMultiSelectOptions: SelectOption<Tv2ActionContentType>[] = []
 
   private actionContentSearchQuery: Tv2ActionContentType[] = []
 
   private shelfConfigurationEventSubscription: EventSubscription
-
   constructor(
     private readonly configurationService: ConfigurationService,
     private readonly configurationEventObserver: ConfigurationEventObserver,
@@ -66,7 +64,6 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
     this.shelfConfigurationEventSubscription = this.configurationEventObserver.subscribeToShelfUpdated((shelfConfigurationUpdateEvent: ShelfConfigurationUpdatedEvent) =>
       this.updateShelfConfiguration(shelfConfigurationUpdateEvent.shelfConfiguration)
     )
-
     this.actionContentMultiSelectOptions = this.createActionContentMultiSelectOptions()
   }
 
