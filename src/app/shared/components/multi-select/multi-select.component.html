@@ -1,14 +1,14 @@
 <div class="container pb-2 pt-2">
     <label *ngIf="label" class="mb-1">{{ label }}<sofie-required-mark *ngIf="isRequired"></sofie-required-mark></label>
     <div class="multi-select">
-        <div class="display-area">
+        <div class="display-area" (click)="toggleIsShowingOptions()">
             <div class="display-text">
                 {{ selectedOptions.length > 0 ? getSelectedOptionsAsDisplay() : (placeholder ?? label) }}
             </div>
-            <sofie-icon-button *ngIf="selectedOptions.length > 0" [icon]="Icon.X_MARK" (click)="clearAllSelected()" class="ms-1"></sofie-icon-button>
+            <sofie-icon-button *ngIf="selectedOptions.length > 0" [icon]="Icon.X_MARK" (click)="clearAllSelected(); $event.stopPropagation()" class="ms-1"></sofie-icon-button>
         </div>
 
-        <div class="multi-select-dropdown" >
+        <div *ngIf="isShowingOptions" class="multi-select-dropdown" >
             <div *ngFor="let option of selectableOptions" class="multi-select-dropdown-item p-3" (click)="toggleOption(option)">
                 {{ option.name }}
                 <sofie-icon-button *ngIf="option.isSelected" [icon]="Icon.CHECK" [iconSize]="IconSize.M"></sofie-icon-button>

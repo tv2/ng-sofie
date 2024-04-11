@@ -31,23 +31,21 @@ label {
   min-width: 250px;
   text-overflow: ellipsis;
   border-radius: 4px;
+  cursor: pointer;
   border: 1px solid var(--gray-color);
 }
 
-.multi-select:hover .multi-select-dropdown {
-  display: block;
-}
-
 .multi-select-dropdown {
-  display: none;
   position: absolute;
   left: 0;
   top: 100%;
   width: 100%;
+  border: 1px solid var(--gray-color);
+  border-radius: 4px;
   box-shadow: 0 0 15px 1px var(--gray-color);
+  clip-path: inset(0 -15px -15px -15px);
   background: var(--white-color);
   z-index: 1;
-
 }
 
 .multi-select-dropdown-item {
