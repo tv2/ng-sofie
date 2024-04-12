@@ -86,6 +86,7 @@ import { PageComponent } from './components/page/page.component'
 import { TooltipDirective } from './directives/tooltip.directive'
 import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.component'
 import { DialogConfirmationService } from './services/dialog-confirmation.service'
+import { ActionSelectorComponent } from './components/action-selector/action-selector.component'
 
 @NgModule({
   declarations: [
@@ -130,6 +131,7 @@ import { DialogConfirmationService } from './services/dialog-confirmation.servic
     PageComponent,
     TooltipDirective,
     TextTooltipComponent,
+    ActionSelectorComponent,
   ],
   imports: [
     CommonModule,
@@ -192,6 +194,7 @@ import { DialogConfirmationService } from './services/dialog-confirmation.servic
     PageComponent,
     TooltipDirective,
     TextTooltipComponent,
+    ActionSelectorComponent,
   ],
   providers: [
     { provide: Logger, useClass: Tv2LoggerService },

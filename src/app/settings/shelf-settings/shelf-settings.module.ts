@@ -6,7 +6,6 @@ import { EditShelfActionPanelConfigurationComponent } from './components/edit-sh
 import { EditShelfActionPanelConfigurationDialogComponent } from './components/edit-shelf-action-panel-confinguration-dialog/edit-shelf-action-panel-configuration-dialog.component'
 import { ProducerShelfModule } from '../../producer-shelf/producer-shelf.module'
 import { StaticButtonsConfigurationCardComponent } from './components/static-buttons-configuration-card/static-buttons-configuration-card.component'
-import { KeyboardMappingSettingsModule } from '../keyboard-mapping-settings/keyboard-mapping-settings.module'
 import { EditStaticButtonsDialogComponent } from './components/edit-static-buttons-dialog/edit-static-buttons-dialog.component'
 import { EditStaticButtonsComponent } from './components/edit-static-buttons/edit-static-buttons.component'
 
@@ -28,7 +27,7 @@ const routes: Routes = [
     EditStaticButtonsDialogComponent,
     EditStaticButtonsComponent,
   ],
-  imports: [SharedModule, RouterModule.forChild(routes), ProducerShelfModule, KeyboardMappingSettingsModule],
+  imports: [SharedModule, ProducerShelfModule, RouterModule.forChild(routes)],
   providers: [],
 })
 export class ShelfSettingsModule {}
