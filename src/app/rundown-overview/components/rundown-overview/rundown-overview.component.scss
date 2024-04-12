@@ -1,3 +1,14 @@
+:host {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  & sofie-page {
+    position: relative;
+    height: 100%;
+    overflow-x: auto;
+  }
+}
+
 a {
   color: var(--blue-color);
   text-decoration: none;
