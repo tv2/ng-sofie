@@ -33,6 +33,8 @@ export class KeyboardInputComponent implements ControlValueAccessor {
   @Input() public placeholder?: string
 
   @Input() public helpText: string
+  @Input() public errorMessage?: string
+  @Input() public isRequired?: boolean
 
   private isFirstKeyAfterFocus: boolean
 
@@ -61,7 +63,7 @@ export class KeyboardInputComponent implements ControlValueAccessor {
     this.onChangeCallback?.(this.value)
   }
 
-  private markAsTouched(): void {
+  protected markAsTouched(): void {
     if (this.isTouched || !this.onTouchedCallback) {
       return
     }

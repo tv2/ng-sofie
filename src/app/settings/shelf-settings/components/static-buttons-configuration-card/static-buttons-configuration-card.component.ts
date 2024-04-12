@@ -58,6 +58,9 @@ export class StaticButtonsConfigurationCardComponent implements OnInit, OnDestro
   }
 
   private updateStaticActions(): void {
+    if (!this.shelfConfiguration) {
+      return
+    }
     this.selectedStaticActions = this.availableActions.filter(action => this.shelfConfiguration.staticActionIds.includes(action.id))
   }
 

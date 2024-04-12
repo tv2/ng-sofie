@@ -20,6 +20,9 @@ export class SelectComponent<T> implements ControlValueAccessor {
   @Input() public label: string
   @Input() public placeholder?: string
 
+  @Input() public errorMessage?: string
+  @Input() public isRequired?: boolean
+
   @Output() public onChange: EventEmitter<T> = new EventEmitter()
 
   public selectedOption: SelectOption<T>
@@ -31,6 +34,8 @@ export class SelectComponent<T> implements ControlValueAccessor {
 
   private isTouched: boolean = false
 
+  protected isShowingOptions: boolean = false
+
   constructor() {}
 
   public selectOption(option: SelectOption<T>): void {
@@ -38,6 +43,7 @@ export class SelectComponent<T> implements ControlValueAccessor {
     this.selectedOption = option
     this.value = option.value
     this.onChange.emit(this.value)
+    this.isShowingOptions = false
     this.onChangeCallback?.(this.value)
   }
 
@@ -68,5 +74,14 @@ export class SelectComponent<T> implements ControlValueAccessor {
 
   public registerOnTouched(touchedCallback: () => void): void {
     this.onTouchedCallback = touchedCallback
+  }
+
+  protected toggleIsShowingOptions(): void {
+    this.isShowingOptions = !this.isShowingOptions
+    if (this.isShowingOptions) {
+      setTimeout(() => {
+        document.addEventListener('click', () => (this.isShowingOptions = false), { once: true })
+      })
+    }
   }
 }

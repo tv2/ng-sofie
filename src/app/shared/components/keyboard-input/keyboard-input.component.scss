@@ -1,3 +1,20 @@
+:host {
+  &.ng-invalid {
+    &.ng-touched {
+      input {
+        border-color: var(--danger-color);
+      }
+    }
+  }
+
+  &.ng-valid,
+  &.ng-untouched {
+    sofie-error-message {
+      display: none;
+    }
+  }
+}
+
 div {
   display: flex;
   flex-direction: column;
