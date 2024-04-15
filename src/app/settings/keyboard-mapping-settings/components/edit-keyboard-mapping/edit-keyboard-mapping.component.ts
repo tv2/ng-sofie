@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { ActionArgumentSchemaType } from '../../../../shared/models/action'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { KeyEventType } from '../../../../keyboard/value-objects/key-event-type'
-import { EditKeyboardMapping, KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
+import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 import { Tv2Action, Tv2PartAction } from '../../../../shared/models/tv2-action'
 import { SelectOption } from '../../../../shared/models/select-option'
 
@@ -11,6 +11,11 @@ const KEYBOARD_KEYS_CONTROL_ID: string = 'keys'
 const KEYBOARD_TRIGGER_ON_CONTROL_ID: string = 'triggerOn'
 const KEYBOARD_ACTION_ARGUMENTS_CONTROL_ID: string = 'actionArguments'
 const KEYBOARD_DATA_CONTROL_ID: string = 'data'
+
+export interface EditKeyboardMappingResponse {
+  keyboardMapping: KeyboardMapping
+  shouldClose: boolean
+}
 
 @Component({
   selector: 'sofie-edit-keyboard-mapping',
@@ -22,7 +27,7 @@ export class EditKeyboardMappingComponent implements OnInit {
 
   @Input() public keyboardMapping?: KeyboardMapping
 
-  @Output() public onSave: EventEmitter<EditKeyboardMapping> = new EventEmitter()
+  @Output() public onSave: EventEmitter<EditKeyboardMappingResponse> = new EventEmitter()
   @Output() public onCancel: EventEmitter<void> = new EventEmitter()
 
   public actionTriggerForm: FormGroup
@@ -88,8 +93,8 @@ export class EditKeyboardMappingComponent implements OnInit {
     return this.selectedAction.argument.type
   }
 
-  public save(shouldSaveAndCreateNew?: boolean): void {
-    const editkeyboardMapping: EditKeyboardMapping = {
+  public save(shouldClose: boolean): void {
+    const editKeyboardMappingResponse: EditKeyboardMappingResponse = {
       keyboardMapping: {
         action: {} as Tv2PartAction,
         actionTrigger: {
@@ -97,10 +102,10 @@ export class EditKeyboardMappingComponent implements OnInit {
           ...this.actionTriggerForm.value,
         },
       },
-      shouldSaveAndCreateNew,
+      shouldClose,
     }
 
-    this.onSave.emit(editkeyboardMapping)
+    this.onSave.emit(editKeyboardMappingResponse)
   }
 
   public cancel(): void {
