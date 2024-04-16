@@ -15,6 +15,10 @@ export class EditStaticButtonsDialogComponent {
     this.selectedStaticActions = selectedStaticActions
   }
 
+  public getTitle(): string {
+    return $localize`edit-static-buttons-dialog.header`
+  }
+
   public closeDialog(selectedStaticActions?: Tv2Action[]): void {
     this.dialogRef.close(selectedStaticActions)
   }
