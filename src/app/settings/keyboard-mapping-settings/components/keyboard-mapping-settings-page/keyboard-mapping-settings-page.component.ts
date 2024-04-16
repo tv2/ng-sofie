@@ -188,7 +188,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
         this.selectedKeyboardMappings.clear()
 
         Promise.all(actionTriggerIdsToBeDeleted.map(id => this.actionTriggerService.deleteActionTrigger(id).subscribe()))
-          .then(() => this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.delete-all-keyboard-mappings.success`))
+          .then(() => this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.delete-all-keyboard-mappings.success ${actionTriggerIdsToBeDeleted.length}`))
           .catch(error => {
             this.logger.data(error).error('Failed deleting one or more of teh selected keyboard mappings.')
             this.notificationService.createErrorNotification($localize`keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail`)
