@@ -419,7 +419,7 @@
         <target state="new">Please select how the shortcut should trigger.</target>
       </trans-unit>
       <trans-unit id="6127544094154745108" datatype="html">
-        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> action-triggers.action-arguments.error</source>
+        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name"/> action-triggers.action-arguments.error</source>
         <target state="new"><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> is required.</target>
       </trans-unit>
       <trans-unit id="979335411678822239" datatype="html">
@@ -477,6 +477,10 @@
       <trans-unit id="5375689081015240470" datatype="html">
         <source>static-buttons-configuration.edit-configuration.success</source>
         <target state="new">Permanente knapper blev opdateret</target>
+      </trans-unit>
+      <trans-unit id="4296700921833037953" datatype="html">
+        <source>edit-static-buttons.remove-static-button.tooltip</source>
+        <target state="new">edit-static-buttons.remove-static-button.tooltip</target>
       </trans-unit>
     </body>
   </file>

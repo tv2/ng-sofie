@@ -9,17 +9,22 @@
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-rows: min-content min-content min-content min-content;
       height: 650px;
+      width: 360px;
 
       background-color: var(--light-gray-color);
       border: solid 3px var(--gray-color);
 
       overflow-y: auto;
       overflow-x: hidden;
+
+      sofie-action-box {
+        cursor: pointer;
+      }
     }
 
     .button-group {
       width: 100%;
-      margin-top: 25px;
+      margin-top: 45px;
     }
   }
 }

@@ -3,12 +3,14 @@
 
   .card-header {
     font-size: 1.5em;
+    padding: 10px;
   }
 
   .static-buttons {
-    max-height: 450px;
+    max-height: 500px;
+    width: 750px;
     display: grid inline;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: min-content min-content min-content;
     grid-gap: 10px;
 
