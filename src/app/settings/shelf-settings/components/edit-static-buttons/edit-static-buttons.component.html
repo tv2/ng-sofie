@@ -10,7 +10,7 @@
         <sofie-button (click)="save()" [type]="'PRIMARY'" i18n>common.save</sofie-button>
     </sofie-button-group>
 </div>
-<sofie-action-selector (actionSelected)="addSelectedAction($event)" class="ps-5"></sofie-action-selector>
+<sofie-action-selector class="ps-5" (actionSelected)="addSelectedAction($event)" [disableHighlighting]="true"></sofie-action-selector>
 
 <ng-template #tooltipRef>
     <sofie-text-tooltip i18n-text text="edit-static-buttons.remove-static-button.tooltip"></sofie-text-tooltip>

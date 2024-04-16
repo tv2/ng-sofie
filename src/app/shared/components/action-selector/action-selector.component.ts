@@ -10,6 +10,7 @@ import { Tv2Action } from '../../models/tv2-action'
 })
 export class ActionSelectorComponent implements OnInit {
   @Input() public selectedAction?: Tv2Action
+  @Input() public disableHighlighting?: boolean
   @Output() public actionSelected: EventEmitter<Tv2Action> = new EventEmitter()
 
   public actions: Tv2Action[] = []
