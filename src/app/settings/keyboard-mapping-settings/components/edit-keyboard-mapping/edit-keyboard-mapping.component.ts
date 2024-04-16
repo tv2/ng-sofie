@@ -93,19 +93,32 @@ export class EditKeyboardMappingComponent implements OnInit {
     return this.selectedAction.argument.type
   }
 
-  public save(shouldClose: boolean): void {
+  public saveAndRemainedOpen(): void {
     const editKeyboardMappingResponse: EditKeyboardMappingResponse = {
-      keyboardMapping: {
-        action: {} as Tv2PartAction,
-        actionTrigger: {
-          ...this.keyboardMapping?.actionTrigger,
-          ...this.actionTriggerForm.value,
-        },
-      },
-      shouldClose,
+      keyboardMapping: this.createEditKeyboardMapping(),
+      shouldClose: false,
     }
 
     this.onSave.emit(editKeyboardMappingResponse)
+  }
+
+  public saveAndClose(): void {
+    const editKeyboardMappingResponse: EditKeyboardMappingResponse = {
+      keyboardMapping: this.createEditKeyboardMapping(),
+      shouldClose: true,
+    }
+
+    this.onSave.emit(editKeyboardMappingResponse)
+  }
+
+  private createEditKeyboardMapping(): KeyboardMapping {
+    return {
+      action: {} as Tv2PartAction,
+      actionTrigger: {
+        ...this.keyboardMapping?.actionTrigger,
+        ...this.actionTriggerForm.value,
+      },
+    }
   }
 
   public cancel(): void {

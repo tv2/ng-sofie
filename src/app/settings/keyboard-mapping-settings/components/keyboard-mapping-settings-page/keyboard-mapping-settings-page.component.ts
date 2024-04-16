@@ -128,7 +128,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
 
   public openCreateKeyboardMapping(): void {
     this.dialogService.openSidebarDialog(EditKeyboardMappingDialogComponent, (createdKeyboardMappingResponse?: EditKeyboardMappingResponse) => {
-      if (!createdKeyboardMappingResponse || !createdKeyboardMappingResponse.keyboardMapping) {
+      if (!createdKeyboardMappingResponse) {
         return
       }
       this.actionTriggerService.createActionTrigger(createdKeyboardMappingResponse.keyboardMapping.actionTrigger).subscribe()
@@ -142,11 +142,11 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   public openEditKeyboardMapping(keyboardMapping: KeyboardMapping): void {
     this.dialogService.openSidebarDialog(
       EditKeyboardMappingDialogComponent,
-      (updatedKeyboardMapping?: EditKeyboardMappingResponse) => {
-        if (!updatedKeyboardMapping || !updatedKeyboardMapping.keyboardMapping) {
+      (updatedKeyboardMappingResponse?: EditKeyboardMappingResponse) => {
+        if (!updatedKeyboardMappingResponse) {
           return
         }
-        this.actionTriggerService.updateActionTrigger(updatedKeyboardMapping.keyboardMapping.actionTrigger).subscribe()
+        this.actionTriggerService.updateActionTrigger(updatedKeyboardMappingResponse.keyboardMapping.actionTrigger).subscribe()
         this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.update-keyboard-mapping.success`)
       },
       keyboardMapping
