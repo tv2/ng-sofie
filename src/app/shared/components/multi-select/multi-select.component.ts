@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { Icon, IconSize } from '../../enums/icon'
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { SelectOption } from '../../models/select-option'
@@ -22,6 +22,8 @@ interface SelectableOption<T> extends SelectOption<T> {
 export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   protected Icon = Icon
   protected IconSize = IconSize
+  protected isShowingOptions: boolean = false
+  protected hasBeenClicked: boolean = true
 
   @Input() public options: SelectOption<T>[] = []
   public selectableOptions: SelectableOption<T>[] = []
@@ -44,6 +46,14 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   private isTouched: boolean = false
 
   constructor() {}
+
+  @HostListener('click', ['$event'])
+  protected registerClick(): void {
+    this.hasBeenClicked = false
+    setTimeout(() => {
+      this.hasBeenClicked = true
+    })
+  }
 
   public ngOnInit(): void {
     this.selectableOptions = this.options.map(option => {
@@ -112,6 +122,17 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
         option.isSelected = true
         return option
       })
+  }
+
+  protected toggleIsShowingOptions(): void {
+    this.isShowingOptions = !this.isShowingOptions
+    if (this.isShowingOptions) {
+      this.addClickListenerForDropdownClose()
+    }
+  }
+
+  private addClickListenerForDropdownClose(): void {
+    document.addEventListener('click', () => (this.hasBeenClicked ? (this.isShowingOptions = false) : this.addClickListenerForDropdownClose()), { once: true })
   }
 
   public registerOnChange(changeCallback: (value: T[]) => void): void {

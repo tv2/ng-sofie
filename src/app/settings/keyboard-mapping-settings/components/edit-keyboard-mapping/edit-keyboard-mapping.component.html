@@ -48,10 +48,11 @@
 <sofie-button-group>
   <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
   <sofie-spacer></sofie-spacer>
-  <sofie-button *ngIf="!keyboardMapping" (click)="saveAndRemainedOpen()" type="STANDARD" [isDisabled]="!actionTriggerForm.valid" [tooltip]="saveButtonErrorsTooltip" i18n
+
+  <sofie-button *ngIf="!keyboardMapping" (click)="saveAndRemainedOpen()" type="STANDARD" [isDisabled]="!actionTriggerForm.valid" [tooltip]="invalidControlsErrorMessage" i18n
     >common.save-and-create-new</sofie-button
   >
-  <sofie-button (click)="saveAndClose()" [type]="'PRIMARY'" [isDisabled]="!actionTriggerForm.valid" [tooltip]="saveButtonErrorsTooltip" i18n>common.save</sofie-button>
+  <sofie-button (click)="saveAndClose()" [type]="'PRIMARY'" [isDisabled]="!actionTriggerForm.valid" [tooltip]="invalidControlsErrorMessage" i18n>common.save</sofie-button>
 </sofie-button-group>
 
 <ng-template #actionArguments>
