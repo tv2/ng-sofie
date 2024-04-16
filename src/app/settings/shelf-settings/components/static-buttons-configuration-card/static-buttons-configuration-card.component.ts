@@ -11,6 +11,7 @@ import { ShelfConfiguration } from '../../../../shared/models/shelf-configuratio
 import { ShelfConfigurationUpdatedEvent } from '../../../../core/models/configuration-event'
 import { EventSubscription } from '../../../../event-system/abstractions/event-observer.service'
 import { ConfigurationEventObserver } from '../../../../core/services/configuration-event-observer'
+import { Subject, takeUntil } from 'rxjs'
 
 @Component({
   selector: 'sofie-static-buttons-configuration-card',
@@ -26,6 +27,7 @@ export class StaticButtonsConfigurationCardComponent implements OnInit, OnDestro
   protected readonly Icon = Icon
 
   private shelfConfigurationEventSubscription: EventSubscription
+  private readonly destroySubject: Subject<void> = new Subject()
 
   constructor(
     private readonly actionStateService: ActionStateService,
@@ -40,10 +42,13 @@ export class StaticButtonsConfigurationCardComponent implements OnInit, OnDestro
   }
 
   public ngOnInit(): void {
-    this.configurationService.getShelfConfiguration().subscribe(shelfConfiguration => {
-      this.shelfConfiguration = shelfConfiguration
-      this.updateStaticActions()
-    })
+    this.configurationService
+      .getShelfConfiguration()
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe(shelfConfiguration => {
+        this.shelfConfiguration = shelfConfiguration
+        this.updateStaticActions()
+      })
     this.shelfConfigurationEventSubscription = this.configurationEventObserver.subscribeToShelfUpdated((shelfConfigurationUpdateEvent: ShelfConfigurationUpdatedEvent) => {
       this.updateShelfConfiguration(shelfConfigurationUpdateEvent.shelfConfiguration)
       this.updateStaticActions()
@@ -51,7 +56,7 @@ export class StaticButtonsConfigurationCardComponent implements OnInit, OnDestro
     this.actionStateService
       .subscribeToSystemActions()
       .then(observable => {
-        observable.subscribe(actions => (this.availableActions = actions as Tv2Action[]))
+        observable.pipe(takeUntil(this.destroySubject)).subscribe(actions => (this.availableActions = actions as Tv2Action[]))
         this.updateStaticActions()
       })
       .catch(error => this.logger.data(error).error('Error while listening to Action events'))
