@@ -1,11 +1,21 @@
 <sofie-card class="p-3">
     <ng-container cardHeader>
-        <span class="card-header" i18n>static-buttons-configuration.card-header</span>
+        <span>
+            <span class="card-header" i18n>static-buttons-configuration.card-header</span>
+        </span>
         <sofie-icon-button [icon]="Icon.PEN" [iconSize]="IconSize.M" [tooltip]="'Edit Static Buttons'" (click)="openEditStaticButtons()"></sofie-icon-button>
     </ng-container>
-    <div class="static-buttons">
-        <ng-container *ngFor="let action of selectedStaticActions">
-            <sofie-action-box [action]="action"></sofie-action-box>
-        </ng-container>
-    </div>
+        <div class="static-buttons-display">
+            <ng-container *ngIf="selectedStaticActions.length !== 0 else noStaticButtons">
+                <div class="button-grid">
+                    <ng-container *ngFor="let action of selectedStaticActions">
+                        <sofie-action-box [action]="action"></sofie-action-box>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
 </sofie-card>
+
+<ng-template #noStaticButtons>
+        <sofie-empty-table></sofie-empty-table>
+</ng-template>
