@@ -1,8 +1,8 @@
 <div class="edit-static-buttons-menu">
     <div class="selected-actions">
-        <sofie-action-box *ngFor="let action of updatedSelectedStaticActions" class="p-2" [action]="action" (click)="removeAction(action)" sofieTooltip [sofieTooltipTemplate]="tooltipRef"></sofie-action-box>
+        <sofie-action-box *ngFor="let action of updatedSelectedStaticActions" [action]="action" class="p-1" (click)="removeAction(action)" sofieTooltip [sofieTooltipTemplate]="tooltipRef"></sofie-action-box>
     </div>
-    <sofie-button-group class="button-group">
+    <sofie-button-group class="mt-4 width-full">
         <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
         <sofie-spacer></sofie-spacer>
         <sofie-button (click)="save()" [type]="'PRIMARY'" i18n>common.save</sofie-button>

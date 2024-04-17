@@ -20,8 +20,8 @@ import { Subject, takeUntil } from 'rxjs'
 })
 export class StaticButtonsConfigurationCardComponent implements OnInit, OnDestroy {
   public shelfConfiguration: ShelfConfiguration
-  public availableActions: Tv2Action[]
-  public selectedStaticActions: Tv2Action[]
+  public availableActions: Tv2Action[] = []
+  public selectedStaticActions: Tv2Action[] = []
 
   protected readonly IconSize = IconSize
   protected readonly Icon = Icon

@@ -2,14 +2,14 @@
   display: flex;
 
   .edit-static-buttons-menu {
-    margin: 30px;
+    margin-top: 75px;
 
     .selected-actions {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-rows: min-content min-content min-content min-content;
-      height: 650px;
-      width: 360px;
+      height: 640px;
+      width: 350px;
 
       background-color: var(--light-gray-color);
       border: solid 3px var(--gray-color);
@@ -20,11 +20,6 @@
       sofie-action-box {
         cursor: pointer;
       }
-    }
-
-    .button-group {
-      width: 100%;
-      margin-top: 45px;
     }
   }
 }
