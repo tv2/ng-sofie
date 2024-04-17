@@ -107,7 +107,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
         this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.delete-keyboard-mapping.success`)
       },
       DialogColorScheme.LIGHT,
-      DialogSeverity.INFO
+      DialogSeverity.DANGER
     )
   }
 
@@ -195,7 +195,7 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
           })
       },
       DialogColorScheme.LIGHT,
-      DialogSeverity.INFO
+      DialogSeverity.DANGER
     )
   }
 
