@@ -452,8 +452,8 @@
       </trans-unit>
       <trans-unit id="3626510894964414637" datatype="html">
         <source>dialog.message.activation.warning</source>
-        <target state="new">Er du sikker på du vil aktivere denne Rundown? 
-        Det vil deaktivere Rundown</target><
+        <target state="new">Er du sikker på du vil aktivere denne Rundown?
+        Det vil deaktivere Rundown</target>
       </trans-unit>
       <trans-unit id="6370990329720066506" datatype="html">
         <source>dialog.message.rehearse</source>
@@ -461,7 +461,7 @@
       </trans-unit>
       <trans-unit id="2994423491366084246" datatype="html">
         <source>dialog.message.rehearse.warning</source>
-        <target state="new">Er du sikker på at du vil afprøve denne Rundown? Det vil deaktivere Rundown</target>
+        <target state="new">Er du sikker på at du vil afprøve denne Rundown?
         Det vil deaktivere Rundown</target>
       </trans-unit>
       <trans-unit id="3407985762844707521" datatype="html">
