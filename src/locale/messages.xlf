@@ -203,9 +203,6 @@
       <trans-unit id="386627600927064568" datatype="html">
         <source>keyboard-mapping.delete-selected.confirmation</source>
       </trans-unit>
-      <trans-unit id="6377346699736517553" datatype="html">
-        <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success</source>
-      </trans-unit>
       <trans-unit id="2265780212602106942" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail</source>
       </trans-unit>
@@ -361,6 +358,9 @@
       </trans-unit>
       <trans-unit id="4296700921833037953" datatype="html">
         <source>edit-static-buttons.remove-static-button.tooltip</source>
+      </trans-unit>
+      <trans-unit id="3477258835430959446" datatype="html">
+        <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
       </trans-unit>
     </body>
   </file>

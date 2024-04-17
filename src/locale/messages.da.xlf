@@ -326,10 +326,6 @@
         <source>keyboard-mapping-settings-page.import-keyboard-mappings.success</source>
         <target state="new">Genvejene blev importeret</target>
       </trans-unit>
-      <trans-unit id="6377346699736517553" datatype="html">
-        <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success</source>
-        <target state="new">Genvejene blev slettet</target>
-      </trans-unit>
       <trans-unit id="2265780212602106942" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail</source>
         <target state="new">Noget gik galt under sletning af genvejene</target>
@@ -456,7 +452,8 @@
       </trans-unit>
       <trans-unit id="3626510894964414637" datatype="html">
         <source>dialog.message.activation.warning</source>
-        <target state="new">Er du sikker på du vil aktivere denne Rundown? Det vil deaktivere Rundown</target>
+        <target state="new">Er du sikker på du vil aktivere denne Rundown? 
+        Det vil deaktivere Rundown</target><
       </trans-unit>
       <trans-unit id="6370990329720066506" datatype="html">
         <source>dialog.message.rehearse</source>
@@ -465,6 +462,7 @@
       <trans-unit id="2994423491366084246" datatype="html">
         <source>dialog.message.rehearse.warning</source>
         <target state="new">Er du sikker på at du vil afprøve denne Rundown? Det vil deaktivere Rundown</target>
+        Det vil deaktivere Rundown</target>
       </trans-unit>
       <trans-unit id="3407985762844707521" datatype="html">
         <source>static-buttons-configuration.card-header</source>
@@ -481,6 +479,10 @@
       <trans-unit id="4296700921833037953" datatype="html">
         <source>edit-static-buttons.remove-static-button.tooltip</source>
         <target state="new">edit-static-buttons.remove-static-button.tooltip</target>
+      </trans-unit>
+      <trans-unit id="3477258835430959446" datatype="html">
+        <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
+        <target state="new"><x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/>  genveje blev slettet</target>
       </trans-unit>
     </body>
   </file>
