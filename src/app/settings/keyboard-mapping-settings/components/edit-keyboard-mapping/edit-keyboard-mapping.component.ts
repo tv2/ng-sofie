@@ -93,7 +93,7 @@ export class EditKeyboardMappingComponent implements OnInit {
     return this.selectedAction.argument.type
   }
 
-  public saveAndRemainedOpen(): void {
+  public saveAndRemainOpen(): void {
     const editKeyboardMappingResponse: EditKeyboardMappingResponse = {
       keyboardMapping: this.createEditKeyboardMapping(),
       shouldClose: false,
