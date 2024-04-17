@@ -2,11 +2,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  & sofie-page {
-    position: relative;
-    height: 100%;
-    overflow-x: auto;
-  }
 }
 
 a {
