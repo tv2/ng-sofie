@@ -466,7 +466,7 @@
       </trans-unit>
       <trans-unit id="3477258835430959446" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
-        <target state="new"><x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/> genvejene blev slettet </target>
+        <target state="new"><x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/>  genveje blev slettet</target>
       </trans-unit>
     </body>
   </file>
