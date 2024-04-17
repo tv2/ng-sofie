@@ -45,11 +45,11 @@
         </sofie-table>
     </sofie-card>
 
+    <div *ngIf="shelfConfiguration" class="static-buttons">
+        <sofie-static-buttons-configuration-card></sofie-static-buttons-configuration-card>
+    </div>
+
     <ng-template #loading>
         <sofie-loading></sofie-loading>
     </ng-template>
-
-    <div class="static-buttons">
-        <sofie-static-buttons-configuration-card></sofie-static-buttons-configuration-card>
-    </div>
 </sofie-page>

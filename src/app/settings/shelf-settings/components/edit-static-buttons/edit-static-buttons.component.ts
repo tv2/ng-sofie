@@ -32,12 +32,8 @@ export class EditStaticButtonsComponent implements OnInit {
     this.updatedSelectedStaticActions.push(this.selectedAction)
   }
 
-  public removeAction(action: Tv2Action): void {
-    const index: number = this.updatedSelectedStaticActions.indexOf(action)
-    if (index < 0) {
-      return
-    }
-    this.updatedSelectedStaticActions.splice(index, 1)
+  public removeAction(actionToRemove: Tv2Action): void {
+    this.updatedSelectedStaticActions = this.updatedSelectedStaticActions.filter(action => action.id !== actionToRemove.id)
   }
 
   public save(): void {
