@@ -88,6 +88,7 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
 import { ErrorMessageComponent } from './components/error-message/error-message.component'
 import { RequiredMarkComponent } from './components/required-mark/required-mark.component'
 import { DialogConfirmationService } from './services/dialog-confirmation.service'
+import { ActionSelectorComponent } from './components/action-selector/action-selector.component'
 
 @NgModule({
   declarations: [
@@ -132,6 +133,7 @@ import { DialogConfirmationService } from './services/dialog-confirmation.servic
     PageComponent,
     TooltipDirective,
     TextTooltipComponent,
+    ActionSelectorComponent,
     ErrorMessageComponent,
     RequiredMarkComponent,
   ],
@@ -196,6 +198,7 @@ import { DialogConfirmationService } from './services/dialog-confirmation.servic
     PageComponent,
     TooltipDirective,
     TextTooltipComponent,
+    ActionSelectorComponent,
     ErrorMessageComponent,
     RequiredMarkComponent,
   ],

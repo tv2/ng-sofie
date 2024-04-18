@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { ActionStateService } from '../../../../shared/services/action-state.service'
-import { Logger } from '../../../../core/abstractions/logger.service'
-import { Tv2Action } from '../../../../shared/models/tv2-action'
+import { ActionStateService } from '../../services/action-state.service'
+import { Logger } from '../../../core/abstractions/logger.service'
+import { Tv2Action } from '../../models/tv2-action'
 
 @Component({
   selector: 'sofie-action-selector',
@@ -10,6 +10,7 @@ import { Tv2Action } from '../../../../shared/models/tv2-action'
 })
 export class ActionSelectorComponent implements OnInit {
   @Input() public selectedAction?: Tv2Action
+  @Input() public disableHighlighting?: boolean
   @Output() public actionSelected: EventEmitter<Tv2Action> = new EventEmitter()
 
   public actions: Tv2Action[] = []

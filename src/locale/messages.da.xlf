@@ -415,7 +415,7 @@
         <target state="new">Please select how the shortcut should trigger.</target>
       </trans-unit>
       <trans-unit id="6127544094154745108" datatype="html">
-        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> action-triggers.action-arguments.error</source>
+        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name"/> action-triggers.action-arguments.error</source>
         <target state="new"><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> is required.</target>
       </trans-unit>
       <trans-unit id="979335411678822239" datatype="html">
@@ -452,7 +452,7 @@
       </trans-unit>
       <trans-unit id="3626510894964414637" datatype="html">
         <source>dialog.message.activation.warning</source>
-        <target state="new">Er du sikker på du vil aktivere denne Rundown? 
+        <target state="new">Er du sikker på du vil aktivere denne Rundown?
         Det vil deaktivere Rundown</target>
       </trans-unit>
       <trans-unit id="6370990329720066506" datatype="html">
@@ -461,8 +461,24 @@
       </trans-unit>
       <trans-unit id="2994423491366084246" datatype="html">
         <source>dialog.message.rehearse.warning</source>
-        <target state="new">Er du sikker på at du vil afprøve denne Rundown? 
+        <target state="new">Er du sikker på at du vil afprøve denne Rundown?
         Det vil deaktivere Rundown</target>
+      </trans-unit>
+      <trans-unit id="3407985762844707521" datatype="html">
+        <source>static-buttons-configuration.card-header</source>
+        <target state="new">Permanente Knapper</target>
+      </trans-unit>
+      <trans-unit id="6692919644654752745" datatype="html">
+        <source>edit-static-buttons-dialog.header</source>
+        <target state="new">Tilføj eller Fjern Permanente Knapper</target>
+      </trans-unit>
+      <trans-unit id="5375689081015240470" datatype="html">
+        <source>static-buttons-configuration.edit-configuration.success</source>
+        <target state="new">Permanente knapper blev opdateret</target>
+      </trans-unit>
+      <trans-unit id="4296700921833037953" datatype="html">
+        <source>edit-static-buttons.remove-static-button.tooltip</source>
+        <target state="new">edit-static-buttons.remove-static-button.tooltip</target>
       </trans-unit>
       <trans-unit id="9099550788779670007" datatype="html">
         <source>common.save-and-create-new</source>

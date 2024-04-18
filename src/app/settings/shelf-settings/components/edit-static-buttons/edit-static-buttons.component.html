@@ -1,0 +1,16 @@
+<div class="edit-static-buttons-menu">
+    <div class="selected-actions">
+        <sofie-action-box *ngFor="let action of updatedSelectedStaticActions" [action]="action" class="p-1" (click)="removeAction(action)" sofieTooltip [sofieTooltipTemplate]="tooltipRef"></sofie-action-box>
+    </div>
+    <sofie-button-group class="mt-4 width-full">
+        <sofie-button (click)="cancel()" i18n>global.close.button</sofie-button>
+        <sofie-spacer></sofie-spacer>
+        <sofie-button (click)="save()" [type]="'PRIMARY'" i18n>common.save</sofie-button>
+    </sofie-button-group>
+</div>
+<sofie-action-selector class="ps-5" (actionSelected)="addSelectedAction($event)" [disableHighlighting]="true"></sofie-action-selector>
+
+<ng-template #tooltipRef>
+    <sofie-text-tooltip i18n-text text="edit-static-buttons.remove-static-button.tooltip"></sofie-text-tooltip>
+</ng-template>
+
