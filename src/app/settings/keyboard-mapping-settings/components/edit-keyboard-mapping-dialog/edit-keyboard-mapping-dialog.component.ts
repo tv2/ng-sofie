@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { EditKeyboardMappingResponse } from '../edit-keyboard-mapping/edit-keyboard-mapping.component'
 import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 
 @Component({
@@ -10,7 +11,7 @@ export class EditKeyboardMappingDialogComponent {
   public readonly keyboardMapping?: KeyboardMapping
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) keyboardMapping: KeyboardMapping,
+    @Inject(MAT_DIALOG_DATA) keyboardMapping: KeyboardMapping | undefined,
     private readonly dialogRef: MatDialogRef<EditKeyboardMappingDialogComponent>
   ) {
     this.keyboardMapping = keyboardMapping
@@ -20,7 +21,7 @@ export class EditKeyboardMappingDialogComponent {
     return this.keyboardMapping ? $localize`edit-keyboard-mapping.edit` : $localize`edit-keyboard-mapping.create`
   }
 
-  public closeDialog(keyboardMapping?: KeyboardMapping): void {
-    this.dialogRef.close(keyboardMapping)
+  public closeDialog(editKeyboardMappingResponse?: EditKeyboardMappingResponse): void {
+    this.dialogRef.close(editKeyboardMappingResponse)
   }
 }

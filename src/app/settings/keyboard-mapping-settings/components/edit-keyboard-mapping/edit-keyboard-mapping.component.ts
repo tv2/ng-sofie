@@ -12,6 +12,11 @@ const KEYBOARD_TRIGGER_ON_CONTROL_ID: string = 'triggerOn'
 const KEYBOARD_ACTION_ARGUMENTS_CONTROL_ID: string = 'actionArguments'
 const KEYBOARD_DATA_CONTROL_ID: string = 'data'
 
+export interface EditKeyboardMappingResponse {
+  keyboardMapping: KeyboardMapping
+  shouldClose: boolean
+}
+
 @Component({
   selector: 'sofie-edit-keyboard-mapping',
   templateUrl: './edit-keyboard-mapping.component.html',
@@ -22,7 +27,7 @@ export class EditKeyboardMappingComponent implements OnInit {
 
   @Input() public keyboardMapping?: KeyboardMapping
 
-  @Output() public onSave: EventEmitter<KeyboardMapping> = new EventEmitter()
+  @Output() public onSave: EventEmitter<EditKeyboardMappingResponse> = new EventEmitter()
   @Output() public onCancel: EventEmitter<void> = new EventEmitter()
 
   public actionTriggerForm: FormGroup
@@ -88,16 +93,32 @@ export class EditKeyboardMappingComponent implements OnInit {
     return this.selectedAction.argument.type
   }
 
-  public save(): void {
-    const keyboardMapping: KeyboardMapping = {
+  public saveAndRemainOpen(): void {
+    const editKeyboardMappingResponse: EditKeyboardMappingResponse = {
+      keyboardMapping: this.createEditKeyboardMapping(),
+      shouldClose: false,
+    }
+
+    this.onSave.emit(editKeyboardMappingResponse)
+  }
+
+  public saveAndClose(): void {
+    const editKeyboardMappingResponse: EditKeyboardMappingResponse = {
+      keyboardMapping: this.createEditKeyboardMapping(),
+      shouldClose: true,
+    }
+
+    this.onSave.emit(editKeyboardMappingResponse)
+  }
+
+  private createEditKeyboardMapping(): KeyboardMapping {
+    return {
       action: {} as Tv2PartAction,
       actionTrigger: {
         ...this.keyboardMapping?.actionTrigger,
         ...this.actionTriggerForm.value,
       },
     }
-
-    this.onSave.emit(keyboardMapping)
   }
 
   public cancel(): void {
