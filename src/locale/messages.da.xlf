@@ -480,6 +480,10 @@
         <source>edit-static-buttons.remove-static-button.tooltip</source>
         <target state="new">edit-static-buttons.remove-static-button.tooltip</target>
       </trans-unit>
+      <trans-unit id="9099550788779670007" datatype="html">
+        <source>common.save-and-create-new</source>
+        <target state="new">Gem og opret ny</target>
+      </trans-unit>
       <trans-unit id="3477258835430959446" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
         <target state="new"><x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/>  genveje blev slettet</target>
