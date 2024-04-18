@@ -99,7 +99,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
         this.notificationService.createInfoNotification(`Successfully deleted Action Panel: ${actionPanel.name}`)
       },
       DialogColorScheme.LIGHT,
-      DialogSeverity.INFO
+      DialogSeverity.DANGER
     )
   }
 
@@ -175,7 +175,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
         this.notificationService.createInfoNotification($localize`shelf-action-panel-settings-page.selected-action-panels.deleted`)
       },
       DialogColorScheme.LIGHT,
-      DialogSeverity.INFO
+      DialogSeverity.DANGER
     )
   }
 
