@@ -18,6 +18,7 @@ import { DialogColorScheme, DialogSeverity } from 'src/app/shared/components/con
 @Component({
   selector: 'sofie-action-panel',
   templateUrl: './shelf-action-panel-settings-page.component.html',
+  styleUrls: ['./shelf-action-panel-settings-page.component.scss'],
 })
 export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy {
   protected readonly Icon = Icon
@@ -98,7 +99,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
         this.notificationService.createInfoNotification(`Successfully deleted Action Panel: ${actionPanel.name}`)
       },
       DialogColorScheme.LIGHT,
-      DialogSeverity.INFO
+      DialogSeverity.DANGER
     )
   }
 
@@ -174,7 +175,7 @@ export class ShelfActionPanelSettingsPageComponent implements OnInit, OnDestroy 
         this.notificationService.createInfoNotification($localize`shelf-action-panel-settings-page.selected-action-panels.deleted`)
       },
       DialogColorScheme.LIGHT,
-      DialogSeverity.INFO
+      DialogSeverity.DANGER
     )
   }
 

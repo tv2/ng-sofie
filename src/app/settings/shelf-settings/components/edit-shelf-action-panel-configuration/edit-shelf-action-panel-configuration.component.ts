@@ -5,6 +5,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { TranslateActionTypePipe } from '../../../../shared/pipes/translate-action-type.pipe'
 import { SelectOption } from '../../../../shared/models/select-option'
 
+const PANEL_NAME_CONTROL_ID: string = 'name'
+const PANEL_ACTION_FILTER_CONTROL_ID: string = 'actionFilter'
+const PANEL_RANK_CONTROL_ID: string = 'rank'
+
 @Component({
   selector: 'sofie-edit-shelf-action-panel-configuration',
   templateUrl: './edit-shelf-action-panel-configuration.component.html',
@@ -50,5 +54,33 @@ export class EditShelfActionPanelConfigurationComponent implements OnInit {
 
   public cancel(): void {
     this.onCancel.emit()
+  }
+
+  public get invalidControlsErrorMessage(): string | undefined {
+    const invalidControlsLabels: string[] = this.findInvalidControlsLabels()
+    if (invalidControlsLabels.length > 0) {
+      return $localize`common.form-required-field.button-tooltip` + ` ${invalidControlsLabels.join(', ')}`
+    } else {
+      return undefined
+    }
+  }
+
+  private findInvalidControlsLabels(): string[] {
+    return Object.entries({ ...this.form.controls })
+      .filter(([name, control]) => !control.valid && name)
+      .map(([name]) => this.translateControl(name))
+  }
+
+  private translateControl(controlName: string): string {
+    switch (controlName) {
+      case PANEL_NAME_CONTROL_ID:
+        return $localize`action-panel.panel-name.label`
+      case PANEL_ACTION_FILTER_CONTROL_ID:
+        return $localize`global.filters.label`
+      case PANEL_RANK_CONTROL_ID:
+        return $localize`action-panel.rank.label`
+      default:
+        return controlName
+    }
   }
 }

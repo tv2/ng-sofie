@@ -114,8 +114,8 @@
         <source>global.clear.label</source>
         <target state="new">Clear</target>
       </trans-unit>
-      <trans-unit id="6759876909141538174" datatype="html">
-        <source>settings.keyboard-mappings.label</source>
+      <trans-unit id="9191550720479888548" datatype="html">
+        <source>settings.keyboard-mappings.title</source>
         <target state="new">Keyboard mappings</target>
       </trans-unit>
       <trans-unit id="4177582797246824978" datatype="html">
@@ -134,8 +134,8 @@
         <source>settings.shelf.label</source>
         <target state="new">Shelf</target>
       </trans-unit>
-      <trans-unit id="8566219553884482008" datatype="html">
-        <source>settings.shelf.action-panels.label</source>
+      <trans-unit id="4302180445374821108" datatype="html">
+        <source>settings.shelf.action-panels.title</source>
         <target state="new">Shelf Action panels</target>
       </trans-unit>
       <trans-unit id="2803021013738697812" datatype="html">
@@ -366,10 +366,6 @@
         <source>keyboard-mapping-settings-page.import-keyboard-mappings.success</source>
         <target state="new">Successfully imported Keyboard Mappings</target>
       </trans-unit>
-      <trans-unit id="6377346699736517553" datatype="html">
-        <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success</source>
-        <target state="new">Successfully deleted all Keyboard Mappings</target>
-      </trans-unit>
       <trans-unit id="2265780212602106942" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail</source>
         <target state="new">Something went wrong deleting Keyboard Mappings</target>
@@ -401,6 +397,76 @@
       <trans-unit id="8291594485469554782" datatype="html">
         <source>notification-icon.toggle-panel.tooltip</source>
         <target state="new">Click to toggle notification panel</target>
+      </trans-unit>
+      <trans-unit id="3299373246271290710" datatype="html">
+        <source>action-triggers.action.label</source>
+        <target state="new">Action</target>
+      </trans-unit>
+      <trans-unit id="719177318571875364" datatype="html">
+        <source>common.form-required-field.button-tooltip</source>
+        <target state="new">Please fill out the required field(s).</target>
+      </trans-unit>
+      <trans-unit id="5742386463554387927" datatype="html">
+        <source>action-triggers.shortcut.error</source>
+        <target state="new">A shortcut is required.</target>
+      </trans-unit>
+      <trans-unit id="6359779760013296434" datatype="html">
+        <source>action-triggers.trigger-on.error</source>
+        <target state="new">Please select how the shortcut should trigger.</target>
+      </trans-unit>
+      <trans-unit id="6127544094154745108" datatype="html">
+        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> action-triggers.action-arguments.error</source>
+        <target state="new"><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> is required.</target>
+      </trans-unit>
+      <trans-unit id="979335411678822239" datatype="html">
+        <source>action-panel.name.error</source>
+        <target state="new">Please fill out a name.</target>
+      </trans-unit>
+      <trans-unit id="5202318571157878044" datatype="html">
+        <source>action-panel.action-filter.error</source>
+        <target state="new">Select at least one filter.</target>
+      </trans-unit>
+      <trans-unit id="770599904666863258" datatype="html">
+        <source>action-panel.rank.error</source>
+        <target state="new">The panel must have a rank provided.</target>
+      </trans-unit>
+      <trans-unit id="6191074751909534346" datatype="html">
+        <source>action-triggers.selected-action.label</source>
+        <target state="new">Selected action</target>
+      </trans-unit>
+      <trans-unit id="5115532688749023793" datatype="html">
+        <source>action-triggers.no-selected-action.label</source>
+        <target state="new">No selected action</target>
+      </trans-unit>
+      <trans-unit id="4104115551404451182" datatype="html">
+        <source>dialog.button.activate</source>
+        <target state="new">Activate</target>
+      </trans-unit>
+      <trans-unit id="6184838723314474094" datatype="html">
+        <source>dialog.button.rehearse</source>
+        <target state="new">Rehearse</target>
+      </trans-unit>
+      <trans-unit id="5333590585565329092" datatype="html">
+        <source>dialog.message.activation</source>
+        <target state="new">Are you sure you want to activate the Rundown?</target>
+      </trans-unit>
+      <trans-unit id="3626510894964414637" datatype="html">
+        <source>dialog.message.activation.warning</source>
+        <target state="new">Are you sure you want to activate the Rundown? 
+        This will deactivate the Rundown</target>
+      </trans-unit>
+      <trans-unit id="6370990329720066506" datatype="html">
+        <source>dialog.message.rehearse</source>
+        <target state="new">Are you sure you want to rehearse the Rundown?</target>
+      </trans-unit>
+      <trans-unit id="2994423491366084246" datatype="html">
+        <source>dialog.message.rehearse.warning</source>
+        <target state="new">Are you sure you want to rehearse the Rundown? 
+        This will deactivate the Rundown</target>
+      </trans-unit>
+      <trans-unit id="3477258835430959446" datatype="html">
+        <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
+        <target state="new">The <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/> selected keyboard mappings have been deleted.</target>
       </trans-unit>
     </body>
   </file>

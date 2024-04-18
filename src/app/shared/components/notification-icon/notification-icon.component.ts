@@ -3,6 +3,7 @@ import { NotificationService } from '../../services/notification.service'
 import { Subject, takeUntil } from 'rxjs'
 import { Icon, IconSize } from '../../enums/icon'
 import { Notification } from '../../models/notification'
+import { StatusCode } from '../../enums/status-code'
 
 @Component({
   selector: 'sofie-notification-icon',
@@ -12,10 +13,11 @@ import { Notification } from '../../models/notification'
 export class NotificationIconComponent implements OnInit, OnDestroy {
   public isNotificationPanelOpen: boolean
 
-  private readonly notifications: Notification[] = []
+  protected readonly notifications: Notification[] = []
 
   public readonly Icon = Icon
   public readonly IconSize = IconSize
+  protected highestStatusCode: StatusCode = StatusCode.UNKNOWN
 
   private readonly destroySubject: Subject<void> = new Subject()
 
@@ -30,7 +32,10 @@ export class NotificationIconComponent implements OnInit, OnDestroy {
     this.notificationService
       .subscribeToNewNotifications()
       .pipe(takeUntil(this.destroySubject))
-      .subscribe(notification => this.addNotification(notification))
+      .subscribe(notification => {
+        this.addNotification(notification)
+        this.highestStatusCode = this.getHighestStatusCode()
+      })
   }
 
   private addNotification(notification: Notification): void {
@@ -43,6 +48,28 @@ export class NotificationIconComponent implements OnInit, OnDestroy {
       return
     }
     this.notifications.push(notification)
+  }
+
+  protected getHighestStatusCode(): StatusCode {
+    return this.notifications.reduce((highestStatusCode: StatusCode, notification: Notification) => {
+      if (this.getStatusCodePriority(notification.statusCode) <= this.getStatusCodePriority(highestStatusCode)) {
+        return highestStatusCode
+      }
+      return notification.statusCode
+    }, StatusCode.UNKNOWN)
+  }
+
+  protected getStatusCodePriority(statusCode: StatusCode): number {
+    switch (statusCode) {
+      case StatusCode.BAD:
+        return 3
+      case StatusCode.WARNING:
+        return 2
+      case StatusCode.GOOD:
+        return 1
+      case StatusCode.UNKNOWN:
+        return 0
+    }
   }
 
   public toggleNotificationPanel(): void {

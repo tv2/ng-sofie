@@ -85,6 +85,9 @@ import { ColumnComponent } from './components/column/column.component'
 import { PageComponent } from './components/page/page.component'
 import { TooltipDirective } from './directives/tooltip.directive'
 import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.component'
+import { ErrorMessageComponent } from './components/error-message/error-message.component'
+import { RequiredMarkComponent } from './components/required-mark/required-mark.component'
+import { DialogConfirmationService } from './services/dialog-confirmation.service'
 
 @NgModule({
   declarations: [
@@ -129,6 +132,8 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     PageComponent,
     TooltipDirective,
     TextTooltipComponent,
+    ErrorMessageComponent,
+    RequiredMarkComponent,
   ],
   imports: [
     CommonModule,
@@ -191,6 +196,8 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     PageComponent,
     TooltipDirective,
     TextTooltipComponent,
+    ErrorMessageComponent,
+    RequiredMarkComponent,
   ],
   providers: [
     { provide: Logger, useClass: Tv2LoggerService },
@@ -208,6 +215,7 @@ import { TextTooltipComponent } from './components/text-tooltip/text-tooltip.com
     HttpErrorService,
     HttpClientModule,
     DialogService,
+    DialogConfirmationService,
     ConnectionErrorService,
     Tv2OutputLayerService,
     ActionStateService,

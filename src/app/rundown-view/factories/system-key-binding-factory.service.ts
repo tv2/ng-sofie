@@ -10,6 +10,7 @@ import { RundownCursor } from '../../core/models/rundown-cursor'
 import { Logger } from '../../core/abstractions/logger.service'
 import { MiniShelfCycleService } from '../services/mini-shelf-cycle.service'
 import { RundownMode } from '../../core/enums/rundown-mode'
+import { DialogConfirmationService } from '../../shared/services/dialog-confirmation.service'
 
 @Injectable()
 export class SystemKeyBindingFactory {
@@ -18,6 +19,7 @@ export class SystemKeyBindingFactory {
   constructor(
     private readonly rundownService: RundownService,
     private readonly dialogService: DialogService,
+    private readonly dialogConfirmationService: DialogConfirmationService,
     private readonly rundownNavigationService: RundownNavigationService,
     private readonly miniShelfCycleService: MiniShelfCycleService,
     logger: Logger
@@ -40,12 +42,12 @@ export class SystemKeyBindingFactory {
   }
 
   public createRehearsalRundownKeyBindings(rundown: Rundown): StyledKeyBinding[] {
-    return [...this.createActiveRundownKeyBindings(rundown), this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.activateRundown(rundown))]
+    return [...this.createActiveRundownKeyBindings(rundown), this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogConfirmationService.openActivateRundownDialog(rundown))]
   }
 
   public createInactiveRundownKeyBindings(rundown: Rundown): StyledKeyBinding[] {
     return [
-      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.activateRundown(rundown)),
+      this.createRundownKeyBinding('Activate Rundown', ['Backquote'], () => this.dialogConfirmationService.openActivateRundownDialog(rundown)),
       this.createRundownKeyBinding('Reset Rundown', ['Escape'], () => this.resetRundown(rundown)),
     ]
   }
@@ -63,20 +65,6 @@ export class SystemKeyBindingFactory {
       'Are you sure you want to reset the Rundown?',
       'Reset',
       () => this.rundownService.reset(rundown.id).subscribe(),
-      DialogColorScheme.DARK,
-      DialogSeverity.INFO
-    )
-  }
-
-  private activateRundown(rundown: Rundown): void {
-    if (rundown.mode === RundownMode.ACTIVE) {
-      return
-    }
-    this.dialogService.createConfirmDialog(
-      rundown.name,
-      'Are you sure you want to activate the Rundown?',
-      'Activate',
-      () => this.rundownService.activate(rundown.id).subscribe(),
       DialogColorScheme.DARK,
       DialogSeverity.INFO
     )

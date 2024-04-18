@@ -8,6 +8,15 @@
       <trans-unit id="172210689759305381" datatype="html">
         <source>rundown-overview-component.rundown-label</source>
       </trans-unit>
+      <trans-unit id="377801051239310294" datatype="html">
+        <source>rundown-overview-component.planned-start</source>
+      </trans-unit>
+      <trans-unit id="1759269174172455303" datatype="html">
+        <source>rundown-overview-component.duration</source>
+      </trans-unit>
+      <trans-unit id="5719401361944025947" datatype="html">
+        <source>rundown-overview-component.planned-end</source>
+      </trans-unit>
       <trans-unit id="4359206169774515973" datatype="html">
         <source>rundown-overview-component.last-updated.label</source>
       </trans-unit>
@@ -20,56 +29,74 @@
       <trans-unit id="5314808199366684814" datatype="html">
         <source>rundown-overview-component.deletion-dialog.delete-button</source>
       </trans-unit>
-      <trans-unit id="770901610469150867" datatype="html">
-        <source>confirmation-dialog.are-you-sure.title</source>
+      <trans-unit id="5184481909550121889" datatype="html">
+        <source>global.auto.label</source>
       </trans-unit>
-      <trans-unit id="2002860888965051390" datatype="html">
-        <source>confirmation-dialog.yes.button</source>
+      <trans-unit id="9012317992372082365" datatype="html">
+        <source>global.next.label</source>
       </trans-unit>
-      <trans-unit id="4527235810099606771" datatype="html">
-        <source>confirmation-dialog.cancel.button</source>
+      <trans-unit id="3623062952070884482" datatype="html">
+        <source>piece-tooltip.source-unavailable.label</source>
       </trans-unit>
-      <trans-unit id="2638363041233817949" datatype="html">
-        <source>header-component.rundowns.label</source>
+      <trans-unit id="1146669822886669522" datatype="html">
+        <source>piece-tooltip-content.name.label</source>
       </trans-unit>
-      <trans-unit id="1079134994533846284" datatype="html">
-        <source>Lost connection to backend. Attempting to reconnect...</source>
+      <trans-unit id="4345807184627930663" datatype="html">
+        <source>piece-tooltip-content.name-of-clip.label</source>
       </trans-unit>
-      <trans-unit id="672684067026346719" datatype="html">
-        <source>dialog.cancel-button:Cancel</source>
+      <trans-unit id="6258196151878366535" datatype="html">
+        <source>piece-tooltip-content.name-of-pilot.label</source>
       </trans-unit>
-      <trans-unit id="9014307158606167673" datatype="html">
-        <source>header-component.status.label</source>
+      <trans-unit id="247703202619960491" datatype="html">
+        <source>piece-tooltip-content.template-name.label</source>
       </trans-unit>
-      <trans-unit id="7774679192134693239" datatype="html">
-        <source>rundown-overview.settings.title</source>
+      <trans-unit id="2286645272575381009" datatype="html">
+        <source>piece-tooltip-content.content-of-all-fields.label</source>
       </trans-unit>
-      <trans-unit id="4380077604653787346" datatype="html">
-        <source>settings.clear-cache.label</source>
+      <trans-unit id="1962663410998124131" datatype="html">
+        <source>piece-tooltip-content.duration.label</source>
       </trans-unit>
-      <trans-unit id="7618983089240067205" datatype="html">
-        <source>action-triggers.shortcut.label</source>
+      <trans-unit id="2911851896669162406" datatype="html">
+        <source>piece-tooltip-content.available-for-playout.label</source>
       </trans-unit>
-      <trans-unit id="1532790028301204513" datatype="html">
-        <source>global.delete.label</source>
+      <trans-unit id="1044477716904098041" datatype="html">
+        <source>piece-tooltip-content.time-code-in-part.label</source>
       </trans-unit>
-      <trans-unit id="386627600927064568" datatype="html">
-        <source>keyboard-mapping.delete-selected.confirmation</source>
+      <trans-unit id="3000985957863398667" datatype="html">
+        <source>piece-tooltip-content.out-type.label</source>
       </trans-unit>
-      <trans-unit id="6285874749005785753" datatype="html">
-        <source>global.label</source>
+      <trans-unit id="8147260465029418817" datatype="html">
+        <source>piece-tooltip-content.unknown.data</source>
       </trans-unit>
-      <trans-unit id="9004520789605873710" datatype="html">
-        <source>global.close.button</source>
+      <trans-unit id="4174829375203668461" datatype="html">
+        <source>piece-tooltip-content.no-specific-time-code.data</source>
       </trans-unit>
-      <trans-unit id="5199708374936679830" datatype="html">
-        <source>global.delete-selected.label</source>
+      <trans-unit id="717945474169849731" datatype="html">
+        <source>global.yes</source>
       </trans-unit>
-      <trans-unit id="9158000000301348817" datatype="html">
-        <source>action-triggers.trigger-on.label</source>
+      <trans-unit id="8248235614614318568" datatype="html">
+        <source>global.no</source>
       </trans-unit>
-      <trans-unit id="5943393457796095490" datatype="html">
-        <source>action-triggers.physical-mapping.label</source>
+      <trans-unit id="621872648794619093" datatype="html">
+        <source>piece.lifespan.within-part</source>
+      </trans-unit>
+      <trans-unit id="1624699664203091977" datatype="html">
+        <source>piece.lifespan.sticky-until-segment-change</source>
+      </trans-unit>
+      <trans-unit id="8704971237918811774" datatype="html">
+        <source>piece.lifespan.sticky-until-segment-end</source>
+      </trans-unit>
+      <trans-unit id="1512530649495667717" datatype="html">
+        <source>piece.lifespan.sticky-until-rundown-change</source>
+      </trans-unit>
+      <trans-unit id="7630473968632852036" datatype="html">
+        <source>piece.lifespan.spanning-until-rundown-end</source>
+      </trans-unit>
+      <trans-unit id="558457345008559478" datatype="html">
+        <source>piece.lifespan.start-spanning-segment-then-sticky-rundown</source>
+      </trans-unit>
+      <trans-unit id="1016737278364313295" datatype="html">
+        <source>piece.lifespan.unknown</source>
       </trans-unit>
       <trans-unit id="5384713853490936899" datatype="html">
         <source>clear-cache.title</source>
@@ -77,116 +104,32 @@
       <trans-unit id="7955116266682092985" datatype="html">
         <source>clear-cache.button.label</source>
       </trans-unit>
-      <trans-unit id="1544567860044151272" datatype="html">
-        <source>global.clear.label</source>
+      <trans-unit id="7840343495376792564" datatype="html">
+        <source>global.confirmation.label</source>
       </trans-unit>
       <trans-unit id="6681316063292517711" datatype="html">
         <source>clear-cache.clear.confirmation</source>
       </trans-unit>
-      <trans-unit id="7840343495376792564" datatype="html">
-        <source>global.confirmation.label</source>
+      <trans-unit id="1544567860044151272" datatype="html">
+        <source>global.clear.label</source>
       </trans-unit>
-      <trans-unit id="6759876909141538174" datatype="html">
-        <source>settings.keyboard-mappings.label</source>
-      </trans-unit>
-      <trans-unit id="4177582797246824978" datatype="html">
-        <source>action-triggers.physical-mapping-help.tooltip</source>
-      </trans-unit>
-      <trans-unit id="5184481909550121889" datatype="html">
-        <source>global.auto.label</source>
-      </trans-unit>
-      <trans-unit id="9012317992372082365" datatype="html">
-        <source>global.next.label</source>
+      <trans-unit id="9191550720479888548" datatype="html">
+        <source>settings.keyboard-mappings.title</source>
       </trans-unit>
       <trans-unit id="4384831734174772961" datatype="html">
         <source>settings.shelf.label</source>
       </trans-unit>
-      <trans-unit id="8566219553884482008" datatype="html">
-        <source>settings.shelf.action-panels.label</source>
+      <trans-unit id="4302180445374821108" datatype="html">
+        <source>settings.shelf.action-panels.title</source>
       </trans-unit>
-      <trans-unit id="2803021013738697812" datatype="html">
-        <source>global.create.label</source>
+      <trans-unit id="4380077604653787346" datatype="html">
+        <source>settings.clear-cache.label</source>
       </trans-unit>
-      <trans-unit id="6050389772118678864" datatype="html">
-        <source>global.export.label</source>
+      <trans-unit id="8250191741920581081" datatype="html">
+        <source>action-selector.select-action</source>
       </trans-unit>
-      <trans-unit id="249423270498322985" datatype="html">
-        <source>action-panel.panel-name.label</source>
-      </trans-unit>
-      <trans-unit id="3495993720885162413" datatype="html">
-        <source>action-panel.rank.label</source>
-      </trans-unit>
-      <trans-unit id="1016737278364313295" datatype="html">
-        <source>piece.lifespan.unknown</source>
-      </trans-unit>
-      <trans-unit id="1512530649495667717" datatype="html">
-        <source>piece.lifespan.sticky-until-rundown-change</source>
-      </trans-unit>
-      <trans-unit id="1624699664203091977" datatype="html">
-        <source>piece.lifespan.sticky-until-segment-change</source>
-      </trans-unit>
-      <trans-unit id="558457345008559478" datatype="html">
-        <source>piece.lifespan.start-spanning-segment-then-sticky-rundown</source>
-      </trans-unit>
-      <trans-unit id="1842982718967386055" datatype="html">
-        <source>global.audio.label</source>
-      </trans-unit>
-      <trans-unit id="621872648794619093" datatype="html">
-        <source>piece.lifespan.within-part</source>
-      </trans-unit>
-      <trans-unit id="1887044897982242749" datatype="html">
-        <source>global.robot.label</source>
-      </trans-unit>
-      <trans-unit id="7630473968632852036" datatype="html">
-        <source>piece.lifespan.spanning-until-rundown-end</source>
-      </trans-unit>
-      <trans-unit id="2951845926043442554" datatype="html">
-        <source>global.graphics.label</source>
-      </trans-unit>
-      <trans-unit id="8704971237918811774" datatype="html">
-        <source>piece.lifespan.sticky-until-segment-end</source>
-      </trans-unit>
-      <trans-unit id="3522238577113202288" datatype="html">
-        <source>global.video-clip.label</source>
-      </trans-unit>
-      <trans-unit id="1044477716904098041" datatype="html">
-        <source>piece-tooltip-content.time-code-in-part.label</source>
-      </trans-unit>
-      <trans-unit id="389262478828731921" datatype="html">
-        <source>global.remote.label</source>
-      </trans-unit>
-      <trans-unit id="1146669822886669522" datatype="html">
-        <source>piece-tooltip-content.name.label</source>
-      </trans-unit>
-      <trans-unit id="6046979654633268329" datatype="html">
-        <source>global.camera.label</source>
-      </trans-unit>
-      <trans-unit id="1962663410998124131" datatype="html">
-        <source>piece-tooltip-content.duration.label</source>
-      </trans-unit>
-      <trans-unit id="7053378516611820006" datatype="html">
-        <source>global.split-screen.label</source>
-      </trans-unit>
-      <trans-unit id="8164633860480723989" datatype="html">
-        <source>global.unknown.label</source>
-      </trans-unit>
-      <trans-unit id="8361312030303141039" datatype="html">
-        <source>global.replay.label</source>
-      </trans-unit>
-      <trans-unit id="8633433908703192113" datatype="html">
-        <source>global.transition.label</source>
-      </trans-unit>
-      <trans-unit id="5944821486251382171" datatype="html">
-        <source>global.filters.label</source>
-      </trans-unit>
-      <trans-unit id="125592769491380843" datatype="html">
-        <source>action-panel.delete.confirmation</source>
-      </trans-unit>
-      <trans-unit id="4121868262213030663" datatype="html">
-        <source>global.import.button</source>
-      </trans-unit>
-      <trans-unit id="1489043303962671570" datatype="html">
-        <source>keyboard-mapping.delete.confirmation</source>
+      <trans-unit id="1039010698457393444" datatype="html">
+        <source>action-selector.search-action</source>
       </trans-unit>
       <trans-unit id="1426591653041922259" datatype="html">
         <source>edit-keyboard-mapping.edit</source>
@@ -194,26 +137,38 @@
       <trans-unit id="1469306793833284818" datatype="html">
         <source>edit-keyboard-mapping.create</source>
       </trans-unit>
-      <trans-unit id="3570927086139625658" datatype="html">
-        <source>edit-shelf-action-panel-configuration.edit</source>
+      <trans-unit id="6285874749005785753" datatype="html">
+        <source>global.label</source>
       </trans-unit>
-      <trans-unit id="7388536117729067" datatype="html">
-        <source>edit-shelf-action-panel-configuration.create</source>
+      <trans-unit id="7618983089240067205" datatype="html">
+        <source>action-triggers.shortcut.label</source>
       </trans-unit>
-      <trans-unit id="8113227000238039449" datatype="html">
-        <source>empty.table</source>
+      <trans-unit id="5943393457796095490" datatype="html">
+        <source>action-triggers.physical-mapping.label</source>
       </trans-unit>
-      <trans-unit id="1759269174172455303" datatype="html">
-        <source>rundown-overview-component.duration</source>
+      <trans-unit id="4177582797246824978" datatype="html">
+        <source>action-triggers.physical-mapping-help.tooltip</source>
       </trans-unit>
-      <trans-unit id="377801051239310294" datatype="html">
-        <source>rundown-overview-component.planned-start</source>
+      <trans-unit id="9158000000301348817" datatype="html">
+        <source>action-triggers.trigger-on.label</source>
       </trans-unit>
-      <trans-unit id="5719401361944025947" datatype="html">
-        <source>rundown-overview-component.planned-end</source>
+      <trans-unit id="9004520789605873710" datatype="html">
+        <source>global.close.button</source>
+      </trans-unit>
+      <trans-unit id="5114970090218136617" datatype="html">
+        <source>common.save</source>
       </trans-unit>
       <trans-unit id="265486137243693578" datatype="html">
         <source>common-search</source>
+      </trans-unit>
+      <trans-unit id="2803021013738697812" datatype="html">
+        <source>global.create.label</source>
+      </trans-unit>
+      <trans-unit id="5199708374936679830" datatype="html">
+        <source>global.delete-selected.label</source>
+      </trans-unit>
+      <trans-unit id="7507229359295852513" datatype="html">
+        <source>keyboard-mapping-settings-page.edit-action-panel</source>
       </trans-unit>
       <trans-unit id="4970317883878168308" datatype="html">
         <source>keyboard-mapping-settings-page.copy-action-panel</source>
@@ -221,35 +176,53 @@
       <trans-unit id="6885589310720431669" datatype="html">
         <source>keyboard-mapping-settings-page.delete-action-panel</source>
       </trans-unit>
-      <trans-unit id="7507229359295852513" datatype="html">
-        <source>keyboard-mapping-settings-page.edit-action-panel</source>
+      <trans-unit id="1532790028301204513" datatype="html">
+        <source>global.delete.label</source>
       </trans-unit>
-      <trans-unit id="1039010698457393444" datatype="html">
-        <source>action-selector.search-action</source>
-      </trans-unit>
-      <trans-unit id="8250191741920581081" datatype="html">
-        <source>action-selector.select-action</source>
-      </trans-unit>
-      <trans-unit id="3545744709165250098" datatype="html">
-        <source>keyboard-mapping-settings-page.duplicate-keyboard-mapping.success</source>
-      </trans-unit>
-      <trans-unit id="4004671805035160284" datatype="html">
-        <source>keyboard-mapping-settings-page.update-keyboard-mapping.success</source>
-      </trans-unit>
-      <trans-unit id="6377346699736517553" datatype="html">
-        <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success</source>
-      </trans-unit>
-      <trans-unit id="6679898506590591687" datatype="html">
-        <source>keyboard-mapping-settings-page.import-keyboard-mappings.success</source>
-      </trans-unit>
-      <trans-unit id="7491316453773946580" datatype="html">
-        <source>keyboard-mapping-settings-page.create-keyboard-mapping.success</source>
+      <trans-unit id="1489043303962671570" datatype="html">
+        <source>keyboard-mapping.delete.confirmation</source>
       </trans-unit>
       <trans-unit id="985670024801490264" datatype="html">
         <source>keyboard-mapping-settings-page.delete-keyboard-mapping.success</source>
       </trans-unit>
+      <trans-unit id="3545744709165250098" datatype="html">
+        <source>keyboard-mapping-settings-page.duplicate-keyboard-mapping.success</source>
+      </trans-unit>
+      <trans-unit id="7491316453773946580" datatype="html">
+        <source>keyboard-mapping-settings-page.create-keyboard-mapping.success</source>
+      </trans-unit>
+      <trans-unit id="4004671805035160284" datatype="html">
+        <source>keyboard-mapping-settings-page.update-keyboard-mapping.success</source>
+      </trans-unit>
+      <trans-unit id="6679898506590591687" datatype="html">
+        <source>keyboard-mapping-settings-page.import-keyboard-mappings.success</source>
+      </trans-unit>
+      <trans-unit id="8873287033928471003" datatype="html">
+        <source>keyboard-mapping-settings-page.import-keyboard-mappings.failure</source>
+      </trans-unit>
+      <trans-unit id="386627600927064568" datatype="html">
+        <source>keyboard-mapping.delete-selected.confirmation</source>
+      </trans-unit>
       <trans-unit id="2265780212602106942" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail</source>
+      </trans-unit>
+      <trans-unit id="249423270498322985" datatype="html">
+        <source>action-panel.panel-name.label</source>
+      </trans-unit>
+      <trans-unit id="5944821486251382171" datatype="html">
+        <source>global.filters.label</source>
+      </trans-unit>
+      <trans-unit id="3495993720885162413" datatype="html">
+        <source>action-panel.rank.label</source>
+      </trans-unit>
+      <trans-unit id="3570927086139625658" datatype="html">
+        <source>edit-shelf-action-panel-configuration.edit</source>
+      </trans-unit>
+      <trans-unit id="7388536117729067" datatype="html">
+        <source>edit-shelf-action-panel-configuration.create</source>
+      </trans-unit>
+      <trans-unit id="125592769491380843" datatype="html">
+        <source>action-panel.delete.confirmation</source>
       </trans-unit>
       <trans-unit id="976917377731196434" datatype="html">
         <source>shelf-action-panel-settings-page.create-action-panel.success <x id="PH" equiv-text="createdActionPanel.name"/></source>
@@ -260,47 +233,122 @@
       <trans-unit id="2441219618501183432" datatype="html">
         <source>shelf-action-panel-settings-page.selected-action-panels.deleted</source>
       </trans-unit>
-      <trans-unit id="5114970090218136617" datatype="html">
-        <source>common.save</source>
+      <trans-unit id="770901610469150867" datatype="html">
+        <source>confirmation-dialog.are-you-sure.title</source>
       </trans-unit>
-      <trans-unit id="2286645272575381009" datatype="html">
-        <source>piece-tooltip-content.content-of-all-fields.label</source>
+      <trans-unit id="2002860888965051390" datatype="html">
+        <source>confirmation-dialog.yes.button</source>
       </trans-unit>
-      <trans-unit id="247703202619960491" datatype="html">
-        <source>piece-tooltip-content.template-name.label</source>
+      <trans-unit id="4527235810099606771" datatype="html">
+        <source>confirmation-dialog.cancel.button</source>
       </trans-unit>
-      <trans-unit id="2911851896669162406" datatype="html">
-        <source>piece-tooltip-content.available-for-playout.label</source>
+      <trans-unit id="8113227000238039449" datatype="html">
+        <source>empty.table</source>
       </trans-unit>
-      <trans-unit id="3000985957863398667" datatype="html">
-        <source>piece-tooltip-content.out-type.label</source>
+      <trans-unit id="2638363041233817949" datatype="html">
+        <source>header-component.rundowns.label</source>
       </trans-unit>
-      <trans-unit id="4174829375203668461" datatype="html">
-        <source>piece-tooltip-content.no-specific-time-code.data</source>
+      <trans-unit id="9014307158606167673" datatype="html">
+        <source>header-component.status.label</source>
       </trans-unit>
-      <trans-unit id="4345807184627930663" datatype="html">
-        <source>piece-tooltip-content.name-of-clip.label</source>
+      <trans-unit id="7774679192134693239" datatype="html">
+        <source>rundown-overview.settings.title</source>
       </trans-unit>
-      <trans-unit id="6258196151878366535" datatype="html">
-        <source>piece-tooltip-content.name-of-pilot.label</source>
+      <trans-unit id="6050389772118678864" datatype="html">
+        <source>global.export.label</source>
       </trans-unit>
-      <trans-unit id="717945474169849731" datatype="html">
-        <source>global.yes</source>
-      </trans-unit>
-      <trans-unit id="8147260465029418817" datatype="html">
-        <source>piece-tooltip-content.unknown.data</source>
-      </trans-unit>
-      <trans-unit id="8248235614614318568" datatype="html">
-        <source>global.no</source>
-      </trans-unit>
-      <trans-unit id="3623062952070884482" datatype="html">
-        <source>piece-tooltip.source-unavailable.label</source>
-      </trans-unit>
-      <trans-unit id="8873287033928471003" datatype="html">
-        <source>keyboard-mapping-settings-page.import-keyboard-mappings.failure</source>
+      <trans-unit id="4121868262213030663" datatype="html">
+        <source>global.import.button</source>
       </trans-unit>
       <trans-unit id="8291594485469554782" datatype="html">
         <source>notification-icon.toggle-panel.tooltip</source>
+      </trans-unit>
+      <trans-unit id="3299373246271290710" datatype="html">
+        <source>action-triggers.action.label</source>
+      </trans-unit>
+      <trans-unit id="719177318571875364" datatype="html">
+        <source>common.form-required-field.button-tooltip</source>
+      </trans-unit>
+      <trans-unit id="5742386463554387927" datatype="html">
+        <source>action-triggers.shortcut.error</source>
+      </trans-unit>
+      <trans-unit id="6359779760013296434" datatype="html">
+        <source>action-triggers.trigger-on.error</source>
+      </trans-unit>
+      <trans-unit id="6127544094154745108" datatype="html">
+        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> action-triggers.action-arguments.error</source>
+      </trans-unit>
+      <trans-unit id="5202318571157878044" datatype="html">
+        <source>action-panel.action-filter.error</source>
+      </trans-unit>
+      <trans-unit id="770599904666863258" datatype="html">
+        <source>action-panel.rank.error</source>
+      </trans-unit>
+      <trans-unit id="979335411678822239" datatype="html">
+        <source>action-panel.name.error</source>
+      </trans-unit>
+      <trans-unit id="6191074751909534346" datatype="html">
+        <source>action-triggers.selected-action.label</source>
+      </trans-unit>
+      <trans-unit id="5115532688749023793" datatype="html">
+        <source>action-triggers.no-selected-action.label</source>
+      </trans-unit>
+      <trans-unit id="1842982718967386055" datatype="html">
+        <source>global.audio.label</source>
+      </trans-unit>
+      <trans-unit id="389262478828731921" datatype="html">
+        <source>global.remote.label</source>
+      </trans-unit>
+      <trans-unit id="6046979654633268329" datatype="html">
+        <source>global.camera.label</source>
+      </trans-unit>
+      <trans-unit id="2951845926043442554" datatype="html">
+        <source>global.graphics.label</source>
+      </trans-unit>
+      <trans-unit id="8361312030303141039" datatype="html">
+        <source>global.replay.label</source>
+      </trans-unit>
+      <trans-unit id="1887044897982242749" datatype="html">
+        <source>global.robot.label</source>
+      </trans-unit>
+      <trans-unit id="7053378516611820006" datatype="html">
+        <source>global.split-screen.label</source>
+      </trans-unit>
+      <trans-unit id="8633433908703192113" datatype="html">
+        <source>global.transition.label</source>
+      </trans-unit>
+      <trans-unit id="8164633860480723989" datatype="html">
+        <source>global.unknown.label</source>
+      </trans-unit>
+      <trans-unit id="3522238577113202288" datatype="html">
+        <source>global.video-clip.label</source>
+      </trans-unit>
+      <trans-unit id="1079134994533846284" datatype="html">
+        <source>Lost connection to backend. Attempting to reconnect...</source>
+      </trans-unit>
+      <trans-unit id="672684067026346719" datatype="html">
+        <source>dialog.cancel-button:Cancel</source>
+      </trans-unit>
+      <trans-unit id="6184838723314474094" datatype="html">
+        <source>dialog.button.rehearse</source>
+      </trans-unit>
+      <trans-unit id="4104115551404451182" datatype="html">
+        <source>dialog.button.activate</source>
+      </trans-unit>
+      <trans-unit id="2994423491366084246" datatype="html">
+        <source>dialog.message.rehearse.warning</source>
+      </trans-unit>
+      <trans-unit id="3626510894964414637" datatype="html">
+        <source>dialog.message.activation.warning</source>
+      </trans-unit>
+      <trans-unit id="5333590585565329092" datatype="html">
+        <source>dialog.message.activation</source>
+      </trans-unit>
+      <trans-unit id="6370990329720066506" datatype="html">
+        <source>dialog.message.rehearse</source>
+      </trans-unit>
+      <trans-unit id="3477258835430959446" datatype="html">
+        <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
       </trans-unit>
     </body>
   </file>
