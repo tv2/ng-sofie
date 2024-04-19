@@ -1,14 +1,20 @@
-.container {
-  position: relative;
+:host {
   height: 100%;
   display: flex;
+  flex-direction: column;
+  .container {
+    height: 100%;
+    overflow-x: auto;
+    display: flex;
 
-  main {
-    flex-grow: 1;
-    background-color: var(--light-gray-color);
-  }
+    main {
+      flex-grow: 1;
+      height: 100%;
+      background-color: var(--light-gray-color);
+    }
 
-  .settings-menu {
-    flex: 0 0 14rem;
+    .settings-menu {
+      flex: 0 0 14rem;
+    }
   }
 }
