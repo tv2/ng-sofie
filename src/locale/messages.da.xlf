@@ -415,7 +415,7 @@
         <target state="new">Please select how the shortcut should trigger.</target>
       </trans-unit>
       <trans-unit id="6127544094154745108" datatype="html">
-        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> action-triggers.action-arguments.error</source>
+        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name"/> action-triggers.action-arguments.error</source>
         <target state="new"><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> is required.</target>
       </trans-unit>
       <trans-unit id="979335411678822239" datatype="html">
@@ -452,8 +452,7 @@
       </trans-unit>
       <trans-unit id="3626510894964414637" datatype="html">
         <source>dialog.message.activation.warning</source>
-        <target state="new">Er du sikker på du vil aktivere denne Rundown? 
-        Det vil deaktivere Rundown</target>
+        <target state="new">Er du sikker på du vil aktivere denne Rundown? Det vil deaktivere Rundown</target>
       </trans-unit>
       <trans-unit id="6370990329720066506" datatype="html">
         <source>dialog.message.rehearse</source>
@@ -461,12 +460,19 @@
       </trans-unit>
       <trans-unit id="2994423491366084246" datatype="html">
         <source>dialog.message.rehearse.warning</source>
-        <target state="new">Er du sikker på at du vil afprøve denne Rundown? 
-        Det vil deaktivere Rundown</target>
+        <target state="new">Er du sikker på at du vil afprøve denne Rundown? Det vil deaktivere Rundown</target>
       </trans-unit>
       <trans-unit id="3477258835430959446" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
-        <target state="new"><x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/>  genveje blev slettet</target>
+        <target state="new"><x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/> genveje blev slettet</target>
+      </trans-unit>
+      <trans-unit id="6774239910313063167" datatype="html">
+        <source>keyboard-mapping.settings-page.invalid-field</source>
+        <target state="new">Ugyldig data, skal redigeres. </target>
+      </trans-unit>
+      <trans-unit id="5805882241277564116" datatype="html">
+        <source>keyboard-mapping-settings-page-import-keyboard-mappings.actions-missing</source>
+        <target state="new">En eller flere importeret genveje har en ugyldig action!</target>
       </trans-unit>
     </body>
   </file>

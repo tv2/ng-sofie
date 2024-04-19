@@ -276,7 +276,7 @@
         <source>action-triggers.trigger-on.error</source>
       </trans-unit>
       <trans-unit id="6127544094154745108" datatype="html">
-        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> action-triggers.action-arguments.error</source>
+        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name"/> action-triggers.action-arguments.error</source>
       </trans-unit>
       <trans-unit id="5202318571157878044" datatype="html">
         <source>action-panel.action-filter.error</source>
@@ -349,6 +349,12 @@
       </trans-unit>
       <trans-unit id="3477258835430959446" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
+      </trans-unit>
+      <trans-unit id="6774239910313063167" datatype="html">
+        <source>keyboard-mapping.settings-page.invalid-field</source>
+      </trans-unit>
+      <trans-unit id="5805882241277564116" datatype="html">
+        <source>keyboard-mapping-settings-page-import-keyboard-mappings.actions-missing</source>
       </trans-unit>
     </body>
   </file>

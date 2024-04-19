@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActionTrigger } from 'src/app/shared/models/action-trigger'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { Subject, takeUntil } from 'rxjs'
-import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
+import { Tv2ActionContentType, Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger-data'
 import { SofieTableHeader, SortDirection } from '../../../../shared/components/table/table.component'
@@ -24,6 +24,7 @@ export interface KeyboardMapping {
 @Component({
   selector: 'sofie-keyboard-mapping-settings-page',
   templateUrl: './keyboard-mapping-settings-page.component.html',
+  styleUrls: ['./keyboard-mapping-settings-page.component.scss'],
 })
 export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   protected readonly IconSize = IconSize
@@ -160,11 +161,23 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
         return actionTriggerAlreadyExist ? this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe() : this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
       })
     )
-      .then(() => this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.success`))
+      .then(() => {
+        if (this.doesActionTriggersHaveInvalidActions(actionTriggers)) {
+          this.notificationService.createWarningNotification($localize`keyboard-mapping-settings-page-import-keyboard-mappings.actions-missing`)
+          return
+        }
+        this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.success`)
+      })
       .catch(error => {
         this.logger.data(error).error('Failed importing one or more keyboard mappings.')
         this.notificationService.createErrorNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.failure`)
       })
+  }
+
+  private doesActionTriggersHaveInvalidActions(actionTriggers: ActionTrigger[]): boolean {
+    return actionTriggers.some(actionTrigger => {
+      return !this.actions.some(action => action.id === actionTrigger.actionId)
+    })
   }
 
   public validateActionTriggers(actionTriggers: ActionTrigger<KeyboardTriggerData>[]): boolean {
@@ -225,6 +238,14 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
         ? keyboardMapping.actionTrigger.data.mappedToKeys
         : keyboardMapping.actionTrigger.data.keys
     )
+  }
+
+  public getKeyboardMappingActionContentType(keyboardMapping: KeyboardMapping): Tv2ActionContentType {
+    return keyboardMapping.action ? keyboardMapping.action.metadata.contentType : Tv2ActionContentType.UNKNOWN
+  }
+
+  public getKeyboardMappingActionName(keyboardMapping: KeyboardMapping): string {
+    return keyboardMapping.action ? keyboardMapping.action.name : ''
   }
 
   public ngOnDestroy(): void {
