@@ -13,22 +13,6 @@ import { ShelfConfiguration } from '../../../shared/models/shelf-configuration'
 import { ConfigurationEventObserver } from '../../../core/services/configuration-event-observer'
 import { ShelfConfigurationUpdatedEvent } from '../../../core/models/configuration-event'
 
-const STATIC_BUTTON_ACTION_IDS: string[] = [
-  'overlayInitializeAction',
-  'continueGraphicsAction',
-  'clearGraphicsAction',
-  'fadePersistedAudioAction',
-  'allOutGraphicsAction',
-  'themeOutAction',
-  'downstreamKeyer1OnAction',
-  'downstreamKeyer2OnAction',
-  'downstreamKeyer1OffAction',
-  'downstreamKeyer2OffAction',
-  'studioMicrophonesUpAction',
-  'studioMicrophonesDownAction',
-  'studioMicrophonesDownAction',
-]
-
 interface ActionPanel {
   name: string
   actions: Tv2Action[]
@@ -102,6 +86,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
           actions: this.actions.filter(action => actionPanel.actionFilter.includes(action.metadata.contentType)),
         }
       })
+    this.updateStaticButtonActions()
   }
 
   private onActionsChanged(actions: Action[]): void {
@@ -111,7 +96,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
   }
 
   private updateStaticButtonActions(): void {
-    this.staticButtonActions = this.actions.filter(action => STATIC_BUTTON_ACTION_IDS.includes(action.id))
+    this.staticButtonActions = this.actions.filter(action => this.shelfConfiguration?.staticActionIds.includes(action.id))
   }
 
   private getValidTv2Actions(actions: Action[]): Tv2Action[] {

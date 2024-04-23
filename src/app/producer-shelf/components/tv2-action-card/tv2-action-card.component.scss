@@ -37,6 +37,10 @@
     }
   }
 
+  &.graphics {
+    background-color: var(--tv2-graphics-color);
+  }
+
   &.remote {
     background-color: var(--tv2-remote-color);
   }
