@@ -1,0 +1,17 @@
+.card-header {
+  font-size: 1.5rem;
+  padding-left: 10px;
+}
+
+.static-actions-display {
+  margin-left: 30px;
+  padding-bottom: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .action-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
