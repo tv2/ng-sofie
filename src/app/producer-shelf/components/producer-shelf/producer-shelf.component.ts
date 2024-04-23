@@ -99,7 +99,7 @@ export class ProducerShelfComponent implements OnInit, OnDestroy {
       .map(actionPanel => {
         return {
           name: actionPanel.name,
-          actions: this.actions.filter(action => actionPanel.actionFilter.includes(action.metadata.contentType)),
+          actions: this.actions.filter(action => !!action.rundownId && actionPanel.actionFilter.includes(action.metadata.contentType)),
         }
       })
   }

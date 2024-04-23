@@ -7,6 +7,7 @@ export interface Action {
   description?: string
   argument?: ActionArgumentSchema
   metadata?: unknown
+  rundownId?: string
 }
 
 export interface ActionArgumentSchema {
