@@ -415,7 +415,7 @@
         <target state="new">Please select how the shortcut should trigger.</target>
       </trans-unit>
       <trans-unit id="6127544094154745108" datatype="html">
-        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> action-triggers.action-arguments.error</source>
+        <source><x id="PH" equiv-text="this.selectedAction?.argument?.name"/> action-triggers.action-arguments.error</source>
         <target state="new"><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> is required.</target>
       </trans-unit>
       <trans-unit id="979335411678822239" datatype="html">
@@ -463,6 +463,26 @@
         <source>dialog.message.rehearse.warning</source>
         <target state="new">Are you sure you want to rehearse the Rundown? 
         This will deactivate the Rundown</target>
+      </trans-unit>
+      <trans-unit id="3407985762844707521" datatype="html">
+        <source>static-buttons-configuration.card-header</source>
+        <target state="new">Static Buttons</target>
+      </trans-unit>
+      <trans-unit id="6692919644654752745" datatype="html">
+        <source>edit-static-buttons-dialog.header</source>
+        <target state="new">Add or Remove Static Buttons</target>
+      </trans-unit>
+      <trans-unit id="5375689081015240470" datatype="html">
+        <source>static-buttons-configuration.edit-configuration.success</source>
+        <target state="new">Changed static buttons successfully!</target>
+      </trans-unit>
+      <trans-unit id="4296700921833037953" datatype="html">
+        <source>edit-static-buttons.remove-static-button.tooltip</source>
+        <target state="new">Remove static button</target>
+      </trans-unit>
+      <trans-unit id="9099550788779670007" datatype="html">
+        <source>common.save-and-create-new</source>
+        <target state="new">Save and create new</target>
       </trans-unit>
       <trans-unit id="3477258835430959446" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
