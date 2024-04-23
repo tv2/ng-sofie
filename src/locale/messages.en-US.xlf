@@ -72,7 +72,7 @@
       </trans-unit>
       <trans-unit id="386627600927064568" datatype="html">
         <source>keyboard-mapping.delete-selected.confirmation</source>
-        <target state="new">Are you sure you want to delete all selected Keyboard Mappings?</target>
+        <target state="new">Are you sure you want to delete all selected keyboard mappings?</target>
       </trans-unit>
       <trans-unit id="6285874749005785753" datatype="html">
         <source>global.label</source>
@@ -364,11 +364,11 @@
       </trans-unit>
       <trans-unit id="6679898506590591687" datatype="html">
         <source>keyboard-mapping-settings-page.import-keyboard-mappings.success</source>
-        <target state="new">Successfully imported Keyboard Mappings</target>
+        <target state="new">Successfully imported keyboard mappings</target>
       </trans-unit>
       <trans-unit id="2265780212602106942" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail</source>
-        <target state="new">Something went wrong deleting Keyboard Mappings</target>
+        <target state="new">Something went wrong deleting keyboard mappings</target>
       </trans-unit>
       <trans-unit id="976917377731196434" datatype="html">
         <source>shelf-action-panel-settings-page.create-action-panel.success <x id="PH" equiv-text="createdActionPanel.name"/></source>
@@ -472,7 +472,7 @@
       </trans-unit>
       <trans-unit id="5805882241277564116" datatype="html">
         <source>keyboard-mapping-settings-page-import-keyboard-mappings.actions-missing</source>
-        <target state="new">One or more imported keyboard mappings have invalid actions!</target>
+        <target state="new">One or more keyboard mappings contained invalid actions and were not imported!</target>
       </trans-unit>
     </body>
   </file>

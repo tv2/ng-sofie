@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActionTrigger } from 'src/app/shared/models/action-trigger'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { Subject, takeUntil } from 'rxjs'
-import { Tv2ActionContentType, Tv2PartAction } from 'src/app/shared/models/tv2-action'
+import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger-data'
 import { SofieTableHeader, SortDirection } from '../../../../shared/components/table/table.component'
@@ -24,7 +24,6 @@ export interface KeyboardMapping {
 @Component({
   selector: 'sofie-keyboard-mapping-settings-page',
   templateUrl: './keyboard-mapping-settings-page.component.html',
-  styleUrls: ['./keyboard-mapping-settings-page.component.scss'],
 })
 export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
   protected readonly IconSize = IconSize
@@ -158,6 +157,9 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
     Promise.all(
       actionTriggers.map(actionTrigger => {
         const actionTriggerAlreadyExist: boolean = this.keyboardMappings.some(actionTriggerWithAction => actionTriggerWithAction.actionTrigger.id === actionTrigger.id)
+        if (!this.actions.some(action => action.id === actionTrigger.actionId)) {
+          return
+        }
         return actionTriggerAlreadyExist ? this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe() : this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
       })
     )
@@ -238,14 +240,6 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
         ? keyboardMapping.actionTrigger.data.mappedToKeys
         : keyboardMapping.actionTrigger.data.keys
     )
-  }
-
-  public getKeyboardMappingActionContentType(keyboardMapping: KeyboardMapping): Tv2ActionContentType {
-    return keyboardMapping.action ? keyboardMapping.action.metadata.contentType : Tv2ActionContentType.UNKNOWN
-  }
-
-  public getKeyboardMappingActionName(keyboardMapping: KeyboardMapping): string {
-    return keyboardMapping.action ? keyboardMapping.action.name : ''
   }
 
   public ngOnDestroy(): void {
