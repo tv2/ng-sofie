@@ -112,7 +112,7 @@ export class ZodEntityParser implements EntityParser {
 
   private readonly basicRundownParser = zod.object({
     id: zod.string().min(1),
-    name: zod.string().min(1),
+    name: zod.string(),
     mode: zod.nativeEnum(RundownMode),
     modifiedAt: zod.number(),
     timing: zod
