@@ -36,10 +36,11 @@ export class RundownEntityService {
   }
 
   public deactivate(rundown: Rundown, deactivatedAt: number): Rundown {
+    const resetRundown: Rundown = this.reset(rundown)
     return {
-      ...rundown,
+      ...resetRundown,
       mode: RundownMode.INACTIVE,
-      segments: this.unmarkSegmentsSetAsNext(this.takeAllSegmentsOffAir(rundown, deactivatedAt)),
+      segments: this.unmarkSegmentsSetAsNext(this.takeAllSegmentsOffAir(resetRundown, deactivatedAt)),
       infinitePieces: [],
     }
   }
