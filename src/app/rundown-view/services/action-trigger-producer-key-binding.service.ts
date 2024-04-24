@@ -23,6 +23,7 @@ const SPLIT_SCREEN_COLOR: string = 'var(--tv2-split-screen-upper)'
 const REPLAY_COLOR: string = 'var(--tv2-replay-color)'
 const VIDEO_CLIP_COLOR: string = 'var(--tv2-video-clip-color)'
 const GRAPHICS_COLOR: string = 'var(--tv2-graphics-color)'
+const TRANSITION_COLOR: string = 'var(--tv2-transition-color)'
 
 @Injectable()
 export class ActionTriggerProducerKeyBindingService implements KeyBindingService {
@@ -144,6 +145,9 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
       }
       case Tv2ActionContentType.GRAPHICS: {
         return GRAPHICS_COLOR
+      }
+      case Tv2ActionContentType.TRANSITION: {
+        return TRANSITION_COLOR
       }
       default: {
         return ''
