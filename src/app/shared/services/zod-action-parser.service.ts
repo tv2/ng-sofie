@@ -17,6 +17,7 @@ export class ZodActionParser implements ActionParser {
         type: zod.nativeEnum(ActionArgumentSchemaType),
       })
       .optional(),
+    rundownId: zod.string().optional(),
   })
   private readonly actionsParser = this.actionParser.array()
 
