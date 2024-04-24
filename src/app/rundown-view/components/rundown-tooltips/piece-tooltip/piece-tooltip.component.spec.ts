@@ -25,8 +25,7 @@ describe('PieceTooltipComponent', () => {
   })
 
   it('should create', () => {
-    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-    component.piece = testEntityFactory.createPiece()
+    component.piece = TestEntityFactory.createPiece()
     expect(component).toBeTruthy()
   })
 })

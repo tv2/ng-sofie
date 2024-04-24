@@ -25,8 +25,7 @@ describe(OffsetablePieceComponent.name, () => {
   })
 
   it('should create', () => {
-    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-    const mockedPiece = testEntityFactory.createPiece()
+    const mockedPiece = TestEntityFactory.createPiece()
     component.piece = mockedPiece
     expect(component).toBeTruthy()
   })

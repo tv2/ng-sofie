@@ -20,10 +20,9 @@ import { EventSubscription } from '../../../event-system/abstractions/event-obse
 
 describe('RundownComponent', () => {
   it('should create', async () => {
-    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
     const component: RundownComponent = await configureTestBed()
 
-    component.rundown = testEntityFactory.createRundown()
+    component.rundown = TestEntityFactory.createRundown()
 
     expect(component).toBeTruthy()
   })
