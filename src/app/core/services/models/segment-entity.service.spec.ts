@@ -9,8 +9,7 @@ describe(SegmentEntityService.name, () => {
   describe(SegmentEntityService.prototype.putOnAir.name, () => {
     describe('when given an off-air segment', () => {
       it('marks segment as on-air', () => {
-        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-        const segment: Segment = testEntityFactory.createSegment()
+        const segment: Segment = TestEntityFactory.createSegment()
         const partId: string = 'part-id'
         const testee: SegmentEntityService = createTestee()
 
@@ -21,10 +20,9 @@ describe(SegmentEntityService.name, () => {
       })
 
       it('marks part as on-air', () => {
-        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
         const partId: string = 'part2'
-        const parts: Part[] = [testEntityFactory.createPart({ id: 'part1' }), testEntityFactory.createPart({ id: partId }), testEntityFactory.createPart({ id: 'part3' })]
-        const segment: Segment = testEntityFactory.createSegment({ parts })
+        const parts: Part[] = [TestEntityFactory.createPart({ id: 'part1' }), TestEntityFactory.createPart({ id: partId }), TestEntityFactory.createPart({ id: 'part3' })]
+        const segment: Segment = TestEntityFactory.createSegment({ parts })
         const mockedPartService: PartEntityService = mock<PartEntityService>()
         const testee: SegmentEntityService = createTestee(instance(mockedPartService))
         const timestamp: number = Date.now()
@@ -39,8 +37,7 @@ describe(SegmentEntityService.name, () => {
   describe(SegmentEntityService.prototype.takeOffAir.name, () => {
     describe('when given an on-air segment', () => {
       it('marks segment as off-air', () => {
-        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-        const segment: Segment = testEntityFactory.createSegment({ isOnAir: true })
+        const segment: Segment = TestEntityFactory.createSegment({ isOnAir: true })
         const testee: SegmentEntityService = createTestee()
 
         const result: Segment = testee.takeOffAir(segment, Date.now())
@@ -50,9 +47,8 @@ describe(SegmentEntityService.name, () => {
       })
 
       it('marks on-air part as off-air', () => {
-        const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-        const parts: Part[] = [testEntityFactory.createPart({ id: 'part1' }), testEntityFactory.createPart({ id: 'part2', isOnAir: true }), testEntityFactory.createPart({ id: 'part3' })]
-        const segment: Segment = testEntityFactory.createSegment({ isOnAir: true, parts })
+        const parts: Part[] = [TestEntityFactory.createPart({ id: 'part1' }), TestEntityFactory.createPart({ id: 'part2', isOnAir: true }), TestEntityFactory.createPart({ id: 'part3' })]
+        const segment: Segment = TestEntityFactory.createSegment({ isOnAir: true, parts })
         const mockedPartService: PartEntityService = mock<PartEntityService>()
         const testee: SegmentEntityService = createTestee(instance(mockedPartService))
         const timestamp: number = Date.now()
@@ -66,8 +62,7 @@ describe(SegmentEntityService.name, () => {
 
   describe(SegmentEntityService.prototype.setAsNextSegment.name, () => {
     it('marks segment as next', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const segment: Segment = testEntityFactory.createSegment()
+      const segment: Segment = TestEntityFactory.createSegment()
       const partId: string = 'part-id'
       const testee: SegmentEntityService = createTestee()
 
@@ -78,10 +73,9 @@ describe(SegmentEntityService.name, () => {
     })
 
     it('marks part as next', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const partId: string = 'part2'
-      const parts: Part[] = [testEntityFactory.createPart({ id: 'part1' }), testEntityFactory.createPart({ id: partId }), testEntityFactory.createPart({ id: 'part3' })]
-      const segment: Segment = testEntityFactory.createSegment({ parts })
+      const parts: Part[] = [TestEntityFactory.createPart({ id: 'part1' }), TestEntityFactory.createPart({ id: partId }), TestEntityFactory.createPart({ id: 'part3' })]
+      const segment: Segment = TestEntityFactory.createSegment({ parts })
       const mockedPartService: PartEntityService = mock<PartEntityService>()
       const testee: SegmentEntityService = createTestee(instance(mockedPartService))
 
@@ -93,8 +87,7 @@ describe(SegmentEntityService.name, () => {
 
   describe(SegmentEntityService.prototype.unmarkSegmentAsNext.name, () => {
     it('unmarks segment as next', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const segment: Segment = testEntityFactory.createSegment({ isNext: true })
+      const segment: Segment = TestEntityFactory.createSegment({ isNext: true })
       const testee: SegmentEntityService = createTestee()
 
       const result: Segment = testee.unmarkSegmentAsNext(segment)
@@ -104,9 +97,8 @@ describe(SegmentEntityService.name, () => {
     })
 
     it('unmarks part as next', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const parts: Part[] = [testEntityFactory.createPart({ id: 'part1' }), testEntityFactory.createPart({ id: 'part2', isNext: true }), testEntityFactory.createPart({ id: 'part3' })]
-      const segment: Segment = testEntityFactory.createSegment({ parts })
+      const parts: Part[] = [TestEntityFactory.createPart({ id: 'part1' }), TestEntityFactory.createPart({ id: 'part2', isNext: true }), TestEntityFactory.createPart({ id: 'part3' })]
+      const segment: Segment = TestEntityFactory.createSegment({ parts })
       const mockedPartService: PartEntityService = mock<PartEntityService>()
       const testee: SegmentEntityService = createTestee(instance(mockedPartService))
 
@@ -118,9 +110,8 @@ describe(SegmentEntityService.name, () => {
 
   describe(SegmentEntityService.prototype.reset.name, () => {
     it('resets all parts', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const parts: Part[] = [testEntityFactory.createPart(), testEntityFactory.createPart(), testEntityFactory.createPart()]
-      const segment: Segment = testEntityFactory.createSegment({ parts })
+      const parts: Part[] = [TestEntityFactory.createPart(), TestEntityFactory.createPart(), TestEntityFactory.createPart()]
+      const segment: Segment = TestEntityFactory.createSegment({ parts })
       const mockedPartService: PartEntityService = mock<PartEntityService>()
       const testee: SegmentEntityService = createTestee(instance(mockedPartService))
 
@@ -134,10 +125,9 @@ describe(SegmentEntityService.name, () => {
     describe('when a planned part is on air', () => {
       describe('when the planned on-air part is the last in segment', () => {
         it('inserts the part as on-air after the planned on-air part', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const plannedOnAirPart: Part = testEntityFactory.createPart({ isOnAir: true, isPlanned: true })
-          const newPart: Part = testEntityFactory.createPart({ isPlanned: false })
-          const segment: Segment = testEntityFactory.createSegment({ parts: [plannedOnAirPart] })
+          const plannedOnAirPart: Part = TestEntityFactory.createPart({ isOnAir: true, isPlanned: true })
+          const newPart: Part = TestEntityFactory.createPart({ isPlanned: false })
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [plannedOnAirPart] })
           const testee: SegmentEntityService = createTestee()
 
           const result: Segment = testee.insertPartAsOnAir(segment, newPart, Date.now())
@@ -146,10 +136,9 @@ describe(SegmentEntityService.name, () => {
         })
 
         it('takes the planned on-air part off-air', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const plannedOnAirPart: Part = testEntityFactory.createPart({ isOnAir: true, isPlanned: true })
-          const newPart: Part = testEntityFactory.createPart({ isPlanned: false })
-          const segment: Segment = testEntityFactory.createSegment({ parts: [plannedOnAirPart] })
+          const plannedOnAirPart: Part = TestEntityFactory.createPart({ isOnAir: true, isPlanned: true })
+          const newPart: Part = TestEntityFactory.createPart({ isPlanned: false })
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [plannedOnAirPart] })
           const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
           const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 
@@ -161,11 +150,10 @@ describe(SegmentEntityService.name, () => {
 
       describe('when the planned on-air part is succeeded by another part', () => {
         it('inserts the part as on-air after the planned on-air part', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const plannedOnAirPart: Part = testEntityFactory.createPart({ isOnAir: true, isPlanned: true })
-          const newPart: Part = testEntityFactory.createPart({ isPlanned: false })
-          const anotherPart: Part = testEntityFactory.createPart()
-          const segment: Segment = testEntityFactory.createSegment({ parts: [plannedOnAirPart, anotherPart] })
+          const plannedOnAirPart: Part = TestEntityFactory.createPart({ isOnAir: true, isPlanned: true })
+          const newPart: Part = TestEntityFactory.createPart({ isPlanned: false })
+          const anotherPart: Part = TestEntityFactory.createPart()
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [plannedOnAirPart, anotherPart] })
           const testee: SegmentEntityService = createTestee()
 
           const result: Segment = testee.insertPartAsOnAir(segment, newPart, Date.now())
@@ -174,11 +162,10 @@ describe(SegmentEntityService.name, () => {
         })
 
         it('takes the planned on-air part off-air', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const plannedOnAirPart: Part = testEntityFactory.createPart({ isOnAir: true, isPlanned: true })
-          const newPart: Part = testEntityFactory.createPart({ isPlanned: false })
-          const anotherPart: Part = testEntityFactory.createPart()
-          const segment: Segment = testEntityFactory.createSegment({ parts: [plannedOnAirPart, anotherPart] })
+          const plannedOnAirPart: Part = TestEntityFactory.createPart({ isOnAir: true, isPlanned: true })
+          const newPart: Part = TestEntityFactory.createPart({ isPlanned: false })
+          const anotherPart: Part = TestEntityFactory.createPart()
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [plannedOnAirPart, anotherPart] })
           const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
           const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 
@@ -192,10 +179,9 @@ describe(SegmentEntityService.name, () => {
     describe('when an unplanned part is on air', () => {
       describe('when the unplanned on-air part is the last in segment', () => {
         it('inserts the part as on-air after the unplanned on-air part', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const unplannedOnAirPart: Part = testEntityFactory.createPart({ isOnAir: true, isPlanned: false })
-          const newPart: Part = testEntityFactory.createPart({ isPlanned: false })
-          const segment: Segment = testEntityFactory.createSegment({ parts: [unplannedOnAirPart] })
+          const unplannedOnAirPart: Part = TestEntityFactory.createPart({ isOnAir: true, isPlanned: false })
+          const newPart: Part = TestEntityFactory.createPart({ isPlanned: false })
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [unplannedOnAirPart] })
           const testee: SegmentEntityService = createTestee()
 
           const result: Segment = testee.insertPartAsOnAir(segment, newPart, Date.now())
@@ -204,10 +190,9 @@ describe(SegmentEntityService.name, () => {
         })
 
         it('takes the unplanned on-air part off-air', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const unplannedOnAirPart: Part = testEntityFactory.createPart({ isOnAir: true, isPlanned: false })
-          const newPart: Part = testEntityFactory.createPart({ isPlanned: false })
-          const segment: Segment = testEntityFactory.createSegment({ parts: [unplannedOnAirPart] })
+          const unplannedOnAirPart: Part = TestEntityFactory.createPart({ isOnAir: true, isPlanned: false })
+          const newPart: Part = TestEntityFactory.createPart({ isPlanned: false })
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [unplannedOnAirPart] })
           const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
           const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 
@@ -219,11 +204,10 @@ describe(SegmentEntityService.name, () => {
 
       describe('when the unplanned on-air part is succeeded by another part', () => {
         it('inserts the part as on-air after the unplanned on-air part', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const unplannedOnAirPart: Part = testEntityFactory.createPart({ isOnAir: true, isPlanned: false })
-          const newPart: Part = testEntityFactory.createPart({ isPlanned: false })
-          const anotherPart: Part = testEntityFactory.createPart()
-          const segment: Segment = testEntityFactory.createSegment({ parts: [unplannedOnAirPart, anotherPart] })
+          const unplannedOnAirPart: Part = TestEntityFactory.createPart({ isOnAir: true, isPlanned: false })
+          const newPart: Part = TestEntityFactory.createPart({ isPlanned: false })
+          const anotherPart: Part = TestEntityFactory.createPart()
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [unplannedOnAirPart, anotherPart] })
           const testee: SegmentEntityService = createTestee()
 
           const result: Segment = testee.insertPartAsOnAir(segment, newPart, Date.now())
@@ -232,11 +216,10 @@ describe(SegmentEntityService.name, () => {
         })
 
         it('takes the unplanned on-air part off-air', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const unplannedOnAirPart: Part = testEntityFactory.createPart({ isOnAir: true, isPlanned: false })
-          const newPart: Part = testEntityFactory.createPart({ isPlanned: false })
-          const anotherPart: Part = testEntityFactory.createPart()
-          const segment: Segment = testEntityFactory.createSegment({ parts: [unplannedOnAirPart, anotherPart] })
+          const unplannedOnAirPart: Part = TestEntityFactory.createPart({ isOnAir: true, isPlanned: false })
+          const newPart: Part = TestEntityFactory.createPart({ isPlanned: false })
+          const anotherPart: Part = TestEntityFactory.createPart()
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [unplannedOnAirPart, anotherPart] })
           const mockedPartEntityService: PartEntityService = mock<PartEntityService>()
           const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 
@@ -252,11 +235,10 @@ describe(SegmentEntityService.name, () => {
     describe('when next part is nonadjacent to on-air part', () => {
       describe('when next part is in same segment', () => {
         it('it inserts the new part after the on-air part', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const onAirPart: Part = testEntityFactory.createPart({ id: 'on-air-part-id', isOnAir: true })
-          const nextPart: Part = testEntityFactory.createPart({ id: 'next-part-id', isNext: true })
-          const newPart: Part = testEntityFactory.createPart({ id: 'new-part-id', isNext: true })
-          const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
+          const onAirPart: Part = TestEntityFactory.createPart({ id: 'on-air-part-id', isOnAir: true })
+          const nextPart: Part = TestEntityFactory.createPart({ id: 'next-part-id', isNext: true })
+          const newPart: Part = TestEntityFactory.createPart({ id: 'new-part-id', isNext: true })
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
           const testee: SegmentEntityService = createTestee()
 
           const result: Segment = testee.insertPartAsNext(segment, newPart)
@@ -265,11 +247,10 @@ describe(SegmentEntityService.name, () => {
         })
 
         it('unmarks the next nonadjacent next part as next', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const onAirPart: Part = testEntityFactory.createPart({ id: 'on-air-part-id', isOnAir: true })
-          const nextPart: Part = testEntityFactory.createPart({ id: 'next-part-id', isNext: true })
-          const newPart: Part = testEntityFactory.createPart({ id: 'new-part-id', isNext: true })
-          const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
+          const onAirPart: Part = TestEntityFactory.createPart({ id: 'on-air-part-id', isOnAir: true })
+          const nextPart: Part = TestEntityFactory.createPart({ id: 'next-part-id', isNext: true })
+          const newPart: Part = TestEntityFactory.createPart({ id: 'new-part-id', isNext: true })
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
           const mockedPartEntityService: PartEntityService = createMockOfPartEntityService()
           const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 
@@ -283,11 +264,10 @@ describe(SegmentEntityService.name, () => {
     describe('when next part is adjacent to on-air part', () => {
       describe('when next part is planned', () => {
         it('inserts the new part in between the on-air part and the adjacent next part', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const onAirPart: Part = testEntityFactory.createPart({ id: 'on-air-part-id', isOnAir: true })
-          const nextPart: Part = testEntityFactory.createPart({ id: 'next-part-id', isNext: true, isPlanned: true })
-          const newPart: Part = testEntityFactory.createPart({ id: 'new-part-id', isNext: true })
-          const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
+          const onAirPart: Part = TestEntityFactory.createPart({ id: 'on-air-part-id', isOnAir: true })
+          const nextPart: Part = TestEntityFactory.createPart({ id: 'next-part-id', isNext: true, isPlanned: true })
+          const newPart: Part = TestEntityFactory.createPart({ id: 'new-part-id', isNext: true })
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
           const mockedPartEntityService: PartEntityService = createMockOfPartEntityService()
           const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 
@@ -298,11 +278,10 @@ describe(SegmentEntityService.name, () => {
         })
 
         it('unmarks the adjacent next part as next', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const onAirPart: Part = testEntityFactory.createPart({ id: 'on-air-part-id', isOnAir: true })
-          const nextPart: Part = testEntityFactory.createPart({ id: 'next-part-id', isNext: true, isPlanned: true })
-          const newPart: Part = testEntityFactory.createPart({ id: 'new-part-id', isNext: true })
-          const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
+          const onAirPart: Part = TestEntityFactory.createPart({ id: 'on-air-part-id', isOnAir: true })
+          const nextPart: Part = TestEntityFactory.createPart({ id: 'next-part-id', isNext: true, isPlanned: true })
+          const newPart: Part = TestEntityFactory.createPart({ id: 'new-part-id', isNext: true })
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
           const mockedPartEntityService: PartEntityService = createMockOfPartEntityService()
           const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 
@@ -314,11 +293,10 @@ describe(SegmentEntityService.name, () => {
 
       describe('when next part is unplanned', () => {
         it('replaces the unplanned part marked as next', () => {
-          const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-          const onAirPart: Part = testEntityFactory.createPart({ id: 'on-air-part-id', isOnAir: true })
-          const nextPart: Part = testEntityFactory.createPart({ id: 'next-part-id', isNext: true, isPlanned: false })
-          const newPart: Part = testEntityFactory.createPart({ id: 'new-part-id', isNext: true })
-          const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
+          const onAirPart: Part = TestEntityFactory.createPart({ id: 'on-air-part-id', isOnAir: true })
+          const nextPart: Part = TestEntityFactory.createPart({ id: 'next-part-id', isNext: true, isPlanned: false })
+          const newPart: Part = TestEntityFactory.createPart({ id: 'new-part-id', isNext: true })
+          const segment: Segment = TestEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
           const mockedPartEntityService: PartEntityService = createMockOfPartEntityService()
           const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 
@@ -334,15 +312,14 @@ describe(SegmentEntityService.name, () => {
 
   describe(SegmentEntityService.prototype.removeUnplannedUnplayedPartsAndPieces.name, () => {
     it('removes unplanned unplayed parts', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const playedPart: Part = testEntityFactory.createPart({ isPlanned: true })
-      const playedUnplannedPart: Part = testEntityFactory.createPart({ isPlanned: false, playedDuration: 1234 })
-      const unplannedUnplayedPart1: Part = testEntityFactory.createPart({ isPlanned: false, playedDuration: 0 })
-      const unplannedUnplayedPart2: Part = testEntityFactory.createPart({ isPlanned: false, playedDuration: 0 })
-      const unplannedUnplayedPart3: Part = testEntityFactory.createPart({ isPlanned: false, playedDuration: 0 })
+      const playedPart: Part = TestEntityFactory.createPart({ isPlanned: true })
+      const playedUnplannedPart: Part = TestEntityFactory.createPart({ isPlanned: false, playedDuration: 1234 })
+      const unplannedUnplayedPart1: Part = TestEntityFactory.createPart({ isPlanned: false, playedDuration: 0 })
+      const unplannedUnplayedPart2: Part = TestEntityFactory.createPart({ isPlanned: false, playedDuration: 0 })
+      const unplannedUnplayedPart3: Part = TestEntityFactory.createPart({ isPlanned: false, playedDuration: 0 })
       const parts: Part[] = [unplannedUnplayedPart1, playedPart, unplannedUnplayedPart2, playedUnplannedPart, unplannedUnplayedPart3]
       const expectedParts: Part[] = [playedPart, playedUnplannedPart]
-      const segment: Segment = testEntityFactory.createSegment({ parts })
+      const segment: Segment = TestEntityFactory.createSegment({ parts })
       const testee: SegmentEntityService = createTestee()
 
       const result: Segment = testee.removeUnplannedUnplayedPartsAndPieces(segment)
@@ -351,10 +328,9 @@ describe(SegmentEntityService.name, () => {
     })
 
     it('removes unplanned pieces from next part', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const onAirPart: Part = testEntityFactory.createPart({ isOnAir: true })
-      const nextPart: Part = testEntityFactory.createPart({ isNext: true })
-      const segment: Segment = testEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
+      const onAirPart: Part = TestEntityFactory.createPart({ isOnAir: true })
+      const nextPart: Part = TestEntityFactory.createPart({ isNext: true })
+      const segment: Segment = TestEntityFactory.createSegment({ parts: [onAirPart, nextPart] })
       const mockedPartEntityService: PartEntityService = createMockOfPartEntityService()
       const testee: SegmentEntityService = createTestee(instance(mockedPartEntityService))
 

@@ -45,10 +45,10 @@ describe(ProducerShelfComponent.name, () => {
 
     fixture = TestBed.createComponent(ProducerShelfComponent)
     component = fixture.componentInstance
-    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+
     component.keystrokes = []
     component.keyBindings = []
-    component.rundown = testEntityFactory.createRundown()
+    component.rundown = TestEntityFactory.createRundown()
     fixture.detectChanges()
   })
 

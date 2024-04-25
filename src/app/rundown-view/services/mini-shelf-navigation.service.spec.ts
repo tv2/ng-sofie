@@ -14,42 +14,40 @@ function createTestee(): MiniShelfNavigationService {
 }
 
 describe(MiniShelfNavigationService.name, () => {
-  const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-
   it('should match getting the previous MiniShelf on a rundown onAir with two MiniShelves', () => {
     const mockedActionService: ActionService = mock<ActionService>()
     when(mockedActionService.executeAction(anyString(), anyString())).thenReturn(instance(mock<Observable<void>>()) as Observable<void>)
 
-    const firstAction: Tv2Action = testEntityFactory.createTv2VideoClipAction('firstMiniShelfName', 'firstMiniShelfVideoClipFile')
-    const secondAction: Tv2Action = testEntityFactory.createTv2VideoClipAction('secondMiniShelfName', 'secondMiniShelfVideoClipFile')
+    const firstAction: Tv2Action = TestEntityFactory.createTv2VideoClipAction('firstMiniShelfName', 'firstMiniShelfVideoClipFile')
+    const secondAction: Tv2Action = TestEntityFactory.createTv2VideoClipAction('secondMiniShelfName', 'secondMiniShelfVideoClipFile')
 
     const mockedActionStateService: ActionStateService = mock<ActionStateService>()
     when(mockedActionStateService.getRundownActions(anyString())).thenReturn([firstAction, secondAction])
 
-    const segment: Segment = testEntityFactory.createSegment({
+    const segment: Segment = TestEntityFactory.createSegment({
       id: 'segmentOnAir',
       isOnAir: true,
       isNext: true,
       isHidden: false,
       parts: [
-        testEntityFactory.createPart({
+        TestEntityFactory.createPart({
           isOnAir: true,
           metadata: { actionId: 'testPartOnAir' },
         }),
-        testEntityFactory.createPart({
+        TestEntityFactory.createPart({
           isNext: true,
           metadata: { actionId: 'testPartNext' },
         }),
       ],
     })
 
-    const firstMiniShelf: Segment = testEntityFactory.createMiniShelfSegment({
+    const firstMiniShelf: Segment = TestEntityFactory.createMiniShelfSegment({
       id: 'firstMiniShelfId',
       name: firstAction.name,
       miniShelfVideoClipFile: 'firstMiniShelfVideoClipFile',
     })
 
-    const secondMiniShelf: Segment = testEntityFactory.createMiniShelfSegment({
+    const secondMiniShelf: Segment = TestEntityFactory.createMiniShelfSegment({
       id: 'secondMiniShelfId',
       name: secondAction.name,
       miniShelfVideoClipFile: 'secondMiniShelfVideoClipFile',
@@ -58,7 +56,7 @@ describe(MiniShelfNavigationService.name, () => {
     const miniShelfNavigationService: MiniShelfNavigationService = mock<MiniShelfNavigationService>()
     when(miniShelfNavigationService.getNextMiniShelfSegment(anything(), anything())).thenReturn(secondMiniShelf)
 
-    const rundown: Rundown = testEntityFactory.createRundown({
+    const rundown: Rundown = TestEntityFactory.createRundown({
       id: 'rundown-id',
       mode: RundownMode.ACTIVE,
       segments: [segment, firstMiniShelf, secondMiniShelf],
@@ -75,36 +73,36 @@ describe(MiniShelfNavigationService.name, () => {
     const mockedActionService: ActionService = mock<ActionService>()
     when(mockedActionService.executeAction(anyString(), anyString())).thenReturn(instance(mock<Observable<void>>()) as Observable<void>)
 
-    const firstAction: Tv2Action = testEntityFactory.createTv2VideoClipAction('firstMiniShelfName', 'firstMiniShelfVideoClipFile')
-    const secondAction: Tv2Action = testEntityFactory.createTv2VideoClipAction('secondMiniShelfName', 'secondMiniShelfVideoClipFile')
+    const firstAction: Tv2Action = TestEntityFactory.createTv2VideoClipAction('firstMiniShelfName', 'firstMiniShelfVideoClipFile')
+    const secondAction: Tv2Action = TestEntityFactory.createTv2VideoClipAction('secondMiniShelfName', 'secondMiniShelfVideoClipFile')
 
     const mockedActionStateService: ActionStateService = mock<ActionStateService>()
     when(mockedActionStateService.getRundownActions(anyString())).thenReturn([firstAction, secondAction])
 
-    const segment: Segment = testEntityFactory.createSegment({
+    const segment: Segment = TestEntityFactory.createSegment({
       id: 'segmentOnAir',
       isOnAir: true,
       isNext: true,
       isHidden: false,
       parts: [
-        testEntityFactory.createPart({
+        TestEntityFactory.createPart({
           isOnAir: true,
           metadata: { actionId: 'testPartOnAir' },
         }),
-        testEntityFactory.createPart({
+        TestEntityFactory.createPart({
           isNext: true,
           metadata: { actionId: 'testPartNext' },
         }),
       ],
     })
 
-    const firstMiniShelf: Segment = testEntityFactory.createMiniShelfSegment({
+    const firstMiniShelf: Segment = TestEntityFactory.createMiniShelfSegment({
       id: 'firstMiniShelfId',
       name: firstAction.name,
       miniShelfVideoClipFile: 'firstMiniShelfVideoClipFile',
     })
 
-    const secondMiniShelf: Segment = testEntityFactory.createMiniShelfSegment({
+    const secondMiniShelf: Segment = TestEntityFactory.createMiniShelfSegment({
       id: 'secondMiniShelfId',
       name: secondAction.name,
       miniShelfVideoClipFile: 'secondMiniShelfVideoClipFile',
@@ -113,7 +111,7 @@ describe(MiniShelfNavigationService.name, () => {
     const miniShelfNavigationService: MiniShelfNavigationService = mock<MiniShelfNavigationService>()
     when(miniShelfNavigationService.getNextMiniShelfSegment(anything(), anything())).thenReturn(secondMiniShelf)
 
-    const rundown: Rundown = testEntityFactory.createRundown({
+    const rundown: Rundown = TestEntityFactory.createRundown({
       id: 'rundown-id',
       mode: RundownMode.ACTIVE,
       segments: [segment, firstMiniShelf, secondMiniShelf],

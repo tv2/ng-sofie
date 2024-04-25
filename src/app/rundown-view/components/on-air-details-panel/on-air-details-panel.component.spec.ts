@@ -9,9 +9,8 @@ import { Logger } from '../../../core/abstractions/logger.service'
 
 describe(OnAirDetailsPanelComponent.name, () => {
   it('should create', async () => {
-    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
     const component: OnAirDetailsPanelComponent = await configureTestBed()
-    component.rundown = testEntityFactory.createRundown()
+    component.rundown = TestEntityFactory.createRundown()
     expect(component).toBeTruthy()
   })
 })
