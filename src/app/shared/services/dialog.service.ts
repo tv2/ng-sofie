@@ -1,8 +1,10 @@
 import { ComponentType } from '@angular/cdk/overlay'
 import { Injectable } from '@angular/core'
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
+import { DialogPosition, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
 import { ConfirmationDialogComponent, DialogColorScheme, DialogSeverity } from '../components/confirmation-dialog/confirmation-dialog.component'
 import { StronglyTypedDialog } from '../directives/strongly-typed-dialog.directive'
+
+const STANDARD_DIALOG_HEIGHT: number = 183 // This is the height of our ConfirmDialog at the time of writing.
 
 @Injectable()
 export class DialogService {
@@ -12,7 +14,24 @@ export class DialogService {
     component: ComponentType<StronglyTypedDialog<DialogData, DialogResult>>,
     config?: MatDialogConfig<DialogData>
   ): MatDialogRef<StronglyTypedDialog<DialogData, DialogResult>, DialogResult> {
+    if (!config) {
+      config = {}
+    }
+
+    config.position = this.getDialogPositionConfig()
+
     return this.dialog.open(component, config)
+  }
+
+  private getDialogPositionConfig(): DialogPosition {
+    const isWindowHeightLargerThanCurrentScreenHeight: boolean = window.innerHeight > window.screen.availHeight
+    if (!isWindowHeightLargerThanCurrentScreenHeight) {
+      return {}
+    }
+    const top: string = `${window.screen.availHeight / 2 - STANDARD_DIALOG_HEIGHT}px`
+    return {
+      top,
+    }
   }
 
   public createConfirmDialog(
