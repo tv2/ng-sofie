@@ -67,6 +67,7 @@ describe(RundownEntityService.name, () => {
       const rundown = testEntityFactory.createRundown({ mode: RundownMode.ACTIVE, segments })
       const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
       when(mockedSegmentEntityService.takeOffAir(anything(), anyNumber())).thenCall(segment => segment)
+      when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
       const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
 
       const deactivatedAt: number = Date.now()
@@ -75,12 +76,30 @@ describe(RundownEntityService.name, () => {
       segments.forEach(segment => verify(mockedSegmentEntityService.takeOffAir(segment, deactivatedAt)))
     })
 
+    it('resets the Rundown', () => {
+      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+      const segments = [testEntityFactory.createSegment(), testEntityFactory.createSegment(), testEntityFactory.createSegment()]
+      const rundown = testEntityFactory.createRundown({ mode: RundownMode.ACTIVE, segments })
+      const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
+      when(mockedSegmentEntityService.takeOffAir(anything(), anyNumber())).thenCall(segment => segment)
+      when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
+
+      const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
+
+      const deactivatedAt: number = Date.now()
+      testee.deactivate(rundown, deactivatedAt)
+
+      verify(mockedSegmentEntityService.reset(segments[0])).once()
+      verify(mockedSegmentEntityService.reset(segments[1])).once()
+    })
+
     it('unmarks segments set as next', () => {
       const testEntityFactory: TestEntityFactory = new TestEntityFactory()
       const segments: Segment[] = [testEntityFactory.createSegment(), testEntityFactory.createSegment({ isNext: true }), testEntityFactory.createSegment()]
       const rundown: Rundown = testEntityFactory.createRundown({ segments })
       const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
       when(mockedSegmentEntityService.takeOffAir(anything(), anyNumber())).thenCall(segment => segment)
+      when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
       const testee: RundownEntityService = createTestee(instance(mockedSegmentEntityService))
 
       testee.deactivate(rundown, Date.now())
