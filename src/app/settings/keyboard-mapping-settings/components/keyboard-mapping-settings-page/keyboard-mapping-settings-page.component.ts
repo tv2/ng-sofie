@@ -161,14 +161,29 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
     Promise.all(
       actionTriggers.map(actionTrigger => {
         const actionTriggerAlreadyExist: boolean = this.keyboardMappings.some(actionTriggerWithAction => actionTriggerWithAction.actionTrigger.id === actionTrigger.id)
+        if (!this.actions.some(action => action.id === actionTrigger.actionId)) {
+          return
+        }
         return actionTriggerAlreadyExist ? this.actionTriggerService.updateActionTrigger(actionTrigger).subscribe() : this.actionTriggerService.createActionTrigger(actionTrigger).subscribe()
       })
     )
-      .then(() => this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.success`))
+      .then(() => {
+        if (this.doesActionTriggersHaveInvalidActions(actionTriggers)) {
+          this.notificationService.createWarningNotification($localize`keyboard-mapping-settings-page-import-keyboard-mappings.actions-missing`)
+          return
+        }
+        this.notificationService.createInfoNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.success`)
+      })
       .catch(error => {
         this.logger.data(error).error('Failed importing one or more keyboard mappings.')
         this.notificationService.createErrorNotification($localize`keyboard-mapping-settings-page.import-keyboard-mappings.failure`)
       })
+  }
+
+  private doesActionTriggersHaveInvalidActions(actionTriggers: ActionTrigger[]): boolean {
+    return actionTriggers.some(actionTrigger => {
+      return !this.actions.some(action => action.id === actionTrigger.actionId)
+    })
   }
 
   public validateActionTriggers(actionTriggers: ActionTrigger<KeyboardTriggerData>[]): boolean {
