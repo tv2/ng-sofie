@@ -123,6 +123,13 @@ export class RundownEntityService {
     }
   }
 
+  public replacePiece(rundown: Rundown, rundownCursor: RundownCursor, replacedPiece: Piece, newPiece: Piece): Rundown {
+    return {
+      ...rundown,
+      segments: rundown.segments.map(segment => (segment.id === rundownCursor.segmentId ? this.segmentEntityService.replacePiece(segment, rundownCursor.partId, replacedPiece, newPiece) : segment)),
+    }
+  }
+
   public updateRundownFromBasicRundown(rundown: Rundown, basicRundown: BasicRundown): Rundown {
     return {
       ...rundown,

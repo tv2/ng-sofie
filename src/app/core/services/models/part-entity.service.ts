@@ -102,4 +102,15 @@ export class PartEntityService {
       pieces: [...part.pieces, piece],
     }
   }
+
+  public replacePiece(part: Part, replacedPiece: Piece, newPiece: Piece): Part {
+    const replacedPieceIndex: number = part.pieces.findIndex(piece => piece.id === replacedPiece.id)
+    if (replacedPieceIndex >= 0) {
+      part.pieces.splice(replacedPieceIndex, 1)
+    }
+    return {
+      ...part,
+      pieces: [...part.pieces, newPiece],
+    }
+  }
 }

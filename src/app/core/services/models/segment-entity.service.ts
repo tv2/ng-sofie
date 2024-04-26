@@ -112,4 +112,11 @@ export class SegmentEntityService {
       parts: segment.parts.map(part => (part.id === partId ? this.partEntityService.insertPiece(part, piece) : part)),
     }
   }
+
+  public replacePiece(segment: Segment, partId: string, replacedPiece: Piece, newPiece: Piece): Segment {
+    return {
+      ...segment,
+      parts: segment.parts.map(part => (part.id === partId ? this.partEntityService.replacePiece(part, replacedPiece, newPiece) : part)),
+    }
+  }
 }

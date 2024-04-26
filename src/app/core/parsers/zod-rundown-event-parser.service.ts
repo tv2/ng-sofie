@@ -22,6 +22,7 @@ import {
   PartUnsyncedEvent,
   AutoNextStartedEvent,
   RundownRehearseEvent,
+  RundownPieceReplacedEvent,
 } from '../models/rundown-event'
 import * as zod from 'zod'
 import { RundownEventType } from '../models/rundown-event-type'
@@ -114,6 +115,22 @@ export class ZodRundownEventParser implements RundownEventParser {
     segmentId: zod.string().min(1),
     partId: zod.string().min(1),
     piece: zod
+      .object({})
+      .passthrough()
+      .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
+  })
+
+  private readonly rundownPieceReplacedEventParser = zod.object({
+    type: zod.literal(RundownEventType.PIECE_REPLACED),
+    timestamp: zod.number(),
+    rundownId: zod.string().min(1),
+    segmentId: zod.string().min(1),
+    partId: zod.string().min(1),
+    replacedPiece: zod
+      .object({})
+      .passthrough()
+      .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
+    newPiece: zod
       .object({})
       .passthrough()
       .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
@@ -265,6 +282,10 @@ export class ZodRundownEventParser implements RundownEventParser {
 
   public parsePieceInsertedEvent(event: unknown): RundownPieceInsertedEvent {
     return this.rundownPieceInsertedEventParser.parse(event)
+  }
+
+  public parsePieceReplacedEvent(event: unknown): RundownPieceReplacedEvent {
+    return this.rundownPieceReplacedEventParser.parse(event)
   }
 
   public parseRundownCreatedEvent(event: unknown): RundownCreatedEvent {
