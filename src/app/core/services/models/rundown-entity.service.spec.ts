@@ -72,9 +72,8 @@ describe(RundownEntityService.name, () => {
     })
 
     it('resets the Rundown', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const segments = [testEntityFactory.createSegment(), testEntityFactory.createSegment(), testEntityFactory.createSegment()]
-      const rundown = testEntityFactory.createRundown({ mode: RundownMode.ACTIVE, segments })
+      const segments = [TestEntityFactory.createSegment(), TestEntityFactory.createSegment(), TestEntityFactory.createSegment()]
+      const rundown = TestEntityFactory.createRundown({ mode: RundownMode.ACTIVE, segments })
       const mockedSegmentEntityService: SegmentEntityService = mock<SegmentEntityService>()
       when(mockedSegmentEntityService.takeOffAir(anything(), anyNumber())).thenCall(segment => segment)
       when(mockedSegmentEntityService.reset(anything())).thenCall(segment => segment)
