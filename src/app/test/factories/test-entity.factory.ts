@@ -96,6 +96,7 @@ export class TestEntityFactory {
     return {
       id: 'action-id',
       name: 'action-name',
+      rank: 0,
       type: PartActionType.INSERT_PART_AS_ON_AIR,
       description: 'action-description',
       metadata: {
