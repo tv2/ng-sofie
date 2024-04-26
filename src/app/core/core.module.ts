@@ -38,6 +38,9 @@ import { ConfigurationEventObserver } from './services/configuration-event-obser
 import { StatusMessageEventParser } from './abstractions/status-message-event-parser'
 import { ZodStatusMessageEventParser } from './parsers/zod-status-message-event-parser'
 import { StatusMessageEventObserver } from './services/status-message-event-observer'
+import { ActionEventObserver } from './services/action-event-observer.service'
+import { ActionEventParser } from './abstractions/action-event-parser'
+import { ZodActionEventParser } from './parsers/zod-action-event-parser.service'
 
 @NgModule({
   declarations: [],
@@ -62,8 +65,10 @@ import { StatusMessageEventObserver } from './services/status-message-event-obse
     RundownTimingContextStateService,
     ActionTriggerStateService,
     ActionTriggerEventObserver,
+    ActionEventObserver,
     ConfigurationEventObserver,
     { provide: ActionTriggerEventParser, useClass: ZodActionTriggerEventParser },
+    { provide: ActionEventParser, useClass: ZodActionEventParser },
     { provide: ConfigurationEventParser, useClass: ZodConfigurationEventParser },
     MediaEventObserver,
     { provide: MediaEventParser, useClass: ZodMediaEventParserService },
