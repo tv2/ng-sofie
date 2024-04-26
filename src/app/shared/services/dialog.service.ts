@@ -12,12 +12,8 @@ export class DialogService {
 
   private open<DialogData, DialogResult>(
     component: ComponentType<StronglyTypedDialog<DialogData, DialogResult>>,
-    config?: MatDialogConfig<DialogData>
+    config: MatDialogConfig<DialogData> = {}
   ): MatDialogRef<StronglyTypedDialog<DialogData, DialogResult>, DialogResult> {
-    if (!config) {
-      config = {}
-    }
-
     config.position = this.getDialogPositionConfig()
 
     return this.dialog.open(component, config)
