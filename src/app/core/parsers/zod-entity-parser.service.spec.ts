@@ -14,6 +14,7 @@ describe(ZodEntityParser.name, () => {
         type: PartActionType.INSERT_PART_AS_NEXT,
         id: 'somePartId',
         name: 'somePartName',
+        rank: 0,
       }
       const parseTv2Action: Tv2Action = testee.parseTv2Action(expectedTv2Action)
       expect(parseTv2Action).toEqual(expectedTv2Action)

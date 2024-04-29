@@ -4,6 +4,7 @@ export interface Action {
   id: string
   type: ActionType
   name: string
+  rank: number
   description?: string
   argument?: ActionArgumentSchema
   metadata?: unknown
