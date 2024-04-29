@@ -8,6 +8,7 @@ export class ZodActionParser implements ActionParser {
     id: zod.string().min(1),
     type: zod.nativeEnum(PartActionType).or(zod.nativeEnum(PieceActionType)),
     name: zod.string(),
+    rank: zod.number(),
     description: zod.string().optional(),
     metadata: zod.unknown(),
     argument: zod

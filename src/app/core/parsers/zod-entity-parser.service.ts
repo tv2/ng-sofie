@@ -148,6 +148,7 @@ export class ZodEntityParser implements EntityParser {
   private readonly tv2ActionParser = zod.object({
     id: zod.string(),
     name: zod.string(),
+    rank: zod.number(),
     type: zod.nativeEnum(PartActionType).or(zod.nativeEnum(PieceActionType)),
     metadata: zod.object({
       contentType: zod.nativeEnum(Tv2ActionContentType),
