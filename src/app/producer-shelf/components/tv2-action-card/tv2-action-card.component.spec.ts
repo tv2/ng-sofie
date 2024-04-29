@@ -19,6 +19,7 @@ describe('ActionCardComponent', () => {
       id: 'some-camera-action',
       metadata: { contentType: Tv2ActionContentType.CAMERA },
       name: '',
+      rank: 0,
       type: PartActionType.INSERT_PART_AS_ON_AIR,
     }
     fixture.detectChanges()
