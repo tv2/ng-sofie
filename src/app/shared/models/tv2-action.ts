@@ -1,6 +1,7 @@
-import { PartAction, PieceAction } from './action'
+import { ActionArgumentSchemaType, PartAction, PieceAction, PlaceholderAction } from './action'
+import { PlaceholderActionScope, PlaceholderActionType } from './action-type'
 
-export type Tv2Action = Tv2PartAction | Tv2PieceAction
+export type Tv2Action = Tv2PartAction | Tv2PieceAction | Tv2PlaceholderAction
 
 export interface Tv2PartAction extends PartAction {
   metadata: {
@@ -23,6 +24,7 @@ export enum Tv2ActionContentType {
   SPLIT_SCREEN = 'SPLIT_SCREEN',
   REPLAY = 'REPLAY',
   ROBOT = 'ROBOT',
+  PLACEHOLDER = 'PLACEHOLDER',
   UNKNOWN = 'UNKNOWN',
 }
 
@@ -50,5 +52,25 @@ export interface Tv2RemoteAction extends Tv2PartAction {
 export interface Tv2TransitionAction extends Tv2PartAction {
   metadata: {
     contentType: Tv2ActionContentType.TRANSITION
+  }
+}
+
+export interface Tv2PlaceholderAction extends PlaceholderAction {
+  metadata: {
+    contentType: Tv2ActionContentType
+  }
+}
+
+export interface Tv2ContentPlaceholderAction extends Tv2PlaceholderAction {
+  type: PlaceholderActionType.CONTENT
+  argument: {
+    name: 'indexToSelect'
+    description: string
+    type: ActionArgumentSchemaType.STRING
+  }
+  metadata: {
+    contentType: Tv2ActionContentType.PLACEHOLDER
+    scope: PlaceholderActionScope.ON_AIR_SEGMENT
+    allowedContentTypes: Tv2ActionContentType[]
   }
 }

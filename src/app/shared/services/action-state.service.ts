@@ -1,5 +1,5 @@
 import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs'
-import { Action } from '../models/action'
+import { Action, ActionArgumentSchemaType } from '../models/action'
 import { ActionService } from '../abstractions/action.service'
 import { Injectable } from '@angular/core'
 import { ConnectionStatusObserver } from '../../core/services/connection-status-observer.service'
@@ -7,8 +7,11 @@ import { Logger } from '../../core/abstractions/logger.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
 import { RundownEventObserver } from '../../core/services/rundown-event-observer.service'
 import { RundownActivatedEvent, RundownDeactivatedEvent, RundownRehearseEvent } from '../../core/models/rundown-event'
+import { Tv2ActionContentType, Tv2ContentPlaceholderAction } from '../models/tv2-action'
+import { PlaceholderActionScope, PlaceholderActionType } from '../models/action-type'
 
-const SYSTEM_ACTIONS_ID = 'SYSTEM_ACTIONS_ID'
+const SYSTEM_ACTIONS_ID: string = 'SYSTEM_ACTIONS_ID'
+
 @Injectable()
 export class ActionStateService {
   private readonly actionsSubjects: Map<string, BehaviorSubject<Action[]>> = new Map()
@@ -111,12 +114,14 @@ export class ActionStateService {
     return new BehaviorSubject<Action[]>(actions)
   }
 
-  private fetchActions(rundownId: string): Promise<Action[]> {
-    return lastValueFrom(this.actionService.getActionsByRundownId(rundownId))
+  private async fetchActions(rundownId: string): Promise<Action[]> {
+    const actions: Action[] = await lastValueFrom(this.actionService.getActionsByRundownId(rundownId))
+    return actions.concat(this.createGraphicsContentPlaceholderAction())
   }
 
-  private fetchSystemActions(): Promise<Action[]> {
-    return lastValueFrom(this.actionService.getSystemActions())
+  private async fetchSystemActions(): Promise<Action[]> {
+    const actions: Action[] = await lastValueFrom(this.actionService.getSystemActions())
+    return actions.concat(this.createGraphicsContentPlaceholderAction())
   }
 
   public getRundownActions(rundownId: string): Action[] {
@@ -126,5 +131,25 @@ export class ActionStateService {
   public destroy(): void {
     this.actionsSubjects.forEach(subject => subject.complete())
     this.eventSubscriptions.forEach(eventSubscription => eventSubscription.unsubscribe())
+  }
+
+  private createGraphicsContentPlaceholderAction(): Tv2ContentPlaceholderAction {
+    return {
+      id: 'on_air_graphics_content_placeholder_action',
+      name: 'Execute n-th OnAir Graphics',
+      description: 'Finds and execute Graphics Actions from the OnAir Segment.',
+      rank: 0,
+      type: PlaceholderActionType.CONTENT,
+      argument: {
+        type: ActionArgumentSchemaType.STRING,
+        name: 'indexToSelect',
+        description: 'The n-th Graphics in the OnAir Segment to select. 1 = first, 2 = second etc...',
+      },
+      metadata: {
+        contentType: Tv2ActionContentType.PLACEHOLDER,
+        scope: PlaceholderActionScope.ON_AIR_SEGMENT,
+        allowedContentTypes: [Tv2ActionContentType.GRAPHICS],
+      },
+    }
   }
 }
