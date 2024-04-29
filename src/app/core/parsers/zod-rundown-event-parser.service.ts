@@ -126,10 +126,7 @@ export class ZodRundownEventParser implements RundownEventParser {
     rundownId: zod.string().min(1),
     segmentId: zod.string().min(1),
     partId: zod.string().min(1),
-    replacedPiece: zod
-      .object({})
-      .passthrough()
-      .transform((piece: unknown) => this.entityParser.parsePiece(piece)),
+    replacedPieceId: zod.string().min(1),
     newPiece: zod
       .object({})
       .passthrough()

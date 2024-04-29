@@ -123,10 +123,10 @@ export class RundownEntityService {
     }
   }
 
-  public replacePiece(rundown: Rundown, rundownCursor: RundownCursor, replacedPiece: Piece, newPiece: Piece): Rundown {
+  public replacePiece(rundown: Rundown, rundownCursor: RundownCursor, replacedPieceId: string, newPiece: Piece): Rundown {
     return {
       ...rundown,
-      segments: rundown.segments.map(segment => (segment.id === rundownCursor.segmentId ? this.segmentEntityService.replacePiece(segment, rundownCursor.partId, replacedPiece, newPiece) : segment)),
+      segments: rundown.segments.map(segment => (segment.id === rundownCursor.segmentId ? this.segmentEntityService.replacePiece(segment, rundownCursor.partId, replacedPieceId, newPiece) : segment)),
     }
   }
 

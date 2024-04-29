@@ -371,7 +371,7 @@ export class RundownStateService implements OnDestroy {
     if (!rundownSubject || !rundownSubject.value) {
       return
     }
-    const rundownWithPiece: Rundown = this.rundownEntityService.replacePiece(rundownSubject.value, event, event.replacedPiece, event.newPiece)
+    const rundownWithPiece: Rundown = this.rundownEntityService.replacePiece(rundownSubject.value, event, event.replacedPieceId, event.newPiece)
     rundownSubject.next(rundownWithPiece)
   }
 
