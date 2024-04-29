@@ -5,10 +5,9 @@ import { Injectable } from '@angular/core'
 import { ConnectionStatusObserver } from '../../core/services/connection-status-observer.service'
 import { Logger } from '../../core/abstractions/logger.service'
 import { EventSubscription } from '../../event-system/abstractions/event-observer.service'
-import { RundownEventObserver } from '../../core/services/rundown-event-observer.service'
-import { RundownActivatedEvent, RundownDeactivatedEvent, RundownRehearseEvent } from '../../core/models/rundown-event'
 import { Tv2ActionContentType, Tv2ContentPlaceholderAction } from '../models/tv2-action'
 import { PlaceholderActionScope, PlaceholderActionType } from '../models/action-type'
+import { ActionEventObserver } from '../../core/services/action-event-observer.service'
 
 const SYSTEM_ACTIONS_ID: string = 'SYSTEM_ACTIONS_ID'
 
@@ -20,16 +19,14 @@ export class ActionStateService {
 
   constructor(
     private readonly connectionStatusObserver: ConnectionStatusObserver,
-    private readonly rundownEventObserver: RundownEventObserver,
+    private readonly actionEventObserver: ActionEventObserver,
     private readonly actionService: ActionService,
     logger: Logger
   ) {
     this.logger = logger.tag('ActionStateService')
     this.eventSubscriptions = [
       this.connectionStatusObserver.subscribeToReconnect(this.onReconnected.bind(this)),
-      this.rundownEventObserver.subscribeToRundownActivation(this.onRundownActivated.bind(this)),
-      this.rundownEventObserver.subscribeToRundownRehearsal(this.onRundownRehearse.bind(this)),
-      this.rundownEventObserver.subscribeToRundownDeactivation(this.onRundownDeactivated.bind(this)),
+      this.actionEventObserver.subscribeToActionsUpdated(actionUpdatedEvent => this.updateActions(actionUpdatedEvent.actions, actionUpdatedEvent.rundownId)),
     ]
   }
 
@@ -77,16 +74,16 @@ export class ActionStateService {
     return { wasRemoved: true }
   }
 
-  private onRundownActivated(event: RundownActivatedEvent): void {
-    this.resetActionsSubject(event.rundownId)
-  }
+  private updateActions(actions: Action[], rundownId?: string): void {
+    const id: string = rundownId ?? SYSTEM_ACTIONS_ID
 
-  private onRundownRehearse(event: RundownRehearseEvent): void {
-    this.resetActionsSubject(event.rundownId)
-  }
+    const actionsSubject: BehaviorSubject<Action[]> | undefined = this.actionsSubjects.get(id)
+    if (!actionsSubject) {
+      this.actionsSubjects.set(id, new BehaviorSubject(actions))
+      return
+    }
 
-  private onRundownDeactivated(event: RundownDeactivatedEvent): void {
-    this.resetActionsSubject(event.rundownId)
+    actionsSubject.next(actions)
   }
 
   public async subscribeToRundownActions(rundownId: string): Promise<Observable<Action[]>> {
