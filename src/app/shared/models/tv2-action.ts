@@ -66,7 +66,7 @@ export interface Tv2ContentPlaceholderAction extends Tv2PlaceholderAction {
   argument: {
     name: 'indexToSelect'
     description: string
-    type: ActionArgumentSchemaType.STRING
+    type: ActionArgumentSchemaType.NUMBER
   }
   metadata: {
     contentType: Tv2ActionContentType.PLACEHOLDER

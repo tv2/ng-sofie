@@ -10,12 +10,14 @@ import { RundownStateService } from '../../core/services/rundown-state.service'
 import { Rundown } from '../../core/models/rundown'
 import { Tv2ActionParser } from '../../shared/abstractions/tv2-action-parser.service'
 import { SystemKeyBindingFactory } from '../factories/system-key-binding-factory.service'
-import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
+import { Tv2Action, Tv2ActionContentType, Tv2ContentPlaceholderAction } from '../../shared/models/tv2-action'
 import { Logger } from '../../core/abstractions/logger.service'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger-data'
 import { RundownMode } from '../../core/enums/rundown-mode'
+import { PlaceholderActionType } from '../../shared/models/action-type'
+import { Segment } from '../../core/models/segment'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -89,12 +91,33 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     this.actionTriggersWithAction.clear()
 
     this.actionTriggers.forEach(actionTrigger => {
-      const actionForTrigger: Tv2Action | undefined = this.actions.find(action => action.id === actionTrigger.actionId)
-      if (!actionForTrigger) {
+      let action: Tv2Action | undefined = this.actions.find(action => action.id === actionTrigger.actionId)
+      if (!action) {
         return
       }
-      this.actionTriggersWithAction.set(actionTrigger, actionForTrigger)
+      if (action.type === PlaceholderActionType.CONTENT) {
+        action = this.findActionForContentPlaceholderAction(action as Tv2ContentPlaceholderAction, actionTrigger)
+      }
+      if (!action) {
+        return
+      }
+      this.actionTriggersWithAction.set(actionTrigger, action)
     })
+  }
+
+  private findActionForContentPlaceholderAction(placeholderAction: Tv2ContentPlaceholderAction, actionTrigger: ActionTrigger<KeyboardTriggerData>): Tv2Action | undefined {
+    const onAirSegment: Segment | undefined = this.rundown?.segments.find(segment => segment.isOnAir)
+    if (!onAirSegment) {
+      return
+    }
+    const actionsForOnAirSegment: Tv2Action[] = this.actions
+      .filter(action => Math.floor(action.rank) === onAirSegment.rank && placeholderAction.metadata.allowedContentTypes.includes(action.metadata.contentType))
+      .sort((a, b) => a.rank - b.rank)
+    const nthToSelect: number = actionTrigger.data.actionArguments as number // We know this is a number because of Tv2ContentPlaceholderAction.
+    if (nthToSelect > actionsForOnAirSegment.length) {
+      return
+    }
+    return actionsForOnAirSegment[nthToSelect - 1] // nthToSelect is one-indexed, so we need to subtract one to get the correct index.
   }
 
   private updateActionTriggerKeybindings(): void {
@@ -178,6 +201,8 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
       return
     }
     this.rundown = rundown
+    this.mapActionTriggersToActions()
+    this.updateActionTriggerKeybindings()
     this.updateSystemKeyBindings()
     this.emitKeybindings()
   }

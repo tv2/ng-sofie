@@ -141,7 +141,7 @@ export class ActionStateService {
       rank: 0,
       type: PlaceholderActionType.CONTENT,
       argument: {
-        type: ActionArgumentSchemaType.STRING,
+        type: ActionArgumentSchemaType.NUMBER,
         name: 'indexToSelect',
         description: 'The n-th Graphics in the OnAir Segment to select. 1 = first, 2 = second etc...',
       },
