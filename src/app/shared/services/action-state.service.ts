@@ -83,7 +83,7 @@ export class ActionStateService {
       return
     }
 
-    actionsSubject.next(actions)
+    actionsSubject.next(actions.concat(this.createGraphicsContentPlaceholderAction()))
   }
 
   public async subscribeToRundownActions(rundownId: string): Promise<Observable<Action[]>> {
