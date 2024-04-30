@@ -101,14 +101,11 @@ export class ActionStateService {
     if (actionsSubject) {
       return actionsSubject
     }
-    const cleanActionsSubject: BehaviorSubject<Action[]> = await this.getCleanActionsSubject(rundownId)
-    this.actionsSubjects.set(rundownId, cleanActionsSubject)
-    return cleanActionsSubject
-  }
-
-  private async getCleanActionsSubject(rundownId: string): Promise<BehaviorSubject<Action[]>> {
+    const subject: BehaviorSubject<Action[]> = new BehaviorSubject<Action[]>([])
+    this.actionsSubjects.set(rundownId, subject)
     const actions: Action[] = await this.fetchActions(rundownId)
-    return new BehaviorSubject<Action[]>(actions)
+    subject.next(actions)
+    return subject
   }
 
   private async fetchActions(rundownId: string): Promise<Action[]> {
