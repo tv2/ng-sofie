@@ -21,6 +21,7 @@ import {
   RundownCreatedEvent,
   RundownDeletedEvent,
   RundownRehearseEvent,
+  RundownPieceReplacedEvent,
 } from '../models/rundown-event'
 import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs'
 import { Rundown } from '../models/rundown'
@@ -93,6 +94,7 @@ export class RundownStateService implements OnDestroy {
       this.rundownEventObserver.subscribeToRundownPartInsertedAsOnAir(this.insertPartAsOnAirFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownPartInsertedAsNext(this.insertPartAsNextFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToRundownPieceInserted(this.insertPieceFromEvent.bind(this)),
+      this.rundownEventObserver.subscribeToRundownPieceReplaced(this.replacePieceFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToSegmentCreation(this.insertSegmentFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToSegmentUpdates(this.updateSegmentFromEvent.bind(this)),
       this.rundownEventObserver.subscribeToSegmentDeletion(this.deleteSegmentFromEvent.bind(this)),
@@ -361,6 +363,15 @@ export class RundownStateService implements OnDestroy {
       return
     }
     const rundownWithPiece: Rundown = this.rundownEntityService.insertPiece(rundownSubject.value, event, event.piece)
+    rundownSubject.next(rundownWithPiece)
+  }
+
+  private replacePieceFromEvent(event: RundownPieceReplacedEvent): void {
+    const rundownSubject = this.getRundownSubject(event.rundownId)
+    if (!rundownSubject || !rundownSubject.value) {
+      return
+    }
+    const rundownWithPiece: Rundown = this.rundownEntityService.replacePiece(rundownSubject.value, event, event.replacedPieceId, event.newPiece)
     rundownSubject.next(rundownWithPiece)
   }
 
