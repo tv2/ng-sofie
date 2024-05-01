@@ -101,6 +101,7 @@ export class ZodEntityParser implements EntityParser {
     parts: this.partParser.array(),
     rank: zod.number(),
     isHidden: zod.boolean(),
+    referenceTag: zod.string().optional(),
     expectedDurationInMs: zod.number().optional(),
     executedAtEpochTime: zod.number().optional(),
     metadata: zod

@@ -12,6 +12,7 @@ export interface Segment {
   readonly parts: Readonly<Part[]>
   readonly rank: number
   readonly isHidden: boolean
+  readonly referenceTag?: string
   readonly expectedDurationInMs?: number
   readonly executedAtEpochTime?: number
   readonly metadata?: Tv2SegmentMetadata

@@ -7,8 +7,11 @@
     <div class="c-segment__header-toolbar"
       [class.c-segment__header-toolbar--unsynced]="segment.isUnsynced"
     >
-      <span class="segment-identifier">
-        <ng-container *ngIf="segment.isUnsynced">UNSYNCED</ng-container>
+      <span class="segment-reference-tag">
+        <span *ngIf="!segment.isUnsynced else unsynced">{{segment.referenceTag}}</span>
+        <ng-template #unsynced>
+          UNSYNCED
+        </ng-template>
       </span>
       <span class="segment-expected-duration">{{(!segment.isUntimed ? expectedDurationInMs : 0) | timer: 'HH?:mm:ss' }}</span>
       <span class="segment-countdown">
