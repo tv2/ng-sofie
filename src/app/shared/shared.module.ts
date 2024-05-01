@@ -210,7 +210,6 @@ import { ActionSelectorComponent } from './components/action-selector/action-sel
     { provide: ActionTriggerParser, useClass: ZodActionTriggerParser },
     { provide: Tv2ActionParser, useClass: ZodTv2ActionParser },
     { provide: ConfigurationParser, useClass: ZodConfigurationParser },
-    { provide: ActionStateService, useClass: ActionStateService },
     { provide: ConfigurationService, useClass: HttpConfigurationService },
     { provide: MediaService, useClass: HttpMediaService },
     { provide: SystemInformationService, useClass: HttpSystemInformationService },
