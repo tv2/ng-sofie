@@ -1,2 +1,16 @@
 <div #title class="pt-1 ps-2 pe-2">{{ action.name }}</div>
-<img *ngIf="isVideoClipAction() && videoClipThumbnailUrl" [ngSrc]="videoClipThumbnailUrl" [width]="getThumbnailWidth()" [height]="getThumbnailHeight()" [alt]="action.name">
+<img
+    *ngIf="isVideoClipAction() && videoClipThumbnailUrl"
+    [ngSrc]="videoClipThumbnailUrl"
+    [width]="getThumbnailWidth()"
+    [height]="getThumbnailHeight()"
+    [alt]="action.name"
+    sofieTooltip
+    [sofieTooltipTemplate]="videoClipTooltip"
+    (tooltipMetadataChange)="updatePositionInVideo($event)"
+>
+
+<ng-template #videoClipTooltip>
+    <sofie-video-hover-scrub [filename]="getVideoClipFilename()" [positionInVideoInMs]="positionInVideoInMs">
+    </sofie-video-hover-scrub>
+</ng-template>

@@ -89,6 +89,7 @@ import { ErrorMessageComponent } from './components/error-message/error-message.
 import { RequiredMarkComponent } from './components/required-mark/required-mark.component'
 import { DialogConfirmationService } from './services/dialog-confirmation.service'
 import { ActionSelectorComponent } from './components/action-selector/action-selector.component'
+import { VideoHoverScrubComponent } from './components/video-hover-scrub/video-hover-scrub.component'
 
 @NgModule({
   declarations: [
@@ -136,6 +137,7 @@ import { ActionSelectorComponent } from './components/action-selector/action-sel
     ActionSelectorComponent,
     ErrorMessageComponent,
     RequiredMarkComponent,
+    VideoHoverScrubComponent,
   ],
   imports: [
     CommonModule,
@@ -201,6 +203,7 @@ import { ActionSelectorComponent } from './components/action-selector/action-sel
     ActionSelectorComponent,
     ErrorMessageComponent,
     RequiredMarkComponent,
+    VideoHoverScrubComponent,
   ],
   providers: [
     { provide: Logger, useClass: Tv2LoggerService },
