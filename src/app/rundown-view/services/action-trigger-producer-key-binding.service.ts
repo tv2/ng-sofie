@@ -16,7 +16,7 @@ import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-bindin
 import { ActionService } from '../../shared/abstractions/action.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger-data'
 import { RundownMode } from '../../core/enums/rundown-mode'
-import { PlaceholderActionType } from '../../shared/models/action-type'
+import { PlaceholderActionScope, PlaceholderActionType } from '../../shared/models/action-type'
 import { Segment } from '../../core/models/segment'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
@@ -106,18 +106,30 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   }
 
   private findActionForContentPlaceholderAction(placeholderAction: Tv2ContentPlaceholderAction, actionTrigger: ActionTrigger<KeyboardTriggerData>): Tv2Action | undefined {
-    const onAirSegment: Segment | undefined = this.rundown?.segments.find(segment => segment.isOnAir)
-    if (!onAirSegment) {
+    const filterCallback: (action: Tv2Action) => boolean = this.getActionFilterCallbackForPlaceholderAction(placeholderAction)
+
+    const actionsForSegmentToSearch: Tv2Action[] = this.actions.filter(filterCallback).sort((a, b) => a.rank - b.rank)
+    const indexToSelect: number = actionTrigger.data.actionArguments as number // We know this is a number because of Tv2ContentPlaceholderAction.
+    if (indexToSelect > actionsForSegmentToSearch.length) {
       return
     }
-    const actionsForOnAirSegment: Tv2Action[] = this.actions
-      .filter(action => Math.floor(action.rank) === onAirSegment.rank && placeholderAction.metadata.allowedContentTypes.includes(action.metadata.contentType))
-      .sort((a, b) => a.rank - b.rank)
-    const nthToSelect: number = actionTrigger.data.actionArguments as number // We know this is a number because of Tv2ContentPlaceholderAction.
-    if (nthToSelect > actionsForOnAirSegment.length) {
-      return
+    return actionsForSegmentToSearch[indexToSelect - 1] // indexToSelect is one-indexed, so we need to subtract one to get the correct index.
+  }
+
+  private getActionFilterCallbackForPlaceholderAction(placeholderAction: Tv2ContentPlaceholderAction): (action: Tv2Action) => boolean {
+    switch (placeholderAction.metadata.scope) {
+      case PlaceholderActionScope.ON_AIR_SEGMENT: {
+        const onAirSegment: Segment | undefined = this.rundown?.segments.find(segment => segment.isOnAir)
+        if (!onAirSegment) {
+          break
+        }
+        return action => Math.floor(action.rank) === onAirSegment.rank && placeholderAction.metadata.allowedContentTypes.includes(action.metadata.contentType)
+      }
+      default: {
+        this.logger.warn(`PlaceholderScope ${placeholderAction.metadata.scope} is not supported.`)
+      }
     }
-    return actionsForOnAirSegment[nthToSelect - 1] // nthToSelect is one-indexed, so we need to subtract one to get the correct index.
+    return () => false
   }
 
   private updateActionTriggerKeybindings(): void {
