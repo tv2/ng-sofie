@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActionTrigger } from 'src/app/shared/models/action-trigger'
 import { ActionTriggerStateService } from 'src/app/core/services/action-trigger-state.service'
 import { Subject, takeUntil } from 'rxjs'
-import { Tv2PartAction } from 'src/app/shared/models/tv2-action'
+import { Tv2Action, Tv2ActionContentType, Tv2PartAction } from 'src/app/shared/models/tv2-action'
 import { ActionStateService } from 'src/app/shared/services/action-state.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger-data'
 import { SofieTableHeader, SortDirection } from '../../../../shared/components/table/table.component'
@@ -16,6 +16,7 @@ import { FormatKeyboardKeysPipe } from '../../../../shared/pipes/format-keyboard
 import { EditKeyboardMappingDialogComponent } from '../edit-keyboard-mapping-dialog/edit-keyboard-mapping-dialog.component'
 import { DialogColorScheme, DialogSeverity } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component'
 import { EditKeyboardMappingResponse } from '../edit-keyboard-mapping/edit-keyboard-mapping.component'
+import { PartActionType } from '../../../../shared/models/action-type'
 
 export interface KeyboardMapping {
   actionTrigger: ActionTrigger<KeyboardTriggerData>
@@ -87,9 +88,21 @@ export class KeyboardMappingSettingsPageComponent implements OnInit, OnDestroy {
     return actionTriggers.map(actionTrigger => {
       return {
         actionTrigger,
-        action: this.actions.find(action => action.id === actionTrigger.actionId),
+        action: this.actions.find(action => action.id === actionTrigger.actionId) ?? this.createUnknownAction(),
       } as KeyboardMapping
     })
+  }
+
+  private createUnknownAction(): Tv2Action {
+    return {
+      id: 'UNKNOWN',
+      name: 'UNKNOWN',
+      rank: 0,
+      type: PartActionType.INSERT_PART_AS_NEXT,
+      metadata: {
+        contentType: Tv2ActionContentType.UNKNOWN,
+      },
+    }
   }
 
   public deleteKeyboardMapping(actionTrigger: KeyboardMapping): void {
