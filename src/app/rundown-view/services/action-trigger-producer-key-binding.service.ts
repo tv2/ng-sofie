@@ -91,18 +91,20 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     this.actionTriggersWithAction.clear()
 
     this.actionTriggers.forEach(actionTrigger => {
-      let action: Tv2Action | undefined = this.actions.find(action => action.id === actionTrigger.actionId)
-      if (!action) {
-        return
-      }
-      if (action.type === PlaceholderActionType.CONTENT) {
-        action = this.findActionForContentPlaceholderAction(action as Tv2ContentPlaceholderAction, actionTrigger)
-      }
+      const action: Tv2Action | undefined = this.findActionForActionTrigger(actionTrigger)
       if (!action) {
         return
       }
       this.actionTriggersWithAction.set(actionTrigger, action)
     })
+  }
+
+  private findActionForActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>): Tv2Action | undefined {
+    const action: Tv2Action | undefined = this.actions.find(action => action.id === actionTrigger.actionId)
+    if (action?.type === PlaceholderActionType.CONTENT) {
+      return this.findActionForContentPlaceholderAction(action as Tv2ContentPlaceholderAction, actionTrigger)
+    }
+    return action
   }
 
   private findActionForContentPlaceholderAction(placeholderAction: Tv2ContentPlaceholderAction, actionTrigger: ActionTrigger<KeyboardTriggerData>): Tv2Action | undefined {
@@ -126,7 +128,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
         return action => Math.floor(action.rank) === onAirSegment.rank && placeholderAction.metadata.allowedContentTypes.includes(action.metadata.contentType)
       }
       default: {
-        this.logger.warn(`PlaceholderScope ${placeholderAction.metadata.scope} is not supported.`)
+        this.logger.warn(`Placeholder scope ${placeholderAction.metadata.scope} is not supported.`)
       }
     }
     return () => false
