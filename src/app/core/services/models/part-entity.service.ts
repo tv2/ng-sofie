@@ -102,4 +102,11 @@ export class PartEntityService {
       pieces: [...part.pieces, piece],
     }
   }
+
+  public replacePiece(part: Part, replacedPieceId: string, newPiece: Piece): Part {
+    return {
+      ...part,
+      pieces: [...part.pieces.filter(piece => piece.id !== replacedPieceId), newPiece],
+    }
+  }
 }

@@ -25,6 +25,7 @@ import {
   AutoNextStartedEvent,
   SegmentUpdatedEvent,
   RundownRehearseEvent,
+  RundownPieceReplacedEvent,
 } from '../models/rundown-event'
 import { Logger } from '../abstractions/logger.service'
 
@@ -99,6 +100,13 @@ export class RundownEventObserver {
     return this.eventObserver.subscribe(
       RundownEventType.PIECE_INSERTED,
       this.createEventValidatingConsumer(onPieceInserted, this.rundownEventParser.parsePieceInsertedEvent.bind(this.rundownEventParser))
+    )
+  }
+
+  public subscribeToRundownPieceReplaced(onPieceReplaced: (event: RundownPieceReplacedEvent) => void): EventSubscription {
+    return this.eventObserver.subscribe(
+      RundownEventType.PIECE_REPLACED,
+      this.createEventValidatingConsumer(onPieceReplaced, this.rundownEventParser.parsePieceReplacedEvent.bind(this.rundownEventParser))
     )
   }
 
