@@ -1,1 +1,2 @@
-{{ action.name }}
+<div #title class="pt-1 ps-2 pe-2">{{ action.name }}</div>
+<img *ngIf="isVideoClipAction() && videoClipThumbnailUrl" [ngSrc]="videoClipThumbnailUrl" [width]="getThumbnailWidth()" [height]="getThumbnailHeight()" [alt]="action.name">
