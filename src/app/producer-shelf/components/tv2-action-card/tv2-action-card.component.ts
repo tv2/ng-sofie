@@ -16,8 +16,8 @@ export class Tv2ActionCardComponent implements OnInit {
   @Input()
   public action: Tv2Action
 
-  @ViewChild('title')
-  public titleRef: ElementRef
+  @ViewChild('titleContainer')
+  public titleContainerRef: ElementRef
 
   public videoClipThumbnailUrl: string = ''
   private studioConfiguration?: StudioConfiguration
@@ -48,7 +48,7 @@ export class Tv2ActionCardComponent implements OnInit {
   }
 
   public getThumbnailHeight(): number {
-    return this.elementRef.nativeElement.offsetHeight - this.titleRef.nativeElement.offsetHeight
+    return this.elementRef.nativeElement.offsetHeight - this.titleContainerRef.nativeElement.offsetHeight
   }
 
   public getThumbnailWidth(): number {
