@@ -7,7 +7,7 @@ import { Media } from '../../../shared/services/media'
 import { MediaStateService } from '../../../shared/services/media-state.service'
 import { Subject, takeUntil } from 'rxjs'
 
-const ASPECT_RATIO: number = 1.77777777
+const ASPECT_RATIO: number = 16 / 9
 const THUMBNAIL_URL_PART: string = '/media/thumbnail/'
 
 @Component({
@@ -20,8 +20,8 @@ export class Tv2ActionCardComponent implements OnInit, OnDestroy {
   @Input()
   public action: Tv2Action
 
-  @ViewChild('title')
-  public titleRef: ElementRef
+  @ViewChild('titleContainer')
+  public titleContainerRef: ElementRef
 
   public videoClipThumbnailUrl: string = ''
   public positionInVideoInMs: number = 0
@@ -74,7 +74,7 @@ export class Tv2ActionCardComponent implements OnInit, OnDestroy {
   }
 
   public getThumbnailHeight(): number {
-    return this.elementRef.nativeElement.offsetHeight - this.titleRef.nativeElement.offsetHeight
+    return this.elementRef.nativeElement.offsetHeight - this.titleContainerRef.nativeElement.offsetHeight
   }
 
   public getThumbnailWidth(): number {
