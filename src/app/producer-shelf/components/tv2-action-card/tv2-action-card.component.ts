@@ -3,7 +3,7 @@ import { Tv2Action, Tv2ActionContentType, Tv2VideoClipAction } from '../../../sh
 import { ConfigurationService } from '../../../shared/services/configuration.service'
 import { StudioConfiguration } from '../../../shared/models/studio-configuration'
 
-const ASPECT_RATIO: number = 1.77777777
+const ASPECT_RATIO: number = 16 / 9
 const THUMBNAIL_URL_PART: string = '/media/thumbnail/'
 
 @Component({
