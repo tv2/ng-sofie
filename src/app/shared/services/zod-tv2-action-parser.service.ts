@@ -9,6 +9,7 @@ export class ZodTv2ActionParser implements Tv2ActionParser {
       contentType: zod.nativeEnum(Tv2ActionContentType),
     })
     .passthrough()
+
   public parseTv2Action(action: Action): Tv2Action {
     return {
       ...action,

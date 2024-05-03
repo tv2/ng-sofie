@@ -10,12 +10,14 @@ import { RundownStateService } from '../../core/services/rundown-state.service'
 import { Rundown } from '../../core/models/rundown'
 import { Tv2ActionParser } from '../../shared/abstractions/tv2-action-parser.service'
 import { SystemKeyBindingFactory } from '../factories/system-key-binding-factory.service'
-import { Tv2Action, Tv2ActionContentType } from '../../shared/models/tv2-action'
+import { Tv2Action, Tv2ActionContentType, Tv2ContentPlaceholderAction } from '../../shared/models/tv2-action'
 import { Logger } from '../../core/abstractions/logger.service'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
 import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger-data'
 import { RundownMode } from '../../core/enums/rundown-mode'
+import { PlaceholderActionScope, PlaceholderActionType } from '../../shared/models/action-type'
+import { Segment } from '../../core/models/segment'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
@@ -89,12 +91,47 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     this.actionTriggersWithAction.clear()
 
     this.actionTriggers.forEach(actionTrigger => {
-      const actionForTrigger: Tv2Action | undefined = this.actions.find(action => action.id === actionTrigger.actionId)
-      if (!actionForTrigger) {
+      const action: Tv2Action | undefined = this.findActionForActionTrigger(actionTrigger)
+      if (!action) {
         return
       }
-      this.actionTriggersWithAction.set(actionTrigger, actionForTrigger)
+      this.actionTriggersWithAction.set(actionTrigger, action)
     })
+  }
+
+  private findActionForActionTrigger(actionTrigger: ActionTrigger<KeyboardTriggerData>): Tv2Action | undefined {
+    const action: Tv2Action | undefined = this.actions.find(action => action.id === actionTrigger.actionId)
+    if (action?.type === PlaceholderActionType.CONTENT) {
+      return this.findActionForContentPlaceholderAction(action as Tv2ContentPlaceholderAction, actionTrigger)
+    }
+    return action
+  }
+
+  private findActionForContentPlaceholderAction(placeholderAction: Tv2ContentPlaceholderAction, actionTrigger: ActionTrigger<KeyboardTriggerData>): Tv2Action | undefined {
+    const filterCallback: (action: Tv2Action) => boolean = this.getActionFilterCallbackForPlaceholderAction(placeholderAction)
+
+    const actionsForSegmentToSearch: Tv2Action[] = this.actions.filter(filterCallback).sort((a, b) => a.rank - b.rank)
+    const indexToSelect: number = actionTrigger.data.actionArguments as number // We know this is a number because of Tv2ContentPlaceholderAction.
+    if (indexToSelect > actionsForSegmentToSearch.length) {
+      return
+    }
+    return actionsForSegmentToSearch[indexToSelect - 1] // indexToSelect is one-indexed, so we need to subtract one to get the correct index.
+  }
+
+  private getActionFilterCallbackForPlaceholderAction(placeholderAction: Tv2ContentPlaceholderAction): (action: Tv2Action) => boolean {
+    switch (placeholderAction.metadata.scope) {
+      case PlaceholderActionScope.ON_AIR_SEGMENT: {
+        const onAirSegment: Segment | undefined = this.rundown?.segments.find(segment => segment.isOnAir)
+        if (!onAirSegment) {
+          break
+        }
+        return action => Math.floor(action.rank) === onAirSegment.rank && placeholderAction.metadata.allowedContentTypes.includes(action.metadata.contentType)
+      }
+      default: {
+        this.logger.warn(`Placeholder scope ${placeholderAction.metadata.scope} is not supported.`)
+      }
+    }
+    return () => false
   }
 
   private updateActionTriggerKeybindings(): void {
@@ -178,6 +215,8 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
       return
     }
     this.rundown = rundown
+    this.mapActionTriggersToActions()
+    this.updateActionTriggerKeybindings()
     this.updateSystemKeyBindings()
     this.emitKeybindings()
   }

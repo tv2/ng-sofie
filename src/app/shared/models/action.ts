@@ -1,4 +1,4 @@
-import { ActionType, PartActionType, PieceActionType } from './action-type'
+import { ActionType, PartActionType, PieceActionType, PlaceholderActionType } from './action-type'
 
 export interface Action {
   id: string
@@ -28,4 +28,8 @@ export interface PieceAction extends Action {
 
 export interface PartAction extends Action {
   type: PartActionType
+}
+
+export interface PlaceholderAction extends Action {
+  type: PlaceholderActionType
 }
