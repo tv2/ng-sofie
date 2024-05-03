@@ -1,7 +1,6 @@
 :host {
   display: inline-block;
   background-color: var(--dark-gray-color);
-  padding: 14px;
 
   width: 130px;
   height: 100px;
@@ -18,6 +17,12 @@
   cursor: pointer;
   transition: opacity 0.1s;
   overflow: hidden;
+
+  .title {
+    position: relative;
+    height: 25px;
+    z-index: 1;
+  }
 
   &.camera {
     background-color: var(--tv2-camera-color);
