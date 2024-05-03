@@ -89,11 +89,7 @@ export class Tv2ActionCardComponent implements OnInit, OnDestroy {
   }
 
   @HostBinding('class.missing-source')
-  public get showMissingMediaSource(): boolean {
-    return this.shouldShowMediaUnavailable()
-  }
-
-  private shouldShowMediaUnavailable(): boolean {
+  public get isMediaMissing(): boolean {
     return this.isVideoClipAction() && !this.media
   }
 
