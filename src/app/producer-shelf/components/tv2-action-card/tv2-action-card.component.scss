@@ -1,7 +1,6 @@
 :host {
   display: inline-block;
   background-color: var(--dark-gray-color);
-  padding: 14px;
 
   width: 130px;
   height: 100px;
@@ -19,6 +18,13 @@
   transition: opacity 0.1s;
   overflow: hidden;
 
+  .title {
+    position: relative;
+    height: 25px;
+    z-index: 1;
+    pointer-events: none;
+  }
+
   &.camera {
     background-color: var(--tv2-camera-color);
   }
@@ -27,13 +33,7 @@
     background-color: var(--tv2-video-clip-color);
 
     &.missing-source {
-      background: repeating-linear-gradient(
-        45deg,
-        var(--tv2-video-missing-source-gradient-color),
-        var(--tv2-video-missing-source-gradient-color) 5px,
-        var(--tv2-video-clip-color) 5px,
-        var(--tv2-video-clip-color) 15px
-      );
+      background: var(--transparent-and-red-stripes), var(--tv2-video-clip-color);
     }
   }
 

@@ -15,7 +15,7 @@ import { Observable } from 'rxjs'
 import { Media } from '../../../shared/services/media'
 import { Tv2SegmentMetadata } from '../../../core/models/tv2-segment-metadata'
 import { TooltipComponent } from '../../../shared/components/tooltip/tooltip.component'
-import { VideoHoverScrubComponent } from '../rundown-tooltips/video-hover-scrub/video-hover-scrub.component'
+import { VideoHoverScrubComponent } from '../../../shared/components/video-hover-scrub/video-hover-scrub.component'
 
 describe('MiniShelfComponent', () => {
   it('should have segment name capitalized as title text', async () => {
@@ -25,12 +25,12 @@ describe('MiniShelfComponent', () => {
 
     const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
     const component: MiniShelfComponent = fixture.componentInstance
-    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
+
     const segmentName: string = 'segment-with-video-clip'
 
-    component.segment = testEntityFactory.createSegment({ name: segmentName })
+    component.segment = TestEntityFactory.createSegment({ name: segmentName })
 
-    component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
+    component.videoClipAction = TestEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
 
@@ -49,11 +49,10 @@ describe('MiniShelfComponent', () => {
 
     const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
     const component: MiniShelfComponent = fixture.componentInstance
-    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
-    component.segment = testEntityFactory.createSegment({ name: 'media', metadata: createTv2SegmentMetadata() })
+    component.segment = TestEntityFactory.createSegment({ name: 'media', metadata: createTv2SegmentMetadata() })
 
-    component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
+    component.videoClipAction = TestEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
 
@@ -70,11 +69,10 @@ describe('MiniShelfComponent', () => {
 
     const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
     const component: MiniShelfComponent = fixture.componentInstance
-    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
-    component.segment = testEntityFactory.createSegment({ name: 'media', metadata: createTv2SegmentMetadata() })
+    component.segment = TestEntityFactory.createSegment({ name: 'media', metadata: createTv2SegmentMetadata() })
 
-    component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
+    component.videoClipAction = TestEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
 
@@ -91,11 +89,10 @@ describe('MiniShelfComponent', () => {
 
     const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
     const component: MiniShelfComponent = fixture.componentInstance
-    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
-    component.segment = testEntityFactory.createSegment({ name: 'media', metadata: createTv2SegmentMetadata() })
+    component.segment = TestEntityFactory.createSegment({ name: 'media', metadata: createTv2SegmentMetadata() })
 
-    component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
+    component.videoClipAction = TestEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
 
@@ -112,11 +109,10 @@ describe('MiniShelfComponent', () => {
 
     const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
     const component: MiniShelfComponent = fixture.componentInstance
-    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
-    component.segment = testEntityFactory.createSegment({ metadata: { miniShelfVideoClipFile: 'video' } })
+    component.segment = TestEntityFactory.createSegment({ metadata: { miniShelfVideoClipFile: 'video' } })
 
-    component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
+    component.videoClipAction = TestEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
 
@@ -135,11 +131,10 @@ describe('MiniShelfComponent', () => {
 
     const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
     const component: MiniShelfComponent = fixture.componentInstance
-    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
-    component.segment = testEntityFactory.createSegment({ name: 'media', metadata: createTv2SegmentMetadata() })
+    component.segment = TestEntityFactory.createSegment({ name: 'media', metadata: createTv2SegmentMetadata() })
 
-    component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
+    component.videoClipAction = TestEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
 
@@ -172,11 +167,10 @@ describe('MiniShelfComponent', () => {
 
     const fixture: ComponentFixture<MiniShelfComponent> = TestBed.createComponent(MiniShelfComponent)
     const component: MiniShelfComponent = fixture.componentInstance
-    const testEntityFactory: TestEntityFactory = new TestEntityFactory()
 
-    component.segment = testEntityFactory.createSegment({ name: 'media-not-available', metadata: createTv2SegmentMetadata() })
+    component.segment = TestEntityFactory.createSegment({ name: 'media-not-available', metadata: createTv2SegmentMetadata() })
 
-    component.videoClipAction = testEntityFactory.createTv2VideoClipAction()
+    component.videoClipAction = TestEntityFactory.createTv2VideoClipAction()
 
     fixture.detectChanges()
 
@@ -205,7 +199,7 @@ function createConfigurationService(): ConfigurationService {
   when(mockedConfigurationService.getStudioConfiguration()).thenCall(
     () =>
       new Observable<StudioConfiguration>(observer => {
-        const studioConfiguration: StudioConfiguration = new TestEntityFactory().createStudioConfiguration()
+        const studioConfiguration: StudioConfiguration = TestEntityFactory.createStudioConfiguration()
         observer.next(studioConfiguration)
         observer.complete()
       })
@@ -219,7 +213,7 @@ function createMediaStateService(media: Partial<Media> = {}): MediaStateService 
   when(mockedMediaStateService.subscribeToMedia(anyString())).thenCall(
     () =>
       new Observable<Media | undefined>(observer => {
-        observer.next(new TestEntityFactory().createMedia(media))
+        observer.next(TestEntityFactory.createMedia(media))
         observer.complete()
       })
   )

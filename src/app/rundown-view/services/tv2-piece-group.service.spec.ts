@@ -18,10 +18,8 @@ describe(Tv2PieceGroupService.name, () => {
     })
 
     it('does not alter piece given a single piece', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-
       const pieces: Tv2Piece[] = [
-        testEntityFactory.createPiece({
+        TestEntityFactory.createPiece({
           name: 'pieceName',
           start: 123,
         }) as Tv2Piece,
@@ -31,7 +29,7 @@ describe(Tv2PieceGroupService.name, () => {
       const result: Tv2Piece[] = testee.mergePiecesByStartOffset(pieces)
 
       const expected: Tv2Piece[] = [
-        testEntityFactory.createPiece({
+        TestEntityFactory.createPiece({
           name: 'pieceName',
           start: 123,
         }) as Tv2Piece,
@@ -41,14 +39,12 @@ describe(Tv2PieceGroupService.name, () => {
     })
 
     it('returns single merged piece from two pieces with same start', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-
       const pieces: Tv2Piece[] = [
-        testEntityFactory.createPiece({
+        TestEntityFactory.createPiece({
           name: 'pieceOneName',
           start: 123,
         }) as Tv2Piece,
-        testEntityFactory.createPiece({
+        TestEntityFactory.createPiece({
           name: 'pieceTwoName',
           start: 123,
         }) as Tv2Piece,
@@ -58,7 +54,7 @@ describe(Tv2PieceGroupService.name, () => {
       const result: Tv2Piece[] = testee.mergePiecesByStartOffset(pieces)
 
       const expected: Tv2Piece[] = [
-        testEntityFactory.createPiece({
+        TestEntityFactory.createPiece({
           name: 'pieceOneName, pieceTwoName',
           start: 123,
         }) as Tv2Piece,
@@ -68,14 +64,12 @@ describe(Tv2PieceGroupService.name, () => {
     })
 
     it('does not merge pieces when there is no piece start match', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-
       const pieces: Tv2Piece[] = [
-        testEntityFactory.createPiece({
+        TestEntityFactory.createPiece({
           name: 'pieceOneName',
           start: 123,
         }) as Tv2Piece,
-        testEntityFactory.createPiece({
+        TestEntityFactory.createPiece({
           name: 'pieceTwoName',
           start: 234,
         }) as Tv2Piece,
@@ -85,11 +79,11 @@ describe(Tv2PieceGroupService.name, () => {
       const result: Tv2Piece[] = testee.mergePiecesByStartOffset(pieces)
 
       const expected: Tv2Piece[] = [
-        testEntityFactory.createPiece({
+        TestEntityFactory.createPiece({
           name: 'pieceOneName',
           start: 123,
         }) as Tv2Piece,
-        testEntityFactory.createPiece({
+        TestEntityFactory.createPiece({
           name: 'pieceTwoName',
           start: 234,
         }) as Tv2Piece,
@@ -144,6 +138,5 @@ function createTestee(): Tv2PieceGroupService {
 }
 
 function createTv2Piece(outputLayer: Tv2OutputLayer, pieceType: Tv2PieceType = Tv2PieceType.UNKNOWN): Tv2Piece {
-  const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-  return testEntityFactory.createPiece({ metadata: { type: pieceType, outputLayer } }) as Tv2Piece
+  return TestEntityFactory.createPiece({ metadata: { type: pieceType, outputLayer } }) as Tv2Piece
 }

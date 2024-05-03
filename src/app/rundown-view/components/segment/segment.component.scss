@@ -33,12 +33,7 @@
     background: var(--black-color);
     padding: 6px;
 
-    &--unsynced {
-      background: var(--rundown-unsynced-segment-color);
-      color: var(--black-color);
-    }
-
-    .segment-identifier {
+    .segment-reference-tag {
       flex: 1;
     }
 
@@ -57,6 +52,18 @@
       &:hover {
         opacity: 1;
       }
+    }
+  }
+
+  .unsynced {
+    padding: 4px 10px;
+    background: var(--rundown-unsynced-segment-color);
+    color: var(--black-color);
+    font-size: 1rem;
+    font-weight: 500;
+
+    sofie-icon-button {
+      color: var(--black-color);
     }
   }
 

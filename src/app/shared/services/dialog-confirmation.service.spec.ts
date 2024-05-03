@@ -17,8 +17,6 @@ describe(DialogConfirmationService.name, () => {
 
   describe(DialogConfirmationService.prototype.openRehearsalRundownDialog.name, () => {
     it('should show dialog when all rundowns are idle when going for rehearsal', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-
       const mockedRundownService: RundownService = mock<RundownService>()
 
       const mockedSubscription: Observable<void> = mock<Observable<void>>()
@@ -26,8 +24,8 @@ describe(DialogConfirmationService.name, () => {
 
       const mockedDialogService: DialogService = createDialogServiceMock()
 
-      const inactiveRundownOne = testEntityFactory.createRundown({ id: 'one', mode: RundownMode.INACTIVE })
-      const inactiveRundownTwo = testEntityFactory.createRundown({ id: 'two', mode: RundownMode.INACTIVE })
+      const inactiveRundownOne = TestEntityFactory.createRundown({ id: 'one', mode: RundownMode.INACTIVE })
+      const inactiveRundownTwo = TestEntityFactory.createRundown({ id: 'two', mode: RundownMode.INACTIVE })
 
       const mockedBasicRundownStateService: BasicRundownStateService = mock<BasicRundownStateService>()
       when(mockedBasicRundownStateService.getBasicRundowns()).thenReturn([inactiveRundownOne, inactiveRundownTwo])
@@ -43,8 +41,6 @@ describe(DialogConfirmationService.name, () => {
     })
 
     it('should show dialog when another rundown is already in active mode when going for rehearsal', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-
       const mockedRundownService: RundownService = mock<RundownService>()
 
       const emptyRehearseObservable: Observable<void> = EMPTY
@@ -55,8 +51,8 @@ describe(DialogConfirmationService.name, () => {
 
       const mockedDialogService: DialogService = createDialogServiceMock()
 
-      const activeRundown = testEntityFactory.createRundown({ id: 'another', mode: RundownMode.ACTIVE })
-      const inactiveRundown = testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE })
+      const activeRundown = TestEntityFactory.createRundown({ id: 'another', mode: RundownMode.ACTIVE })
+      const inactiveRundown = TestEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE })
 
       const mockedBasicRundownStateService: BasicRundownStateService = mock<BasicRundownStateService>()
       when(mockedBasicRundownStateService.getBasicRundowns()).thenReturn([activeRundown, inactiveRundown])
@@ -73,16 +69,14 @@ describe(DialogConfirmationService.name, () => {
     })
 
     it('should show dialog when another rundown is already in rehearsal mode when going for rehearsal', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-
       const mockedRundownService: RundownService = mock<RundownService>()
 
-      const inactiveRundown = testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE })
+      const inactiveRundown = TestEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE })
 
       const emptyRehearseObservable: Observable<void> = EMPTY
       when(mockedRundownService.rehearse(inactiveRundown.id)).thenReturn(instance(emptyRehearseObservable))
 
-      const rehearsalRundown = testEntityFactory.createRundown({ id: 'another', mode: RundownMode.REHEARSAL })
+      const rehearsalRundown = TestEntityFactory.createRundown({ id: 'another', mode: RundownMode.REHEARSAL })
 
       const emptyDeactivateObservable: Observable<void> = EMPTY
       when(mockedRundownService.deactivate(rehearsalRundown.id)).thenReturn(instance(emptyDeactivateObservable))
@@ -103,8 +97,7 @@ describe(DialogConfirmationService.name, () => {
     })
 
     it('should not show dialog when same rundown is already in rehearsal mode when going for rehearsal', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const rehearsalRundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.REHEARSAL })
+      const rehearsalRundown: Rundown = TestEntityFactory.createRundown({ mode: RundownMode.REHEARSAL })
 
       const mockedRundownService: RundownService = mock<RundownService>()
 
@@ -126,8 +119,7 @@ describe(DialogConfirmationService.name, () => {
 
   describe(DialogConfirmationService.prototype.openActivateRundownDialog.name, () => {
     it('should show dialog when all rundowns are idle when going for on-air', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const inactiveRundown: Rundown = testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE })
+      const inactiveRundown: Rundown = TestEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE })
 
       const mockedRundownService: RundownService = mock<RundownService>()
 
@@ -150,10 +142,8 @@ describe(DialogConfirmationService.name, () => {
     })
 
     it('should show dialog when another rundown is already in active mode when going for on-air', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-
-      const inactieRundown: Rundown = testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE })
-      const activeRundown: Rundown = testEntityFactory.createRundown({ id: 'another', mode: RundownMode.ACTIVE })
+      const inactieRundown: Rundown = TestEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE })
+      const activeRundown: Rundown = TestEntityFactory.createRundown({ id: 'another', mode: RundownMode.ACTIVE })
 
       const mockedRundownService: RundownService = mock<RundownService>()
 
@@ -179,8 +169,7 @@ describe(DialogConfirmationService.name, () => {
     })
 
     it('should not show dialog when same rundown is already in active mode when going for on-air', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const actieRundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.ACTIVE })
+      const actieRundown: Rundown = TestEntityFactory.createRundown({ mode: RundownMode.ACTIVE })
 
       const mockedRundownService: RundownService = mock<RundownService>()
 
@@ -200,10 +189,8 @@ describe(DialogConfirmationService.name, () => {
     })
 
     it('should show dialog when another rundown is already in rehearsal mode when going for on-air', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-
-      const inactieRundown: Rundown = testEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE })
-      const rehearsalRundown: Rundown = testEntityFactory.createRundown({ id: 'another', mode: RundownMode.REHEARSAL })
+      const inactieRundown: Rundown = TestEntityFactory.createRundown({ id: 'this', mode: RundownMode.INACTIVE })
+      const rehearsalRundown: Rundown = TestEntityFactory.createRundown({ id: 'another', mode: RundownMode.REHEARSAL })
 
       const mockedRundownService: RundownService = mock<RundownService>()
 
@@ -229,8 +216,7 @@ describe(DialogConfirmationService.name, () => {
     })
 
     it('should show dialog when same rundown is already in rehearsal mode when going for on-air', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const rehearsalRundown: Rundown = testEntityFactory.createRundown({ mode: RundownMode.REHEARSAL })
+      const rehearsalRundown: Rundown = TestEntityFactory.createRundown({ mode: RundownMode.REHEARSAL })
 
       const mockedRundownService: RundownService = mock<RundownService>()
 

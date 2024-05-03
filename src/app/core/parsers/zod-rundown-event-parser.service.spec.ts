@@ -306,8 +306,7 @@ describe(ZodRundownEventParser.name, () => {
 
   describe(ZodRundownEventParser.prototype.parsePieceInsertedEvent.name, () => {
     it('parses a rundown piece is inserted event', () => {
-      const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-      const piece: Piece = testEntityFactory.createPiece()
+      const piece: Piece = TestEntityFactory.createPiece()
       const mockedEntityParser = createMockOfEntityParser()
       when(mockedEntityParser.parsePart(anything())).thenCall(part => part)
       const testee = new ZodRundownEventParser(instance(mockedEntityParser))

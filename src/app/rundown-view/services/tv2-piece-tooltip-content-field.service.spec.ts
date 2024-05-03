@@ -53,6 +53,5 @@ function createTestee(): Tv2PieceTooltipContentFieldService {
 }
 
 function createTv2Piece(pieceType: Tv2PieceType, outputLayer: Tv2OutputLayer = Tv2OutputLayer.PROGRAM): Tv2Piece {
-  const testEntityFactory: TestEntityFactory = new TestEntityFactory()
-  return testEntityFactory.createPiece({ metadata: { type: pieceType, outputLayer } }) as Tv2Piece
+  return TestEntityFactory.createPiece({ metadata: { type: pieceType, outputLayer } }) as Tv2Piece
 }

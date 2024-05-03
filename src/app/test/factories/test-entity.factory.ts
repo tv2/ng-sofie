@@ -17,7 +17,7 @@ import { Tv2SegmentMetadata } from '../../core/models/tv2-segment-metadata'
 import { RundownMode } from '../../core/enums/rundown-mode'
 
 export class TestEntityFactory {
-  public createRundown(rundown: Partial<Rundown> = {}): Rundown {
+  public static createRundown(rundown: Partial<Rundown> = {}): Rundown {
     return {
       id: 'rundown-id',
       name: 'Rundown',
@@ -32,7 +32,7 @@ export class TestEntityFactory {
     }
   }
 
-  public createSegment(segment: Partial<Segment> = {}): Segment {
+  public static createSegment(segment: Partial<Segment> = {}): Segment {
     return {
       id: 'segment-id',
       rundownId: 'rundown-id',
@@ -48,7 +48,7 @@ export class TestEntityFactory {
     }
   }
 
-  public createPart(part: Partial<Part> = {}): Part {
+  public static createPart(part: Partial<Part> = {}): Part {
     return {
       id: 'part-id',
       segmentId: 'segment-id',
@@ -65,7 +65,7 @@ export class TestEntityFactory {
     }
   }
 
-  public createPiece(piece: Partial<Piece> = {}): Piece {
+  public static createPiece(piece: Partial<Piece> = {}): Piece {
     return {
       id: 'piece-id',
       partId: 'partId',
@@ -78,7 +78,7 @@ export class TestEntityFactory {
     }
   }
 
-  public createActionTrigger(actionTrigger: Partial<ActionTrigger<KeyboardTriggerData>> = {}): ActionTrigger<KeyboardTriggerData> {
+  public static createActionTrigger(actionTrigger: Partial<ActionTrigger<KeyboardTriggerData>> = {}): ActionTrigger<KeyboardTriggerData> {
     return {
       id: 'action-trigger-id',
       actionId: 'action-trigger-action-id',
@@ -92,7 +92,7 @@ export class TestEntityFactory {
     }
   }
 
-  public createAction(actionTrigger: Partial<Tv2PartAction> = {}): Tv2PartAction {
+  public static createAction(actionTrigger: Partial<Tv2PartAction> = {}): Tv2PartAction {
     return {
       id: 'action-id',
       name: 'action-name',
@@ -106,7 +106,7 @@ export class TestEntityFactory {
     }
   }
 
-  public createMiniShelfSegment(params?: { id?: string; name?: string; miniShelfVideoClipFile?: string }): Segment {
+  public static createMiniShelfSegment(params?: { id?: string; name?: string; miniShelfVideoClipFile?: string }): Segment {
     const segmentMetadata: Tv2SegmentMetadata = {
       miniShelfVideoClipFile: params?.miniShelfVideoClipFile ?? 'someFileName',
     }
@@ -118,7 +118,7 @@ export class TestEntityFactory {
     })
   }
 
-  public createTv2VideoClipAction(name?: string, fileName?: string): Tv2VideoClipAction {
+  public static createTv2VideoClipAction(name?: string, fileName?: string): Tv2VideoClipAction {
     return {
       id: `actionId_${fileName ?? 'someFileName'}`,
       name: name ?? 'actionName',
@@ -129,28 +129,28 @@ export class TestEntityFactory {
     } as Tv2VideoClipAction
   }
 
-  public createRundownResetEvent(rundownResetEvent: Partial<RundownResetEvent> = {}): RundownResetEvent {
+  public static createRundownResetEvent(rundownResetEvent: Partial<RundownResetEvent> = {}): RundownResetEvent {
     return {
       type: RundownEventType.RESET,
       ...rundownResetEvent,
     } as RundownResetEvent
   }
 
-  public createAutoNextStartedEvent(autoNextStartedEvent: Partial<AutoNextStartedEvent> = {}): AutoNextStartedEvent {
+  public static createAutoNextStartedEvent(autoNextStartedEvent: Partial<AutoNextStartedEvent> = {}): AutoNextStartedEvent {
     return {
       type: RundownEventType.AUTO_NEXT_STARTED,
       ...autoNextStartedEvent,
     } as AutoNextStartedEvent
   }
 
-  public createPartSetAsNextEvent(partSetAsNextEvent: Partial<PartSetAsNextEvent> = {}): PartSetAsNextEvent {
+  public static createPartSetAsNextEvent(partSetAsNextEvent: Partial<PartSetAsNextEvent> = {}): PartSetAsNextEvent {
     return {
       type: RundownEventType.SET_NEXT,
       ...partSetAsNextEvent,
     } as PartSetAsNextEvent
   }
 
-  public createStudioConfiguration(studioConfiguration: Partial<StudioConfiguration> = {}): StudioConfiguration {
+  public static createStudioConfiguration(studioConfiguration: Partial<StudioConfiguration> = {}): StudioConfiguration {
     return {
       settings: {
         mediaPreviewUrl: 'http://media.preview.url',
@@ -162,7 +162,7 @@ export class TestEntityFactory {
     }
   }
 
-  public createMedia(media: Partial<Media> = {}): Media {
+  public static createMedia(media: Partial<Media> = {}): Media {
     return {
       id: 'media-id',
       sourceName: 'media',
