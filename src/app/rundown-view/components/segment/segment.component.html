@@ -4,11 +4,9 @@
   [class.c-segment--has-remote-piece]="hasRemotePiece"
 >
   <div [cdkContextMenuTriggerFor]="contextMenu" class="c-segment__header">
-    <div class="c-segment__header-toolbar"
-      [class.c-segment__header-toolbar--unsynced]="segment.isUnsynced"
-    >
-      <span class="segment-identifier">
-        <ng-container *ngIf="segment.isUnsynced">UNSYNCED</ng-container>
+    <div class="c-segment__header-toolbar">
+      <span class="segment-reference-tag">
+        {{segment.referenceTag}}
       </span>
       <span class="segment-expected-duration">{{(!segment.isUntimed ? expectedDurationInMs : 0) | timer: 'HH?:mm:ss' }}</span>
       <span class="segment-countdown">
@@ -18,6 +16,10 @@
           [currentEpochTime]="currentEpochTime"
         ></sofie-countdown-label>
       </span>
+    </div>
+    <div *ngIf="segment.isUnsynced" class="unsynced">
+      <sofie-icon-button [icon]="Icon.TRIANGLE_EXCLAMATION" [iconSize]="IconSize.M"></sofie-icon-button>
+      <span class="ms-1">UNSYNCED</span>
     </div>
     <div class="c-segment__title">
       {{ segment.name }}

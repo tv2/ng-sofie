@@ -20,8 +20,8 @@ export class Tv2ActionCardComponent implements OnInit, OnDestroy {
   @Input()
   public action: Tv2Action
 
-  @ViewChild('titleContainer')
-  public titleContainerRef: ElementRef
+  @ViewChild('title')
+  public titleRef: ElementRef
 
   public videoClipThumbnailUrl: string = ''
   public positionInVideoInMs: number = 0
@@ -76,7 +76,7 @@ export class Tv2ActionCardComponent implements OnInit, OnDestroy {
   }
 
   public getThumbnailHeight(): number {
-    return this.elementRef.nativeElement.offsetHeight - this.titleContainerRef.nativeElement.offsetHeight
+    return this.elementRef.nativeElement.offsetHeight - this.titleRef.nativeElement.offsetHeight
   }
 
   public getThumbnailWidth(): number {
