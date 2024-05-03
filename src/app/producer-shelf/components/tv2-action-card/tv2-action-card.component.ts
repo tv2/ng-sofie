@@ -70,7 +70,9 @@ export class Tv2ActionCardComponent implements OnInit, OnDestroy {
     this.mediateStateService
       .subscribeToMedia(videoClipAction.metadata.fileName)
       .pipe(takeUntil(this.unsubscribeSubject))
-      .subscribe(media => (this.media = media))
+      .subscribe(media => {
+        this.media = media
+      })
   }
 
   public getThumbnailHeight(): number {
@@ -84,6 +86,11 @@ export class Tv2ActionCardComponent implements OnInit, OnDestroy {
   @HostBinding('class')
   public get getPieceTypeModifierClass(): string {
     return this.getActionContentType()
+  }
+
+  @HostBinding('class.missing-source')
+  public get isMediaMissing(): boolean {
+    return this.isVideoClipAction() && !this.media
   }
 
   private getActionContentType(): string {
