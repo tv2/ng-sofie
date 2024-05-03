@@ -15,7 +15,7 @@ import { Observable } from 'rxjs'
 import { Media } from '../../../shared/services/media'
 import { Tv2SegmentMetadata } from '../../../core/models/tv2-segment-metadata'
 import { TooltipComponent } from '../../../shared/components/tooltip/tooltip.component'
-import { VideoHoverScrubComponent } from '../rundown-tooltips/video-hover-scrub/video-hover-scrub.component'
+import { VideoHoverScrubComponent } from '../../../shared/components/video-hover-scrub/video-hover-scrub.component'
 
 describe('MiniShelfComponent', () => {
   it('should have segment name capitalized as title text', async () => {

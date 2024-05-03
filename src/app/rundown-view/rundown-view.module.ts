@@ -32,7 +32,6 @@ import { OnAirDetailsPanelComponent } from './components/on-air-details-panel/on
 import { CountdownLabelComponent } from './components/countdown-label/countdown-label.component'
 import { ActionTriggerProducerKeyBindingService } from './services/action-trigger-producer-key-binding.service'
 import { MiniShelfComponent } from './components/mini-shelf/mini-shelf.component'
-import { VideoHoverScrubComponent } from './components/rundown-tooltips/video-hover-scrub/video-hover-scrub.component'
 import { PieceTooltipComponent } from './components/rundown-tooltips/piece-tooltip/piece-tooltip.component'
 import { MiniShelfCycleService } from './services/mini-shelf-cycle.service'
 import { MiniShelfNavigationService } from './services/mini-shelf-navigation.service'
@@ -60,7 +59,6 @@ import { Tv2PieceTooltipContentFieldService } from './services/tv2-piece-tooltip
     RundownViewComponent,
     CountdownLabelComponent,
     MiniShelfComponent,
-    VideoHoverScrubComponent,
     PieceTooltipComponent,
   ],
   exports: [SegmentComponent],
@@ -74,6 +72,6 @@ import { Tv2PieceTooltipContentFieldService } from './services/tv2-piece-tooltip
     MiniShelfNavigationService,
     SystemKeyBindingFactory,
   ],
-  imports: [SharedModule, RundownViewRoutesModule, ProducerShelfModule, MatCardModule, MatButtonModule, CdkMenuModule],
+  imports: [SharedModule, RundownViewRoutesModule, MatCardModule, MatButtonModule, CdkMenuModule, ProducerShelfModule],
 })
 export class RundownViewModule {}
