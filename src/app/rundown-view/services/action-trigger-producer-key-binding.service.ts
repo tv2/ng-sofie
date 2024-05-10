@@ -21,7 +21,7 @@ import { Segment } from '../../core/models/segment'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
-const SPLIT_SCREEN_COLOR: string = 'var(--tv2-split-screen-upper)'
+const SPLIT_SCREEN_COLOR: string = 'var(--split-screen-gradient)'
 const REPLAY_COLOR: string = 'var(--tv2-replay-color)'
 const VIDEO_CLIP_COLOR: string = 'var(--tv2-video-clip-color)'
 const GRAPHICS_COLOR: string = 'var(--tv2-graphics-color)'
