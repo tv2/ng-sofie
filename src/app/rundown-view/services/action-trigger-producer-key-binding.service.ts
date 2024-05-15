@@ -145,6 +145,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   private createBinding(action: Tv2Action, actionTrigger: ActionTrigger<KeyboardTriggerData>, rundownId: string): StyledKeyBinding {
     return {
       keys: actionTrigger.data.keys,
+      mappedKeys: actionTrigger.data.mappedToKeys,
       label: this.getActionTriggerLabel(actionTrigger, action),
       onMatched: () => this.actionService.executeAction(action.id, rundownId, actionTrigger.data.actionArguments).subscribe(),
       shouldMatchOnKeyRelease: true,
