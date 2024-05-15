@@ -10,7 +10,7 @@ import { RundownStateService } from '../../core/services/rundown-state.service'
 import { Rundown } from '../../core/models/rundown'
 import { Tv2ActionParser } from '../../shared/abstractions/tv2-action-parser.service'
 import { SystemKeyBindingFactory } from '../factories/system-key-binding-factory.service'
-import { Tv2Action, Tv2ActionContentType, Tv2ContentPlaceholderAction } from '../../shared/models/tv2-action'
+import { Tv2Action, Tv2ActionContentType, Tv2ContentPlaceholderAction, Tv2InsertIntoSplitScreenAction } from '../../shared/models/tv2-action'
 import { Logger } from '../../core/abstractions/logger.service'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
@@ -164,7 +164,15 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   }
 
   private getKeyBindingBackgroundColour(action: Tv2Action): string {
-    switch (action.metadata.contentType) {
+    if (action.metadata.contentType === Tv2ActionContentType.SPLIT_SCREEN) {
+      return this.getBackgroundColorForSplitScreen(action)
+    }
+
+    return this.getActionContentTypeBackgroundColor(action.metadata.contentType)
+  }
+
+  private getActionContentTypeBackgroundColor(contentType: Tv2ActionContentType): string {
+    switch (contentType) {
       case Tv2ActionContentType.CAMERA: {
         return CAMERA_COLOR
       }
@@ -190,6 +198,18 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
         return ''
       }
     }
+  }
+
+  private getBackgroundColorForSplitScreen(action: Tv2Action): string {
+    if (!this.isActionInsertIntoSplitScreenAction(action)) {
+      return SPLIT_SCREEN_COLOR
+    }
+    const topColor: string = this.getActionContentTypeBackgroundColor(action.metadata.insertedContentType)
+    return `linear-gradient(to bottom, ${topColor} 50%, var(--tv2-split-screen-lower) 50%)`
+  }
+
+  private isActionInsertIntoSplitScreenAction(action: Tv2Action): action is Tv2InsertIntoSplitScreenAction {
+    return action.metadata.contentType === Tv2ActionContentType.SPLIT_SCREEN && 'insertedContentType' in action.metadata
   }
 
   private onActionsChanged(actions: Action[]): void {

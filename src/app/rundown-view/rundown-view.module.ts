@@ -22,7 +22,6 @@ import { ProducerShelfModule } from '../producer-shelf/producer-shelf.module'
 import { RundownHeaderPanelComponent } from './components/rundown-header-panel/rundown-header-panel.component'
 import { RundownViewComponent } from './components/rundown-view/rundown-view.component'
 import { KeyBindingService } from './abstractions/key-binding.service'
-import { Tv2ActionGroupService } from './services/tv2-action-group.service'
 import { SegmentContextMenuComponent } from './components/segment-context-menu/segment-context-menu.component'
 import { PartContextMenuComponent } from './components/part-context-menu/part-context-menu.component'
 import { KeyboardConfigurationService } from './abstractions/keyboard-configuration.service'
@@ -65,7 +64,6 @@ import { Tv2PieceTooltipContentFieldService } from './services/tv2-piece-tooltip
   providers: [
     Tv2PieceGroupService,
     { provide: KeyBindingService, useClass: ActionTriggerProducerKeyBindingService },
-    Tv2ActionGroupService,
     Tv2PieceTooltipContentFieldService,
     { provide: KeyboardConfigurationService, useClass: ProducerKeyboardConfigurationService },
     MiniShelfCycleService,
