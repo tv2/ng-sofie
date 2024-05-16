@@ -1,0 +1,55 @@
+:host {
+  &.ng-invalid {
+    &.ng-touched {
+      input {
+        border-color: var(--danger-color);
+      }
+    }
+  }
+
+  &.ng-valid,
+  &.ng-untouched {
+    sofie-error-message {
+      display: none;
+    }
+  }
+}
+
+.color-picker {
+  position: relative;
+  width: 100%;
+  padding: 0.3rem 0.3rem;
+  font-weight: lighter;
+  font-size: 0.85rem;
+  font-family: Roboto, Arial, sans-serif;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid var(--gray-color);
+
+  sofie-icon-button {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+  }
+}
+
+.color-box {
+  padding: 0.2rem 0.5rem;
+  font-weight: lighter;
+  font-size: 0.85rem;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+span {
+  display: flex;
+  justify-content: space-between;
+}
+
+label {
+  font-weight: lighter;
+}

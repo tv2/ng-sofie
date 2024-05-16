@@ -1,0 +1,13 @@
+<div class="container pt-2 pb-2">
+  <span *ngIf="label || helpText" class="mb-1">
+    <label *ngIf="label">{{ label }}<sofie-required-mark *ngIf="isRequired"></sofie-required-mark></label>
+    <sofie-icon-button *ngIf="helpText" [tooltip]="helpText" [icon]="Icon.CIRCLE_QUESTION" [iconSize]="IconSize.M"></sofie-icon-button>
+  </span>
+    <div class="color-picker" ngx-colors-trigger [(ngModel)]="value" [palette]="palette" [colorPickerControls]="'no-alpha'" [format]="'hex'" (input)="emitChanges()" (click)="markAsTouched()">
+        <div class="color-box" [style]="{ 'background': getColor }">
+            {{ !!value ? value : placeholder ?? label }}
+        </div>
+        <sofie-icon-button *ngIf="value" [icon]="Icon.X_MARK" [iconSize]="IconSize.L" (click)="clearValue($event)"></sofie-icon-button>
+    </div>
+    <sofie-error-message *ngIf="errorMessage">{{ errorMessage }}</sofie-error-message>
+</div>

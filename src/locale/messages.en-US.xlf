@@ -486,13 +486,21 @@
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
         <target state="new">The <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/> selected keyboard mappings have been deleted.</target>
       </trans-unit>
-      <trans-unit id="6774239910313063167" datatype="html">
-        <source>keyboard-mapping.settings-page.invalid-field</source>
-        <target state="new">Invalid data, needs to be edited.</target>
-      </trans-unit>
       <trans-unit id="5805882241277564116" datatype="html">
         <source>keyboard-mapping-settings-page-import-keyboard-mappings.actions-missing</source>
         <target state="new">One or more keyboard mappings contained invalid actions and were not imported!</target>
+      </trans-unit>
+      <trans-unit id="8483503986037571867" datatype="html">
+        <source>action-triggers.override-color.label</source>
+        <target state="new">Override default color</target>
+      </trans-unit>
+      <trans-unit id="2313705565869821168" datatype="html">
+        <source>color-picker.choose-color.placeholder</source>
+        <target state="new">Choose a color</target>
+      </trans-unit>
+      <trans-unit id="4439615397476866844" datatype="html">
+        <source>action-triggers.override-color.help-text</source>
+        <target state="new">Choose a color if you want to override the default color of the keyboard mapping.</target>
       </trans-unit>
     </body>
   </file>

@@ -22,7 +22,7 @@ interface SelectableOption<T> extends SelectOption<T> {
 export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   protected Icon = Icon
   protected IconSize = IconSize
-  protected isShowingOptions: boolean = false
+  protected isOpen: boolean = false
   protected hasBeenClicked: boolean = true
 
   @Input() public options: SelectOption<T>[] = []
@@ -125,14 +125,14 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
   }
 
   protected toggleIsShowingOptions(): void {
-    this.isShowingOptions = !this.isShowingOptions
-    if (this.isShowingOptions) {
+    this.isOpen = !this.isOpen
+    if (this.isOpen) {
       this.addClickListenerForDropdownClose()
     }
   }
 
   private addClickListenerForDropdownClose(): void {
-    document.addEventListener('click', () => (this.hasBeenClicked ? (this.isShowingOptions = false) : this.addClickListenerForDropdownClose()), { once: true })
+    document.addEventListener('click', () => (this.hasBeenClicked ? (this.isOpen = false) : this.addClickListenerForDropdownClose()), { once: true })
   }
 
   public registerOnChange(changeCallback: (value: T[]) => void): void {
