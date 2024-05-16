@@ -6,7 +6,7 @@
   <div [cdkContextMenuTriggerFor]="contextMenu" class="header">
     <div class="header-toolbar">
       <span class="reference-tag">
-        {{segment.referenceTag}}
+        {{ segment.referenceTag }}
       </span>
       <span class="expected-duration">{{(!segment.isUntimed ? expectedDurationInMs : 0) | timer: 'HH?:mm:ss' }}</span>
       <span class="countdown">
