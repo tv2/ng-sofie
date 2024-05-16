@@ -22,6 +22,8 @@ import { Segment } from '../../core/models/segment'
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
 const SPLIT_SCREEN_COLOR: string = 'var(--split-screen-gradient)'
+const SPLIT_SCREEN_TOP_COLOR: string = 'var(--tv2-split-screen-upper)'
+const SPLIT_SCREEN_BOTTOM_COLOR: string = 'var(--tv2-split-screen-lower)'
 const REPLAY_COLOR: string = 'var(--tv2-replay-color)'
 const VIDEO_CLIP_COLOR: string = 'var(--tv2-video-clip-color)'
 const GRAPHICS_COLOR: string = 'var(--tv2-graphics-color)'
@@ -152,7 +154,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
       shouldPreventDefaultBehaviourForPartialMatches: true,
       useExclusiveMatching: true,
       useOrderedMatching: false,
-      background: this.getKeyBindingBackgroundColour(action),
+      background: this.getKeyBindingBackgroundColour(actionTrigger, action),
     }
   }
 
@@ -163,11 +165,14 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     return action.name
   }
 
-  private getKeyBindingBackgroundColour(action: Tv2Action): string {
+  private getKeyBindingBackgroundColour(actionTrigger: ActionTrigger<KeyboardTriggerData>, action: Tv2Action): string {
     if (action.metadata.contentType === Tv2ActionContentType.SPLIT_SCREEN) {
-      return this.getBackgroundColorForSplitScreen(action)
+      return this.getBackgroundColorForSplitScreen(actionTrigger, action)
     }
 
+    if (!!actionTrigger.data.overrideColor) {
+      return actionTrigger.data.overrideColor
+    }
     return this.getActionContentTypeBackgroundColor(action.metadata.contentType)
   }
 
@@ -200,12 +205,17 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     }
   }
 
-  private getBackgroundColorForSplitScreen(action: Tv2Action): string {
-    if (!this.isActionInsertIntoSplitScreenAction(action)) {
-      return SPLIT_SCREEN_COLOR
+  private getBackgroundColorForSplitScreen(actionTrigger: ActionTrigger<KeyboardTriggerData>, action: Tv2Action): string {
+    const overrideColor: string | undefined = actionTrigger.data.overrideColor
+    if (this.isActionInsertIntoSplitScreenAction(action)) {
+      return this.createSplitScreenGradient(overrideColor ?? this.getActionContentTypeBackgroundColor(action.metadata.insertedContentType), SPLIT_SCREEN_BOTTOM_COLOR)
     }
-    const topColor: string = this.getActionContentTypeBackgroundColor(action.metadata.insertedContentType)
-    return `linear-gradient(to bottom, ${topColor} 50%, var(--tv2-split-screen-lower) 50%)`
+    const topColor: string = overrideColor ?? SPLIT_SCREEN_TOP_COLOR
+    return this.createSplitScreenGradient(topColor, SPLIT_SCREEN_BOTTOM_COLOR)
+  }
+
+  private createSplitScreenGradient(topColor: string, bottomColor: string): string {
+    return `linear-gradient(to bottom, ${topColor} 50%, ${bottomColor} 50%)`
   }
 
   private isActionInsertIntoSplitScreenAction(action: Tv2Action): action is Tv2InsertIntoSplitScreenAction {
