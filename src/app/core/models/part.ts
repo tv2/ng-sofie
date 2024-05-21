@@ -16,5 +16,5 @@ export interface Part {
   readonly isPlanned: boolean
   readonly isUntimed: boolean
   readonly metadata?: unknown
-  readonly replacedPieces: Piece[]
+  readonly replacedPieces: readonly Piece[]
 }

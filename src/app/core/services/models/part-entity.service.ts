@@ -41,13 +41,13 @@ export class PartEntityService {
   }
 
   public reset(part: Part): Part {
-    const pieces: Piece[] = [...part.pieces.filter(piece => piece.isPlanned), ...(part.replacedPieces ?? [])]
-    part.replacedPieces.splice(0, part.replacedPieces.length)
+    const pieces: Piece[] = [...part.pieces, ...part.replacedPieces].filter(piece => piece.isPlanned)
     return {
       ...part,
       playedDuration: 0,
       executedAt: 0,
       pieces,
+      replacedPieces: [],
     }
   }
 
@@ -107,12 +107,10 @@ export class PartEntityService {
 
   public replacePiece(part: Part, replacedPieceId: string, newPiece: Piece): Part {
     const pieceToBeReplaced: Piece | undefined = part.pieces.find(piece => piece.id === replacedPieceId)
-    if (pieceToBeReplaced && pieceToBeReplaced.isPlanned) {
-      part.replacedPieces.push(pieceToBeReplaced)
-    }
     return {
       ...part,
       pieces: [...part.pieces.filter(piece => piece.id !== replacedPieceId), newPiece],
+      replacedPieces: pieceToBeReplaced?.isPlanned ? [...part.replacedPieces, pieceToBeReplaced] : part.replacedPieces,
     }
   }
 }
