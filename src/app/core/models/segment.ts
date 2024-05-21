@@ -1,5 +1,6 @@
 import { Part } from './part'
 import { Tv2SegmentMetadata } from './tv2-segment-metadata'
+import { Invalidity } from './invalidity'
 
 export interface Segment {
   readonly id: string
@@ -16,4 +17,5 @@ export interface Segment {
   readonly expectedDurationInMs?: number
   readonly executedAtEpochTime?: number
   readonly metadata?: Tv2SegmentMetadata
+  readonly invalidity?: Invalidity
 }

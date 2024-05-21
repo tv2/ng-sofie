@@ -1,15 +1,15 @@
-<div class="c-segment"
-  [class.c-segment--on-air]="segment.isOnAir"
-  [class.c-segment--set-as-next]="segment.isNext"
-  [class.c-segment--has-remote-piece]="hasRemotePiece"
+<div class="segment ms-4 me-4 mt-1 mb-2"
+  [class.on-air]="segment.isOnAir"
+  [class.is-next]="segment.isNext"
+  [class.remote-piece]="hasRemotePiece"
 >
-  <div [cdkContextMenuTriggerFor]="contextMenu" class="c-segment__header">
-    <div class="c-segment__header-toolbar">
-      <span class="segment-reference-tag">
-        {{segment.referenceTag}}
+  <div [cdkContextMenuTriggerFor]="contextMenu" class="header">
+    <div class="header-toolbar">
+      <span class="reference-tag">
+        {{ segment.referenceTag }}
       </span>
-      <span class="segment-expected-duration">{{(!segment.isUntimed ? expectedDurationInMs : 0) | timer: 'HH?:mm:ss' }}</span>
-      <span class="segment-countdown">
+      <span class="expected-duration">{{(!segment.isUntimed ? expectedDurationInMs : 0) | timer: 'HH?:mm:ss' }}</span>
+      <span class="countdown">
         <sofie-countdown-label
           *ngIf="hasRemotePiece && roundedDurationInMsUntilSegmentIsPutOnAir !== undefined"
           [durationInMs]="roundedDurationInMsUntilSegmentIsPutOnAir"
@@ -21,18 +21,18 @@
       <sofie-icon-button [icon]="Icon.TRIANGLE_EXCLAMATION" [iconSize]="IconSize.M"></sofie-icon-button>
       <span class="ms-1">UNSYNCED</span>
     </div>
-    <div class="c-segment__title">
+    <div class="title">
       {{ segment.name }}
     </div>
   </div>
-  <div class="c-segment__controls">
-    <div class="c-segment__controls-toolbar">
+  <div class="controls">
+    <div class="controls-toolbar">
       <sofie-icon-button [icon]="Icon.MINUS" [iconSize]="IconSize.S" (click)="zoomIn()" [disabled]="isAtMinimumZoomLevel" title="Zoom out"></sofie-icon-button>
       <sofie-icon-button [icon]="Icon.HORIZONTAL_ARROWS" [iconSize]="IconSize.S" (click)="resetZoom()" title="Reset zoom"></sofie-icon-button>
       <sofie-icon-button [icon]="Icon.PLUS" [iconSize]="IconSize.S" (click)="zoomOut()" title="Zoom in"></sofie-icon-button>
     </div>
-    <div class="c-segment__piece-layers">
-      <div *ngFor="let outputLayer of outputLayers" class="c-segment__piece-layer">
+    <div class="piece-layers">
+      <div *ngFor="let outputLayer of outputLayers" class="piece-layer">
         {{ outputLayer }}
       </div>
     </div>
@@ -41,7 +41,7 @@
 
   <sofie-scrollable-timeline
     *ngIf="!segment.isOnAir; else onAirTimeline"
-    class="c-segment__timeline"
+    class="timeline"
     [segment]="segment"
     [outputLayers]="outputLayers"
     [isRundownActiveOrRehearsal]="isRundownActiveOrRehearsal"
@@ -51,7 +51,7 @@
 
   <ng-template #onAirTimeline>
     <sofie-follow-playhead-timeline
-      class="c-segment__timeline"
+      class="timeline"
       [time]="timeReference"
       [segment]="segment"
       [outputLayers]="outputLayers"

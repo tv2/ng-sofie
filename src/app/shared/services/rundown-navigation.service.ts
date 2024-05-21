@@ -35,7 +35,7 @@ export class RundownNavigationService {
   }
 
   private isValidSegment(segment: Segment): boolean {
-    return segment.parts.some(part => this.isValidPart(part))
+    return !segment.invalidity && segment.parts.some(part => this.isValidPart(part))
   }
 
   private isValidPart(part: Part): boolean {

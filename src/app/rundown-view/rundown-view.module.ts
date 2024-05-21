@@ -36,6 +36,7 @@ import { PieceTooltipComponent } from './components/rundown-tooltips/piece-toolt
 import { MiniShelfCycleService } from './services/mini-shelf-cycle.service'
 import { MiniShelfNavigationService } from './services/mini-shelf-navigation.service'
 import { Tv2PieceTooltipContentFieldService } from './services/tv2-piece-tooltip-content-field.service'
+import { InvalidSegmentComponent } from './components/invalid-segment/invalid-segment.component'
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { Tv2PieceTooltipContentFieldService } from './services/tv2-piece-tooltip
     CountdownLabelComponent,
     MiniShelfComponent,
     PieceTooltipComponent,
+    InvalidSegmentComponent,
   ],
   exports: [SegmentComponent],
   providers: [
