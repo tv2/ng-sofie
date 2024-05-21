@@ -170,7 +170,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
       return this.getBackgroundColorForSplitScreen(actionTrigger, action)
     }
 
-    if (!!actionTrigger.data.overrideColor) {
+    if (actionTrigger.data.overrideColor) {
       return actionTrigger.data.overrideColor
     }
     return this.getActionContentTypeBackgroundColor(action.metadata.contentType)
@@ -208,9 +208,9 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   private getBackgroundColorForSplitScreen(actionTrigger: ActionTrigger<KeyboardTriggerData>, action: Tv2Action): string {
     const overrideColor: string | undefined = actionTrigger.data.overrideColor
     if (this.isActionInsertIntoSplitScreenAction(action)) {
-      return this.createSplitScreenGradient(overrideColor ?? this.getActionContentTypeBackgroundColor(action.metadata.insertedContentType), SPLIT_SCREEN_BOTTOM_COLOR)
+      return this.createSplitScreenGradient(overrideColor || this.getActionContentTypeBackgroundColor(action.metadata.insertedContentType), SPLIT_SCREEN_BOTTOM_COLOR)
     }
-    const topColor: string = overrideColor ?? SPLIT_SCREEN_TOP_COLOR
+    const topColor: string = overrideColor || SPLIT_SCREEN_TOP_COLOR
     return this.createSplitScreenGradient(topColor, SPLIT_SCREEN_BOTTOM_COLOR)
   }
 
