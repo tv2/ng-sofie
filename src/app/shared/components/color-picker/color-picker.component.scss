@@ -19,14 +19,13 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  width: 100%;
   padding: 0.3rem 0.3rem;
   font-weight: lighter;
   font-size: 0.85rem;
   font-family: Roboto, Arial, sans-serif;
   border-radius: 4px;
-  cursor: pointer;
   border: 1px solid var(--gray-color);
+  cursor: pointer;
 
   sofie-icon-button {
     position: absolute;
@@ -36,25 +35,18 @@
 }
 
 .color-box {
-  padding: 0.2rem 0.5rem;
-  width: 50px;
-  height: 22px;
+  height: 1.5rem;
+  aspect-ratio: 16 / 9;
   border-radius: 4px;
 }
 
-.text {
+.input-text {
   padding: 0.2rem;
   font-weight: lighter;
   font-size: 0.85rem;
-  font-family: Roboto, Arial, sans-serif;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-}
-
-span {
+.label-container {
   display: flex;
   justify-content: space-between;
 }

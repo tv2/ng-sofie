@@ -5,7 +5,7 @@ export interface KeyboardTriggerData {
   keys: Keys
   actionArguments?: string | number
   label: string
-  overrideColor?: string
+  overrideColor: string
   triggerOn: KeyEventType
   mappedToKeys?: Keys
 }

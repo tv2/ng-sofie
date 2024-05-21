@@ -1,14 +1,14 @@
-<div class="container pt-2 pb-2">
-  <span *ngIf="label || helpText" class="mb-1">
+<div class="pt-2 pb-2">
+  <div *ngIf="label || helpText" class="label-container mb-1">
     <label *ngIf="label">{{ label }}<sofie-required-mark *ngIf="isRequired"></sofie-required-mark></label>
     <sofie-icon-button *ngIf="helpText" [tooltip]="helpText" [icon]="Icon.CIRCLE_QUESTION" [iconSize]="IconSize.M"></sofie-icon-button>
-  </span>
+  </div>
     <div class="color-picker" ngx-colors-trigger [(ngModel)]="value" [palette]="palette" [colorPickerControls]="'no-alpha'" [format]="'hex'" (input)="emitChanges()" (click)="markAsTouched()">
-        <span *ngIf="!!value" class="color-box" [style]="{ 'background': getColor }"></span>
-        <span class="text">
-            {{ !!value ? value : placeholder ?? label }}
+        <span *ngIf="value" class="color-box" [style.background]="getColor()"></span>
+        <span class="input-text">
+            {{ value || placeholder ?? label }}
         </span>
-        <sofie-icon-button *ngIf="value" [icon]="Icon.X_MARK" [iconSize]="IconSize.L" (click)="clearValue($event)"></sofie-icon-button>
+        <sofie-icon-button *ngIf="value" [icon]="Icon.X_MARK" [iconSize]="IconSize.L" (click)="clearValue(); $event.stopPropagation()"></sofie-icon-button>
     </div>
-    <sofie-error-message *ngIf="errorMessage">{{ errorMessage }}</sofie-error-message>
+<sofie-error-message *ngIf="errorMessage">{{ errorMessage }}</sofie-error-message>
 </div>
