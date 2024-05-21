@@ -201,14 +201,14 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   }
 
   private getBackgroundColorForSplitScreen(action: Tv2Action): string {
-    if (!this.isActionInsertIntoSplitScreenAction(action)) {
+    if (!this.isInsertIntoSplitScreenAction(action)) {
       return SPLIT_SCREEN_COLOR
     }
     const topColor: string = this.getActionContentTypeBackgroundColor(action.metadata.insertedContentType)
     return `linear-gradient(to bottom, ${topColor} 50%, var(--tv2-split-screen-lower) 50%)`
   }
 
-  private isActionInsertIntoSplitScreenAction(action: Tv2Action): action is Tv2InsertIntoSplitScreenAction {
+  private isInsertIntoSplitScreenAction(action: Tv2Action): action is Tv2InsertIntoSplitScreenAction {
     return action.metadata.contentType === Tv2ActionContentType.SPLIT_SCREEN && 'insertedContentType' in action.metadata
   }
 
