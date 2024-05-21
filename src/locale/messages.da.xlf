@@ -500,7 +500,7 @@
       </trans-unit>
       <trans-unit id="4439615397476866844" datatype="html">
         <source>action-triggers.override-color.help-text</source>
-        <target state="new">Vælg en ny farve hvis du gerne overskrive standard farven for genvejen.</target>
+        <target state="new">Vælg en ny farve hvis du gerne vil overskrive standard farven for genvejen.</target>
       </trans-unit>
     </body>
   </file>

@@ -87,6 +87,7 @@ export class TestEntityFactory {
         actionArguments: 100,
         label: 'random-label',
         triggerOn: KeyEventType.RELEASED,
+        overrideColor: '',
       },
       ...actionTrigger,
     }

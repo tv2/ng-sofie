@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { Icon, IconSize } from '../../enums/icon'
 
 const DEFAULT_COLOR: string = '#FFFFFF00'
+const NO_COLOR: string = ''
 
 @Component({
   selector: 'sofie-color-picker',
@@ -47,7 +48,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
 
   @Output() public valueChange: EventEmitter<string> = new EventEmitter()
 
-  protected value?: string
+  protected value: string
 
   private isTouched: boolean = false
 
@@ -56,7 +57,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
 
   constructor() {}
 
-  protected get getColor(): string {
+  protected getColor(): string {
     return this.value ?? DEFAULT_COLOR
   }
 
@@ -73,9 +74,8 @@ export class ColorPickerComponent implements ControlValueAccessor {
     this.isTouched = true
   }
 
-  protected clearValue(event: Event): void {
-    event.stopPropagation()
-    this.value = undefined
+  protected clearValue(): void {
+    this.value = NO_COLOR
     this.onChangeCallback?.(this.value)
   }
 
