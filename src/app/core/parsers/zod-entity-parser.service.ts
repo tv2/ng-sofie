@@ -88,6 +88,7 @@ export class ZodEntityParser implements EntityParser {
         actionId: zod.string().optional(),
       })
       .optional(),
+    replacedPieces: zod.array(this.pieceParser).default([]),
   })
 
   private readonly segmentParser = zod.object({
