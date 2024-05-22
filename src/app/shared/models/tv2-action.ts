@@ -35,23 +35,10 @@ export interface Tv2VideoClipAction extends Tv2PartAction {
   }
 }
 
-export interface Tv2CameraAction extends Tv2PartAction {
+export interface Tv2InsertIntoSplitScreenAction extends Tv2PieceAction {
   metadata: {
-    contentType: Tv2ActionContentType.CAMERA
-    cameraNumber: string
-  }
-}
-
-export interface Tv2RemoteAction extends Tv2PartAction {
-  metadata: {
-    contentType: Tv2ActionContentType.REMOTE
-    remoteNumber: string
-  }
-}
-
-export interface Tv2TransitionAction extends Tv2PartAction {
-  metadata: {
-    contentType: Tv2ActionContentType.TRANSITION
+    contentType: Tv2ActionContentType.SPLIT_SCREEN
+    insertedContentType: Tv2ActionContentType
   }
 }
 
