@@ -8,7 +8,7 @@
             <sofie-icon-button *ngIf="selectedOptions.length > 0" [icon]="Icon.X_MARK" (click)="clearAllSelected(); $event.stopPropagation()" class="ms-1"></sofie-icon-button>
         </div>
 
-        <div *ngIf="isShowingOptions" class="multi-select-dropdown" >
+        <div *ngIf="isOpen" class="multi-select-dropdown" >
             <div *ngFor="let option of selectableOptions" class="multi-select-dropdown-item p-3" (click)="toggleOption(option)">
                 {{ option.name }}
                 <sofie-icon-button *ngIf="option.isSelected" [icon]="Icon.CHECK" [iconSize]="IconSize.M"></sofie-icon-button>

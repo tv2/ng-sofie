@@ -90,6 +90,8 @@ import { RequiredMarkComponent } from './components/required-mark/required-mark.
 import { DialogConfirmationService } from './services/dialog-confirmation.service'
 import { ActionSelectorComponent } from './components/action-selector/action-selector.component'
 import { VideoHoverScrubComponent } from './components/video-hover-scrub/video-hover-scrub.component'
+import { ColorPickerComponent } from './components/color-picker/color-picker.component'
+import { NgxColorsModule } from 'ngx-colors'
 
 @NgModule({
   declarations: [
@@ -138,6 +140,7 @@ import { VideoHoverScrubComponent } from './components/video-hover-scrub/video-h
     ErrorMessageComponent,
     RequiredMarkComponent,
     VideoHoverScrubComponent,
+    ColorPickerComponent,
   ],
   imports: [
     CommonModule,
@@ -158,6 +161,7 @@ import { VideoHoverScrubComponent } from './components/video-hover-scrub/video-h
     MatProgressSpinnerModule,
     MatMenuModule,
     RouterModule,
+    NgxColorsModule,
   ],
   exports: [
     CommonModule,
@@ -204,6 +208,7 @@ import { VideoHoverScrubComponent } from './components/video-hover-scrub/video-h
     ErrorMessageComponent,
     RequiredMarkComponent,
     VideoHoverScrubComponent,
+    ColorPickerComponent,
   ],
   providers: [
     { provide: Logger, useClass: Tv2LoggerService },

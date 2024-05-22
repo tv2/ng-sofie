@@ -365,11 +365,17 @@
       <trans-unit id="3477258835430959446" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
       </trans-unit>
-      <trans-unit id="6774239910313063167" datatype="html">
-        <source>keyboard-mapping.settings-page.invalid-field</source>
-      </trans-unit>
       <trans-unit id="5805882241277564116" datatype="html">
         <source>keyboard-mapping-settings-page-import-keyboard-mappings.actions-missing</source>
+      </trans-unit>
+      <trans-unit id="2313705565869821168" datatype="html">
+        <source>color-picker.choose-color.placeholder</source>
+      </trans-unit>
+      <trans-unit id="4439615397476866844" datatype="html">
+        <source>action-triggers.override-color.help-text</source>
+      </trans-unit>
+      <trans-unit id="8483503986037571867" datatype="html">
+        <source>action-triggers.override-color.label</source>
       </trans-unit>
     </body>
   </file>
