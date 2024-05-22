@@ -1,20 +1,26 @@
 <div class="segments">
     <ng-container #segmentList *ngFor="let segment of rundown?.segments; trackBy: trackSegment">
-        <sofie-segment
-                class="segment"
-                [attr.data-segment-id]="segment.id"
-                *ngIf="!segment.isHidden"
-                [segment]="segment"
-                [isRundownActiveOrRehearsal]="isActiveOrRehearsal"
-                [isAutoNextStarted]="isAutoNextStarted"
-                [durationInMsUntilSegmentIsPutOnAir]="startOffsetsInMsFromPlayheadForSegments[segment.id]"
-                [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
-                [currentEpochTime]="currentEpochTime"
-        ></sofie-segment>
-        <sofie-mini-shelf
-                *ngIf="segment.metadata?.miniShelfVideoClipFile"
-                [segment]="segment"
-                [videoClipAction]="miniShelfSegmentActionMappings[segment.id]"
-        ></sofie-mini-shelf>
+        <sofie-invalid-segment *ngIf="segment.invalidity; else miniShelfTemplate" [segment]="segment">
+        </sofie-invalid-segment>
+        <ng-template #miniShelfTemplate>
+            <sofie-mini-shelf
+                    *ngIf="segment.metadata?.miniShelfVideoClipFile; else segmentTemplate"
+                    [segment]="segment"
+                    [videoClipAction]="miniShelfSegmentActionMappings[segment.id]"
+            ></sofie-mini-shelf>
+        </ng-template>
+        <ng-template #segmentTemplate>
+            <sofie-segment
+                    *ngIf="!segment.isHidden"
+                    [attr.data-segment-id]="segment.id"
+                    [segment]="segment"
+                    [isRundownActiveOrRehearsal]="isActiveOrRehearsal"
+                    [isAutoNextStarted]="isAutoNextStarted"
+                    [durationInMsUntilSegmentIsPutOnAir]="startOffsetsInMsFromPlayheadForSegments[segment.id]"
+                    [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
+                    [currentEpochTime]="currentEpochTime"
+            ></sofie-segment>
+        </ng-template>
     </ng-container>
 </div>
+

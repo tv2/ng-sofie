@@ -1,0 +1,54 @@
+.invalid-segment {
+  display: flex;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 2px 2px 2px var(--gradient-black-rgba-with-02-opacity-color);
+  --toolbar-height: 30px;
+
+  background: var(--black-color);
+  width: 270px;
+
+  .header {
+    flex: 0;
+    min-width: 270px;
+    background-color: var(--rundown-segment-header-background-color);
+    color: var(--text-color);
+    transition: background-color 0.2s;
+
+    .header-toolbar {
+      display: flex;
+      justify-content: space-between;
+      height: var(--toolbar-height);
+      background: var(--black-color);
+      padding: 6px;
+
+      .reference-tag {
+        flex: 1;
+      }
+    }
+
+    .invalid {
+      background: var(--attention-color);
+      color: var(--black-color);
+      font-size: 1rem;
+      font-weight: 500;
+
+      sofie-icon-button {
+        color: var(--black-color);
+      }
+    }
+
+    .title {
+      color: var(--text-color);
+      font-size: 1.4em;
+      font-weight: normal;
+      word-break: break-word;
+    }
+
+    .text {
+      font-size: 0.85em;
+      font-weight: normal;
+      word-break: break-word;
+    }
+  }
+}

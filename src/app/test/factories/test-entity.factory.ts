@@ -61,6 +61,7 @@ export class TestEntityFactory {
       isPlanned: true,
       isUntimed: false,
       isUnsynced: false,
+      replacedPieces: [],
       ...part,
     }
   }

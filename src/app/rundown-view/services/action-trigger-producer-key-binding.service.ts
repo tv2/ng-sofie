@@ -147,6 +147,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   private createBinding(action: Tv2Action, actionTrigger: ActionTrigger<KeyboardTriggerData>, rundownId: string): StyledKeyBinding {
     return {
       keys: actionTrigger.data.keys,
+      mappedKeys: actionTrigger.data.mappedToKeys,
       label: this.getActionTriggerLabel(actionTrigger, action),
       onMatched: () => this.actionService.executeAction(action.id, rundownId, actionTrigger.data.actionArguments).subscribe(),
       shouldMatchOnKeyRelease: true,
@@ -207,7 +208,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
 
   private getBackgroundColorForSplitScreen(actionTrigger: ActionTrigger<KeyboardTriggerData>, action: Tv2Action): string {
     const overrideColor: string | undefined = actionTrigger.data.overrideColor
-    if (this.isActionInsertIntoSplitScreenAction(action)) {
+    if (this.isInsertIntoSplitScreenAction(action)) {
       return this.createSplitScreenGradient(overrideColor || this.getActionContentTypeBackgroundColor(action.metadata.insertedContentType), SPLIT_SCREEN_BOTTOM_COLOR)
     }
     const topColor: string = overrideColor || SPLIT_SCREEN_TOP_COLOR
@@ -218,7 +219,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     return `linear-gradient(to bottom, ${topColor} 50%, ${bottomColor} 50%)`
   }
 
-  private isActionInsertIntoSplitScreenAction(action: Tv2Action): action is Tv2InsertIntoSplitScreenAction {
+  private isInsertIntoSplitScreenAction(action: Tv2Action): action is Tv2InsertIntoSplitScreenAction {
     return action.metadata.contentType === Tv2ActionContentType.SPLIT_SCREEN && 'insertedContentType' in action.metadata
   }
 

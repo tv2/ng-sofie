@@ -239,6 +239,7 @@ describe(ZodRundownEventParser.name, () => {
           isPlanned: false,
           isUntimed: false,
           isUnsynced: false,
+          replacedPieces: [],
         },
       }
 
@@ -282,6 +283,7 @@ describe(ZodRundownEventParser.name, () => {
           isPlanned: false,
           isUntimed: false,
           isUnsynced: false,
+          replacedPieces: [],
         },
       }
 
