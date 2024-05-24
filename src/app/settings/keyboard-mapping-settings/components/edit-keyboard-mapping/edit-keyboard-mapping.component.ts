@@ -43,7 +43,7 @@ export class EditKeyboardMappingComponent implements OnInit {
     this.actionTriggerDataForm = this.formBuilder.group({
       label: [this.keyboardMapping?.actionTrigger.data.label ?? ''],
       keys: [this.keyboardMapping?.actionTrigger.data.keys, [Validators.required]],
-      overrideColor: [this.keyboardMapping?.actionTrigger.data.overrideColor],
+      overrideColor: [this.keyboardMapping?.actionTrigger.data.overrideColor ?? ''],
       triggerOn: [KeyEventType.RELEASED, [Validators.required]],
       mappedToKeys: [this.keyboardMapping?.actionTrigger.data.mappedToKeys ?? []],
     })
