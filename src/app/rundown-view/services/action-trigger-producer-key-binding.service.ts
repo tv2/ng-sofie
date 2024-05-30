@@ -10,7 +10,7 @@ import { RundownStateService } from '../../core/services/rundown-state.service'
 import { Rundown } from '../../core/models/rundown'
 import { Tv2ActionParser } from '../../shared/abstractions/tv2-action-parser.service'
 import { SystemKeyBindingFactory } from '../factories/system-key-binding-factory.service'
-import { Tv2Action, Tv2ActionContentType, Tv2ContentPlaceholderAction } from '../../shared/models/tv2-action'
+import { Tv2Action, Tv2ActionContentType, Tv2ContentPlaceholderAction, Tv2InsertIntoSplitScreenAction } from '../../shared/models/tv2-action'
 import { Logger } from '../../core/abstractions/logger.service'
 import { StyledKeyBinding } from '../../keyboard/value-objects/styled-key-binding'
 import { ActionService } from '../../shared/abstractions/action.service'
@@ -21,7 +21,9 @@ import { Segment } from '../../core/models/segment'
 
 const CAMERA_COLOR: string = 'var(--tv2-camera-color)'
 const REMOTE_COLOR: string = 'var(--tv2-remote-color)'
-const SPLIT_SCREEN_COLOR: string = 'var(--tv2-split-screen-upper)'
+const SPLIT_SCREEN_COLOR: string = 'var(--split-screen-gradient)'
+const SPLIT_SCREEN_TOP_COLOR: string = 'var(--tv2-split-screen-upper)'
+const SPLIT_SCREEN_BOTTOM_COLOR: string = 'var(--tv2-split-screen-lower)'
 const REPLAY_COLOR: string = 'var(--tv2-replay-color)'
 const VIDEO_CLIP_COLOR: string = 'var(--tv2-video-clip-color)'
 const GRAPHICS_COLOR: string = 'var(--tv2-graphics-color)'
@@ -145,6 +147,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
   private createBinding(action: Tv2Action, actionTrigger: ActionTrigger<KeyboardTriggerData>, rundownId: string): StyledKeyBinding {
     return {
       keys: actionTrigger.data.keys,
+      mappedKeys: actionTrigger.data.mappedToKeys,
       label: this.getActionTriggerLabel(actionTrigger, action),
       onMatched: () => this.actionService.executeAction(action.id, rundownId, actionTrigger.data.actionArguments).subscribe(),
       shouldMatchOnKeyRelease: true,
@@ -152,7 +155,7 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
       shouldPreventDefaultBehaviourForPartialMatches: true,
       useExclusiveMatching: true,
       useOrderedMatching: false,
-      background: this.getKeyBindingBackgroundColour(action),
+      background: this.getKeyBindingBackgroundColour(actionTrigger, action),
     }
   }
 
@@ -163,8 +166,19 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
     return action.name
   }
 
-  private getKeyBindingBackgroundColour(action: Tv2Action): string {
-    switch (action.metadata.contentType) {
+  private getKeyBindingBackgroundColour(actionTrigger: ActionTrigger<KeyboardTriggerData>, action: Tv2Action): string {
+    if (action.metadata.contentType === Tv2ActionContentType.SPLIT_SCREEN) {
+      return this.getBackgroundColorForSplitScreen(actionTrigger, action)
+    }
+
+    if (actionTrigger.data.overrideColor) {
+      return actionTrigger.data.overrideColor
+    }
+    return this.getActionContentTypeBackgroundColor(action.metadata.contentType)
+  }
+
+  private getActionContentTypeBackgroundColor(contentType: Tv2ActionContentType): string {
+    switch (contentType) {
       case Tv2ActionContentType.CAMERA: {
         return CAMERA_COLOR
       }
@@ -190,6 +204,23 @@ export class ActionTriggerProducerKeyBindingService implements KeyBindingService
         return ''
       }
     }
+  }
+
+  private getBackgroundColorForSplitScreen(actionTrigger: ActionTrigger<KeyboardTriggerData>, action: Tv2Action): string {
+    const overrideColor: string | undefined = actionTrigger.data.overrideColor
+    if (this.isInsertIntoSplitScreenAction(action)) {
+      return this.createSplitScreenGradient(overrideColor || this.getActionContentTypeBackgroundColor(action.metadata.insertedContentType), SPLIT_SCREEN_BOTTOM_COLOR)
+    }
+    const topColor: string = overrideColor || SPLIT_SCREEN_TOP_COLOR
+    return this.createSplitScreenGradient(topColor, SPLIT_SCREEN_BOTTOM_COLOR)
+  }
+
+  private createSplitScreenGradient(topColor: string, bottomColor: string): string {
+    return `linear-gradient(to bottom, ${topColor} 50%, ${bottomColor} 50%)`
+  }
+
+  private isInsertIntoSplitScreenAction(action: Tv2Action): action is Tv2InsertIntoSplitScreenAction {
+    return action.metadata.contentType === Tv2ActionContentType.SPLIT_SCREEN && 'insertedContentType' in action.metadata
   }
 
   private onActionsChanged(actions: Action[]): void {

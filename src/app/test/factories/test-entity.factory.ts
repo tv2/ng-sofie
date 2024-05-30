@@ -61,6 +61,7 @@ export class TestEntityFactory {
       isPlanned: true,
       isUntimed: false,
       isUnsynced: false,
+      replacedPieces: [],
       ...part,
     }
   }
@@ -87,6 +88,7 @@ export class TestEntityFactory {
         actionArguments: 100,
         label: 'random-label',
         triggerOn: KeyEventType.RELEASED,
+        overrideColor: '',
       },
       ...actionTrigger,
     }

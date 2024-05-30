@@ -452,8 +452,7 @@
       </trans-unit>
       <trans-unit id="3626510894964414637" datatype="html">
         <source>dialog.message.activation.warning</source>
-        <target state="new">Er du sikker på du vil aktivere denne Rundown?
-        Det vil deaktivere Rundown</target>
+        <target state="new">Er du sikker på du vil aktivere denne Rundown? Det vil deaktivere Rundown</target>
       </trans-unit>
       <trans-unit id="6370990329720066506" datatype="html">
         <source>dialog.message.rehearse</source>
@@ -461,8 +460,7 @@
       </trans-unit>
       <trans-unit id="2994423491366084246" datatype="html">
         <source>dialog.message.rehearse.warning</source>
-        <target state="new">Er du sikker på at du vil afprøve denne Rundown?
-        Det vil deaktivere Rundown</target>
+        <target state="new">Er du sikker på at du vil afprøve denne Rundown? Det vil deaktivere Rundown</target>
       </trans-unit>
       <trans-unit id="3407985762844707521" datatype="html">
         <source>static-buttons-configuration.card-header</source>
@@ -488,13 +486,21 @@
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
         <target state="new"><x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/> genveje blev slettet</target>
       </trans-unit>
-      <trans-unit id="6774239910313063167" datatype="html">
-        <source>keyboard-mapping.settings-page.invalid-field</source>
-        <target state="new">Ugyldig data, skal redigeres. </target>
-      </trans-unit>
       <trans-unit id="5805882241277564116" datatype="html">
         <source>keyboard-mapping-settings-page-import-keyboard-mappings.actions-missing</source>
         <target state="new">En eller flere importeret genveje havde en ugyldig action og blev derfor ikke importeret!</target>
+      </trans-unit>
+      <trans-unit id="8483503986037571867" datatype="html">
+        <source>action-triggers.override-color.label</source>
+        <target state="new">Overskriv genvejs farven</target>
+      </trans-unit>
+      <trans-unit id="2313705565869821168" datatype="html">
+        <source>color-picker.choose-color.placeholder</source>
+        <target state="new">Vælg en farve</target>
+      </trans-unit>
+      <trans-unit id="4439615397476866844" datatype="html">
+        <source>action-triggers.override-color.help-text</source>
+        <target state="new">Vælg en ny farve hvis du gerne vil overskrive farven for genvejen.</target>
       </trans-unit>
     </body>
   </file>

@@ -16,6 +16,7 @@ export class ZodActionTriggerParser extends ActionTriggerParser {
     mappedToKeys: zod.string().array().optional() as unknown as zod.ZodType<Keys>,
     triggerOn: zod.nativeEnum(KeyEventType),
     label: zod.string(),
+    overrideColor: zod.string().default(''),
     actionArguments: zod.number().or(zod.string().optional()).optional(),
   })
 

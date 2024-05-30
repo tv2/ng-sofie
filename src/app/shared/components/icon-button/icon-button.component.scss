@@ -5,4 +5,8 @@
   &:hover {
     color: var(--black-color);
   }
+
+  .disabled {
+    cursor: default;
+  }
 }
