@@ -27,9 +27,7 @@ export class StickySegmentComponent implements AfterViewInit, OnDestroy {
 
   private readonly intersectionObserver: IntersectionObserver
 
-  constructor(
-    private readonly hostElement: ElementRef,
-  ) {
+  constructor(private readonly hostElement: ElementRef) {
     this.intersectionObserver = this.createViewportIntersectionObserver()
   }
 
