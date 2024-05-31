@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  position: sticky;
+  top: -1px;
+  bottom: -1px;
+  z-index: 250;
+  transition: padding .2s, background-color .2s, box-shadow .2s;
+
+  &.stuck {
+    padding: 10px 0;
+    background-color: var(--dark-gray-color);
+    box-shadow: 0 0 10px 0 #000000;
+  }
+}

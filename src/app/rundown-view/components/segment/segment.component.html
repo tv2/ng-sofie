@@ -27,7 +27,7 @@
   </div>
   <div class="controls">
     <div class="controls-toolbar">
-      <sofie-icon-button [icon]="Icon.MINUS" [iconSize]="IconSize.S" (click)="zoomIn()" [disabled]="isAtMinimumZoomLevel" title="Zoom out"></sofie-icon-button>
+      <sofie-icon-button [icon]="Icon.MINUS" [iconSize]="IconSize.S" (click)="zoomIn()" [disabled]="isAtMinimumZoomLevel()" title="Zoom out"></sofie-icon-button>
       <sofie-icon-button [icon]="Icon.HORIZONTAL_ARROWS" [iconSize]="IconSize.S" (click)="resetZoom()" title="Reset zoom"></sofie-icon-button>
       <sofie-icon-button [icon]="Icon.PLUS" [iconSize]="IconSize.S" (click)="zoomOut()" title="Zoom in"></sofie-icon-button>
     </div>
