@@ -37,7 +37,7 @@ export class SystemKeyBindingFactory {
       this.createRundownKeyBinding('Set Earlier Part as Next', ['Alt', 'ArrowLeft'], () => this.setEarlierPartAsNext(rundown)),
       this.createRundownKeyBinding('Set Later Part as Next', ['Alt', 'ArrowRight'], () => this.setLaterPartAsNext(rundown)),
       this.createRundownKeyBinding('Cycle MiniShelf', ['Tab'], () => this.miniShelfCycleService.cycleMiniShelfForward(rundown)),
-      this.createRundownKeyBinding('Cycle MiniShelf', ['Shift', 'Tab'], () => this.miniShelfCycleService.cycleMiniShelfBackward(rundown)),
+      this.createRundownKeyBinding('Cycle MiniShelf', ['Alt', 'Tab'], () => this.miniShelfCycleService.cycleMiniShelfBackward(rundown)),
     ]
   }
 
