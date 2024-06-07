@@ -1,18 +1,15 @@
 :host {
   display: flex;
   flex-direction: column;
-  background-color: var(--background-color);
   height: 100%;
+  background-color: var(--background-color);
+  scroll-padding: 200px 0;
   overflow: auto;
 
   .segments {
     margin: 20px 0 300px 0;
     display: flex;
     flex-direction: column;
-  }
-
-  sofie-segment {
-    scroll-margin: 100px;
   }
 }
 

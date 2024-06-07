@@ -4,14 +4,14 @@
         </sofie-invalid-segment>
         <ng-template #miniShelfTemplate>
             <sofie-mini-shelf
-                    *ngIf="segment.metadata?.miniShelfVideoClipFile; else segmentTemplate"
+                    *ngIf="segment.metadata?.miniShelfVideoClipFile; else onAirSegmentTemplate"
                     [segment]="segment"
                     [videoClipAction]="miniShelfSegmentActionMappings[segment.id]"
             ></sofie-mini-shelf>
         </ng-template>
-        <ng-template #segmentTemplate>
-            <sofie-segment
-                    *ngIf="!segment.isHidden"
+        <ng-template #onAirSegmentTemplate>
+            <sofie-sticky-segment
+                    *ngIf="segment.isOnAir; else segmentTemplate"
                     [attr.data-segment-id]="segment.id"
                     [segment]="segment"
                     [isRundownActiveOrRehearsal]="isActiveOrRehearsal"
@@ -19,7 +19,19 @@
                     [durationInMsUntilSegmentIsPutOnAir]="startOffsetsInMsFromPlayheadForSegments[segment.id]"
                     [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
                     [currentEpochTime]="currentEpochTime"
-            ></sofie-segment>
+            ></sofie-sticky-segment>
+        </ng-template>
+        <ng-template #segmentTemplate>
+          <sofie-segment
+            *ngIf="!segment.isHidden"
+            [attr.data-segment-id]="segment.id"
+            [segment]="segment"
+            [isRundownActiveOrRehearsal]="isActiveOrRehearsal"
+            [isAutoNextStarted]="isAutoNextStarted"
+            [durationInMsUntilSegmentIsPutOnAir]="startOffsetsInMsFromPlayheadForSegments[segment.id]"
+            [remainingDurationInMsForOnAirPart]="remainingDurationInMsForOnAirPart"
+            [currentEpochTime]="currentEpochTime"
+          ></sofie-segment>
         </ng-template>
     </ng-container>
 </div>

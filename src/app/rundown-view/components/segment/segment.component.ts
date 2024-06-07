@@ -49,7 +49,7 @@ export class SegmentComponent implements OnChanges, OnDestroy {
   public roundedDurationInMsUntilSegmentIsPutOnAir?: number
 
   public pixelsPerSecond: number = INITIAL_PIXELS_PER_SECOND
-  public get isAtMinimumZoomLevel(): boolean {
+  public isAtMinimumZoomLevel(): boolean {
     return this.pixelsPerSecond <= MINIMUM_PIXELS_PER_SECOND
   }
 
