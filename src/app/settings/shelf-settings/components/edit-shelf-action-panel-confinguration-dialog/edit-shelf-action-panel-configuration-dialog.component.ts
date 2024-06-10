@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core'
 import { ShelfActionPanelConfiguration } from '../../../../shared/models/shelf-configuration'
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog'
 
 @Component({
   // There is no selector because this component is only allowed to be called through the DialogService.

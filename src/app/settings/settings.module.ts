@@ -5,7 +5,7 @@ import { SettingsComponent } from './components/settings/settings.component'
 import { SettingsMenuComponent } from './components/settings-menu/settings-menu.component'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { MatListModule } from '@angular/material/list'
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list'
 import { ClearCacheComponent } from './components/clear-cache/clear-cache.component'
 
 @NgModule({

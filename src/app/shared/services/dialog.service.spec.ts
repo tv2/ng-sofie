@@ -1,6 +1,6 @@
 import { DialogService } from './dialog.service'
 import { instance, mock, when } from '@typestrong/ts-mockito'
-import { MatDialog } from '@angular/material/dialog'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { RundownService } from '../../core/abstractions/rundown.service'
 import { BasicRundownStateService } from '../../core/services/basic-rundown-state.service'
 import { of } from 'rxjs'
