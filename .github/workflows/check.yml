@@ -8,7 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        job: ['Build', 'Test', 'Lint', 'Validate']
+        job:
+          - name: 'Build'
+            value: 'build'
+          - name: 'Test'
+            value: 'test'
+          - name: 'Lint'
+            value: 'lint'
+          - name: 'Validate'
+            value: 'validate'
     name: '${{ matrix.job }}'
     steps:
       - uses: actions/checkout@v4
@@ -19,5 +27,5 @@ jobs:
 
       - name: Install dependencies
         run: 'yarn install'
-      - name: '${{ matrix.job }}'
-        run: 'yarn ${{ matrix.job }}'
+      - name: '${{ matrix.job.name }}'
+        run: 'yarn ${{ matrix.job.value }}'
