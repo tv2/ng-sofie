@@ -9,23 +9,17 @@ jobs:
     strategy:
       matrix:
         job:
-          - name: 'Build'
-            value: 'build'
-          - name: 'Test'
-            value: 'test'
-          - name: 'Lint'
-            value: 'lint'
-          - name: 'Validate'
-            value: 'validate'
-    name: '${{ matrix.job }}'
+          - { name: 'Build', action: 'build' }
+          - { name: 'Test', action: 'test' }
+          - { name: 'Lint', action: 'lint' }
+          - { name: 'Validate', action: 'validate' }
+    name: '${{ matrix.job.name }}'
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           cache: 'yarn'
-
       - name: Install dependencies
         run: 'yarn install'
       - name: '${{ matrix.job.name }}'
-        run: 'yarn ${{ matrix.job.value }}'
+        run: 'yarn ${{ matrix.job.action }}'
