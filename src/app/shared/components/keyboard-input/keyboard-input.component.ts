@@ -45,8 +45,6 @@ export class KeyboardInputComponent implements ControlValueAccessor {
 
   private isTouched: boolean = false
 
-  constructor() {}
-
   public registerKey(event: KeyboardEvent): void {
     event.preventDefault()
     this.markAsTouched()

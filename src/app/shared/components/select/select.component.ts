@@ -36,8 +36,6 @@ export class SelectComponent<T> implements ControlValueAccessor {
 
   protected isShowingOptions: boolean = false
 
-  constructor() {}
-
   public selectOption(option: SelectOption<T>): void {
     this.markAsTouched()
     this.selectedOption = option

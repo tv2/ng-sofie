@@ -34,8 +34,6 @@ export class TextInputComponent implements ControlValueAccessor {
   private onChangeCallback: (value: string) => void
   private onTouchedCallback: () => void
 
-  constructor() {}
-
   public onChange(value: string): void {
     this.value = value
     this.markAsTouched()
