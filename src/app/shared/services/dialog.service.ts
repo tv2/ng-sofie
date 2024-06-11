@@ -1,6 +1,6 @@
 import { ComponentType } from '@angular/cdk/overlay'
 import { Injectable } from '@angular/core'
-import { DialogPosition, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
+import { LegacyDialogPosition as DialogPosition, MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog'
 import { ConfirmationDialogComponent, DialogColorScheme, DialogSeverity } from '../components/confirmation-dialog/confirmation-dialog.component'
 import { StronglyTypedDialog } from '../directives/strongly-typed-dialog.directive'
 

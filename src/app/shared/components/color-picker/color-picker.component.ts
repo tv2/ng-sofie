@@ -55,8 +55,6 @@ export class ColorPickerComponent implements ControlValueAccessor {
   private onChangeCallback: (value?: string) => void
   private onTouchedCallback: () => void
 
-  constructor() {}
-
   protected getColor(): string {
     return this.value ?? DEFAULT_COLOR
   }

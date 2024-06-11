@@ -16,8 +16,6 @@ export class EditStaticButtonsComponent implements OnInit {
   public updatedSelectedStaticActions: Tv2Action[] = []
   public selectedAction: Tv2Action
 
-  constructor() {}
-
   public ngOnInit(): void {
     if (this.selectedStaticActions) {
       this.selectedStaticActions.forEach(action => this.updatedSelectedStaticActions.push(action))

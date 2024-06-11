@@ -33,8 +33,6 @@ export class NumberInputComponent implements ControlValueAccessor {
   private onChangeCallback: (value: number) => void
   private onTouchedCallback: () => void
 
-  constructor() {}
-
   public onChange(): void {
     this.markAsTouched()
     this.onChangeCallback(this.value)

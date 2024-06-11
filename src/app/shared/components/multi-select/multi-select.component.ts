@@ -45,8 +45,6 @@ export class MultiSelectComponent<T> implements OnInit, ControlValueAccessor {
 
   private isTouched: boolean = false
 
-  constructor() {}
-
   @HostListener('click', ['$event'])
   protected registerClick(): void {
     this.hasBeenClicked = false
