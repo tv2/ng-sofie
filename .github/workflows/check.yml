@@ -31,4 +31,3 @@ jobs:
 
       - name: '${{ matrix.job.name }}'
         run: 'yarn ${{ matrix.job.action }}'
-        continue-on-error: true
