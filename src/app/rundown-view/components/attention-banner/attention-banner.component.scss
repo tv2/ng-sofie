@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  padding: 4px 10px;
+  background-color: var(--attention-color);
+  color: var(--black-color);
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-style: italic;
+
+  sofie-icon-button {
+    color: var(--black-color);
+  }
+}
