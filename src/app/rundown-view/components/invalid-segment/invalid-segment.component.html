@@ -5,13 +5,9 @@
             {{ segment.referenceTag }}
           </span>
         </div>
-        <div class="invalid p-2 pt-1 pb-1">
-            <sofie-icon-button [icon]="Icon.TRIANGLE_EXCLAMATION" [iconSize]="IconSize.M" [disabled]="true"></sofie-icon-button>
-            <span class="ms-1">INVALID</span>
-            <div class="text">
-                {{ segment.invalidity?.reason }}
-            </div>
-        </div>
+
+        <sofie-attention-banner i18n-label label="invalid-segment.invalid.label" [description]="segment.invalidity?.reason"></sofie-attention-banner>
+
         <div class="title m-2">
             {{ segment.name }}
         </div>

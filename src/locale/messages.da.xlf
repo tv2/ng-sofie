@@ -506,6 +506,14 @@
         <source>invalid-part-tooltip.invalid-part.label</source>
         <target>Parten er ugyldig.</target>
       </trans-unit>
+      <trans-unit id="2366487849326287203" datatype="html">
+        <source>invalid-segment.invalid.label</source>
+        <target>UGYLDIG</target>
+      </trans-unit>
+      <trans-unit id="1956737595735469040" datatype="html">
+        <source>segment.unsynced.label</source>
+        <target>USYNKRONISERET</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

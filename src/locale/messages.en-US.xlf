@@ -506,6 +506,14 @@
         <source>invalid-part-tooltip.invalid-part.label</source>
         <target>The part is invalid.</target>
       </trans-unit>
+      <trans-unit id="2366487849326287203" datatype="html">
+        <source>invalid-segment.invalid.label</source>
+        <target>INVALID</target>
+      </trans-unit>
+      <trans-unit id="1956737595735469040" datatype="html">
+        <source>segment.unsynced.label</source>
+        <target>UNSYNCED</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

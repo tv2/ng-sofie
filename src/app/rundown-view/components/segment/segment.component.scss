@@ -54,18 +54,6 @@
     }
   }
 
-  .unsynced {
-    padding: 4px 10px;
-    background: var(--rundown-unsynced-segment-color);
-    color: var(--black-color);
-    font-size: 1rem;
-    font-weight: 500;
-
-    sofie-icon-button {
-      color: var(--black-color);
-    }
-  }
-
   .title {
     padding: 7px;
     color: var(--text-color);
