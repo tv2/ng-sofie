@@ -11,7 +11,7 @@
       <span class="label">{{piece.name}}</span>
     </header>
 
-    <sofie-attention-banner *ngIf="hasPieceMedia() && !media" i18n-label label="piece-tooltip.source-unavailable.label"></sofie-attention-banner>
+    <sofie-attention-banner *ngIf="hasPieceMedia() && !media" i18n-label label="piece-tooltip.source-unavailable.label" size="small"></sofie-attention-banner>
 
     <div class="content-fields">
       <div *ngFor="let field of tooltipContentFields" class="field">

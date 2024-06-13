@@ -1,2 +1,5 @@
-<sofie-icon-button [icon]="Icon.TRIANGLE_EXCLAMATION" [iconSize]="IconSize.M"></sofie-icon-button>
-<span class="ms-1">{{ label }}</span>
+<div class="label">
+  <sofie-icon-button [icon]="Icon.TRIANGLE_EXCLAMATION" [iconSize]="IconSize.M"></sofie-icon-button>
+  <span class="ms-1">{{ label }}</span>
+</div>
+<div *ngIf="description" class="description">{{ description }}</div>

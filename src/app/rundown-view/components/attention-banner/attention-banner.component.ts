@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core'
 import { Icon, IconSize } from '../../../shared/enums/icon'
 
 @Component({
@@ -8,8 +8,16 @@ import { Icon, IconSize } from '../../../shared/enums/icon'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttentionBannerComponent {
-  @Input()
-  public label: string
   protected readonly Icon = Icon
   protected readonly IconSize = IconSize
+
+  @Input()
+  public label: string
+
+  @Input()
+  public description?: string
+
+  @Input()
+  @HostBinding('class')
+  public size: 'small' | 'medium' = 'medium'
 }
