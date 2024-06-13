@@ -53,7 +53,6 @@ body {
   --rundown-draggable-shelf-color: #555555;
   --rundown-segment-header-background-color: #4b4b4b;
   --rundown-draggable-shelf-hover-color: #888888;
-  --rundown-unsynced-segment-color: #ffff00ba;
   --rundown-timeline-marker-color: #5f6164;
 
   --gradient-black-rgba-with-02-opacity-color: rgba(0, 0, 0, 0.2);
@@ -62,7 +61,7 @@ body {
   --gradient-black-rgba-with-08-opacity-color: rgba(0, 0, 0, 0.8);
   --gradient-green-rgba-with-04-opacity-color: rgba(0, 222, 99, 0.4);
 
-  --unsynced-part-linear-gradient: repeating-linear-gradient(120deg, #00000000, #00000000 8px, #ffff0055 8px, #ffff0055 16px);
+  --unsynced-part-linear-gradient: repeating-linear-gradient(120deg, var(--transparent-color), var(--transparent-color) 8px, var(--attention-color) 8px, var(--attention-color) 16px);
   --action-panel-scrollable-before-linear-gradient: linear-gradient(90deg, #222222ff 0%, #222222ff 10%, #22222200 100%);
   --action-panel-scrollable-after-linear-gradient: linear-gradient(-90deg, #222222ff 0%, #222222ff 10%, #22222200 100%);
 
