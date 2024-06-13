@@ -56,451 +56,455 @@
       </trans-unit>
       <trans-unit id="7774679192134693239" datatype="html">
         <source>rundown-overview.settings.title</source>
-        <target state="new">Indstillinger</target>
+        <target>Indstillinger</target>
       </trans-unit>
       <trans-unit id="4380077604653787346" datatype="html">
         <source>settings.clear-cache.label</source>
-        <target state="new">Ryd cache</target>
+        <target>Ryd cache</target>
       </trans-unit>
       <trans-unit id="7618983089240067205" datatype="html">
         <source>action-triggers.shortcut.label</source>
-        <target state="new">Shortcut</target>
+        <target>Shortcut</target>
       </trans-unit>
       <trans-unit id="1532790028301204513" datatype="html">
         <source>global.delete.label</source>
-        <target state="new">Delete</target>
+        <target>Delete</target>
       </trans-unit>
       <trans-unit id="386627600927064568" datatype="html">
         <source>keyboard-mapping.delete-selected.confirmation</source>
-        <target state="new">Are you sure you want to delete all selected Keyboard Mappings?</target>
+        <target>Are you sure you want to delete all selected Keyboard Mappings?</target>
       </trans-unit>
       <trans-unit id="6285874749005785753" datatype="html">
         <source>global.label</source>
-        <target state="new">Label</target>
+        <target>Label</target>
       </trans-unit>
       <trans-unit id="9004520789605873710" datatype="html">
         <source>global.close.button</source>
-        <target state="new">Close</target>
+        <target>Close</target>
       </trans-unit>
       <trans-unit id="5199708374936679830" datatype="html">
         <source>global.delete-selected.label</source>
-        <target state="new">Delete selected</target>
+        <target>Delete selected</target>
       </trans-unit>
       <trans-unit id="9158000000301348817" datatype="html">
         <source>action-triggers.trigger-on.label</source>
-        <target state="new">Trigger on</target>
+        <target>Trigger on</target>
       </trans-unit>
       <trans-unit id="5943393457796095490" datatype="html">
         <source>action-triggers.physical-mapping.label</source>
-        <target state="new">Physical mapping</target>
+        <target>Physical mapping</target>
       </trans-unit>
       <trans-unit id="5384713853490936899" datatype="html">
         <source>clear-cache.title</source>
-        <target state="new">Clear cache</target>
+        <target>Clear cache</target>
       </trans-unit>
       <trans-unit id="7955116266682092985" datatype="html">
         <source>clear-cache.button.label</source>
-        <target state="new">Clear configuration cache</target>
+        <target>Clear configuration cache</target>
       </trans-unit>
       <trans-unit id="7840343495376792564" datatype="html">
         <source>global.confirmation.label</source>
-        <target state="new">Confirmation</target>
+        <target>Confirmation</target>
       </trans-unit>
       <trans-unit id="6681316063292517711" datatype="html">
         <source>clear-cache.clear.confirmation</source>
-        <target state="new">Are you sure you want to clear your cache?</target>
+        <target>Are you sure you want to clear your cache?</target>
       </trans-unit>
       <trans-unit id="1544567860044151272" datatype="html">
         <source>global.clear.label</source>
-        <target state="new">Clear</target>
+        <target>Clear</target>
       </trans-unit>
       <trans-unit id="9191550720479888548" datatype="html">
         <source>settings.keyboard-mappings.title</source>
-        <target state="new">Keyboard mappings</target>
+        <target>Keyboard mappings</target>
       </trans-unit>
       <trans-unit id="4177582797246824978" datatype="html">
         <source>action-triggers.physical-mapping-help.tooltip</source>
-        <target state="new">The physical key combination that should be shown on the virtual keyboard in the rundown view. The field should only be used if the key combination is altered by a key mapping software like AutoHotKey.</target>
+        <target>The physical key combination that should be shown on the virtual keyboard in the rundown view. The field should only be used if the key combination is altered by a key mapping software like AutoHotKey.</target>
       </trans-unit>
       <trans-unit id="9012317992372082365" datatype="html">
         <source>global.next.label</source>
-        <target state="new">NEXT</target>
+        <target>NEXT</target>
       </trans-unit>
       <trans-unit id="5184481909550121889" datatype="html">
         <source>global.auto.label</source>
-        <target state="new">AUTO</target>
+        <target>AUTO</target>
       </trans-unit>
       <trans-unit id="4384831734174772961" datatype="html">
         <source>settings.shelf.label</source>
-        <target state="new">Shelf</target>
+        <target>Shelf</target>
       </trans-unit>
       <trans-unit id="4302180445374821108" datatype="html">
         <source>settings.shelf.action-panels.title</source>
-        <target state="new">Shelf Action panels</target>
+        <target>Shelf Action panels</target>
       </trans-unit>
       <trans-unit id="2803021013738697812" datatype="html">
         <source>global.create.label</source>
-        <target state="new">Create</target>
+        <target>Create</target>
       </trans-unit>
       <trans-unit id="6050389772118678864" datatype="html">
         <source>global.export.label</source>
-        <target state="new">Export</target>
+        <target>Export</target>
       </trans-unit>
       <trans-unit id="621872648794619093" datatype="html">
         <source>piece.lifespan.within-part</source>
-        <target state="new">Indeni parten</target>
+        <target>Indeni parten</target>
       </trans-unit>
       <trans-unit id="1624699664203091977" datatype="html">
         <source>piece.lifespan.sticky-until-segment-change</source>
-        <target state="new">Bliver indtil ændret i segmentet</target>
+        <target>Bliver indtil ændret i segmentet</target>
       </trans-unit>
       <trans-unit id="8704971237918811774" datatype="html">
         <source>piece.lifespan.sticky-until-segment-end</source>
-        <target state="new">Bliver indtil segment slutter</target>
+        <target>Bliver indtil segment slutter</target>
       </trans-unit>
       <trans-unit id="1512530649495667717" datatype="html">
         <source>piece.lifespan.sticky-until-rundown-change</source>
-        <target state="new">Bliver indtil ændret i rundown</target>
+        <target>Bliver indtil ændret i rundown</target>
       </trans-unit>
       <trans-unit id="249423270498322985" datatype="html">
         <source>action-panel.panel-name.label</source>
-        <target state="new">Panel name</target>
+        <target>Panel name</target>
       </trans-unit>
       <trans-unit id="7630473968632852036" datatype="html">
         <source>piece.lifespan.spanning-until-rundown-end</source>
-        <target state="new">Spænder indtil rundown slutter</target>
+        <target>Spænder indtil rundown slutter</target>
       </trans-unit>
       <trans-unit id="3495993720885162413" datatype="html">
         <source>action-panel.rank.label</source>
-        <target state="new">Rank</target>
+        <target>Rank</target>
       </trans-unit>
       <trans-unit id="558457345008559478" datatype="html">
         <source>piece.lifespan.start-spanning-segment-then-sticky-rundown</source>
-        <target state="new">Spænder segmentet og bliver så på rundown</target>
+        <target>Spænder segmentet og bliver så på rundown</target>
       </trans-unit>
       <trans-unit id="1842982718967386055" datatype="html">
         <source>global.audio.label</source>
-        <target state="new">Audio</target>
+        <target>Audio</target>
       </trans-unit>
       <trans-unit id="1016737278364313295" datatype="html">
         <source>piece.lifespan.unknown</source>
-        <target state="new">Ukendt</target>
+        <target>Ukendt</target>
       </trans-unit>
       <trans-unit id="389262478828731921" datatype="html">
         <source>global.remote.label</source>
-        <target state="new">Remote</target>
+        <target>Remote</target>
       </trans-unit>
       <trans-unit id="1146669822886669522" datatype="html">
         <source>piece-tooltip-content.name.label</source>
-        <target state="new">Navn</target>
+        <target>Navn</target>
       </trans-unit>
       <trans-unit id="6046979654633268329" datatype="html">
         <source>global.camera.label</source>
-        <target state="new">Camera</target>
+        <target>Camera</target>
       </trans-unit>
       <trans-unit id="4345807184627930663" datatype="html">
         <source>piece-tooltip-content.name-of-clip.label</source>
-        <target state="new">Klip navn</target>
+        <target>Klip navn</target>
       </trans-unit>
       <trans-unit id="2951845926043442554" datatype="html">
         <source>global.graphics.label</source>
-        <target state="new">Graphics</target>
+        <target>Graphics</target>
       </trans-unit>
       <trans-unit id="6258196151878366535" datatype="html">
         <source>piece-tooltip-content.name-of-pilot.label</source>
-        <target state="new">Navn på pilot</target>
+        <target>Navn på pilot</target>
       </trans-unit>
       <trans-unit id="8361312030303141039" datatype="html">
         <source>global.replay.label</source>
-        <target state="new">Replay</target>
+        <target>Replay</target>
       </trans-unit>
       <trans-unit id="1887044897982242749" datatype="html">
         <source>global.robot.label</source>
-        <target state="new">Robot</target>
+        <target>Robot</target>
       </trans-unit>
       <trans-unit id="7053378516611820006" datatype="html">
         <source>global.split-screen.label</source>
-        <target state="new">Split screen</target>
+        <target>Split screen</target>
       </trans-unit>
       <trans-unit id="8633433908703192113" datatype="html">
         <source>global.transition.label</source>
-        <target state="new">Transition</target>
+        <target>Transition</target>
       </trans-unit>
       <trans-unit id="8164633860480723989" datatype="html">
         <source>global.unknown.label</source>
-        <target state="new">Unknown</target>
+        <target>Unknown</target>
       </trans-unit>
       <trans-unit id="3522238577113202288" datatype="html">
         <source>global.video-clip.label</source>
-        <target state="new">Video clip</target>
+        <target>Video clip</target>
       </trans-unit>
       <trans-unit id="5944821486251382171" datatype="html">
         <source>global.filters.label</source>
-        <target state="new">Filters</target>
+        <target>Filters</target>
       </trans-unit>
       <trans-unit id="125592769491380843" datatype="html">
         <source>action-panel.delete.confirmation</source>
-        <target state="new">Er du sikker på at du vil slette dette panel?</target>
+        <target>Er du sikker på at du vil slette dette panel?</target>
       </trans-unit>
       <trans-unit id="4121868262213030663" datatype="html">
         <source>global.import.button</source>
-        <target state="new">Import</target>
+        <target>Import</target>
       </trans-unit>
       <trans-unit id="1489043303962671570" datatype="html">
         <source>keyboard-mapping.delete.confirmation</source>
-        <target state="new">Er du sikker på at du vil slette denne genvej?</target>
+        <target>Er du sikker på at du vil slette denne genvej?</target>
       </trans-unit>
       <trans-unit id="1426591653041922259" datatype="html">
         <source>edit-keyboard-mapping.edit</source>
-        <target state="new">Rediger genvej</target>
+        <target>Rediger genvej</target>
       </trans-unit>
       <trans-unit id="1469306793833284818" datatype="html">
         <source>edit-keyboard-mapping.create</source>
-        <target state="new">Opret genvej</target>
+        <target>Opret genvej</target>
       </trans-unit>
       <trans-unit id="3570927086139625658" datatype="html">
         <source>edit-shelf-action-panel-configuration.edit</source>
-        <target state="new">Rediger Action Panel konfiguration</target>
+        <target>Rediger Action Panel konfiguration</target>
       </trans-unit>
       <trans-unit id="7388536117729067" datatype="html">
         <source>edit-shelf-action-panel-configuration.create</source>
-        <target state="new">Opret Action Panel konfiguration</target>
+        <target>Opret Action Panel konfiguration</target>
       </trans-unit>
       <trans-unit id="8113227000238039449" datatype="html">
         <source>empty.table</source>
-        <target state="new">Ingen data fundet</target>
+        <target>Ingen data fundet</target>
       </trans-unit>
       <trans-unit id="377801051239310294" datatype="html">
         <source>rundown-overview-component.planned-start</source>
-        <target state="new">Planlagt start</target>
+        <target>Planlagt start</target>
       </trans-unit>
       <trans-unit id="1759269174172455303" datatype="html">
         <source>rundown-overview-component.duration</source>
-        <target state="new">Varighed</target>
+        <target>Varighed</target>
       </trans-unit>
       <trans-unit id="5719401361944025947" datatype="html">
         <source>rundown-overview-component.planned-end</source>
-        <target state="new">Planlagt slut</target>
+        <target>Planlagt slut</target>
       </trans-unit>
       <trans-unit id="265486137243693578" datatype="html">
         <source>common-search</source>
-        <target state="new">Søg</target>
+        <target>Søg</target>
       </trans-unit>
       <trans-unit id="7507229359295852513" datatype="html">
         <source>keyboard-mapping-settings-page.edit-action-panel</source>
-        <target state="new">Rediger Action panel</target>
+        <target>Rediger Action panel</target>
       </trans-unit>
       <trans-unit id="4970317883878168308" datatype="html">
         <source>keyboard-mapping-settings-page.copy-action-panel</source>
-        <target state="new">Dupliker Action panel</target>
+        <target>Dupliker Action panel</target>
       </trans-unit>
       <trans-unit id="6885589310720431669" datatype="html">
         <source>keyboard-mapping-settings-page.delete-action-panel</source>
-        <target state="new">Slet Action panel</target>
+        <target>Slet Action panel</target>
       </trans-unit>
       <trans-unit id="8250191741920581081" datatype="html">
         <source>action-selector.select-action</source>
-        <target state="new">Vælg en Action</target>
+        <target>Vælg en Action</target>
       </trans-unit>
       <trans-unit id="1039010698457393444" datatype="html">
         <source>action-selector.search-action</source>
-        <target state="new">Søg efter en Action</target>
+        <target>Søg efter en Action</target>
       </trans-unit>
       <trans-unit id="985670024801490264" datatype="html">
         <source>keyboard-mapping-settings-page.delete-keyboard-mapping.success</source>
-        <target state="new">Genvejen blev slettet</target>
+        <target>Genvejen blev slettet</target>
       </trans-unit>
       <trans-unit id="3545744709165250098" datatype="html">
         <source>keyboard-mapping-settings-page.duplicate-keyboard-mapping.success</source>
-        <target state="new">Genvejen blev duplikeret</target>
+        <target>Genvejen blev duplikeret</target>
       </trans-unit>
       <trans-unit id="7491316453773946580" datatype="html">
         <source>keyboard-mapping-settings-page.create-keyboard-mapping.success</source>
-        <target state="new">Genvejen blev oprettet</target>
+        <target>Genvejen blev oprettet</target>
       </trans-unit>
       <trans-unit id="4004671805035160284" datatype="html">
         <source>keyboard-mapping-settings-page.update-keyboard-mapping.success</source>
-        <target state="new">Genvejen blev opdateret</target>
+        <target>Genvejen blev opdateret</target>
       </trans-unit>
       <trans-unit id="6679898506590591687" datatype="html">
         <source>keyboard-mapping-settings-page.import-keyboard-mappings.success</source>
-        <target state="new">Genvejene blev importeret</target>
+        <target>Genvejene blev importeret</target>
       </trans-unit>
       <trans-unit id="2265780212602106942" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.fail</source>
-        <target state="new">Noget gik galt under sletning af genvejene</target>
+        <target>Noget gik galt under sletning af genvejene</target>
       </trans-unit>
       <trans-unit id="976917377731196434" datatype="html">
         <source>shelf-action-panel-settings-page.create-action-panel.success <x id="PH" equiv-text="createdActionPanel.name"/></source>
-        <target state="new">Action panelet: <x id="PH" equiv-text="result.name"/> blev oprettet</target>
+        <target>Action panelet: <x id="PH" equiv-text="result.name"/> blev oprettet</target>
       </trans-unit>
       <trans-unit id="4084730079945397668" datatype="html">
         <source>shelf-action-panel-settings.page.update-action-panel.success <x id="PH" equiv-text="updatedActionPanel.name"/></source>
-        <target state="new">Action panelet: <x id="PH" equiv-text="result.name"/> blev opdateret</target>
+        <target>Action panelet: <x id="PH" equiv-text="result.name"/> blev opdateret</target>
       </trans-unit>
       <trans-unit id="2441219618501183432" datatype="html">
         <source>shelf-action-panel-settings-page.selected-action-panels.deleted</source>
-        <target state="new">De valgte Action paneler blev slettet</target>
+        <target>De valgte Action paneler blev slettet</target>
       </trans-unit>
       <trans-unit id="5114970090218136617" datatype="html">
         <source>common.save</source>
-        <target state="new">Gem</target>
+        <target>Gem</target>
       </trans-unit>
       <trans-unit id="247703202619960491" datatype="html">
         <source>piece-tooltip-content.template-name.label</source>
-        <target state="new">Navn på skabelon</target>
+        <target>Navn på skabelon</target>
       </trans-unit>
       <trans-unit id="2286645272575381009" datatype="html">
         <source>piece-tooltip-content.content-of-all-fields.label</source>
-        <target state="new">Indhold af alle felter</target>
+        <target>Indhold af alle felter</target>
       </trans-unit>
       <trans-unit id="1962663410998124131" datatype="html">
         <source>piece-tooltip-content.duration.label</source>
-        <target state="new">Varighed</target>
+        <target>Varighed</target>
       </trans-unit>
       <trans-unit id="2911851896669162406" datatype="html">
         <source>piece-tooltip-content.available-for-playout.label</source>
-        <target state="new">Kan afspilles</target>
+        <target>Kan afspilles</target>
       </trans-unit>
       <trans-unit id="1044477716904098041" datatype="html">
         <source>piece-tooltip-content.time-code-in-part.label</source>
-        <target state="new">Tid afspillet i part</target>
+        <target>Tid afspillet i part</target>
       </trans-unit>
       <trans-unit id="3000985957863398667" datatype="html">
         <source>piece-tooltip-content.out-type.label</source>
-        <target state="new">Udgangstype</target>
+        <target>Udgangstype</target>
       </trans-unit>
       <trans-unit id="8147260465029418817" datatype="html">
         <source>piece-tooltip-content.unknown.data</source>
-        <target state="new">Ukendt</target>
+        <target>Ukendt</target>
       </trans-unit>
       <trans-unit id="4174829375203668461" datatype="html">
         <source>piece-tooltip-content.no-specific-time-code.data</source>
-        <target state="new">(Ingen specifik tidskode))</target>
+        <target>(Ingen specifik tidskode))</target>
       </trans-unit>
       <trans-unit id="717945474169849731" datatype="html">
         <source>global.yes</source>
-        <target state="new">Ja</target>
+        <target>Ja</target>
       </trans-unit>
       <trans-unit id="8248235614614318568" datatype="html">
         <source>global.no</source>
-        <target state="new">Nej</target>
+        <target>Nej</target>
       </trans-unit>
       <trans-unit id="3623062952070884482" datatype="html">
         <source>piece-tooltip.source-unavailable.label</source>
-        <target state="new">Kilden er utilgængelig!</target>
+        <target>Kilden er utilgængelig!</target>
       </trans-unit>
       <trans-unit id="8873287033928471003" datatype="html">
         <source>keyboard-mapping-settings-page.import-keyboard-mappings.failure</source>
-        <target state="new">Noget gik galt under importeringen af genveje</target>
+        <target>Noget gik galt under importeringen af genveje</target>
       </trans-unit>
       <trans-unit id="8291594485469554782" datatype="html">
         <source>notification-icon.toggle-panel.tooltip</source>
-        <target state="new">Klik for at vise/skjule notifikationspanelet</target>
+        <target>Klik for at vise/skjule notifikationspanelet</target>
       </trans-unit>
       <trans-unit id="3299373246271290710" datatype="html">
         <source>action-triggers.action.label</source>
-        <target state="new">Action</target>
+        <target>Action</target>
       </trans-unit>
       <trans-unit id="719177318571875364" datatype="html">
         <source>common.form-required-field.button-tooltip</source>
-        <target state="new">Please fill out the required field(s).</target>
+        <target>Please fill out the required field(s).</target>
       </trans-unit>
       <trans-unit id="5742386463554387927" datatype="html">
         <source>action-triggers.shortcut.error</source>
-        <target state="new">A shortcut is required.</target>
+        <target>A shortcut is required.</target>
       </trans-unit>
       <trans-unit id="6359779760013296434" datatype="html">
         <source>action-triggers.trigger-on.error</source>
-        <target state="new">Please select how the shortcut should trigger.</target>
+        <target>Please select how the shortcut should trigger.</target>
       </trans-unit>
       <trans-unit id="6127544094154745108" datatype="html">
         <source><x id="PH" equiv-text="this.selectedAction?.argument?.name"/> action-triggers.action-arguments.error</source>
-        <target state="new"><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> is required.</target>
+        <target><x id="PH" equiv-text="this.selectedAction?.argument?.name!"/> is required.</target>
       </trans-unit>
       <trans-unit id="979335411678822239" datatype="html">
         <source>action-panel.name.error</source>
-        <target state="new">Please fill out a name.</target>
+        <target>Please fill out a name.</target>
       </trans-unit>
       <trans-unit id="5202318571157878044" datatype="html">
         <source>action-panel.action-filter.error</source>
-        <target state="new">Select at least one filter.</target>
+        <target>Select at least one filter.</target>
       </trans-unit>
       <trans-unit id="770599904666863258" datatype="html">
         <source>action-panel.rank.error</source>
-        <target state="new">The panel must have a rank provided.</target>
+        <target>The panel must have a rank provided.</target>
       </trans-unit>
       <trans-unit id="6191074751909534346" datatype="html">
         <source>action-triggers.selected-action.label</source>
-        <target state="new">Selected action</target>
+        <target>Selected action</target>
       </trans-unit>
       <trans-unit id="5115532688749023793" datatype="html">
         <source>action-triggers.no-selected-action.label</source>
-        <target state="new">No selected action</target>
+        <target>No selected action</target>
       </trans-unit>
       <trans-unit id="4104115551404451182" datatype="html">
         <source>dialog.button.activate</source>
-        <target state="new">Aktiver</target>
+        <target>Aktiver</target>
       </trans-unit>
       <trans-unit id="6184838723314474094" datatype="html">
         <source>dialog.button.rehearse</source>
-        <target state="new">Afprøv</target>
+        <target>Afprøv</target>
       </trans-unit>
       <trans-unit id="5333590585565329092" datatype="html">
         <source>dialog.message.activation</source>
-        <target state="new">Er du sikker på at du vil aktivere denne Rundown?</target>
+        <target>Er du sikker på at du vil aktivere denne Rundown?</target>
       </trans-unit>
       <trans-unit id="3626510894964414637" datatype="html">
         <source>dialog.message.activation.warning</source>
-        <target state="new">Er du sikker på du vil aktivere denne Rundown? Det vil deaktivere Rundown</target>
+        <target>Er du sikker på du vil aktivere denne Rundown? Det vil deaktivere Rundown</target>
       </trans-unit>
       <trans-unit id="6370990329720066506" datatype="html">
         <source>dialog.message.rehearse</source>
-        <target state="new">Er du sikker på at du vil afprøve denne Rundown?</target>
+        <target>Er du sikker på at du vil afprøve denne Rundown?</target>
       </trans-unit>
       <trans-unit id="2994423491366084246" datatype="html">
         <source>dialog.message.rehearse.warning</source>
-        <target state="new">Er du sikker på at du vil afprøve denne Rundown? Det vil deaktivere Rundown</target>
+        <target>Er du sikker på at du vil afprøve denne Rundown? Det vil deaktivere Rundown</target>
       </trans-unit>
       <trans-unit id="3407985762844707521" datatype="html">
         <source>static-buttons-configuration.card-header</source>
-        <target state="new">Permanente Knapper</target>
+        <target>Permanente Knapper</target>
       </trans-unit>
       <trans-unit id="6692919644654752745" datatype="html">
         <source>edit-static-buttons-dialog.header</source>
-        <target state="new">Tilføj eller Fjern Permanente Knapper</target>
+        <target>Tilføj eller Fjern Permanente Knapper</target>
       </trans-unit>
       <trans-unit id="5375689081015240470" datatype="html">
         <source>static-buttons-configuration.edit-configuration.success</source>
-        <target state="new">Permanente knapper blev opdateret</target>
+        <target>Permanente knapper blev opdateret</target>
       </trans-unit>
       <trans-unit id="4296700921833037953" datatype="html">
         <source>edit-static-buttons.remove-static-button.tooltip</source>
-        <target state="new">edit-static-buttons.remove-static-button.tooltip</target>
+        <target>edit-static-buttons.remove-static-button.tooltip</target>
       </trans-unit>
       <trans-unit id="9099550788779670007" datatype="html">
         <source>common.save-and-create-new</source>
-        <target state="new">Gem og opret ny</target>
+        <target>Gem og opret ny</target>
       </trans-unit>
       <trans-unit id="3477258835430959446" datatype="html">
         <source>keyboard-mapping-settings-page.delete-all-keyboard-mappings.success <x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/></source>
-        <target state="new"><x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/> genveje blev slettet</target>
+        <target><x id="PH" equiv-text="actionTriggerIdsToBeDeleted.length"/> genveje blev slettet</target>
       </trans-unit>
       <trans-unit id="5805882241277564116" datatype="html">
         <source>keyboard-mapping-settings-page-import-keyboard-mappings.actions-missing</source>
-        <target state="new">En eller flere importeret genveje havde en ugyldig action og blev derfor ikke importeret!</target>
+        <target>En eller flere importeret genveje havde en ugyldig action og blev derfor ikke importeret!</target>
       </trans-unit>
       <trans-unit id="8483503986037571867" datatype="html">
         <source>action-triggers.override-color.label</source>
-        <target state="new">Overskriv genvejs farven</target>
+        <target>Overskriv genvejs farven</target>
       </trans-unit>
       <trans-unit id="2313705565869821168" datatype="html">
         <source>color-picker.choose-color.placeholder</source>
-        <target state="new">Vælg en farve</target>
+        <target>Vælg en farve</target>
       </trans-unit>
       <trans-unit id="4439615397476866844" datatype="html">
         <source>action-triggers.override-color.help-text</source>
-        <target state="new">Vælg en ny farve hvis du gerne vil overskrive farven for genvejen.</target>
+        <target>Vælg en ny farve hvis du gerne vil overskrive farven for genvejen.</target>
+      </trans-unit>
+      <trans-unit id="1585014730962068045" datatype="html">
+        <source>invalid-part-tooltip.invalid-part.label</source>
+        <target>Parten er ugyldig.</target>
       </trans-unit>
     </body>
   </file>

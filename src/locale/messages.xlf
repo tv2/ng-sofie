@@ -377,6 +377,9 @@
       <trans-unit id="8483503986037571867" datatype="html">
         <source>action-triggers.override-color.label</source>
       </trans-unit>
+      <trans-unit id="1585014730962068045" datatype="html">
+        <source>invalid-part-tooltip.invalid-part.label</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

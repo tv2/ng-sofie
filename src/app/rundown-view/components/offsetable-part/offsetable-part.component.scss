@@ -32,4 +32,23 @@
       z-index: 10;
     }
   }
+
+  .invalid {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background:
+        linear-gradient(to bottom right, #00000000, #00000000 43%, var(--attention-color) 43%, var(--attention-color) 57%, #00000000 57%, #00000000 100%),
+        linear-gradient(to top right, #00000000, #00000000 43%, var(--attention-color) 43%, var(--attention-color) 57%, #00000000 57%, #00000000 100%),
+        linear-gradient(to bottom right, #00000000, #00000000 44%, var(--background-color) 44%, var(--background-color) 58%, #00000000 60%, #00000000 100%)
+      ;
+      background-size: 16px 16px;
+      opacity: .8;
+      z-index: 10;
+    }
+  }
 }
