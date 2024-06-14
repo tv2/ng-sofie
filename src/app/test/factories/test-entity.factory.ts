@@ -55,7 +55,7 @@ export class TestEntityFactory {
       rank: 0,
       isNext: false,
       isOnAir: false,
-      pieces: [],
+      pieces: [this.createPiece()],
       executedAt: 0,
       playedDuration: 0,
       isPlanned: true,

@@ -39,7 +39,7 @@ export class RundownNavigationService {
   }
 
   private isValidPart(part: Part): boolean {
-    return part.pieces.length !== 0 && !part.isOnAir
+    return !part.invalidity && part.pieces.length !== 0 && !part.isOnAir
   }
 
   private getFirstValidPartInSegment(segment: Segment): Part {
