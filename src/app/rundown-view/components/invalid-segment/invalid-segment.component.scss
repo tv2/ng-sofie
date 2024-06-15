@@ -27,17 +27,6 @@
       }
     }
 
-    .invalid {
-      background: var(--attention-color);
-      color: var(--black-color);
-      font-size: 1rem;
-      font-weight: 500;
-
-      sofie-icon-button {
-        color: var(--black-color);
-      }
-    }
-
     .title {
       color: var(--text-color);
       font-size: 1.4em;

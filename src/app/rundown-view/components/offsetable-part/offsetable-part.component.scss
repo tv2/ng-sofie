@@ -29,6 +29,26 @@
       bottom: 0;
       left: 0;
       background: var(--unsynced-part-linear-gradient);
+      opacity: .4;
+      z-index: 10;
+    }
+  }
+
+  .invalid {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background:
+        linear-gradient(to bottom right, var(--transparent-color), var(--transparent-color) 43%, var(--attention-color) 43%, var(--attention-color) 57%, var(--transparent-color) 57%, var(--transparent-color) 100%),
+        linear-gradient(to top right, var(--transparent-color), var(--transparent-color) 43%, var(--attention-color) 43%, var(--attention-color) 57%, var(--transparent-color) 57%, var(--transparent-color) 100%),
+        linear-gradient(to bottom right, var(--transparent-color), var(--transparent-color) 44%, var(--background-color) 44%, var(--background-color) 58%, var(--transparent-color) 60%, var(--transparent-color) 100%)
+      ;
+      background-size: 14px 14px;
+      opacity: .7;
       z-index: 10;
     }
   }

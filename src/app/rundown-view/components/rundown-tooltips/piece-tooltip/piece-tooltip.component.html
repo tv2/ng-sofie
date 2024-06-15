@@ -7,21 +7,18 @@
   </sofie-video-hover-scrub>
 
   <div class="tooltip-body">
-      <header [class]="getPieceColorClass()">
-          <span class="label">{{piece.name}}</span>
-      </header>
+    <header [class]="getPieceColorClass()">
+      <span class="label">{{piece.name}}</span>
+    </header>
 
-      <div *ngIf="hasPieceMedia() && !media" class="source-unavailable-banner">
-        <sofie-icon-button [icon]="Icon.TRIANGLE_EXCLAMATION" [iconSize]="IconSize.M"></sofie-icon-button>
-        <span class="ms-1" i18n>piece-tooltip.source-unavailable.label</span>
-      </div>
+    <sofie-attention-banner *ngIf="hasPieceMedia() && !media" i18n-label label="piece-tooltip.source-unavailable.label" size="small"></sofie-attention-banner>
 
-      <div class="content-fields">
-          <div *ngFor="let field of tooltipContentFields" class="field">
-              <span class="label">{{field.label}}:</span>
-              <span class="value">{{field.value}}</span>
-          </div>
+    <div class="content-fields">
+      <div *ngFor="let field of tooltipContentFields" class="field">
+        <span class="label">{{field.label}}:</span>
+        <span class="value">{{field.value}}</span>
       </div>
+    </div>
   </div>
 </div>
 

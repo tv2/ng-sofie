@@ -36,6 +36,8 @@ import { MiniShelfCycleService } from './services/mini-shelf-cycle.service'
 import { MiniShelfNavigationService } from './services/mini-shelf-navigation.service'
 import { Tv2PieceTooltipContentFieldService } from './services/tv2-piece-tooltip-content-field.service'
 import { InvalidSegmentComponent } from './components/invalid-segment/invalid-segment.component'
+import { AttentionBannerComponent } from './components/attention-banner/attention-banner.component'
+import { InvalidPartTooltipComponent } from './components/rundown-tooltips/invalid-part-tooltip/invalid-part-tooltip.component'
 
 @NgModule({
   declarations: [
@@ -61,6 +63,8 @@ import { InvalidSegmentComponent } from './components/invalid-segment/invalid-se
     MiniShelfComponent,
     PieceTooltipComponent,
     InvalidSegmentComponent,
+    AttentionBannerComponent,
+    InvalidPartTooltipComponent,
   ],
   exports: [SegmentComponent],
   providers: [

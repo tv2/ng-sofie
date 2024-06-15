@@ -1,4 +1,4 @@
-<div [cdkContextMenuTriggerFor]="contextMenu" class="piece-layers" [class.unsynced]="part.isUnsynced">
+<div [cdkContextMenuTriggerFor]="contextMenu" class="piece-layers" [class.unsynced]="part.isUnsynced" [class.invalid]="part.invalidity" sofieTooltip [sofieTooltipTemplate]="tooltipTemplate">
   <div *ngFor="let outputLayer of outputLayers" class="piece-layer">
     <sofie-offsetable-piece
       *ngFor="let piece of piecesGroupedByOutputLayer[outputLayer]; trackBy: trackPiece"
@@ -15,4 +15,8 @@
 
 <ng-template #contextMenu>
   <sofie-part-context-menu *ngIf="isRundownActiveOrRehearsal" [part]="part" [rundownId]="rundownId"></sofie-part-context-menu>
+</ng-template>
+
+<ng-template #tooltipTemplate>
+  <sofie-invalid-part-tooltip *ngIf="part.invalidity" [invalidity]="part.invalidity"></sofie-invalid-part-tooltip>
 </ng-template>

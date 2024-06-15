@@ -66,6 +66,8 @@ export class ZodEntityParser implements EntityParser {
     }),
   })
 
+  private readonly invalidityParser = zod.object({ reason: zod.string() })
+
   private readonly partParser = zod.object({
     id: zod.string().min(1),
     rank: zod.number(),
@@ -89,6 +91,7 @@ export class ZodEntityParser implements EntityParser {
       })
       .optional(),
     replacedPieces: zod.array(this.pieceParser).default([]),
+    invalidity: this.invalidityParser.optional(),
   })
 
   private readonly segmentParser = zod.object({
@@ -110,7 +113,7 @@ export class ZodEntityParser implements EntityParser {
         miniShelfVideoClipFile: zod.string().optional(),
       })
       .optional(),
-    invalidity: zod.object({ reason: zod.string() }).optional(),
+    invalidity: this.invalidityParser.optional(),
   })
 
   private readonly basicRundownParser = zod.object({
