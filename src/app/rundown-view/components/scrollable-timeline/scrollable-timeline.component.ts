@@ -101,4 +101,3 @@ export class ScrollableTimelineComponent {
     return part.id
   }
 }
-

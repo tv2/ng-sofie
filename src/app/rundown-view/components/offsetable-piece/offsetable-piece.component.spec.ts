@@ -24,9 +24,27 @@ describe(OffsetablePieceComponent.name, () => {
     component = fixture.componentInstance
   })
 
-  it('should create', () => {
-    const mockedPiece = TestEntityFactory.createPiece()
+  it('should NOT render text inside label div when isSpanning is true', () => {
+    const mockedPiece = TestEntityFactory.createPiece({ isSpanning: true, metadata: { type: 'testing' } })
     component.piece = mockedPiece
-    expect(component).toBeTruthy()
+    fixture.detectChanges()
+
+    const isSpanning = fixture.componentInstance.piece.isSpanning
+    const label = fixture.nativeElement.querySelector('div.label span')
+
+    expect(label).toBeNull()
+    expect(isSpanning).toBeTruthy()
+  })
+
+  it('should render text inside label div when isSpanning is undefined', () => {
+    const mockedPiece = TestEntityFactory.createPiece({ isSpanning: undefined, metadata: { type: 'testing' } })
+    component.piece = mockedPiece
+    fixture.detectChanges()
+
+    const isSpanning = fixture.componentInstance.piece.isSpanning
+    const label = fixture.nativeElement.querySelector('div.label span')
+
+    expect(label).toBeTruthy()
+    expect(isSpanning).toBeFalsy()
   })
 })

@@ -12,4 +12,3 @@ export interface Piece {
   readonly lifespan: PieceLifespan
   readonly metadata?: unknown
 }
-
