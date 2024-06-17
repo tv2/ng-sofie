@@ -3,6 +3,7 @@ import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
+import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
 
 const LEFT_MOUSE_BUTTON_IDENTIFIER: number = 0
 
@@ -12,20 +13,26 @@ const LEFT_MOUSE_BUTTON_IDENTIFIER: number = 0
   styleUrls: ['./scrollable-timeline.component.scss'],
 })
 export class ScrollableTimelineComponent {
-  @Input()
-  public segment: Segment
+  public get segment(): Segment {
+    return this._segment
+  }
 
-  @Input()
-  public outputLayers: Tv2OutputLayer[]
+  @Input() public set segment(segment: Segment) {
+    const { partID, pieceID } = this.getIDPositions(segment.parts)
 
-  @Input()
-  public isRundownActiveOrRehearsal: boolean
+    if (partID >= 0) {
+      this.copySpanningElement(segment.parts, partID, pieceID)
+    }
 
-  @Input()
-  public isAutoNextStarted: boolean
+    this._segment = segment
+  }
 
-  @Input()
-  public pixelsPerSecond: number
+  private _segment: Segment
+
+  @Input() public outputLayers: Tv2OutputLayer[]
+  @Input() public isRundownActiveOrRehearsal: boolean
+  @Input() public isAutoNextStarted: boolean
+  @Input() public pixelsPerSecond: number
 
   public scrollOffsetInMs: number = 0
 
@@ -52,6 +59,24 @@ export class ScrollableTimelineComponent {
     )
   }
 
+  private copySpanningElement(parts: readonly Part[], partID: number, pieceID: number): void {
+    const pieceToCopy = parts[partID].pieces[pieceID]
+    for (let i = partID + 1; i < parts.length; i++) {
+      parts[i].pieces.push({ ...pieceToCopy, isSpanning: true })
+    }
+  }
+
+  private getIDPositions(parts: readonly Part[]): { partID: number; pieceID: number } {
+    let pieceID = -1
+    return {
+      partID: parts.findIndex(part => {
+        pieceID = part.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+        return pieceID !== -1
+      }),
+      pieceID,
+    }
+  }
+
   private isLeftButtonEvent(event: MouseEvent): boolean {
     return event.button === LEFT_MOUSE_BUTTON_IDENTIFIER
   }
@@ -76,3 +101,4 @@ export class ScrollableTimelineComponent {
     return part.id
   }
 }
+

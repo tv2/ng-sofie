@@ -15,11 +15,9 @@ const KEEP_VISIBLE_DURATION_IN_MS: number = 20_000
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OffsetablePartComponent implements OnChanges {
-  @Input()
-  public part: Part
+  @Input() public part: Part
 
-  @Input()
-  public outputLayers: Tv2OutputLayer[]
+  @Input() public outputLayers: Tv2OutputLayer[]
 
   @Input()
   public pixelsPerSecond: number
