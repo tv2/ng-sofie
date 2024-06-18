@@ -1,10 +1,9 @@
 import { Component, HostListener, Input } from '@angular/core'
-import { Segment } from '../../../core/models/segment'
-import { Part } from '../../../core/models/part'
-import { PartEntityService } from '../../../core/services/models/part-entity.service'
-import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
-import { Piece } from 'src/app/core/models/piece'
+import { Part } from '../../../core/models/part'
+import { Segment } from '../../../core/models/segment'
+import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
+import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
 const LEFT_MOUSE_BUTTON_IDENTIFIER: number = 0
 
@@ -19,11 +18,7 @@ export class ScrollableTimelineComponent {
   }
 
   @Input() public set segment(segment: Segment) {
-    if (segment.id === '64i0bTLkhG8o5qowykLbXr_KitI_') console.log('before', segment.parts[2].pieces.length)
-    this.checkForSpanningElements(segment.parts)
-    //this._segment = { ...segment, parts: this.checkForSpanningElements(segment.parts) }
-    this._segment = segment
-    if (segment.id === '64i0bTLkhG8o5qowykLbXr_KitI_') console.log('after', this._segment.parts[2].pieces.length)
+    this._segment = { ...segment, parts: this.checkForSpanningElements(segment.parts) }
   }
 
   private _segment: Segment
@@ -58,17 +53,18 @@ export class ScrollableTimelineComponent {
     )
   }
 
-  private checkForSpanningElements(parts: readonly Part[]): void {
-    for (let index = 1; index < parts.length; index++) {
-      const previousPart = parts[index - 1]
-      const currentPart = parts[index]
-      const prevPieceIndex = previousPart.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+  private checkForSpanningElements(parts: readonly Part[]): Part[] {
+    return parts.reduce((result: Part[], currentPart: Part, index: number) => {
+      const previousPart = result[index - 1]
+      const prevPieceWithSpanElement = previousPart?.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
       const currPieceHasSpanElement = currentPart.pieces.some(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
 
-      if (prevPieceIndex >= 0 && !currPieceHasSpanElement) {
-        currentPart.pieces.push({ ...previousPart.pieces[prevPieceIndex], isSpanning: true })
+      if (prevPieceWithSpanElement >= 0 && !currPieceHasSpanElement) {
+        const partWithSpanFromPrev = { ...currentPart, pieces: [...currentPart.pieces, { ...previousPart.pieces[prevPieceWithSpanElement], isSpanning: true }] }
+        return [...result, partWithSpanFromPrev]
       }
-    }
+      return [...result, currentPart]
+    }, [])
   }
 
   private isLeftButtonEvent(event: MouseEvent): boolean {
