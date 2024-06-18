@@ -1,6 +1,7 @@
 import { Component, HostListener, Input } from '@angular/core'
-import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
 import { Part } from '../../../core/models/part'
+import { Piece } from '../../../core/models/piece'
+import { PieceLifespan } from '../../../core/models/piece-lifespan'
 import { Segment } from '../../../core/models/segment'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
@@ -60,8 +61,7 @@ export class ScrollableTimelineComponent {
       const currPieceHasSpanElement = currentPart.pieces.some(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
 
       if (prevPieceWithSpanElement >= 0 && !currPieceHasSpanElement) {
-        const partWithSpanFromPrev = { ...currentPart, pieces: [...currentPart.pieces, { ...previousPart.pieces[prevPieceWithSpanElement], isSpanning: true }] }
-        return [...result, partWithSpanFromPrev]
+        currentPart.pieces.push({ ...previousPart.pieces[prevPieceWithSpanElement], isSpanned: true } as Piece)
       }
       return [...result, currentPart]
     }, [])

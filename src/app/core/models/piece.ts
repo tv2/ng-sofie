@@ -8,7 +8,6 @@ export interface Piece {
   readonly start: number
   readonly duration?: number
   readonly isPlanned: boolean
-  readonly isSpanning?: boolean
   readonly lifespan: PieceLifespan
   readonly metadata?: unknown
 }
