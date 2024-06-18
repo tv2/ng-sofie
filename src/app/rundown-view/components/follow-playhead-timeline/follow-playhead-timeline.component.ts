@@ -93,7 +93,6 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
       const currPieceHasSpanElement = currentPart.pieces.some(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
 
       if (prevPieceWithSpanElement >= 0 && !currPieceHasSpanElement) {
-        console.log('curr', currentPart)
         currentPart.pieces.push({ ...previousPart.pieces[prevPieceWithSpanElement], isSpanned: true } as Piece)
       }
       return [...result, currentPart]
