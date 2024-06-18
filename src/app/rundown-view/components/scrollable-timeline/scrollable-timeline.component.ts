@@ -19,13 +19,11 @@ export class ScrollableTimelineComponent {
   }
 
   @Input() public set segment(segment: Segment) {
-    const { partIndex, pieceIndex } = this.getIndexPositions(segment.parts)
-
-    if (partIndex >= 0) {
-      this.copySpanningElement(segment.parts, partIndex, pieceIndex)
-    }
-
+    if (segment.id === '64i0bTLkhG8o5qowykLbXr_KitI_') console.log('before', segment.parts[2].pieces.length)
+    this.checkForSpanningElements(segment.parts)
+    //this._segment = { ...segment, parts: this.checkForSpanningElements(segment.parts) }
     this._segment = segment
+    if (segment.id === '64i0bTLkhG8o5qowykLbXr_KitI_') console.log('after', this._segment.parts[2].pieces.length)
   }
 
   private _segment: Segment
@@ -60,21 +58,16 @@ export class ScrollableTimelineComponent {
     )
   }
 
-  private copySpanningElement(parts: readonly Part[], partIndex: number, pieceIndex: number): void {
-    const pieceToCopy = parts[partIndex].pieces[pieceIndex]
-    for (let i = partIndex + 1; i < parts.length; i++) {
-      parts[i].pieces.push({ ...pieceToCopy, isSpanning: true })
-    }
-  }
+  private checkForSpanningElements(parts: readonly Part[]): void {
+    for (let index = 1; index < parts.length; index++) {
+      const previousPart = parts[index - 1]
+      const currentPart = parts[index]
+      const prevPieceIndex = previousPart.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+      const currPieceHasSpanElement = currentPart.pieces.some(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
 
-  private getIndexPositions(parts: readonly Part[]): { partIndex: number; pieceIndex: number } {
-    let pieceIndex = -1
-    return {
-      partIndex: parts.findIndex(part => {
-        pieceIndex = part.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
-        return pieceIndex !== -1
-      }),
-      pieceIndex,
+      if (prevPieceIndex >= 0 && !currPieceHasSpanElement) {
+        currentPart.pieces.push({ ...previousPart.pieces[prevPieceIndex], isSpanning: true })
+      }
     }
   }
 
