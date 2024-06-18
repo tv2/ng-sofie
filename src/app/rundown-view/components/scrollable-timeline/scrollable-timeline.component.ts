@@ -4,6 +4,7 @@ import { Part } from '../../../core/models/part'
 import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
+import { Piece } from 'src/app/core/models/piece'
 
 const LEFT_MOUSE_BUTTON_IDENTIFIER: number = 0
 
@@ -18,10 +19,10 @@ export class ScrollableTimelineComponent {
   }
 
   @Input() public set segment(segment: Segment) {
-    const { partID, pieceID } = this.getIDPositions(segment.parts)
+    const { partIndex, pieceIndex } = this.getIndexPositions(segment.parts)
 
-    if (partID >= 0) {
-      this.copySpanningElement(segment.parts, partID, pieceID)
+    if (partIndex >= 0) {
+      this.copySpanningElement(segment.parts, partIndex, pieceIndex)
     }
 
     this._segment = segment
@@ -59,21 +60,21 @@ export class ScrollableTimelineComponent {
     )
   }
 
-  private copySpanningElement(parts: readonly Part[], partID: number, pieceID: number): void {
-    const pieceToCopy = parts[partID].pieces[pieceID]
-    for (let i = partID + 1; i < parts.length; i++) {
+  private copySpanningElement(parts: readonly Part[], partIndex: number, pieceIndex: number): void {
+    const pieceToCopy = parts[partIndex].pieces[pieceIndex]
+    for (let i = partIndex + 1; i < parts.length; i++) {
       parts[i].pieces.push({ ...pieceToCopy, isSpanning: true })
     }
   }
 
-  private getIDPositions(parts: readonly Part[]): { partID: number; pieceID: number } {
-    let pieceID = -1
+  private getIndexPositions(parts: readonly Part[]): { partIndex: number; pieceIndex: number } {
+    let pieceIndex = -1
     return {
-      partID: parts.findIndex(part => {
-        pieceID = part.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
-        return pieceID !== -1
+      partIndex: parts.findIndex(part => {
+        pieceIndex = part.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+        return pieceIndex !== -1
       }),
-      pieceID,
+      pieceIndex,
     }
   }
 
