@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { OffsetablePieceComponent } from './offsetable-piece.component'
-import { instance, mock } from '@typestrong/ts-mockito'
-import { MediaStateService } from '../../../shared/services/media-state.service'
 import { ChangeDetectorRef } from '@angular/core'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { instance, mock } from '@typestrong/ts-mockito'
 import { TestEntityFactory } from 'src/app/test/factories/test-entity.factory'
+import { MediaStateService } from '../../../shared/services/media-state.service'
+import { OffsetablePieceComponent } from './offsetable-piece.component'
 
 describe(OffsetablePieceComponent.name, () => {
   let component: OffsetablePieceComponent
@@ -24,9 +24,27 @@ describe(OffsetablePieceComponent.name, () => {
     component = fixture.componentInstance
   })
 
-  it('should create', () => {
-    const mockedPiece = TestEntityFactory.createPiece()
+  it('should NOT render text inside label div when isSpanning is true', () => {
+    const mockedPiece = TestEntityFactory.createAugmentedPiece({ metadata: { type: 'testing' } })
     component.piece = mockedPiece
-    expect(component).toBeTruthy()
+    fixture.detectChanges()
+
+    const isSpanning = fixture.componentInstance.piece.isSpanned
+    const label = fixture.nativeElement.querySelector('div.label span')
+
+    expect(label).toBeNull()
+    expect(isSpanning).toBeTruthy()
+  })
+
+  it('should render text inside label div when isSpanning is undefined', () => {
+    const mockedPiece = TestEntityFactory.createPiece({ metadata: { type: 'testing' } })
+    component.piece = mockedPiece
+    fixture.detectChanges()
+
+    const isSpanning = fixture.componentInstance.piece.isSpanned
+    const label = fixture.nativeElement.querySelector('div.label span')
+
+    expect(label).toBeTruthy()
+    expect(isSpanning).toBeFalsy()
   })
 })

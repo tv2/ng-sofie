@@ -1,13 +1,16 @@
-import { Tv2Piece } from 'src/app/core/models/tv2-piece'
 import { Component, ElementRef, HostBinding, Input, OnChanges, OnDestroy, SimpleChange, SimpleChanges, ViewChild } from '@angular/core'
-import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
-import { MediaStateService } from '../../../shared/services/media-state.service'
-import { Media } from '../../../shared/services/media'
 import { Subscription } from 'rxjs'
-import { Piece } from 'src/app/core/models/piece'
+import { Tv2AudioMode } from '../../../core/enums/tv2-audio-mode'
+import { Piece } from '../../../core/models/piece'
+import { Tv2Piece } from '../../../core/models/tv2-piece'
 import { TooltipMetadata } from '../../../shared/directives/tooltip.directive'
+import { Media } from '../../../shared/services/media'
+import { MediaStateService } from '../../../shared/services/media-state.service'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
+type AugmentedPiece = Piece & {
+  isSpanned?: boolean
+}
 
 @Component({
   selector: 'sofie-offsetable-piece',
@@ -16,7 +19,7 @@ const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 })
 export class OffsetablePieceComponent implements OnChanges, OnDestroy {
   @Input()
-  public piece: Piece
+  public piece: AugmentedPiece
 
   @Input()
   public pixelsPerSecond: number
