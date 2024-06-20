@@ -24,7 +24,7 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
   }
 
   @Input() public set segment(segment: Segment) {
-    this._segment = { ...segment, parts: this.checkForSpanningElements(segment.parts) }
+    this._segment = { ...segment, parts: this.augmentPartsWithSpanningPiece(segment.parts) }
   }
 
   private _segment: Segment
@@ -86,16 +86,16 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
     }
   }
 
-  private checkForSpanningElements(parts: readonly Part[]): Part[] {
-    return parts.reduce((result: Part[], currentPart: Part, index: number) => {
-      const previousPart = result[index - 1]
+  private augmentPartsWithSpanningPiece(parts: readonly Part[]): Part[] {
+    return parts.map((part, index, allParts) => {
+      const previousPart = allParts[index - 1]
       const prevPieceWithSpanElement = previousPart?.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
-      const currPieceHasSpanElement = currentPart.pieces.some(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+      const currPieceHasSpanElement = part.pieces.some(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
 
       if (prevPieceWithSpanElement >= 0 && !currPieceHasSpanElement) {
-        currentPart.pieces.push({ ...previousPart.pieces[prevPieceWithSpanElement], isSpanned: true } as Piece)
+        part.pieces.push({ ...previousPart.pieces[prevPieceWithSpanElement], isSpanningSegment: true } as Piece)
       }
-      return [...result, currentPart]
+      return part
     }, [])
   }
 
