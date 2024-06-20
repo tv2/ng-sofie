@@ -57,11 +57,11 @@ export class ScrollableTimelineComponent {
   private augmentPartsWithSpanningPiece(parts: readonly Part[]): Part[] {
     return parts.map((part, index, allParts) => {
       const previousPart = allParts[index - 1]
-      const prevPieceWithSpanElement = previousPart?.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
-      const currPieceHasSpanElement = part.pieces.some(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+      const previousPieceWithSpanElement = previousPart?.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+      const currentPieceHasSpanElement = part.pieces.some(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
 
-      if (prevPieceWithSpanElement >= 0 && !currPieceHasSpanElement) {
-        part.pieces.push({ ...previousPart.pieces[prevPieceWithSpanElement], isSpanningSegment: true } as Piece)
+      if (previousPieceWithSpanElement >= 0 && !currentPieceHasSpanElement) {
+        part.pieces.push({ ...previousPart.pieces[previousPieceWithSpanElement], isSpanningSegment: true } as Piece)
       }
       return part
     }, [])
