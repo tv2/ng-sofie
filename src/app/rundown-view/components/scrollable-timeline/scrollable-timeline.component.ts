@@ -1,8 +1,10 @@
 import { Component, HostListener, Input } from '@angular/core'
-import { Segment } from '../../../core/models/segment'
 import { Part } from '../../../core/models/part'
-import { PartEntityService } from '../../../core/services/models/part-entity.service'
+import { Piece } from '../../../core/models/piece'
+import { PieceLifespan } from '../../../core/models/piece-lifespan'
+import { Segment } from '../../../core/models/segment'
 import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
+import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
 const LEFT_MOUSE_BUTTON_IDENTIFIER: number = 0
 
@@ -12,20 +14,20 @@ const LEFT_MOUSE_BUTTON_IDENTIFIER: number = 0
   styleUrls: ['./scrollable-timeline.component.scss'],
 })
 export class ScrollableTimelineComponent {
-  @Input()
-  public segment: Segment
+  public get segment(): Segment {
+    return this._segment
+  }
 
-  @Input()
-  public outputLayers: Tv2OutputLayer[]
+  @Input() public set segment(segment: Segment) {
+    this._segment = { ...segment, parts: this.checkForSpanningElements(segment.parts) }
+  }
 
-  @Input()
-  public isRundownActiveOrRehearsal: boolean
+  private _segment: Segment
 
-  @Input()
-  public isAutoNextStarted: boolean
-
-  @Input()
-  public pixelsPerSecond: number
+  @Input() public outputLayers: Tv2OutputLayer[]
+  @Input() public isRundownActiveOrRehearsal: boolean
+  @Input() public isAutoNextStarted: boolean
+  @Input() public pixelsPerSecond: number
 
   public scrollOffsetInMs: number = 0
 
@@ -50,6 +52,19 @@ export class ScrollableTimelineComponent {
       },
       { once: true }
     )
+  }
+
+  private checkForSpanningElements(parts: readonly Part[]): Part[] {
+    return parts.reduce((result: Part[], currentPart: Part, index: number) => {
+      const previousPart = result[index - 1]
+      const prevPieceWithSpanElement = previousPart?.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+      const currPieceHasSpanElement = currentPart.pieces.some(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+
+      if (prevPieceWithSpanElement >= 0 && !currPieceHasSpanElement) {
+        currentPart.pieces.push({ ...previousPart.pieces[prevPieceWithSpanElement], isSpanned: true } as Piece)
+      }
+      return [...result, currentPart]
+    }, [])
   }
 
   private isLeftButtonEvent(event: MouseEvent): boolean {

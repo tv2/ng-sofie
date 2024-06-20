@@ -1,20 +1,24 @@
-import { Part } from '../../core/models/part'
-import { Segment } from '../../core/models/segment'
-import { Rundown } from '../../core/models/rundown'
-import { Piece } from '../../core/models/piece'
-import { RundownTimingType } from '../../core/enums/rundown-timing-type'
-import { ActionTrigger } from 'src/app/shared/models/action-trigger'
-import { Tv2ActionContentType, Tv2PartAction, Tv2VideoClipAction } from 'src/app/shared/models/tv2-action'
-import { PartActionType } from 'src/app/shared/models/action-type'
-import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
-import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger-data'
-import { StudioConfiguration } from '../../shared/models/studio-configuration'
-import { Media } from '../../shared/services/media'
 import { PieceLifespan } from 'src/app/core/models/piece-lifespan'
+import { KeyEventType } from 'src/app/keyboard/value-objects/key-event-type'
+import { ActionTrigger } from 'src/app/shared/models/action-trigger'
+import { PartActionType } from 'src/app/shared/models/action-type'
+import { KeyboardTriggerData } from 'src/app/shared/models/keyboard-trigger-data'
+import { Tv2ActionContentType, Tv2PartAction, Tv2VideoClipAction } from 'src/app/shared/models/tv2-action'
+import { RundownMode } from '../../core/enums/rundown-mode'
+import { RundownTimingType } from '../../core/enums/rundown-timing-type'
+import { Part } from '../../core/models/part'
+import { Piece } from '../../core/models/piece'
+import { Rundown } from '../../core/models/rundown'
 import { AutoNextStartedEvent, PartSetAsNextEvent, RundownResetEvent } from '../../core/models/rundown-event'
 import { RundownEventType } from '../../core/models/rundown-event-type'
+import { Segment } from '../../core/models/segment'
 import { Tv2SegmentMetadata } from '../../core/models/tv2-segment-metadata'
-import { RundownMode } from '../../core/enums/rundown-mode'
+import { StudioConfiguration } from '../../shared/models/studio-configuration'
+import { Media } from '../../shared/services/media'
+
+type AugmentedPiece = Piece & {
+  isSpanned?: boolean
+}
 
 export class TestEntityFactory {
   public static createRundown(rundown: Partial<Rundown> = {}): Rundown {
@@ -55,7 +59,7 @@ export class TestEntityFactory {
       rank: 0,
       isNext: false,
       isOnAir: false,
-      pieces: [],
+      pieces: [this.createPiece()],
       executedAt: 0,
       playedDuration: 0,
       isPlanned: true,
@@ -77,6 +81,9 @@ export class TestEntityFactory {
       lifespan: PieceLifespan.WITHIN_PART,
       ...piece,
     }
+  }
+  public static createAugmentedPiece(piece: Partial<Piece> = {}): AugmentedPiece {
+    return { ...TestEntityFactory.createPiece(piece), isSpanned: true }
   }
 
   public static createActionTrigger(actionTrigger: Partial<ActionTrigger<KeyboardTriggerData>> = {}): ActionTrigger<KeyboardTriggerData> {

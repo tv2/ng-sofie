@@ -5,19 +5,12 @@
   [class.media-unavailable]="isMediaUnavailable()"
   sofieTooltip
   [sofieTooltipTemplate]="pieceTooltip"
-  (tooltipMetadataChange)="updatePositionInVideo($event)"
->
+  (tooltipMetadataChange)="updatePositionInVideo($event)">
   <div class="label" [style.margin-left.px]="labelOffsetInPixels">
-    <span #labelTextElement>{{ piece.name }}</span>
+    <span *ngIf="piece.isSpanned !== true" #labelTextElement>{{ piece.name }}</span>
   </div>
 </div>
 
 <ng-template #pieceTooltip>
-    <sofie-piece-tooltip
-            [piece]="piece"
-            [durationInMs]="partDuration"
-            [media]="media"
-            [positionInVideoInMs]="positionInVideoInMs"
-    >
-    </sofie-piece-tooltip>
+  <sofie-piece-tooltip [piece]="piece" [durationInMs]="partDuration" [media]="media" [positionInVideoInMs]="positionInVideoInMs"> </sofie-piece-tooltip>
 </ng-template>

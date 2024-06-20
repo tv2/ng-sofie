@@ -1,5 +1,6 @@
 import { Piece } from './piece'
-import { AutoNext } from '../models/auto-next'
+import { AutoNext } from './auto-next'
+import { Invalidity } from './invalidity'
 
 export interface Part {
   readonly id: string
@@ -17,4 +18,5 @@ export interface Part {
   readonly isUntimed: boolean
   readonly metadata?: unknown
   readonly replacedPieces: readonly Piece[]
+  readonly invalidity?: Invalidity
 }

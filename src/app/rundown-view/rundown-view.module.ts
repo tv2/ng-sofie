@@ -7,11 +7,15 @@ import { TimelineMarkersComponent } from './components/timeline-markers/timeline
 import { TimelinePlayheadComponent } from './components/timeline-playhead/timeline-playhead.component'
 import { RundownHeaderComponent } from './components/rundown-header/rundown-header.component'
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button'
-import { RundownHeaderContextMenuComponent } from './components/rundown-header-context-menu/rundown-header-context-menu.component'
+import {
+  RundownHeaderContextMenuComponent
+} from './components/rundown-header-context-menu/rundown-header-context-menu.component'
 import { CdkMenuModule } from '@angular/cdk/menu'
 import { SegmentEndIndicatorComponent } from './components/segment-end-indicator/segment-end-indicator.component'
 import { TimelineFlagComponent } from './components/timeline-flag/timeline-flag.component'
-import { FollowPlayheadTimelineComponent } from './components/follow-playhead-timeline/follow-playhead-timeline.component'
+import {
+  FollowPlayheadTimelineComponent
+} from './components/follow-playhead-timeline/follow-playhead-timeline.component'
 import { ScrollableTimelineComponent } from './components/scrollable-timeline/scrollable-timeline.component'
 import { OffsetablePartComponent } from './components/offsetable-part/offsetable-part.component'
 import { Tv2PieceGroupService } from './services/tv2-piece-group.service'
@@ -37,6 +41,10 @@ import { MiniShelfNavigationService } from './services/mini-shelf-navigation.ser
 import { Tv2PieceTooltipContentFieldService } from './services/tv2-piece-tooltip-content-field.service'
 import { InvalidSegmentComponent } from './components/invalid-segment/invalid-segment.component'
 import { StickySegmentComponent } from './components/sticky-segment/sticky-segment.component'
+import { AttentionBannerComponent } from './components/attention-banner/attention-banner.component'
+import {
+  InvalidPartTooltipComponent
+} from './components/rundown-tooltips/invalid-part-tooltip/invalid-part-tooltip.component'
 
 @NgModule({
   declarations: [
@@ -63,6 +71,8 @@ import { StickySegmentComponent } from './components/sticky-segment/sticky-segme
     PieceTooltipComponent,
     InvalidSegmentComponent,
     StickySegmentComponent,
+    AttentionBannerComponent,
+    InvalidPartTooltipComponent,
   ],
   exports: [SegmentComponent],
   providers: [

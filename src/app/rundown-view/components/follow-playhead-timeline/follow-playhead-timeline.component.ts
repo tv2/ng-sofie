@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core'
-import { Part } from '../../../core/models/part'
-import { Segment } from '../../../core/models/segment'
-import { PartEntityService } from '../../../core/services/models/part-entity.service'
 import { RundownService } from '../../../core/abstractions/rundown.service'
-import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 import { Tv2PieceType } from '../../../core/enums/tv2-piece-type'
+import { Part } from '../../../core/models/part'
+import { Piece } from '../../../core/models/piece'
+import { PieceLifespan } from '../../../core/models/piece-lifespan'
+import { Segment } from '../../../core/models/segment'
+import { Tv2OutputLayer } from '../../../core/models/tv2-output-layer'
 import { Tv2PieceMetadata } from '../../../core/models/tv2-piece'
+import { PartEntityService } from '../../../core/services/models/part-entity.service'
 
 const PRE_PLAYHEAD_INSET_IN_PIXELS: number = 40
 const POST_PLAYHEAD_INSET_IN_PIXELS: number = 200
@@ -17,11 +19,18 @@ const POST_PLAYHEAD_INSET_IN_PIXELS: number = 200
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FollowPlayheadTimelineComponent implements OnChanges {
-  @Input()
-  public time: number
+  public get segment(): Segment {
+    return this._segment
+  }
+
+  @Input() public set segment(segment: Segment) {
+    this._segment = { ...segment, parts: this.checkForSpanningElements(segment.parts) }
+  }
+
+  private _segment: Segment
 
   @Input()
-  public segment: Segment
+  public time: number
 
   @Input()
   public outputLayers: Tv2OutputLayer[]
@@ -75,6 +84,19 @@ export class FollowPlayheadTimelineComponent implements OnChanges {
       const segment: Segment = segmentChange.currentValue
       this.shouldShowPartCountdown = segment.parts.some(part => this.doesPartContainVideoClipOrVoiceOver(part))
     }
+  }
+
+  private checkForSpanningElements(parts: readonly Part[]): Part[] {
+    return parts.reduce((result: Part[], currentPart: Part, index: number) => {
+      const previousPart = result[index - 1]
+      const prevPieceWithSpanElement = previousPart?.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+      const currPieceHasSpanElement = currentPart.pieces.some(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+
+      if (prevPieceWithSpanElement >= 0 && !currPieceHasSpanElement) {
+        currentPart.pieces.push({ ...previousPart.pieces[prevPieceWithSpanElement], isSpanned: true } as Piece)
+      }
+      return [...result, currentPart]
+    }, [])
   }
 
   private getPreviousParts(onAirPartIndex: number): Part[] {
