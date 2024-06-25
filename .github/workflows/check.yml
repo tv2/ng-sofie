@@ -12,6 +12,7 @@ jobs:
   build-test-lint-validate:
     runs-on: 'ubuntu-latest'
     strategy:
+      fail-fast: false
       matrix:
         job:
           - { name: 'Build', action: 'build' }
