@@ -9,7 +9,7 @@ import { MediaStateService } from '../../../shared/services/media-state.service'
 
 const LABEL_TEXT_INSET_IN_PIXELS: number = 14
 type AugmentedPiece = Piece & {
-  isSpanned?: boolean
+  isSpanningSegment?: boolean
 }
 
 @Component({

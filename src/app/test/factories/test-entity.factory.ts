@@ -17,7 +17,7 @@ import { StudioConfiguration } from '../../shared/models/studio-configuration'
 import { Media } from '../../shared/services/media'
 
 type AugmentedPiece = Piece & {
-  isSpanned?: boolean
+  isSpanningSegment?: boolean
 }
 
 export class TestEntityFactory {
@@ -83,7 +83,7 @@ export class TestEntityFactory {
     }
   }
   public static createAugmentedPiece(piece: Partial<Piece> = {}): AugmentedPiece {
-    return { ...TestEntityFactory.createPiece(piece), isSpanned: true }
+    return { ...TestEntityFactory.createPiece(piece), isSpanningSegment: true }
   }
 
   public static createActionTrigger(actionTrigger: Partial<ActionTrigger<KeyboardTriggerData>> = {}): ActionTrigger<KeyboardTriggerData> {

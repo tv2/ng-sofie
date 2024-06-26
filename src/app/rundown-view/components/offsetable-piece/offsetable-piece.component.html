@@ -7,7 +7,7 @@
   [sofieTooltipTemplate]="pieceTooltip"
   (tooltipMetadataChange)="updatePositionInVideo($event)">
   <div class="label" [style.margin-left.px]="labelOffsetInPixels">
-    <span *ngIf="piece.isSpanned !== true" #labelTextElement>{{ piece.name }}</span>
+    <span *ngIf="!piece.isSpanningSegment" #labelTextElement>{{ piece.name }}</span>
   </div>
 </div>
 

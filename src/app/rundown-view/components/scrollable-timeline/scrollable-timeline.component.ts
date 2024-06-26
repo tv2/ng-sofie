@@ -19,7 +19,7 @@ export class ScrollableTimelineComponent {
   }
 
   @Input() public set segment(segment: Segment) {
-    this._segment = { ...segment, parts: this.checkForSpanningElements(segment.parts) }
+    this._segment = { ...segment, parts: this.augmentPartsWithSpanningPiece(segment.parts) }
   }
 
   private _segment: Segment
@@ -54,16 +54,16 @@ export class ScrollableTimelineComponent {
     )
   }
 
-  private checkForSpanningElements(parts: readonly Part[]): Part[] {
-    return parts.reduce((result: Part[], currentPart: Part, index: number) => {
-      const previousPart = result[index - 1]
-      const prevPieceWithSpanElement = previousPart?.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
-      const currPieceHasSpanElement = currentPart.pieces.some(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+  private augmentPartsWithSpanningPiece(parts: readonly Part[]): Part[] {
+    return parts.map((part, index, allParts) => {
+      const previousPart = allParts[index - 1]
+      const previousPieceWithSpanElement = previousPart?.pieces.findIndex(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
+      const currentPieceHasSpanElement = part.pieces.some(piece => piece.lifespan === PieceLifespan.SPANNING_UNTIL_SEGMENT_END)
 
-      if (prevPieceWithSpanElement >= 0 && !currPieceHasSpanElement) {
-        currentPart.pieces.push({ ...previousPart.pieces[prevPieceWithSpanElement], isSpanned: true } as Piece)
+      if (previousPieceWithSpanElement >= 0 && !currentPieceHasSpanElement) {
+        part.pieces.push({ ...previousPart.pieces[previousPieceWithSpanElement], isSpanningSegment: true } as Piece)
       }
-      return [...result, currentPart]
+      return part
     }, [])
   }
 
