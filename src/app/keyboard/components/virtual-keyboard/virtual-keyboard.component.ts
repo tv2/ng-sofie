@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core'
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core'
 import { KeyBindingMatcher } from '../../abstractions/key-binding-matcher.service'
 import { Logger } from '../../../core/abstractions/logger.service'
 import { StyledKeyBinding } from '../../value-objects/styled-key-binding'
@@ -19,6 +19,10 @@ export class VirtualKeyboardComponent implements OnChanges {
 
   @Input()
   public keystrokes: string[]
+
+  @Output() public keyPressed = new EventEmitter<string[]>()
+
+  // keypressed.emit(somearray)
 
   public keyLabels: KeyboardLayoutMap = new Map()
   public physicalKeyboardLayout: KeyboardLayout
@@ -111,6 +115,7 @@ export class VirtualKeyboardComponent implements OnChanges {
   public onExecuteActionsForKeystroke(keystroke: string): void {
     const emulatedKeystrokes: string[] = [...this.currentModifierKeystrokes, keystroke]
     this.keyBindingsFilteredByModifiers.filter(keyBinding => this.isMatchingKeystrokes(keyBinding, emulatedKeystrokes)).forEach(keyBinding => keyBinding.onMatched())
+    this.keyPressed.emit(emulatedKeystrokes)
   }
 
   public trackKeyboardLayoutKey(_index: number, keyboardLayoutKey: KeyboardLayoutKey): string {

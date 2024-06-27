@@ -6,3 +6,38 @@
 .selected-action {
   font-weight: lighter;
 }
+
+.wrapper {
+  display: inline-flex;
+  width: 100%;
+  padding: 20px 10px 20px 20px;
+  gap: 20px;
+}
+
+.keyboard-toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+.keyboard-toggle-container button {
+  margin-left: 10px;
+}
+
+.floating-keyboard {
+  position: absolute;
+  top: 250px;
+  left: 25%;
+  width: 74%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1 1 100%;
+  min-width: 0;
+  z-index: 100;
+}
+
+.sofie-virtual-keyboard {
+  width: auto;
+  height: auto;
+  display: flex;
+}

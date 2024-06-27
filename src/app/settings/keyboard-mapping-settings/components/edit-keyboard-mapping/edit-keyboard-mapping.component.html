@@ -1,12 +1,47 @@
 <sofie-row class="mb-3">
   <form [formGroup]="actionTriggerForm" class="left-container">
     <div [formGroupName]="'data'">
-      <sofie-text-input i18n-label label="global.label" [formControlName]="'label'"></sofie-text-input>
-      <sofie-keyboard-input [isRequired]="true" i18n-label label="action-triggers.shortcut.label" [formControlName]="'keys'" i18n-errorMessage errorMessage="action-triggers.shortcut.error">
+      <sofie-text-input
+        i18n-label
+        label="global.label"
+        [formControlName]="'label'">
+      </sofie-text-input>
+      <sofie-keyboard-input
+        [isRequired]="true"
+        i18n-label
+        label="action-triggers.shortcut.label"
+        [formControlName]="'keys'"
+        i18n-errorMessage
+        errorMessage="action-triggers.shortcut.error">
       </sofie-keyboard-input>
-      <sofie-keyboard-input i18n-label label="action-triggers.physical-mapping.label" [formControlName]="'mappedToKeys'" i18n-helpText helpText="action-triggers.physical-mapping-help.tooltip">
+      <sofie-button-group>
+        <sofie-button #toggleButton (click)="toggleKeyboardVisibility()" i18n>
+          edit-keyboard-mapping.toggle-virtual-keyboard.button
+        </sofie-button>
+        <sofie-spacer></sofie-spacer>
+      </sofie-button-group>
+      <div  class="wrapper">
+      <div *ngIf="isKeyboardVisible" class="floating-keyboard">
+        <sofie-virtual-keyboard class="sofie-virtual-keyboard" (keyPressed)="buildKeyCombo($event)" [keyBindings]="keyBindings" [keystrokes]="keystrokes"></sofie-virtual-keyboard>
+      </div>
+    </div>
+    
+      <sofie-keyboard-input
+        i18n-label
+        label="action-triggers.physical-mapping.label"
+        [formControlName]="'mappedToKeys'"
+        i18n-helpText
+        helpText="action-triggers.physical-mapping-help.tooltip">
       </sofie-keyboard-input>
-      <sofie-color-picker i18n-label label="action-triggers.override-color.label" i18n-placeholder placeholder="color-picker.choose-color.placeholder" i18n-helpText helpText="action-triggers.override-color.help-text" [formControlName]="'overrideColor'"></sofie-color-picker>
+      <sofie-color-picker
+        i18n-label
+        label="action-triggers.override-color.label"
+        i18n-placeholder
+        placeholder="color-picker.choose-color.placeholder"
+        i18n-helpText
+        helpText="action-triggers.override-color.help-text"
+        [formControlName]="'overrideColor'">
+      </sofie-color-picker>
       <sofie-select
         i18n-label
         label="action-triggers.trigger-on.label"
@@ -21,7 +56,7 @@
         <sofie-required-mark></sofie-required-mark>
       </div>
       <ng-container *ngIf="selectedAction; else noSelectedAction" [ngTemplateOutlet]="actionArguments"></ng-container>
-
+    
       <ng-container *ngIf="doesSelectedActionHaveActionArguments()">
         <ng-container [ngSwitch]="getSelectedActionArgumentType()">
           <sofie-text-input
@@ -43,6 +78,7 @@
         </ng-container>
       </ng-container>
     </div>
+    
   </form>
   <sofie-action-selector [selectedAction]="selectedAction" (actionSelected)="selectAction($event)" class="ps-5"> </sofie-action-selector>
 </sofie-row>
