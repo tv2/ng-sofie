@@ -14,6 +14,7 @@
         i18n-errorMessage
         errorMessage="action-triggers.shortcut.error">
       </sofie-keyboard-input>
+      <div style="position:absolute;top:50px;left:45%">{{ actionTriggerDataForm.get('keys')?.value }}</div>
       <sofie-button-group>
         <sofie-button #toggleButton (click)="toggleKeyboardVisibility()" i18n>
           edit-keyboard-mapping.toggle-virtual-keyboard.button
@@ -21,10 +22,10 @@
         <sofie-spacer></sofie-spacer>
       </sofie-button-group>
       <div  class="wrapper">
-      <div *ngIf="isKeyboardVisible" class="floating-keyboard">
-        <sofie-virtual-keyboard class="sofie-virtual-keyboard" (keyPressed)="buildKeyCombo($event)" [keyBindings]="keyBindings" [keystrokes]="keystrokes"></sofie-virtual-keyboard>
+        <div *ngIf="isKeyboardVisible" class="floating-keyboard">
+          <sofie-virtual-keyboard class="sofie-virtual-keyboard" (keyPressed)="buildKeyCombo($event)" [keyBindings]="keyBindings" [keystrokes]="keystrokes"></sofie-virtual-keyboard>
+        </div>
       </div>
-    </div>
     
       <sofie-keyboard-input
         i18n-label

@@ -6,22 +6,8 @@ import { KeyEventType } from '../../../../keyboard/value-objects/key-event-type'
 import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 import { Tv2Action, Tv2PartAction } from '../../../../shared/models/tv2-action'
 import { SelectOption } from '../../../../shared/models/select-option'
-import { KeyboardConfigurationService } from 'src/app/settings/abstractions/keyboard-configuration.service'
-import { KeyMappingService } from 'src/app/settings/services/key-mapping.service'
-
-// @Component({
-//   selector: 'app-my-component',
-//   templateUrl: './my-component.component.html',
-//   styleUrls: ['./my-component.component.css'],
-// })
-// export class MyComponent {
-//   constructor(private keyMappingService: KeyMappingService) {}
-
-//   // Example method using the mapping service
-//   public mapKeyInput(inputKey: string): string | undefined {
-//     return this.keyMappingService.mapKey(inputKey)
-//   }
-// }
+// import { KeyboardConfigurationService } from 'src/app/settings/abstractions/keyboard-configuration.service'
+// import { KeyMappingService } from 'src/app/settings/services/key-mapping.service'
 
 const KEYBOARD_ACTION_CONTROL_ID: string = 'actionId'
 const KEYBOARD_KEYS_CONTROL_ID: string = 'keys'
@@ -63,11 +49,9 @@ export class EditKeyboardMappingComponent implements OnInit {
 
   public selectedAction?: Tv2Action
 
-  constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly keyboardConfigurationService: KeyboardConfigurationService,
-    private readonly keyMappingService: KeyMappingService
-  ) {}
+  // private readonly keyboardConfigurationService: KeyboardConfigurationService,
+  // private readonly keyMappingService: KeyMappingService
+  constructor(private readonly formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.actionTriggerDataForm = this.formBuilder.group({
@@ -94,20 +78,24 @@ export class EditKeyboardMappingComponent implements OnInit {
       this.selectAction(this.keyboardMapping.action!)
     }
 
-    this.subscribeToKeystrokes()
+    // this.subscribeToKeystrokes()
   }
 
   public buildKeyCombo($event: string[]): void {
-    var value = this.keyMappingService.mapKey($event[0])
-    // eslint-disable-next-line no-console
-    console.log(value)
-  }
+    var currentValue: string[] = this.actionTriggerDataForm.get('keys')?.value ?? []
 
-  private subscribeToKeystrokes(): void {
-    this.keyboardConfigurationService.subscribeToKeystrokes(keystrokes => {
-      this.keystrokes = keystrokes
+    $event.forEach(item => {
+      if (item !== undefined && !currentValue.includes(item)) {
+        this.actionTriggerDataForm.get('keys')?.setValue([...currentValue, item])
+      }
     })
   }
+
+  // private subscribeToKeystrokes(): void {
+  //   this.keyboardConfigurationService.subscribeToKeystrokes(keystrokes => {
+  //     this.keystrokes = keystrokes
+  //   })
+  // }
 
   public selectAction(action: Tv2Action): void {
     this.selectedAction = action
