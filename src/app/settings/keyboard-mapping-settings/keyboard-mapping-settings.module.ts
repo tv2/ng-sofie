@@ -12,7 +12,7 @@ const routes: Routes = [{ path: '', component: KeyboardMappingSettingsPageCompon
 @NgModule({
   declarations: [KeyboardMappingSettingsPageComponent, EditKeyboardMappingDialogComponent, EditKeyboardMappingComponent],
   imports: [SharedModule, KeyboardModule, RouterModule.forChild(routes), ProducerShelfModule],
-  providers: [], //{ provide: KeyboardConfigurationService, useClass: KeyboardMappingSettingsKeyboardConfiguration }
+  providers: [],
   exports: [],
 })
 export class KeyboardMappingSettingsModule {}
