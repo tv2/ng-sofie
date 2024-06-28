@@ -20,7 +20,7 @@
         </sofie-button>
         <sofie-spacer></sofie-spacer>
       </sofie-button-group>
-      <div  class="wrapper">
+      <div class="wrapper">
         <div *ngIf="isKeyboardVisible" class="floating-keyboard">
           <sofie-virtual-keyboard class="sofie-virtual-keyboard" (keyPressed)="buildKeyCombo($event)" [keyBindings]="keyBindings" [keystrokes]="keystrokes"></sofie-virtual-keyboard>
         </div>
