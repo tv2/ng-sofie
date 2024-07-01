@@ -75,11 +75,11 @@ export class EditKeyboardMappingComponent implements OnInit {
     }
   }
 
-  public buildKeyCombo($event: string[]): void {
+  public updateKeys($keys: string[]): void {
     var currentValue: string[] = this.actionTriggerDataForm.get('keys')?.value ?? []
 
-    $event.forEach(item => {
-      if (item !== undefined && !currentValue.includes(item)) {
+    $keys.forEach(item => {
+      if (!currentValue.includes(item)) {
         this.actionTriggerDataForm.get('keys')?.setValue([...currentValue, item])
       }
     })
