@@ -1,29 +1,36 @@
 <sofie-row class="mb-3">
   <form [formGroup]="actionTriggerForm" class="left-container">
-    <div [formGroupName]="'data'">
+    <div [formGroupName]="'data'" style="position: relative;">
       <sofie-text-input
         i18n-label
         label="global.label"
         [formControlName]="'label'">
       </sofie-text-input>
+      <sofie-icon-button
+      [icon]="Icon.KEYBOARD"
+      [iconSize]="IconSize.L"
+      (click)="toggleKeyboardVisibility()"
+      aria-label="edit-keyboard-mapping.toggle-virtual-keyboard.button"
+      style="position: absolute; right: 0; margin-top: 8px;"
+      >
+    </sofie-icon-button>
       <sofie-keyboard-input
         [isRequired]="true"
         i18n-label
         label="action-triggers.shortcut.label"
         [formControlName]="'keys'"
         i18n-errorMessage
-        errorMessage="action-triggers.shortcut.error">
+        errorMessage="action-triggers.shortcut.error"
+        >  
       </sofie-keyboard-input>
-      <sofie-button-group>
-        <sofie-button #toggleButton (click)="toggleKeyboardVisibility()" i18n>
-          edit-keyboard-mapping.toggle-virtual-keyboard.button
-        </sofie-button>
-        <sofie-spacer></sofie-spacer>
-      </sofie-button-group>
-      <div class="wrapper">
-        <div *ngIf="isKeyboardVisible" class="floating-keyboard">
-          <sofie-virtual-keyboard class="sofie-virtual-keyboard" (keyPressed)="updateKeys($event)" [keyBindings]="keyBindings" [keystrokes]="keystrokes"></sofie-virtual-keyboard>
-        </div>
+      </div>
+      
+      <!-- <sofie-button #toggleButton (click)="toggleKeyboardVisibility()" i18n>
+        edit-keyboard-mapping.toggle-virtual-keyboard.button
+      </sofie-button> -->
+      <sofie-spacer></sofie-spacer>
+      <div *ngIf="isKeyboardVisible" class="floating-keyboard">
+        <sofie-virtual-keyboard class="sofie-virtual-keyboard" (keyPressed)="updateKeys($event)" [keyBindings]="keyBindings" [keystrokes]="keystrokes"></sofie-virtual-keyboard>
       </div>
     
       <sofie-keyboard-input
@@ -76,9 +83,7 @@
             [errorMessage]="selectedActionErrorMessage">
           </sofie-number-input>
         </ng-container>
-      </ng-container>
-    </div>
-    
+      </ng-container>    
   </form>
   <sofie-action-selector [selectedAction]="selectedAction" (actionSelected)="selectAction($event)" class="ps-5"> </sofie-action-selector>
 </sofie-row>

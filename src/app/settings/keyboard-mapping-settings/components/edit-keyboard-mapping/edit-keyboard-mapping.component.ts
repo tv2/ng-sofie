@@ -6,6 +6,7 @@ import { KeyEventType } from '../../../../keyboard/value-objects/key-event-type'
 import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 import { Tv2Action, Tv2PartAction } from '../../../../shared/models/tv2-action'
 import { SelectOption } from '../../../../shared/models/select-option'
+import { Icon, IconSize } from '../../../../shared/enums/icon'
 
 const KEYBOARD_ACTION_CONTROL_ID: string = 'actionId'
 const KEYBOARD_KEYS_CONTROL_ID: string = 'keys'
@@ -32,6 +33,8 @@ export class EditKeyboardMappingComponent implements OnInit {
   @Output() public onCancel: EventEmitter<void> = new EventEmitter()
 
   public isKeyboardVisible = false
+  protected readonly Icon = Icon
+  protected readonly IconSize = IconSize
 
   public keystrokes: string[] = []
   public keyBindings: KeyBinding[] = []
