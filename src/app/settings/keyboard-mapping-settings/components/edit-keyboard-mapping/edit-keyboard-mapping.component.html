@@ -14,7 +14,9 @@
       style="position: absolute; right: 0; margin-top: 8px;"
       >
     </sofie-icon-button>
-      <sofie-keyboard-input
+    <div class="triangle" *ngIf="isKeyboardVisible"></div>
+  
+    <sofie-keyboard-input
         [isRequired]="true"
         i18n-label
         label="action-triggers.shortcut.label"
@@ -24,10 +26,7 @@
         >  
       </sofie-keyboard-input>
       </div>
-      
-      <!-- <sofie-button #toggleButton (click)="toggleKeyboardVisibility()" i18n>
-        edit-keyboard-mapping.toggle-virtual-keyboard.button
-      </sofie-button> -->
+
       <sofie-spacer></sofie-spacer>
       <div *ngIf="isKeyboardVisible" #floatingKeyboard class="floating-keyboard">
         <sofie-virtual-keyboard class="sofie-virtual-keyboard" 

@@ -32,3 +32,18 @@
   display: flex;
   color: var(--white-color);
 }
+
+.triangle {
+    position: absolute;
+    right: -15px; 
+    top: 35px;
+    margin-top: 80px;
+    width: 0;
+    border-bottom: 80px solid black;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: none;
+    cursor: auto;
+    z-index: 101;
+  }
+  
