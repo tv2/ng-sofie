@@ -22,7 +22,6 @@ export class VirtualKeyboardComponent implements OnChanges {
 
   @Output() public keyPressed = new EventEmitter<string[]>()
 
-
   public keyLabels: KeyboardLayoutMap = new Map()
   public physicalKeyboardLayout: KeyboardLayout
 
