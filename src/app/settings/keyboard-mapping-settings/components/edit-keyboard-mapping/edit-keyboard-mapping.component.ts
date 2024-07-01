@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { KeyBinding } from 'src/app/keyboard/value-objects/key-binding'
 import { ActionArgumentSchemaType } from '../../../../shared/models/action'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
@@ -31,8 +31,6 @@ export class EditKeyboardMappingComponent implements OnInit {
 
   @Output() public onSave: EventEmitter<EditKeyboardMappingResponse> = new EventEmitter()
   @Output() public onCancel: EventEmitter<void> = new EventEmitter()
-
-  // @ViewChild('floatingKeyboard', { static: false }) private readonly floatingKeyboard: ElementRef
 
   public isKeyboardVisible = false
   protected readonly Icon = Icon
@@ -89,13 +87,6 @@ export class EditKeyboardMappingComponent implements OnInit {
       }
     })
   }
-
-  // @HostListener('document:click', ['$event'])
-  // private clickout(event: Event): void {
-  //   if (this.isKeyboardVisible && this.floatingKeyboard && !this.floatingKeyboard.nativeElement.contains(event.target)) {
-  //     this.isKeyboardVisible = false
-  //   }
-  // }
 
   public selectAction(action: Tv2Action): void {
     this.selectedAction = action
