@@ -29,8 +29,12 @@
         edit-keyboard-mapping.toggle-virtual-keyboard.button
       </sofie-button> -->
       <sofie-spacer></sofie-spacer>
-      <div *ngIf="isKeyboardVisible" class="floating-keyboard">
-        <sofie-virtual-keyboard class="sofie-virtual-keyboard" (keyPressed)="updateKeys($event)" [keyBindings]="keyBindings" [keystrokes]="keystrokes"></sofie-virtual-keyboard>
+      <div *ngIf="isKeyboardVisible" #floatingKeyboard class="floating-keyboard">
+        <sofie-virtual-keyboard class="sofie-virtual-keyboard" 
+          (keyPressed)="updateKeys($event)" 
+          [keyBindings]="keyBindings" 
+          [keystrokes]="keystrokes">
+        </sofie-virtual-keyboard>
       </div>
     
       <sofie-keyboard-input
