@@ -1,12 +1,56 @@
 <sofie-row class="mb-3">
   <form [formGroup]="actionTriggerForm" class="left-container">
     <div [formGroupName]="'data'">
-      <sofie-text-input i18n-label label="global.label" [formControlName]="'label'"></sofie-text-input>
-      <sofie-keyboard-input [isRequired]="true" i18n-label label="action-triggers.shortcut.label" [formControlName]="'keys'" i18n-errorMessage errorMessage="action-triggers.shortcut.error">
+      <div  class="relative">
+        <sofie-text-input
+          i18n-label
+          label="global.label"
+          [formControlName]="'label'">
+        </sofie-text-input>
+        <sofie-icon-button
+        [icon]="Icon.KEYBOARD"
+        [iconSize]="IconSize.L"
+        (click)="toggleKeyboardVisibility()"
+        aria-label="edit-keyboard-mapping.toggle-virtual-keyboard.button"
+        class="keyboard-icon"
+        >
+        </sofie-icon-button>
+        <div class="triangle" *ngIf="isKeyboardVisible">
+        </div>
+        <sofie-keyboard-input
+          [isRequired]="true"
+          i18n-label
+          label="action-triggers.shortcut.label"
+          [formControlName]="'keys'"
+          i18n-errorMessage
+          errorMessage="action-triggers.shortcut.error"
+        >  
+        </sofie-keyboard-input>
+      </div>
+      <sofie-spacer></sofie-spacer>
+      <div *ngIf="isKeyboardVisible" #floatingKeyboard class="floating-keyboard">
+        <sofie-virtual-keyboard class="sofie-virtual-keyboard" 
+          (keyPressed)="updateKeys($event)" 
+          [keyBindings]="keyBindings" 
+          [keystrokes]="keystrokes">
+        </sofie-virtual-keyboard>
+      </div>
+      <sofie-keyboard-input
+        i18n-label
+        label="action-triggers.physical-mapping.label"
+        [formControlName]="'mappedToKeys'"
+        i18n-helpText
+        helpText="action-triggers.physical-mapping-help.tooltip">
       </sofie-keyboard-input>
-      <sofie-keyboard-input i18n-label label="action-triggers.physical-mapping.label" [formControlName]="'mappedToKeys'" i18n-helpText helpText="action-triggers.physical-mapping-help.tooltip">
-      </sofie-keyboard-input>
-      <sofie-color-picker i18n-label label="action-triggers.override-color.label" i18n-placeholder placeholder="color-picker.choose-color.placeholder" i18n-helpText helpText="action-triggers.override-color.help-text" [formControlName]="'overrideColor'"></sofie-color-picker>
+      <sofie-color-picker
+        i18n-label
+        label="action-triggers.override-color.label"
+        i18n-placeholder
+        placeholder="color-picker.choose-color.placeholder"
+        i18n-helpText
+        helpText="action-triggers.override-color.help-text"
+        [formControlName]="'overrideColor'">
+      </sofie-color-picker>
       <sofie-select
         i18n-label
         label="action-triggers.trigger-on.label"
@@ -16,33 +60,32 @@
         i18n-errorMessage
         errorMessage="action-triggers.trigger-on.error">
       </sofie-select>
-      <div class="selected-action mb-1">
-        <ng-container i18n>action-triggers.selected-action.label</ng-container>
-        <sofie-required-mark></sofie-required-mark>
-      </div>
-      <ng-container *ngIf="selectedAction; else noSelectedAction" [ngTemplateOutlet]="actionArguments"></ng-container>
-
-      <ng-container *ngIf="doesSelectedActionHaveActionArguments()">
-        <ng-container [ngSwitch]="getSelectedActionArgumentType()">
-          <sofie-text-input
-            *ngSwitchCase="ActionArgumentSchemaType.STRING"
-            [label]="selectedAction?.argument?.name!"
-            [formControlName]="'actionArguments'"
-            [helpText]="selectedAction?.argument?.description!"
-            [isRequired]="true"
-            [errorMessage]="selectedActionErrorMessage">
-          </sofie-text-input>
-          <sofie-number-input
-            *ngSwitchCase="ActionArgumentSchemaType.NUMBER"
-            [label]="selectedAction?.argument?.name!"
-            [formControlName]="'actionArguments'"
-            [helpText]="selectedAction?.argument?.description!"
-            [isRequired]="true"
-            [errorMessage]="selectedActionErrorMessage">
-          </sofie-number-input>
-        </ng-container>
-      </ng-container>
     </div>
+    <div class="selected-action mb-1">
+      <ng-container i18n>action-triggers.selected-action.label</ng-container>
+      <sofie-required-mark></sofie-required-mark>
+    </div>
+    <ng-container *ngIf="selectedAction; else noSelectedAction" [ngTemplateOutlet]="actionArguments"></ng-container>
+    <ng-container *ngIf="doesSelectedActionHaveActionArguments()">
+      <ng-container [ngSwitch]="getSelectedActionArgumentType()">
+        <sofie-text-input
+          *ngSwitchCase="ActionArgumentSchemaType.STRING"
+          [label]="selectedAction?.argument?.name!"
+          [formControlName]="'actionArguments'"
+          [helpText]="selectedAction?.argument?.description!"
+          [isRequired]="true"
+          [errorMessage]="selectedActionErrorMessage">
+        </sofie-text-input>
+        <sofie-number-input
+          *ngSwitchCase="ActionArgumentSchemaType.NUMBER"
+          [label]="selectedAction?.argument?.name!"
+          [formControlName]="'actionArguments'"
+          [helpText]="selectedAction?.argument?.description!"
+          [isRequired]="true"
+          [errorMessage]="selectedActionErrorMessage">
+        </sofie-number-input>
+      </ng-container>
+    </ng-container>    
   </form>
   <sofie-action-selector [selectedAction]="selectedAction" (actionSelected)="selectAction($event)" class="ps-5"> </sofie-action-selector>
 </sofie-row>

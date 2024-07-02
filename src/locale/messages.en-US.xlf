@@ -514,6 +514,10 @@
         <source>segment.unsynced.label</source>
         <target>UNSYNCED</target>
       </trans-unit>
+      <trans-unit id="6781261479904084115" datatype="html">
+        <source> edit-keyboard-mapping.toggle-virtual-keyboard.button </source>
+        <target state="new">Toggle virtual keyboard </target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

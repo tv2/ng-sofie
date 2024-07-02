@@ -6,3 +6,53 @@
 .selected-action {
   font-weight: lighter;
 }
+
+.keyboard-toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+.keyboard-toggle-container button {
+  margin-left: 10px;
+}
+
+.floating-keyboard {
+  position: absolute;
+  top: 250px;
+  left: 25%;
+  width: 74%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  z-index: 100;
+}
+
+.sofie-virtual-keyboard {
+  display: flex;
+  color: var(--white-color);
+}
+
+.triangle {
+    position: absolute;
+    right: -15px; 
+    top: 35px;
+    margin-top: 80px;
+    width: 0;
+    border-bottom: 80px solid black;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: none;
+    cursor: auto;
+    z-index: 101;
+  }
+
+  .relative {
+    position: relative;
+  }
+  
+  .keyboard-icon {
+    position: absolute; 
+    right: 0; 
+    margin-top: 8px;
+  }

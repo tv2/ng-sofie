@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { KeyBinding } from 'src/app/keyboard/value-objects/key-binding'
 import { ActionArgumentSchemaType } from '../../../../shared/models/action'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms'
 import { KeyEventType } from '../../../../keyboard/value-objects/key-event-type'
 import { KeyboardMapping } from '../keyboard-mapping-settings-page/keyboard-mapping-settings-page.component'
 import { Tv2Action, Tv2PartAction } from '../../../../shared/models/tv2-action'
 import { SelectOption } from '../../../../shared/models/select-option'
+import { Icon, IconSize } from '../../../../shared/enums/icon'
 
 const KEYBOARD_ACTION_CONTROL_ID: string = 'actionId'
 const KEYBOARD_KEYS_CONTROL_ID: string = 'keys'
@@ -30,6 +32,13 @@ export class EditKeyboardMappingComponent implements OnInit {
   @Output() public onSave: EventEmitter<EditKeyboardMappingResponse> = new EventEmitter()
   @Output() public onCancel: EventEmitter<void> = new EventEmitter()
 
+  public isKeyboardVisible = false
+  protected readonly Icon = Icon
+  protected readonly IconSize = IconSize
+
+  public keystrokes: string[] = []
+  public keyBindings: KeyBinding[] = []
+
   public actionTriggerForm: FormGroup
   public actionTriggerDataForm: FormGroup
 
@@ -37,32 +46,53 @@ export class EditKeyboardMappingComponent implements OnInit {
 
   public selectedAction?: Tv2Action
 
-  constructor(private readonly formBuilder: FormBuilder) {}
+  constructor(private readonly formBuilder: NonNullableFormBuilder) {}
 
   public ngOnInit(): void {
+    this.initializeForms()
+    this.setupTriggerOnOptions()
+
+    if (this.keyboardMapping) {
+      this.selectAction(this.keyboardMapping.action!)
+    }
+  }
+
+  private initializeForms(): void {
     this.actionTriggerDataForm = this.formBuilder.group({
-      label: [this.keyboardMapping?.actionTrigger.data.label ?? ''],
-      keys: [this.keyboardMapping?.actionTrigger.data.keys, [Validators.required]],
-      overrideColor: [this.keyboardMapping?.actionTrigger.data.overrideColor ?? ''],
-      triggerOn: [KeyEventType.RELEASED, [Validators.required]],
-      mappedToKeys: [this.keyboardMapping?.actionTrigger.data.mappedToKeys ?? []],
+      label: this.formBuilder.control<string>(this.keyboardMapping?.actionTrigger.data.label ?? ''),
+      keys: this.formBuilder.control<string[] | undefined>(this.keyboardMapping?.actionTrigger.data.keys, [Validators.required]),
+      overrideColor: this.formBuilder.control<string>(this.keyboardMapping?.actionTrigger.data.overrideColor ?? ''),
+      triggerOn: this.formBuilder.control<KeyEventType>(KeyEventType.RELEASED, [Validators.required]),
+      mappedToKeys: this.formBuilder.control<string[]>(this.keyboardMapping?.actionTrigger.data.mappedToKeys ?? []),
     })
 
     this.actionTriggerForm = this.formBuilder.group({
       actionId: ['', [Validators.required]],
       data: this.actionTriggerDataForm,
     })
+  }
 
+  private setupTriggerOnOptions(): void {
     this.triggerOnOptions = Object.values(KeyEventType).map(keyEventType => {
       return {
         name: keyEventType.toString(),
         value: keyEventType,
       }
     })
+  }
 
-    if (this.keyboardMapping) {
-      this.selectAction(this.keyboardMapping.action!)
-    }
+  public toggleKeyboardVisibility(): void {
+    this.isKeyboardVisible = !this.isKeyboardVisible
+  }
+
+  public updateKeys($keys: string[]): void {
+    var currentValue: string[] = this.actionTriggerDataForm.get('keys')?.value ?? []
+
+    $keys.forEach(item => {
+      if (!currentValue.includes(item)) {
+        this.actionTriggerDataForm.get('keys')?.setValue([...currentValue, item])
+      }
+    })
   }
 
   public selectAction(action: Tv2Action): void {
@@ -76,7 +106,7 @@ export class EditKeyboardMappingComponent implements OnInit {
   }
 
   private addActionArgumentsFormControl(): void {
-    this.actionTriggerDataForm.setControl(KEYBOARD_ACTION_ARGUMENTS_CONTROL_ID, this.formBuilder.nonNullable.control(this.keyboardMapping?.actionTrigger.data.actionArguments, Validators.required))
+    this.actionTriggerDataForm.setControl(KEYBOARD_ACTION_ARGUMENTS_CONTROL_ID, this.formBuilder.control(this.keyboardMapping?.actionTrigger.data.actionArguments, Validators.required))
   }
 
   private removeActionArgumentsFormControl(): void {
@@ -113,11 +143,14 @@ export class EditKeyboardMappingComponent implements OnInit {
   }
 
   private createEditKeyboardMapping(): KeyboardMapping {
+    debugger
+    var formValues = this.actionTriggerForm.getRawValue()
+
     return {
       action: {} as Tv2PartAction,
       actionTrigger: {
         ...this.keyboardMapping?.actionTrigger,
-        ...this.actionTriggerForm.value,
+        ...formValues,
       },
     }
   }
