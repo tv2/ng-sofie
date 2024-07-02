@@ -386,6 +386,9 @@
       <trans-unit id="1956737595735469040" datatype="html">
         <source>segment.unsynced.label</source>
       </trans-unit>
+      <trans-unit id="6781261479904084115" datatype="html">
+        <source> edit-keyboard-mapping.toggle-virtual-keyboard.button </source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

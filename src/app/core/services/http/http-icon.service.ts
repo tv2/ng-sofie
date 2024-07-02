@@ -7,6 +7,7 @@ import {
   faCircleExclamation,
   faCircleQuestion,
   faCopy,
+  faKeyboard,
   faMinus,
   faPen,
   faPlus,
@@ -63,6 +64,8 @@ export class FortAwesomeIconService implements IconService {
         return faTriangleExclamation
       case Icon.CIRCLE_EXCLAMATION:
         return faCircleExclamation
+      case Icon.KEYBOARD:
+        return faKeyboard
       default:
         return faXmark
     }
