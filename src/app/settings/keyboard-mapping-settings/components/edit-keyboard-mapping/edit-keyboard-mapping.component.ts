@@ -143,7 +143,6 @@ export class EditKeyboardMappingComponent implements OnInit {
   }
 
   private createEditKeyboardMapping(): KeyboardMapping {
-    debugger
     var formValues = this.actionTriggerForm.getRawValue()
 
     return {
